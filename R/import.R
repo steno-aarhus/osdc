@@ -24,4 +24,3 @@ for (filename in sas_file_list) {
   import_sas(filename, foreign_folder)
 }
 
-rm(sas_files_1, sas_files_2, sas_files_3, sas_file_list)
