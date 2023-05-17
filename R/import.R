@@ -35,14 +35,6 @@ output_path <- function(input_path, output_dir) {
   fs::path(output_dir, fs::path_file(input_path))
 }
 
-
-# Set in master.R:
-# Regular expression to specify the files to import:
-# Separate strings for splitting up importing operations across multiple machines, if available
-# Set the root of the folders containing foreign file formats
-
-# Execute the importation:
-
 #' Import and save all SAS files into RDS format.
 #'
 #' To speed things up, install the `furrr` and use [future::plan()] with
