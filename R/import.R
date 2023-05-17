@@ -10,6 +10,14 @@ save_rds <- function(data, file) {
   return(invisible(path))
 }
 
+path_set_rds_ext <- function(path) {
+  fs::path_ext_set(path, ".rds")
+}
+
+output_path <- function(input_path, output_dir) {
+  fs::path(output_dir, fs::path_file(input_path))
+}
+
 # Compress can be set to TRUE to save space immediately (at the cost of speed in filter.R. Using compress.R after running filter.R is more optimal.)
 
 # Set in master.R:
