@@ -2,8 +2,12 @@
 
 # Function for importing SAS to project:
 import_sas <- function(path) {
-  dt <- haven::read_sas(data_file = path)
-  saveRDS(dt, paste(here("data/raw"), regmatches(path, regexpr("/.*$", path)), ".rds", sep = ""), compress = TRUE)
+  haven::read_sas(data_file = path)
+}
+
+save_rds <- function(data, file) {
+  saveRDS(data, file, compress = TRUE)
+  return(invisible(path))
 }
 
 # Compress can be set to TRUE to save space immediately (at the cost of speed in filter.R. Using compress.R after running filter.R is more optimal.)
