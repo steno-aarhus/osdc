@@ -28,21 +28,26 @@ output_path <- function(input_path, output_dir) {
 # Execute the importation:
 
 # To set parallel computing, use future::plan(future::multisession) *outside* of
-# script/function
-save_walk <- purrr::walk2
-import_map <- purrr::map2
-if (requireNamespace("furrr", quietly = TRUE)) {
-  save_walk <- furrr::future_walk2
-  import_map <- furrr::future_map2
-}
-
+# script/function.
 # Import and save all SAS files
-list(
-  sas_files = sas_file_list,
-  output_files = sas_file_list |>
-    path_set_rds_ext() |>
-    output_path(output_dir = here::here("data-raw"))
-) |>
-  import_map( ~ list(data = import_sas(path = .x), output_files = .y)) |>
-  save_walk(~ save_rds(data = .x, file = .y))
+sas_to_rds_files <- function(sas_files, output_dir) {
+  save_walk <- purrr::walk2
+  import_map <- purrr::map2
+  if (requireNamespace("furrr", quietly = TRUE)) {
+    save_walk <- furrr::future_walk2
+    import_map <- furrr::future_map2
+  }
 
+  imported_sas_data <- list(
+    sas_files = sas_file_list,
+    output_files = sas_file_list |>
+      path_set_rds_ext() |>
+      output_path(output_dir = here::here("data-raw"))
+  ) |>
+    import_map(~ list(data = import_sas(path = .x), output_files = .y))
+
+  imported_sas_data |>
+    save_walk(~ save_rds(data = .x, file = .y))
+
+  return(invisible(imported_sas_data$data))
+}
