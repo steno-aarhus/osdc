@@ -21,11 +21,15 @@ save_rds <- function(data, file) {
 
 # To set parallel computing, use future::plan(future::multisession) *outside* of
 # script/function
-import_walk <- purrr::walk
+save_walk <- purrr::walk
+import_map <- purrr::map
 if (requireNamespace("furrr", quietly = TRUE)) {
-  import_walk <- furrr::future_walk
+  save_walk <- furrr::future_walk
+  import_map <- furrr::future_map
 }
 
 # Import and save all SAS files
 sas_file_list |>
-  import_walk(import_sas, foreign_folder = foreign_folder)
+  import_map(import_sas) |>
+  save_walk(save_rds, file = "PLACEHOLDER")
+
