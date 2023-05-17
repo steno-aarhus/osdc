@@ -1,9 +1,9 @@
 # User specifies the directory of the folder with the raw SAS-files and which file names to be imported. Script then imports all the necessary files:
 
 # Function for importing SAS to project:
-import_sas <- function(filename, foreign_folder) {
-  dt <- read_sas(paste(foreign_folder, "/", filename, sep = ""))
-  saveRDS(dt, paste(here("data/raw"), regmatches(filename, regexpr("/.*$", filename)), ".rds", sep = ""), compress = TRUE)
+import_sas <- function(path) {
+  dt <- haven::read_sas(data_file = path)
+  saveRDS(dt, paste(here("data/raw"), regmatches(path, regexpr("/.*$", path)), ".rds", sep = ""), compress = TRUE)
 }
 
 # Compress can be set to TRUE to save space immediately (at the cost of speed in filter.R. Using compress.R after running filter.R is more optimal.)
