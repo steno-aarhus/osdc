@@ -20,7 +20,13 @@ import_sas <- function(filename, foreign_folder) {
 
 # Execute the importation:
 
-for (filename in sas_file_list) {
-  import_sas(filename, foreign_folder)
+# To set parallel computing, use future::plan(future::multisession) *outside* of
+# script/function
+import_walk <- purrr::walk
+if (requireNamespace("furrr", quietly = TRUE)) {
+  import_walk <- furrr::future_walk
 }
 
+# Import and save all SAS files
+sas_file_list |>
+  import_walk(import_sas, foreign_folder = foreign_folder)
