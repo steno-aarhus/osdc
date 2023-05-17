@@ -29,15 +29,20 @@ output_path <- function(input_path, output_dir) {
 
 # To set parallel computing, use future::plan(future::multisession) *outside* of
 # script/function
-save_walk <- purrr::walk
-import_map <- purrr::map
+save_walk <- purrr::walk2
+import_map <- purrr::map2
 if (requireNamespace("furrr", quietly = TRUE)) {
-  save_walk <- furrr::future_walk
-  import_map <- furrr::future_map
+  save_walk <- furrr::future_walk2
+  import_map <- furrr::future_map2
 }
 
 # Import and save all SAS files
-sas_file_list |>
-  import_map(import_sas) |>
-  save_walk(save_rds, file = "PLACEHOLDER")
+list(
+  sas_files = sas_file_list,
+  output_files = sas_file_list |>
+    path_set_rds_ext() |>
+    output_path(output_dir = here::here("data-raw"))
+) |>
+  import_map( ~ list(data = import_sas(path = .x), output_files = .y)) |>
+  save_walk(~ save_rds(data = .x, file = .y))
 
