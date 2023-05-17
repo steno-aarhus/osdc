@@ -1,10 +1,5 @@
 # User specifies the directory of the folder with the raw SAS-files and which file names to be imported. Script then imports all the necessary files:
 
-
-# Create folders used by import.R:
-dir_create(here("data/raw"))
-
-
 # Function for importing SAS to project:
 import_sas <- function(filename, foreign_folder) {
   dt <- read_sas(paste(foreign_folder, "/", filename, sep = ""))
