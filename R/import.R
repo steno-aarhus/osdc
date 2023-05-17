@@ -9,8 +9,8 @@ dir_create(here("data/raw"))
 import_sas <- function(filename, foreign_folder) {
   dt <- read_sas(paste(foreign_folder, "/", filename, sep = ""))
   saveRDS(dt, paste(here("data/raw"), regmatches(filename, regexpr("/.*$", filename)), ".rds", sep = ""), compress = TRUE)
-  remove(dt)
 }
+
 # Compress can be set to TRUE to save space immediately (at the cost of speed in filter.R. Using compress.R after running filter.R is more optimal.)
 
 # Set in master.R:
