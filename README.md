@@ -1,2 +1,26 @@
+
 # osdc
-Open-Source Diabetes Classifier: an R package to classify diabetes status in Danish registers 
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of osdc is to ...
+
+## Installation
+
+You can install the development version of osdc from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("pak")
+pak::pak("Aastedet/osdc")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+``` r
+library(osdc)
+## basic example code
+```
+
