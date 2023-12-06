@@ -3,8 +3,11 @@
 # Load required libraries
 library(stringr)
 library(data.table)
+library(tidyverse)
+library(here)
 
-
+# Load functions
+source(here::here("R/functions.R"))
 
 # MEDICATION DATA ---------------------------------------------------------
 
@@ -182,4 +185,5 @@ med_df[pnr %in% c(sprintf("%03d", 195:200)), `:=` (ATC = "A10BJ06",
 
 # Laboratory data ---------------------------------------------------------
 
-
+# create test lab df with 100 rows (one row per individual)
+lab_df <- create_test_lab_df(num_samples = 100)
