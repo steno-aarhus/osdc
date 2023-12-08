@@ -1,12 +1,12 @@
 #' Create synthetic lab data
 #'
-#' @param num_samples Number of samples to create (1 row per individual)
+#' @param num_samples Number of samples to create
 #'
 #' @return Data.frame with columns pnr, SAMPLINGDATE, ANALYSISCODE, and VALUE
 create_test_lab_df <- function(num_samples) {
   data.frame(
     # patient ID
-    pnr = sprintf("%03d", seq_len(num_samples)),
+    pnr = sprintf("%03d", sample(1:100, num_samples, replace = TRUE)),
     # date of sample
     SAMPLINGDATE = sample(
       seq(as.Date("1995-01-01"), as.Date("2015-12-31"), by = "day"),
