@@ -34,3 +34,42 @@ create_test_lab_df <- function(num_samples) {
     VALUE = runif(num_samples, 0.1, 99.9)
   )
 }
+
+#' Create synthetic health insurance data
+#'
+#' @param num_samples Number of samples to create
+#'
+#' @return Data.frame with columns pnr, BARNMAK, SPECIALE, and HONUGE
+create_test_hi_df <- function(num_samples) {
+  data.frame(
+    # pnr: patientID (chr)
+    # random values from 001-100
+    pnr = sprintf("%03d", sample(1:100, num_samples, replace = TRUE)),
+
+    # BARNMAK: service performed on patient' child or not (binary)
+    # 1 = child, 0 = not, 5% are 1's
+    BARNMAK = sample(c(0, 1), num_samples, replace = TRUE,
+                     prob = c(0.95, 0.05)),
+
+    # SPECIALE: service code (6-digit int)
+    # 50% random samples between 100000 and 600000
+    # 50% random samples from 540000 to 549999
+    SPECIALE = ifelse(
+      # repeat 0 and 1 num_samples times and randomise them
+      sample(rep(c(0, 1), length.out = num_samples)),
+      # sample 100000:600000 for all 1's
+      sample(100000:600000, num_samples, replace = TRUE),
+      # sample 540000:549999 for all 0's
+      sample(540000:549999, num_samples, replace = TRUE)
+    ),
+
+    # HONUGE: year/week of the service being billed (4-digit chr)
+    # first and second digits are random numbers between 01-52
+    # third and fourth digits are random numbers between 00-99
+    HONUGE = sprintf(
+      "%02d%02d",
+      sample(1:52, num_samples, replace = TRUE),
+      sample(0:99, num_samples, replace = TRUE)
+    )
+  )
+}
