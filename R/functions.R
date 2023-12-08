@@ -5,7 +5,7 @@
 #' @return Data.frame with columns pnr, SAMPLINGDATE, ANALYSISCODE, and VALUE
 create_test_lab_df <- function(num_samples) {
   data.frame(
-    # patient ID
+    # patient ID (will only include 001-100 even if num_samples > 100)
     pnr = sprintf("%03d", sample(1:100, num_samples, replace = TRUE)),
     # date of sample
     SAMPLINGDATE = sample(
