@@ -180,8 +180,8 @@ med_df[pnr %in% c(sprintf("%03d", 195:200)), `:=` (ATC = "A10BJ06",
 
 # Health Service data -----------------------------------------------------
 
-
-
+# create test health insurance df with 100 rows
+health_insurance_df <- create_test_hi_df(num_samples = 100)
 
 # Laboratory data ---------------------------------------------------------
 
