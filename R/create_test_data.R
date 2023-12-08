@@ -9,14 +9,14 @@ library(here)
 # Load functions
 source(here::here("R/functions.R"))
 
+# Set seed for reproducibility
+set.seed(123)
+
 # MEDICATION DATA ---------------------------------------------------------
 
 # Pseudo-lmdb:
 
 #### Non-diabetes data:
-
-# Set seed for reproducibility
-set.seed(123)
 
 # Create a dataframe with 1000 rows from 200 individuals
 med_df <- data.frame(
