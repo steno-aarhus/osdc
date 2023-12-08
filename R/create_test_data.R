@@ -185,5 +185,5 @@ health_insurance_df <- create_test_hi_df(num_samples = 100)
 
 # Laboratory data ---------------------------------------------------------
 
-# create test lab df with 100 rows (one row per individual)
+# create test lab df with 100 rows
 lab_df <- create_test_lab_df(num_samples = 100)
