@@ -1,15 +1,28 @@
-Package: osdc
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Package: osdc
+Title: Open Source Diabetes Classifier for Danish Registers.
+Version: 0.0.1.9000
+Authors@R: 
+    person("Anders", "Isaksen", , "aai@ph.au.dk", role = c("cre", "aut"))
+Description: This classifier first identifies a population of individuals
+    with any type of diabetes mellitus and then splits this population
+    into T1D and T2D by identifying individuals with T1D and classifying
+    the remainder of the diabetes population as T2D.
+License: MIT + file LICENSE
+URL: https://github.com/steno-aarhus/osdc
+BugReports: https://github.com/steno-aarhus/osdc/issues
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    furrr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
 Imports: 
+    data.table,
+    fs,
+    haven,
+    here,
+    lubridate,
     purrr
+Suggests: 
+    DiagrammeR,
+    furrr
+
