@@ -20,7 +20,9 @@ Imports:
     fs,
     haven,
     here,
-    lubridate
+    lubridate,
+    purrr
 Suggests: 
     codeCollection,
     DiagrammeR
+    furrr
