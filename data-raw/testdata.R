@@ -1,60 +1,68 @@
 # Script to generate synthetic data for tests
 
 # Load required libraries
-library(stringr)
-library(data.table)
 library(tidyverse)
+library(data.table)
 library(here)
+library(lubridate)
 
 # Set seed for reproducibility
 set.seed(123)
 
-# MEDICATION DATA ---------------------------------------------------------
+# Set number of rows to create for fake data
+number_rows <- 1000
+
+
+# Functions ---------------------------------------------------------------
+
+generate_fake_atc <- function(number_rows) {
+  codeCollection::ATCKoodit |>
+    tibble::as_tibble() |>
+    dplyr::filter(stringr::str_length(Koodi) == 7) |>
+    dplyr::pull(Koodi) |>
+    sample(number_rows, replace = TRUE)
+}
+
+generate_fake_indication <- function(number_rows) {
+  sample(1:9e8, number_rows, replace = TRUE) |>
+    stringr::str_trunc(width = 7, ellipsis = "") |>
+    stringr::str_pad(width = 7, pad = "0")
+}
+
+assign_drugname_from_atc <- function(data) {
+  codeCollection::ATCKoodit |>
+    tibble::as_tibble() |>
+    dplyr::select(ATC = Koodi, drugname = en) |>
+    dplyr::right_join(data, by = "ATC", relationship = "many-to-many")
+}
+
+# Medication data ---------------------------------------------------------
 
 # Pseudo-lmdb:
 
-#### Non-diabetes data:
+## Non-diabetes data:
 
-# Create a dataframe with 1000 rows from 200 individuals
-med_df <- data.frame(
-  pnr = sprintf("%03d", 1:200),
+# Create a tibble with 1000 rows from 200 individuals
+med_df <- tibble(
   # ID variable
-  eksd = as.Date(sample(
-    seq(as.Date("1995-01-01"), as.Date("2014-12-31"), by = "day"), 1000,
+  pnr = sample(sprintf("%03d", 1:200), number_rows, replace = TRUE),
+  # Date of purchase
+  eksd = as_date(sample(
+    seq(as_date("1995-01-01"), as_date("2014-12-31"), by = "day"), 1000,
     replace = TRUE
   )),
-  # Date of purchase
-  apk = sample(1:3, 1000, replace = TRUE),
   # Number of packages
-  indo = ifelse(runif(1000) <= 0.05, "", sprintf(
-    "%07d", sample(1:9999999, 50, replace = TRUE)
-  )),
+  apk = sample(1:3, 1000, replace = TRUE),
   # Indication for treatment
-  ATC = paste(
-    sample(LETTERS, 1000, replace = TRUE),
-    sample(0:9, 1000, replace = TRUE),
-    sample(0:9, 1000, replace = TRUE),
-    sample(LETTERS, 1000, replace = TRUE),
-    sample(LETTERS, 1000, replace = TRUE),
-    sample(0:9, 1000, replace = TRUE),
-    sample(0:9, 1000, replace = TRUE),
-    sep = ""
-  ),
+  indo = generate_fake_indication(number_rows),
   # ATC code
-  volume = sample(20:100, 1000, replace = TRUE) # Volume
-)
+  ATC = generate_fake_atc(number_rows),
+  # Volume
+  volume = sample(20:100, 1000, replace = TRUE)
+) |>
+  assign_drugname_from_atc()
 
-# Create a function to generate drug names based on ATC codes (replace this with your own drug name generation logic)
-generateDrugName <- function(atc) {
-  # You can implement your own logic to generate drug names based on ATC codes
-  # Here, we are using a placeholder logic that simply returns the atc code.
-  return(atc)
-}
-
-# Apply the function to create drug names
-med_df$drugname <- sapply(med_df$ATC, generateDrugName)
-
-#### Diabetes data:
+## Diabetes data:
 
 # Create a dataframe with 1000 rows from 50 individuals
 med_a10_df <- data.frame(
@@ -67,9 +75,7 @@ med_a10_df <- data.frame(
   # Date of purchase
   apk = sample(1:3, 1000, replace = TRUE),
   # Number of packages
-  indo = ifelse(runif(1000) <= 0.05, "", sprintf(
-    "%07d", sample(1:9999999, 50, replace = TRUE)
-  )),
+  indo = generate_fake_indication(number_rows),
   # Indication for treatment
   ATC = paste(
     rep(
@@ -104,16 +110,6 @@ med_a10_df[sample(nrow(med_a10_df), nrow(med_a10_df) / 2), ]$ATC <-
     nrow(med_a10_df) / 2,
     replace = TRUE
   )
-
-generateDrugName <- function(atc) {
-  # You can implement your own logic to generate drug names based on ATC codes
-  # Here, we are using a placeholder logic that simply returns the atc code.
-  return(atc)
-}
-
-# Apply the function to create drug names
-med_a10_df$drugname <- sapply(med_a10_df$ATC, generateDrugName)
-
 
 replaceDrugNames <- function(data) {
   # Check if the data frame contains the necessary columns
@@ -169,11 +165,7 @@ med_df[pnr %in% c(sprintf("%03d", 195:200)), `:=`(
   drugname = "Wegovy Flextouch"
 )]
 
-
-
 # Hospital diagnoses ------------------------------------------------------
-
-
 
 # lpr_adm -----------------------------------------------------------------
 
@@ -181,8 +173,6 @@ med_df[pnr %in% c(sprintf("%03d", 195:200)), `:=`(
 
 
 # lpr_diag ----------------------------------------------------------------
-
-
 
 # Health Service data -----------------------------------------------------
 

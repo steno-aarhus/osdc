@@ -22,4 +22,5 @@ Imports:
     here,
     lubridate
 Suggests: 
+    codeCollection,
     DiagrammeR
