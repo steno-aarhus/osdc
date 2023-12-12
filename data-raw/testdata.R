@@ -15,15 +15,42 @@ number_rows <- 1000
 
 # Functions ---------------------------------------------------------------
 
-generate_fake_atc <- function(number_rows) {
+#' Create a vector of fake PNR (person ID number).
+#'
+#' These numbers range from 001 to 100.
+#'
+#' @param n The number (length) of items to output.
+#' @param number_subjects Number of patients to create
+#'
+#' @return A vector.
+#'
+#' @examples
+#' create_fake_pnr(10)
+create_fake_pnr <- function(n, number_subjects = 200) {
+  1:number_subjects |>
+    # Pad the string to match the number values, so that if 1000 `number_subjects`
+    # is given, the string length of the output is 4 characters wide (e.g. "0001").
+    stringr::str_pad(width = stringr::str_length(number_subjects), pad = "0") |>
+    sample(number_rows, replace = TRUE)
+}
+
+#' Create a vector of fake ATC Codes.
+#'
+#' @inheritParams create_fake_pnr
+#'
+#' @return A vector.
+#'
+#' @examples
+#' create_fake_atc(10)
+create_fake_atc <- function(n) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
     dplyr::filter(stringr::str_length(Koodi) == 7) |>
     dplyr::pull(Koodi) |>
-    sample(number_rows, replace = TRUE)
+    sample(n, replace = TRUE)
 }
 
-generate_fake_indication <- function(number_rows) {
+create_fake_indication <- function(number_rows) {
   sample(1:9e8, number_rows, replace = TRUE) |>
     stringr::str_trunc(width = 7, ellipsis = "") |>
     stringr::str_pad(width = 7, pad = "0")
@@ -45,7 +72,7 @@ assign_drugname_from_atc <- function(data) {
 # Create a tibble with 1000 rows from 200 individuals
 med_df <- tibble(
   # ID variable
-  pnr = sample(sprintf("%03d", 1:200), number_rows, replace = TRUE),
+  pnr = create_fake_pnr(number_rows),
   # Date of purchase
   eksd = as_date(sample(
     seq(as_date("1995-01-01"), as_date("2014-12-31"), by = "day"), 1000,
@@ -54,9 +81,9 @@ med_df <- tibble(
   # Number of packages
   apk = sample(1:3, 1000, replace = TRUE),
   # Indication for treatment
-  indo = generate_fake_indication(number_rows),
+  indo = create_fake_indication(number_rows),
   # ATC code
-  ATC = generate_fake_atc(number_rows),
+  ATC = create_fake_atc(number_rows),
   # Volume
   volume = sample(20:100, 1000, replace = TRUE)
 ) |>
@@ -66,7 +93,7 @@ med_df <- tibble(
 
 # Create a dataframe with 1000 rows from 50 individuals
 med_a10_df <- data.frame(
-  pnr = sprintf("%03d", 1:50),
+  pnr = create_fake_pnr(number_rows, number_subjects = 50),
   # ID variable
   eksd = as.Date(sample(
     seq(as.Date("1995-01-01"), as.Date("2014-12-31"), by = "day"), 1000,
@@ -75,7 +102,7 @@ med_a10_df <- data.frame(
   # Date of purchase
   apk = sample(1:3, 1000, replace = TRUE),
   # Number of packages
-  indo = generate_fake_indication(number_rows),
+  indo = create_fake_indication(number_rows),
   # Indication for treatment
   ATC = paste(
     rep(
@@ -180,15 +207,13 @@ med_df[pnr %in% c(sprintf("%03d", 195:200)), `:=`(
 #'
 #' @param num_samples Number of samples to create
 #'
-#' @return Data.frame with columns pnr, BARNMAK, SPECIALE, and HONUGE
+#' @return A [tibble::tibble()] with columns `pnr`, `BARNMAK`, `SPECIALE`, and `HONUGE`.
 #'
 #' @examples
 #' create_test_hi_df(num_samples = 100)
 create_test_hi_df <- function(num_samples) {
-  data.frame(
-    # pnr: patientID (chr)
-    # random values from 001-100
-    pnr = sprintf("%03d", sample(1:100, num_samples, replace = TRUE)),
+  tibble::tibble(
+    pnr = create_fake_pnr(num_samples),
 
     # BARNMAK: service performed on patient' child or not (binary)
     # 1 = child, 0 = not, 5% are 1's
@@ -229,20 +254,18 @@ health_insurance_df <- create_test_hi_df(num_samples = 100)
 #'
 #' @param num_samples Number of samples to create
 #'
-#' @return Data.frame with columns pnr, SAMPLINGDATE, ANALYSISCODE, and VALUE
+#' @return A [tibble::tibble()] with columns `pnr`, `SAMPLINGDATE`, `ANALYSISCODE`, and `VALUE`.
 #'
 #' @examples
 #' create_test_lab_df(num_samples = 100)
 create_test_lab_df <- function(num_samples) {
-  data.frame(
-    # pnr: patient ID (chr)
-    # random ID's from 001-100 (even if num_samples > 100)
-    pnr = sprintf("%03d", sample(1:100, num_samples, replace = TRUE)),
+  tibble::tibble(
+    pnr = create_fake_pnr(num_samples),
 
     # SAMPLINGDATE: date of sample (date)
     # random dates between 1995-01-01 and 2015-12-31
     SAMPLINGDATE = sample(
-      seq(as.Date("1995-01-01"), as.Date("2015-12-31"), by = "day"),
+      seq(lubridate::as_date("1995-01-01"), lubridate::as_date("2015-12-31"), by = "day"),
       num_samples,
       replace = TRUE
     ),
@@ -250,13 +273,9 @@ create_test_lab_df <- function(num_samples) {
     # ANALYSISCODE: npu code of analysis type (chr)
     # 50% is either NPU27300 or NPU03835
     # other 50% is 'NPU'+random sample from 10000:99999
-    ANALYSISCODE = ifelse(
-      # repeat 0 and 1 num_samples times and randomise them
-      sample(rep(c(0, 1), length.out = num_samples)),
-      # sample 'NPU27300' and 'NPU03835' for all 1's
-      sample(c("NPU27300", "NPU03835"), num_samples, replace = TRUE),
-      # sample NPU + random digit between 10000:99999 for all 0's
-      paste0("NPU", sample(10000:99999, num_samples, replace = TRUE))
+    ANALYSISCODE = sample(
+      c(sample(c("NPU27300", "NPU03835"), num_samples / 2, replace = TRUE),
+      paste0("NPU", sample(10000:99999, num_samples / 2, replace = TRUE)))
     ),
 
     # VALUE: numerical result of test (num)
@@ -266,6 +285,6 @@ create_test_lab_df <- function(num_samples) {
 }
 
 # create test lab df with 100 rows
-fake_data <- create_test_lab_df(num_samples = 100)
+test_lab_df <- create_test_lab_df(num_samples = 100)
 
-usethis::use_data(fake_data, overwrite = TRUE, internal = TRUE)
+usethis::use_data(test_lab_df, overwrite = TRUE, internal = TRUE)
