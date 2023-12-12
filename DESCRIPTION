@@ -22,4 +22,7 @@ Imports:
     here,
     lubridate
 Suggests: 
-    DiagrammeR
+    DiagrammeR,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
