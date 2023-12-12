@@ -20,6 +20,9 @@ Imports:
     fs,
     haven,
     here,
-    lubridate
+    lubridate,
+    purrr
 Suggests: 
-    DiagrammeR
+    DiagrammeR,
+    furrr
+
