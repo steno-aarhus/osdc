@@ -22,7 +22,9 @@ Imports:
     here,
     lubridate,
     purrr
-Suggests: 
+Suggests:
+    furrr,
     DiagrammeR,
-    furrr
-
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
