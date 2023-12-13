@@ -20,8 +20,10 @@ Imports:
     fs,
     haven,
     here,
-    lubridate
-Suggests: 
+    lubridate,
+    purrr
+Suggests:
+    furrr,
     DiagrammeR,
     knitr,
     rmarkdown
