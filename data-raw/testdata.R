@@ -171,7 +171,7 @@ replaceDrugNames <- function(data) {
 }
 
 # Apply the function to create drug names
-med_a10_df <- replaceDrugNames(med_a10_df)
+med_a10_df <- med_a10_df <- replaceDrugNames(med_a10_df)
 
 med_df <- rbind(med_df, med_a10_df)
 
