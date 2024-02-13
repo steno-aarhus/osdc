@@ -128,8 +128,7 @@ med_a10_df <- data.frame(
   ),
   # ATC code
   volume = sample(20:100, 1000, replace = TRUE) # Volume
-) |>
-  assign_drugname_from_atc()
+)
 
 # Hardcode half of purchases to be metformin, Liraglutide or semaglutide:
 
@@ -138,6 +137,10 @@ med_a10_df[sample(nrow(med_a10_df), nrow(med_a10_df) / 2), ]$ATC <-
     nrow(med_a10_df) / 2,
     replace = TRUE
   )
+
+# Assign drugnames:
+med_a10_df |>
+  assign_drugname_from_atc()
 
 replaceDrugNames <- function(data) {
   # Check if the data frame contains the necessary columns
