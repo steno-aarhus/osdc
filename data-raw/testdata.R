@@ -128,7 +128,8 @@ med_a10_df <- data.frame(
   ),
   # ATC code
   volume = sample(20:100, 1000, replace = TRUE) # Volume
-)
+) |>
+  assign_drugname_from_atc()
 
 # Hardcode half of purchases to be metformin, Liraglutide or semaglutide:
 
