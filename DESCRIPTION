@@ -27,5 +27,7 @@ Suggests:
     furrr,
     DiagrammeR,
     knitr,
-    rmarkdown
+    rmarkdown,
+    spelling
 VignetteBuilder: knitr
+Language: en-US
