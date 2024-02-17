@@ -26,8 +26,8 @@ number_rows <- 1000
 #'
 #' @examples
 #' create_fake_pnr(10)
-create_fake_pnr <- function(n, number_subjects = 200) {
-  1:number_subjects |>
+create_fake_pnr <- function(n, number_subjects = 200, offset = 0) {
+  (1 + offset):(number_subjects + offset) |>
     # Pad the string to match the number values, so that if 1000 `number_subjects`
     # is given, the string length of the output is 4 characters wide (e.g. "0001").
     stringr::str_pad(width = stringr::str_length(number_subjects), pad = "0") |>
@@ -67,7 +67,7 @@ assign_drugname_from_atc <- function(data) {
 
 # Pseudo-lmdb:
 
-## Non-diabetes data:
+## Non-diabetes data (ID 1-200):
 
 # Create a tibble with 1000 rows from 200 individuals
 med_df <- tibble(
@@ -89,11 +89,11 @@ med_df <- tibble(
 ) |>
   assign_drugname_from_atc()
 
-## Diabetes data:
+## Diabetes data (ID 201-250):
 
 # Create a dataframe with 1000 rows from 50 individuals
 med_a10_df <- data.frame(
-  pnr = create_fake_pnr(number_rows, number_subjects = 50),
+  pnr = create_fake_pnr(number_rows, number_subjects = 50, offset = 200),
   # ID variable
   eksd = as.Date(sample(
     seq(as.Date("1995-01-01"), as.Date("2014-12-31"), by = "day"), 1000,
@@ -130,7 +130,7 @@ med_a10_df <- data.frame(
   volume = sample(20:100, 1000, replace = TRUE) # Volume
 )
 
-# Hardcode half of purchases to be metformin, Liraglutide or semaglutide:
+# Hardcode half of purchases to be metformin, liraglutid or semaglutid:
 
 med_a10_df[sample(nrow(med_a10_df), nrow(med_a10_df) / 2), ]$ATC <-
   sample(c("A10BA02", "A10BJ02", "A10BJ06"),
@@ -139,7 +139,7 @@ med_a10_df[sample(nrow(med_a10_df), nrow(med_a10_df) / 2), ]$ATC <-
   )
 
 # Assign drugnames:
-med_a10_df |>
+med_a10_df <- med_a10_df |>
   assign_drugname_from_atc()
 
 replaceDrugNames <- function(data) {
@@ -171,15 +171,14 @@ replaceDrugNames <- function(data) {
 }
 
 # Apply the function to create drug names
-med_a10_df <- med_a10_df <- replaceDrugNames(med_a10_df)
+med_a10_df <- replaceDrugNames(med_a10_df)
 
-med_df <- rbind(med_df, med_a10_df)
-
+setDT(med_a10_df)
 setDT(med_df)
 
 # Handcode a few false-positive cases with purchases of metformin:
 med_df[pnr %in% c(sprintf("%03d", 180:190)), `:=`(
-  indo = sample(c("0000092", "0000276", "0000781"), 55, replace = TRUE),
+  indo = sample(c("0000092", "0000276", "0000781"), nrow(med_df[pnr %in% c(sprintf("%03d", 180:190))]), replace = TRUE),
   ATC = "A10BA02",
   drugname = "Metformin"
 )]
@@ -195,6 +194,11 @@ med_df[pnr %in% c(sprintf("%03d", 195:200)), `:=`(
   ATC = "A10BJ06",
   drugname = "Wegovy Flextouch"
 )]
+
+# Combine the two:
+med_df <- rbind(med_df, med_a10_df)
+
+setDT(med_df)
 
 # Hospital diagnoses ------------------------------------------------------
 
@@ -240,17 +244,17 @@ create_test_hi_df <- function(num_samples) {
 
     # HONUGE: year/week of the service being billed (4-digit chr)
     # first and second digits are random numbers between 01-52
-    # third and fourth digits are random numbers between 00-99
+    # third and fourth digits are random numbers corresponding to 1990 onward
     HONUGE = sprintf(
       "%02d%02d",
       sample(1:52, num_samples, replace = TRUE),
-      sample(0:99, num_samples, replace = TRUE)
+      sample(c(90:99, 01:22), num_samples, replace = TRUE)
     )
   )
 }
 
 # create test health insurance df with 100 rows
-health_insurance_df <- create_test_hi_df(num_samples = 100)
+health_insurance_df <- create_test_hi_df(num_samples = 1000)
 
 # Laboratory data ---------------------------------------------------------
 
@@ -289,6 +293,6 @@ create_test_lab_df <- function(num_samples) {
 }
 
 # create test lab df with 100 rows
-test_lab_df <- create_test_lab_df(num_samples = 100)
+test_lab_df <- create_test_lab_df(num_samples = 1000)
 
-usethis::use_data(test_lab_df, overwrite = TRUE, internal = TRUE)
+# usethis::use_data(test_lab_df, overwrite = TRUE, internal = TRUE)
