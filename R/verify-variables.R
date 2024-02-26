@@ -15,7 +15,7 @@
 #' example_bef_data <- tibble(pnr = 1, koen = 1, foed_dato = 1)
 #' verify_required_variables(example_bef_data, "bef")
 verify_required_variables <- function(data, register) {
-  checkmate::assert_choice(register, unique(required_variables$register_abbrev))
+  checkmate::assert_choice(register, get_register_abbrev())
   expected_variables <- required_variables |>
     dplyr::filter(.data$register_abbrev == register) |>
     dplyr::pull(.data$variable_name)
