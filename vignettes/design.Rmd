@@ -27,3 +27,48 @@ These are the guiding principles for this package:
     is a data frame, the output is a data frame).
 4.  Functions have consistent naming based on their action.
 5.  Functions have limited additional arguments.
+
+## Use cases
+
+We make these assumptions on how this package will be used, based on our
+experiences and expectations for use cases:
+
+-   Entirely used within the Denmark Statistics (DST) or the Danish
+    Health Authority's (SDS) servers, since that is where their data are
+    kept.
+-   Used by researchers within or affiliated with Danish research
+    institutions.
+-   Used specifically within a Danish register-based context.
+
+Below is a set of "narratives" or "personas" with associated needs that
+this package aims to fulfil:
+
+-   "As a researcher, ..."
+    -   "... I want to determine which registers and variables to
+        request from DST and SDS, so that I am certain I will be able to
+        classify diabetes status of individuals in the registers."
+    -   "... I want to easily and simply create a dataset that contains
+        data on diabetes status in my population, so that I can begin
+        conducting my research that involves persons with diabetes
+        without having to tinker with coding the correct algorithm to
+        classify them."
+    -   "... I want to be informed early and in a clear way whether my
+        data fits with the required data type and values, so that I can
+        fix and correct these issues without having to do extensive
+        debugging of the code and/or data."
+
+## Core functionality
+
+This is the list of functionality we aim to have in the osdc package
+
+1.  Classify individuals type 1 and type 2 diabetes status and create a
+    data frame with that information.
+2.  Provide helper functions to check and process individual registers
+    for the variables required to enter into the classifier.
+3.  Provide a list of required variables and registers in order to
+    calculate diabetes status.
+4.  Provide validation helper functions to check that variables match
+    what is expected of the algorithm.
+5.  Provide a common and easily accessible standard for determining
+    diabetes status within the context of research using Danish
+    registers.
