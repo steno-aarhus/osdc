@@ -16,16 +16,23 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: 
+    checkmate,
     data.table,
+    dplyr,
     fs,
     haven,
     here,
     lifecycle,
     lubridate,
-    purrr
+    purrr,
+    rlang
 Suggests:
     furrr,
     DiagrammeR,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
+Config/testthat/edition: 3
