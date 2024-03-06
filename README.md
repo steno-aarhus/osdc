@@ -6,15 +6,18 @@
 
 <!-- badges: end -->
 
-The goal of *osdc* is to provide an algorithm for classifying diabetes
-within the Danish registers that is flexible and convenient to use, and
-validated in terms of accuracy. While there are a few algorithms used
-throughout Denmark for Danish register research, they are usually
-textual descriptions of how to do it, rather than code-based
-descriptions (e.g. the [Register of Selected Chronic
+The goal of *osdc* is to expose an algorithm for classifying diabetes
+within the Danish registers that can be accessible as an R package. The
+algorithm has been developed at Steno Diabetes Center Aarhus that is
+flexible and convenient to use, and validated in terms of accuracy.
+While there are a few algorithms used throughout Denmark for Danish
+register research, they are usually textual descriptions of how to do
+it, rather than code-based descriptions (e.g. the [Register of Selected
+Chronic
 Diseases](https://www.esundhed.dk/-/media/Files/Publikationer/Emner/Operationer-og-diagnoser/Udvalgte-kroniske-sygdomme-svaere-psykiske-lidelser/Algoritmer-for-Udvalgte-Kroniske-Sygdomme-og-svre-psykiske-lidelser-RUKS-2022.ashx).
-In this project, we aim to make it easier and more explicit how to
-classify type 1 and type 2 diabetes within a Danish register context.
+
+In this project, we aim to make it easier and more explicit in
+classifying type 1 and type 2 diabetes within a Danish register context.
 The original implementation of the algorithm is validated in a
 peer-reviewed publication [here](https://doi.org/10.2147/clep.s407019),
 but we expect to make tweaks to the algorithm over time. Any changes
@@ -36,4 +39,3 @@ Please note that the osdc project is released with a [Contributor Code
 of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
-
