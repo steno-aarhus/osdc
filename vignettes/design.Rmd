@@ -13,3 +13,17 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
+## Principles
+
+These are the guiding principles for this package:
+
+1.  Functionality is as agnostic to data format as possible (e.g. can be
+    used with SQL or Arrow connections, in a data.table format, or as a
+    data.frame).
+2.  Functions have consistent inputs and outputs (e.g. inputs and
+    outputs are the same, regardless of specific conditions).
+3.  Functions have predictable outputs based on inputs (e.g. if an input
+    is a data frame, the output is a data frame).
+4.  Functions have consistent naming based on their action.
+5.  Functions have limited additional arguments.
