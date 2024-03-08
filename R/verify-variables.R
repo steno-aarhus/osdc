@@ -16,10 +16,12 @@
 #' verify_required_variables(example_bef_data, "bef")
 verify_required_variables <- function(data, register) {
   checkmate::assert_choice(register, get_register_abbrev())
-  expected_variables <- required_variables |>
-    dplyr::filter(.data$register_abbrev == register) |>
-    dplyr::pull(.data$variable_name)
+
+  expected_variables <- get_required_variables(register)
+
   actual_variables <- names(data)
+
+  # TODO: Consider using/looking into rlang::try_fetch() to provide contextual error messages.
   checkmate::check_names(
     x = actual_variables,
     must.include = expected_variables
