@@ -1,8 +1,12 @@
 #' Verify that the dataset has the required variables for the algorithm.
 #'
+#' Use this function within an `if` condition inside a function to provide an
+#' informative error message within the function used. This is done to make the
+#' error message more informative to the location that the error actually
+#' occurs, rather than within this function.
+#'
 #' @param data The dataset to check.
-#' @param register The abbreviation of the register name. See list of
-#'   abbreviations in [get_register_abbrev()].
+#' @inheritParams get_required_variables
 #'
 #' @return Either TRUE if the verification passes, or a character string if
 #'   there is an error.
