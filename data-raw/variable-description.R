@@ -2,7 +2,15 @@
 
 library(tidyverse)
 
-required_variables <- read_csv(here::here("data-raw/variable_description.csv")) |>
-  select(register_abbrev = raw_register_filename, variable_name)
+variable_description <- here::here("data-raw/variable_description.csv") |>
+  read_csv() |>
+  select(
+    register_name,
+    register_abbrev = raw_register_filename,
+    variable_name,
+    years_covered,
+    danish_description,
+    english_description
+  )
 
-usethis::use_data(required_variables, overwrite = TRUE, internal = TRUE)
+usethis::use_data(variable_description, overwrite = TRUE)
