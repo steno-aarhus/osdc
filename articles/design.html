@@ -99,7 +99,60 @@ is a data frame, the output is a data frame).</li>
 <li>Functions have limited additional arguments.</li>
 </ol>
 </div>
-  </main>
+<div class="section level2">
+<h2 id="use-cases">Use cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
+</h2>
+<p>We make these assumptions on how this package will be used, based on
+our experiences and expectations for use cases:</p>
+<ul>
+<li>Entirely used within the Denmark Statistics (DST) or the Danish
+Health Authority’s (SDS) servers, since that is where their data are
+kept.</li>
+<li>Used by researchers within or affiliated with Danish research
+institutions.</li>
+<li>Used specifically within a Danish register-based context.</li>
+</ul>
+<p>Below is a set of “narratives” or “personas” with associated needs
+that this package aims to fulfil:</p>
+<ul>
+<li>“As a researcher, …”
+<ul>
+<li>“… I want to determine which registers and variables to request from
+DST and SDS, so that I am certain I will be able to classify diabetes
+status of individuals in the registers.”</li>
+<li>“… I want to easily and simply create a dataset that contains data
+on diabetes status in my population, so that I can begin conducting my
+research that involves persons with diabetes without having to tinker
+with coding the correct algorithm to classify them.”</li>
+<li>“… I want to be informed early and in a clear way whether my data
+fits with the required data type and values, so that I can fix and
+correct these issues without having to do extensive debugging of the
+code and/or data.”</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="core-functionality">Core functionality<a class="anchor" aria-label="anchor" href="#core-functionality"></a>
+</h2>
+<p>This is the list of functionality we aim to have in the osdc
+package</p>
+<ol style="list-style-type: decimal">
+<li>Classify individuals type 1 and type 2 diabetes status and create a
+data frame with that information.</li>
+<li>Provide helper functions to check and process individual registers
+for the variables required to enter into the classifier.</li>
+<li>Provide a list of required variables and registers in order to
+calculate diabetes status.</li>
+<li>Provide validation helper functions to check that variables match
+what is expected of the algorithm.</li>
+<li>Provide a common and easily accessible standard for determining
+diabetes status within the context of research using Danish
+registers.</li>
+</ol>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
