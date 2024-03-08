@@ -1,6 +1,8 @@
 ---
 title: "Design"
 output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: vancouver.csl
 vignette: >
   %\VignetteIndexEntry{design}
   %\VignetteEngine{knitr::rmarkdown}
@@ -147,3 +149,4 @@ The exclusion criteria are:
     date.
 
 ## References
+
