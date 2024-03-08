@@ -29,6 +29,8 @@ These are the guiding principles for this package:
     is a data frame, the output is a data frame).
 4.  Functions have consistent naming based on their action.
 5.  Functions have limited additional arguments.
+6.  Casing of input variables (upper or lower case) is agnostic, all 
+    internal variables are lower case, and output variables are lower case. 
 
 ## Use cases
 
