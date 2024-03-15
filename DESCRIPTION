@@ -18,21 +18,19 @@ License: MIT + file LICENSE
 URL: https://github.com/steno-aarhus/osdc,
     https://steno-aarhus.github.io/osdc/
 BugReports: https://github.com/steno-aarhus/osdc/issues
+Depends: 
+    R (>= 4.0.0)
 Imports: 
     checkmate,
+    cli,
     dplyr,
-    fs,
-    haven,
-    here,
     lifecycle,
-    lubridate,
-    purrr,
     rlang
 Suggests:
     arrow,
     data.table,
-    DiagrammeR,
-    furrr,
+    dbplyr,
+    duckdb,
     knitr,
     rmarkdown,
     spelling,
