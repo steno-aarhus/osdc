@@ -38,7 +38,7 @@ library(osdc)
 ```
 
 The core of this package depends on the list of variables within
-different registers that are needed in order to actually classify the
+different registers that are needed in order to classify the
 diabetes status of an individual. This can be found in the dataset:
 
 ```{r}
