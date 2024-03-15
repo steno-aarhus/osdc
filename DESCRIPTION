@@ -3,13 +3,30 @@ Package: osdc
 Title: Open Source Diabetes Classifier (OSCD) for Danish Registers
 Version: 0.0.1.9000
 Authors@R: c(
-    # cre = maintainer, even though it translates to "creator"
-    person(c("Luke", "William"), "Johnston", , "lwjohnst@gmail.com",
-           comment = c(ORCID = "0000-0003-4169-2616"), role = c("aut", "cre")),
-    person(c("Signe", "Kirk"), "Brødbæk", , "signekb@clin.au.dk", role = "aut"),
-    person(c("Anders", "Aasted"), "Isaksen", , "andaas@rm.dk", role = "aut"),
-    person("Steno Diabetes Center Aarhus", role = "cph"),
-    person("Aarhus University", role = "cph")
+    person(
+      c("Luke", "William"), "Johnston",
+      email = "lwjohnst@gmail.com",
+      role = c("aut", "cre"),
+      comment = c(ORCID = "0000-0003-4169-2616")
+    ),
+    person(
+      c("Signe", "Kirk"), "Brødbæk",
+      email = "signekb@clin.au.dk",
+      role = "aut"
+    ),
+    person(
+      c("Anders", "Aasted"), "Isaksen",
+      email = "andaas@rm.dk",
+      role = "aut"
+    ),
+    person(
+      "Steno Diabetes Center Aarhus",
+      role = "cph"
+    ),
+    person(
+      "Aarhus University",
+      role = "cph"
+    )
   )
 Description: This classifier first identifies a population of individuals
     with any type of diabetes mellitus and then splits this population
