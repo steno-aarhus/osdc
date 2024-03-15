@@ -2,7 +2,7 @@
 title: "Getting started with osdc"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{osdc}
+  %\VignetteIndexEntry{Getting started with osdc}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,6 +14,41 @@ knitr::opts_chunk$set(
 )
 ```
 
+This package serves two overarching purposes:
+
+1.  To provide an open-source, code-based algorithm to classify type 1
+    and type 2 diabetes using Danish registers as data sources.
+2.  To inspire discussions within the Danish register-based research
+    space on the openness and ease of use on the existing tooling and
+    registers, and on the need for an official process for updating or
+    contributing to existing data sources.
+
+To read up on the overall design of this package as well as on the
+algorithm, check out the `vignette("design")`. For more explanation on
+the motivations, rationale, and needs for this algorithm and package,
+check out the `vignette("explanation")`.
+
+## Usage
+
+First, let's load up the package, as well as dplyr.
+
 ```{r setup}
+library(dplyr)
 library(osdc)
+```
+
+The core of this package depends on the list of variables within
+different registers that are needed in order to classify the
+diabetes status of an individual. This can be found in the dataset:
+
+```{r}
+variable_description
+```
+
+Let's convert that to a nicer format to show the list as a table.
+
+```{r}
+variable_description |> 
+  select(register_name, register_abbrev, variable_name, english_description) |> 
+  knitr::kable()
 ```
