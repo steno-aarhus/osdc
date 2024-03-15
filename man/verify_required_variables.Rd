@@ -23,10 +23,8 @@ error message more informative to the location that the error actually
 occurs, rather than within this function.
 }
 \examples{
-library(tibble)
-library(dplyr)
 # TODO: Replace with simulated data.
-example_bef_data <- tibble(pnr = 1, koen = 1, foed_dato = 1)
-verify_required_variables(example_bef_data, "bef")
+example_bef_data <- tibble::tibble(pnr = 1, koen = 1, foed_dato = 1)
+osdc:::verify_required_variables(example_bef_data, "bef")
 }
 \keyword{internal}

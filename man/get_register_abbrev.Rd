@@ -13,6 +13,6 @@ A character string.
 Get a list of the registers' abbreviations.
 }
 \examples{
-get_register_abbrev()
+osdc:::get_register_abbrev()
 }
 \keyword{internal}

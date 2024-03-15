@@ -17,6 +17,6 @@ A character vector of variable names.
 Get a list of required variables from a specific register.
 }
 \examples{
-get_required_variables("bef")
+osdc:::get_required_variables("bef")
 }
 \keyword{internal}
