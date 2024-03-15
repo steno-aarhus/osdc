@@ -31,6 +31,7 @@ Imports:
     lubridate,
     purrr
 Suggests:
+    codeCollection
     furrr,
     DiagrammeR,
     knitr,
