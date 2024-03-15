@@ -1,6 +1,6 @@
 Type: Package
 Package: osdc
-Title: Open Source Diabetes Classifier for Danish Registers.
+Title: Open Source Diabetes Classifier (OSCD) for Danish Registers
 Version: 0.0.1.9000
 Authors@R: c(
     person(
@@ -51,8 +51,6 @@ Imports:
     purrr,
     rlang
 Suggests:
-    furrr,
-    DiagrammeR,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
