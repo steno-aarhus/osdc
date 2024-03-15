@@ -11,5 +11,7 @@
 #'   \item{danish_description}{The official description in Danish for the variable.}
 #'   \item{english_description}{The translated description in English for the variable.}
 #' }
-#' @source <https://www.dst.dk/extranet/forskningvariabellister/Oversigt%20over%20registre.html>
+#' @source Many of the details within the `variable_description` dataset come
+#'   from the full official list of registers from Statistics Denmark (DST):
+#'   <https://www.dst.dk/extranet/forskningvariabellister/Oversigt%20over%20registre.html>
 "variable_description"
