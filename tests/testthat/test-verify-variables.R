@@ -3,8 +3,9 @@ library(tibble)
 test_that("the correct abbreviation for the register is used", {
   bef_complete <- tibble(pnr = 1, koen = 1, foed_dato = 1)
 
-  # Shouldn't
+  # When incorrect register abbreviation is given
   expect_error(verify_required_variables(bef_complete, "bef1"))
+  # When correct abbreviation is given
   expect_true(verify_required_variables(bef_complete, "bef"))
 })
 
@@ -20,6 +21,6 @@ test_that("the required variables are present in the dataset", {
   # When some of the variables are the required variables
   expect_true(verify_required_variables(bef_complete_extra, "bef"))
 
-  # When it is a character output, it is a fail.
-  expect_type(verify_required_variables(bef_incomplete, "bef"), "character")
+  # When it is a character output, it is a fail
+  expect_character(verify_required_variables(bef_incomplete, "bef"))
 })
