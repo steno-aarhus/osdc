@@ -1,6 +1,6 @@
 Type: Package
 Package: osdc
-Title: Open Source Diabetes Classifier for Danish Registers.
+Title: Open Source Diabetes Classifier (OSCD) for Danish Registers
 Version: 0.0.1.9000
 Authors@R: c(
     # cre = maintainer, even though it translates to "creator"
@@ -23,16 +23,8 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: 
-    data.table,
-    fs,
-    haven,
-    here,
-    lifecycle,
-    lubridate,
-    purrr
+    lifecycle
 Suggests:
-    furrr,
-    DiagrammeR,
     knitr,
     rmarkdown,
     spelling,
