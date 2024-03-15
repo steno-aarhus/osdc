@@ -1,7 +1,3 @@
-# Depends:
-source(here::here("R/packages.R"))
-
-
 draw_dm_sample <- function(population = dm_population,
                            population_counts = here("data", "source", "flowchart_counts.Rdata"),
                            sample_year) {
@@ -76,16 +72,6 @@ draw_dm_sample <- function(population = dm_population,
   # And after:
   n_t1d_postcrop <- nrow(dm_sample[diabetes_type == 1])
   n_t2d_postcrop <- nrow(dm_sample[diabetes_type == 2])
-
-  # Save counts
-  dir_create(here("data", "source", "years", "flowchart", sample_year))
-
-
-  save(list = c(ls()[grep("^n_", ls())]),
-       file = here("data", "source", "years", "flowchart", sample_year,
-                   paste0("flowchart_counts_", sample_year, ".Rdata")))
-
-
 
   return(dm_sample)
 }
