@@ -2,8 +2,10 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/steno-aarhus/osdc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/steno-aarhus/osdc/actions/workflows/R-CMD-check.yaml)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/steno-aarhus/osdc/actions/workflows/build-package.yaml/badge.svg)](https://github.com/steno-aarhus/osdc/actions/workflows/build-package.yaml)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 <!-- badges: end -->
 
 The goal of *osdc* is to expose an algorithm for classifying diabetes
@@ -16,12 +18,12 @@ it, rather than code-based descriptions (e.g. the [Register of Selected
 Chronic
 Diseases](https://www.esundhed.dk/-/media/Files/Publikationer/Emner/Operationer-og-diagnoser/Udvalgte-kroniske-sygdomme-svaere-psykiske-lidelser/Algoritmer-for-Udvalgte-Kroniske-Sygdomme-og-svre-psykiske-lidelser-RUKS-2022.ashx).
 
-In this project, we aim to make it easier and more explicit to
-classify type 1 and type 2 diabetes within a Danish register context.
-The original implementation of the algorithm is validated in a
-peer-reviewed publication [here](https://doi.org/10.2147/clep.s407019),
-but we expect to make tweaks to the algorithm over time. Any changes
-will be transparent in the *osdc* repository.
+In this project, we aim to make it easier and more explicit to classify
+type 1 and type 2 diabetes within a Danish register context. The
+original implementation of the algorithm is validated in a peer-reviewed
+publication [here](https://doi.org/10.2147/clep.s407019), but we expect
+to make tweaks to the algorithm over time. Any changes will be
+transparent in the *osdc* repository.
 
 ## Installation
 
