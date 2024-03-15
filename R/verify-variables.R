@@ -19,7 +19,7 @@ verify_required_variables <- function(data, register) {
   expected_variables <- required_variables |>
     dplyr::filter(.data$register_abbrev == register) |>
     dplyr::pull(.data$variable_name)
-  actual_variables <- names(data)
+  actual_variables <- colnames(data)
   checkmate::check_names(
     x = actual_variables,
     must.include = expected_variables
