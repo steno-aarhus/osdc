@@ -1,8 +1,8 @@
 data <- tibble::tibble(
-    XY = 1:3,
-    X_Y = 1:3,
-    X_y3 = 1:3,
-    y = 1:3
+  XY = 1:3,
+  X_Y = 1:3,
+  X_y3 = 1:3,
+  y = 1:3
 )
 expected <- c("xy", "x_y", "x_y3", "y")
 
