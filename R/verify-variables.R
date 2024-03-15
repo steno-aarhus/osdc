@@ -1,6 +1,6 @@
 #' Verify that the dataset has the required variables for the algorithm.
 #'
-#' Use this function within an `if` condition inside a function to provide an
+#' Use this function inside another function within an `if` condition to provide an
 #' informative error message within the function used. This is done to make the
 #' error message more informative to the location that the error actually
 #' occurs, rather than within this function.
