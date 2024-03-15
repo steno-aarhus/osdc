@@ -1,11 +1,6 @@
 
 # 0.0.0: Generates the Diabetes Population --------------------------------
 
-# Requires:
-source(here::here("R/packages.R"))
-
-r_source_folder <- here('data/source')
-
 # 1.0.0: Definitions of Exclusion Variables -----------------------------------------
 
 # 1.1.0: Gestational Diabetes Mellitus (GDM) Censoring Variable -------------------------------------------
@@ -31,8 +26,6 @@ r_source_folder <- here('data/source')
 
 # Load pregnancy data:
 
-lpr_all_preg <- readRDS(here('data/source/lpr_preg.rds'))
-
 # Split dataset into days of pregnancy endings and days of maternity care visits:
 preg_end <- lpr_all_preg[grep('^DO0[0-6]|^DO8[0-4]|^DZ3[37]', C_DIAG), .(PNR, C_DIAG, C_DIAGTYPE, D_INDDTO, D_UDDTO)][!is.na(D_INDDTO)]
 setkey(preg_end, PNR, D_INDDTO)
@@ -41,8 +34,6 @@ preg_end <- unique(preg_end, by = c('PNR', 'D_INDDTO')) # Filter to one event pe
 preg_visits <- lpr_all_preg[grep('^DO07|^DO[1-4]|^DZ3[2456]', C_DIAG), .(PNR, C_DIAG, C_DIAGTYPE, D_INDDTO, D_UDDTO)][!is.na(D_INDDTO)]
 setkey(preg_visits, PNR, D_INDDTO)
 preg_visits <- unique(preg_visits, by = c('PNR', 'D_INDDTO'))
-rm(lpr_all_preg)
-
 
 # Discard all maternity care contacts within a period of 40 weeks before until 12 weeks after a pregnancy ending:
 # Merge pregnancy endings to maternity care contacts (cartesian join, memory beware):
@@ -51,8 +42,6 @@ preg_visits_merged <- merge(preg_visits[, .(PNR, D_VISIT = D_INDDTO)], preg_end[
 # First, identify dates of maternity care visits with a related pregnancy ending:
 preg_visits_merged[, WITH_END := D_VISIT > (D_PREG_END - (40*7)) & D_VISIT < (D_PREG_END + (12*7))]
 preg_visits_with_end <- preg_visits_merged[WITH_END == T, .SD[1], by = .(PNR, D_VISIT)]
-
-rm(preg_visits_merged)
 
 # Merge these dates to all maternity care visit dates, and filter all maternity care visits to only those without a related pregnancy ending:
 preg_visits_no_end <- merge(preg_visits[, .(PNR, D_VISIT = D_INDDTO)],
@@ -84,17 +73,13 @@ create_window <- function(variable, interval) {
 
 preg_visits_no_end[, UNIQUE := create_window(D_VISIT, (28*7)), by = PNR]
 
-rm(preg_visits, preg_visits_with_end)
 
 # Create and save clean dataset with dates of pregnancy endings and maternity care contacts for use in censoring lab results and prescriptions for GDM:
 
 pregnancy_dates <- rbind(preg_end[, .(PNR, D_VISIT = D_INDDTO, TYPE = 'END')], # Afslutninger
                       preg_visits_no_end[UNIQUE == T, .(PNR, D_VISIT, TYPE = 'VISIT')]) # Kontrol uden afslutning
 
-saveRDS(pregnancy_dates, here('data/source/pregnancy_dates.rds'))
 # Is also used for later validation of GDM-diagnoses when creating a GDM cohort for research project with Anne Bo.
-
-rm(pregnancy_dates)
 
 # 1.2.0: Polycystic Ovary Syndrome (PCOS) Censoring Variable ----------------
 
@@ -134,9 +119,7 @@ rm(pregnancy_dates)
 
 # Load HbA1c data and filter to only values diagnostic of diabetes (positive results):
 
-hba1c <- readRDS(here('data/source/lab_hba1c.rds'))
 hba1c_pos <- hba1c[INTERNAL_REPLY_NUM >= 48]
-rm(hba1c)
 
 
 
@@ -146,11 +129,9 @@ rm(hba1c)
 # Within [-40; 40] weeks from the first maternity care visit in a pregnancy with no ending registered in relation to it.
 
 # Load pregnancy data:
-pregnancy_dates <- readRDS(here('data/source/pregnancy_dates.rds'))
 
 # Merge with the dates of positive HbA1c results (cartesian join, memory beware):
 hba1c_pos_pregnancies <- merge(hba1c_pos[,.(PNR, REALSAMPLECOLLECTIONTIME)], pregnancy_dates, by = 'PNR', all.x = TRUE, allow.cartesian = TRUE)
-rm(pregnancy_dates)
 
 # Create censoring variable:
 hba1c_pos_pregnancies[, GDM_CENSOR_SAMPLE :=
@@ -177,7 +158,6 @@ hba1c_pos_censor_gdm <- merge(hba1c_pos,
                               hba1c_pos_pregnancies,
                               by = c('PNR','REALSAMPLECOLLECTIONTIME'),
                               all.x = TRUE)
-rm(hba1c_pos, hba1c_pos_pregnancies)
 
 # Set NA's (persons with a positive HbA1c result, but no pregnancy dates) to FALSE:
 hba1c_pos_censor_gdm[, GDM_CENSOR_SAMPLE := ifelse(is.na(GDM_CENSOR_SAMPLE), FALSE, TRUE)]
@@ -209,8 +189,6 @@ do_pos_hba1c_N <- hba1c_pos_censor_gdm[, .SD[.N], by = PNR]
 # Total number of HbA1c samples >= 48mmol/mol:
 number_of_pos_hba1c <- hba1c_pos_censor_gdm[, .N, by = PNR]
 
-rm(hba1c_pos_censor_gdm)
-
 # Combine to form the HbA1c inclusion object. Carry over the corresponding sample values for inspection:
 hba1c_inclusion <- Reduce(function(x,y) merge(x,y, by = 'PNR', all = TRUE),
                     list(do_pos_hba1c_1[, .(PNR, do_pos_hba1c_1 = as.Date(REALSAMPLECOLLECTIONTIME), pos_hba1c_1 = INTERNAL_REPLY_NUM)],
@@ -218,33 +196,18 @@ hba1c_inclusion <- Reduce(function(x,y) merge(x,y, by = 'PNR', all = TRUE),
                          do_pos_hba1c_N[, .(PNR, do_pos_hba1c_N = as.Date(REALSAMPLECOLLECTIONTIME), pos_hba1c_N = INTERNAL_REPLY_NUM)],
                          number_of_pos_hba1c[, .(PNR, number_of_pos_hba1c = N)]))
 
-# Save for later:
-saveRDS(hba1c_inclusion, here('data/source/hba1c_inclusion.rds'))
-
-rm(hba1c_inclusion, do_pos_hba1c_1, do_pos_hba1c_2, do_pos_hba1c_N, number_of_pos_hba1c)
-
-
-
 # 2.2.0: Inclusion Events from Prescription Data ----------------------------
 
 
 # 2.2.1: Load Reimbursed Prescriptions Data ----------------------------
-
-lmdb_a10 <- readRDS(here('data/source/lmdb_a10.rds'))
-
 
 # 2.2.2: Censor Prescriptions for PCOS ---------------------------
 
 # All prescriptions of metformine reimbursed by women before their 40th birthday,
 # or prescriptions of metformine among women with relevant prescription indication codes:
 
-# Load data on sex and date of birth and merge with prescriptions dataset:
-bef_alltime <- readRDS(here('data/source/bef_alltime.rds'))
-
 a10_censor_pcos <- merge(lmdb_a10, bef_alltime[,.(PNR, KOEN, FOED_DAG)],
                          by = 'PNR', all.x = TRUE)
-
-rm(lmdb_a10, bef_alltime)
 
 # Create PCOS censoring variable:
 a10_censor_pcos[, PCOS_PRESCRIPTION :=
@@ -254,24 +217,16 @@ a10_censor_pcos[, PCOS_PRESCRIPTION :=
 # Count how many individuals have a censored medication inclusion event due to possible PCOS:
 n_censored_events_a10_pcos <- nrow(a10_censor_pcos[PCOS_PRESCRIPTION == T, .SD[1], by = PNR])
 
-
-
 # 2.2.3: Censor Prescriptions for GDM -------------------------------------
 
 # Censor prescriptions in the same intervals that were used to censor positive HbA1c results in 2.1.2:
 # Within [-40; 12] weeks from a birth, abortion or other cause of termination of pregnancy.
 # Within [-40; 40] weeks from the first maternity care visit in a pregnancy with no ending registered in relation to it.
 
-
 # Add GDM-censoring variable to the diagnostic prescriptions dataset:
-
-# Load pregnancy dates dataset:
-pregnancy_dates <- readRDS(here('data/source/pregnancy_dates.rds'))
 
 # Merge pregnancy dates to prescription dates (cartesian join, memory beware):
 a10_pregnancies <- merge(a10_censor_pcos[ ,.(PNR, EKSD)], pregnancy_dates, by = 'PNR', all.x = TRUE, allow.cartesian = TRUE)
-
-rm(pregnancy_dates)
 
 # Add GDM-censoring variable to the prescriptions:
 a10_pregnancies[, GDM_PRESCRIPTION :=
@@ -298,8 +253,6 @@ a10_censor_pcos_gdm <- merge(a10_censor_pcos,
                              by = c('PNR','EKSD'),
                              all.x = TRUE)
 
-rm(a10_censor_pcos, a10_pregnancies)
-
 # Set NA's (persons with a reimbursed prescription, but no pregnancy dates) to FALSE:
 a10_censor_pcos_gdm[, GDM_PRESCRIPTION := ifelse(is.na(GDM_PRESCRIPTION), FALSE, TRUE)]
 
@@ -313,10 +266,6 @@ n_censored_events_a10_gdm <- nrow(a10_censor_pcos_gdm[PCOS_PRESCRIPTION == FALSE
 a10_censor_pcos_gdm <- a10_censor_pcos_gdm[PCOS_PRESCRIPTION == FALSE & GDM_PRESCRIPTION == FALSE]
 
 setkey(a10_censor_pcos_gdm, PNR, EKSD)
-
-# Save for later:
-saveRDS(a10_censor_pcos_gdm, here('data/source/a10_censor_pcos_gdm.rds'))
-
 
 # 2.2.4: Prescription Inclusion Variables ---------------------------------
 
@@ -334,20 +283,12 @@ do_a10_N <- a10_censor_pcos_gdm[, .SD[.N], by = PNR]
 # Total number of reimbursed prescriptions of antidiabetic drugs:
 number_of_a10 <- a10_censor_pcos_gdm[, .N, by = PNR]
 
-rm(a10_censor_pcos_gdm)
-
-
 # Combine to form the prescription inclusion object. Carry over the corresponding drug types for inspection:
 a10_inclusion <- Reduce(function(x,y) merge(x,y, by = 'PNR', all = TRUE),
                   list(do_a10_1[, .(PNR, do_a10_1 = EKSD, a10_1_atc = ATC)],
                        do_a10_2[, .(PNR, do_a10_2 = EKSD, a10_2_atc = ATC)],
                        do_a10_N[, .(PNR, do_a10_N = EKSD)],
                        number_of_a10[, .(PNR, number_of_a10 = N)]))
-
-# Save for later:
-saveRDS(a10_inclusion, here('data/source/a10_inclusion.rds'))
-
-rm(a10_inclusion, do_a10_1, do_a10_2, do_a10_N, number_of_a10)
 
 # TODO: Creating variables for determining remission states go here in the future. Copy/paste from legacy scripts.
 
@@ -356,8 +297,6 @@ rm(a10_inclusion, do_a10_1, do_a10_2, do_a10_N, number_of_a10)
 # 2.3.0: Inclusion Events from Patient Register Data ------------------------
 
 # 2.3.1: Load Patient Register Data ----------------------------
-
-lpr_dm <- readRDS(here('data/source/lpr_dm.rds'))
 
 lpr_dm <- lpr_dm[, .(PNR, C_DIAG, D_INDDTO, C_DIAGTYPE)]
 setkey(lpr_dm, PNR, D_INDDTO)
@@ -387,20 +326,12 @@ lpr_inclusion <- Reduce(function(x,y) merge(x,y, by = 'PNR', all = TRUE),
                              do_lpr_N[, .(PNR, do_lpr_N = D_INDDTO)],
                              number_of_lpr[, .(PNR, number_of_lpr = N)]))
 
-# Save for later:
-saveRDS(lpr_inclusion, here('data/source/lpr_inclusion.rds'))
-
-rm(lpr_inclusion, do_lpr_1, do_lpr_2, do_lpr_N, number_of_lpr)
-
-
-
 # 2.4.0: Inclusion from Health Service Register Data ----------------------
 
 # Inclusion based on registration of a diabetes-specific podiatrist service in the period from year 1990 onwards:
 
 # 2.4.1: Load Health Service Register Data ---------------------------------
 
-ssr_foot <- readRDS(here('data/source/ssr_foot.rds'))
 setkey(ssr_foot, PNR, REGDATE)
 
 
@@ -431,13 +362,6 @@ foot_inclusion <- Reduce(function(x,y) merge(x,y, by = 'PNR', all = TRUE),
                         do_foot_N[, .(PNR, do_foot_N = REGDATE)],
                         number_of_foot[, .(PNR, number_of_foot = V1)]))
 
-# Save for later:
-saveRDS(foot_inclusion, here('data/source/foot_inclusion.rds'))
-
-rm(foot_inclusion, do_foot_1, do_foot_2, do_foot_N, number_of_foot)
-
-
-
 # 3.0.0: Generate the Inclusion Table ------------------------------------
 
 # Merge the 4 inclusion objects and sort inclusion events chronologically to
@@ -445,11 +369,6 @@ rm(foot_inclusion, do_foot_1, do_foot_2, do_foot_N, number_of_foot)
 
 
 # 3.1.0: Load the Inclusion Data and Merge to Inclusion Table ------------------------------------------
-
-hba1c_inclusion <- readRDS(here('data/source/hba1c_inclusion.rds'))
-a10_inclusion <- readRDS(here('data/source/a10_inclusion.rds'))
-lpr_inclusion <- readRDS(here('data/source/lpr_inclusion.rds'))
-foot_inclusion <- readRDS(here('data/source/foot_inclusion.rds'))
 
 dm_inclusion <- Reduce(function(x,y) merge(x,y, by = 'PNR', all = TRUE),
   list(
@@ -459,8 +378,6 @@ dm_inclusion <- Reduce(function(x,y) merge(x,y, by = 'PNR', all = TRUE),
     foot_inclusion
     )
   )
-
-rm(hba1c_inclusion, a10_inclusion, lpr_inclusion, foot_inclusion)
 
 # 3.2.0: Sort Inclusion Events Chronologically ----------------------------
 
@@ -551,13 +468,7 @@ dm_inclusion[, type_event_2 := apply(dm_inclusion[, c('do_pos_hba1c_1',
 
 # 3.3.1: Add Time-independent Variables to the Diabetes Population -------------
 
-# Add variables for sex, date of birth, origin, and age at onset of diabetes:
-# Also filters out artificial PNR-numbers by restricting to background population.
-bef_alltime <- readRDS(here('data/source/bef_alltime.rds'))
-
 dm_inclusion <- merge(dm_inclusion, bef_alltime, by = 'PNR', all = TRUE)
-
-rm(bef_alltime)
 
 # Sex:
 dm_inclusion[, sex := as.factor(ifelse(KOEN=='1', 'M', 'F'))]
@@ -565,11 +476,6 @@ dm_inclusion[, sex := as.factor(ifelse(KOEN=='1', 'M', 'F'))]
 # Age at onset:
 dm_inclusion[, age_at_onset :=
          round(as.duration(interval(FOED_DAG, do_dm)) %/% as.duration(years(1)), digits = 0)]
-
-# Save for later:
-saveRDS(dm_inclusion, here('data/source/dm_inclusion.rds'))
-
-
 
 # 4.0.0: Define Type of Diabetes ------------------------------------------
 
@@ -663,11 +569,6 @@ a10_type[, only_insulin := a10a_DDD > 0 & a10b_DDD == 0 ]
 # 1: Diagnoses from admission to an endocrinological specialty ward.
 # 2: Diagnoses from outpatient contacts to an endocrinological specialty department.
 # 3: Diagnoses from contacts to other medical specialty departments.
-
-
-# Load Patient Register Data:
-lpr_dm <- readRDS(here('data/source/lpr_dm.rds'))
-
 
 # Limit to diabetes type-specific primary diagnoses from endocrinological departments or other medical specialties:
 lpr_dm <- lpr_dm[grepl('^DE1[01]', C_ADIAG) &
@@ -783,91 +684,3 @@ dm_type[,
 
 # Crop to needed variables:
 dm_population <- dm_type[, .(PNR, diabetes_type, do_dm, sex, date_of_birth = FOED_DAG, age_at_onset)]
-
-
-# Count number of individuals with each inclusion criteria:
-
-# Count how many individuals have a valid inclusion event:
-
-n_incl_event_hba1c <- nrow(dm_inclusion[!is.na(do_pos_hba1c_1)])
-n_incl_event_hba1c_2 <- nrow(dm_inclusion[!is.na(do_pos_hba1c_2)])
-
-n_incl_event_a10 <- nrow(dm_inclusion[!is.na(do_a10_1)])
-n_incl_event_a10_2 <- nrow(dm_inclusion[!is.na(do_a10_2)])
-
-n_incl_event_lpr <- nrow(dm_inclusion[!is.na(do_lpr_1)])
-n_incl_event_lpr_2 <- nrow(dm_inclusion[!is.na(do_lpr_2)])
-
-n_incl_event_foot <- nrow(dm_inclusion[!is.na(do_foot_1)])
-n_incl_event_foot_2 <- nrow(dm_inclusion[!is.na(do_foot_2)])
-
-# How many with individuals with one or more valid inclusion events:
-n_any_valid_events <- nrow(dm_inclusion[(!is.na(do_pos_hba1c_1) | !is.na(do_a10_1) | !is.na(do_lpr_1) | !is.na(do_foot_1) )])
-
-# How many excluded due to only a single inclusion event:
-n_only_1_event <- nrow(dm_inclusion[is.na(do_dm) & (!is.na(do_pos_hba1c_1) | !is.na(do_a10_1) | !is.na(do_lpr_1) | !is.na(do_foot_1) )])
-
-# How many included with diabetes:
-n_dm <- nrow(dm_inclusion[!is.na(do_dm)])
-
-# From how large a background population:
-n_background <- nrow(dm_inclusion)
-
-
-# Count individuals that move through the type classification logic:
-n_dm <- nrow(dm_type)
-
-# only_insulin node:
-n_insulin_mono_yes <- nrow(dm_type[only_insulin == TRUE])
-n_insulin_mono_no <- nrow(dm_type[only_insulin == FALSE])
-
-# Left branch:
-# Less than 3 T2D or at least one T1D diagnosis node:
-n_3_t2d_or_1_t1d_yes <- nrow(dm_type[only_insulin == TRUE & any_t1d_diags == TRUE])
-n_3_t2d_or_1_t1d_no <- nrow(dm_type[only_insulin == TRUE & any_t1d_diags == FALSE])
-
-# Right branch:
-# Any t1d diags:
-n_any_t1d_diags_yes <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE])
-n_any_t1d_diags_no <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == FALSE])
-
-# Any t1d diags from endo:
-# Any endocrinological diagnoses?
-n_any_t1d_diags_endo_yes <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE & !is.na(type_1_endo)])
-n_any_t1d_diags_endo_no <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE & is.na(type_1_endo)])
-
-# Majority_lpr nodes
-# From endo:
-n_majority_endo_diags_yes <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE & !is.na(type_1_endo) & type_1_endo == TRUE])
-n_majority_endo_diags_no <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE & !is.na(type_1_endo) & type_1_endo == FALSE])
-# From medical specialties:
-n_majority_medical_diags_yes <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE & is.na(type_1_endo) & type_1_medical == TRUE])
-n_majority_medical_diags_no <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE & is.na(type_1_endo) & type_1_medical == FALSE])
-
-
-# a10a_first_double node (insulin as first gld + double ddd vs non-insulins):
-n_a10a_first_double_yes <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE &
-                                          !is.na(type_1_endo) & type_1_endo == TRUE &
-                                          insulin_2x_and_180d == TRUE]) +
-  nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE &
-                 is.na(type_1_endo) & type_1_medical == TRUE &
-                 insulin_2x_and_180d == TRUE])
-
-n_a10a_first_double_no <- nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE &
-                                         !is.na(type_1_endo) & type_1_endo == TRUE &
-                                         insulin_2x_and_180d == FALSE]) +
-  nrow(dm_type[only_insulin == FALSE & any_t1d_diags == TRUE &
-                 is.na(type_1_endo) & type_1_medical == TRUE &
-                 insulin_2x_and_180d == FALSE])
-
-# save diabetes population and counts for flowchart:
-
-saveRDS(dm_population, here('data/output/dm_population.rds'))
-
-
-
-save(list = c(ls()[grep("^n_", ls())], "dm_type"), file = here("data", "source", "flowchart_counts.Rdata"))
-
-
-
-rm(list = ls())
