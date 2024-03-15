@@ -97,6 +97,9 @@ outputs are the same, regardless of specific conditions).</li>
 is a data frame, the output is a data frame).</li>
 <li>Functions have consistent naming based on their action.</li>
 <li>Functions have limited additional arguments.</li>
+<li>Casing of input variables (upper or lower case) is agnostic, all
+internal variables are lower case, and output variables are lower
+case.</li>
 </ol>
 </div>
 <div class="section level2">
@@ -139,7 +142,7 @@ code and/or data.”</li>
 package</p>
 <ol style="list-style-type: decimal">
 <li>Classify individuals type 1 and type 2 diabetes status and create a
-data frame with that information.</li>
+data frame with that information and the date of onset of diabetes.</li>
 <li>Provide helper functions to check and process individual registers
 for the variables required to enter into the classifier.</li>
 <li>Provide a list of required variables and registers in order to
@@ -150,6 +153,88 @@ what is expected of the algorithm.</li>
 diabetes status within the context of research using Danish
 registers.</li>
 </ol>
+</div>
+<div class="section level2">
+<h2 id="classifier-algorithm">Classifier algorithm<a class="anchor" aria-label="anchor" href="#classifier-algorithm"></a>
+</h2>
+<p>A more complete description of the classifier is found in Anders
+Aasted Isaksen’s <a href="https://aastedet.github.io/dissertation/" class="external-link">PhD
+Thesis</a> as well as the validation paper <span class="citation">(1)</span>. The description below is a brief and
+concise version of those documents.</p>
+<p>The algorithm for classifying individuals with diabetes is described
+below. The overall output of this algorithm is first to classify those
+with diabetes, then to further classify and check if the individuals
+might have type 1 diabetes, otherwise classify as type 2 diabetes.</p>
+<p>Initial <strong>diabetes</strong> classification is defined as the
+second occurrence of any of the listed inclusion events. Wherever
+possible, all available data for each event is used, except for the
+purchases of glucose-lowering drugs, since the data on obstetric
+diagnoses necessary to censor glucose-lowering drug purchases is only
+complete from 1997 onwards. Inclusion criteria are:</p>
+<ol style="list-style-type: decimal">
+<li>HbA1c measurements of ≥48 mmol/mol.</li>
+<li>Hospital diagnoses of diabetes.</li>
+<li>Diabetes-specific services received at podiatrist.</li>
+<li>Purchase of glucose-lowering drugs.</li>
+</ol>
+<p>Exclusions are:</p>
+<ol style="list-style-type: decimal">
+<li>HbA1c samples:
+<ul>
+<li>Samples taken during pregnancies, as that could be a potential
+gestational diabetes mellitus.</li>
+</ul>
+</li>
+<li>Glucose-lowering drugs:
+<ul>
+<li>Brand drugs for weight loss, e.g. <em>Saxenda</em>.</li>
+<li>Purchases during pregnancies, as that is a potential treatment for
+gestational diabetes mellitus.</li>
+<li>Metformin for women below age 40, as that could be a treatment for
+polycystic ovary syndrome.</li>
+</ul>
+</li>
+</ol>
+<div class="section level3">
+<h3 id="classifying-type-1-diabetes">Classifying type 1 diabetes<a class="anchor" aria-label="anchor" href="#classifying-type-1-diabetes"></a>
+</h3>
+<p>Diabetes type is classified as either T1D or T2D based on patterns of
+purchases of insulins (including analogues) and hospital primary
+diagnoses of T1D and T2D.</p>
+<p>Classification as T1D requires an individual to fulfil either of the
+following criteria:</p>
+<ol style="list-style-type: lower-alpha">
+<li>Must have purchased only insulins and never any other type of GLD,
+and have at least one diagnosis of T1D</li>
+<li>Must have a majority of T1D diagnoses from endocrinological
+departments (or from other medical departments, in the absence of
+contacts to endocrinological departments), and a purchase of insulin
+within 180 days after onset of diabetes, with insulin contributing at
+least two thirds of all defined daily doses of GLD purchased.</li>
+</ol>
+<p>In populations generated on a fixed index date (such as the
+cross-sectional studies associated with this dissertation), individuals
+classified as T1D cases must have purchased insulins in the last year
+prior to the index date.</p>
+</div>
+<div class="section level3">
+<h3 id="classifying-type-2-diabetes">Classifying type 2 diabetes<a class="anchor" aria-label="anchor" href="#classifying-type-2-diabetes"></a>
+</h3>
+<p>Individuals not classified as T1D cases are classified as T2D
+cases.</p>
+</div>
+</div>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body">
+<div id="ref-Isaksen2023" class="csl-entry">
+<div class="csl-left-margin">1. </div>
+<div class="csl-right-inline">Isaksen AA, Sandbæk A, Bjerg L. <a href="https://doi.org/10.2147/clep.s407019" class="external-link">Validation of register-based
+diabetes classifiers in danish data</a>. Clinical Epidemiology. 2023
+May;Volume 15:569–81. </div>
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
