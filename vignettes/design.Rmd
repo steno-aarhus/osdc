@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(dplyr)
 ```
 
 ## Principles
@@ -29,8 +30,9 @@ These are the guiding principles for this package:
     is a data frame, the output is a data frame).
 4.  Functions have consistent naming based on their action.
 5.  Functions have limited additional arguments.
-6.  Casing of input variables (upper or lower case) is agnostic, all 
-    internal variables are lower case, and output variables are lower case. 
+6.  Casing of input variables (upper or lower case) is agnostic, all
+    internal variables are lower case, and output variables are lower
+    case.
 
 ## Use cases
 
@@ -150,5 +152,16 @@ The exclusion criteria are:
 -   No insulin drug purchases in the last 10 years prior to the index
     date.
 
-## References
+## Data required from registers
 
+The following is a list of the variables required from specific
+registers in order for the package to classify diabetes status:
+
+```{r, echo=FALSE}
+variable_description |> 
+  mutate(Register = paste0(register_name, "(", register_abbrev, ")")) |> 
+  select(Register, Variable = variable_name) |> 
+  knitr::kable()
+```
+
+## References
