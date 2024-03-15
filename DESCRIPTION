@@ -1,6 +1,6 @@
 Type: Package
 Package: osdc
-Title: Open Source Diabetes Classifier for Danish Registers.
+Title: Open Source Diabetes Classifier (OSCD) for Danish Registers
 Version: 0.0.1.9000
 Authors@R: c(
     person(c("Luke", "William"), "Johnston", , "lwjohnst@gmail.com", role = c("aut", "cre"),
@@ -19,13 +19,15 @@ URL: https://github.com/steno-aarhus/osdc,
     https://steno-aarhus.github.io/osdc/
 BugReports: https://github.com/steno-aarhus/osdc/issues
 Imports: 
+    checkmate,
     dplyr,
     fs,
     haven,
     here,
     lifecycle,
     lubridate,
-    purrr
+    purrr,
+    rlang
 Suggests:
     arrow,
     data.table,
