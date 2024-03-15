@@ -1,5 +1,5 @@
 #' Variables from registers and their descriptions that are required for the
-#' OSDC algorithm.
+#' osdc algorithm.
 #'
 #' @format ## `variable_description`
 #' A data frame with 39 rows and 6 columns:
