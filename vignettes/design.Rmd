@@ -1,8 +1,10 @@
 ---
 title: "Design"
 output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: vancouver.csl
 vignette: >
-  %\VignetteIndexEntry{design}
+  %\VignetteIndexEntry{Design}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,6 +14,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(dplyr)
 ```
 
 ## Principles
@@ -27,6 +30,9 @@ These are the guiding principles for this package:
     is a data frame, the output is a data frame).
 4.  Functions have consistent naming based on their action.
 5.  Functions have limited additional arguments.
+6.  Casing of input variables (upper or lower case) is agnostic, all
+    internal variables are lower case, and output variables are lower
+    case.
 
 ## Use cases
 
@@ -62,7 +68,7 @@ this package aims to fulfil:
 This is the list of functionality we aim to have in the osdc package
 
 1.  Classify individuals type 1 and type 2 diabetes status and create a
-    data frame with that information.
+    data frame with that information and the date of onset of diabetes.
 2.  Provide helper functions to check and process individual registers
     for the variables required to enter into the classifier.
 3.  Provide a list of required variables and registers in order to
@@ -72,3 +78,79 @@ This is the list of functionality we aim to have in the osdc package
 5.  Provide a common and easily accessible standard for determining
     diabetes status within the context of research using Danish
     registers.
+
+## Classifier algorithm
+
+A more complete description of the classifier is found in Anders Aasted
+Isaksen's [PhD Thesis](https://aastedet.github.io/dissertation/) as well
+as the validation paper [@Isaksen2023]. The description below is a brief
+and concise version of those documents.
+
+The algorithm for classifying individuals with diabetes is described
+below. The overall output of this algorithm is first to classify those
+with diabetes, then to further classify and check if the individuals
+might have type 1 diabetes, otherwise classify as type 2 diabetes.
+
+Initial **diabetes** classification is defined as the second occurrence
+of any of the listed inclusion events. Wherever possible, all available
+data for each event is used, except for the purchases of
+glucose-lowering drugs, since the data on obstetric diagnoses necessary
+to censor glucose-lowering drug purchases is only complete from 1997
+onwards. Inclusion criteria are:
+
+1.  HbA1c measurements of ≥48 mmol/mol.
+2.  Hospital diagnoses of diabetes.
+3.  Diabetes-specific services received at podiatrist.
+4.  Purchase of glucose-lowering drugs.
+
+Exclusions are:
+
+1.  HbA1c samples:
+    -   Samples taken during pregnancies, as that could be a potential
+        gestational diabetes mellitus.
+2.  Glucose-lowering drugs:
+    -   Brand drugs for weight loss, e.g. *Saxenda*.
+    -   Purchases during pregnancies, as that is a potential treatment
+        for gestational diabetes mellitus.
+    -   Metformin for women below age 40, as that could be a treatment
+        for polycystic ovary syndrome.
+
+### Classifying type 1 diabetes
+
+Diabetes type is classified as either T1D or T2D based on patterns of
+purchases of insulins (including analogues) and hospital primary
+diagnoses of T1D and T2D.
+
+Classification as T1D requires an individual to fulfil either of the
+following criteria:
+
+a.  Must have purchased only insulins and never any other type of GLD,
+    and have at least one diagnosis of T1D
+b.  Must have a majority of T1D diagnoses from endocrinological
+    departments (or from other medical departments, in the absence of
+    contacts to endocrinological departments), and a purchase of insulin
+    within 180 days after onset of diabetes, with insulin contributing
+    at least two thirds of all defined daily doses of GLD purchased.
+
+In populations generated on a fixed index date (such as the
+cross-sectional studies associated with this dissertation), individuals
+classified as T1D cases must have purchased insulins in the last year
+prior to the index date.
+
+### Classifying type 2 diabetes
+
+Individuals not classified as T1D cases are classified as T2D cases.
+
+## Data required from registers
+
+The following is a list of the variables required from specific
+registers in order for the package to classify diabetes status:
+
+```{r, echo=FALSE}
+variable_description |> 
+  mutate(Register = paste0(register_name, "(", register_abbrev, ")")) |> 
+  select(Register, Variable = variable_name) |> 
+  knitr::kable()
+```
+
+## References
