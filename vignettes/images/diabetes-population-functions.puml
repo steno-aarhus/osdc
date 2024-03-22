@@ -1,70 +1,28 @@
 @startuml diabetes-population-functions 
 
-title Functions for Extracting a Diabetes Population Using OSDC
+title Functions for extracting a diabetes population using OSDC
 
-' :Based on the following five data sources:
-' - Lægemiddelsdatabasen / Medicine DB (not correct name)
-' - Landspatient Registeret (LPR) (2 and 3)
-' - Register of Laboratory Results for Research (RLRR) / Laboratoriedatabasens Forskertabel
-' - Health Service Register / Sygesikringsregisteret
-' - BEF: CPR-registerets befolkningstabel;
+#darkgrey: Extract_diabetes_population;
 
-#darkgrey:**Extract Diabetes Population**
-User-Facing Function: extract_diabetes_population(index_date: date, data_sources: list[data.table]) -> data.table;
 
 switch (Extract Dates of Inclusion Events)
 case ( Dates of\n HbA1c Tests)
-    :**Include Events of HbA1c Tests =>48 mmol/mol**
-    - Data Source: RLRR
-    - include_hba1c_tests_over_threshold(data: data.table, 
-      threshold: int = 48) -> data.table;
-    :**Exclude Tests During Pregnancy**
-    - Data Source: DNPR
-    - exclude_events_during_pregnancy_windows(
-      data: data.table) -> data.table
-      - extract_pregnancy_index_dates(data: data.table) 
-        -> data.table
-      - calculate_pregnancy_index_date_for_mc_visits_wo_end_dates(
-          data.table) -> data.table
-      - extract_pregnancy_end_dates(data: data.table) -> data.table
-      - extract_maternal_care_visit_dates_without_end(
-          data: data.table) -> data.table
-
-    For further explanation, see functions-exclusion-pregnancy.puml;
-case ( Dates of\n GLD Purchases)
-    :**Include Events of GLD Purchases**
-    - Data Source: Lægemiddelsdatabasen
-    - extract_gld_purchases(data: data.table) -> data.table;
-    :**Exclude Purchases During Pregnancy**
-    - Data Source: DNPR
-    - Functions: Same as for HbA1c Tests;
-    :**Exclude Women <40 Purchasing Metformin**
-    - Data Source: BEF
-    - exclude_potential_pcos(data: data.table, sex: str = "F", 
-    age: int = 40) -> data.table;
-    :**Exclude Purchases of Brand Drugs for Weight Loss**
-    - exclude_weight_loss_drugs(data: data.table) -> data.table;;
-
+    :include_dates_of_hba1c_tests_over_48_mmol_per_mol;
+    :exclude_dates_during_pregnancy_windows;
 case ( Dates of\n Diabetes Diagnosis)
-    :**Include Hospital Diagnoses of Diabetes**
-    - Data Source: DNPR (Hospital Contacts)
-    - extract_diabetes_diagnoses_icd_10(data: data.table)
-      -> data.table
-    - extract_diabetes_diagnoses_icd_8(data: data.table)
-      -> data.table;
-
+    :include_dates_of_diabetes_diagnoses (ICD 8 and 10);
 case ( Dates of\n Diabetes-Specific Podiatrist Services)
-    :**Include Diabetes-Specific Podiatrist Services**
-    - Data Source: Health Service Register
-    - extract_diabetes_specific_podiatrist_services(data: data.table)
-      -> data.table;
+    :include_dates_of_diabetes_specific_podiatrist_services;
+case ( Dates of\n GLD Purchases)
+    :include_dates_of_gld_purchases;
+    :exclude_dates_during_pregnancy_windows;
+    :exclude_dates_of_potential_pcos;
+    :exclude_dates_of_weight_loss_drug_purchases;
 endswitch
 
-:**Join Inclusion Events**
-- join_inclusion_events(data: list[data.table]) -> data.table;
-:**Extract Diagnosis Classification Date**
-- extract_second_inclusion_event_date(data: data.table) -> data.table;
+:join_inclusion_events;
+:extract_classification_dates;
 
-center footer \n DNPR = The Danish National Patient Registry; GDM = Gestational Diabetes Mellitus; GLD = Glucose Lowering Drug;\nPCOS = Polycystic Ovary Syndrome; ICD = International Classification of Diseases; RLRR = Register of Laboratory Results for Research;
+center footer \nDark grey box: User-facing functions; Light grey boxes: Internal functions;
 
 @enduml
