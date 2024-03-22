@@ -13,12 +13,12 @@ on:
 
 jobs:
   check:
-    uses: .github/workflows/R-CMD-check.yaml@main
+    uses: ./.github/workflows/R-CMD-check.yaml@main
 
   coverage:
-    uses: .github/workflows/test-coverage.yaml@main
+    uses: ./.github/workflows/test-coverage.yaml@main
     needs: check
 
   deploy:
-    uses: .github/workflows/pkgdown.yaml@main
+    uses: ./.github/workflows/pkgdown.yaml@main
     needs: coverage
