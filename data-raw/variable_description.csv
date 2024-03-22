@@ -1,40 +1,40 @@
-register_name,register_abbrev,start_year,end_year,variable_name,danish_description,english_description,data_type,format,expected_values_from,expected_values_to,explanation_of_values,comments
-CPR-registerets befolkningstabel,bef,1968,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""0000000001""","""9999999999""",NA,NA
-CPR-registerets befolkningstabel,bef,1968,NA,koen,koen,sex,integer,Binary 1 digit,0,1,0 is woman,NA
-CPR-registerets befolkningstabel,bef,1968,NA,foed_dato,foedselsdato,date of birth,date_year,YYYYMMDD,"as.Date(""1900-01-01"")","as.Date(""2020-01-01"")",NA,NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""00000000001""","""9999999999""",NA,NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,eksd,ekspeditionsdato,date of purchase,date_year,YYYYMMDD,"as.Date(""1995-01-01"")","as.Date(""2020-01-01"")",NA,NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,atc,ATC-kode (fuldt specificeret),ATC code (fully specified),string,7 digits,[:alpha:][:digit:][:digit:][:alpha:][:alpha:]..,[:alpha:][:digit:][:digit:][:alpha:][:alpha:]..,"""^A10"" is glucose-lowering medications",NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,volume,antal standarddoser (DDD) i pakken,number of daily standard doses (DDD) in package,double,standard,1,10,NA,NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,apk,antal pakker koebt,number of packages purchased,integer,standard,1,10,NA,NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,indo,indikationskode for recept,indication code,string,blank or 7 digits zero-padded,"""0000001""","""9999999""",refer to the KAT classification,"the only used values are c(""0000092"", ""0000276"", ""0000781"")"
-Laegemiddelstatistikregisteret,lmdb,1995,NA,name,praeparatnavn,drug retail name,string,natural language,"""Metformin Actavis""","""Insulatard FlexPen""",NA,NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,vnr,varenummer,item code,string,6 digits zero-padded,"""000001""","""999999""",NA,NA
-Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""00000000001""","""9999999999""",NA,NA
-Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,recnum,kontakt id-nummer,record id number,string,18 digits zero-padded,"""00000000000000001""","""9999999999999999""",NA,NA
-Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,d_inddto,indlaeggelsesdato (start paa kontakt),date of admission or initial contact,date_year,YYYYMMDD,"as.Date(""1977-01-01"")","as.Date(""2019-01-01"")",NA,NA
-Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_spec,afdelings specialekode,specialty code of department,string,2 digits zero-padded,"""00""","""99""",NA,c_blok is derived from c_spec
-Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_pattype,kontakt type,contact type,integer,standard,0,3,NA,has no lpr3 equivalent
-Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,recnum,kontakt_id_nummer,record id number,string,18 digits zero-padded,"""00000000000000001""","""9999999999999999""",NA,NA
-Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diag,diagnosekode,diagnosis code,string,icd8 or icd10,"""00009""","""^[:alpha:][:alpha:][:digit:][:digit:]""","""^249|^250|^DE1[0-4]"" are diabetes codes",NA
-Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diagtype,diagnosetype,diagnosis type,string,"1 digit (A, B, H, +)","""A""","""B""","A is a primary diagnosis, B is a secondary diagnosis",NA
-Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,cpr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""00000000001""","""9999999999""",NA,lpr3 equivalent to pnr
-Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,dw_ek_kontakt,kontakt id-nummer,record id number,string,18 digits zero-padded,"""00000000000000001""","""9999999999999999""",NA,lpr3 equivalent to recnum
-Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,dato_start,indlaeggelsesdato (start paa kontakt),date of admission or initial contact,date_year,YYYYMMDD,"as.Date(""1977-01-01"")","as.Date(""2019-01-01"")",NA,lpr3_equivalent_to_inddto
-Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,hovedspeciale_ans,afdelings speciale,specialty of department,string,natural language,"""endokrinologi""","""intern medicin""",Is the LPR3 equivalent to c_spec but with different format,need to copy lpr2-lpr3 conversion table from dst
-Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,dw_ek_kontakt,kontakt id-nummer,record id number,string,18 digits zero-padded,"""00000000000000001""","""9999999999999999""",NA,NA
-Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,diagnosekode,diagnosekode,diagnosis code,string,icd10,"""^[:alpha:][:alpha:][:digit:][:digit:]""","""^[:alpha:][:alpha:][:digit:][:digit:]""","""^DE1[0-4]"" are diabetes codes",NA
-Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,diagnosetype,diagnosetype,diagnosis type,string,"1 digit (A, B, H, +)","""A""","""B""","A is a primary diagnosis, B is a secondary diagnosis",NA
-Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,senere_afkraeftet,blev diagnosen senere afkraeftet?,was the diagnosis retracted later?,string,Binary natural language,"""Ja""","""Nej""",NA,NA
-Sygesikringsregisteret,sysi,1990,2005,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""00000000001""","""9999999999""",NA,NA
-Sygesikringsregisteret,sysi,1990,2005,barnmak,blev ydelse ydet til patientens barn?,was the service provided to the patient's child?,integer,Binary 1 digit,0,1,0 is no,NA
-Sygesikringsregisteret,sysi,1990,2005,speciale,ydelsens honoreringskode,billing code of the service (fully specified),string,5 digits,"""00000""","""99999""","""^54"" is diabetes-specific podiatrist service",NA
-Sygesikringsregisteret,sysi,1990,2005,honuge,uge og aar for ydelse,week and year of service,string,"4 digits: WWyy (2 digits week number, 2 digits year)","""0190""","""5205""",see Signes code for date formatting,NA
-Sygesikringsregisteret,sssy,2005,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""00000000001""","""9999999999""",NA,NA
-Sygesikringsregisteret,sssy,2005,NA,barnmak,blev ydelse ydet til patientens barn?,was the service provided to the patient's child?,integer,Binary 1 digit,0,1,0 is no,NA
-Sygesikringsregisteret,sssy,2005,NA,speciale,ydelsens honoreringskode (fuldt specificeret),billing code of the service (fully specified),string,5 digits,"""00000""","""99999""","""^54"" is diabetes-specific podiatrist service",NA
-Sygesikringsregisteret,sssy,2005,NA,honuge,uge og aar for ydelse,week and year of service,string,"4 digits: WWyy (2 digits week number, 2 digits year)","""0105""","""5222""",see Signes code for date formatting,NA
-Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,patient_cpr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""00000000001""","""9999999999""",NA,NA
-Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,samplingdate,dato for proevetagning,date of sampling,date_year,YYYYMMDD,"as.Date(""2011-01-01"")","as.Date(""2022-01-01"")",NA,NA
-Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,analysiscode,analysens NPU-kode,NPU code of analysis,string,8 digit NPU code,"""NPU00001""","""NPU99999""",NPU27300 is HbA1c in modern units (IFCC),NPU03835 is HbA1c in old units
-Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,value,numerisk resultat af analyse,numerical result of analysis,double,standard,0,180,NA,NA
+register_name,register_abbrev,start_year,end_year,variable_name,danish_description,english_description,comments
+CPR-registerets befolkningstabel,bef,1968,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,NA
+CPR-registerets befolkningstabel,bef,1968,NA,koen,koen,sex,NA
+CPR-registerets befolkningstabel,bef,1968,NA,foed_dato,foedselsdato,date of birth,NA
+Laegemiddelstatistikregisteret,lmdb,1995,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,NA
+Laegemiddelstatistikregisteret,lmdb,1995,NA,eksd,ekspeditionsdato,date of purchase,NA
+Laegemiddelstatistikregisteret,lmdb,1995,NA,atc,ATC-kode (fuldt specificeret),ATC code (fully specified),NA
+Laegemiddelstatistikregisteret,lmdb,1995,NA,volume,antal standarddoser (DDD) i pakken,number of daily standard doses (DDD) in package,NA
+Laegemiddelstatistikregisteret,lmdb,1995,NA,apk,antal pakker koebt,number of packages purchased,NA
+Laegemiddelstatistikregisteret,lmdb,1995,NA,indo,indikationskode for recept,indication code,"the only used values are c(""0000092"", ""0000276"", ""0000781"")"
+Laegemiddelstatistikregisteret,lmdb,1995,NA,name,praeparatnavn,drug retail name,NA
+Laegemiddelstatistikregisteret,lmdb,1995,NA,vnr,varenummer,item code,NA
+Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,NA
+Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,recnum,kontakt id-nummer,record id number,NA
+Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,d_inddto,indlaeggelsesdato (start paa kontakt),date of admission or initial contact,NA
+Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_spec,afdelings specialekode,specialty code of department,c_blok is derived from c_spec
+Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_pattype,kontakt type,contact type,has no lpr3 equivalent
+Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,recnum,kontakt_id_nummer,record id number,NA
+Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diag,diagnosekode,diagnosis code,NA
+Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diagtype,diagnosetype,diagnosis type,NA
+Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,cpr,pseudonymiseret cpr-nummer,pseudonymised social security number,lpr3 equivalent to pnr
+Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,dw_ek_kontakt,kontakt id-nummer,record id number,lpr3 equivalent to recnum
+Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,dato_start,indlaeggelsesdato (start paa kontakt),date of admission or initial contact,lpr3_equivalent_to_inddto
+Landspatientregisterets kontakttabel (LPR3),kontakter,2019,NA,hovedspeciale_ans,afdelings speciale,specialty of department,need to copy lpr2-lpr3 conversion table from dst
+Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,dw_ek_kontakt,kontakt id-nummer,record id number,NA
+Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,diagnosekode,diagnosekode,diagnosis code,NA
+Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,diagnosetype,diagnosetype,diagnosis type,NA
+Landspatientregisterets diagnosetabel (LPR3),diagnoser,2019,NA,senere_afkraeftet,blev diagnosen senere afkraeftet?,was the diagnosis retracted later?,NA
+Sygesikringsregisteret,sysi,1990,2005,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,NA
+Sygesikringsregisteret,sysi,1990,2005,barnmak,blev ydelse ydet til patientens barn?,was the service provided to the patient's child?,NA
+Sygesikringsregisteret,sysi,1990,2005,speciale,ydelsens honoreringskode,billing code of the service (fully specified),NA
+Sygesikringsregisteret,sysi,1990,2005,honuge,uge og aar for ydelse,week and year of service,NA
+Sygesikringsregisteret,sssy,2005,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,NA
+Sygesikringsregisteret,sssy,2005,NA,barnmak,blev ydelse ydet til patientens barn?,was the service provided to the patient's child?,NA
+Sygesikringsregisteret,sssy,2005,NA,speciale,ydelsens honoreringskode (fuldt specificeret),billing code of the service (fully specified),NA
+Sygesikringsregisteret,sssy,2005,NA,honuge,uge og aar for ydelse,week and year of service,NA
+Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,patient_cpr,pseudonymiseret cpr-nummer,pseudonymised social security number,NA
+Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,samplingdate,dato for proevetagning,date of sampling,NA
+Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,analysiscode,analysens NPU-kode,NPU code of analysis,NPU03835 is HbA1c in old units
+Laboratoriedatabasens forskertabel,lab_forsker,2011,NA,value,numerisk resultat af analyse,numerical result of analysis,NA
