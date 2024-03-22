@@ -20,5 +20,7 @@ jobs:
     needs: check
 
   deploy:
+    permissions:
+      contents: write
     uses: ./.github/workflows/pkgdown.yaml
     needs: coverage
