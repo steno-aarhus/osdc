@@ -28,6 +28,7 @@ Imports:
     rlang
 Suggests:
     arrow,
+    codeCollection,
     data.table,
     dbplyr,
     duckdb,
