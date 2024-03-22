@@ -67,3 +67,7 @@ presented as table examples, maybe based on the synthetic data objects)
 ## Algorithm logic
 
 This section describes what operations are performed on the input data.
+
+## Expected output
+
+This section describes the output object.
