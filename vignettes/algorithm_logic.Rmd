@@ -1,0 +1,69 @@
+---
+title: "Description of algorithm contents & logic"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: vancouver.csl
+vignette: >
+  %\VignetteIndexEntry{Design}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(dplyr)
+```
+
+## Contents
+
+This document will contain a relatively specific description of the
+implemented algorithm. Refer to the other vignettes for background
+information and a more general description of the algorithm.
+
+## Data components
+
+The algorithm uses five different types of data, contained in five
+register sources:
+
+1.  Hospital diagnoses
+    -   The National Patient Register [Landspatientregisteret]
+2.  Prescription drugs purchased
+    -   The Register of Pharmaceutical Sales
+        [Lægemiddelstatistikregisteret]
+3.  Hemoglobin-A1c tests
+    -   The Register of Laboratory Results for Research
+        [Laboratoriedatabasens Forskertabel]
+4.  Diabetes-specific podiatrist services
+    -   The National Health Insurance Service Register
+        [Sygesikringsregisteret]
+5.  Sex & date of birth
+    -   The Danish Civil Registration System [CPR-registeret]
+
+## Pre-processing steps
+
+This section describes the necessary steps required to format raw data
+into a format that can be fed as input to the algorithm. The description
+assumes that raw data is stored/structured in the most common format for
+raw data provided on Statistics Denmark's servers.
+
+Using the most common scenario when working with the above data on
+Statistics Denmark's servers, this paragraph lists the common register
+abbreviations/raw file names, their structure (year-on-year files vs. a
+big blob, plus changes/breaks over time), raw variable names and
+relevant values.
+
+Depending on the contents and format of your specific raw data, you may
+need to adapt the pre-processing pipeline accordingly.
+
+## Expected input
+
+This section describes the required structure of the data objects that
+can be used as input parameters to the OSDC algorithm (preferably
+presented as table examples, maybe based on the synthetic data objects)
+
+## Algorithm logic
+
+This section describes what operations are performed on the input data.
