@@ -1,0 +1,26 @@
+name: Test, build, and deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  release:
+    types:
+      - published
+
+jobs:
+  check:
+    uses: ./.github/workflows/R-CMD-check.yaml
+
+  coverage:
+    uses: ./.github/workflows/test-coverage.yaml
+    needs: check
+
+  deploy:
+    permissions:
+      contents: write
+    uses: ./.github/workflows/pkgdown.yaml
+    needs: coverage
