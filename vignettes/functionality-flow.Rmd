@@ -9,8 +9,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -188,6 +186,3 @@ the function `extract_classification_dates`. For each individual with
 inclusion events, the date of the *second* event is extracted as the
 classification date, i.e., the date the OSDC algorithm defines as the
 diagnosis date.
-
-<!-- TODO: Is it really *all* or is there a time window before the index date we're extracing from? -->
-
