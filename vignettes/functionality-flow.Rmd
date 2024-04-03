@@ -21,10 +21,14 @@ library(dplyr)
 
 ## Overview
 
-The OSDC algorithm - and thereby, the osdc package - contains two main components:
+The OSDC algorithm - and thereby, the `osdc` package - contains two main
+components:
 
-- Extracting the diabetes population
-- Classifying the diabetes type (type 1 and type 2)
+- [Extracting the diabetes population](#extracting-diabetes-population)
+- [Classifying the diabetes type (type 1 and type2)](#classifying-diabetes-type)
+
+In the following sections, we will go through each of these components
+and the functions they contain.
 
 ## Extracting the diabetes population 
 
