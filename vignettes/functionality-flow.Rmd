@@ -159,6 +159,13 @@ below.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
+### Exclusion: Glucose-lowering brand drugs for weight loss
+
+The function `exclude_weight_loss_drugs` uses \*\* as a data source and
+excludes **which brands**?
+
+<!-- TODO: Add details on how this filtering should be done -->
+
 
 <!-- TODO: Add details on how this filtering should be done -->
 
