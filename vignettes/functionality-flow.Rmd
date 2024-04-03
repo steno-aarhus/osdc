@@ -30,25 +30,54 @@ components:
 In the following sections, we will go through each of these components
 and the functions they contain.
 
-## Extracting the diabetes population 
+## Extracting the diabetes population {#extracting-diabetes-population}
 
-This component extracts the diabetes population based on the following four data sources:
+This component extracts the diabetes population based on the following
+five data sources (Danish names in parantheses):
 
-- The Register of Laboratory Results for Research (RLRR) (Laboratoriedatabasens Forskertabel)
-- The Danish National Patient Registry (DNPR) (Landspatient Registeret, LPR)
-- Lægemiddelsdatabasen
-- CPR-registerets befolkningstabel (BEF)
+- The Register of Laboratory Results for Research, *RLRR*
+  (Laboratoriedatabasens Forskertabel)
+- The Danish National Patient Registry, *DNPR* (Landspatient
+  Registeret, *LPR*)
+- (Lægemiddelsdatabasen)
+- (CPR-registerets befolkningstabel, *BEF*)
 - The Health Service Register (Sygesikringsregisteret)
 
-<!-- TODO: Add English translations for lægemiddelsdatabasen and BEF -->
+<!-- TODO: Add English translations for Lægemiddelsdatabasen and BEF -->
 
-This component will have one user-facing function: `extract_diabetes_population` which takes an `index_date` and the data sources as arguments.
+This component will have one user-facing function:
+`extract_diabetes_population`. This function takes the data sources and
+an `index_date` (i.e., the day of the wanted classification) as
+arguments.
 
-As described in  `vignette("design")`, inclusion date is the date of the second inclusion criteria. Inclusion events include HbA1c measurements of ≥48 mmol/mol, hospital diagnoses of diabetes, diabetes-specific services received at podiatrist, and purchase of glucose-lowering drugs (GLD), while HbA1c samples and GLD purchases during pregnancies* are excluded, as are glucose-lowering brand drugs for weight loss and metformin purchases for women below age 40.
+As described in `vignette("design")`, inclusion date is the date of the
+second inclusion criteria. Inclusion events include:
 
-This results in the following functionality flow:
+<!-- TODO: Add hyperlink to vignette(design) -->
 
-![Functions for extracting the diabetes population using the osdc package](images/diabetes-population-functions.png)
+- HbA1c measurements of ≥48 mmol/mol
+- Hospital diagnoses of diabetes
+- Diabetes-specific services received at podiatrists
+- Purchase of glucose-lowering drugs (GLD)
 
-Note: All functions take a `data.frame` as input and outputs a `data.frame`.
+Note that HbA1c tests and GLD purchases during pregnancies are excluded,
+as are glucose-lowering brand drugs for weight loss and metformin
+purchases for women below age 40. See section \[Exclusion: HbA1c tests
+and GLD purchases during estimated pregnancy
+windows\](#exclusion-pregnancy-windows) for how pregnancy windows are
+estimated.
+
+This results in the functionality flow for extracting the diabetes
+population seen below. All functions take a `data.frame` as input and
+outputs a `data.frame`.
+
+![Flow of functions for extracting a diabetes population using the osdc
+package. The dark grey box denotes the user-facing function, while the
+remaining boxes are internal functions. Green and red boxes represent
+filtering functions (inclusion and exclusion events,
+respectively).](images/diabetes-population-functions.png)
+
+<!-- Q: How are we feeling about the colours? All internal functions could also just be light grey -->
+
+<!-- Q: Generally, Do we want to include arguments in inclusion and exclusion functions so a (technically inclined) user will be able to alter the algorithm for their needs? E.g., age could be an argument in `exclude_potential_pcos` -->
 
