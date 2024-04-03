@@ -108,6 +108,17 @@ This function contains two helper functions:
 
 <!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
 
+### Inclusion event: Diabetes-specific podiatrist services
+
+The function `include_diabetes_specific_podiatrist_services` uses the
+Health Service Register to extract the dates of all diabetes-specific
+podiatrist services before the index date.
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
+
+### Inclusion event: GLD purchases
 
 <!-- TODO: Add details on how this filtering should be done -->
 
