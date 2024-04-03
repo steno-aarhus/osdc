@@ -129,6 +129,36 @@ extract the dates of all GLD purchases before the index date.
 
 <!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
 
+### Exclusion: HbA1c tests and GLD purchases during estimated pregnancy windows {#exclusion-pregnancy-windows}
+
+The function `exclude_events_during_pregnancy_windows` uses diagnoses
+from DNPR as a data source and is used to exclude both HbA1c tests and
+GLD purchases during estimated pregnancy windows.
+
+Under the hood, this relies on the function
+`extract_pregnancy_index_dates` and contains the following three helper
+functions:
+
+- `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` (this
+  might be removed with the inclusion of )
+- `extract_pregnancy_end_dates`
+- `extract_maternal_care_visit_dates_without_end_date`
+
+`calculate_pregnancy_index_date_for_mc_visits_wo_end_date` might be
+removed with the inclusion of the birth register.
+
+`extract_pregnancy_end_dates` extracts maternal care visits with an end
+date and exclude visits between 40 weeks before end date to 12 weeks
+after end date.
+
+`extract_maternal_care_visit_dates_without_end_date` uses the output
+from `extract_pregnancy_end_dates` which identifies maternal care visits
+*with* end dates to derive maternal care visits *without* end dates.
+below.
+<!-- TOOD: What is done with the mc visits without end dates then? -->
+
+<!-- TODO: Add details on how this filtering should be done -->
+
 
 <!-- TODO: Add details on how this filtering should be done -->
 
