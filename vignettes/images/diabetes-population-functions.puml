@@ -1,28 +1,25 @@
 @startuml diabetes-population-functions 
 
-title Functions for extracting a diabetes population using OSDC
-
 #darkgrey: Extract_diabetes_population;
 
+switch (Extract dates of inclusion events)
+case ( HbA1c tests)
+    #lightgreen:include_hba1c_tests_over_48_mmol_per_mol;
+    #pink:exclude_events_during_pregnancy_windows;
 
-switch (Extract Dates of Inclusion Events)
-case ( Dates of\n HbA1c Tests)
-    :include_dates_of_hba1c_tests_over_48_mmol_per_mol;
-    :exclude_dates_during_pregnancy_windows;
-case ( Dates of\n Diabetes Diagnosis)
-    :include_dates_of_diabetes_diagnoses (ICD 8 and 10);
-case ( Dates of\n Diabetes-Specific Podiatrist Services)
-    :include_dates_of_diabetes_specific_podiatrist_services;
-case ( Dates of\n GLD Purchases)
-    :include_dates_of_gld_purchases;
-    :exclude_dates_during_pregnancy_windows;
-    :exclude_dates_of_potential_pcos;
-    :exclude_dates_of_weight_loss_drug_purchases;
+case ( Hospital diabetes\n diagnosis)
+    #lightgreen:include_diabetes_diagnoses;
+
+case ( Diabetes-specific\n podiatrist services)
+    #lightgreen:include_diabetes_specific_podiatrist_services;
+
+case ( GLD purchases)
+    #lightgreen:include_gld_purchases;
+    #pink:exclude_events_during_pregnancy_windows;
+    #pink:exclude_potential_pcos;
+    #pink:exclude_purchases_of_weight_loss_drugs;
 endswitch
 
-:join_inclusion_events;
 :extract_classification_dates;
-
-center footer \nDark grey box: User-facing functions; Light grey boxes: Internal functions;
 
 @enduml
