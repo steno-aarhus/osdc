@@ -81,3 +81,18 @@ respectively).](images/diabetes-population-functions.png)
 
 <!-- Q: Generally, Do we want to include arguments in inclusion and exclusion functions so a (technically inclined) user will be able to alter the algorithm for their needs? E.g., age could be an argument in `exclude_potential_pcos` -->
 
+### Inclusion event: HbA1c tests above 48 mmol/mol
+
+The function `include_hba1c_tests_over_48_mmol_per_mol` uses RLRR as
+data source to extract all events of tests above 48 mmol/mol before the
+index date.
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
+
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+<!-- TODO: Is it really *all* or is there a time window before the index date we're extracing from? -->
+
