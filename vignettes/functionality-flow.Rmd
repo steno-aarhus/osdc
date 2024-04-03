@@ -91,6 +91,23 @@ index date.
 
 <!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
 
+### Inclusion event: Hospital diagnosis of diabetes
+
+The function `include_diabetes_diagnoses` uses the hospital contacts
+from DNPR to include all dates of diabetes diagnoses before the index
+date. Diabetes diagnoses from both ICD 8 and ICD 10 are included.
+
+This function contains two helper functions:
+
+- `extract_diabetes_diagnoses_icd_10`
+- `extract_diabetes_diagnoses_icd_8`
+
+<!-- TODO: Add details on how this filtering should be done, e.g., diagnosis codes -->
+
+<!-- TODO: Which specific ICD 8 and 10 codes are included? -->
+
+<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
+
 
 <!-- TODO: Add details on how this filtering should be done -->
 
