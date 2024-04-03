@@ -120,6 +120,16 @@ podiatrist services before the index date.
 
 ### Inclusion event: GLD purchases
 
+The function `include_gld_purchases` uses Lægemiddelsdatabasen to
+extract the dates of all GLD purchases before the index date.
+
+<!-- TODO: Add English translation of data source -->
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
+
+
 <!-- TODO: Add details on how this filtering should be done -->
 
 <!-- TODO: Is it really *all* or is there a time window before the index date we're extracing from? -->
