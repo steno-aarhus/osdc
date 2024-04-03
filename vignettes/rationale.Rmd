@@ -1,0 +1,128 @@
+---
+title: "Rationale"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: vancouver.csl
+vignette: >
+  %\VignetteIndexEntry{Rationale}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This document explains the rationale behind the development of this
+algorithm. Many of these text were taken from Anders Aasted Isaksen's
+[PhD Thesis](https://aastedet.github.io/dissertation/) as well as the
+validation paper [@Isaksen2023]. This document is a shorter and more
+concise version of those documents. We cover the:
+
+-   Current state of how diabetes is identified in Danish healthcare
+    registers.
+-   Challenges faced by researchers in this area, such as the limited
+    transparency in how diabetes is exactly classified in these sources
+    and how applying or using these approaches isn't very easy.
+-   How this algorithm and package contributes to discussions in this
+    space about how diabetes in classified in Danish register research
+    and how it is implemented.
+
+## Identifying type 1 and 2 diabetes cases in Danish healthcare registers
+
+### Danish register data infrastructure
+
+Many individual-level data (e.g. civil registration, public healthcare
+contacts, and drug prescriptions) are automatically collected on all
+residents in Denmark and stored in nationwide Danish registers by
+[Statistics Denmark](https://www.dst.dk/da/) and the [Danish Health Data
+Authority](https://sundhedsdatastyrelsen.dk/da). These agencies are
+legally allowed to give access to the register data for research
+purposes, which provides (authorized) researchers a set of common,
+extensive data sources to use for studies. Any researcher associated
+with an approved Danish research institute (mainly Danish universities)
+can apply for access, but fees and conditions apply.
+
+Register data is generally accessed and processed by approved
+researchers on remote servers operated by Statistics Denmark and the
+Danish Health Data Authority. The same raw data used by all 
+researchers, coupled with a common virtual working environment, 
+has the potential to enable reproducible research. This means that 
+any data processing workflow
+could be transferable and reusable between research projects if the
+underlying code is designed with reproducibility in mind and the code is
+shared ("open-sourced") [@Marszalek2016]. While reproducibility in
+research relates to transparent reporting of methods to enable others to
+reproduce analyses and experiments, this also applies to a diabetes
+classification program, which - if reproducible - could be reused by any
+researcher with access to the necessary register data to dynamically
+identify a study population of individuals with diabetes for their
+research needs [@Dima2017].
+
+### Current Danish register-based diabetes classifiers
+
+In Denmark, the National Diabetes Register, established in 2006, was the first resource readily
+ available to researchers to use for identifying diabetes cases through register data [@Carstensen2011] .
+However, it was discontinued in 2012.
+
+The next resource is the [Register of Selected Chronic Diseases](https://www.esundhed.dk/Dokumentation/DocumentationExtended?id=29) (RSCD),
+which was launched in 2014. It is currently the only publicly available
+resource to identify diabetes cases through Danish register data (by
+application to the Danish Health Data Authority).
+
+## Challenges in current classifiers
+
+General-purpose registers and other administrative databases often
+provide the basis of diabetes epidemiology, but they rarely contain
+validated diabetes-specific data, which may introduce bias in studies
+using this data. It is important to have an accurate tool to identify
+individuals with diabetes in the registers, as findings may differ with
+various diabetes definitions [@Nielsen2014; @Rawshani2014]. Considerable
+efforts have been made towards establishing such a tool for diabetes
+research in several countries, including Denmark [@Bak2021;
+@HallgrenElfgren2016; @Cooper2013].
+
+In a general population, classification algorithms (classifiers) need to
+not only identify type 1 diabetes as well as type 2 diabetes, but also
+account for events that might lead to inclusion of non-cases, such as
+the use of glucose-lowering drugs in the treatment of other conditions.
+Currently, no type-specific diabetes classifier has been validated in a
+general population, which leaves register-based studies in this area
+vulnerable to biases.
+
+In Denmark, a limitation (or flaw) of the RSCD is that it has not been
+publicly validated and the source code behind the algorithm has not been
+made publicly available. Notably, the algorithm lacks inclusion based on
+elevated HbA1c levels [@DHDA2016]. Likewise, the National Diabetes
+Register, since discontinued in 2012, had a validation study question
+its validity and called for future registers to adopt inclusion based on
+elevated HbA1c levels [@Green2014].
+
+Since the launch of the RSCD, nationwide laboratory data on HbA1c
+testing has become available in the Danish register ecosystem
+[@DHDA2018], but this data is yet to be incorporated into available
+diabetes classifiers.
+
+## Diabetes classification algorithms
+
+The currently available register-based diabetes classifiers have yet to
+incorporate the emerging register data on routine HbA1c testing. Wishing
+to take advantage of this data, we developed the Open Source Diabetes
+Classifier (OSDC). Detailed discussion of the advantages and
+disadvantages of it's design is found in Anders Aasted Isaksen's thesis,
+in the chapter on [discussing the
+methods](https://aastedet.github.io/dissertation/5-discussion-methods.html).
+
+We aimed on developing this algorithm to:
+
+1.  Stimulate discussion within Denmark on the openness and ease of use
+    of existing classifiers or diabetes registers, and on the need for
+    an official process for updating or contributing to existing data
+    sources on diabetes status. This algorithm and package may end up
+    not being used by official institutions, but it can serve as a
+    starting point on how to improve the current state of diabetes
+    classification in Denmark or as an inspiration for how they might be
+    designed.
+2.  Provide an open-source, code-based algorithm as an R package to
+    classify type 1 and type 2 diabetes based on data from Danish
+    registers. We implemented it as an R package so that researchers can
+    easily build their own database of individuals with diabetes more
+    quickly than waiting for an official source to be implemented.
+
+## References

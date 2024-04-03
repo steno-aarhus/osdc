@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 library(dplyr)
+library(osdc)
 ```
 
 ## Principles
@@ -39,20 +40,20 @@ These are the guiding principles for this package:
 We make these assumptions on how this package will be used, based on our
 experiences and expectations for use cases:
 
--   Entirely used within the Denmark Statistics (DST) or the Danish
-    Health Authority's (SDS) servers, since that is where their data are
-    kept.
+-   Entirely used within the Denmark Statistics or the Danish Health
+    Authority's servers, since that is where their data are kept.
 -   Used by researchers within or affiliated with Danish research
     institutions.
 -   Used specifically within a Danish register-based context.
 
 Below is a set of "narratives" or "personas" with associated needs that
-this package aims to fulfil:
+this package aims to fulfill:
 
 -   "As a researcher, ..."
     -   "... I want to determine which registers and variables to
-        request from DST and SDS, so that I am certain I will be able to
-        classify diabetes status of individuals in the registers."
+        request from Denmark Statistics and Danish Health Data
+        Authority, so that I am certain I will be able to classify
+        diabetes status of individuals in the registers."
     -   "... I want to easily and simply create a dataset that contains
         data on diabetes status in my population, so that I can begin
         conducting my research that involves persons with diabetes
@@ -118,24 +119,25 @@ Exclusions are:
 ### Classifying type 1 diabetes
 
 Diabetes type is classified as either T1D or T2D based on patterns of
-purchases of insulins (including analogues) and hospital primary
+purchases of insulin drugs (including analogues) and hospital primary
 diagnoses of T1D and T2D.
 
-Classification as T1D requires an individual to fulfil either of the
+Classification as T1D requires an individual to fulfill either of the
 following criteria:
 
-a.  Must have purchased only insulins and never any other type of GLD,
-    and have at least one diagnosis of T1D
+a.  Must have purchased only insulin drugs and never any other type of
+    glucose-lowering drugs, and have at least one diagnosis of T1D
 b.  Must have a majority of T1D diagnoses from endocrinological
     departments (or from other medical departments, in the absence of
     contacts to endocrinological departments), and a purchase of insulin
     within 180 days after onset of diabetes, with insulin contributing
-    at least two thirds of all defined daily doses of GLD purchased.
+    at least two thirds of all defined daily doses of glucose-lowering
+    drugs purchased.
 
 In populations generated on a fixed index date (such as the
 cross-sectional studies associated with this dissertation), individuals
-classified as T1D cases must have purchased insulins in the last year
-prior to the index date.
+classified as T1D cases must have purchased insulin drugs in the last
+year prior to the index date.
 
 ### Classifying type 2 diabetes
 

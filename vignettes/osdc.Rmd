@@ -26,7 +26,7 @@ This package serves two overarching purposes:
 To read up on the overall design of this package as well as on the
 algorithm, check out the `vignette("design")`. For more explanation on
 the motivations, rationale, and needs for this algorithm and package,
-check out the `vignette("explanation")`.
+check out the `vignette("rationale")`.
 
 ## Usage
 
@@ -38,8 +38,8 @@ library(osdc)
 ```
 
 The core of this package depends on the list of variables within
-different registers that are needed in order to classify the
-diabetes status of an individual. This can be found in the dataset:
+different registers that are needed in order to classify the diabetes
+status of an individual. This can be found in the dataset:
 
 ```{r}
 variable_description
