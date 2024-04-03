@@ -166,6 +166,18 @@ excludes **which brands**?
 
 <!-- TODO: Add details on how this filtering should be done -->
 
+### Exclusion: Metformin purchases for women below age 40
+
+The function `exclude_potential_pcos` uses BEF to exclude all purchases
+of metformin by women below age 40 (i.e., <= 39 years old) at the date of
+purchase.
+
+This function contains two helper functions:
+
+- `exclude_women`
+- `exclude_age_40_or_younger`
+
+<!-- TODO: Add English translation of BEF -->
 
 <!-- TODO: Add details on how this filtering should be done -->
 
