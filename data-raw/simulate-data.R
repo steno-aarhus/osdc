@@ -141,12 +141,29 @@ replaceDrugNames <- function(data) {
   )
 }
 
-# Handcode a few false-positive cases with purchases of metformin:
-med_df[pnr %in% c(sprintf("%03d", 180:190)), `:=`(
-  indo = sample(c("0000092", "0000276", "0000781"), nrow(med_df[pnr %in% c(sprintf("%03d", 180:190))]), replace = TRUE),
-  ATC = "A10BA02",
-  drugname = "Metformin"
-)]
+false_positive <- function(proportion) {
+  runif(1) < proportion
+}
+
+# Insert a few false-positive cases with purchases of metformin:
+insert_false_metformin <- function(data, proportion = 0.05) {
+  if (!all(colnames(data) %in% c("atc", "name"))) {
+    return(data)
+  }
+  data |>
+    dplyr::mutate(
+      atc = dplyr::if_else(
+        indo %in% c("0000092", "0000276", "0000781") & false_positive(proportion),
+        "A10BA02",
+        atc
+      ),
+      name = dplyr::if_else(
+        indo %in% c("0000092", "0000276", "0000781") & false_positive(proportion),
+        "metformin",
+        name
+      )
+    )
+}
 
 insert_wegovy <- function() {
 
