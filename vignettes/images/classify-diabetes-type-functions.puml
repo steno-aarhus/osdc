@@ -4,10 +4,10 @@ skinparam defaultTextAlignment center
 
 #darkgrey: Classify_diabetes_type;
 !pragma useVerticalIf on
-if (**Filter 1**\nt1d_include_at_least_one_t1d_diagnosis\nand\nt1d_include_only_purchased_insulins) then (no)
+if (**Filter 1**\nt1d_include_at_least_one_t1d_diagnosis\nt1d_include_only_purchased_insulins) then (no)
   :Type 2;
   detach
-elseif (**Filter 2**\nt1d_include_majority_of_diagnoses_is_t1d,\nt1d_include_insulin_purchase_within_180_days_of_diagnosis,\nt1d_include_two_thirds_of_purchased_gld_doses_are_insulin) then (no)
+elseif (**Filter 2**\nt1d_include_majority_of_diagnoses_is_t1d\nt1d_include_insulin_purchase_within_180_days_of_diagnosis\nt1d_include_two_thirds_of_purchased_gld_doses_are_insulin) then (no)
   :Type 2;
   detach
 else (\nyes)
