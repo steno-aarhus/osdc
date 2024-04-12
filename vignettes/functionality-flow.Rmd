@@ -118,6 +118,10 @@ extract the dates of all GLD purchases.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
+Note: GLD purchases only include purchases from 1997 and onwards.
+
+<!-- TODO: Add this + link to resource "For details about this, see [link]." -->
+
 ### Exclusion: HbA1c tests and GLD purchases during estimated pregnancy windows {#exclusion-pregnancy-windows}
 
 The function `exclude_events_during_pregnancy_windows` uses diagnoses
