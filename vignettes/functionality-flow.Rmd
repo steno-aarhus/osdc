@@ -77,8 +77,6 @@ respectively).](images/diabetes-population-functions.png)
 
 <!-- Q: How are we feeling about the colours? All internal functions could also just be light grey -->
 
-<!-- Q: Generally, Do we want to include arguments in inclusion and exclusion functions so a (technically inclined) user will be able to alter the algorithm for their needs? E.g., age could be an argument in `exclude_potential_pcos` -->
-
 ### Inclusion event: HbA1c tests above 48 mmol/mol
 
 The function `include_hba1c_tests_over_48_mmol_per_mol` uses RLRR as
