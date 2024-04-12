@@ -6,6 +6,26 @@ library(here)
 library(lubridate)
 library(simstudy)
 
+read_lines(
+  "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-7-klassifikation.txt?la=da",
+  n_max = 10
+) |>
+  as_tibble() |>
+  separate_wider_regex(value,
+    patterns = c(
+      v1 = "dia\\d+",
+      "  +",
+      v2 = "\\d+\\D+",
+      "  +",
+      v3 = ".*"
+    )
+  ) |>
+  mutate(across(everything(), str_trim)) |>
+  mutate(
+    v2 = str_remove(v2, "\\d+"),
+    v1 = str_remove(v1, "dia")
+  ) |>
+  pull(v1)
 simulation_definitions_path <- fs::file_temp(ext = ".csv")
 simulation_definitions <- here("data-raw/simulation-definitions.csv") |>
   read_csv() |>
