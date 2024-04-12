@@ -31,7 +31,7 @@ and the functions they contain.
 ## Extracting the diabetes population {#extracting-diabetes-population}
 
 This component extracts the diabetes population based on the following
-five data sources (Danish names in parantheses):
+five data sources (Danish names in parentheses):
 
 - The Register of Laboratory Results for Research, *RLRR*
   (Laboratoriedatabasens Forskertabel)
