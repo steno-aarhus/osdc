@@ -82,18 +82,15 @@ respectively).](images/diabetes-population-functions.png)
 ### Inclusion event: HbA1c tests above 48 mmol/mol
 
 The function `include_hba1c_tests_over_48_mmol_per_mol` uses RLRR as
-data source to extract all events of tests above 48 mmol/mol before the
-index date.
+data source to extract all events of tests above 48 mmol/mol.
 
 <!-- TODO: Add details on how this filtering should be done -->
-
-<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
 
 ### Inclusion event: Hospital diagnosis of diabetes
 
 The function `include_diabetes_diagnoses` uses the hospital contacts
-from DNPR to include all dates of diabetes diagnoses before the index
-date. Diabetes diagnoses from both ICD 8 and ICD 10 are included.
+from DNPR to include all dates of diabetes diagnoses. Diabetes
+diagnoses from both ICD 8 and ICD 10 are included.
 
 This function contains two helper functions:
 
@@ -104,28 +101,22 @@ This function contains two helper functions:
 
 <!-- TODO: Which specific ICD 8 and 10 codes are included? -->
 
-<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
-
 ### Inclusion event: Diabetes-specific podiatrist services
 
 The function `include_diabetes_specific_podiatrist_services` uses the
 Health Service Register to extract the dates of all diabetes-specific
-podiatrist services before the index date.
+podiatrist services.
 
 <!-- TODO: Add details on how this filtering should be done -->
-
-<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
 
 ### Inclusion event: GLD purchases
 
 The function `include_gld_purchases` uses Lægemiddelsdatabasen to
-extract the dates of all GLD purchases before the index date.
+extract the dates of all GLD purchases.
 
 <!-- TODO: Add English translation of data source -->
 
 <!-- TODO: Add details on how this filtering should be done -->
-
-<!-- TODO: Is it really *all* or is there a time window before the index date we're extracting from? -->
 
 ### Exclusion: HbA1c tests and GLD purchases during estimated pregnancy windows {#exclusion-pregnancy-windows}
 
