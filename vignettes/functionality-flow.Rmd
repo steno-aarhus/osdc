@@ -133,12 +133,11 @@ Under the hood, this relies on the function
 functions:
 
 - `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` (this
-  might be removed with the inclusion of )
+  might be removed with the inclusion of the birth register)
 - `extract_pregnancy_end_dates`
 - `extract_maternal_care_visit_dates_without_end_date`
 
-`calculate_pregnancy_index_date_for_mc_visits_wo_end_date` might be
-removed with the inclusion of the birth register.
+<!-- TODO: Update whether `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` will be removed -->
 
 `extract_pregnancy_end_dates` extracts maternal care visits with an end
 date and exclude visits between 40 weeks before end date to 12 weeks
