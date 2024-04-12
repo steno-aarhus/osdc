@@ -26,20 +26,21 @@ read_lines(
     v1 = str_remove(v1, "dia")
   ) |>
   pull(v1)
+
+# Set seed for reproducibility
+set.seed(123)
 simulation_definitions_path <- fs::file_temp(ext = ".csv")
 simulation_definitions <- here("data-raw/simulation-definitions.csv") |>
   read_csv() |>
   mutate(variance = NA,
          link = if_else(dist == "binary", "identity", NA)) |>
   filter(!is.na(formula)) |>
-  select(varname = variable_name, formula, variance, dist, link)
+  select(register_abbrev, varname = variable_name, formula, variance, dist, link)
 
 simulation_definitions |>
+  select(-register_abbrev) |>
   filter(!is.na(dist)) |>
   write_csv(simulation_definitions_path)
-
-# Set seed for reproducibility
-set.seed(123)
 
 # Helper functions --------------------------------------------------------
 
@@ -74,11 +75,11 @@ create_long_integer <- function(length) {
     pad_integers(width = length)
 }
 
-create_fake_drugname <- function(atc, n) {
+create_fake_drug_name <- function(atc) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
-    dplyr::select(ATC = Koodi, drugname = en) |>
-    dplyr::right_join(data, by = "ATC", relationship = "many-to-many")
+    dplyr::filter(Koodi == atc) |>
+    dplyr::pull(en)
 }
 
 to_wwyy <- function(x) {
@@ -99,9 +100,9 @@ fix_senere_afkraeftet <- function(data) {
         dplyr::contains("senere_afkraeftet"),
         ~dplyr::if_else(
           . == 0,
-    "Ja",
-    "Nej"
-  )
+          "Ja",
+          "Nej"
+        )
       )
     )
 }
@@ -146,25 +147,12 @@ fix_c_diagtype <- function(data) {
 genData(100, defRead(simulation_definitions_path)) |>
   as_tibble()
 
-simulation_definitions |>
-  filter(dist == "uniformInt") |>
-  pull(varname)
-
-eval(parse(text = text))
-
 # Medication data ---------------------------------------------------------
-
-# Pseudo-lmdb:
 
 
 ## Diabetes data (ID 201-250):
 
-# Create a dataframe with 1000 rows from 50 individuals
-med_a10_df <- data.frame(
-  # Indication for treatment
-  ATC = paste(
-    rep(
-      c(
+insert_atc
         "A10AB",
         "A10AC",
         "A10AD",
@@ -177,14 +165,6 @@ med_a10_df <- data.frame(
         "A10BJ",
         "A10BK",
         "A10BX"
-      ),
-      80
-    ),
-    sample(0:9, 1000, replace = TRUE),
-    sample(0:9, 1000, replace = TRUE),
-    sep = ""
-  )
-)
 
 # Hardcode half of purchases to be metformin, liraglutid or semaglutid:
 
@@ -239,7 +219,7 @@ insert_drugnames <- function(x, atc, name, proportion = 0.05) {
     "A10BJ02", "Saxenda"
   )
   dplyr::if_else(
-    ATC == atc & runif(1) < proportion,
+    ATC == atc & false_positive(proportion),
     name,
     x
   )
