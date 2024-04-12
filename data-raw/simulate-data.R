@@ -69,18 +69,60 @@ to_yyyymmdd <- function(x) {
   format(lubridate::as_date(x), format = "%Y%m%d")
 }
 
-fix_senere_afkraeftet <- function(x) {
-  dplyr::if_else(
-    x == 0,
+
+# Fixers post-simulation --------------------------------------------------
+
+fix_senere_afkraeftet <- function(data) {
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::contains("senere_afkraeftet"),
+        ~dplyr::if_else(
+          . == 0,
     "Ja",
     "Nej"
   )
+      )
+    )
 }
 
-fix_analysiscode <- function(x) {
-  stringr::str_c("NPU", x)
+fix_analysiscode <- function(data) {
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::contains("analysiscode"),
+        ~stringr::str_c("NPU", .)
+      )
+    )
 }
 
+# Should be 1 and 2, not 0 and 1 that is created by simstudy
+fix_koen <- function(data) {
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::contains("koen"),
+        # 2 is woman, 1 is man
+        ~. + 1
+      )
+    )
+}
+
+fix_c_diagtype <- function(data) {
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::contains("c_diagtype"),
+        ~dplyr::if_else(
+          . == 0,
+          # Primary diagnosis
+          "A",
+          # Secondary diagnosis
+          "B"
+        )
+      )
+    )
+}
 genData(100, defRead(simulation_definitions_path)) |>
   as_tibble()
 
