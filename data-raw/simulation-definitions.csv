@@ -1,29 +1,29 @@
 register_abbrev,variable_name,data_type,format,formula,dist,expected_values_from,expected_values_to,explanation_of_values,comments
-bef,pnr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,
 bef,koen,integer,Binary 1 digit,0.5,binary,,,"2 is woman, 1 is man",
+bef,pnr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,
 bef,foed_dato,date,YYYYMMDD,"to_yyyymmdd(create_fake_date(from = ""1900-01-01""))",nonrandom,,,,
 lmdb,pnr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,
 lmdb,eksd,date,YYYYMMDD,"to_yyyymmdd(create_fake_date(from = ""1995-01-01""))",nonrandom,,,,
 lmdb,atc,string,7 digits,create_fake_atc(),nonrandom,,,"""^A10"" is glucose-lowering medications",
 lmdb,volume,double,standard,1;10,uniform,,,,
 lmdb,apk,integer,standard,1;10,uniformInt,,,,
-lmdb,indo,string,blank or 7 digits zero-padded,1;1e8,uniformInt,,,refer to the KAT classification,"the only used values are c(""0000092"", ""0000276"", ""0000781"")"
+lmdb,indo,string,blank or 7 digits zero-padded,1;1e8,uniformInt,,,refer to the KAT classification,"the only used values are ""0000092"", ""0000276"", ""0000781"""
 lmdb,name,string,natural language,create_fake_drug_name(atc),nonrandom,"""Metformin Actavis""","""Insulatard FlexPen""",,
 lmdb,vnr,string,6 digits zero-padded,1;1e7,uniformInt,,,,
 lpr_adm,pnr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,
 lpr_adm,recnum,string,18 digits zero-padded,create_long_int(18),nonrandom,,,,
 lpr_adm,d_inddto,date,YYYYMMDD,to_yyyymmdd(create_fake_date()),nonrandom,,,,
-lpr_adm,c_spec,string,2 digits zero-padded,1;1e3,uniformInt,"""00""","""99""",,c_blok is derived from c_spec
-lpr_adm,c_pattype,integer,standard,0;3,uniformInt,0,3,,has no lpr3 equivalent. TODO: Does this variable depend on others for its value?
+lpr_adm,c_spec,string,2 digits zero-padded,1;1e3,uniformInt,,,,c_blok is derived from c_spec
+lpr_adm,c_pattype,integer,standard,0;3,uniformInt,,,,has no lpr3 equivalent. TODO: Does this variable depend on others for its value?
 lpr_diag,recnum,string,18 digits zero-padded,create_long_int(18),nonrandom,,,,
-lpr_diag,c_diag,string,icd8 or icd10,create_fake_icd(),,"""00009""","""^[:alpha:][:alpha:][:digit:][:digit:]""","""^249|^250|^DE1[0-4]"" are diabetes codes",
-lpr_diag,c_diagtype,string,"1 digit (A, B, H, +)",,,"""A""","""B""","A is a primary diagnosis, B is a secondary diagnosis",TODO: Does this value depend on another for its value?
-kontakter,cpr,string,12 digits zero-padded,create_long_int(12),nonrandom,"""00000000001""","""9999999999""",,lpr3 equivalent to pnr
+lpr_diag,c_diag,string,icd8 or icd10,create_fake_icd(),,,,"""^249|^250|^DE1[0-4]"" are diabetes codes",
+lpr_diag,c_diagtype,string,"1 digit (A, B, H, +)",0.3,uniform,,,,
+kontakter,cpr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,lpr3 equivalent to pnr
 kontakter,dw_ek_kontakt,string,18 digits zero-padded,create_long_int(18),nonrandom,,,,lpr3 equivalent to recnum
 kontakter,dato_start,date,YYYYMMDD,to_yyyymmdd(create_fake_date()),nonrandom,,,,lpr3 equivalent to inddto
 kontakter,hovedspeciale_ans,string,natural language,,,"""endokrinologi""","""intern medicin""",Is the LPR3 equivalent to c_spec but with different format,need to copy lpr2-lpr3 conversion table from dst
 diagnoser,dw_ek_kontakt,string,18 digits zero-padded,create_long_int(18),nonrandom,,,,lpr3 equivalent to recnum
-diagnoser,diagnosekode,string,icd10,,,"""^[:alpha:][:alpha:][:digit:][:digit:]""","""^[:alpha:][:alpha:][:digit:][:digit:]""","""^DE1[0-4]"" are diabetes codes",
+diagnoser,diagnosekode,string,icd10,,,,,"""^DE1[0-4]"" are diabetes codes",
 diagnoser,diagnosetype,string,"1 digit (A, B, H, +)",0.3,binary,,,"0/A is a primary diagnosis, 1/B is a secondary diagnosis",TODO: Does this value depend on another for its value?
 diagnoser,senere_afkraeftet,string,Binary natural language,0.2,binary,,,"0 is ""Ja"", 1 is ""Nej""",
 sysi,pnr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,
