@@ -1,6 +1,6 @@
 register_abbrev,variable_name,data_type,format,formula,dist,expected_values_from,expected_values_to,explanation_of_values,comments
 bef,pnr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,
-bef,koen,integer,Binary 1 digit,0.5,binary,,,0 is woman,
+bef,koen,integer,Binary 1 digit,0.5,binary,,,"2 is woman, 1 is man",
 bef,foed_dato,date,YYYYMMDD,"to_yyyymmdd(create_fake_date(from = ""1900-01-01""))",nonrandom,,,,
 lmdb,pnr,string,12 digits zero-padded,create_long_int(12),nonrandom,,,,
 lmdb,eksd,date,YYYYMMDD,"to_yyyymmdd(create_fake_date(from = ""1995-01-01""))",nonrandom,,,,
