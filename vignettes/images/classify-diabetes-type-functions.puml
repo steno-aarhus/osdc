@@ -1,0 +1,56 @@
+@startuml classify-diabetes-type-functions
+
+skinparam defaultTextAlignment center
+
+#darkgrey: Classify_diabetes_type;
+!pragma useVerticalIf on
+if (**Filter 1**\nt1d_include_at_least_one_t1d_diagnosis\nand\nt1d_include_only_purchased_insulins) then (no)
+  :Type 2;
+  detach
+elseif (**Filter 2**\nt1d_include_majority_of_diagnoses_is_t1d,\nt1d_include_insulin_purchase_within_180_days_of_diagnosis,\nt1d_include_two_thirds_of_purchased_gld_doses_are_insulin) then (no)
+  :Type 2;
+  detach
+else (\nyes)
+endif
+:Type 1;
+detach
+
+@enduml
+
+
+#darkgrey: Classify_diabetes_type;
+!pragma useVerticalIf on
+if (At least one T1D diagnosis) then (no)
+elseif (Only purchased insulins\nand no other GLDs) then (no)
+elseif (A majority of T1D diagnoses) then (no)
+elseif (Purchased insulin within 180 days of T1D diagnosis) then (no)
+elseif (2/3 of GLD doses are insulin) then (no)
+else (yes)
+  #palegreen:Type 1;
+  detach
+endif
+#pink:Type 2;
+detach
+
+#darkgrey: Classify_diabetes_type;
+if (At least one T1D diagnosis) then (no)
+  :Type 2;
+  detach
+elseif (Only purchased insulins) then (no)
+  :Type 2;
+  detach
+elseif (A majority of T1D diagnoses) then (no)
+  :Type 2;
+  detach
+elseif (Purchased insulin within 180 days of diagnosis) then (no)
+  :Type 2;
+  detach
+elseif (2/3 of GLD doses are insulin) then (no)
+  :Type 2;
+  detach
+else (yes)
+endif
+:Type 1;
+detach
+
+@enduml
