@@ -22,8 +22,10 @@ library(dplyr)
 The OSDC algorithm - and thereby, the `osdc` package - contains two main
 components:
 
-- [Extracting the diabetes population](#extracting-diabetes-population)
-- [Classifying the diabetes type (type 1 and type2)](#classifying-diabetes-type)
+- [Extracting the diabetes
+    population](#extracting-diabetes-population)
+- [Classifying the diabetes type (type 1 and
+    type2)](#classifying-diabetes-type)
 
 In the following sections, we will go through each of these components
 and the functions they contain.
@@ -34,9 +36,9 @@ This component extracts the diabetes population based on the following
 five data sources (Danish names in parentheses):
 
 - The Register of Laboratory Results for Research, *RLRR*
-  (Laboratoriedatabasens Forskertabel)
-- The Danish National Patient Registry, *DNPR* (Landspatient
-  Registeret, *LPR*)
+    (Laboratoriedatabasens Forskertabel)
+- The Danish National Patient Registry, *DNPR*
+    (Landspatient Registeret, *LPR*)
 - (Lægemiddelsdatabasen)
 - (CPR-registerets befolkningstabel, *BEF*)
 - The Health Service Register (Sygesikringsregisteret)
@@ -60,9 +62,9 @@ second inclusion criteria. Inclusion events include:
 
 Note that HbA1c tests and GLD purchases during pregnancies are excluded,
 as are glucose-lowering brand drugs for weight loss and metformin
-purchases for women below age 40. See section \[Exclusion: HbA1c tests
+purchases for women below age 40. See section $$Exclusion: HbA1c tests
 and GLD purchases during estimated pregnancy
-windows\](#exclusion-pregnancy-windows) for how pregnancy windows are
+windows$$(#exclusion-pregnancy-windows) for how pregnancy windows are
 estimated.
 
 This results in the functionality flow for extracting the diabetes
@@ -87,8 +89,8 @@ data source to extract all events of tests above 48 mmol/mol.
 ### Inclusion event: Hospital diagnosis of diabetes
 
 The function `include_diabetes_diagnoses` uses the hospital contacts
-from DNPR to include all dates of diabetes diagnoses. Diabetes
-diagnoses from both ICD 8 and ICD 10 are included.
+from DNPR to include all dates of diabetes diagnoses. Diabetes diagnoses
+from both ICD 8 and ICD 10 are included.
 
 This function contains two helper functions:
 
@@ -131,7 +133,7 @@ Under the hood, this relies on the function
 functions:
 
 - `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` (this
-  might be removed with the inclusion of the birth register)
+    might be removed with the inclusion of the birth register)
 - `extract_pregnancy_end_dates`
 - `extract_maternal_care_visit_dates_without_end_date`
 
@@ -159,8 +161,8 @@ excludes **which brands**?
 ### Exclusion: Metformin purchases for women below age 40
 
 The function `exclude_potential_pcos` uses BEF to exclude all purchases
-of metformin by women below age 40 (i.e., <= 39 years old) at the date of
-purchase.
+of metformin by women below age 40 (i.e., \<= 39 years old) at the date
+of purchase.
 
 This function contains two helper functions:
 
