@@ -208,9 +208,9 @@ The classification of type 1 diabetes relies on the following two
 filters. To be classified as having type 1 diabetes, individuals must
 have:
 
-1. At least one T1D primary diagnosis and only purchased insulins
+1.  At least one T1D primary diagnosis and only purchased insulins
     (i.e., no purchases of any other type of GLDs), or
-2. A majority of T1D primary diagnoses, purchased insulin within 180
+2.  A majority of T1D primary diagnoses, purchased insulin within 180
     days of diagnosis, and 2/3 of GLD doses are insulin.
 
 Functions for the above filters are described in the following sections.
@@ -227,9 +227,9 @@ T1D diagnoses and 2) whether all GLD purchases are insulin.
 
 Thus, this filter contains two functions:
 
-1. `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on
+1.  `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on
     the hospital diagnoses from DNPR extracted in component 1.
-2. `t1d_include_only_purchased_insulins` which relies on the GLD
+2.  `t1d_include_only_purchased_insulins` which relies on the GLD
     purchases from Lægemiddelsdatabasen.
 
 <!-- TODO: Add English translations for Lægemiddelsdatabasen  -->
@@ -243,13 +243,13 @@ all their GLD doses.
 
 This results in three functions:
 
-1. `t1d_include_majority_of_t1d_primary_diagnoses` (as compared to T2D
+1.  `t1d_include_majority_of_t1d_primary_diagnoses` (as compared to T2D
     diagnoses) which again relies on primary hospital diagnoses from
     DNPR.
-2. `t1d_include_insulin_purchase_within_180_days_of_diagnosis` which
+2.  `t1d_include_insulin_purchase_within_180_days_of_diagnosis` which
     relies on both diagnosis from DNPR and GLD purchases from
     Lægemiddelsdatabasen.
-3. `t1d_include_two_thirds_of_purchased_gld_doses_are_insulin` which
+3.  `t1d_include_two_thirds_of_purchased_gld_doses_are_insulin` which
     relies on the GLD purchases from Lægemiddelsdatabasen.
 
 Note that in the first function, individuals must have a majority of T1D
@@ -267,16 +267,16 @@ classified as type 1 cases are classified as type 2 cases.
 The output of the second component, and therefore, the OSDC algorithm is
 a `data.frame` which includes four columns:
 
-1. **PNR**: The pseudonymised social security number of individuals in
+1.  **PNR**: The pseudonymised social security number of individuals in
     the diabetes population (one row per individual)
-2. **stable_inclusion_date**: The *stable* inclusion date (i.e., the
+2.  **stable_inclusion_date**: The *stable* inclusion date (i.e., the
     raw date mutated so only individuals included in the time-period
     where data coverage is sufficient to make incident cases reliable)\*
     <!-- TODO: Specify this time-period: e.g., later than 1997 -->
-3. **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
+3.  **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
     the second inclusion event as described in the [Extracting the
     diabetes population](#extracting-diabetes-population) section above)
-4. **diabetes_type** The classified diabetes type
+4.  **diabetes_type** The classified diabetes type
 
 \*For more information on the "raw" versus "stable" inclusion date, see
 the [Description of algorithm contents & logic](algorithm_logic.Rmd)
