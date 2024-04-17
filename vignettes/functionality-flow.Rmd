@@ -251,10 +251,13 @@ This results in three functions:
 3.  `t1d_include_two_thirds_of_purchased_gld_doses_are_insulin` which
     relies on the GLD purchases from Lægemiddelsdatabasen.
 
-Note that in the first function, individuals must have a majority of T1D
-primary diagnoses from endocrinological departments (or from other
-medical departments, in the absence of contacts to endocrinological
-departments).
+Note the following hierarchy in first function,
+`t1d_include_majority_of_t1d_primary_diagnoses`: First, the function
+checks whether the individual has primary diagnoses from
+endocrinological specialty. If yes, the check of whether they have a
+majority of T1D primary diagnoses are based on data from
+endocrinological specialty. If no, the check will be based on primary
+diagnoses from medical specialties.
 
 ### Type 2 classification
 
@@ -306,3 +309,4 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
+
