@@ -277,10 +277,12 @@ a `data.frame` which includes four columns:
 
 For an example, see below.
 
-| PNR | stable_inclusion_date | raw_inclusion_date |  | diabetes_type |
-|----------|----------|----------|----------|
-|   0000000001  |   01-01-2020  |    01-01-2020  |   T1D  |
-|   0000000004  |   NULL  |  19-04-1995  |   T2D  |
+| PNR        | stable_inclusion_date | raw_inclusion_date |     |
+|------------|-----------------------|--------------------|-----|
+| 0000000001 | 01-01-2020            | 01-01-2020         | T1D |
+| 0000000004 | NULL                  | 19-04-1995         | T2D |
+
+: Example rows of the `data.frame` output of the `osdc` package.
 
 The individuals `0000000001` and `0000000004` have been classified as having
 diabetes (`T1D` and `T2D`, respectively). `0000000004` is classified as having
