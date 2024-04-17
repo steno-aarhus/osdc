@@ -185,8 +185,8 @@ The second component of the OSDC algorithm classifies individuals from
 the extracted diabetes population as having either T1D or T2D. The
 output of this component is a `data.frame` that includes one row per
 individual in the diabetes population: one column with their PNR,
-two columns with inclusion dates (one raw and one stable - see the
-[Description of algorithm contents & logic](algorithm_logic.Rmd) vignette
+two columns with inclusion dates (one "stable" date and one "raw" date - see
+the [Description of algorithm contents & logic](algorithm_logic.Rmd) vignette
 for an elaboration on what that entails), and one column with the diabetes
 type.
 
