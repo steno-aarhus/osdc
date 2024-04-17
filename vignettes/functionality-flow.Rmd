@@ -228,7 +228,7 @@ Thus, this criteria contains two functions:
 
 <!-- TODO: Add English translations for Lægemiddelsdatabasen  -->
 
-#### Criteria 2: Majority of T1D diagnoses, insulin within 180 days of diagnosis and insulin constitutes 2/3 of all GLD doses
+#### Filter 2: Majority of T1D diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
 
 The second criteria is three-fold: 1) Whether individuals have a
 majority of T1D diagnoses, 2) whether they purchased insulin within 180
