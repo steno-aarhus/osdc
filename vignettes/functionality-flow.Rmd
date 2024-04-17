@@ -19,11 +19,13 @@ library(dplyr)
 
 ## Overview
 
-The OSDC algorithm - and thereby, the `osdc` package - contains two main
+The OSDC algorithm - and thereby, the `osdc` package - contains two
 components:
 
-- [Extracting the diabetes population](#extracting-diabetes-population)
-- [Classifying the diabetes type (type 1 and type2)](#classifying-diabetes-type)
+-   [Extracting the diabetes
+    population](#extracting-diabetes-population)
+-   [Classifying the diabetes type (type 1 and
+    type2)](#classifying-diabetes-type)
 
 In the following sections, we will go through each of these components
 and the functions they contain.
@@ -33,49 +35,44 @@ and the functions they contain.
 This component extracts the diabetes population based on the following
 five data sources (Danish names in parentheses):
 
-- The Register of Laboratory Results for Research, *RLRR*
-  (Laboratoriedatabasens Forskertabel)
-- The Danish National Patient Registry, *DNPR* (Landspatient
-  Registeret, *LPR*)
-- (Lægemiddelsdatabasen)
-- (CPR-registerets befolkningstabel, *BEF*)
-- The Health Service Register (Sygesikringsregisteret)
+-   The Register of Laboratory Results for Research, *RLRR*
+    (Laboratoriedatabasens Forskertabel)
+-   The Danish National Patient Registry, *DNPR*
+    (Landspatientregisteret, *LPR*)
+-   (Lægemiddelsdatabasen)
+-   (CPR-registerets befolkningstabel, *BEF*)
+-   The Health Service Register (Sygesikringsregisteret)
 
 <!-- TODO: Add English translations for Lægemiddelsdatabasen and BEF -->
 
 This component will have one user-facing function:
-`extract_diabetes_population`. This function takes the data sources and
-an `index_date` (i.e., the day of the wanted classification) as
-arguments.
+`extract_diabetes_population`. All five data sources are used as input
+for this function.
 
-As described in `vignette("design")`, inclusion date is the date of the
-second inclusion criteria. Inclusion events include:
+As described in the [design](design.Rmd) vignette, the inclusion
+date is the date of the second inclusion criteria. Inclusion events
+include:
 
-<!-- TODO: Add hyperlink to vignette(design) -->
+-   HbA1c measurements of ≥48 mmol/mol
+-   Hospital diagnoses of diabetes
+-   Diabetes-specific services received at podiatrists
+-   Purchase of glucose-lowering drugs (GLD)
 
-- HbA1c measurements of ≥48 mmol/mol
-- Hospital diagnoses of diabetes
-- Diabetes-specific services received at podiatrists
-- Purchase of glucose-lowering drugs (GLD)
-
-Note that HbA1c tests and GLD purchases during pregnancies are excluded,
-as are glucose-lowering brand drugs for weight loss and metformin
-purchases for women below age 40. See section \[Exclusion: HbA1c tests
-and GLD purchases during estimated pregnancy
-windows\](#exclusion-pregnancy-windows) for how pregnancy windows are
-estimated.
+Note that HbA1c tests and GLD purchases during pregnancies are excluded.
+See section [Exclusion: HbA1c tests and GLD purchases during estimated
+pregnancy windows](#exclusion-pregnancy-windows) for how pregnancy
+windows are estimated. Glucose-lowering brand drugs for weight loss and
+metformin purchases for women below age 40 are excluded as well.
 
 This results in the functionality flow for extracting the diabetes
 population seen below. All functions take a `data.frame` as input and
 outputs a `data.frame`.
 
-![Flow of functions for extracting a diabetes population using the osdc
-package. The dark grey box denotes the user-facing function, while the
-remaining boxes are internal functions. Green and red boxes represent
-filtering functions (inclusion and exclusion events,
+![Flow of functions for extracting a diabetes population using the
+`osdc` package. The dark grey box denotes the user-facing function,
+while the remaining boxes are internal functions. Green and red boxes
+represent filtering functions (inclusion and exclusion events,
 respectively).](images/diabetes-population-functions.png)
-
-<!-- Q: How are we feeling about the colours? All internal functions could also just be light grey -->
 
 ### Inclusion event: HbA1c tests above 48 mmol/mol
 
@@ -87,13 +84,13 @@ data source to extract all events of tests above 48 mmol/mol.
 ### Inclusion event: Hospital diagnosis of diabetes
 
 The function `include_diabetes_diagnoses` uses the hospital contacts
-from DNPR to include all dates of diabetes diagnoses. Diabetes
-diagnoses from both ICD 8 and ICD 10 are included.
+from DNPR to include all dates of diabetes diagnoses. Diabetes diagnoses
+from both ICD 8 and ICD 10 are included.
 
 This function contains two helper functions:
 
-- `extract_diabetes_diagnoses_icd_10`
-- `extract_diabetes_diagnoses_icd_8`
+-   `extract_diabetes_diagnoses_icd_10`
+-   `extract_diabetes_diagnoses_icd_8`
 
 <!-- TODO: Add details on how this filtering should be done, e.g., diagnosis codes -->
 
@@ -127,15 +124,15 @@ from DNPR as a data source and is used to exclude both HbA1c tests and
 GLD purchases during estimated pregnancy windows.
 
 Under the hood, this relies on the function
-`extract_pregnancy_index_dates` and contains the following three helper
+`extract_pregnancy_index_dates` that contains the following three helper
 functions:
 
-- `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` (this
-  might be removed with the inclusion of the birth register)
-- `extract_pregnancy_end_dates`
-- `extract_maternal_care_visit_dates_without_end_date`
+-   `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` (this
+    might be removed with the inclusion of the birth register)
+-   `extract_pregnancy_end_dates`
+-   `extract_maternal_care_visit_dates_without_end_date`
 
-<!-- TODO: Update whether `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` will be removed -->
+<!-- TODO: Update whether `calculate_pregnancy_index_date_for_mc_visits_wo_end_date` will be removed. @Aastedet? -->
 
 `extract_pregnancy_end_dates` extracts maternal care visits with an end
 date and exclude visits between 40 weeks before end date to 12 weeks
@@ -145,7 +142,7 @@ after end date.
 from `extract_pregnancy_end_dates` which identifies maternal care visits
 *with* end dates to derive maternal care visits *without* end dates.
 below.
-<!-- TOOD: What is done with the mc visits without end dates then? -->
+<!-- TODO: What is done with the mc visits without end dates then? -->
 
 <!-- TODO: Add details on how this filtering should be done -->
 
@@ -156,28 +153,37 @@ excludes **which brands**?
 
 <!-- TODO: Add details on how this filtering should be done -->
 
+<!-- TODO: Add data source and which brands are excluded -->
+
 ### Exclusion: Metformin purchases for women below age 40
 
 The function `exclude_potential_pcos` uses BEF to exclude all purchases
-of metformin by women below age 40 (i.e., <= 39 years old) at the date of
-purchase.
+of metformin by women below age 40 (i.e., \<= 39 years old) at the date
+of purchase.
 
 This function contains two helper functions:
 
-- `exclude_women`
-- `exclude_age_40_or_younger`
+-   `exclude_women`
+-   `exclude_age_40_or_younger`
 
 <!-- TODO: Add English translation of BEF -->
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### Extract diagnosis classification date
+### Extract raw inclusion dates
 
-Finally, the inclusion events from each inclusion criteria are joined in
-the function `extract_classification_dates`. For each individual with
+Then, the inclusion events from each inclusion criteria are joined in
+the function `extract_raw_inclusion_dates`. For each individual with
 inclusion events, the date of the *second* event is extracted as the
-classification date, i.e., the date the OSDC algorithm defines as the
+*raw* inclusion date, i.e., the date the OSDC algorithm defines as the
 diagnosis date.
+
+### Add stable inclusion dates
+
+Finally, from the raw inclusion dates, a stable inclusion date column is
+added. The column censors inclusion dates from time-periods of
+insufficient data coverage. For details on this, see the [Description of
+algorithm contents & logic](algorithm_logic.Rmd) vignette.
 
 ## Classifying the diabetes type {#classifying-diabetes-type}
 
