@@ -266,11 +266,12 @@ a `data.frame` which includes four columns:
    included in the time-period where data coverage is sufficient to make incident
    cases reliable)*
    <!-- TODO: Specify this time-period: e.g., later than 1997 -->
-3. The raw" inclusion date (i.e., the date of the second instance of the
-   inclusion criteria described in the sections above).
+3. The raw" inclusion date (i.e., the date of the second inclusion event as described
+   in the [Extracting the diabetes population](#extracting-diabetes-population) section
+   above)
 4. The classified diabetes type
 
-*For more information on "raw" versus "stable" inclusion date, see the [Description of algorithm contents & logic](algorithm_logic.Rmd) vignette.
+*For more information on the "raw" versus "stable" inclusion date, see the [Description of algorithm contents & logic](algorithm_logic.Rmd) vignette.
 
 <!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
 
