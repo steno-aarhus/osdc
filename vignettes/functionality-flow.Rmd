@@ -182,11 +182,15 @@ diagnosis date.
 ## Classifying the diabetes type {#classifying-diabetes-type}
 
 The second component of the OSDC algorithm classifies individuals from
-the extracted diabetes population as having either type 1 or type 2
-diabetes. The output of this component is a `data.frame` that includes
-the diabetes type as well as the classification date (i.e., the date
-of the second instance of the inclusion criteria described in the
-sections above).
+the extracted diabetes population as having either T1D or T2D. The
+output of this component is a `data.frame` that includes one row per
+individual in the diabetes population: one column with their PNR,
+two columns with inclusion dates (one raw and one stable - see the
+[Description of algorithm contents & logic](algorithm_logic.Rmd) vignette
+for an elaboration on what that entails), and one column with the diabetes
+type.
+
+<!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
 
 This component will also have one user-facing function:
 `classify_diabetes_type`. This function takes the output of
@@ -254,6 +258,37 @@ classified as type 1 cases are classified as type 2 cases.
 ## Output
 
 The output of the second component, and therefore, the OSDC algorithm is
-a `data.frame` including a background population and a diabetes
-population. For the diabetes population, both the classification (type 1
-or type 2) and the classification date is included.
+a `data.frame` which includes four columns:
+
+1. **PNR**: The pseudonymised social security number of individuals in the
+   diabetes population (one row per individual)
+2. The *stable* inclusion date (i.e., the raw date mutated so only individuals
+   included in the time-period where data coverage is sufficient to make incident
+   cases reliable)*
+   <!-- TODO: Specify this time-period: e.g., later than 1997 -->
+3. The raw" inclusion date (i.e., the date of the second instance of the
+   inclusion criteria described in the sections above).
+4. The classified diabetes type
+
+*For more information on "raw" versus "stable" inclusion date, see the [Description of algorithm contents & logic](algorithm_logic.Rmd) vignette.
+
+<!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
+
+For an example, see below.
+
+| PNR | stable_inclusion_date | raw_inclusion_date |  | diabetes_type |
+|----------|----------|----------|----------|
+|   0000000001  |   01-01-2020  |    01-01-2020  |   T1D  |
+|   0000000004  |   NULL  |  19-04-1995  |   T2D  |
+
+The individuals `0000000001` and `0000000004` have been classified as having
+diabetes (`T1D` and `T2D`, respectively). `0000000004` is classified as having
+type 1 diabetes (T1D) with an inclusion date of `01-01-2020`. Since this date
+is within a time-period of sufficient data coverage, the column `stable_inclusion_date`
+is populated with the same date as `raw_inclusion_date`. The individual in the
+second row, `0000000004` is classified as having type 2 diabetes `T2D` with an
+inclusion date of `19-04-1995`. Since 1995 is within a time-period of insufficient
+data coverage, `stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
+contains the inclusion date of this individual.
+
+<!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
