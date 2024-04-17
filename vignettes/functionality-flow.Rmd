@@ -49,9 +49,8 @@ This component will have one user-facing function:
 `extract_diabetes_population`. All five data sources are used as input
 for this function.
 
-As described in the [design](design.Rmd) vignette, the inclusion
-date is the date of the second inclusion criteria. Inclusion events
-include:
+As described in the [design](design.Rmd) vignette, the inclusion date is
+the date of the second inclusion criteria. Inclusion events include:
 
 -   HbA1c measurements of ≥48 mmol/mol
 -   Hospital diagnoses of diabetes
