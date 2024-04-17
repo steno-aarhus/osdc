@@ -20,6 +20,7 @@ case ( GLD purchases)
     #pink:exclude_purchases_of_weight_loss_drugs;
 endswitch
 
-:extract_inclusion_dates;
+:extract_raw_inclusion_dates;
+:add_stables_inclusion_dates;
 
 @enduml

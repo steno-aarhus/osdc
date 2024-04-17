@@ -49,8 +49,9 @@ This component will have one user-facing function:
 `extract_diabetes_population`. All five data sources are used as input
 for this function.
 
-As described in the [design](design.Rmd) vignette, inclusion date is the
-date of the second inclusion criteria. Inclusion events include:
+As described in the [design](design.Rmd) vignette, the inclusion
+date is the date of the second inclusion criteria. Inclusion events
+include:
 
 -   HbA1c measurements of ≥48 mmol/mol
 -   Hospital diagnoses of diabetes
@@ -169,10 +170,17 @@ This function contains two helper functions:
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### Extract inclusion date
+### Extract raw inclusion dates
 
-Finally, the inclusion events from each inclusion criteria are joined in
-the function `extract_inclusion_dates`. For each individual with
+Then, the inclusion events from each inclusion criteria are joined in
+the function `extract_raw_inclusion_dates`. For each individual with
 inclusion events, the date of the *second* event is extracted as the
-inclusion date, i.e., the date the OSDC algorithm defines as the
+*raw* inclusion date, i.e., the date the OSDC algorithm defines as the
 diagnosis date.
+
+### Add stable inclusion dates
+
+Finally, from the raw inclusion dates, a stable inclusion date column is
+added. The column censors inclusion dates from time-periods of
+insufficient data coverage. For details on this, see the [Description of
+algorithm contents & logic](algorithm_logic.Rmd) vignette.
