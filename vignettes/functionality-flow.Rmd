@@ -198,15 +198,15 @@ This component will also have one user-facing function:
 
 ### Type 1 classification
 
-The classification of type 1 diabetes relies on the following criteria.
+The classification of type 1 diabetes relies on the following two filters.
 To be classified as having type 1 diabetes, individuals must have:
 
-1. At least one T1D diagnosis and only purchased insulins (i.e., no
-    purchases of any other type of GLDs).
+1. At least one T1D primary diagnosis and only purchased insulins (i.e., no
+    purchases of any other type of GLDs), or
 2. A majority of T1D diagnoses, purchased insulin within 180 days of
     diagnosis, and 2/3 of GLD doses are insulin.
 
-Functions for the above criteria are described in the following
+Functions for the above filters are described in the following
 sections.
 
 ![Flow of functions for classifying the diabetes type using the `osdc`
@@ -214,12 +214,12 @@ package. The dark grey box denotes the user-facing function, while the
 remaining boxes are internal
 functions.](images/classify-diabetes-type-functions.png)
 
-#### Criteria 1: Any T1D diagnoses and all GLD purchases are insulins
+#### Filter 1: Any T1D diagnoses and all GLD purchases are insulins
 
-The first criteria includes two parts: 1) Whether individuals have any
+The first filter includes two criteria: 1) Whether individuals have any
 T1D diagnoses and 2) whether all GLD purchases are insulin.
 
-Thus, this criteria contains two functions:
+Thus, this filter contains two functions:
 
 1. `t1d_include_at_least_one_t1d_diagnosis`, which relies on the
     hospital diagnoses from DNPR extracted in component 1.
@@ -230,7 +230,7 @@ Thus, this criteria contains two functions:
 
 #### Filter 2: Majority of T1D diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
 
-The second criteria is three-fold: 1) Whether individuals have a
+The second filter includes three criteria: 1) Whether individuals have a
 majority of T1D diagnoses, 2) whether they purchased insulin within 180
 days of diagnosis, and 3) whether insulin constitutes 2/3 of all their
 GLD doses.
