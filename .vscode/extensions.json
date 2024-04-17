@@ -10,7 +10,8 @@
 		"vivaxy.vscode-conventional-commits",
 		"pshaddel.conventional-branch",
 		"REditorSupport.r",
-		"RDebugger.r-debugger"
+		"RDebugger.r-debugger",
+		"streetsidesoftware.code-spell-checker"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": []
