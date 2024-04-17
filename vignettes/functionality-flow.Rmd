@@ -184,11 +184,11 @@ diagnosis date.
 The second component of the OSDC algorithm classifies individuals from
 the extracted diabetes population as having either T1D or T2D. The
 output of this component is a `data.frame` that includes one row per
-individual in the diabetes population: one column with their PNR,
-two columns with inclusion dates (one "stable" date and one "raw" date - see
-the [Description of algorithm contents & logic](algorithm_logic.Rmd) vignette
-for an elaboration on what that entails), and one column with the diabetes
-type.
+individual in the diabetes population: one column with their PNR, two
+columns with inclusion dates (one "stable" date and one "raw" date - see
+the [Description of algorithm contents & logic](algorithm_logic.Rmd)
+vignette for an elaboration on what that entails), and one column with
+the diabetes type.
 
 <!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
 
@@ -198,16 +198,16 @@ This component will also have one user-facing function:
 
 ### Type 1 classification
 
-The classification of type 1 diabetes relies on the following two filters.
-To be classified as having type 1 diabetes, individuals must have:
+The classification of type 1 diabetes relies on the following two
+filters. To be classified as having type 1 diabetes, individuals must
+have:
 
-1. At least one T1D primary diagnosis and only purchased insulins (i.e., no
-    purchases of any other type of GLDs), or
-2. A majority of T1D primary diagnoses, purchased insulin within 180 days of
-    diagnosis, and 2/3 of GLD doses are insulin.
+1. At least one T1D primary diagnosis and only purchased insulins
+    (i.e., no purchases of any other type of GLDs), or
+2. A majority of T1D primary diagnoses, purchased insulin within 180
+    days of diagnosis, and 2/3 of GLD doses are insulin.
 
-Functions for the above filters are described in the following
-sections.
+Functions for the above filters are described in the following sections.
 
 ![Flow of functions for classifying the diabetes type using the `osdc`
 package. The dark grey box denotes the user-facing function, while the
@@ -221,8 +221,8 @@ T1D diagnoses and 2) whether all GLD purchases are insulin.
 
 Thus, this filter contains two functions:
 
-1. `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on the
-    hospital diagnoses from DNPR extracted in component 1.
+1. `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on
+    the hospital diagnoses from DNPR extracted in component 1.
 2. `t1d_include_only_purchased_insulins` which relies on the GLD
     purchases from Lægemiddelsdatabasen.
 
@@ -231,14 +231,15 @@ Thus, this filter contains two functions:
 #### Filter 2: Majority of T1D primary diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
 
 The second filter includes three criteria: 1) Whether individuals have a
-majority of T1D primary diagnoses, 2) whether they purchased insulin within
-180 days of diagnosis, and 3) whether insulin constitutes 2/3 of all their
-GLD doses.
+majority of T1D primary diagnoses, 2) whether they purchased insulin
+within 180 days of diagnosis, and 3) whether insulin constitutes 2/3 of
+all their GLD doses.
 
 This results in three functions:
 
 1. `t1d_include_majority_of_t1d_primary_diagnoses` (as compared to T2D
-    diagnoses) which again relies on primary hospital diagnoses from DNPR.
+    diagnoses) which again relies on primary hospital diagnoses from
+    DNPR.
 2. `t1d_include_insulin_purchase_within_180_days_of_diagnosis` which
     relies on both diagnosis from DNPR and GLD purchases from
     Lægemiddelsdatabasen.
@@ -246,8 +247,8 @@ This results in three functions:
     relies on the GLD purchases from Lægemiddelsdatabasen.
 
 Note that in the first function, individuals must have a majority of T1D
-primary diagnoses from endocrinological departments (or from other medical
-departments, in the absence of contacts to endocrinological
+primary diagnoses from endocrinological departments (or from other
+medical departments, in the absence of contacts to endocrinological
 departments).
 
 ### Type 2 classification
@@ -260,18 +261,20 @@ classified as type 1 cases are classified as type 2 cases.
 The output of the second component, and therefore, the OSDC algorithm is
 a `data.frame` which includes four columns:
 
-1. **PNR**: The pseudonymised social security number of individuals in the
-   diabetes population (one row per individual)
-2. The *stable* inclusion date (i.e., the raw date mutated so only individuals
-   included in the time-period where data coverage is sufficient to make incident
-   cases reliable)*
-   <!-- TODO: Specify this time-period: e.g., later than 1997 -->
-3. The raw" inclusion date (i.e., the date of the second inclusion event as described
-   in the [Extracting the diabetes population](#extracting-diabetes-population) section
-   above)
-4. The classified diabetes type
+1. **PNR**: The pseudonymised social security number of individuals in
+    the diabetes population (one row per individual)
+2. **stable_inclusion_date**: The *stable* inclusion date (i.e., the
+    raw date mutated so only individuals included in the time-period
+    where data coverage is sufficient to make incident cases reliable)\*
+    <!-- TODO: Specify this time-period: e.g., later than 1997 -->
+3. **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
+    the second inclusion event as described in the [Extracting the
+    diabetes population](#extracting-diabetes-population) section above)
+4. **diabetes_type** The classified diabetes type
 
-*For more information on the "raw" versus "stable" inclusion date, see the [Description of algorithm contents & logic](algorithm_logic.Rmd) vignette.
+\*For more information on the "raw" versus "stable" inclusion date, see
+the [Description of algorithm contents & logic](algorithm_logic.Rmd)
+vignette.
 
 <!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
 
@@ -284,14 +287,17 @@ For an example, see below.
 
 : Example rows of the `data.frame` output of the `osdc` package.
 
-The individuals `0000000001` and `0000000004` have been classified as having
-diabetes (`T1D` and `T2D`, respectively). `0000000004` is classified as having
-type 1 diabetes (T1D) with an inclusion date of `01-01-2020`. Since this date
-is within a time-period of sufficient data coverage, the column `stable_inclusion_date`
-is populated with the same date as `raw_inclusion_date`. The individual in the
-second row, `0000000004` is classified as having type 2 diabetes `T2D` with an
-inclusion date of `19-04-1995`. Since 1995 is within a time-period of insufficient
-data coverage, `stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
+The individuals `0000000001` and `0000000004` have been classified as
+having diabetes (`T1D` and `T2D`, respectively). `0000000004` is
+classified as having type 1 diabetes (T1D) with an inclusion date of
+`01-01-2020`. Since this date is within a time-period of sufficient data
+coverage, the column `stable_inclusion_date` is populated with the same
+date as `raw_inclusion_date`.
+
+The individual in the second row, `0000000004` is classified as having
+type 2 diabetes `T2D` with an inclusion date of `19-04-1995`. Since 1995
+is within a time-period of insufficient data coverage,
+`stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
