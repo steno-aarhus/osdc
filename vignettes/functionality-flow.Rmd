@@ -203,7 +203,7 @@ To be classified as having type 1 diabetes, individuals must have:
 
 1. At least one T1D primary diagnosis and only purchased insulins (i.e., no
     purchases of any other type of GLDs), or
-2. A majority of T1D diagnoses, purchased insulin within 180 days of
+2. A majority of T1D primary diagnoses, purchased insulin within 180 days of
     diagnosis, and 2/3 of GLD doses are insulin.
 
 Functions for the above filters are described in the following
@@ -221,24 +221,24 @@ T1D diagnoses and 2) whether all GLD purchases are insulin.
 
 Thus, this filter contains two functions:
 
-1. `t1d_include_at_least_one_t1d_diagnosis`, which relies on the
+1. `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on the
     hospital diagnoses from DNPR extracted in component 1.
 2. `t1d_include_only_purchased_insulins` which relies on the GLD
     purchases from Lægemiddelsdatabasen.
 
 <!-- TODO: Add English translations for Lægemiddelsdatabasen  -->
 
-#### Filter 2: Majority of T1D diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
+#### Filter 2: Majority of T1D primary diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
 
 The second filter includes three criteria: 1) Whether individuals have a
-majority of T1D diagnoses, 2) whether they purchased insulin within 180
-days of diagnosis, and 3) whether insulin constitutes 2/3 of all their
+majority of T1D primary diagnoses, 2) whether they purchased insulin within
+180 days of diagnosis, and 3) whether insulin constitutes 2/3 of all their
 GLD doses.
 
 This results in three functions:
 
-1. `t1d_include_majority_of_diagnoses_is_t1d()` (as compared to T2D
-    diagnoses) which again relies on hospital diagnoses from DNPR.
+1. `t1d_include_majority_of_t1d_primary_diagnoses` (as compared to T2D
+    diagnoses) which again relies on primary hospital diagnoses from DNPR.
 2. `t1d_include_insulin_purchase_within_180_days_of_diagnosis` which
     relies on both diagnosis from DNPR and GLD purchases from
     Lægemiddelsdatabasen.
@@ -246,7 +246,7 @@ This results in three functions:
     relies on the GLD purchases from Lægemiddelsdatabasen.
 
 Note that in the first function, individuals must have a majority of T1D
-diagnoses from endocrinological departments (or from other medical
+primary diagnoses from endocrinological departments (or from other medical
 departments, in the absence of contacts to endocrinological
 departments).
 
