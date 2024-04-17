@@ -19,8 +19,10 @@ library(dplyr)
 
 ## Contents
 
-This document will contain a relatively specific description of the
-implemented algorithm. Refer to the other vignettes for background
+This document describes the data components involved in the algorithm.
+It also describes the implemented algorithm logic, changes compared to
+the originally validated algorithm, and road a map for potential changes
+in future revisions. Refer to the other vignettes for background
 information and a more general description of the algorithm.
 
 ## Data components
@@ -42,21 +44,99 @@ register sources:
 5.  Sex & date of birth
     -   The Danish Civil Registration System [CPR-registeret]
 
+In a future revision, the algorithm can also utilise the Danish Medical
+Birth Register to extend the period of time of valid inclusions further
+back in time compared to what is possible using obstetric codes from the
+National Patient Register.
+
 ## Pre-processing steps
 
 This section describes the necessary steps required to format raw data
 into a format that can be fed as input to the algorithm. The description
 assumes that raw data is stored/structured in the most common format for
-raw data provided on Statistics Denmark's servers.
+raw data provided on Statistics Denmark's servers (from our experience).
 
 Using the most common scenario when working with the above data on
 Statistics Denmark's servers, this paragraph lists the common register
 abbreviations/raw file names, their structure (year-on-year files vs. a
-big blob, plus changes/breaks over time), raw variable names and
-relevant values.
+large single file, plus changes/breaks over time), raw variable names
+and relevant values. Variable names are presented in lower case here,
+but case may vary between data sources (and even between years in the
+same data source) in real data.
 
 Depending on the contents and format of your specific raw data, you may
 need to adapt the pre-processing pipeline accordingly.
+
+## Structure of raw data
+
+### National Patient Register
+
+The National Patient Register contains several tables and types of data.
+The algorithm uses only hospital diagnosis data, which is contained in
+two tables:
+
+1.  A table containing administrative information, e.g. personal ID,
+    `pnr`/`cpr`, and the first date of the contact,
+    `d_inddto`/`dato_start`.
+
+    -   Named `lpr_adm` in the LPR2-formatted data prior to 2019, and
+        `kontakter` in contact-based LPR3-formatted data from 2019
+        onward.
+
+2.  A table containing all information on diagnoses recorded at each
+    contact, `c_diag`, and the type of diagnosis (e.g. primary or
+    secondary to the contact), `c_diagtype`.
+
+    -   Named `lpr_diag` in the LPR2-formatted data prior to 2019, and
+        `diagnoser` in contact-based LPR3-formatted data from 2019
+        onward.
+
+On Statistics Denmark, these tables are provided as a mix of separate
+files for each calendar year prior to 2019 (in LPR2 format) and a single
+file containing all the data from 2019 onward (LPR3 format). The two
+tables can be joined with either the `recnum` variable (LPR2 data) or
+the `dw_ek_kontakt` variable (LPR3 data).
+
+Examples of this data is shown below:
+
+| pnr | recnum | d_inddto   |
+|-----|--------|------------|
+| 01  | 001    | 2003-01-31 |
+| 02  | 002    | 2003-02-01 |
+| 02  | 003    | 2003-02-01 |
+
+: Raw structure of lpr_adm: administrative data in the National Patient
+Register before 2019. Corresponding variable names 2019 onward: `pnr`=
+`cpr`, `recnum` = `dw_ek_kontakt`, `d_inddto` = `dato_start`
+
+| recnum | c_diag | c_diagtype |
+|--------|--------|------------|
+| 001    | DE101  | A          |
+| 002    | DI21   | A          |
+| 003    | DE115  | B          |
+
+: Raw structure of lpr_diag: diagnosis data in the National Patient
+Register before 2019. Corresponding variable names 2019 onward:
+`recnum`= `dw_ek_kontakt`, `c_diag` = `diagnosekode`, `c_diagtype` =
+`diagnosetype`
+
+### Register of Pharmaceutical Sales
+
+To-do
+
+### National Health Insurance Service Register
+
+To-do
+
+Content: SSSY and SYSI (overlap in 2005)
+
+### Register of Laboratory Results for Research
+
+To-do
+
+### Civil Registration System
+
+To-do
 
 ## Expected input
 
@@ -71,3 +151,24 @@ This section describes what operations are performed on the input data.
 ## Expected output
 
 This section describes the output object.
+
+## Changes since original validation
+
+1.  Purchases of semaglutid, dapagliflozin or empagliflozin are no
+    longer used for inclusion events or classification of diabetes type
+    (due to increasing use in treatment of non-diabetes).
+2.  Diabetes type reclassification based on insulin purchases in the
+    previous year is no longer used.
+
+## Roadmap for potential changes
+
+1.  Add support for using medical birth register to define pregnancies
+    to censor GDM. Allows censoring GLD purchases all the way back to
+    1995 (rather than 1997 onward, as the obstetric codes are limited
+    to), and extends the window of valid dates of diagnosis to 1996
+    onward.
+2.  Simplify logic defining pregnancy index dates to remove dependency
+    on maternal care visits (if performance in validation allows)
+3.  Limit the scope of primary diagnoses used to evaluate majority of
+    diabetes-specific diagnoses in type classification.
+
