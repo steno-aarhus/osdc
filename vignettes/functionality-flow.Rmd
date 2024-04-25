@@ -37,13 +37,13 @@ five data sources (Danish names in parentheses):
 
 -   The Register of Laboratory Results for Research, *RLRR*
     (Laboratoriedatabasens Forskertabel)
--   The Danish National Patient Registry, *DNPR*
+-   The Danish National Patient Register, *DNPR*
     (Landspatientregisteret, *LPR*)
--   (Lægemiddelsdatabasen)
--   (CPR-registerets befolkningstabel, *BEF*)
--   The Health Service Register (Sygesikringsregisteret)
-
-<!-- TODO: Add English translations for Lægemiddelsdatabasen and BEF -->
+-   The Register of Pharmaceutical Sales (Lægemiddelstatistikregisteret)
+-   The Danish Civil Registration System (CPR-registerets
+    befolkningstabel, *BEF*)
+-   The National Health Insurance Service Register
+    (Sygesikringsregisteret)
 
 This component will have one user-facing function:
 `extract_diabetes_population`. All five data sources are used as input
