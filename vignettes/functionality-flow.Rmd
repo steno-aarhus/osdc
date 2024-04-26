@@ -30,47 +30,24 @@ components:
 In the following sections, we will go through each of these components
 and the functions they contain.
 
-## Extracting the diabetes population {#extracting-diabetes-population}
+## Classify diabetes status
 
-This component extracts the diabetes population based on the following
-five data sources (Danish names in parentheses):
+This component classifies those with diabetes (type 1 or 2) based on the
+Danish registers described in the `vignette("design")`. This component
+will have one user-facing function: `classify_diabetes()`. All data
+sources are used as input for this function. The specific inclusion and
+exclusion details are also described in the `vignette("design")`.
 
--   The Register of Laboratory Results for Research, *RLRR*
-    (Laboratoriedatabasens Forskertabel)
--   The Danish National Patient Register, *DNPR*
-    (Landspatientregisteret, *LPR*)
--   The Register of Pharmaceutical Sales (Lægemiddelstatistikregisteret)
--   The Danish Civil Registration System (CPR-registerets
-    befolkningstabel, *BEF*)
--   The National Health Insurance Service Register
-    (Sygesikringsregisteret)
+This results in the functionality flow for classifying diabetes status
+seen below. All functions take a `data.frame` type object as input and
+outputs the same type of object as the input object (a `data.frame`
+type). For instance, if the input is a `data.table` object, the output
+will also be a `data.table`.
 
-This component will have one user-facing function:
-`extract_diabetes_population`. All five data sources are used as input
-for this function.
-
-As described in the [design](design.Rmd) vignette, the inclusion date is
-the date of the second inclusion criteria. Inclusion events include:
-
--   HbA1c measurements of ≥48 mmol/mol
--   Hospital diagnoses of diabetes
--   Diabetes-specific services received at podiatrists
--   Purchase of glucose-lowering drugs (GLD)
-
-Note that HbA1c tests and GLD purchases during pregnancies are excluded.
-See section [Exclusion: HbA1c tests and GLD purchases during estimated
-pregnancy windows](#exclusion-pregnancy-windows) for how pregnancy
-windows are estimated. Glucose-lowering brand drugs for weight loss and
-metformin purchases for women below age 40 are excluded as well.
-
-This results in the functionality flow for extracting the diabetes
-population seen below. All functions take a `data.frame` as input and
-outputs a `data.frame`.
-
-![Flow of functions for extracting a diabetes population using the
-`osdc` package. The dark grey box denotes the user-facing function,
-while the remaining boxes are internal functions. Green and red boxes
-represent filtering functions (inclusion and exclusion events,
+![Flow of functions for classifying diabetes status using the `osdc`
+package. The dark grey box denotes the user-facing function, while the
+remaining boxes are internal functions. Green and red boxes represent
+filtering functions (inclusion and exclusion events,
 respectively).](images/diabetes-population-functions.png)
 
 ### Inclusion event: HbA1c tests above 48 mmol/mol
