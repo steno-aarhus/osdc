@@ -96,21 +96,22 @@ the `dw_ek_kontakt` variable (LPR3 data).
 
 Examples of this data is shown below:
 
-| pnr | recnum | d_inddto   |
-|-----|--------|------------|
-| 01  | 001    | 2003-01-31 |
-| 02  | 002    | 2003-02-01 |
-| 02  | 003    | 2003-02-01 |
+| pnr | recnum | d_inddto   | c_spec |
+|-----|--------|------------|--------|
+| 01  | 001    | 2003-01-31 | 08     |
+| 02  | 002    | 2003-02-01 | 01     |
+| 02  | 002    | 2003-02-01 | 01     |
 
 : Raw structure of lpr_adm: administrative data in the National Patient
 Register before 2019. Corresponding variable names 2019 onward: `pnr`=
-`cpr`, `recnum` = `dw_ek_kontakt`, `d_inddto` = `dato_start`
+`cpr`, `recnum` = `dw_ek_kontakt`, `d_inddto` = `dato_start` , `c_spec`
+= `hovedspeciale_ans`
 
 | recnum | c_diag | c_diagtype |
 |--------|--------|------------|
 | 001    | DE101  | A          |
 | 002    | DI21   | A          |
-| 003    | DE115  | B          |
+| 002    | DE115  | B          |
 
 : Raw structure of lpr_diag: diagnosis data in the National Patient
 Register before 2019. Corresponding variable names 2019 onward:
@@ -119,21 +120,21 @@ Register before 2019. Corresponding variable names 2019 onward:
 
 ### Register of Pharmaceutical Sales
 
-To-do
+To-do, similar to above
 
 ### National Health Insurance Service Register
 
-To-do
+To-do, similar to above
 
-Content: SSSY and SYSI (overlap in 2005)
+Notes: SSSY and SYSI overlap in 2005
 
 ### Register of Laboratory Results for Research
 
-To-do
+To-do, similar to above
 
 ### Civil Registration System
 
-To-do
+To-do, similar to above
 
 ## Expected inputs
 
@@ -144,8 +145,3 @@ presented as table examples, maybe based on the synthetic data objects)
 This section also describes how the data type used to define pregnancy
 index dates for censoring GDM also defines the cut-off date for
 `raw_inclusion_date` vs. `stable_inclusion_date`.
-
-## Expected output
-
-This section describes the output object.
-
