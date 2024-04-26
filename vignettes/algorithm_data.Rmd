@@ -105,7 +105,11 @@ Examples of this data is shown below:
 : Raw structure of lpr_adm: administrative data in the National Patient
 Register before 2019. Corresponding variable names 2019 onward: `pnr`=
 `cpr`, `recnum` = `dw_ek_kontakt`, `d_inddto` = `dato_start` , `c_spec`
-= `hovedspeciale_ans`
+= `hovedspeciale_ans`\*
+
+\* The specialty values in `hovedspeciale_ans` are coded as literal
+specialty names and are different from the padded integer codes that
+`c_spec` contains.
 
 | recnum | c_diag | c_diagtype |
 |--------|--------|------------|
