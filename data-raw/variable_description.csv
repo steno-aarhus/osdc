@@ -14,7 +14,6 @@ Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,pnr,pseudo
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,recnum,kontakt id-nummer,record id number,string,18 digits zero-padded,"""00000000000000001""","""9999999999999999""",NA,NA
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,d_inddto,indlaeggelsesdato (start paa kontakt),date of admission or initial contact,date_year,YYYYMMDD,"as.Date(""1977-01-01"")","as.Date(""2019-01-01"")",NA,NA
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_spec,afdelings specialekode,specialty code of department,string,2 digits zero-padded,"""00""","""99""",NA,c_blok is derived from c_spec
-Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_pattype,kontakt type,contact type,integer,standard,0,3,NA,has no lpr3 equivalent
 Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,recnum,kontakt_id_nummer,record id number,string,18 digits zero-padded,"""00000000000000001""","""9999999999999999""",NA,NA
 Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diag,diagnosekode,diagnosis code,string,icd8 or icd10,"""00009""","""^[:alpha:][:alpha:][:digit:][:digit:]""","""^249|^250|^DE1[0-4]"" are diabetes codes",NA
 Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diagtype,diagnosetype,diagnosis type,string,"1 digit (A, B, H, +)","""A""","""B""","A is a primary diagnosis, B is a secondary diagnosis",NA
