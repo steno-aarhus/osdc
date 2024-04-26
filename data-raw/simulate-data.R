@@ -15,12 +15,33 @@ library(rvest)
 
 # Simulation functions -----------------------------------------------------
 
+#'  Zero pad integers
+#'
+#' @param x An integer or vector of integers
+#' @param width An integer describing the final width of the zero-padded integer
+#' @keywords internal
+#'
+#' @return A zero padded integer
+#'
+#' @examples
+#' pad_integers(x=1, width=5)
+#' pad_integers(x=c(1,2,3), width=10)
 pad_integers <- function(x, width) {
   x |>
     stringr::str_trunc(width = width, side = "left", ellipsis = "") |>
     stringr::str_pad(width = width, side = "left", pad = "0")
 }
 
+#' Create ICD diagnoses.
+#'
+#' @param n The number of ICD-10 diagnoses to generate.
+#' @param date A date determining whether the diagnoses should be ICD-8 or ICD-10. If null, a random date will be sampled to determine which ICD revision the diagnosis should be from.
+#'
+#' @return n ICD-10 diagnoses as characters.
+#'
+#' @examples
+#' create_fake_icd(10)
+#' #' create_fake_icd(5, "1995-04-19")
 create_fake_icd <- function(n, date = NULL) {
   if (is.null(date)) {
     date <- sample(c("1993-01-01", "1995-01-01"), 1)
@@ -33,6 +54,16 @@ create_fake_icd <- function(n, date = NULL) {
   }
 }
 
+#' Create ICD 10 diagnoses.
+
+#' @description
+#' ICD-8 is the 8th revision of the International Classification of Diseases.
+#' @param n The number of ICD-8 diagnoses to generate.
+#'
+#' @return n ICD-8 diagnoses as characters.
+#'
+#' @examples
+#' create_fake_icd8(1)
 create_fake_icd8 <- function(n) {
   here("data-raw/icd8-codes.txt") |>
     read_lines() |>
@@ -53,6 +84,16 @@ create_fake_icd8 <- function(n) {
     sample(size = n, replace = TRUE)
 }
 
+#' Create fake ICD 10 diagnoses.
+#'
+#' @description
+#' ICD-10 is the 10th revision of the International Classification of Diseases.
+#' @param n An integer determining how many diagnoses will be created.
+#'
+#' @return n ICD-10 diagnoses as characters.
+#'
+#' @examples
+#' create_fake_icd10(3)
 create_fake_icd10 <- function(n) {
   # from: https://medinfo.dk/sks/brows.php?s_nod=6308
   here("data-raw/icd10-codes.csv") |>
@@ -61,6 +102,17 @@ create_fake_icd10 <- function(n) {
     sample(size = n, replace = TRUE)
 }
 
+#' Create fake ATC codes.
+#'
+#' @description
+#' Anatomical Therapeutic Chemical (ATC) codes are unique medicine codes
+#' based on on what organ or system it works on and how it works.
+#' @param n The number of fake ATC codes to generate.
+#'
+#' @return n ATC codes as characters.
+#'
+#' @examples
+#' create_fake_atc(10)
 create_fake_atc <- function(n) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
@@ -69,17 +121,46 @@ create_fake_atc <- function(n) {
     sample(n, replace = TRUE)
 }
 
+#' Create fake dates.
+#'
+#' @param n The number of dates to generate.
+#' @param from A date determining the first date in the interval to sample from.
+#' @param to A date determining the last date in the interval to sample from.
+#'
+#' @return n dates.
+#'
+#' @examples
+#' create_fake_date(20)
+#' create_fake_date(20, "1995-04-19", "2024-04-19")
 create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
   seq(as_date(from), as_date(to), by = "day") |>
     sample(n, replace = TRUE)
 }
 
+#' Create padded integers.
+#'
+#' @param n The number of integers to generate.
+#' @param length An integer determining the length of the padded integer.
+#'
+#' @return n padded integers as characters.
+#'
+#' @examples
+#' create_padded_integer(5,10)
 create_padded_integer <- function(n, length) {
   purrr::map(1:length, \(ignore) sample(0:9, n, replace = TRUE)) |>
     purrr::reduce(\(integer1, integer2) paste(integer1, integer2, sep = "")) |>
     pad_integers(width = length)
 }
 
+# TODO: Add description on what NPU codes are.
+#' Create fake NPU codes.
+#'
+#' @param n The number of NPUs to create.
+#'
+#' @return n NPUs as characters.
+#'
+#' @examples
+#' create_fake_npu(4)
 create_fake_npu <- function(n) {
   stringr::str_c(
     "NPU",
@@ -87,6 +168,14 @@ create_fake_npu <- function(n) {
   )
 }
 
+#' Create department specialties.
+#'
+#' @param n The number of department specialties to create.
+#'
+#' @return n random department specialties.
+#'
+#' @examples
+#' create_fake_hovedspeciale_ans(1000)
 create_fake_hovedspeciale_ans <- function(n) {
   "https://www.dst.dk/da/Statistik/dokumentation/Times/forebyggelsesregistret/spec" |>
     read_html() |>
@@ -96,6 +185,14 @@ create_fake_hovedspeciale_ans <- function(n) {
     sample(n, replace = TRUE)
 }
 
+#' Create drug names based on ATC code.
+#'
+#' @param atc A character describing an ATC code.
+#'
+#' @return A character with the drug name of the given ATC code.
+#'
+#' @examples
+#' create_fake_drug_name(c("A03FA05")
 create_fake_drug_name <- function(atc) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
@@ -104,10 +201,28 @@ create_fake_drug_name <- function(atc) {
     sample(length(atc), replace = TRUE)
 }
 
+#' Transform date(s) to the format wwyy.
+#'
+#' @param x A date or a vector of dates.
+#'
+#' @return The input date(s) in the format wwyy.
+#'
+#' @examples
+#' to_wwyy("2020-12-01")
+#' to_wwyy(c("2020-01-12", "1995-04-19"))
 to_wwyy <- function(x) {
   format(lubridate::as_date(x), format = "%W%y")
 }
 
+#' Transform date(s) to the format yyyymmdd.
+#'
+#' @param x A date or a vector of dates.
+#'
+#' @return The input date(s) in the format yyyymmdd.
+#'
+#' @examples
+#' to_yyyymmdd("2020-12-01")
+#' to_yyyymmdd(c("2020-01-12", "1995-04-19"))
 to_yyyymmdd <- function(x) {
   format(lubridate::as_date(x), format = "%Y%m%d")
 }
