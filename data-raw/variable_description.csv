@@ -1,6 +1,6 @@
 register_name,register_abbrev,start_year,end_year,variable_name,danish_description,english_description,data_type,format,expected_values_from,expected_values_to,explanation_of_values,comments
 CPR-registerets befolkningstabel,bef,1968,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""0000000001""","""9999999999""",NA,NA
-CPR-registerets befolkningstabel,bef,1968,NA,koen,koen,sex,integer,Binary 1 digit,0,1,0 is woman,NA
+CPR-registerets befolkningstabel,bef,1968,NA,koen,koen,sex,integer,Binary 1 digit,1,2,2 is woman,NA
 CPR-registerets befolkningstabel,bef,1968,NA,foed_dato,foedselsdato,date of birth,date_year,YYYYMMDD,"as.Date(""1900-01-01"")","as.Date(""2020-01-01"")",NA,NA
 Laegemiddelstatistikregisteret,lmdb,1995,NA,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,string,12 digits zero-padded,"""00000000001""","""9999999999""",NA,NA
 Laegemiddelstatistikregisteret,lmdb,1995,NA,eksd,ekspeditionsdato,date of purchase,date_year,YYYYMMDD,"as.Date(""1995-01-01"")","as.Date(""2020-01-01"")",NA,NA
