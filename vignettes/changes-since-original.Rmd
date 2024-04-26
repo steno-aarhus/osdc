@@ -1,0 +1,32 @@
+---
+title: "Changes to algorithm since original validation"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: vancouver.csl
+vignette: >
+  %\VignetteIndexEntry{Rationale}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Changes since original validation
+
+1.  Purchases of semaglutid, dapagliflozin or empagliflozin are no
+    longer used, neither for inclusion events nor classification of
+    diabetes type (due to increasing use in treatment of non-diabetes).
+2.  Diabetes type reclassification based on insulin purchases in the
+    previous year is no longer used.
+
+## Future potential changes
+
+1.  Add support for using medical birth register to define pregnancies
+    to censor GDM. Allows censoring GLD purchases all the way back to
+    1995 (rather than 1997 onward, as the obstetric codes are limited
+    to), and extends the window of valid dates of diagnosis to 1996
+    onward.
+2.  Simplify logic defining pregnancy index dates to remove dependency
+    on maternal care visits (if performance in validation allows)
+3.  Limit the historic scope of primary diagnoses used to evaluate
+    majority of diabetes-specific diagnoses in type classification (e.g.
+    only evaluation majority among the last five type-specific diabetes
+    diagnoses)
