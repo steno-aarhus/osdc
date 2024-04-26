@@ -26,4 +26,24 @@
   "[r]": {
     "editor.defaultFormatter": "REditorSupport.r"
   },
+  "cSpell.language": "en-GB",
+  "cSpell.words": [
+    "OSDC",
+    "rmarkdown",
+    "knitr",
+    "dplyr",
+    "RLRR",
+    "Laboratoriedatabasens",
+    "Forskertabel",
+    "DNPR",
+    "Landspatient",
+    "Registeret",
+    "lægemiddelsdatabasen",
+    "registerets",
+    "befolkningstabel",
+    "Sygesikringsregisteret",
+    "pcos",
+    "mmol",
+    "plantuml",
+  ],
 }
