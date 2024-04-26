@@ -1,5 +1,5 @@
 ---
-title: "Description of algorithm contents & logic"
+title: "Description of data objects related to the algorithm"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
@@ -19,11 +19,8 @@ library(dplyr)
 
 ## Contents
 
-This document describes the data components involved in the algorithm.
-It also describes the implemented algorithm logic, changes compared to
-the originally validated algorithm, and road a map for potential changes
-in future revisions. Refer to the other vignettes for background
-information and a more general description of the algorithm.
+This document describes the structure of the data components processed
+by the algorithm.
 
 ## Data components
 
@@ -138,15 +135,15 @@ To-do
 
 To-do
 
-## Expected input
+## Expected inputs
 
 This section describes the required structure of the data objects that
 can be used as input parameters to the OSDC algorithm (preferably
 presented as table examples, maybe based on the synthetic data objects)
 
-## Algorithm logic
-
-This section describes what operations are performed on the input data.
+This section also describes how the data type used to define pregnancy
+index dates for censoring GDM also defines the cut-off date for
+`raw_inclusion_date` vs. `stable_inclusion_date`.
 
 ## Expected output
 
