@@ -14,7 +14,6 @@ Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,pnr,pseudo
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,recnum,kontakt id-nummer,record id number,NA
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,d_inddto,indlaeggelsesdato (start paa kontakt),date of admission or initial contact,NA
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_spec,afdelings specialekode,specialty code of department,c_blok is derived from c_spec
-Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,c_pattype,kontakt type,contact type,has no lpr3 equivalent
 Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,recnum,kontakt_id_nummer,record id number,NA
 Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diag,diagnosekode,diagnosis code,NA
 Landspatientregisterets diagnosetabel (LPR2),lpr_diag,1977,2018,c_diagtype,diagnosetype,diagnosis type,NA

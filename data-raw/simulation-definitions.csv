@@ -14,7 +14,6 @@ lpr_adm,c_spec,string,2 digits zero-padded,"create_padded_integer(N, 2)",,c_blok
 lpr_adm,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
 lpr_adm,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",,
 lpr_adm,d_inddto,date,YYYYMMDD,to_yyyymmdd(create_fake_date(N)),,
-lpr_adm,c_pattype,integer,standard,"sample(0:3, N, replace = TRUE)",,has no lpr3 equivalent.
 lpr_diag,c_diagtype,string,"1 digit (A, B, H, +)","draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))",,
 lpr_diag,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",,
 lpr_diag,c_diag,string,icd8 or icd10,create_fake_icd(N),"""^249|^250|^DE1[0-4]"" are diabetes codes",
