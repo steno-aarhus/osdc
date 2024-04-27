@@ -9,29 +9,33 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-library(dplyr)
-```
+## Function conventions
 
-## Overview
+The below conventions are *ideals* only, to be used as a guidelines to
+help with development and understanding of the code. They are not hard
+rules.
 
-The OSDC algorithm - and thereby, the `osdc` package - contains two
-components: Extracting the diabetes population and classifying diabetes
-type (type 1 and type2).
+### Naming
 
-In the following sections, we will go through each of these components
-and the functions they contain.
+-   First word is an action verb, later words are objects or conditions.
+-   Exclusion criteria are prefixed with `exclude_`.
+-   Inclusion criteria are prefixed with `include_`.
+-   Helpers that get or extract a condition ("pregnancy" or "date of
+    visit") are prefixed with `get_`.
+-   Helpers that drop or keep a specific condition are prefixed with
+    `drop_` or `keep_` ("first visit date to maternal care for pregnancy
+    after 40 weeks"). These types of helpers likely are contained in the
+    `get_` functions.
 
-## Classify diabetes status
+### Input and output
 
-This component classifies those with diabetes (type 1 or 2) based on the
-Danish registers described in the `vignette("design")`. This component
-will have one user-facing function: `classify_diabetes()`. All data
-sources are used as input for this function. The specific inclusion and
+-   Few arguments, with one or two core required argument.
+-   `include_` functions take a register as the first argument.
+    -   One input register database at a time.
+-   `exclude_` functions can take a register as the first argument or
+    take the output from an `include_` function.
+-   Second argument can be an output data from another function.
+
 exclusion details are also described in the `vignette("design")`.
 
 This results in the functionality flow for classifying diabetes status
