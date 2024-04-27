@@ -1,10 +1,10 @@
 ---
-title: "Functionality Flow"
+title: "Function Flow"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
 vignette: >
-  %\VignetteIndexEntry{Functionality Flow}
+  %\VignetteIndexEntry{Function Flow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -1,4 +1,4 @@
-@startuml diabetes-population-functions 
+@startuml function-flow
 !theme cerulean-outline
 <style>
 action {
