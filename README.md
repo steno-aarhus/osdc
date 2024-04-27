@@ -35,6 +35,16 @@ You can install the development version of osdc from
 pak::pak("steno-aarhus/osdc")
 ```
 
+To install all dependencies **for development only**, like simulating
+more data or running the full test suite, use:
+
+``` r
+pak::pak(
+  "steno-aarhus/osdc",
+  dependencies = c("all", "Config/Needs/tests", "Config/Needs/data")
+)
+```
+
 ## Code of Conduct
 
 Please note that the osdc project is released with a [Contributor Code
