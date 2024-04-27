@@ -193,6 +193,9 @@ insert_analysiscode <- function(x) {
 
 # use the simulation definition data to simulate some data
 simulate_data <- function(data, n) {
+  # N needs to be capitalized for fabricatr, and but to be consistent
+  # with other functions and their use of `n`, I kept it lowercase for
+  # the function argument.
   N <- n
   data$generator |>
     as.list() |>
