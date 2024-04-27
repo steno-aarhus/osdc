@@ -7,7 +7,7 @@ library(lubridate)
 library(fabricatr)
 library(rvest)
 
-# Get ICD codes -----------------------------------------------------------
+# Get ICD-8 codes -----------------------------------------------------------
 
 # "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
 #   read_lines() |>
@@ -112,7 +112,7 @@ to_yyyymmdd <- function(x) {
   format(lubridate::as_date(x), format = "%Y%m%d")
 }
 
-# Insert extra values ------------------------------------------------------
+# Insert extra values to overrepresent certain values ------------------------------------------------------
 
 insertion_rate <- function(proportion) {
   runif(1) < proportion
@@ -189,7 +189,7 @@ insert_analysiscode <- function(x) {
   x
 }
 
-# Generate data -----------------------------------------------------------
+# Simulate data -----------------------------------------------------------
 
 # use the simulation definition data to simulate some data
 simulate_data <- function(data, n) {
