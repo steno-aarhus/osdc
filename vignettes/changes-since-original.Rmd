@@ -29,5 +29,5 @@ In this vignette, you'll find a description of the changes that have been made t
     on maternal care visits (if performance in validation allows)
 3.  Limit the historic scope of primary diagnoses used to evaluate
     majority of diabetes-specific diagnoses in type classification (e.g.
-    only evaluation majority among the last five type-specific diabetes
+    only evaluate majority among the last five type-specific diabetes
     diagnoses)
