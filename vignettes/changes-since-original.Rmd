@@ -8,7 +8,15 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-In this vignette, you'll find a description of the changes that have been made to the OSDC algorithm since its [original validation](https://doi.org/10.2147/CLEP.S407019). The algorithm has been implemented with these changes in the `osdc` package. In addition, potential changes that might be implemented in the `osdc` package in the future are described. When an update to the algorithm has been implemented, this vignette will also provide validation metrics for that version of the algorithm and track its validity across versions.
+
+In this vignette, you'll find a description of the changes that have
+been made to the OSDC algorithm since its [original
+validation](https://doi.org/10.2147/CLEP.S407019). The algorithm has
+been implemented with these changes in the `osdc` package. In addition,
+potential changes that might be implemented in the `osdc` package in the
+future are described. When an update to the algorithm has been
+implemented, this vignette will also provide validation metrics for that
+version of the algorithm and track its validity across versions.
 
 ## Changes since original validation
 
@@ -20,13 +28,42 @@ In this vignette, you'll find a description of the changes that have been made t
 
 ## Validity
 
++----+--------------+----+--------------+----+----+----+----+----+
+| V  | T1D:         | T1 | T1D\>40:     | T1 | T2 | T2 | T2 | T2 |
+| er |              | D: |              | D\ | D: | D: | D\ | D\ |
+| si | PPV          |    | PPV          | >4 |    |    | <4 | <4 |
+| on |              | Se |              | 0: | P  | Se | 0: | 0: |
+|    |              | ns |              |    | PV | ns |    |    |
+|    |              |    |              | Se |    |    | P  | Se |
+|    |              |    |              | ns |    |    | PV | ns |
++====+==============+====+==============+====+====+====+====+====+
+| *  | 0.943        | 0  | 0.708        | 0  | 0  | 0  | 0  | 0  |
+| *P |              | .7 |              | .3 | .8 | .9 | .4 | .8 |
+| ap |              | 73 |              | 78 | 75 | 44 | 71 | 63 |
+| er |              |    |              |    |    |    |    |    |
+| ** |              |    |              |    |    |    |    |    |
++----+--------------+----+--------------+----+----+----+----+----+
+| ** | ?            | ?  | ?            | ?  | ?  | ?  | ?  | ?  |
+| os |              |    |              |    |    |    |    |    |
+| dc |              |    |              |    |    |    |    |    |
+| 1  |              |    |              |    |    |    |    |    |
+| .x |              |    |              |    |    |    |    |    |
+| ** |              |    |              |    |    |    |    |    |
++----+--------------+----+--------------+----+----+----+----+----+
+
+: Algorithm validity across versions. Reports `PPV`: *positive
+predictive value* and `Sens`: *sensitivity* overall and among cases with
+atypical age at onset of T1D (after age 40) and T2D (before age 40),
+respectively.
+
 ## Future potential changes
 
 1.  Add support for using medical birth register to define pregnancies
-    to censor gestational diabetes (GDM). This will allow for the censoring of glucose-lowering drug (GLD) purchases all the way back to
-    1995 (rather than 1997 onward, as the obstetric codes are limited
-    to), and enable the extension of the window of valid dates of diagnosis to 1996
-    onward.
+    to censor gestational diabetes (GDM). This will allow for the
+    censoring of glucose-lowering drug (GLD) purchases all the way back
+    to 1995 (rather than 1997 onward, as the obstetric codes are limited
+    to), and enable the extension of the window of valid dates of
+    diagnosis to 1996 onward.
 2.  Simplify logic defining pregnancy index dates to remove dependency
     on maternal care visits (if performance in validation allows)
 3.  Limit the historic scope of primary diagnoses used to evaluate
