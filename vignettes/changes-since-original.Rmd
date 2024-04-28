@@ -21,7 +21,7 @@ In this vignette, you'll find a description of the changes that have been made t
 ## Future potential changes
 
 1.  Add support for using medical birth register to define pregnancies
-    to censor GDM. Allows censoring GLD purchases all the way back to
+    to censor gestational diabetes (GDM). This will allow for the censoring of glucose-lowering drug (GLD) purchases all the way back to
     1995 (rather than 1997 onward, as the obstetric codes are limited
     to), and extends the window of valid dates of diagnosis to 1996
     onward.
