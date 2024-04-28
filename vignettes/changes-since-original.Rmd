@@ -8,7 +8,8 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
+In this vignette, you'll find a description of the changes that have been made to the OSDC algorithm since it's original validation. The algorithm has been implemented with these changes in the `osdc` package. In addition, potential changes that might be implemented in the `osdc` package in the future are described.
+<!-- TODO: Add link to article -->
 ## Changes since original validation
 
 1.  Purchases of semaglutid, dapagliflozin or empagliflozin are no
