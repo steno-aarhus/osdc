@@ -8,8 +8,8 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-In this vignette, you'll find a description of the changes that have been made to the OSDC algorithm since it's original validation. The algorithm has been implemented with these changes in the `osdc` package. In addition, potential changes that might be implemented in the `osdc` package in the future are described.
-<!-- TODO: Add link to article -->
+In this vignette, you'll find a description of the changes that have been made to the OSDC algorithm since its [original validation](https://doi.org/10.2147/CLEP.S407019). The algorithm has been implemented with these changes in the `osdc` package. In addition, potential changes that might be implemented in the `osdc` package in the future are described. When an update to the algorithm has been implemented, this vignette will also provide validation metrics for that version of the algorithm and track its validity across versions.
+
 ## Changes since original validation
 
 1.  Purchases of semaglutid, dapagliflozin or empagliflozin are no
@@ -17,6 +17,8 @@ In this vignette, you'll find a description of the changes that have been made t
     diabetes type (due to increasing use in treatment of non-diabetes).
 2.  Diabetes type reclassification based on insulin purchases in the
     previous year is no longer used.
+
+## Validity
 
 ## Future potential changes
 
