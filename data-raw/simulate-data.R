@@ -11,7 +11,21 @@ library(rvest)
 
 # "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
 #   read_lines() |>
-#   write_lines(here("data-raw/icd8-codes.txt"))
+#   str_trim() |>
+#   as_tibble() |>
+#   separate_wider_delim(
+#     value,
+#     delim = regex("   +"),
+#     names = c("icd8", "description", "unknown"),
+#     too_many = "merge"
+#   ) |>
+#   mutate(across(everything(), str_trim)) |>
+#   mutate(
+#     description = str_remove(description, "\\d+"),
+#     icd8 = str_remove(icd8, "dia")
+#   ) |>
+#   select(icd8) |>
+#   write_csv(here("data-raw/icd8-codes.csv"))
 
 # Simulation functions -----------------------------------------------------
 
@@ -34,21 +48,8 @@ create_fake_icd <- function(n, date = NULL) {
 }
 
 create_fake_icd8 <- function(n) {
-  here("data-raw/icd8-codes.txt") |>
-    read_lines() |>
-    str_trim() |>
-    as_tibble() |>
-    separate_wider_delim(
-      value,
-      delim = regex("   +"),
-      names = c("icd8", "description", "unknown"),
-      too_many = "merge"
-    ) |>
-    mutate(across(everything(), str_trim)) |>
-    mutate(
-      description = str_remove(description, "\\d+"),
-      icd8 = str_remove(icd8, "dia")
-    ) |>
+  here("data-raw/icd8-codes.csv") |>
+    read_csv() |>
     pull(icd8) |>
     sample(size = n, replace = TRUE)
 }
