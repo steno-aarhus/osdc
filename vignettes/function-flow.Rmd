@@ -9,6 +9,17 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+## Introduction
+
+This vignette describes the function conventions and function flow of
+the `osdc` package. The function convention sections go over how we name
+functions and how we structure them in terms of input and output. The
+function flow describes the functions within the package, both internal
+and user-facing, which data sources they rely on, and how they are
+connected to each other. First, the functions for classifying diabetes
+status are presented, followed by the functions for classifying the
+diabetes type.
+
 ## Function conventions
 
 The below conventions are *ideals* only, to be used as a guidelines to
