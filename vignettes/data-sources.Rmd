@@ -12,6 +12,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
+  results = "asis",
   collapse = TRUE,
   comment = "#>"
 )
@@ -25,55 +26,37 @@ look like. The algorithm uses these Danish registers as input data
 sources:
 
 ```{r, results='asis'}
-registers_as_md_table("Danish registers used in the OSDC algorithm.")
+osdc:::registers_as_md_table("Danish registers used in the OSDC algorithm.")
 ```
 
-In a future revision, the algorithm can also utilise the Danish Medical
+In a future revision, the algorithm can also use the Danish Medical
 Birth Register to extend the period of time of valid inclusions further
 back in time compared to what is possible using obstetric codes from the
 National Patient Register.
 
-## Pre-processing steps
+## Expected data structure
 
-This section describes the necessary steps required to format raw data
-into a format that can be fed as input to the algorithm. The description
-assumes that raw data is stored/structured in the most common format for
-raw data provided on Statistics Denmark's servers (from our experience).
+This section describes how the data sources are expected to look like
+when they are input into the OSDC algorithm. We try to mimic as much as
+possible how the raw data looks like within Denmark Statistics. So since
+registers are often stored on a per year basis, we don't expect a year
+variable in the data itself. If you've processed the data so that it has
+a year variable, you will likely need to do a split-apply-combine
+approach when using the osdc package. We internally convert all variable
+names to lower case, and so we present them here in lower case, but case
+may vary between data sources (and even between years in the same data
+source) in real data.
 
-Using the most common scenario when working with the above data on
-Statistics Denmark's servers, the following paragraph lists the common
-register abbreviations/raw file names, their structure (year-on-year
-files vs. a large single file, plus changes/breaks over time), raw
-variable names and relevant values. Variable names are presented in
-lower case here, but case may vary between data sources (and even
-between years in the same data source) in real data.
-
-Depending on the contents and format of your specific raw data, you may
-need to adapt the pre-processing pipeline accordingly.
-
-## Structure of raw data
-
-### National Patient Register
-
-The National Patient Register contains several tables and types of data.
-The algorithm uses only hospital diagnosis data, which is contained in
-two tables:
-
-1.  A table containing administrative information, e.g. personal ID,
-    `pnr`/`cpr`, and the first date of the contact,
-    `d_inddto`/`dato_start`.
-
-    -   Named `lpr_adm` in the LPR2-formatted data prior to 2019, and
-        `kontakter` in contact-based LPR3-formatted data from 2019
-        onward.
-
-2.  A table containing all information on diagnoses recorded at each
-    contact, `c_diag`, and the type of diagnosis (e.g. primary or
-    secondary to the contact), `c_diagtype`.
-
-    -   Named `lpr_diag` in the LPR2-formatted data prior to 2019, and
-        `diagnoser` in contact-based LPR3-formatted data from 2019
-        onward.
+A small note about the National Patient Register. It contains several
+tables and types of data. The algorithm uses only hospital diagnosis
+data that contained in four registers, which are a pair of two related
+registers used before (LPR2) and after (LPR3) 2019. So the LPR2 to LPR3
+equivalents are `lpr_adm` to `kontakter` and `lpr_diag` to `diagnoser`.
+Most of the variables have equivalents as well, except that while
+`c_spec` is the LPR2 equivalent of `hovedspeciale_ans` in LPR3, the
+specialty values in `hovedspeciale_ans` are coded as literal specialty
+names and are different from the padded integer codes that `c_spec`
+contains.
 
 On Statistics Denmark, these tables are provided as a mix of separate
 files for each calendar year prior to 2019 (in LPR2 format) and a single
@@ -81,58 +64,20 @@ file containing all the data from 2019 onward (LPR3 format). The two
 tables can be joined with either the `recnum` variable (LPR2 data) or
 the `dw_ek_kontakt` variable (LPR3 data).
 
-Examples of this data is shown below:
+```{r}
+for (register in osdc:::get_register_abbrev()) {
+  print(glue::glue("### {osdc:::register_as_md_header(register)}"))
 
-| pnr | recnum | d_inddto   | c_spec |
-|-----|--------|------------|--------|
-| 01  | 001    | 2003-01-31 | 08     |
-| 02  | 002    | 2003-02-01 | 01     |
-| 02  | 002    | 2003-02-01 | 01     |
+  osdc:::variables_as_md_table(
+    register,
+    caption = glue::glue("Variables and their descriptions within the `{register}` register.")
+  ) |>
+    print()
 
-: Raw structure of lpr_adm: administrative data in the National Patient
-Register before 2019. Corresponding variable names 2019 onward: `pnr`=
-`cpr`, `recnum` = `dw_ek_kontakt`, `d_inddto` = `dato_start` , `c_spec`
-= `hovedspeciale_ans`\*
-
-\* The specialty values in `hovedspeciale_ans` are coded as literal
-specialty names and are different from the padded integer codes that
-`c_spec` contains.
-
-| recnum | c_diag | c_diagtype |
-|--------|--------|------------|
-| 001    | DE101  | A          |
-| 002    | DI21   | A          |
-| 002    | DE115  | B          |
-
-: Raw structure of lpr_diag: diagnosis data in the National Patient
-Register before 2019. Corresponding variable names 2019 onward:
-`recnum`= `dw_ek_kontakt`, `c_diag` = `diagnosekode`, `c_diagtype` =
-`diagnosetype`
-
-### Register of Pharmaceutical Sales
-
-To-do, similar to above
-
-### National Health Insurance Service Register
-
-To-do, similar to above
-
-Notes: SSSY and SYSI overlap in 2005
-
-### Register of Laboratory Results for Research
-
-To-do, similar to above
-
-### Civil Registration System
-
-To-do, similar to above
-
-## Expected inputs
-
-This section describes the required structure of the data objects that
-can be used as input parameters to the OSDC algorithm (preferably
-presented as table examples, maybe based on the synthetic data objects)
-
-This section also describes how the data type used to define pregnancy
-index dates for censoring GDM also defines the cut-off date for
-`raw_inclusion_date` vs. `stable_inclusion_date`.
+  osdc:::register_data_as_md_table(
+    register,
+    caption = glue::glue("Simulated example of what the data looks like for the `{register}` register.")
+  ) |>
+    print()
+}
+```
