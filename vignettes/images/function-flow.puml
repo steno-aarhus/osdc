@@ -18,7 +18,7 @@ database {
 hide <<inclusion>> stereotype
 hide <<exclusion>> stereotype
 
-card classify_diabetes() as cd {
+card classify_diabetes_status() as cd {
     together {
         database sssy
         database sysi
