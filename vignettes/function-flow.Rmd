@@ -31,12 +31,12 @@ rules.
 -   First word is an action verb, later words are objects or conditions.
 -   Exclusion criteria are prefixed with `exclude_`.
 -   Inclusion criteria are prefixed with `include_`.
--   Helpers that get or extract a condition (e.g., "pregnancy" or "date of
-    visit") are prefixed with `get_`.
+-   Helpers that get or extract a condition (e.g., "pregnancy" or "date
+    of visit") are prefixed with `get_`.
 -   Helpers that drop or keep a specific condition are prefixed with
-    `drop_` or `keep_` (e.g., "first visit date to maternal care for pregnancy
-    after 40 weeks"). These types of helpers likely are contained in the
-    `get_` functions.
+    `drop_` or `keep_` (e.g., "first visit date to maternal care for
+    pregnancy after 40 weeks"). These types of helpers likely are
+    contained in the `get_` functions.
 
 ### Input and output
 
@@ -51,11 +51,12 @@ rules.
 
 The OSDC algorithm - and thereby, the `osdc` package - contains one main
 function that will classify individuals into those with either type 1 or
-type 2 diabetes using the Danish registers: `classify_diabetes_status()`. This
-function classifies those with diabetes (type 1 or 2) based on the
-Danish registers described in the `vignette("design")`. All data sources
-are used as input for this function. The specific inclusion and
-exclusion details are also described in the `vignette("design")`.
+type 2 diabetes using the Danish registers:
+`classify_diabetes_status()`. This function classifies those with
+diabetes (type 1 or 2) based on the Danish registers described in the
+`vignette("design")`. All data sources are used as input for this
+function. The specific inclusion and exclusion details are also
+described in the `vignette("design")`.
 
 This results in the functionality flow for classifying diabetes status
 seen below. All functions take a `data.frame` type object as input and
@@ -66,7 +67,8 @@ will also be a `data.table`.
 ![Flow of functions, as well as their required input registers, for
 classifying diabetes status using the `osdc` package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
-events, respectively). Uncoloured boxes are helper functions that get or extract a condition.](images/function-flow.png)
+events, respectively). Uncoloured boxes are helper functions that get or
+extract a condition.](images/function-flow.png)
 
 ## Inclusion events
 
@@ -144,9 +146,9 @@ input and excludes BRANDS.
 
 ### Metformin purchases for women below age 40
 
-The function `exclude_potential_pcos()` as input to exclude all purchases of
-metformin by women below age 40 (i.e., \<= 39 years old) at the date of
-purchase.
+The function `exclude_potential_pcos()` as input to exclude all
+purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
+the date of purchase.
 
 This function contains two helper functions:
 
