@@ -28,9 +28,11 @@ Imports:
     rlang
 Suggests:
     dbplyr,
+    glue,
     knitr,
     rmarkdown,
     spelling,
+    stringr,
     testthat (>= 3.0.0),
     tibble
 VignetteBuilder: 
