@@ -120,34 +120,37 @@ insertion_rate <- function(proportion) {
 }
 
 insert_specific_atc <- function(data, proportion = 0.3) {
-  # c(
-  #       "A10AB",
-  #       "A10AC",
-  #       "A10AD",
-  #       "A10AE",
-  #       "A10BA",
-  #       "A10BB",
-  #       "A10BD",
-  #       "A10BG",
-  #       "A10BH",
-  #       "A10BJ",
-  #       "A10BK",
-  #       "A10BX"
-  # )
+  glucose_lowering_drugs <- c(
+    metformin = "A10AB02",
+    # "A10AC",
+    # "A10AD",
+    insulin_liraglutid = "A10AE56",
+    # "A10BA",
+    # "A10BB",
+    # "A10BD",
+    # "A10BG",
+    # "A10BH",
+    liraglutid = "A10BJ02",
+    semaglutid = "A10BJ06",
+    dapagliflozin = "A10BK01",
+    empagliflozin = "A10BK03"
+    # "A10BX"
+  )
   data |>
     mutate(
       across(
         matches("^atc$"),
         \(column) if_else(
           runif(n()) < proportion,
-          sample(c("A10BA02", "A10BJ02", "A10BJ06"), 1),
+          sample(unname(glucose_lowering_drugs), 1),
           column
         )
       )
     )
 }
 
-# Insert a few false-positive cases with purchases of metformin:
+# Insert a few cases where purchases of metformin are used for other purposes
+# than diabetes.
 insert_false_metformin <- function(data, proportion = 0.05) {
   if (!all(colnames(data) %in% c("atc", "name"))) {
     return(data)
