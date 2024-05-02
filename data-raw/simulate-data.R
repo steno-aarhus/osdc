@@ -84,7 +84,7 @@ create_padded_integer <- function(n, length) {
 create_fake_npu <- function(n) {
   stringr::str_c(
     "NPU",
-    create_padded_integer(n, 8)
+    create_padded_integer(n, 5)
   )
 }
 
