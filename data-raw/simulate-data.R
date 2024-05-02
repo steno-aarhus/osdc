@@ -193,6 +193,8 @@ insert_analysiscode <- function(x) {
   x
 }
 
+# TODO: Need a function to reuse recnum and dw_ek_kontakt in LPR data
+
 # Simulate data -----------------------------------------------------------
 
 # use the simulation definition data to simulate some data
