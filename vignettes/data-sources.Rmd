@@ -1,45 +1,32 @@
 ---
-title: "Description of data sources related to the OSDC algorithm"
+title: "Data sources"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
 vignette: >
-  %\VignetteIndexEntry{Design}
+  %\VignetteIndexEntry{Data sources}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
+  echo = FALSE,
   collapse = TRUE,
   comment = "#>"
 )
-library(dplyr)
+library(tidyverse)
+library(osdc)
 ```
 
-## Contents
+This document describes the sources of data needed by the OSDC algorithm
+and gives a brief overview of each of these sources and how they might
+look like. The algorithm uses these Danish registers as input data
+sources:
 
-This document describes the structure of the data components processed
-by the OSDC algorithm.
-
-## Data components
-
-The algorithm uses five different types of data, contained in five
-register sources:
-
-1.  Hospital diagnoses
-    -   The National Patient Register [Landspatientregisteret]
-2.  Prescription drugs purchased
-    -   The Register of Pharmaceutical Sales
-        [Lægemiddelstatistikregisteret]
-3.  Hemoglobin-A1c tests
-    -   The Register of Laboratory Results for Research
-        [Laboratoriedatabasens Forskertabel]
-4.  Diabetes-specific podiatrist services
-    -   The National Health Insurance Service Register
-        [Sygesikringsregisteret]
-5.  Sex & date of birth
-    -   The Danish Civil Registration System [CPR-registeret]
+```{r, results='asis'}
+registers_as_md_table("Danish registers used in the OSDC algorithm.")
+```
 
 In a future revision, the algorithm can also utilise the Danish Medical
 Birth Register to extend the period of time of valid inclusions further
@@ -54,12 +41,12 @@ assumes that raw data is stored/structured in the most common format for
 raw data provided on Statistics Denmark's servers (from our experience).
 
 Using the most common scenario when working with the above data on
-Statistics Denmark's servers, the following paragraph lists the common register
-abbreviations/raw file names, their structure (year-on-year files vs. a
-large single file, plus changes/breaks over time), raw variable names
-and relevant values. Variable names are presented in lower case here,
-but case may vary between data sources (and even between years in the
-same data source) in real data.
+Statistics Denmark's servers, the following paragraph lists the common
+register abbreviations/raw file names, their structure (year-on-year
+files vs. a large single file, plus changes/breaks over time), raw
+variable names and relevant values. Variable names are presented in
+lower case here, but case may vary between data sources (and even
+between years in the same data source) in real data.
 
 Depending on the contents and format of your specific raw data, you may
 need to adapt the pre-processing pipeline accordingly.
