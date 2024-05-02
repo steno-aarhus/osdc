@@ -155,18 +155,17 @@ This function contains two helper functions:
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-## Get initial diagnosis date
+## Get diagnosis date
 
-Then, the first inclusion and exclusion events from the function outputs
-are dropped with `drop_first_event()` so that only those with two or
-more events are kepts. This is then used to assign an initial diagnosis
-date with `get_initial_diagnosis_date()`. Then all the outputs are
-joined together at the end.
+The function `get_diagnosis_date()` combines the outputs from the
+inclusion and exclusion functions to get the final diagnosis date.
+Initially, it drops the first inclusion and exclusion events from the
+function outputs with the helper `drop_first_event()`, so that only
+those with two or more events are kept. This is then used to assign an
+initial diagnosis according to OSDC. Then, all the outputs are joined
+together with `join_diagnosis_dates()`.
 
-## Drop diagnosis dates outside of coverage
-
-Finally, from the raw initial diagnosis dates, the dates outside of
-the data coverage period are dropped to end with a final diagnosis date
-using `get_final_diagnosis_date()`. For details on this censoring based
-on the periods with insufficient data coverage, see the
-`vignette("algorithm-logic")`.
+Finally, the dates outside of the data coverage period are dropped with
+`drop_diagnosis_dates_outside_coverage()` to end with a final diagnosis
+date. For details on this censoring based on periods with insufficient
+data coverage, see the `vignette("algorithm-logic")`.
