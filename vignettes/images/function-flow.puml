@@ -32,15 +32,15 @@ card classify_diabetes_status() as cd {
     }
 
     action "get_pregnancy_dates()" as pregnancy
-    action "get_pcos()" as pcos
+    action "get_potential_pcos()" as pcos
     action "get_diagnosis_date()" as diagnosis_date
-    action "join_lpr2" as lpr2
-    action "join_lpr3" as lpr3
+    action "join_lpr2()" as lpr2
+    action "join_lpr3()" as lpr3
 
     together {
         action "exclude_pregnancy()" as ex_pregnancy <<exclusion>>
-        action "exclude_purchases_weight_loss_drugs()" as ex_wld <<exclusion>>
-        action "exclude_pcos()" as ex_pcos <<exclusion>>
+        action "exclude_purchases_of_weight_loss_drugs()" as ex_wld <<exclusion>>
+        action "exclude_potential_pcos()" as ex_pcos <<exclusion>>
     }
 
     together {
