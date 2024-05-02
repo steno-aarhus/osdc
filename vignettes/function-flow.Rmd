@@ -37,6 +37,8 @@ rules.
     `drop_` or `keep_` (e.g., "first visit date to maternal care for
     pregnancy after 40 weeks"). These types of helpers likely are
     contained in the `get_` functions.
+-   Helpers that join registers or output of other functions are
+    prefixed with `join_`.
 
 ### Input and output
 
@@ -68,7 +70,8 @@ will also be a `data.table`.
 classifying diabetes status using the `osdc` package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
 events, respectively). Uncoloured boxes are helper functions that get or
-extract a condition.](images/function-flow.png)
+extract a condition or joins data or function
+outputs.](images/function-flow.png)
 
 ## Inclusion events
 
