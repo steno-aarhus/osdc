@@ -12,7 +12,7 @@ vignette: >
 ## Introduction
 
 This vignette describes the function conventions and function flow of
-the `osdc` package. The function convention sections go over how we name
+the osdc package. The function convention sections go over how we name
 functions and how we structure them in terms of input and output. The
 function flow describes the functions within the package, both internal
 and user-facing, which data sources they rely on, and how they are
@@ -51,7 +51,7 @@ rules.
 
 ## Function flow
 
-The OSDC algorithm - and thereby, the `osdc` package - contains one main
+The OSDC algorithm - and thereby, the osdc package - contains one main
 function that will classify individuals into those with either type 1 or
 type 2 diabetes using the Danish registers:
 `classify_diabetes_status()`. This function classifies those with
