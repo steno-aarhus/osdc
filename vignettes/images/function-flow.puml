@@ -34,6 +34,8 @@ card classify_diabetes_status() as cd {
     action "get_pregnancy_dates()" as pregnancy
     action "get_pcos()" as pcos
     action "get_diagnosis_date()" as diagnosis_date
+    action "join_lpr2" as lpr2
+    action "join_lpr3" as lpr3
 
     together {
         action "exclude_pregnancy()" as ex_pregnancy <<exclusion>>
@@ -48,19 +50,20 @@ card classify_diabetes_status() as cd {
         action "include_purchases_gld()" as in_gld <<inclusion>>
     }
 
+    lpr_diag --> lpr2
+    lpr_adm --> lpr2
+    kontakter --> lpr3
+    diagnoser --> lpr3
+
     lab_forsker --> in_hba1c
     in_hba1c --> ex_pregnancy
 
-    lpr_diag --> pregnancy
-    lpr_adm --> pregnancy
-    kontakter --> pregnancy
-    diagnoser --> pregnancy
+    lpr2 --> pregnancy
+    lpr3 --> pregnancy
     pregnancy -> ex_pregnancy
 
-    lpr_diag --> in_diagnosis
-    lpr_adm --> in_diagnosis
-    kontakter --> in_diagnosis
-    diagnoser --> in_diagnosis
+    lpr2 --> in_diagnosis
+    lpr3 --> in_diagnosis
 
     sssy --> in_podiatrist
     sysi --> in_podiatrist
