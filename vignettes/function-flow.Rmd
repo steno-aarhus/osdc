@@ -1,10 +1,10 @@
 ---
-title: "Function Flow"
+title: "Function flow"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
 vignette: >
-  %\VignetteIndexEntry{Function Flow}
+  %\VignetteIndexEntry{Function flow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -20,10 +20,10 @@ rules.
 -   First word is an action verb, later words are objects or conditions.
 -   Exclusion criteria are prefixed with `exclude_`.
 -   Inclusion criteria are prefixed with `include_`.
--   Helpers that get or extract a condition ("pregnancy" or "date of
+-   Helpers that get or extract a condition (e.g., "pregnancy" or "date of
     visit") are prefixed with `get_`.
 -   Helpers that drop or keep a specific condition are prefixed with
-    `drop_` or `keep_` ("first visit date to maternal care for pregnancy
+    `drop_` or `keep_` (e.g., "first visit date to maternal care for pregnancy
     after 40 weeks"). These types of helpers likely are contained in the
     `get_` functions.
 
@@ -40,7 +40,7 @@ rules.
 
 The OSDC algorithm - and thereby, the `osdc` package - contains one main
 function that will classify individuals into those with either type 1 or
-type 2 diabetes using the Danish registers: `classify_diabetes()`. This
+type 2 diabetes using the Danish registers: `classify_diabetes_status()`. This
 function classifies those with diabetes (type 1 or 2) based on the
 Danish registers described in the `vignette("design")`. All data sources
 are used as input for this function. The specific inclusion and
@@ -124,7 +124,7 @@ contains the following three helper functions:
 
 ### Glucose-lowering brand drugs for weight loss
 
-The function `exclude_purchases_weight_loss_drugs()` uses REGISTER as
+The function `exclude_purchases_of_weight_loss_drugs()` uses REGISTER as
 input and excludes BRANDS.
 
 <!-- TODO: Add details on how this filtering should be done -->
@@ -133,7 +133,7 @@ input and excludes BRANDS.
 
 ### Metformin purchases for women below age 40
 
-The function `exclude_pcos()` as input to exclude all purchases of
+The function `exclude_potential_pcos()` as input to exclude all purchases of
 metformin by women below age 40 (i.e., \<= 39 years old) at the date of
 purchase.
 
@@ -154,7 +154,7 @@ joined together at the end.
 
 ## Drop diagnosis dates outside of coverage
 
-Finally, from the raw initial diagnosis dates, those dates outside of
+Finally, from the raw initial diagnosis dates, the dates outside of
 the data coverage period are dropped to end with a final diagnosis date
 using `get_final_diagnosis_date()`. For details on this censoring based
 on the periods with insufficient data coverage, see the
