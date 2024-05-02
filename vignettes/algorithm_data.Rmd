@@ -1,5 +1,5 @@
 ---
-title: "Description of data objects related to the algorithm"
+title: "Description of data sources related to the OSDC algorithm"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
@@ -20,7 +20,7 @@ library(dplyr)
 ## Contents
 
 This document describes the structure of the data components processed
-by the algorithm.
+by the OSDC algorithm.
 
 ## Data components
 
@@ -54,7 +54,7 @@ assumes that raw data is stored/structured in the most common format for
 raw data provided on Statistics Denmark's servers (from our experience).
 
 Using the most common scenario when working with the above data on
-Statistics Denmark's servers, this paragraph lists the common register
+Statistics Denmark's servers, the following paragraph lists the common register
 abbreviations/raw file names, their structure (year-on-year files vs. a
 large single file, plus changes/breaks over time), raw variable names
 and relevant values. Variable names are presented in lower case here,
