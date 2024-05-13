@@ -2,7 +2,7 @@
 
 library(tidyverse)
 
-variable_description <- here::here("data-raw/variable_description.csv") |>
+variable_description <- here::here("data-raw/variable-description.csv") |>
   read_csv() |>
   select(
     register_name,

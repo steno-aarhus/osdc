@@ -27,10 +27,7 @@ Imports:
     lifecycle,
     rlang
 Suggests:
-    arrow,
-    data.table,
     dbplyr,
-    duckdb,
     knitr,
     rmarkdown,
     spelling,
@@ -39,6 +36,14 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
+Config/Needs/tests:
+    data.table,
+    arrow,
+    duckdb
+Config/Needs/data:
+    fabricatr,
+    codeCollection,
+    rvest
 Encoding: UTF-8
 Language: en-US
 LazyData: true
