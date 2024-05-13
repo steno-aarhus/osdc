@@ -105,7 +105,7 @@ create_fake_drug_name <- function(atc) {
 }
 
 to_wwyy <- function(x) {
-  format(lubridate::as_date(x), format = "%W%y")
+  paste0(lubridate::isoweek(lubridate::as_date(x)), stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2))
 }
 
 to_yyyymmdd <- function(x) {
