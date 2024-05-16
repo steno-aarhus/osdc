@@ -7,7 +7,7 @@
 #'
 #' @return An object of the same input type, default as a [tibble::tibble()],
 #'   with two columns: `pnr` and `included_hba1c`.
-#' @export
+#' @keywords internal
 #'
 #' @examples
 #' register_data$lab_forsker |> include_hba1c()
