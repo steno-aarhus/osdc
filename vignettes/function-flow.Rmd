@@ -204,10 +204,10 @@ T1D diagnoses and 2) whether all GLD purchases are insulin.
 Thus, this filter contains two functions:
 
 1.  `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on
-    the hospital diagnoses extracted from DNPR in the previous steps.
+    the hospital diagnoses extracted from `lpr_diag` (LPR2) and
+    `diagnoser` (LPR3) in the previous steps.
 2.  `t1d_include_only_purchased_insulins` which relies on the GLD
     purchases from Lægemiddelsdatabasen.
-
 
 #### Filter 2: Majority of T1D primary diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
 
