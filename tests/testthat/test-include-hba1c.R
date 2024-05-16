@@ -10,20 +10,20 @@ lab_forsker <- tibble::tribble(
   "498718589808", "20220101", "NPU00000", 5
 )
 
-expected <- tibble::tibble(
+expected <- tibble::tribble(
   ~pnr, ~include_hba1c,
   "498718589803", TRUE,
   "498718589803", TRUE,
   "498718589805", TRUE
 )
 
-test_that("dataset has expected variables", {
+test_that("dataset needs expected variables", {
   actual <- lab_forsker |>
     select(-patient_cpr)
   expect_error(include_hba1c(actual))
 })
 
-test_that("only pnr for HbA1c inclusion is kept", {
+test_that("those with inclusion are kept", {
   actual <- include_hba1c(lab_forsker)
   expect_equal(actual, expected)
 })
