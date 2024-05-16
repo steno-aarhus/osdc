@@ -1,6 +1,7 @@
 lab_forsker <- tibble::tribble(
   ~patient_cpr, ~samplingdate, ~analysiscode, ~value,
-  "498718589803", "20220101", "NPU27300", 49,
+  "498718589803", "20220101", "NPU27300", 47,
+  "498718589803", "20210101", "NPU27300", 49,
   "498718589804", "20220101", "NPU27300", 47,
   # Duplicate patient_cpr but with the old units.
   "498718589803", "20220101", "NPU03835", 6.5,
