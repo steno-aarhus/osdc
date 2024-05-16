@@ -160,14 +160,14 @@ using `get_final_diagnosis_date()`. For details on this censoring based
 on the periods with insufficient data coverage, see the
 `vignette("algorithm-logic")`.
 
-## Classifying the diabetes type {#classifying-diabetes-type}
+## Classifying the diabetes type
 
 The second component of the OSDC algorithm classifies individuals from
 the extracted diabetes population as having either T1D or T2D. The
 output of this component is a `data.frame` that includes one row per
 individual in the diabetes population: one column with their PNR, two
 columns with inclusion dates (one "stable" date and one "raw" date - see
-the [Description of algorithm contents & logic](algorithm_logic.Rmd)
+the `vignette("algorithm_logic")`
 vignette for an elaboration on what that entails), and one column with
 the diabetes type.
 
@@ -207,7 +207,6 @@ Thus, this filter contains two functions:
 2.  `t1d_include_only_purchased_insulins` which relies on the GLD
     purchases from Lægemiddelsdatabasen.
 
-<!-- TODO: Add English translations for Lægemiddelsdatabasen  -->
 
 #### Filter 2: Majority of T1D primary diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
 
