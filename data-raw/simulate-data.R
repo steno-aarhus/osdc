@@ -185,12 +185,22 @@ insert_false_drug_names <- function(data, proportion = 0.05) {
     )
 }
 
-insert_analysiscode <- function(x) {
+insert_analysiscode <- function(data, proportion = 0.5) {
   # TODO: Is this necessary?
   # ANALYSISCODE: npu code of analysis type (chr)
   # 50% is either NPU27300 or NPU03835
   # other 50% is NPU10000 to NPU99999
-  x
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::matches("^analysiscode$"),
+        \(column) dplyr::if_else(
+          runif(dplyr::n()) < proportion,
+          sample(c("NPU27300", "NPU03835"), 1),
+          column
+        )
+      )
+    )
 }
 
 # TODO: Need a function to reuse recnum and dw_ek_kontakt in LPR data
@@ -238,6 +248,7 @@ register_data <- simulation_definitions_list |>
   map(add_fake_drug_name) |>
   map(insert_false_drug_names) |>
   map(insert_false_metformin) |>
+  map(insert_analysiscode) |>
   # add the register abbreviations as a name to the list
   set_names(
     map_chr(
