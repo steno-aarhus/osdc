@@ -1,13 +1,24 @@
 ---
-title: "Function Flow"
+title: "Function flow"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
 vignette: >
-  %\VignetteIndexEntry{Function Flow}
+  %\VignetteIndexEntry{Function flow}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+## Introduction
+
+This vignette describes the function conventions and function flow of
+the osdc package. The function convention sections go over how we name
+functions and how we structure them in terms of input and output. The
+function flow describes the functions within the package, both internal
+and user-facing, which data sources they rely on, and how they are
+connected to each other. First, the functions for classifying diabetes
+status are presented, followed by the functions for classifying the
+diabetes type.
 
 ## Function conventions
 
@@ -20,12 +31,14 @@ rules.
 -   First word is an action verb, later words are objects or conditions.
 -   Exclusion criteria are prefixed with `exclude_`.
 -   Inclusion criteria are prefixed with `include_`.
--   Helpers that get or extract a condition ("pregnancy" or "date of
-    visit") are prefixed with `get_`.
+-   Helpers that get or extract a condition (e.g., "pregnancy" or "date
+    of visit") are prefixed with `get_`.
 -   Helpers that drop or keep a specific condition are prefixed with
-    `drop_` or `keep_` ("first visit date to maternal care for pregnancy
-    after 40 weeks"). These types of helpers likely are contained in the
-    `get_` functions.
+    `drop_` or `keep_` (e.g., "first visit date to maternal care for
+    pregnancy after 40 weeks"). These types of helpers likely are
+    contained in the `get_` functions.
+-   Helpers that join registers or output of other functions are
+    prefixed with `join_`.
 
 ### Input and output
 
@@ -38,13 +51,14 @@ rules.
 
 ## Function flow
 
-The OSDC algorithm - and thereby, the `osdc` package - contains one main
+The OSDC algorithm - and thereby, the osdc package - contains one main
 function that will classify individuals into those with either type 1 or
-type 2 diabetes using the Danish registers: `classify_diabetes()`. This
-function classifies those with diabetes (type 1 or 2) based on the
-Danish registers described in the `vignette("design")`. All data sources
-are used as input for this function. The specific inclusion and
-exclusion details are also described in the `vignette("design")`.
+type 2 diabetes using the Danish registers:
+`classify_diabetes_status()`. This function classifies those with
+diabetes (type 1 or 2) based on the Danish registers described in the
+`vignette("design")`. All data sources are used as input for this
+function. The specific inclusion and exclusion details are also
+described in the `vignette("design")`.
 
 This results in the functionality flow for classifying diabetes status
 seen below. All functions take a `data.frame` type object as input and
@@ -55,7 +69,9 @@ will also be a `data.table`.
 ![Flow of functions, as well as their required input registers, for
 classifying diabetes status using the `osdc` package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
-events, respectively).](images/function-flow.png)
+events, respectively). Uncoloured boxes are helper functions that get or
+extract a condition or joins data or function
+outputs.](images/function-flow.png)
 
 ## Inclusion events
 
@@ -124,7 +140,7 @@ contains the following three helper functions:
 
 ### Glucose-lowering brand drugs for weight loss
 
-The function `exclude_purchases_weight_loss_drugs()` uses REGISTER as
+The function `exclude_purchases_of_weight_loss_drugs()` uses REGISTER as
 input and excludes BRANDS.
 
 <!-- TODO: Add details on how this filtering should be done -->
@@ -133,9 +149,9 @@ input and excludes BRANDS.
 
 ### Metformin purchases for women below age 40
 
-The function `exclude_pcos()` as input to exclude all purchases of
-metformin by women below age 40 (i.e., \<= 39 years old) at the date of
-purchase.
+The function `exclude_potential_pcos()` as input to exclude all
+purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
+the date of purchase. It relies on REGISTER as input.
 
 This function contains two helper functions:
 
@@ -144,21 +160,22 @@ This function contains two helper functions:
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-## Get initial diagnosis date
+<!-- TODO: Add which register this uses -->
 
-Then, the first inclusion and exclusion events from the function outputs
-are dropped with `drop_first_event()` so that only those with two or
-more events are kepts. This is then used to assign an initial diagnosis
-date with `get_initial_diagnosis_date()`. Then all the outputs are
-joined together at the end.
+## Get diagnosis date
 
-## Drop diagnosis dates outside of coverage
+The function `get_diagnosis_date()` combines the outputs from the
+inclusion and exclusion functions to get the final diagnosis date.
+Initially, it drops the first inclusion and exclusion events from the
+function outputs with the helper `drop_first_event()`, so that only
+those with two or more events are kept. This is then used to assign an
+initial diagnosis according to OSDC. Then, all the outputs are joined
+together with `join_diagnosis_dates()`.
 
-Finally, from the raw initial diagnosis dates, those dates outside of
-the data coverage period are dropped to end with a final diagnosis date
-using `get_final_diagnosis_date()`. For details on this censoring based
-on the periods with insufficient data coverage, see the
-`vignette("algorithm-logic")`.
+Finally, the dates outside of the data coverage period are dropped with
+`drop_diagnosis_dates_outside_coverage()` to end with a final diagnosis
+date. For details on this censoring based on periods with insufficient
+data coverage, see the `vignette("algorithm-logic")`.
 
 ## Classifying the diabetes type
 
