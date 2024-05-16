@@ -190,15 +190,7 @@ entails), and one column with the diabetes type.
 
 ### Type 1 classification
 
-The classification of type 1 diabetes relies on the following two
-filters. To be classified as having type 1 diabetes, individuals must
-have:
-
-1.  At least one T1D primary diagnosis and only purchased insulins
-    (i.e., no purchases of any other type of GLDs), or
-2.  A majority of T1D primary diagnoses, purchased insulin within 180
-    days of diagnosis, and 2/3 of GLD doses are insulin.
-
+The details for the classification of type 1 diabetes is described in `vignette("design")`.
 Functions for the above filters are described in the following sections.
 
 ![Flow of functions for classifying the diabetes type using the `osdc`
