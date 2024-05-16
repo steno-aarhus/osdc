@@ -178,20 +178,15 @@ data coverage, see the `vignette("algorithm-logic")`.
 
 ## Classifying the diabetes type
 
-The second component of the OSDC algorithm classifies individuals from
-the extracted diabetes population as having either T1D or T2D. The
-output of this component is a `data.frame` that includes one row per
-individual in the diabetes population: one column with their PNR, two
-columns with inclusion dates (one "stable" date and one "raw" date - see
-the `vignette("algorithm_logic")`
-vignette for an elaboration on what that entails), and one column with
-the diabetes type.
+The next step of the OSDC algorithm classifies individuals from the
+extracted diabetes population as having either T1D or T2D. The output is
+a `data.frame` that includes one row per individual in the diabetes
+population: one column with their PNR, two columns with inclusion dates
+(one "stable" date and one "raw" date - see the
+`vignette("algorithm_logic")` vignette for an elaboration on what that
+entails), and one column with the diabetes type.
 
-<!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
-
-This component will also have one user-facing function:
-`classify_diabetes_type`. This function takes the output of
-`extract_diabetes_population` as input.
+<!-- TODO: add a link to the specific section where this is described -->
 
 ### Type 1 classification
 
@@ -219,7 +214,7 @@ T1D diagnoses and 2) whether all GLD purchases are insulin.
 Thus, this filter contains two functions:
 
 1.  `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on
-    the hospital diagnoses from DNPR extracted in component 1.
+    the hospital diagnoses extracted from DNPR in the previous steps.
 2.  `t1d_include_only_purchased_insulins` which relies on the GLD
     purchases from Lægemiddelsdatabasen.
 
@@ -257,8 +252,8 @@ classified as type 1 cases are classified as type 2 cases.
 
 ## Output
 
-The output of the second component, and therefore, the OSDC algorithm is
-a `data.frame` which includes four columns:
+The output of the OSDC algorithm is a `data.frame` which includes four
+columns:
 
 1.  **PNR**: The pseudonymised social security number of individuals in
     the diabetes population (one row per individual)
