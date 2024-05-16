@@ -150,7 +150,7 @@ registers in order for the package to classify diabetes status:
 
 ```{r, echo=FALSE}
 variable_description |> 
-  mutate(Register = paste0(register_name, "(", register_abbrev, ")")) |> 
+  mutate(Register = paste0(register_name, " (", register_abbrev, ")")) |> 
   select(Register, Variable = variable_name) |> 
   knitr::kable()
 ```
