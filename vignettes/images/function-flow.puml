@@ -47,7 +47,7 @@ card classify_diabetes_status() as cd {
         action "include_hba1c()" as in_hba1c <<inclusion>>
         action "include_diabetes_diagnosis()" as in_diagnosis <<inclusion>>
         action "include_podiatrist_services()" as in_podiatrist <<inclusion>>
-        action "include_purchases_gld()" as in_gld <<inclusion>>
+        action "include_gld_purchases()" as in_gld <<inclusion>>
     }
 
     lpr_diag --> lpr2
