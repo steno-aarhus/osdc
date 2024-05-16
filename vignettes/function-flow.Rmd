@@ -151,7 +151,7 @@ input and excludes BRANDS.
 
 The function `exclude_potential_pcos()` as input to exclude all
 purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
-the date of purchase. It relies on REGISTER as input.
+the date of purchase. It relies on `bef` as input.
 
 This function contains two helper functions:
 
@@ -159,8 +159,6 @@ This function contains two helper functions:
 -   `drop_age_40_below()`
 
 <!-- TODO: Add details on how this filtering should be done -->
-
-<!-- TODO: Add which register this uses -->
 
 ## Get diagnosis date
 
