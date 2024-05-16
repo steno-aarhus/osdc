@@ -185,11 +185,9 @@ insert_false_drug_names <- function(data, proportion = 0.05) {
     )
 }
 
-insert_analysiscode <- function(data, proportion = 0.5) {
-  # TODO: Is this necessary?
-  # ANALYSISCODE: npu code of analysis type (chr)
-  # 50% is either NPU27300 or NPU03835
-  # other 50% is NPU10000 to NPU99999
+insert_analysiscode <- function(data, proportion = 0.3) {
+  # NPU27300: New units for HbA1c
+  # NPU03835: Old units for HbA1c
   data |>
     dplyr::mutate(
       dplyr::across(
