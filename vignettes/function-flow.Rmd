@@ -53,12 +53,11 @@ rules.
 
 The OSDC algorithm - and thereby, the osdc package - contains one main
 function that will classify individuals into those with either type 1 or
-type 2 diabetes using the Danish registers:
-`classify_diabetes_status()`. This function classifies those with
-diabetes (type 1 or 2) based on the Danish registers described in the
-`vignette("design")`. All data sources are used as input for this
-function. The specific inclusion and exclusion details are also
-described in the `vignette("design")`.
+type 2 diabetes using the Danish registers: `classify_diabetes()`. This
+function classifies those with diabetes (type 1 or 2) based on the
+Danish registers described in the `vignette("design")`. All data sources
+are used as input for this function. The specific inclusion and
+exclusion details are also described in the `vignette("design")`.
 
 This results in the functionality flow for classifying diabetes status
 seen below. All functions take a `data.frame` type object as input and
