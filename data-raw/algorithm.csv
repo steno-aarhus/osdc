@@ -1,0 +1,3 @@
+name,logic
+hba1c,(analysiscode == 'NPU27300' AND value >= 48) OR (analysiscode == 'NPU03835' AND value >= 6.5)
+
