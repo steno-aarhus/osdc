@@ -177,12 +177,15 @@ data coverage, see the `vignette("algorithm-logic")`.
 ## Classifying the diabetes type
 
 The next step of the OSDC algorithm classifies individuals from the
-extracted diabetes population as having either T1D or T2D. The output is
-a `data.frame` that includes one row per individual in the diabetes
-population: one column with their PNR, two columns with inclusion dates
-(one "stable" date and one "raw" date - see the
-`vignette("algorithm_logic")` vignette for an elaboration on what that
-entails), and one column with the diabetes type.
+extracted diabetes population as having either T1D or T2D. As described
+in the `vignette("design")`, individuals not classified as T1D cases are
+classified as T2D cases.
+
+The output is a `data.frame` that includes one row per individual in the
+diabetes population: one column with their PNR, two columns with
+inclusion dates (one "stable" date and one "raw" date - see the
+`vignette("algorithm-logic")` for an elaboration on what that entails),
+and one column with the diabetes type.
 
 <!-- TODO: add a link to the specific section where this is described -->
 
@@ -234,8 +237,8 @@ diagnoses from medical specialties.
 
 ### Type 2 classification
 
-As described in the [design](design.Rmd) vignette, individuals not
-classified as type 1 cases are classified as type 2 cases.
+As described in the `vignette("design")`, individuals not classified as
+type 1 cases are classified as type 2 cases.
 
 ## Output
 
@@ -254,8 +257,7 @@ columns:
 4.  **diabetes_type** The classified diabetes type
 
 \*For more information on the "raw" versus "stable" inclusion date, see
-the [Description of algorithm contents & logic](algorithm_logic.Rmd)
-vignette.
+`vignette("algorithm-logic")`.
 
 <!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
 
