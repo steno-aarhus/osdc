@@ -194,7 +194,7 @@ insert_analysiscode <- function(data, proportion = 0.3) {
         dplyr::matches("^analysiscode$"),
         \(column) dplyr::if_else(
           runif(dplyr::n()) < proportion,
-          sample(c("NPU27300", "NPU03835"), 1),
+          sample(c("NPU27300", "NPU03835"), dplyr::n(), replace = TRUE),
           column
         )
       )
