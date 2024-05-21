@@ -19,6 +19,7 @@ hide <<inclusion>> stereotype
 hide <<exclusion>> stereotype
 
 card classify_diabetes() as cd {
+'Diabetes population extraction
     together {
         database sssy
         database sysi
@@ -30,24 +31,25 @@ card classify_diabetes() as cd {
         database diagnoser
         database bef
     }
+    together {
+            action "join_lpr2()" as lpr2
+            action "join_lpr3()" as lpr3
+    }
 
-    action "get_pregnancy_dates()" as pregnancy
     action "get_potential_pcos()" as pcos
-    action "get_diagnosis_date()" as diagnosis_date
-    action "join_lpr2()" as lpr2
-    action "join_lpr3()" as lpr3
+    action "get_wld_purchases()" as wld
 
     together {
         action "exclude_pregnancy()" as ex_pregnancy <<exclusion>>
-        action "exclude_purchases_of_weight_loss_drugs()" as ex_wld <<exclusion>>
+        action "exclude_wld_purchases()" as ex_wld <<exclusion>>
         action "exclude_potential_pcos()" as ex_pcos <<exclusion>>
     }
-
     together {
-        action "include_hba1c()" as in_hba1c <<inclusion>>
         action "include_diabetes_diagnosis()" as in_diagnosis <<inclusion>>
+        action "include_hba1c()" as in_hba1c <<inclusion>>
         action "include_podiatrist_services()" as in_podiatrist <<inclusion>>
-        action "include_purchases_gld()" as in_gld <<inclusion>>
+        action "include_gld_purchases()" as in_gld <<inclusion>>
+        action "get_pregnancy_dates()" as pregnancy
     }
 
     action "join_inclusion()" as join_inclusion
