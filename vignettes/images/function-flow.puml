@@ -50,6 +50,9 @@ card classify_diabetes() as cd {
         action "include_purchases_gld()" as in_gld <<inclusion>>
     }
 
+    action "join_inclusion()" as join_inclusion
+    action "get_diagnosis_date()" as diagnosis_date
+
     lpr_diag --> lpr2
     lpr_adm --> lpr2
     kontakter --> lpr3
@@ -75,6 +78,7 @@ card classify_diabetes() as cd {
     bef --> pcos
     in_gld --> ex_pcos
     pcos --> ex_pcos
+    join_inclusion --> diagnosis_date
 
 'Diabetes type classification
 
