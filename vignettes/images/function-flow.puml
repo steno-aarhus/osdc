@@ -1,10 +1,7 @@
 @startuml function-flow
 !theme cerulean-outline
 <style>
-action {
-    FontColor black
-}
-database {
+action, card, database, rectangle {
     FontColor black
 }
 .inclusion {
