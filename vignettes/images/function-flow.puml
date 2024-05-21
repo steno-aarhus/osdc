@@ -76,11 +76,22 @@ card classify_diabetes() as cd {
     in_gld --> ex_pcos
     pcos --> ex_pcos
 
-    ex_wld --> diagnosis_date
-    ex_pregnancy --> diagnosis_date
-    ex_pcos --> diagnosis_date
-    in_podiatrist --> diagnosis_date
-    in_diagnosis --> diagnosis_date
+'Diabetes type classification
+
+    rectangle Classification {
+        action "get_has_t1d_primary_diagnosis()" as t1d_diagnosis
+        action "get_only_insulin_purchases()" as only_insulins
+        action "get_majority_of_t1d_primary_diagnoses()" as t1d_diagnosis_majority
+        action "get_insulin_purchase_within_180_days()" as insulin_within_180_days
+        action "get_insulin_is_two_thirds_of_gld_doses()" as insulin_is_two_thirds
+    }
+
+    diagnosis_date --> t1d_diagnosis
+    t1d_diagnosis -l-> only_insulins
+    only_insulins -d-> t1d_diagnosis_majority
+    t1d_diagnosis_majority -r-> insulin_within_180_days
+    insulin_within_180_days -r-> insulin_is_two_thirds
+    
 
 }
 @enduml
