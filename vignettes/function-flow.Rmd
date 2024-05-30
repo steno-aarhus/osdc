@@ -139,12 +139,10 @@ contains the following three helper functions:
 
 ### Glucose-lowering brand drugs for weight loss
 
-The function `exclude_purchases_of_weight_loss_drugs()` uses REGISTER as
-input and excludes the brand drugs Saxenda and Wegovy.
+The function `exclude_wld_purchases()` uses lmdb as input and excludes
+the brand drugs Saxenda and Wegovy.
 
 <!-- TODO: Add details on how this filtering should be done -->
-
-<!-- TODO: Add data source and which brands are excluded -->
 
 ### Metformin purchases for women below age 40
 
