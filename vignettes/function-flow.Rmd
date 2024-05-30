@@ -60,10 +60,14 @@ are used as input for this function. The specific inclusion and
 exclusion details are also described in the `vignette("design")`.
 
 This results in the functionality flow for classifying diabetes status
-seen below. All functions take a `data.frame` type object as input and
-outputs the same type of object as the input object (a `data.frame`
-type). For instance, if the input is a `data.table` object, the output
-will also be a `data.table`.
+seen below. This flow can be divided into two sections: the extraction
+of a diabetes population and the classification of diabetes type which
+we will detail in the following sections.
+
+All functions take a `data.frame` type object as input and outputs the
+same type of object as the input object (a `data.frame` type). For
+instance, if the input is a `data.table` object, the output will also be
+a `data.table`.
 
 ![Flow of functions, as well as their required input registers, for
 classifying diabetes status using the osdc package. Light blue and
@@ -72,6 +76,13 @@ events, respectively). Uncoloured boxes are helper functions that get or
 extract a condition or joins data or function
 outputs.](images/function-flow.png)
 
+## Population extraction
+
+In the following sections, we describe the functions used to extract the
+diabetes population from the Danish registers. The functions are divided
+into inclusion and exclusion events, and the final diagnosis date is
+calculated based on these events.
+
 ![Flow of functions, as well as their required input registers, for
 extracting the population with diabetes using the osdc package. Light
 blue and orange boxes represent filtering functions (inclusion and
@@ -79,13 +90,16 @@ exclusion events, respectively). Uncoloured boxes are helper functions
 that get or extract a condition or joins data or function
 outputs.](images/function-flow-population.png)
 
+### Inclusion events
+
+#### HbA1c tests above 48 mmol/mol
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
 extract all events of tests above 48 mmol/mol.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### Hospital diagnosis of diabetes
+#### Hospital diagnosis of diabetes
 
 The function `include_diabetes_diagnoses()` uses the hospital contacts
 from LPR2 and 3 to include all dates of diabetes diagnoses. Diabetes
@@ -100,14 +114,14 @@ This function contains two helper functions:
 
 <!-- TODO: Which specific ICD 8 and 10 codes are included? -->
 
-### Diabetes-specific podiatrist services
+#### Diabetes-specific podiatrist services
 
 The function `include_podiatrist_services()` uses `sysi` or `sssy` as
 input to extract the dates of all diabetes-specific podiatrist services.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### GLD purchases
+#### GLD purchases
 
 The function `include_gld_purchases()` uses `lmdb` to extract the dates
 of all GLD purchases (from 1997 onwards).
@@ -116,9 +130,9 @@ of all GLD purchases (from 1997 onwards).
 
 <!-- TODO: Add this + link to resource "For details about this, see [link]." -->
 
-## Exclusion events
+### Exclusion events
 
-### HbA1c tests and GLD purchases during pregnancy
+#### HbA1c tests and GLD purchases during pregnancy
 
 The function `exclude_pregnancy()` uses diagnoses from LPR2 or LPR3 as
 input and is used to exclude both HbA1c tests and GLD purchases during
@@ -141,14 +155,14 @@ contains the following three helper functions:
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### Glucose-lowering brand drugs for weight loss
+#### Glucose-lowering brand drugs for weight loss
 
 The function `exclude_wld_purchases()` uses lmdb as input and excludes
 the brand drugs Saxenda and Wegovy.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### Metformin purchases for women below age 40
+#### Metformin purchases for women below age 40
 
 The function `exclude_potential_pcos()` as input to exclude all
 purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
@@ -161,7 +175,7 @@ This function contains two helper functions:
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-## Get diagnosis date
+### Get diagnosis date
 
 The function `get_diagnosis_date()` combines the outputs from the
 inclusion and exclusion functions to get the final diagnosis date.
@@ -176,7 +190,7 @@ Finally, the dates outside of the data coverage period are dropped with
 date. For details on this censoring based on periods with insufficient
 data coverage, see the `vignette("algorithm-logic")`.
 
-## Classifying the diabetes type
+### Classifying the diabetes type
 
 The next step of the OSDC algorithm classifies individuals from the
 extracted diabetes population as having either T1D or T2D. As described
@@ -194,7 +208,7 @@ and one column with the diabetes type.
 ![Flow of functions for classifying diabetes status using the `osdc`
 package.](images/function-flow-classification.png)
 
-### Type 1 classification
+#### Type 1 classification
 
 The details for the classification of type 1 diabetes is described in
 `vignette("design")`. To classify whether an individual has T1D, the
@@ -220,7 +234,7 @@ check of whether they have a majority of T1D primary diagnoses are based
 on data from endocrinological specialty. If that's not the case, the
 check will be based on primary diagnoses from medical specialties.
 
-### Type 2 classification
+#### Type 2 classification
 
 As described in the `vignette("design")`, individuals not classified as
 type 1 cases are classified as type 2 cases.
