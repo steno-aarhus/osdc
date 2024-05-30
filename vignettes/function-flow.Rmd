@@ -72,9 +72,13 @@ events, respectively). Uncoloured boxes are helper functions that get or
 extract a condition or joins data or function
 outputs.](images/function-flow.png)
 
-## Inclusion events
+![Flow of functions, as well as their required input registers, for
+extracting the population with diabetes using the osdc package. Light
+blue and orange boxes represent filtering functions (inclusion and
+exclusion events, respectively). Uncoloured boxes are helper functions
+that get or extract a condition or joins data or function
+outputs.](images/function-flow-population.png)
 
-### HbA1c tests above 48 mmol/mol
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
 extract all events of tests above 48 mmol/mol.
@@ -186,6 +190,9 @@ inclusion dates (one "stable" date and one "raw" date - see the
 and one column with the diabetes type.
 
 <!-- TODO: add a link to the specific section where this is described -->
+
+![Flow of functions for classifying diabetes status using the `osdc`
+package.](images/function-flow-classification.png)
 
 ### Type 1 classification
 
