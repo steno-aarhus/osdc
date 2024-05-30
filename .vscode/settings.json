@@ -23,8 +23,9 @@
   "r.session.levelOfObjectDetail": "Detailed",
   "r.session.data.rowLimit": 1000,
   "r.plot.useHttpgd": true,
-  "[r]": {
-    "editor.defaultFormatter": "REditorSupport.r"
+  "[r,quarto]": {
+    "editor.defaultFormatter": "REditorSupport.r",
+    "editor.tabSize": 2,
   },
   "cSpell.language": "en-GB",
   "cSpell.words": [

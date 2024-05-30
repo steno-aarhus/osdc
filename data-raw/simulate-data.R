@@ -11,7 +11,21 @@ library(rvest)
 
 # "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
 #   read_lines() |>
-#   write_lines(here("data-raw/icd8-codes.txt"))
+#   str_trim() |>
+#   as_tibble() |>
+#   separate_wider_delim(
+#     value,
+#     delim = regex("   +"),
+#     names = c("icd8", "description", "unknown"),
+#     too_many = "merge"
+#   ) |>
+#   mutate(across(everything(), str_trim)) |>
+#   mutate(
+#     description = str_remove(description, "\\d+"),
+#     icd8 = str_remove(icd8, "dia")
+#   ) |>
+#   select(icd8) |>
+#   write_csv(here("data-raw/icd8-codes.csv"))
 
 # Simulation functions -----------------------------------------------------
 
@@ -65,21 +79,8 @@ create_fake_icd <- function(n, date = NULL) {
 #' @examples
 #' create_fake_icd8(1)
 create_fake_icd8 <- function(n) {
-  here("data-raw/icd8-codes.txt") |>
-    read_lines() |>
-    str_trim() |>
-    as_tibble() |>
-    separate_wider_delim(
-      value,
-      delim = regex("   +"),
-      names = c("icd8", "description", "unknown"),
-      too_many = "merge"
-    ) |>
-    mutate(across(everything(), str_trim)) |>
-    mutate(
-      description = str_remove(description, "\\d+"),
-      icd8 = str_remove(icd8, "dia")
-    ) |>
+  here("data-raw/icd8-codes.csv") |>
+    read_csv() |>
     pull(icd8) |>
     sample(size = n, replace = TRUE)
 }
@@ -164,7 +165,7 @@ create_padded_integer <- function(n, length) {
 create_fake_npu <- function(n) {
   stringr::str_c(
     "NPU",
-    create_padded_integer(n, 8)
+    create_padded_integer(n, 5)
   )
 }
 
@@ -211,7 +212,7 @@ create_fake_drug_name <- function(atc) {
 #' to_wwyy("2020-12-01")
 #' to_wwyy(c("2020-01-12", "1995-04-19"))
 to_wwyy <- function(x) {
-  format(lubridate::as_date(x), format = "%W%y")
+  paste0(lubridate::isoweek(lubridate::as_date(x)), stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2))
 }
 
 #' Transform date(s) to the format yyyymmdd.
@@ -234,34 +235,37 @@ insertion_rate <- function(proportion) {
 }
 
 insert_specific_atc <- function(data, proportion = 0.3) {
-  # c(
-  #       "A10AB",
-  #       "A10AC",
-  #       "A10AD",
-  #       "A10AE",
-  #       "A10BA",
-  #       "A10BB",
-  #       "A10BD",
-  #       "A10BG",
-  #       "A10BH",
-  #       "A10BJ",
-  #       "A10BK",
-  #       "A10BX"
-  # )
+  glucose_lowering_drugs <- c(
+    metformin = "A10AB02",
+    # "A10AC",
+    # "A10AD",
+    insulin_liraglutid = "A10AE56",
+    # "A10BA",
+    # "A10BB",
+    # "A10BD",
+    # "A10BG",
+    # "A10BH",
+    liraglutid = "A10BJ02",
+    semaglutid = "A10BJ06",
+    dapagliflozin = "A10BK01",
+    empagliflozin = "A10BK03"
+    # "A10BX"
+  )
   data |>
     mutate(
       across(
         matches("^atc$"),
         \(column) if_else(
           runif(n()) < proportion,
-          sample(c("A10BA02", "A10BJ02", "A10BJ06"), 1),
+          sample(unname(glucose_lowering_drugs), 1),
           column
         )
       )
     )
 }
 
-# Insert a few false-positive cases with purchases of metformin:
+# Insert a few cases where purchases of metformin are used for other purposes
+# than diabetes.
 insert_false_metformin <- function(data, proportion = 0.05) {
   if (!all(colnames(data) %in% c("atc", "name"))) {
     return(data)
@@ -296,13 +300,23 @@ insert_false_drug_names <- function(data, proportion = 0.05) {
     )
 }
 
-insert_analysiscode <- function(x) {
-  # TODO: Is this necessary?
-  # ANALYSISCODE: npu code of analysis type (chr)
-  # 50% is either NPU27300 or NPU03835
-  # other 50% is NPU10000 to NPU99999
-  x
+insert_analysiscode <- function(data, proportion = 0.3) {
+  # NPU27300: New units for HbA1c
+  # NPU03835: Old units for HbA1c
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::matches("^analysiscode$"),
+        \(column) dplyr::if_else(
+          runif(dplyr::n()) < proportion,
+          sample(c("NPU27300", "NPU03835"), dplyr::n(), replace = TRUE),
+          column
+        )
+      )
+    )
 }
+
+# TODO: Need a function to reuse recnum and dw_ek_kontakt in LPR data
 
 # Simulate data -----------------------------------------------------------
 
@@ -347,6 +361,7 @@ register_data <- simulation_definitions_list |>
   map(add_fake_drug_name) |>
   map(insert_false_drug_names) |>
   map(insert_false_metformin) |>
+  map(insert_analysiscode) |>
   # add the register abbreviations as a name to the list
   set_names(
     map_chr(

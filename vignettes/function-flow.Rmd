@@ -1,0 +1,176 @@
+---
+title: "Function flow"
+output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: vancouver.csl
+vignette: >
+  %\VignetteIndexEntry{Function flow}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Introduction
+
+This vignette describes the function conventions and function flow of
+the osdc package. The function convention sections go over how we name
+functions and how we structure them in terms of input and output. The
+function flow describes the functions within the package, both internal
+and user-facing, which data sources they rely on, and how they are
+connected to each other. First, the functions for classifying diabetes
+status are presented, followed by the functions for classifying the
+diabetes type.
+
+## Function conventions
+
+The below conventions are *ideals* only, to be used as a guidelines to
+help with development and understanding of the code. They are not hard
+rules.
+
+### Naming
+
+-   First word is an action verb, later words are objects or conditions.
+-   Exclusion criteria are prefixed with `exclude_`.
+-   Inclusion criteria are prefixed with `include_`.
+-   Helpers that get or extract a condition (e.g., "pregnancy" or "date
+    of visit") are prefixed with `get_`.
+-   Helpers that drop or keep a specific condition are prefixed with
+    `drop_` or `keep_` (e.g., "first visit date to maternal care for
+    pregnancy after 40 weeks"). These types of helpers likely are
+    contained in the `get_` functions.
+-   Helpers that join registers or output of other functions are
+    prefixed with `join_`.
+
+### Input and output
+
+-   Few arguments, with one or two core required argument.
+-   `include_` functions take a register as the first argument.
+    -   One input register database at a time.
+-   `exclude_` functions can take a register as the first argument or
+    take the output from an `include_` function.
+-   Second argument can be an output data from another function.
+
+## Function flow
+
+The OSDC algorithm - and thereby, the osdc package - contains one main
+function that will classify individuals into those with either type 1 or
+type 2 diabetes using the Danish registers:
+`classify_diabetes_status()`. This function classifies those with
+diabetes (type 1 or 2) based on the Danish registers described in the
+`vignette("design")`. All data sources are used as input for this
+function. The specific inclusion and exclusion details are also
+described in the `vignette("design")`.
+
+This results in the functionality flow for classifying diabetes status
+seen below. All functions take a `data.frame` type object as input and
+outputs the same type of object as the input object (a `data.frame`
+type). For instance, if the input is a `data.table` object, the output
+will also be a `data.table`.
+
+![Flow of functions, as well as their required input registers, for
+classifying diabetes status using the `osdc` package. Light blue and
+orange boxes represent filtering functions (inclusion and exclusion
+events, respectively). Uncoloured boxes are helper functions that get or
+extract a condition or joins data or function
+outputs.](images/function-flow.png)
+
+## Inclusion events
+
+### HbA1c tests above 48 mmol/mol
+
+The function `include_hba1c()` uses `lab_forsker` as the input data to
+extract all events of tests above 48 mmol/mol.
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+### Hospital diagnosis of diabetes
+
+The function `include_diabetes_diagnoses()` uses the hospital contacts
+from LPR2 and 3 to include all dates of diabetes diagnoses. Diabetes
+diagnoses from both ICD 8 and ICD 10 are included.
+
+This function contains two helper functions:
+
+-   `keep_diabetes_icd10()`
+-   `keep_diabetes_icd8()`
+
+<!-- TODO: Add details on how this filtering should be done, e.g., diagnosis codes -->
+
+<!-- TODO: Which specific ICD 8 and 10 codes are included? -->
+
+### Diabetes-specific podiatrist services
+
+The function `include_podiatrist_services()` uses `sysi` or `sssy` as
+input to extract the dates of all diabetes-specific podiatrist services.
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+### GLD purchases
+
+The function `include_gld_purchases()` uses `lmdb` to extract the dates
+of all GLD purchases (from 1997 onwards).
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+<!-- TODO: Add this + link to resource "For details about this, see [link]." -->
+
+## Exclusion events
+
+### HbA1c tests and GLD purchases during pregnancy
+
+The function `exclude_pregnancy()` uses diagnoses from LPR2 or LPR3 as
+input and is used to exclude both HbA1c tests and GLD purchases during
+pregnancy.
+
+Internally, this relies on the function `get_pregnancy_dates()` that
+contains the following three helper functions:
+
+-   `calculate_pregnancy_index_date_for_mc_visits_wo_end_date()` (this
+    might be removed with the inclusion of the birth register)
+-   `get_pregnancy_end_dates()`: Keep maternal care visits with an end
+    date and drop visits between 40 weeks before end date and 12 weeks
+    after end date.
+-   `get_maternal_care_visit_dates_without_end_date()`: Uses the output
+    from `get_pregnancy_end_dates()` which identifies maternal care
+    visits *with* end dates to derive maternal care visits *without* end
+    dates. below.
+
+<!-- TODO: What is done with the mc visits without end dates then? -->
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+### Glucose-lowering brand drugs for weight loss
+
+The function `exclude_purchases_of_weight_loss_drugs()` uses REGISTER as
+input and excludes BRANDS.
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+<!-- TODO: Add data source and which brands are excluded -->
+
+### Metformin purchases for women below age 40
+
+The function `exclude_potential_pcos()` as input to exclude all
+purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
+the date of purchase. It relies on `bef` as input.
+
+This function contains two helper functions:
+
+-   `keep_women()`
+-   `drop_age_40_below()`
+
+<!-- TODO: Add details on how this filtering should be done -->
+
+## Get diagnosis date
+
+The function `get_diagnosis_date()` combines the outputs from the
+inclusion and exclusion functions to get the final diagnosis date.
+Initially, it drops the first inclusion and exclusion events from the
+function outputs with the helper `drop_first_event()`, so that only
+those with two or more events are kept. This is then used to assign an
+initial diagnosis according to OSDC. Then, all the outputs are joined
+together with `join_diagnosis_dates()`.
+
+Finally, the dates outside of the data coverage period are dropped with
+`drop_diagnosis_dates_outside_coverage()` to end with a final diagnosis
+date. For details on this censoring based on periods with insufficient
+data coverage, see the `vignette("algorithm-logic")`.
