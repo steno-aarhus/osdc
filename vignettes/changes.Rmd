@@ -31,8 +31,8 @@ these validations over the different versions.
 ## Validity
 
 Algorithm validity across versions. Reports `PPV` (*positive predictive
-value*) and `sensitivity` among cases with atypical age at onset of T1D
-(after age 40) and T2D (before age 40), respectively.
+value*) and `sensitivity` for typical cases and cases with atypical age
+at onset of T1D (after age 40) and T2D (before age 40), respectively.
 
 | Version | Diabetes type | PPV   | Sensitivity |
 |---------|---------------|-------|-------------|
