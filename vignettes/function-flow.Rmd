@@ -189,49 +189,29 @@ and one column with the diabetes type.
 
 ### Type 1 classification
 
-The details for the classification of type 1 diabetes is described in `vignette("design")`.
-Functions for the above filters are described in the following sections.
+The details for the classification of type 1 diabetes is described in
+`vignette("design")`. To classify whether an individual has T1D, the
+OSDC algorithm includes the following criteria:
 
-![Flow of functions for classifying the diabetes type using the `osdc`
-package. The dark grey box denotes the user-facing function, while the
-remaining boxes are internal
-functions.](images/classify-diabetes-type-functions.png)
-
-#### Filter 1: Any T1D diagnoses and all GLD purchases are insulins
-
-This filter contains two functions:
-
-1.  `t1d_include_at_least_one_t1d_primary_diagnosis`, which relies on
-    the hospital diagnoses extracted from `lpr_diag` (LPR2) and
-    `diagnoser` (LPR3) in the previous steps.
-2.  `t1d_include_only_purchased_insulins` which relies on the GLD
+1.  `get_t1d_primary_diagnosis()`, which relies on the hospital
+    diagnoses extracted from `lpr_diag` (LPR2) and `diagnoser` (LPR3) in
+    the previous steps.
+2.  `get_only_insulin_purchases()` which relies on the GLD purchases
+    from Lægemiddelsdatabasen to get patients where all GLD purchases
+    are insulin only.
+3.  `get_majority_of_t1d_diagnoses()` (as compared to T2D diagnoses)
+    which again relies on primary hospital diagnoses from LPR.
+4.  `get_insulin_purchase_within_180_days()` which relies on both
+    diagnosis from LPR and GLD purchases from Lægemiddelsdatabasen.
+5.  `get_insulin_is_two_thirds_of_gld_doses` which relies on the GLD
     purchases from Lægemiddelsdatabasen.
 
-#### Filter 2: Majority of T1D primary diagnoses, insulin within 180 days of diagnosis, and insulin constitutes 2/3 of all GLD doses
-
-The second filter includes three criteria: 1) Whether individuals have a
-majority of T1D primary diagnoses, 2) whether they purchased insulin
-within 180 days of diagnosis, and 3) whether insulin constitutes 2/3 of
-all their GLD doses.
-
-This results in three functions:
-
-1.  `t1d_include_majority_of_t1d_primary_diagnoses` (as compared to T2D
-    diagnoses) which again relies on primary hospital diagnoses from
-    DNPR.
-2.  `t1d_include_insulin_purchase_within_180_days_of_diagnosis` which
-    relies on both diagnosis from DNPR and GLD purchases from
-    Lægemiddelsdatabasen.
-3.  `t1d_include_two_thirds_of_purchased_gld_doses_are_insulin` which
-    relies on the GLD purchases from Lægemiddelsdatabasen.
-
-Note the following hierarchy in first function,
-`t1d_include_majority_of_t1d_primary_diagnoses`: First, the function
-checks whether the individual has primary diagnoses from
-endocrinological specialty. If yes, the check of whether they have a
-majority of T1D primary diagnoses are based on data from
-endocrinological specialty. If no, the check will be based on primary
-diagnoses from medical specialties.
+Note the following hierarchy in first function above: First, the
+function checks whether the individual has primary diagnoses from
+endocrinological specialty. If that's the case for a given person, the
+check of whether they have a majority of T1D primary diagnoses are based
+on data from endocrinological specialty. If that's not the case, the
+check will be based on primary diagnoses from medical specialties.
 
 ### Type 2 classification
 
