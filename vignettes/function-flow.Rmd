@@ -66,7 +66,7 @@ type). For instance, if the input is a `data.table` object, the output
 will also be a `data.table`.
 
 ![Flow of functions, as well as their required input registers, for
-classifying diabetes status using the `osdc` package. Light blue and
+classifying diabetes status using the osdc package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
 events, respectively). Uncoloured boxes are helper functions that get or
 extract a condition or joins data or function
@@ -246,7 +246,7 @@ For an example, see below.
 | 0000000001 | 2020-01-01            | 2020-01-01         | T1D           |
 | 0000000004 | NULL                  | 1995-04-19         | T2D           |
 
-: Example rows of the `data.frame` output of the `osdc` package.
+: Example rows of the `data.frame` output of the osdc package.
 
 The individuals `0000000001` and `0000000004` have been classified as
 having diabetes (`T1D` and `T2D`, respectively). `0000000004` is
