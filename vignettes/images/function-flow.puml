@@ -42,7 +42,7 @@ card classify_diabetes() as cd {
         action "exclude_potential_pcos()" as ex_pcos <<exclusion>>
     }
     together {
-        action "include_diabetes_diagnosis()" as in_diagnosis <<inclusion>>
+        action "include_diabetes_diagnoses()" as in_diagnoses <<inclusion>>
         action "include_hba1c()" as in_hba1c <<inclusion>>
         action "include_podiatrist_services()" as in_podiatrist <<inclusion>>
         action "include_gld_purchases()" as in_gld <<inclusion>>
@@ -74,10 +74,10 @@ card classify_diabetes() as cd {
     ex_pcos --> ex_wld
     ex_wld --> ex_pregnancy
 
-'inclusion: diabetes diagnosis
-    lpr2 --> in_diagnosis
-    lpr3 --> in_diagnosis
-    in_diagnosis --> join_inclusion
+'inclusion: diabetes diagnoses
+    lpr2 --> in_diagnoses
+    lpr3 --> in_diagnoses
+    in_diagnoses --> join_inclusion
 
 'helper functions
     lpr2 --> pregnancy
