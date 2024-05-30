@@ -1,53 +1,47 @@
 ---
-title: "Changes to algorithm since original validation"
+title: "Changes to algorithm"
 output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
 vignette: >
-  %\VignetteIndexEntry{Rationale}
+  %\VignetteIndexEntry{Changes to algorithm}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 In this vignette, you'll find a description of the changes that have
 been made to the OSDC algorithm since its [original
-validation](https://doi.org/10.2147/CLEP.S407019). The algorithm has
-been implemented with these changes in the `osdc` package. In addition,
-potential changes that might be implemented in the `osdc` package in the
-future are described. When an update to the algorithm has been
-implemented, this vignette will also provide validation metrics for that
-version of the algorithm and track its validity across versions.
+validation](https://doi.org/10.2147/CLEP.S407019). The osdc package uses
+the latest changes to the algorithm. Potential changes to the algorithm,
+rather than the specific implementation and code details, that we might
+in the future will also be described in this vignette. We will also
+provide validation metrics here whenever we make a change, and track
+these validations over the different versions.
 
-## Changes since original validation
+## Specific changes
 
-1.  Purchases of semaglutid, dapagliflozin or empagliflozin are no
-    longer used, neither for inclusion events nor classification of
+### Since the original published validation (version 1)
+
+1.  We don't use purchases of semaglutid, dapagliflozin or
+    empagliflozin, neither for inclusion events nor classification of
     diabetes type (due to increasing use in treatment of non-diabetes).
-2.  Diabetes type reclassification based on insulin purchases in the
-    previous year is no longer used.
+2.  We no longer use diabetes type reclassification based on insulin
+    purchases in the previous year.
 
 ## Validity
 
-Algorithm validity across versions. Reports `PPV`: *positive predictive
-value* and `Sens`: *sensitivity* overall and among cases with atypical
-age at onset of T1D (after age 40) and T2D (before age 40),
-respectively.
+Algorithm validity across versions. Reports `PPV` (*positive predictive
+value*) and `sensitivity` among cases with atypical age at onset of T1D
+(after age 40) and T2D (before age 40), respectively.
 
--   Paper:
-    -   T1D:
-        -   PPV: 0.943
-        -   Sens: 0.773
-    -   T1D \>40:
-        -   PPV: 0.708
-        -   Sens: 0.378
-    -   T2D:
-        -   PPV: 0.875
-        -   Sens: 0.944
-    -   T2D\<40:
-        -   PPV: 0.471
-        -   Sens: 0.863
+| Version | Diabetes type | PPV   | Sensitivity |
+|---------|---------------|-------|-------------|
+| 1       | T1D           | 0.943 | 0.773       |
+| 1       | T1D \>40 yrs  | 0.708 | 0.378       |
+| 1       | T2D           | 0.875 | 0.944       |
+| 1       | T2D \<40 yrs  | 0.471 | 0.863       |
 
-## Future potential changes
+## Potential future changes
 
 1.  Add support for using medical birth register to define pregnancies
     to censor gestational diabetes (GDM). This will allow for the
@@ -56,8 +50,8 @@ respectively.
     to), and enable the extension of the window of valid dates of
     diagnosis to 1996 onward.
 2.  Simplify logic defining pregnancy index dates to remove dependency
-    on maternal care visits (if performance in validation allows)
+    on maternal care visits (if performance in validation allows).
 3.  Limit the historic scope of primary diagnoses used to evaluate
     majority of diabetes-specific diagnoses in type classification (e.g.
     only evaluate majority among the last five type-specific diabetes
-    diagnoses)
+    diagnoses).
