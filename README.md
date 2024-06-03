@@ -16,7 +16,7 @@ While there are a few algorithms used throughout Denmark for Danish
 register research, they are usually textual descriptions of how to do
 it, rather than code-based descriptions (e.g. the [Register of Selected
 Chronic
-Diseases](https://www.esundhed.dk/-/media/Files/Publikationer/Emner/Operationer-og-diagnoser/Udvalgte-kroniske-sygdomme-svaere-psykiske-lidelser/Algoritmer-for-Udvalgte-Kroniske-Sygdomme-og-svre-psykiske-lidelser-RUKS-2022.ashx).
+Diseases](https://www.esundhed.dk/-/media/Files/Publikationer/Emner/Operationer-og-diagnoser/Udvalgte-kroniske-sygdomme-svaere-psykiske-lidelser/Algoritmer-for-Udvalgte-Kroniske-Sygdomme-og-svre-psykiske-lidelser-RUKS-2022.ashx)).
 
 In this project, we aim to make it easier and more explicit to classify
 type 1 and type 2 diabetes within a Danish register context. The
