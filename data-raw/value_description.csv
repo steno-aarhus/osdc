@@ -1,0 +1,66 @@
+register,variable,value,connector_variable,connector_value,format,comment
+lmdb,atc,^A10,NA,NA,regex,extra glucose-lowering drugs
+lmdb,atc,A10BJ02,NA,NA,string,edge cases of liraglutid
+lmdb,atc,A10BJ06,NA,NA,string,edge cases of semaglutid
+lmdb,atc,A10BA02,NA,NA,string,edge cases of metformin
+lmdb,atc,A10AE56,NA,NA,string,edge cases of Xultophy
+lmdb,name,Saxenda,atc,A10BJ02,string,generates name from atc for Saxenda
+lmdb,name,Wegovy Flextouch,atc,A10BJ06,string,generates name from atc for Wegovy
+lmdb,vnr,114620,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,079356,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,461535,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,466374,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,599897,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,131577,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,164108,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,395175,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,439932,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,575140,name,Saxenda,string,generates vnr from name for Saxenda
+lmdb,vnr,164303,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,178307,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,418253,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,431609,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,448583,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,396934,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,534716,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,538908,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,560545,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,058102,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,131824,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,191243,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,394103,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,405773,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,066923,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,187574,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,191797,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,409687,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,437102,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,153271,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,178249,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,386270,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,vnr,468849,name,Wegovy Flextouch,string,generates vnr from name for Wegovy
+lmdb,indo,0000092,atc,A10BA02,string,metformin for pcos
+lmdb,indo,0000276,atc,A10BA02,string,metformin for pcos
+lmdb,indo,0000781,atc,A10BA02,string,metformin for pcos
+lpr_diag,c_diag,^249,NA,icd8,regex,icd8 diabetes codes for lpr2
+lpr_diag,c_diag,^250,NA,icd8,regex,icd8 diabetes codes for lpr2
+lpr_diag,c_diag,^DE10,NA,icd10,regex,icd10 diabetes codes for lpr2
+lpr_diag,c_diag,^DE11,NA,icd10,regex,icd10 diabetes codes for lpr2
+lpr_diag,c_diag,^DE12,NA,icd10,regex,icd10 diabetes codes for lpr2
+lpr_diag,c_diag,^DE13,NA,icd10,regex,icd10 diabetes codes for lpr2
+lpr_diag,c_diag,^DE14,NA,icd10,regex,icd10 diabetes codes for lpr2
+lpr_diag,c_diag,^DO,NA,icd10,regex,icd10 pregnancy codes
+lpr_diag,c_diag,^DZ3,NA,icd10,regex,icd10 pregnancy codes
+diagnoser,diagnosekode,^DE10,NA,icd10,regex,icd10 diabetes codes for lpr3
+diagnoser,diagnosekode,^DE11,NA,icd10,regex,icd10 diabetes codes for lpr3
+diagnoser,diagnosekode,^DE12,NA,icd10,regex,icd10 diabetes codes for lpr3
+diagnoser,diagnosekode,^DE13,NA,icd10,regex,icd10 diabetes codes for lpr3
+diagnoser,diagnosekode,^DE14,NA,icd10,regex,icd10 diabetes codes for lpr3
+diagnoser,diagnosekode,^DO,NA,icd10,regex,icd10 pregnancy codes
+diagnoser,diagnosekode,^DZ3,NA,icd10,regex,icd10 pregnancy codes
+sysi,speciale,^54,NA,NA,regex,speciale codes for diabetes services
+sssy,speciale,^54,NA,NA,regex,speciale codes for diabetes services
+lab_forsker,analysiscode,NPU27300,NA,NA,string,npu code for new HbA1c format (mmol/mol)
+lab_forsker,analysiscode,NPU03835,NA,NA,string,npu code for old HbA1c format (%)
+lab_forsker,value,"runif(N, 1, 180)",analysiscode,NPU27300,runif,values for new HbA1c format (mmol/mol)
+lab_forsker,value,"runif(N, 1, 18)",analysiscode,NPU03835,runif,values for old HbA1c format (%)

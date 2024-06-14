@@ -16,14 +16,15 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(tidyverse)
 library(osdc)
 ```
 
 This document describes the sources of data needed by the OSDC algorithm
 and gives a brief overview of each of these sources and how they might
-look like. The algorithm uses these Danish registers as input data
-sources:
+look like. In addition, the final section contains information on how to
+gain access to these data.
+
+The algorithm uses these Danish registers as input data sources:
 
 ```{r, results='asis'}
 osdc:::registers_as_md_table("Danish registers used in the OSDC algorithm.")
@@ -81,3 +82,11 @@ for (register in osdc:::get_register_abbrev()) {
     print()
 }
 ```
+
+## Getting access to data
+
+The above data is available through Statistics Denmark and the Danish
+Health Data Authority. Researchers must be affiliated with an approved
+research institute in Denmark and fees apply. Information on how to gain
+access to data can be found at
+<https://www.dst.dk/en/TilSalg/Forskningsservice>.
