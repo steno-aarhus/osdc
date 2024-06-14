@@ -24,7 +24,7 @@ include_hba1c <- function(data) {
       included_hba1c = TRUE
     ) |>
     dplyr::group_by(pnr) |>
-    # This might not work with some databases
+    # FIXME: This might not work with some databases
     # Keep earliest two dates.
     dplyr::slice_min(date, n = 2) |>
     dplyr::ungroup()
