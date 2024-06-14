@@ -51,38 +51,55 @@ rules.
 
 ## Function flow
 
-The OSDC algorithm - and thereby, the osdc package - contains one main
-function that will classify individuals into those with either type 1 or
-type 2 diabetes using the Danish registers:
-`classify_diabetes_status()`. This function classifies those with
+The osdc package contains one main function that classifies individuals
+into those with either type 1 or type 2 diabetes using the Danish
+registers: `classify_diabetes()`. This function classifies those with
 diabetes (type 1 or 2) based on the Danish registers described in the
-`vignette("design")`. All data sources are used as input for this
-function. The specific inclusion and exclusion details are also
-described in the `vignette("design")`.
+`vignette("design")` and `vignette("data-sources")`. All data sources
+are used as input for this function. The specific inclusion and
+exclusion details are also described in the `vignette("design")`.
 
 This results in the functionality flow for classifying diabetes status
-seen below. All functions take a `data.frame` type object as input and
-outputs the same type of object as the input object (a `data.frame`
-type). For instance, if the input is a `data.table` object, the output
-will also be a `data.table`.
+seen below. This flow can be divided into two sections: extracting the
+diabetes population and classifying diabetes type which we will detail
+in the following sections.
+
+All functions take a `data.frame` type object as input and outputs the
+same type of object as the input object (a `data.frame` type). For
+instance, if the input is a `data.table` object, the output will also be
+a `data.table`.
 
 ![Flow of functions, as well as their required input registers, for
-classifying diabetes status using the `osdc` package. Light blue and
+classifying diabetes status using the osdc package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
 events, respectively). Uncoloured boxes are helper functions that get or
 extract a condition or joins data or function
 outputs.](images/function-flow.png)
 
-## Inclusion events
+## Population extraction
 
-### HbA1c tests above 48 mmol/mol
+In the following sections, we describe the functions used to extract the
+diabetes population from the Danish registers. The functions are divided
+into inclusion and exclusion events, and the final diagnosis date is
+calculated based on these events.
+
+![Flow of functions, as well as their required input registers, for
+extracting the population with diabetes using the osdc package. Light
+blue and orange boxes represent filtering functions (inclusion and
+exclusion events, respectively). Uncoloured boxes are helper functions
+that get or extract a condition or joins data or function
+outputs.](images/function-flow-population.png)
+
+### Inclusion events
+
+#### HbA1c tests above 48 mmol/mol
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
 extract all events of tests above 48 mmol/mol.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### Hospital diagnosis of diabetes
+#### Hospital diagnosis of diabetes
 
 The function `include_diabetes_diagnoses()` uses the hospital contacts
 from LPR2 and 3 to include all dates of diabetes diagnoses. Diabetes
@@ -97,14 +114,14 @@ This function contains two helper functions:
 
 <!-- TODO: Which specific ICD 8 and 10 codes are included? -->
 
-### Diabetes-specific podiatrist services
+#### Diabetes-specific podiatrist services
 
 The function `include_podiatrist_services()` uses `sysi` or `sssy` as
 input to extract the dates of all diabetes-specific podiatrist services.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### GLD purchases
+#### GLD purchases
 
 The function `include_gld_purchases()` uses `lmdb` to extract the dates
 of all GLD purchases (from 1997 onwards).
@@ -113,9 +130,9 @@ of all GLD purchases (from 1997 onwards).
 
 <!-- TODO: Add this + link to resource "For details about this, see [link]." -->
 
-## Exclusion events
+### Exclusion events
 
-### HbA1c tests and GLD purchases during pregnancy
+#### HbA1c tests and GLD purchases during pregnancy
 
 The function `exclude_pregnancy()` uses diagnoses from LPR2 or LPR3 as
 input and is used to exclude both HbA1c tests and GLD purchases during
@@ -138,16 +155,14 @@ contains the following three helper functions:
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-### Glucose-lowering brand drugs for weight loss
+#### Glucose-lowering brand drugs for weight loss
 
-The function `exclude_purchases_of_weight_loss_drugs()` uses REGISTER as
-input and excludes BRANDS.
+The function `exclude_wld_purchases()` uses lmdb as input and excludes
+the brand drugs Saxenda and Wegovy.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-<!-- TODO: Add data source and which brands are excluded -->
-
-### Metformin purchases for women below age 40
+#### Metformin purchases for women below age 40
 
 The function `exclude_potential_pcos()` as input to exclude all
 purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
@@ -160,7 +175,7 @@ This function contains two helper functions:
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-## Get diagnosis date
+### Get diagnosis date
 
 The function `get_diagnosis_date()` combines the outputs from the
 inclusion and exclusion functions to get the final diagnosis date.
@@ -173,4 +188,99 @@ together with `join_diagnosis_dates()`.
 Finally, the dates outside of the data coverage period are dropped with
 `drop_diagnosis_dates_outside_coverage()` to end with a final diagnosis
 date. For details on this censoring based on periods with insufficient
-data coverage, see the `vignette("algorithm-logic")`.
+data coverage, see the `vignette("design")`.
+
+### Classifying the diabetes type
+
+The next step of the OSDC algorithm classifies individuals from the
+extracted diabetes population as having either T1D or T2D. As described
+in the `vignette("design")`, individuals not classified as T1D cases are
+classified as T2D cases.
+
+The output is a `data.frame` that includes one row per individual in the
+diabetes population: one column with their PNR, two columns with
+inclusion dates (one "stable" date and one "raw" date - see the
+`vignette("design")` for an elaboration on what that entails), and one
+column with the diabetes type.
+
+<!-- TODO: add a link to the specific section where this is described -->
+
+![Flow of functions for classifying diabetes status using the `osdc`
+package.](images/function-flow-classification.png)
+
+#### Type 1 classification
+
+The details for the classification of type 1 diabetes is described in
+`vignette("design")`. To classify whether an individual has T1D, the
+OSDC algorithm includes the following criteria:
+
+1.  `get_t1d_primary_diagnosis()`, which relies on the hospital
+    diagnoses extracted from `lpr_diag` (LPR2) and `diagnoser` (LPR3) in
+    the previous steps.
+2.  `get_only_insulin_purchases()` which relies on the GLD purchases
+    from Lægemiddelsdatabasen to get patients where all GLD purchases
+    are insulin only.
+3.  `get_majority_of_t1d_diagnoses()` (as compared to T2D diagnoses)
+    which again relies on primary hospital diagnoses from LPR.
+4.  `get_insulin_purchase_within_180_days()` which relies on both
+    diagnosis from LPR and GLD purchases from Lægemiddelsdatabasen.
+5.  `get_insulin_is_two_thirds_of_gld_doses` which relies on the GLD
+    purchases from Lægemiddelsdatabasen.
+
+Note the following hierarchy in first function above: First, the
+function checks whether the individual has primary diagnoses from
+endocrinological specialty. If that's the case for a given person, the
+check of whether they have a majority of T1D primary diagnoses are based
+on data from endocrinological specialty. If that's not the case, the
+check will be based on primary diagnoses from medical specialties.
+
+#### Type 2 classification
+
+As described in the `vignette("design")`, individuals not classified as
+type 1 cases are classified as type 2 cases.
+
+## Output
+
+The output of the OSDC algorithm is a `data.frame` which includes four
+columns:
+
+1.  **PNR**: The pseudonymised social security number of individuals in
+    the diabetes population (one row per individual)
+2.  **stable_inclusion_date**: The *stable* inclusion date (i.e., the
+    raw date mutated so only individuals included in the time-period
+    where data coverage is sufficient to make incident cases
+    reliable)[^1]
+    <!-- TODO: Specify this time-period: e.g., later than 1997 -->
+3.  **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
+    the second inclusion event as described in the [Extracting the
+    diabetes population](#extracting-diabetes-population) section above)
+4.  **diabetes_type** The classified diabetes type
+
+[^1]: For more information on the "raw" versus "stable" inclusion date,
+    see `vignette("design")`.
+
+<!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
+
+For an example, see below.
+
+| PNR        | stable_inclusion_date | raw_inclusion_date | diabetes_type |
+|------------|-----------------------|--------------------|---------------|
+| 0000000001 | 2020-01-01            | 2020-01-01         | T1D           |
+| 0000000004 | NULL                  | 1995-04-19         | T2D           |
+
+: Example rows of the `data.frame` output of the osdc package.
+
+The individuals `0000000001` and `0000000004` have been classified as
+having diabetes (`T1D` and `T2D`, respectively). `0000000004` is
+classified as having type 1 diabetes (T1D) with an inclusion date of
+`2020-01-01`. Since this date is within a time-period of sufficient data
+coverage, the column `stable_inclusion_date` is populated with the same
+date as `raw_inclusion_date`.
+
+The individual in the second row, `0000000004` is classified as having
+type 2 diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995
+is within a time-period of insufficient data coverage,
+`stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
+contains the inclusion date of this individual.
+
+<!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
