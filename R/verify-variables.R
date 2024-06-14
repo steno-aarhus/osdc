@@ -6,6 +6,8 @@
 #' occurs, rather than within this function.
 #'
 #' @param data The dataset to check.
+#' @param call The environment where the function is called, so that the error
+#'   traceback gives a more meaningful location.
 #' @inheritParams get_required_variables
 #'
 #' @return Either TRUE if the verification passes, or an error.
