@@ -20,8 +20,7 @@ test_that("the required variables are present in the dataset", {
   # When some of the variables are the required variables
   expect_true(verify_required_variables(bef_complete_extra, "bef"))
 
-  # When it is a character output, it is a fail
-  expect_type(verify_required_variables(bef_incomplete, "bef"), "character")
+  expect_error(verify_required_variables(bef_incomplete, "bef"))
 })
 
 
