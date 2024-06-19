@@ -152,37 +152,39 @@ insert_specific_atc <- function(data, proportion = 0.3) {
 # Insert a few cases where purchases of metformin are used for other purposes
 # than diabetes.
 insert_false_metformin <- function(data, proportion = 0.05) {
-  if (!all(colnames(data) %in% c("atc", "name"))) {
-    return(data)
-  }
-  data |>
-    dplyr::mutate(
-      atc = dplyr::if_else(
-        indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
-        "A10BA02",
-        atc
-      ),
-      name = dplyr::if_else(
-        indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
-        "metformin",
-        name
+  if (all(c("atc", "name") %in% colnames(data))) {
+    data |>
+      dplyr::mutate(
+        atc = dplyr::if_else(
+          indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
+          "A10BA02",
+          atc
+        ),
+        name = dplyr::if_else(
+          indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
+          "metformin",
+          name
+        )
       )
-    )
+  } else {
+  return(data)
+  }
 }
 
 # Insert some false positives for Wegovy and Saxenda.
 insert_false_drug_names <- function(data, proportion = 0.05) {
-  if (!all(colnames(data) %in% c("atc", "name"))) {
+  if (all(c("atc", "name") %in% colnames(data))) {
+    data |>
+      mutate(
+        name = case_when(
+          atc == "A10BJ06" & insertion_rate(proportion) ~ "Wegovy Flextouch",
+          atc == "A10BJ02" & insertion_rate(proportion) ~ "Saxenda",
+          TRUE ~ name
+        )
+      )
+  } else {
     return(data)
   }
-  data |>
-    mutate(
-      name = case_when(
-        atc == "A10BJ06" & insertion_rate(proportion) ~ "Wegovy Flextouch",
-        atc == "A10BJ02" & insertion_rate(proportion) ~ "Saxenda",
-        TRUE ~ name
-      )
-    )
 }
 
 insert_analysiscode <- function(data, proportion = 0.3) {
