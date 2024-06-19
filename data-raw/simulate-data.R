@@ -167,7 +167,7 @@ insert_false_metformin <- function(data, proportion = 0.05) {
         )
       )
   } else {
-  return(data)
+  data
   }
 }
 
@@ -183,7 +183,7 @@ insert_false_drug_names <- function(data, proportion = 0.05) {
         )
       )
   } else {
-    return(data)
+    data
   }
 }
 
