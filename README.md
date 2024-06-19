@@ -45,6 +45,16 @@ pak::pak(
 )
 ```
 
+## Development
+
+When developing the package and you make changes to any of the files in
+`data-raw/`, use the targets pipeline to re-generate the data files:
+
+``` r
+# install.packages("targets")
+targets::tar_make()
+```
+
 ## Code of Conduct
 
 Please note that the osdc project is released with a [Contributor Code
