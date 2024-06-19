@@ -29,13 +29,13 @@ library(rvest)
 
 # Simulation functions -----------------------------------------------------
 
-#'  Zero pad integers
+#'  Zero pad an integer to a specific length
 #'
-#' @param x An integer or vector of integers
-#' @param width An integer describing the final width of the zero-padded integer
+#' @param x An integer or vector of integers.
+#' @param width An integer describing the final width of the zero-padded integer.
 #' @keywords internal
 #'
-#' @return A zero padded integer
+#' @return A character vector of integers.
 #'
 #' @examples
 #' pad_integers(x = 1, width = 5)
@@ -46,16 +46,16 @@ pad_integers <- function(x, width) {
     stringr::str_pad(width = width, side = "left", pad = "0")
 }
 
-#' Create ICD diagnoses.
+#' Create a vector with random ICD-8 or -10 diagnoses
 #'
-#' @param n The number of ICD-10 diagnoses to generate.
-#' @param date A date determining whether the diagnoses should be ICD-8 or ICD-10. If null, a random date will be sampled to determine which ICD revision the diagnosis should be from.
+#' @param n The number of ICD-8 or -10 diagnoses to generate.
+#' @param date A date determining whether the diagnoses should be ICD-8 or ICD-10. If null, a random date will be sampled to determine which ICD revision the diagnosis should be from. In the Danish registers, ICD-10 is used after 1994.
 #'
-#' @return n ICD-10 diagnoses as characters.
+#' @return A character vector of ICD-10 diagnoses.
 #'
 #' @examples
 #' create_fake_icd(10)
-#' #' create_fake_icd(5, "1995-04-19")
+#' create_fake_icd(5, "1995-04-19")
 create_fake_icd <- function(n, date = NULL) {
   if (is.null(date)) {
     date <- sample(c("1993-01-01", "1995-01-01"), 1)
@@ -68,13 +68,14 @@ create_fake_icd <- function(n, date = NULL) {
   }
 }
 
-#' Create ICD 10 diagnoses.
+#' Create a vector of random ICD-8 diagnoses
 
 #' @description
 #' ICD-8 is the 8th revision of the International Classification of Diseases.
+#' 
 #' @param n The number of ICD-8 diagnoses to generate.
 #'
-#' @return n ICD-8 diagnoses as characters.
+#' @return A character vector of ICD-8 diagnoses.
 #'
 #' @examples
 #' create_fake_icd8(1)
@@ -85,13 +86,14 @@ create_fake_icd8 <- function(n) {
     sample(size = n, replace = TRUE)
 }
 
-#' Create fake ICD 10 diagnoses.
+#' Create a vector of random ICD-10 diagnoses.
 #'
 #' @description
 #' ICD-10 is the 10th revision of the International Classification of Diseases.
-#' @param n An integer determining how many diagnoses will be created.
+#' 
+#' @param n An integer determining how many diagnoses to create.
 #'
-#' @return n ICD-10 diagnoses as characters.
+#' @return A character vector of ICD-10 diagnoses.
 #'
 #' @examples
 #' create_fake_icd10(3)
@@ -103,14 +105,15 @@ create_fake_icd10 <- function(n) {
     sample(size = n, replace = TRUE)
 }
 
-#' Create fake ATC codes.
+#' Create a vector with random ATC codes
 #'
 #' @description
 #' Anatomical Therapeutic Chemical (ATC) codes are unique medicine codes
 #' based on on what organ or system it works on and how it works.
-#' @param n The number of fake ATC codes to generate.
+#' 
+#' @param n The number of random ATC codes to generate.
 #'
-#' @return n ATC codes as characters.
+#' @return A character vector of ATC codes.
 #'
 #' @examples
 #' create_fake_atc(10)
@@ -122,13 +125,13 @@ create_fake_atc <- function(n) {
     sample(n, replace = TRUE)
 }
 
-#' Create fake dates.
+#' Create fake dates
 #'
 #' @param n The number of dates to generate.
 #' @param from A date determining the first date in the interval to sample from.
 #' @param to A date determining the last date in the interval to sample from.
 #'
-#' @return n dates.
+#' @return A vector of dates.
 #'
 #' @examples
 #' create_fake_date(20)
@@ -138,12 +141,12 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
     sample(n, replace = TRUE)
 }
 
-#' Create padded integers.
+#' Create a vector of random zero-padded integers.
 #'
 #' @param n The number of integers to generate.
 #' @param length An integer determining the length of the padded integer.
 #'
-#' @return n padded integers as characters.
+#' @return A character vector of integers.
 #'
 #' @examples
 #' create_padded_integer(5, 10)
@@ -153,14 +156,15 @@ create_padded_integer <- function(n, length) {
     pad_integers(width = length)
 }
 
-#' Create fake NPU codes.
+#' Create a vector of random NPU codes
 #'
 #' @description
 #' Nomenclature for Properties and Units (NPUs) are codes that identifies
 #' laboratory results.
+#' 
 #' @param n The number of NPUs to create.
 #'
-#' @return n NPUs as characters.
+#' @return A character vector.
 #'
 #' @examples
 #' create_fake_npu(4)
@@ -171,11 +175,11 @@ create_fake_npu <- function(n) {
   )
 }
 
-#' Create department specialties.
+#' Create a vector of random department specialties
 #'
 #' @param n The number of department specialties to create.
 #'
-#' @return n random department specialties.
+#' @return A character vector.
 #'
 #' @examples
 #' create_fake_hovedspeciale_ans(1000)
@@ -188,11 +192,11 @@ create_fake_hovedspeciale_ans <- function(n) {
     sample(n, replace = TRUE)
 }
 
-#' Create drug names from ATC codes.
+#' Create a vector of drug names based on a vector of ATC codes
 #'
 #' @param atc A character describing an ATC code.
 #'
-#' @return A character with the drug name of the given ATC code.
+#' @return A character vector with the drug name of the given ATC code.
 #'
 #' @examples
 #' create_fake_drug_name("A03FA05")
@@ -205,11 +209,11 @@ create_fake_drug_name <- function(atc) {
     sample(length(atc), replace = TRUE)
 }
 
-#' Transform date(s) to the format wwyy.
+#' Transform date(s) to the format wwyy
 #'
 #' @param x A date or a vector of dates.
 #'
-#' @return The input date(s) in the format wwyy.
+#' @return A vector of dates in the format wwyy.
 #'
 #' @examples
 #' to_wwyy("2020-12-01")
@@ -218,11 +222,11 @@ to_wwyy <- function(x) {
   paste0(lubridate::isoweek(lubridate::as_date(x)), stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2))
 }
 
-#' Transform date(s) to the format yyyymmdd.
+#' Transform date(s) to the format yyyymmdd
 #'
 #' @param x A date or a vector of dates.
 #'
-#' @return The input date(s) in the format yyyymmdd.
+#' @return A vector of dates in the format yyyymmdd.
 #'
 #' @examples
 #' to_yyyymmdd("2020-12-01")
@@ -237,7 +241,7 @@ to_yyyymmdd <- function(x) {
 #'
 #' @param proportion A double between 0 and 1.
 #'
-#' @return A logic. TRUE if the random number is less than the proportion,
+#' @return A logic vector. TRUE if the random number is less than the proportion,
 #' otherwise FALSE.
 #'
 #' @examples
@@ -246,9 +250,9 @@ insertion_rate <- function(proportion) {
   runif(1) < proportion
 }
 
-#' Insert ATC based on a proportion
+#' Insert specific ATC codes based on a proportion
 #'
-#' @param data A tibble
+#' @param data A tibble.
 #' @param proportion Proportion to be resampled. Defaults to 0.3.
 #'
 #' @return A tibble with a proportion of resampled ATC codes for columns
@@ -291,7 +295,7 @@ insert_specific_atc <- function(data, proportion = 0.3) {
 #' This function uses the variable 'indo' which is the code for the underlying
 #' condition treated by the prescribed medication.
 #'
-#' @param data A tibble
+#' @param data A tibble.
 #' @param proportion Proportion to resample. Defaults to 0.05.
 #'
 #' @return A tibble. If all column names in the tibble is either 'atc' or
@@ -315,7 +319,7 @@ insert_false_metformin <- function(data, proportion = 0.05) {
     )
 }
 
-# Insert false positives for Wegovy and Saxenda.
+# Insert false positives for Wegovy and Saxenda
 #'
 #' @param data A tibble.
 #' @param proportion Proportion to resample. Defaults to 0.05.
@@ -337,7 +341,7 @@ insert_false_drug_names <- function(data, proportion = 0.05) {
     )
 }
 
-#' Insert additional analysis codes for HbA1c.
+#' Insert additional analysis codes for HbA1c
 #'
 #' @param data A tibble.
 #' @param proportion Proportion to resample. Defaults to 0.3.
@@ -360,7 +364,7 @@ insert_analysiscode <- function(data, proportion = 0.3) {
     )
 }
 
-#' Add drug names (from ATC codes).
+#' Add drug names (from ATC codes)
 #'
 #' @param data A tibble.
 #'
@@ -380,7 +384,7 @@ add_fake_drug_name <- function(data) {
 
 # Simulate data -----------------------------------------------------------
 
-#' Simulate data based on simulation definitions.
+#' Simulate data based on simulation definitions
 #'
 #' @param data A tibble with simulation definitions.
 #' @param n Number of observations to simulate.
