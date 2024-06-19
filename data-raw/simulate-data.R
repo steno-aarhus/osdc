@@ -38,8 +38,8 @@ library(rvest)
 #' @return A zero padded integer
 #'
 #' @examples
-#' pad_integers(x=1, width=5)
-#' pad_integers(x=c(1,2,3), width=10)
+#' pad_integers(x = 1, width = 5)
+#' pad_integers(x = c(1, 2, 3), width = 10)
 pad_integers <- function(x, width) {
   x |>
     stringr::str_trunc(width = width, side = "left", ellipsis = "") |>
@@ -146,16 +146,18 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #' @return n padded integers as characters.
 #'
 #' @examples
-#' create_padded_integer(5,10)
+#' create_padded_integer(5, 10)
 create_padded_integer <- function(n, length) {
   purrr::map(1:length, \(ignore) sample(0:9, n, replace = TRUE)) |>
     purrr::reduce(\(integer1, integer2) paste(integer1, integer2, sep = "")) |>
     pad_integers(width = length)
 }
 
-# TODO: Add description on what NPU codes are.
 #' Create fake NPU codes.
 #'
+#' @description
+#' Nomenclature for Properties and Units (NPUs) are codes that identifies
+#' laboratory results.
 #' @param n The number of NPUs to create.
 #'
 #' @return n NPUs as characters.
@@ -186,14 +188,15 @@ create_fake_hovedspeciale_ans <- function(n) {
     sample(n, replace = TRUE)
 }
 
-#' Create drug names based on ATC code.
+#' Create drug names from ATC codes.
 #'
 #' @param atc A character describing an ATC code.
 #'
 #' @return A character with the drug name of the given ATC code.
 #'
 #' @examples
-#' create_fake_drug_name(c("A03FA05")
+#' create_fake_drug_name("A03FA05")
+#' create_fake_drug_name(c("A03FA05", "A02BA04"))
 create_fake_drug_name <- function(atc) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
@@ -230,10 +233,28 @@ to_yyyymmdd <- function(x) {
 
 # Insert extra values to overrepresent certain values ------------------------------------------------------
 
+#' Generate logic based on a probability
+#'
+#' @param proportion A double between 0 and 1.
+#'
+#' @return A logic. TRUE if the random number is less than the proportion,
+#' otherwise FALSE.
+#'
+#' @examples
+#' insertion_rate(0.3)
 insertion_rate <- function(proportion) {
   runif(1) < proportion
 }
 
+#' Insert ATC based on a proportion
+#'
+#' @param data A tibble
+#' @param proportion Proportion to be resampled. Defaults to 0.3.
+#'
+#' @return A tibble with a proportion of resampled ATC codes for columns
+#' named 'atc'
+#'
+#' @examples
 insert_specific_atc <- function(data, proportion = 0.3) {
   glucose_lowering_drugs <- c(
     metformin = "A10AB02",
@@ -264,8 +285,17 @@ insert_specific_atc <- function(data, proportion = 0.3) {
     )
 }
 
-# Insert a few cases where purchases of metformin are used for other purposes
-# than diabetes.
+#' Insert cases where metformin is used for other purposes than diabetes
+#'
+#' @description
+#' This function uses the variable 'indo' which is the code for the underlying
+#' condition treated by the prescribed medication.
+#'
+#' @param data A tibble
+#' @param proportion Proportion to resample. Defaults to 0.05.
+#'
+#' @return A tibble. If all column names in the tibble is either 'atc' or
+#' 'name', a proportion of observations is resampled as metmorfin.
 insert_false_metformin <- function(data, proportion = 0.05) {
   if (!all(colnames(data) %in% c("atc", "name"))) {
     return(data)
@@ -285,7 +315,14 @@ insert_false_metformin <- function(data, proportion = 0.05) {
     )
 }
 
-# Insert some false positives for Wegovy and Saxenda.
+# Insert false positives for Wegovy and Saxenda.
+#'
+#' @param data A tibble.
+#' @param proportion Proportion to resample. Defaults to 0.05.
+#'
+#' @return A tibble. If all column names in the tibble is either 'atc' or 'name'
+#' and the atc is a A10BJ06 or A10BJ02, a proportion of observations is resampled
+#' to have the name Wegovy Flextouch or Saxenda.
 insert_false_drug_names <- function(data, proportion = 0.05) {
   if (!all(colnames(data) %in% c("atc", "name"))) {
     return(data)
@@ -300,6 +337,13 @@ insert_false_drug_names <- function(data, proportion = 0.05) {
     )
 }
 
+#' Insert additional analysis codes for HbA1c.
+#'
+#' @param data A tibble.
+#' @param proportion Proportion to resample. Defaults to 0.3.
+#'
+#' @return A tibble. If a column is named "analysiscode", a proportion of the
+#' values are replaced by codes for HbA1c.
 insert_analysiscode <- function(data, proportion = 0.3) {
   # NPU27300: New units for HbA1c
   # NPU03835: Old units for HbA1c
@@ -316,11 +360,32 @@ insert_analysiscode <- function(data, proportion = 0.3) {
     )
 }
 
+#' Add drug names (from ATC codes).
+#'
+#' @param data A tibble.
+#'
+#' @return A tibble. For columns named "name", a fake drug name (atc) will be
+#' added.
+add_fake_drug_name <- function(data) {
+  data |>
+    mutate(
+      across(
+        matches("^name$"),
+        \(x) create_fake_drug_name(atc = atc)
+      )
+    )
+}
+
 # TODO: Need a function to reuse recnum and dw_ek_kontakt in LPR data
 
 # Simulate data -----------------------------------------------------------
 
-# use the simulation definition data to simulate some data
+#' Simulate data based on simulation definitions.
+#'
+#' @param data A tibble with simulation definitions.
+#' @param n Number of observations to simulate.
+#'
+#' @return A tibble with simulated data.
 simulate_data <- function(data, n) {
   # N needs to be capitalized for fabricatr, and but to be consistent
   # with other functions and their use of `n`, I kept it lowercase for
@@ -335,16 +400,6 @@ simulate_data <- function(data, n) {
     imap(\(column, name) enframe(column, name = NULL, value = name)) |>
     unname() |>
     list_cbind()
-}
-
-add_fake_drug_name <- function(data) {
-  data |>
-    mutate(
-      across(
-        matches("^name$"),
-        \(x) create_fake_drug_name(atc = atc)
-      )
-    )
 }
 
 set.seed(123)
