@@ -301,7 +301,7 @@ insert_specific_atc <- function(data, proportion = 0.3) {
 #' @return A tibble. If all column names in the tibble is either 'atc' or
 #' 'name', a proportion of observations is resampled as metmorfin.
 insert_false_metformin <- function(data, proportion = 0.05) {
-  if (all(c("atc", "name") %in% colnames(data))) {
+  if (all(c("atc", "name", "indo") %in% colnames(data))) {
     data |>
       dplyr::mutate(
         atc = dplyr::if_else(
