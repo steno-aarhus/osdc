@@ -85,7 +85,6 @@ hide <<exclusion>> stereotype
     lmdb --> wld
     wld --> ex_wld
     bef --> pcos
-    in_gld --> ex_pcos
     pcos --> ex_pcos
     join_inclusion --> diagnosis_date
 
