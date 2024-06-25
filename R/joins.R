@@ -28,12 +28,13 @@ join_lpr2 <- function(lpr_adm, lpr_diag) {
 #' @keywords internal
 #'
 #' @examples
-#' register_data$diagnoser |>
-#'   join_lpr3(register_data$kontakter)
-join_lpr3 <- function(diagnoser, kontakter) {
-  verify_required_variables(diagnoser, "diagnoser")
+#' register_data$kontakter |>
+#'   join_lpr3(register_data$diagnoser)
+join_lpr3 <- function(kontakter, diagnoser) {
   verify_required_variables(kontakter, "kontakter")
-  dplyr::full_join(
+  verify_required_variables(diagnoser, "diagnoser")
+
+  dplyr::inner_join(
     column_names_to_lower(kontakter),
     column_names_to_lower(diagnoser),
     by = "dw_ek_kontakt"
