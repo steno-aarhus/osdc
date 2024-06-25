@@ -26,11 +26,14 @@ verify_required_variables <- function(data, register, call = rlang::caller_env()
     x = actual_variables,
     must.include = expected_variables
   )) {
-    cli::cli_abort(c(
-      "This function needs specific variables from the {.val {register}} register.",
-      "i" = "Variables required: {.val {expected_variables}}",
-      "x" = "Variables found: {.val {actual_variables}}"
-    ))
+    cli::cli_abort(
+      c(
+        "This function needs specific variables from the {.val {register}} register.",
+        "i" = "Variables required: {.val {expected_variables}}",
+        "x" = "Variables found: {.val {actual_variables}}"
+      ),
+      call = call
+    )
   }
   return(invisible(TRUE))
 }
