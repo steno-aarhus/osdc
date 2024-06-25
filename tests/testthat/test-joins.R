@@ -129,6 +129,13 @@ test_that("joining LPR3 correctly", {
   expect_equal(actual, expected_lpr3)
 })
 
+test_that("kontakter and diagnoser are in correct order", {
+  expect_error(join_lpr3(
+    actual_diagnoser,
+    actual_kontakter
+  ))
+})
+
 test_that("joining works for DuckDB Database", {
   actual <- arrow::to_duckdb(actual_diagnoser) |>
     join_lpr3(arrow::to_duckdb(actual_kontakter))
