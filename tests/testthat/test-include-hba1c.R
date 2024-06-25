@@ -41,7 +41,7 @@ expected <- tibble::tribble(
 )
 
 test_that("dataset needs expected variables", {
-  actual <- lab_forsker
+  actual <- lab_forsker[-2]
   expect_error(include_hba1c(actual))
 })
 
