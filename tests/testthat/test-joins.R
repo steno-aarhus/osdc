@@ -137,29 +137,57 @@ test_that("kontakter and diagnoser are in correct order", {
 })
 
 test_that("joining works for DuckDB Database", {
-  actual <- arrow::to_duckdb(actual_diagnoser) |>
-    join_lpr3(arrow::to_duckdb(actual_kontakter))
+  actual <- arrow::to_duckdb(actual_kontakter) |>
+    join_lpr3(arrow::to_duckdb(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
 
   expect_contains(class(actual), "tbl_duckdb_connection")
+  expect_identical(colnames(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
 })
 
 test_that("joining works for Arrow Tables (from Parquet)", {
-  actual <- arrow::as_arrow_table(actual_diagnoser) |>
-    join_lpr3(arrow::as_arrow_table(actual_kontakter))
+  actual <- arrow::as_arrow_table(actual_kontakter) |>
+    join_lpr3(arrow::as_arrow_table(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
 
   expect_contains(class(actual), "arrow_dplyr_query")
+  expect_identical(names(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
 })
 
 test_that("joining works for data.frame", {
-  actual <- as.data.frame(actual_diagnoser) |>
-    join_lpr3(as.data.frame(actual_kontakter))
+  actual <- as.data.frame(actual_kontakter) |>
+    join_lpr3(as.data.frame(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
 
   expect_contains(class(actual), "data.frame")
+  expect_identical(names(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
 })
 
 test_that("joining works for data.table", {
-  actual <- data.table::as.data.table(actual_diagnoser) |>
-    join_lpr3(data.table::as.data.table(actual_kontakter))
+  actual <- data.table::as.data.table(actual_kontakter) |>
+    join_lpr3(data.table::as.data.table(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
 
   expect_contains(class(actual), "data.table")
+  expect_identical(colnames(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
 })
