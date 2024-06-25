@@ -1,6 +1,6 @@
 Type: Package
 Package: osdc
-Title: Open Source Diabetes Classifier (OSCD) for Danish Registers
+Title: Open Source Diabetes Classifier (OSDC) for Danish Registers
 Version: 0.0.1.9000
 Authors@R: c(
     person(c("Luke", "William"), "Johnston", , "lwjohnst@gmail.com", role = c("aut", "cre"),
