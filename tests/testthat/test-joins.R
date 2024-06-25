@@ -122,8 +122,8 @@ expected_lpr3 <- tibble::tibble(
 
 test_that("joining LPR3 correctly", {
   actual <- join_lpr3(
-    actual_diagnoser,
-    actual_kontakter
+    actual_kontakter,
+    actual_diagnoser
   )
 
   expect_equal(actual, expected_lpr3)
