@@ -4,17 +4,19 @@
 \alias{verify_required_variables}
 \title{Verify that the dataset has the required variables for the algorithm.}
 \usage{
-verify_required_variables(data, register)
+verify_required_variables(data, register, call = rlang::caller_env())
 }
 \arguments{
 \item{data}{The dataset to check.}
 
 \item{register}{The abbreviation of the register name. See list of
 abbreviations in \code{\link[=get_register_abbrev]{get_register_abbrev()}}.}
+
+\item{call}{The environment where the function is called, so that the error
+traceback gives a more meaningful location.}
 }
 \value{
-Either TRUE if the verification passes, or a character string if
-there is an error.
+Either TRUE if the verification passes, or an error.
 }
 \description{
 Use this function inside another function within an \code{if} condition to provide an
@@ -24,7 +26,7 @@ occurs, rather than within this function.
 }
 \examples{
 # TODO: Replace with simulated data.
-example_bef_data <- tibble::tibble(pnr = 1, koen = 1, foed_dato = 1)
-osdc:::verify_required_variables(example_bef_data, "bef")
+verify_required_variables(register_data$bef, "bef")
+verify_required_variables(register_data$bef, "lpr_adm")
 }
 \keyword{internal}
