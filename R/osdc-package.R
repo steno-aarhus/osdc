@@ -19,3 +19,17 @@ utils::globalVariables(".data")
 #' @format
 #' Is a list with several registers.
 "register_data"
+
+#' Data frame of the logic for the OSDC algorithm
+#'
+#' This data frame contains the logic details of the algorithm for specific
+#' inclusion and exclusion criteria.
+#'
+#' @format
+#' Is a [tibble::tibble()] with two columns:
+#'
+#' \describe{
+#'  \item{name}{The inclusion or exclusion criteria name.}
+#'  \item{logic}{The logic for the criteria.}
+#' }
+"algorithm"

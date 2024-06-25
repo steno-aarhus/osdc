@@ -1,4 +1,4 @@
-# osdc (development version)
+# osdc 0.0.1.9000 (development version)
 
 ## General
 

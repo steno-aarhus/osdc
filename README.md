@@ -41,7 +41,7 @@ more data or running the full test suite, use:
 ``` r
 pak::pak(
   "steno-aarhus/osdc",
-  dependencies = c("all", "Config/Needs/tests", "Config/Needs/data")
+  dependencies = c("all", "Config/Needs/data")
 )
 ```
 

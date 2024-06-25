@@ -76,7 +76,7 @@ for (register in osdc:::get_register_abbrev()) {
     print()
 
   osdc:::register_data_as_md_table(
-    register,
+    register_data[[register]],
     caption = glue::glue("Simulated example of what the data looks like for the `{register}` register.")
   ) |>
     print()

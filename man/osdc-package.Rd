@@ -4,7 +4,7 @@
 \name{osdc-package}
 \alias{osdc}
 \alias{osdc-package}
-\title{osdc: Open Source Diabetes Classifier (OSCD) for Danish Registers}
+\title{osdc: Open Source Diabetes Classifier (OSDC) for Danish Registers}
 \description{
 This classifier first identifies a population of individuals with any type of diabetes mellitus and then splits this population into T1D and T2D by identifying individuals with T1D and classifying the remainder of the diabetes population as T2D.
 }
