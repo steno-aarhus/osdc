@@ -65,24 +65,24 @@ actual_diagnoser <- tibble::tibble(
   dw_ek_kontakt = 1:2,
   diagnosekode = c("DA071","DD075"),
   diagnosetype = c("A", "B"),
-  senere_afkraefter = c("Nej", "Ja")
+  senere_afkraeftet = c("Nej", "Ja")
 )
 
 actual_kontakter <- tibble::tibble(
   cpr = c(1, 1, 2),
   dw_ek_kontakt = 1:3,
   dato_start = c("20230101", "20220101", "20200101"),
-  hovedspaciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
+  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
 )
 
 expected_lpr3 <- tibble::tibble(
   cpr = c(1, 1, 2),
   dw_ek_kontakt = c(1,2,3),
   dato_start = c("20230101", "20220101", "20200101"),
-  hovedspaciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
+  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
   diagnosekode = c("DA071","DD075", NA),
   diagnosetype = c("A", "B", NA),
-  senere_afkraefter = c("Nej", "Ja", NA),
+  senere_afkraeftet = c("Nej", "Ja", NA),
 )
 
 test_that("joining LPR3 correctly", {
