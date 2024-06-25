@@ -7,8 +7,8 @@
 #' @keywords internal
 #'
 #' @examples
-#' register_data$lpr_diag |>
-#'   join_lpr2(register_data$lpr_adm)
+#' register_data$lpr_adm |>
+#'   join_lpr2(register_data$lpr_diag)
 join_lpr2 <- function(lpr_adm, lpr_diag) {
   verify_required_variables(lpr_adm, "lpr_adm")
   verify_required_variables(lpr_diag, "lpr_diag")
