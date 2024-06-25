@@ -10,3 +10,5 @@
 ^pkgdown$
 ^\.vscode$
 ^_targets$
+^_targets\.R$
+^justfile$
