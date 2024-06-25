@@ -1,6 +1,9 @@
 lab_forsker <- tibble::tribble(
   ~patient_cpr, ~samplingdate, ~analysiscode, ~value,
+  # Three events, so only earliest two should be kept.
   "498718589800", "20230101", "NPU27300", 49,
+  "498718589800", "20210101", "NPU27300", 49,
+  "498718589800", "20220101", "NPU27300", 49,
   "498718589801", "20230101", "NPU03835", 6.6,
   "498718589802", "20230101", "NPU03835", 6.3,
   "498718589803", "20230101", "NPU27300", 47,
@@ -22,7 +25,8 @@ lab_forsker <- tibble::tribble(
 
 expected <- tibble::tribble(
   ~pnr, ~date, ~included_hba1c,
-  "498718589800", "20230101", TRUE,
+  "498718589800", "20210101", TRUE,
+  "498718589800", "20220101", TRUE,
   "498718589801", "20230101", TRUE,
   "498718589803", "20210101", TRUE,
   "498718589803", "20220101", TRUE,
