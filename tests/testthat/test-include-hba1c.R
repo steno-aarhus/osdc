@@ -52,7 +52,7 @@ test_that("those with inclusion are kept", {
 
 test_that("casing of input variables doesn't matter", {
   actual <- lab_forsker |>
-    rename_with(\(columns) toupper(columns)) |>
+    dplyr::rename_with(\(columns) toupper(columns)) |>
     include_hba1c()
   expect_equal(actual, expected)
 })
