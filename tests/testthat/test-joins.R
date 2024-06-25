@@ -1,23 +1,23 @@
 actual_lpr_diag <- tibble::tibble(
-  recnum = c(1:2),
-  c_diag = 1:2,
-  c_diagtype = c("A", "B")
+  recnum = rep(1:4, each = 2),
+  c_diag = 1:8,
+  c_diagtype = rep(c("A", "B"), 4)
 )
 
 actual_lpr_adm <- tibble::tibble(
-  pnr = 1:3,
-  recnum = c(1, 1, 2),
-  c_spec = 1:3,
-  d_inddto = c("20230101", "20220101", "20200101"),
+  pnr = rep(1:2, 2),
+  recnum = 1:4,
+  c_spec = 1:4,
+  d_inddto = c("20230101", "20220101", "20210101", "20200101"),
 )
 
 expected_lpr2 <- tibble::tibble(
-  pnr = 1:3,
-  recnum = c(1, 1, 2),
-  c_spec = 1:3,
-  d_inddto = c("20230101", "20220101", "20200101"),
-  c_diag = c(1, 1, 2),
-  c_diagtype = c("A", "A", "B"),
+  pnr = rep(1:2, 2, each = 2),
+  recnum = rep(1:4, each = 2),
+  c_spec = rep(1:4, each = 2),
+  d_inddto = rep(c("20230101", "20220101", "20210101", "20200101"), each = 2),
+  c_diag = 1:8,
+  c_diagtype = rep(c("A", "B"), 4)
 )
 
 test_that("joining LPR2 correctly", {
