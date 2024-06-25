@@ -1,6 +1,6 @@
 create_variable_description_data <- function(path) {
   variable_description <- path |>
-    readr::read_csv() |>
+    readr::read_csv(show_col_types = FALSE) |>
     dplyr::select(
       "register_name",
       "register_abbrev",
