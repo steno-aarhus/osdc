@@ -97,27 +97,27 @@ test_that("joining works for data.table", {
 # join_lpr3 -----------------------------------------------------------------
 
 actual_diagnoser <- tibble::tibble(
-  dw_ek_kontakt = 1:2,
-  diagnosekode = c("DA071","DD075"),
-  diagnosetype = c("A", "B"),
-  senere_afkraeftet = c("Nej", "Ja")
+  dw_ek_kontakt = 1:4,
+  diagnosekode = rep(c("DA071","DD075"), times = 2),
+  diagnosetype = rep(c("A", "B"), times = 2),
+  senere_afkraeftet = rep(c("Nej", "Ja"), times = 2)
 )
 
 actual_kontakter <- tibble::tibble(
-  cpr = c(1, 1, 2),
-  dw_ek_kontakt = 1:3,
-  dato_start = c("20230101", "20220101", "20200101"),
-  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
+  cpr = c(1, 1, 2, 3),
+  dw_ek_kontakt = 2:5,
+  dato_start = c("20230101", "20220101", "20200101", "20200101"),
+  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi", "Neurologi")
 )
 
 expected_lpr3 <- tibble::tibble(
   cpr = c(1, 1, 2),
-  dw_ek_kontakt = c(1,2,3),
+  dw_ek_kontakt = 2:4,
   dato_start = c("20230101", "20220101", "20200101"),
   hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
-  diagnosekode = c("DA071","DD075", NA),
-  diagnosetype = c("A", "B", NA),
-  senere_afkraeftet = c("Nej", "Ja", NA),
+  diagnosekode = c("DD075","DA071", "DD075"),
+  diagnosetype = c("B", "A", "B"),
+  senere_afkraeftet = c("Ja", "Nej", "Ja")
 )
 
 test_that("joining LPR3 correctly", {
