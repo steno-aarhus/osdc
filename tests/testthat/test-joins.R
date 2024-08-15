@@ -1,3 +1,5 @@
+# join_lpr2 -----------------------------------------------------------------
+
 actual_lpr_diag <- tibble::tibble(
   recnum = rep(1:6, each = 2),
   c_diag = 1:12,
@@ -90,4 +92,102 @@ test_that("joining works for data.table", {
   expect_contains(class(actual), "data.table")
   expect_identical(colnames(actual), colnames(expected_lpr2))
   expect_identical(actual_rows, nrow(expected_lpr2))
+})
+
+# join_lpr3 -----------------------------------------------------------------
+
+actual_diagnoser <- tibble::tibble(
+  dw_ek_kontakt = 1:4,
+  diagnosekode = rep(c("DA071","DD075"), times = 2),
+  diagnosetype = rep(c("A", "B"), times = 2),
+  senere_afkraeftet = rep(c("Nej", "Ja"), times = 2)
+)
+
+actual_kontakter <- tibble::tibble(
+  cpr = c(1, 1, 2, 3),
+  dw_ek_kontakt = 2:5,
+  dato_start = c("20230101", "20220101", "20200101", "20200101"),
+  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi", "Neurologi")
+)
+
+expected_lpr3 <- tibble::tibble(
+  cpr = c(1, 1, 2),
+  dw_ek_kontakt = 2:4,
+  dato_start = c("20230101", "20220101", "20200101"),
+  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
+  diagnosekode = c("DD075","DA071", "DD075"),
+  diagnosetype = c("B", "A", "B"),
+  senere_afkraeftet = c("Ja", "Nej", "Ja")
+)
+
+test_that("joining LPR3 correctly", {
+  actual <- join_lpr3(
+    actual_kontakter,
+    actual_diagnoser
+  )
+
+  expect_equal(actual, expected_lpr3)
+})
+
+test_that("kontakter and diagnoser are in correct order", {
+  expect_error(join_lpr3(
+    actual_diagnoser,
+    actual_kontakter
+  ))
+})
+
+test_that("joining works for DuckDB Database", {
+  actual <- arrow::to_duckdb(actual_kontakter) |>
+    join_lpr3(arrow::to_duckdb(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
+
+  expect_contains(class(actual), "tbl_duckdb_connection")
+  expect_identical(colnames(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
+})
+
+test_that("joining works for Arrow Tables (from Parquet)", {
+  actual <- arrow::as_arrow_table(actual_kontakter) |>
+    join_lpr3(arrow::as_arrow_table(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
+
+  expect_contains(class(actual), "arrow_dplyr_query")
+  expect_identical(names(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
+})
+
+test_that("joining works for data.frame", {
+  actual <- as.data.frame(actual_kontakter) |>
+    join_lpr3(as.data.frame(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
+
+  expect_contains(class(actual), "data.frame")
+  expect_identical(names(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
+})
+
+test_that("joining works for data.table", {
+  actual <- data.table::as.data.table(actual_kontakter) |>
+    join_lpr3(data.table::as.data.table(actual_diagnoser))
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
+
+  expect_contains(class(actual), "data.table")
+  expect_identical(colnames(actual), colnames(expected_lpr3))
+  expect_identical(actual_rows, nrow(expected_lpr3))
 })
