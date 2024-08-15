@@ -16,6 +16,8 @@ A character string.
 Get the criteria algorithmic logic and convert to an R logic condition.
 }
 \examples{
+\dontrun{
 get_algorithm_logic("hba1c")
+}
 }
 \keyword{internal}

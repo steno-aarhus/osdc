@@ -25,8 +25,15 @@ list(
     format = "file"
   ),
   tar_target(
+    name = algorithm,
+    command = read_algorithm_data(algorithm_csv)
+  ),
+  tar_target(
     name = algorithm_rda,
-    command = create_algorithm_data(algorithm_csv),
+    command = {
+      usethis::use_data(algorithm, overwrite = TRUE)
+      here::here("data/algorithm.rda")
+    },
     format = "file"
   ),
   tar_target(
@@ -35,8 +42,23 @@ list(
     format = "file"
   ),
   tar_target(
+    name = variable_description,
+    command = read_variable_description_data(variable_description_csv)
+  ),
+  tar_target(
     name = variable_description_rda,
-    command = create_variable_description_data(variable_description_csv),
+    command = {
+      usethis::use_data(variable_description, overwrite = TRUE)
+      here::here("data/variable_description.rda")
+    },
+    format = "file"
+  ),
+  tar_target(
+    name = internal_rda,
+    command = {
+      usethis::use_data(algorithm, variable_description, overwrite = TRUE, internal = TRUE)
+      here::here("R/sysdata.rda")
+    },
     format = "file"
   )
 )
