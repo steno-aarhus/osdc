@@ -6,26 +6,34 @@
 #' occurs, rather than within this function.
 #'
 #' @param data The dataset to check.
+#' @param call The environment where the function is called, so that the error
+#'   traceback gives a more meaningful location.
 #' @inheritParams get_required_variables
 #'
-#' @return Either TRUE if the verification passes, or a character string if
-#'   there is an error.
+#' @return Either TRUE if the verification passes, or an error.
 #' @keywords internal
 #'
 #' @examples
 #' # TODO: Replace with simulated data.
-#' example_bef_data <- tibble::tibble(pnr = 1, koen = 1, foed_dato = 1)
-#' osdc:::verify_required_variables(example_bef_data, "bef")
-verify_required_variables <- function(data, register) {
+#' verify_required_variables(register_data$bef, "bef")
+#' verify_required_variables(register_data$lpr_adm, "lpr_adm")
+verify_required_variables <- function(data, register, call = rlang::caller_env()) {
   checkmate::assert_choice(register, get_register_abbrev())
+  expected_variables <- sort(get_required_variables(register))
+  actual_variables <- sort(colnames(data))
 
-  # TODO: Consider using/looking into rlang::try_fetch() to provide contextual error messages.
-  expected_variables <- get_required_variables(register)
-
-  actual_variables <- colnames(data)
-
-  checkmate::check_names(
+  if (!checkmate::test_names(
     x = actual_variables,
     must.include = expected_variables
-  )
+  )) {
+    cli::cli_abort(
+      c(
+        "This function needs specific variables from the {.val {register}} register.",
+        "i" = "Variables required: {.val {expected_variables}}",
+        "x" = "Variables found: {.val {actual_variables}}"
+      ),
+      call = call
+    )
+  }
+  return(invisible(TRUE))
 }
