@@ -6,7 +6,9 @@
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' get_algorithm_logic("hba1c")
+#' }
 get_algorithm_logic <- function(criteria) {
   algorithm |>
     dplyr::filter(.data$name == criteria) |>

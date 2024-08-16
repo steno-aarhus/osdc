@@ -18,6 +18,8 @@ In the \code{lab_forsker} register, NPU27300 is HbA1c in the modern units (IFCC)
 while NPU03835 is HbA1c in old units (DCCT).
 }
 \examples{
+\dontrun{
 register_data$lab_forsker |> include_hba1c()
+}
 }
 \keyword{internal}

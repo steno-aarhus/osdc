@@ -30,7 +30,7 @@ registers_as_md_table <- function(caption = NULL) {
     knitr::kable(caption = caption)
 }
 
-#' Convert the register name into text to use in a Markdown header.
+#' Convert the register name into text to use in a Markdown header
 #'
 #' @param register The abbreviation of the register name.
 #'
@@ -48,24 +48,24 @@ register_as_md_header <- function(register) {
     )
 }
 
-#' Convert the fake register data into a Markdown table.
+#' Convert the fake register data into a Markdown table
 #'
-#' @param register The abbreviation of the register name.
+#' @param data The data of a specific register from [register_data].
 #' @param caption A caption to add to the table.
 #'
 #' @return A character vector as a Markdown table.
 #' @keywords internal
 #'
-register_data_as_md_table <- function(register, caption = NULL) {
+register_data_as_md_table <- function(data, caption = NULL) {
   rlang::check_installed("glue")
   rlang::check_installed("knitr")
 
-  register_data[[register]] |>
-    head(4) |>
+  data |>
+    utils::head(4) |>
     knitr::kable(caption = caption)
 }
 
-#' Converts the variables for a register into a Markdown table.
+#' Converts the variables for a register into a Markdown table
 #'
 #' @inheritParams register_data_as_md_table
 #'

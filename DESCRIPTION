@@ -1,6 +1,6 @@
 Type: Package
 Package: osdc
-Title: Open Source Diabetes Classifier (OSCD) for Danish Registers
+Title: Open Source Diabetes Classifier (OSDC) for Danish Registers
 Version: 0.0.1.9000
 Authors@R: c(
     person(c("Luke", "William"), "Johnston", , "lwjohnst@gmail.com", role = c("aut", "cre"),
@@ -25,7 +25,8 @@ Imports:
     cli,
     dplyr,
     lifecycle,
-    rlang
+    rlang,
+    utils
 Suggests:
     dbplyr,
     glue,
@@ -34,14 +35,13 @@ Suggests:
     spelling,
     stringr,
     testthat (>= 3.0.0),
-    tibble
-VignetteBuilder: 
-    knitr
-Config/testthat/edition: 3
-Config/Needs/tests:
+    tibble,
     data.table,
     arrow,
     duckdb
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
 Config/Needs/data:
     fabricatr,
     codeCollection,
