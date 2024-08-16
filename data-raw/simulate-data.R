@@ -301,22 +301,23 @@ insert_specific_atc <- function(data, proportion = 0.3) {
 #' @return A tibble. If all column names in the tibble is either 'atc' or
 #' 'name', a proportion of observations is resampled as metmorfin.
 insert_false_metformin <- function(data, proportion = 0.05) {
-  if (!all(colnames(data) %in% c("atc", "name"))) {
-    return(data)
-  }
-  data |>
-    dplyr::mutate(
-      atc = dplyr::if_else(
-        indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
-        "A10BA02",
-        atc
-      ),
-      name = dplyr::if_else(
-        indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
-        "metformin",
-        name
+  if (all(c("atc", "name", "indo") %in% colnames(data))) {
+    data |>
+      dplyr::mutate(
+        atc = dplyr::if_else(
+          indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
+          "A10BA02",
+          atc
+        ),
+        name = dplyr::if_else(
+          indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
+          "metformin",
+          name
+        )
       )
-    )
+  } else {
+  data
+  }
 }
 
 # Insert false positives for Wegovy and Saxenda
@@ -328,17 +329,18 @@ insert_false_metformin <- function(data, proportion = 0.05) {
 #' and the atc is a A10BJ06 or A10BJ02, a proportion of observations is resampled
 #' to have the name Wegovy Flextouch or Saxenda.
 insert_false_drug_names <- function(data, proportion = 0.05) {
-  if (!all(colnames(data) %in% c("atc", "name"))) {
-    return(data)
-  }
-  data |>
-    mutate(
-      name = case_when(
-        atc == "A10BJ06" & insertion_rate(proportion) ~ "Wegovy Flextouch",
-        atc == "A10BJ02" & insertion_rate(proportion) ~ "Saxenda",
-        TRUE ~ name
+  if (all(c("atc", "name") %in% colnames(data))) {
+    data |>
+      mutate(
+        name = case_when(
+          atc == "A10BJ06" & insertion_rate(proportion) ~ "Wegovy Flextouch",
+          atc == "A10BJ02" & insertion_rate(proportion) ~ "Saxenda",
+          TRUE ~ name
+        )
       )
-    )
+  } else {
+    data
+  }
 }
 
 #' Insert additional analysis codes for HbA1c
