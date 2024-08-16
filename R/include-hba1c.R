@@ -10,25 +10,30 @@
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' register_data$lab_forsker |> include_hba1c()
+#' }
 include_hba1c <- function(data) {
   verify_required_variables(data, "lab_forsker")
-  hba1c_criteria <- get_algorithm_logic("hba1c")
+  hba1c_criteria <- get_algorithm_logic("hba1c") |>
+    # To convert the string into an R expression.
+    rlang::parse_expr()
   data |>
     column_names_to_lower() |>
-    dplyr::filter({{ hba1c_criteria }}) |>
+    # Use !! to inject the expression into filter.
+    dplyr::filter(!!hba1c_criteria) |>
     # Keep only the columns we need.
     dplyr::mutate(
       pnr = .data$patient_cpr,
-      date == .data$samplingdate,
+      date = .data$samplingdate,
       included_hba1c = TRUE,
       .keep = "none"
     ) |>
     # Remove any duplicates
     dplyr::distinct() |>
-    dplyr::group_by(pnr) |>
-    # FIXME: This might not work with some databases
+    # FIXME: This might be computationally intensive.
+    dplyr::group_by(.data$pnr) |>
     # Keep earliest two dates.
-    dplyr::slice_min(date, n = 2) |>
+    dplyr::filter(dplyr::row_number(date) %in% 1:2) |>
     dplyr::ungroup()
 }
