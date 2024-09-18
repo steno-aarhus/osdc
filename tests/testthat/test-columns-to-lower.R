@@ -15,6 +15,8 @@ test_that("columns are correctly converted to lowercase", {
 })
 
 test_that("columns are converted for DuckDB Database", {
+  skip_on_cran()
+  skip_if_not_installed("duckplyr")
   actual <- duckplyr::as_duckplyr_tibble(data) |>
     column_names_to_lower() |>
     # DuckDB needs to use `colnames()`
@@ -24,6 +26,8 @@ test_that("columns are converted for DuckDB Database", {
 })
 
 test_that("columns are converted for Arrow Tables (from Parquet)", {
+  skip_on_cran()
+  skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(data) |>
     column_names_to_lower() |>
     names()
@@ -40,6 +44,8 @@ test_that("columns are converted for data.frame", {
 })
 
 test_that("columns are converted for data.table", {
+  skip_on_cran()
+  skip_if_not_installed("data.table")
   actual <- data.table::as.data.table(data) |>
     column_names_to_lower() |>
     names()

@@ -39,6 +39,8 @@ test_that("lpr_adm and lpr_diag must be in correct arg position", {
 })
 
 test_that("joining works for DuckDB Database", {
+  skip_on_cran()
+  skip_if_not_installed("duckplyr")
   adm_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_lpr_adm)
   diag_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_lpr_diag)
   actual <- join_lpr2(
@@ -58,6 +60,8 @@ test_that("joining works for DuckDB Database", {
 })
 
 test_that("joining works for Arrow Tables (from Parquet)", {
+  skip_on_cran()
+  skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(actual_lpr_adm) |>
     join_lpr2(arrow::as_arrow_table(actual_lpr_diag))
 
@@ -86,6 +90,8 @@ test_that("joining works for data.frame", {
 })
 
 test_that("joining works for data.table", {
+  skip_on_cran()
+  skip_if_not_installed("data.table")
   actual <- data.table::as.data.table(actual_lpr_adm) |>
     join_lpr2(data.table::as.data.table(actual_lpr_diag))
 
@@ -142,6 +148,8 @@ test_that("kontakter and diagnoser are in correct order", {
 })
 
 test_that("joining works for DuckDB Database", {
+  skip_on_cran()
+  skip_if_not_installed("duckplyr")
   kontakter_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_kontakter)
   diagnoser_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_diagnoser)
   actual <- join_lpr3(
@@ -161,6 +169,8 @@ test_that("joining works for DuckDB Database", {
 })
 
 test_that("joining works for Arrow Tables (from Parquet)", {
+  skip_on_cran()
+  skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(actual_kontakter) |>
     join_lpr3(arrow::as_arrow_table(actual_diagnoser))
 
@@ -189,6 +199,8 @@ test_that("joining works for data.frame", {
 })
 
 test_that("joining works for data.table", {
+  skip_on_cran()
+  skip_if_not_installed("data.table")
   actual <- data.table::as.data.table(actual_kontakter) |>
     join_lpr3(data.table::as.data.table(actual_diagnoser))
 
