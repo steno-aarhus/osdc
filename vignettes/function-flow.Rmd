@@ -108,6 +108,10 @@ used, the inclusion event is defined as follows:
 -   For HbA1c IFCC (NPU03835), we include values \>= 6.5 %.
 -   For HbA1c DCCT (NPU27300), we include values \>= 48 mmol/mol.
 
+```{r filter hba1c inclusion criteria and show logic in table, echo=FALSE}
+algorithm_hba1c <- algorithm |> filter(name=="hba1c")
+knitr::kable(algorithm_hba1c)
+```
 
 #### Hospital diagnosis of diabetes
 
