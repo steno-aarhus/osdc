@@ -13,6 +13,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Open Source Diabetes Classifier (OSDC) for Danish Registers">
 <meta name="description" content="This classifier first identifies a population of individuals with any type of diabetes mellitus and then splits this population into T1D and T2D by identifying individuals with T1D and classifying the remainder of the diabetes population as T2D.">
 <meta property="og:description" content="This classifier first identifies a population of individuals with any type of diabetes mellitus and then splits this population into T1D and T2D by identifying individuals with T1D and classifying the remainder of the diabetes population as T2D.">
+<meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -58,13 +59,20 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="osdc-open-source-diabetes-classifier-for-danish-registers">osdc: Open Source Diabetes Classifier for Danish Registers<a class="anchor" aria-label="anchor" href="#osdc-open-source-diabetes-classifier-for-danish-registers"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="osdc-">osdc 
+<a class="anchor" aria-label="anchor" href="#osdc-"></a>
+</h1>
+</div>
 <!-- badges: start -->
 
 <!-- badges: end -->
-<p>The goal of <em>osdc</em> is to expose an algorithm for classifying diabetes within the Danish registers that can be accessible as an R package. The algorithm that has been developed at Steno Diabetes Center Aarhus is flexible and convenient to use, and validated in terms of accuracy. While there are a few algorithms used throughout Denmark for Danish register research, they are usually textual descriptions of how to do it, rather than code-based descriptions (e.g. the <a href="https://www.esundhed.dk/-/media/Files/Publikationer/Emner/Operationer-og-diagnoser/Udvalgte-kroniske-sygdomme-svaere-psykiske-lidelser/Algoritmer-for-Udvalgte-Kroniske-Sygdomme-og-svre-psykiske-lidelser-RUKS-2022.ashx" class="external-link">Register of Selected Chronic Diseases</a>).</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>The goal of osdc (<strong>O</strong>pen <strong>S</strong>ource <strong>D</strong>iabetes <strong>C</strong>lassifier) is to expose an algorithm for classifying diabetes within the Danish registers that can be accessible as an R package. The algorithm that has been developed at Steno Diabetes Center Aarhus is flexible and convenient to use, and validated in terms of accuracy. While there are a few algorithms used throughout Denmark for Danish register research, they are usually textual descriptions of how to do it, rather than code-based descriptions (e.g. the <a href="https://www.esundhed.dk/-/media/Files/Publikationer/Emner/Operationer-og-diagnoser/Udvalgte-kroniske-sygdomme-svaere-psykiske-lidelser/Algoritmer-for-Udvalgte-Kroniske-Sygdomme-og-svre-psykiske-lidelser-RUKS-2022.ashx" class="external-link">Register of Selected Chronic Diseases</a>).</p>
 <p>In this project, we aim to make it easier and more explicit to classify type 1 and type 2 diabetes within a Danish register context. The original implementation of the algorithm is validated in a peer-reviewed publication <a href="https://doi.org/10.2147/clep.s407019" class="external-link">here</a>, but we expect to make tweaks to the algorithm over time. Any changes will be transparent in the <em>osdc</em> repository.</p>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
