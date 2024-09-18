@@ -95,9 +95,16 @@ outputs.](images/function-flow-population.png)
 #### HbA1c tests above 48 mmol/mol
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
-extract all events of tests above 48 mmol/mol.
+extract the dates of all elevated HbA1c test results: $\geq$ 48 mmol/mol
+(or $\geq$ 6.5% in DCCT units). To support DCCT units, the function
+converts the value of these to IFCC units internally before including
+all rows with `value` $\geq$ 48 and deduplicating multiple elevated
+results on the same day within each individual.
 
-<!-- TODO: Add details on how this filtering should be done -->
+`include_hba1c()` passes a 3-column data frame containing the identifier
+variable (`pnr`) and the dates of all elevated HbA1c test results. This
+is passed to the `exclude_pregnancy()` function for censoring of
+elevated results due to potential gestational diabetes (see below).
 
 #### Hospital diagnosis of diabetes
 
@@ -125,13 +132,16 @@ These dates are extracted by filtering values beginning with "54" in the
 instead, if that is the data available to the user). In addition,
 services provided to a child of the individual (`barnmak` != 0) are
 excluded using the `barnmak` variable. An internal helper function
-`get_unique_honuge_dates()` is applied to generate a date variable
-(`regdate`) based on the year-week (wwyy-formatted) variable (`honuge`)
-in the raw data, and de-duplicates multiple services registered on the
-same date. Ultimately, `include_podiatrist_services()` outputs only the
-identifier variable (`pnr`) and date of the service (`regdate`) to the
-`get_diagnosis_date()` function for the final step of the inclusion
-process.
+`get_unique_honuge_dates()` is applied to generate a proper date
+variable based on the year-week (wwyy-formatted) variable (`honuge`)
+found in the raw data, and de-duplicates multiple services registered on
+the same date.
+
+`include_podiatrist_services()` outputs a 3-column data frame containing
+the identifier variable (`pnr`) and the date of the two earliest records
+of diabetes-specific podiatrist services for each individual. This is
+passed to the `get_diagnosis_date()` function for the final step of the
+inclusion process.
 
 #### GLD purchases
 
@@ -139,12 +149,23 @@ The function `include_gld_purchases()` uses `lmdb` to extract the dates
 of all GLD purchases.
 
 These dates are extracted by filtering values beginning with "A10" in
-the `atc` variable of the `lmdb` register. In addition to the identifier
-variable (`pnr`) and date (`eksd`), additional information needed for
-censoring or for classification of diabetes type are also extracted: the
-type of drug (`atc`), the amount purchased (`volume` and `apk`), the
-indication code (`indo`), and its brand name or vnr-number (`name` or
-`vnr`). These events are then passed to a chain of exclusion functions:
+the `atc` variable of the `lmdb` register. Since the diagnosis code data
+on pregnancies (see below) is insufficient to perform censoring prior to
+1997, `include_gld_purchases()` only extracts dates from 1997 onward by
+default (if Medical Birth Register data is available to use for
+censoring, the extraction window can be extended).
+
+This function outputs a `data.frame` with the following variables needed
+later in the classification part of the function flow:
+
+-   identifier variable (`pnr`)
+-   date (`eksd`)
+-   type of drug (`atc`)
+-   amount purchased (`volume` and `apk`)
+-   indication code (`indo`)
+-   brand name or vnr-number (`name` or `vnr`)
+
+These events are then passed to a chain of exclusion functions:
 `exclude_wld_purchases()`, `exclude_potential_pcos()`,
 `exclude_pregnancy()` described in the sections below.
 
@@ -158,11 +179,6 @@ inputs to two sets of functions:
     `get_insulin_is_two_thirds_of_gld_doses()` helper functions for the
     classification of diabetes type.
 
-Since the diagnosis code data on pregnancies is insufficient to perform
-censoring prior to 1997, `include_gld_purchases()` only extracts dates
-from 1997 onward by default (if Medical Birth Register data is available
-to use for censoring, the extraction window can be extended).
-
 ### Exclusion events
 
 #### HbA1c tests and GLD purchases during pregnancy
@@ -173,7 +189,11 @@ pregnancy, as these may be due to gestational diabetes, rather than type
 1 or type 2 diabetes.
 
 Internally, this relies on the function `get_pregnancy_dates()` that
-contains the following three helper functions:
+uses diagnoses registered in the National Patient Register to extract
+the dates of all pregnancy ending (live births or miscarriages). These
+are identified by filtering values beginning with "DO0[0-6]", "DO8[0-4]"
+or "DZ3[37]" in the `c_diag` variable in the LPR2 data (`diagnosekode`
+in LPR3 data).
 
 <!-- TODO: Add details on how this filtering should be done -->
 
