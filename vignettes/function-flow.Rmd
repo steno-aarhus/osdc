@@ -92,12 +92,17 @@ outputs.](images/function-flow-population.png)
 
 ### Inclusion events
 
-#### HbA1c tests above 48 mmol/mol
+#### HbA1c tests above the diagnosis cut-off value (48 mmol/mol or 6.5%)
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
-extract all events of tests above 48 mmol/mol.
+extract all events of HbA1c tests above the diagnosis cut-off value.
 
-<!-- TODO: Add details on how this filtering should be done -->
+Since the HbA1c diagnosis cut-off value depends on the kind of test that is
+used, the inclusion event is defined as follows:
+
+-   For HbA1c IFCC (NPU03835), we include values \>= 6.5 %.
+-   For HbA1c DCCT (NPU27300), we include values \>= 48 mmol/mol.
+
 
 #### Hospital diagnosis of diabetes
 
