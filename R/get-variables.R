@@ -5,7 +5,9 @@
 #' @keywords internal
 #'
 #' @examples
-#' osdc:::get_register_abbrev()
+#' \dontrun{
+#' get_register_abbrev()
+#' }
 get_register_abbrev <- function() {
   unique(variable_description$register_abbrev)
 }
@@ -19,7 +21,9 @@ get_register_abbrev <- function() {
 #' @keywords internal
 #'
 #' @examples
-#' osdc:::get_required_variables("bef")
+#' \dontrun{
+#' get_required_variables("bef")
+#' }
 get_required_variables <- function(register) {
   if (!checkmate::test_scalar(register)) {
     cli::cli_abort("You are giving too many registers, please give only one.")
