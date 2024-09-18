@@ -1,4 +1,4 @@
-# osdc: Open Source Diabetes Classifier for Danish Registers
+# osdc <a href="https://steno-aarhus.github.io/osdc/"><img src="man/figures/logo.png" align="right" height="100"/></a>
 
 <!-- badges: start -->
 
