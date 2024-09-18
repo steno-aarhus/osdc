@@ -92,9 +92,9 @@ outputs.](images/function-flow-population.png)
 
 ### Inclusion events
 
-```{r Add algorithm data, include=FALSE}
-library(dplyr); library(knitr)
-load("../data/algorithm.Rda")
+```{r, include=FALSE}
+library(dplyr)
+library(osdc)
 ```
 
 #### HbA1c tests above the diagnosis cut-off value (48 mmol/mol or 6.5%)
@@ -108,9 +108,10 @@ used, the inclusion event is defined as follows:
 -   For HbA1c IFCC (NPU03835), we include values \>= 6.5 %.
 -   For HbA1c DCCT (NPU27300), we include values \>= 48 mmol/mol.
 
-```{r filter hba1c inclusion criteria and show logic in table, echo=FALSE}
-algorithm_hba1c <- algorithm |> filter(name=="hba1c")
-knitr::kable(algorithm_hba1c)
+```{r, echo=FALSE}
+algorithm |> 
+	filter(name=="hba1c") |>
+	knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
 ```
 
 #### Hospital diagnosis of diabetes
