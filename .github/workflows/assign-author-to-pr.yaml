@@ -1,16 +1,23 @@
-# .github/workflows/auto-author-assign.yml
-# https://github.com/marketplace/actions/auto-author-assign
-name: Auto Author Assign
+name: Assign author to their PR
 
 on:
-  pull_request_target:
-    types: [ opened, reopened ]
+  pull_request:
+    types:
+      - reopened
+      - opened
 
 permissions:
   pull-requests: write
 
 jobs:
-  assign-author:
+  assign-author-to-pr:
     runs-on: ubuntu-latest
     steps:
-      - uses: toshimaru/auto-author-assign@v2.1.0
+      - name: Assign PR to author
+        run: |
+          gh pr edit $PR --add-assignee $AUTHOR
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          PR: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
