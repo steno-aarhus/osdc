@@ -25,7 +25,7 @@ test_that("the required variables are present in the dataset", {
 
 
 test_that("verification works for DuckDB Database", {
-  actual <- arrow::to_duckdb(bef_complete) |>
+  actual <- duckplyr::as_duckplyr_tibble(bef_complete) |>
     verify_required_variables("bef")
 
   expect_true(actual)

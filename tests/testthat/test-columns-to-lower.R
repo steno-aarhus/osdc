@@ -15,7 +15,7 @@ test_that("columns are correctly converted to lowercase", {
 })
 
 test_that("columns are converted for DuckDB Database", {
-  actual <- arrow::to_duckdb(data) |>
+  actual <- duckplyr::as_duckplyr_tibble(data) |>
     column_names_to_lower() |>
     # DuckDB needs to use `colnames()`
     colnames()
