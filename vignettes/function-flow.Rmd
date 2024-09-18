@@ -92,6 +92,11 @@ outputs.](images/function-flow-population.png)
 
 ### Inclusion events
 
+```{r Add algorithm data, include=FALSE}
+library(dplyr); library(knitr)
+load("../data/algorithm.Rda")
+```
+
 #### HbA1c tests above the diagnosis cut-off value (48 mmol/mol or 6.5%)
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
