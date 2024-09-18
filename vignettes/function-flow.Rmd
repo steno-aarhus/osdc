@@ -119,9 +119,19 @@ This function contains two helper functions:
 The function `include_podiatrist_services()` uses `sysi` or `sssy` as
 input to extract the dates of all diabetes-specific podiatrist services.
 
-<!-- TODO: Add details on how this filtering should be done -->
-
-AAI: By date
+These dates are extracted by filtering values beginning with "54" in the
+`spec` variable of the `sssy` and `sysi` registers by default
+(alternatively, the function can take the `spec2` variable as input
+instead, if that is the data available to the user). In addition,
+services provided to a child of the individual (`barnmak` != 0) are
+excluded using the `barnmak` variable. An internal helper function
+`get_unique_honuge_dates()` is applied to generate a date variable
+(`regdate`) based on the year-week (wwyy-formatted) variable (`honuge`)
+in the raw data, and de-duplicates multiple services registered on the
+same date. Ultimately, `include_podiatrist_services()` outputs only the
+identifier variable (`pnr`) and date of the service (`regdate`) to the
+`get_diagnosis_date()` function for the final step of the inclusion
+process.
 
 #### GLD purchases
 
@@ -129,7 +139,7 @@ The function `include_gld_purchases()` uses `lmdb` to extract the dates
 of all GLD purchases.
 
 These dates are extracted by filtering values beginning with "A10" in
-the `atc` column of the `lmdb` register. In addition to the identifier
+the `atc` variable of the `lmdb` register. In addition to the identifier
 variable (`pnr`) and date (`eksd`), additional information needed for
 censoring or for classification of diabetes type are also extracted: the
 type of drug (`atc`), the amount purchased (`volume` and `apk`), the
@@ -296,4 +306,3 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
-
