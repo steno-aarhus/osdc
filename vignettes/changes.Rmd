@@ -18,9 +18,9 @@ in the future will also be described in this vignette. We will also
 provide validation metrics here whenever we make a change, and track
 these validations over the different versions.
 
-## Specific changes
+## Specific changes since the original validation (version from the paper)
 
-### Since the original validation (version from the paper)
+### Version 1.1
 
 1.  We don't use purchases of semaglutid, dapagliflozin or
     empagliflozin, neither for inclusion events nor classification of
