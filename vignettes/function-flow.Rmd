@@ -121,14 +121,37 @@ input to extract the dates of all diabetes-specific podiatrist services.
 
 <!-- TODO: Add details on how this filtering should be done -->
 
+AAI: By date
+
 #### GLD purchases
 
 The function `include_gld_purchases()` uses `lmdb` to extract the dates
-of all GLD purchases (from 1997 onwards).
+of all GLD purchases.
 
-<!-- TODO: Add details on how this filtering should be done -->
+These dates are extracted by filtering values beginning with "A10" in
+the `atc` column of the `lmdb` register. In addition to the identifier
+variable (`pnr`) and date (`eksd`), additional information needed for
+censoring or for classification of diabetes type are also extracted: the
+type of drug (`atc`), the amount purchased (`volume` and `apk`), the
+indication code (`indo`), and its brand name or vnr-number (`name` or
+`vnr`). These events are then passed to a chain of exclusion functions:
+`exclude_wld_purchases()`, `exclude_potential_pcos()`,
+`exclude_pregnancy()` described in the sections below.
 
-<!-- TODO: Add this + link to resource "For details about this, see [link]." -->
+After these exclusion functions have been applied, the output serves as
+inputs to two sets of functions:
+
+1.  the `get_diagnosis_date()` function for the final step of the
+    inclusion process.
+2.  the `get_only_insulin_purchases()`,
+    `get_insulin_purchases_within_180_days()`, and
+    `get_insulin_is_two_thirds_of_gld_doses()` helper functions for the
+    classification of diabetes type.
+
+Since the diagnosis code data on pregnancies is insufficient to perform
+censoring prior to 1997, `include_gld_purchases()` only extracts dates
+from 1997 onward by default (if Medical Birth Register data is available
+to use for censoring, the extraction window can be extended).
 
 ### Exclusion events
 
@@ -136,22 +159,11 @@ of all GLD purchases (from 1997 onwards).
 
 The function `exclude_pregnancy()` uses diagnoses from LPR2 or LPR3 as
 input and is used to exclude both HbA1c tests and GLD purchases during
-pregnancy.
+pregnancy, as these may be due to gestational diabetes, rather than type
+1 or type 2 diabetes.
 
 Internally, this relies on the function `get_pregnancy_dates()` that
 contains the following three helper functions:
-
--   `calculate_pregnancy_index_date_for_mc_visits_wo_end_date()` (this
-    might be removed with the inclusion of the birth register)
--   `get_pregnancy_end_dates()`: Keep maternal care visits with an end
-    date and drop visits between 40 weeks before end date and 12 weeks
-    after end date.
--   `get_maternal_care_visit_dates_without_end_date()`: Uses the output
-    from `get_pregnancy_end_dates()` which identifies maternal care
-    visits *with* end dates to derive maternal care visits *without* end
-    dates. below.
-
-<!-- TODO: What is done with the mc visits without end dates then? -->
 
 <!-- TODO: Add details on how this filtering should be done -->
 
@@ -284,3 +296,4 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
+
