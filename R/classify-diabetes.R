@@ -84,10 +84,10 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
 
   # inclusions |>
   #   get_diagnosis_dates() |>
-  #   classify_subtypes()
+  #   classify_t1d()
 }
 
-#' After inclusion and exclusion, classify the diabetes subtypes.
+#' After inclusion and exclusion, classify those with type 1 diabetes.
 #'
 #' @param data Joined data output from the inclusion and exclusion steps.
 #'
@@ -95,7 +95,7 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
 #'   [tibble::tibble()] type object.
 #' @keywords internal
 #'
-classify_subtypes <- function(data) {
+classify_t1d <- function(data) {
   # data |>
   #   get_has_t1d_primary_diagnosis() |>
   #   get_only_insulin_purchases() |>
