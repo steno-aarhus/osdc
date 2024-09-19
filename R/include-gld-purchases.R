@@ -29,11 +29,5 @@ include_gld_purchases <- function(data) {
       "indo",
       "name",
       "vnr"
-    ) |>
-    # TODO: Need to add this column? We did for hba1c.
-    # dplyr::mutate(
-    #   included_gld = TRUE
-    # ) |>
-    # Remove any duplicates
-    dplyr::distinct()
+    )
 }
