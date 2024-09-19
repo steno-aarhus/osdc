@@ -1,10 +1,10 @@
 name: Generate SVG from PlantUML
 
 on:
-  workflow_call:
-    secrets:
-      github-token:
-        required: true
+on:
+  pull_request:
+    paths:
+      - '**.puml'
 
 jobs:
   generate-plantuml:
