@@ -46,14 +46,6 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
   #   lpr3 = lpr3
   # )
 
-  # potential_pcos <- get_potential_pcos(
-  #   bef = bef
-  # )
-
-  # wld_purchases <- get_wld_purchases(
-  #   lmdb = lmdb
-  # )
-
   # Inclusion steps -----
   # diabetes_diagnosis <-  include_diabetes_diagnosis(
   #   lpr2 = lpr2,
@@ -72,22 +64,14 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
   hba1c <- include_hba1c(lab_forsker)
 
   # Exclusion steps -----
-  # TODO: Consider the argument naming here of exclude functions. Is it `data` first or something else?
-  # exclude_pcos <- exclude_potential_pcos(
-  #   data = gld_purchases,
-  #   potential_pcos = potential_pcos
-  # )
-
-  # exclude_wld_purchases <- exclude_wld_purchases(
-  #   data = exclude_pcos,
-  #   wld_purchases = wld_purchases
-  # )
-
-  # exclude_pregnancy <- exclude_pregnancy(
-  #   data = exclude_wld_purchases,
-  #   pregnancy_dates = pregnancy_dates,
-  #   hba1c = hba1c
-  # )
+  exclusions <- gld_purchases |>
+    exclude_potential_pcos(bef = bef) |>
+    exclude_wld_purchases(lmdb = lmdb) |>
+    exclude_pregnancy(
+      # TODO: Need to think about arg naming here..
+      hba1c = included_hba1c,
+      pregnancy_dates = pregnancy_dates
+    )
 
   # Joining into an initial dataset -----
   # inclusions <- join_inclusions(
