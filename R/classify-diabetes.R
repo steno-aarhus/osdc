@@ -1,0 +1,119 @@
+#' Classify diabetes status using Danish registers.
+#'
+#' @return The same object type as the input data, which would be a
+#'   [tibble::tibble()] type object.
+#' @export
+#' @seealso See the [vignette("function-flow", package = "osdc")] for a detailed
+#'   description of the internal implementation of this classification function.
+#'
+#' @examples
+#' classify_diabetes(
+#'   kontakter = register_data$kontakter,
+#'   diagnoser = register_data$diagnoser,
+#'   lpr_diag = register_data$lpr_diag,
+#'   lpr_adm = register_data$lpr_adm,
+#'   sysi = register_data$sysi,
+#'   sssy = register_data$sssy,
+#'   lab_forsker = register_data$lab_forsker,
+#'   bef = register_data$bef,
+#'   lmdb = register_data$lmdb
+#' )
+classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sssy, lab_forsker, bef, lmdb) {
+  # Verification step -----
+  verify_required_variables(kontakter, "kontakter")
+  verify_required_variables(diagnoser, "diagnoser")
+  verify_required_variables(lpr_diag, "lpr_diag")
+  verify_required_variables(lpr_adm, "lpr_adm")
+  verify_required_variables(sysi, "sysi")
+  verify_required_variables(sssy, "sssy")
+  verify_required_variables(lab_forsker, "lab_forsker")
+  verify_required_variables(bef, "bef")
+  verify_required_variables(lmdb, "lmdb")
+
+  # Initially processing -----
+  lpr2 <- join_lpr2(
+    lpr_diag = lpr_diag,
+    lpr_adm = lpr_adm
+  )
+
+  lpr3 <- join_lpr3(
+    kontakter = kontakter,
+    diagnoser = diagnoser
+  )
+
+  # pregnancy_dates <-  get_pregrancy_dates(
+  #   lpr2 = lpr2,
+  #   lpr3 = lpr3
+  # )
+
+  # potential_pcos <- get_potential_pcos(
+  #   bef = bef
+  # )
+
+  # wld_purchases <- get_wld_purchases(
+  #   lmdb = lmdb
+  # )
+
+  # Inclusion steps -----
+  # diabetes_diagnosis <-  include_diabetes_diagnosis(
+  #   lpr2 = lpr2,
+  #   lpr3 = lpr3
+  # )
+
+  # podiatrist_services <- include_podiatrist_services(
+  #   sysi = sysi,
+  #   sssy = sssy
+  # )
+
+  # gld_purchases <- include_gld_purchases(
+  #   lmdb = lmdb
+  # )
+
+  hba1c <- include_hba1c(lab_forsker)
+
+  # Exclusion steps -----
+  # TODO: Consider the argument naming here of exclude functions. Is it `data` first or something else?
+  # exclude_pcos <- exclude_potential_pcos(
+  #   data = gld_purchases,
+  #   potential_pcos = potential_pcos
+  # )
+
+  # exclude_wld_purchases <- exclude_wld_purchases(
+  #   data = exclude_pcos,
+  #   wld_purchases = wld_purchases
+  # )
+
+  # exclude_pregnancy <- exclude_pregnancy(
+  #   data = exclude_wld_purchases,
+  #   pregnancy_dates = pregnancy_dates,
+  #   hba1c = hba1c
+  # )
+
+  # Joining into an initial dataset -----
+  # inclusions <- join_inclusions(
+  #   diabetes_diagnosis = diabetes_diagnosis,
+  #   podiatrist_services = podiatrist_services,
+  #   pregnancy = exclude_pregnancy
+  # )
+
+  # inclusions |>
+  #   get_diagnosis_dates() |>
+  #   classify_subtypes()
+}
+
+#' After inclusion and exclusion, classify the diabetes subtypes.
+#'
+#' @param data Joined data output from the inclusion and exclusion steps.
+#'
+#' @return The same object type as the input data, which would be a
+#'   [tibble::tibble()] type object.
+#' @keywords internal
+#'
+classify_subtypes <- function(data) {
+  # data |>
+  #   get_has_t1d_primary_diagnosis() |>
+  #   get_only_insulin_purchases() |>
+  #   get_majority_of_t1d_primary_diagnosis() |>
+  #   get_insulin_purchases_within_180_days() |>
+  #   get_insulin_is_two_thirds_of_gld_purchases()
+}
