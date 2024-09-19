@@ -61,7 +61,9 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
   #   lmdb = lmdb
   # )
 
-  hba1c <- include_hba1c(lab_forsker)
+  included_hba1c <- include_hba1c(
+    lab_forsker = lab_forsker
+  )
 
   # Exclusion steps -----
   exclusions <- gld_purchases |>
