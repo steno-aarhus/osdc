@@ -101,25 +101,83 @@ extract the dates of all elevated HbA1c test results: $\geq$ 48 mmol/mol
 within each individual are deduplicated, to account for the same test
 result being reported as two rows (one for IFCC, one for DCCT units).
 
-`include_hba1c()` passes a 3-column data frame containing the identifier
-variable (`pnr`) and the dates of all elevated HbA1c test results. This
-is passed to the `exclude_pregnancy()` function for censoring of
-elevated results due to potential gestational diabetes (see below).
+`include_hba1c()` outputs a 2-column data frame containing the following
+variables:
+
+-   identifier variable (`pnr`)
+-   the dates of all elevated HbA1c test results (`do_pos_hba1c`).
+
+The output is passed to the `exclude_pregnancy()` function for censoring
+of elevated results due to potential gestational diabetes (see below).
 
 #### Hospital diagnosis of diabetes
 
+**Joining LPR2 and LPR3 data**
+
+The helper functions `join_lpr2()` and `join_lpr3()` join records of
+diagnoses to administrative information in LPR2-formatted and
+LPR3-formatted data, respectively.
+
+`join_lpr2()` takes `lpr_diag` and `lpr_adm` as inputs, joins the
+required information by record number (`recnum`), and outputs a
+`data.frame` with the following variables:
+
+-   identifier variable (`pnr`)
+-   date (`d_inddto`)
+-   department specialty (`c_spec`)
+-   diagnosis code (`c_diag`)
+-   diagnosis type (`c_diagtype`)
+
+`join_lpr3()` takes `diagnoser` and `kontakter` as inputs, joins the
+required information by record number (`dw_ek_kontakt`), and outputs a
+`data.frame` with the following variables:
+
+-   identifier variable (`cpr`)
+-   date (`dato_start`)
+-   department specialty (`hovedspeciale_ans`)
+-   diagnosis code (`diagnosekode`)
+-   diagnosis type (`diagnosetype`)
+-   diagnosis retracted (`senere_afkraeftet`)
+
+These outputs are passed to `include_diabetes_diagnoses()` for further
+processing, see below.
+
+**Processing of diagnoses**
+
 The function `include_diabetes_diagnoses()` uses the hospital contacts
-from LPR2 and 3 to include all dates of diabetes diagnoses. Diabetes
-diagnoses from both ICD 8 and ICD 10 are included.
+from LPR2 and LPR3 to include all dates of diabetes diagnoses to use for
+inclusion, as well as additional information needed to classify diabetes
+type. Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 
-This function contains two helper functions:
+The function takes the outputs of `join_lpr2()` and `join_lpr3()` as
+inputs and processes each input separately:
 
--   `keep_diabetes_icd10()`
--   `keep_diabetes_icd8()`
+-   LPR2-data:
+    -   Include all diabetes diagnoses, registered as primary (A) or
+        secondary (B) diagnoses, regardless of type or department:
+        `c_diag` starts with "DE1[0-4]", "249", or "250" and
+        `c_diagtype` either "A" or "B"
+    -   Define whether the diagnosis was made made by an
+        endocrinological (`c_spec` = 8) or other medical department
+        (`c_spec` \< 8 or 9-30)
+-   LPR3:
+    -   remove retracted diagnoses (LPR3)
 
-<!-- TODO: Add details on how this filtering should be done, e.g., diagnosis codes -->
+Internally, these intermediate results are joined, so
+`include_diabetes_diagnoses()` outputs a single `data.frame` with the
+following variables (one row for each individual):
 
-<!-- TODO: Which specific ICD 8 and 10 codes are included? -->
+-   identifier variable (`pnr`)
+-   date of the first diabetes diagnosis (`do_diagnosis_1`)
+-   date of the second diabetes diagnosis (`do_diagnosis_2`)
+-   number of type 1 diabetes-specific diagnosis codes from
+    endocrinological departments (`n_t1d_endo`)
+-   number of type 2 diabetes-specific diagnosis codes from
+    endocrinological departments (`n_t2d_endo`)
+-   number of type 1 diabetes-specific diagnosis codes from medical
+    departments (`n_t1d_medical`)
+-   number of type 2 diabetes-specific diagnosis codes from medical
+    departments (`n_t2d_medical`)
 
 #### Diabetes-specific podiatrist services
 
@@ -137,11 +195,17 @@ variable based on the year-week (wwyy-formatted) variable (`honuge`)
 found in the raw data, and de-duplicates multiple services registered on
 the same date.
 
-`include_podiatrist_services()` outputs a 3-column data frame containing
-the identifier variable (`pnr`) and the date of the two earliest records
-of diabetes-specific podiatrist services for each individual. This is
-passed to the `get_diagnosis_date()` function for the final step of the
-inclusion process.
+`include_podiatrist_services()` outputs a 3-column data frame with one
+row for each individual, containing the following variables:
+
+-   identifier variable (`pnr`)
+-   the date of the first diabetes-specific podiatrist record
+    (`do_podiatrist_1`)
+-   the date of the second diabetes-specific podiatrist record
+    (`do_podiatrist_2`)
+
+The output is passed to the `get_diagnosis_date()` function for the
+final step of the inclusion process.
 
 #### GLD purchases
 
@@ -326,3 +390,4 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
+
