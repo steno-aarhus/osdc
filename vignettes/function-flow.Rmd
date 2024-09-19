@@ -96,10 +96,10 @@ outputs.](images/function-flow-population.png)
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
 extract the dates of all elevated HbA1c test results: $\geq$ 48 mmol/mol
-(or $\geq$ 6.5% in DCCT units). To support DCCT units, the function
-converts the value of these to IFCC units internally before including
-all rows with `value` $\geq$ 48 and deduplicating multiple elevated
-results on the same day within each individual.
+(IFCC units, `analysiscode` NPU27300) or $\geq$ 6.5% (DCCT units,
+`analysiscode` NPU03835). Multiple elevated results on the same day
+within each individual are deduplicated, to account for the same test
+result being reported as two rows (one for IFCC, one for DCCT units).
 
 `include_hba1c()` passes a 3-column data frame containing the identifier
 variable (`pnr`) and the dates of all elevated HbA1c test results. This
