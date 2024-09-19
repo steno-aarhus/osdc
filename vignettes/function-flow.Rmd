@@ -178,12 +178,19 @@ internal variables:
     -   `is_primary`: Define whether the diagnosis was a primary
         diagnosis (`diagnosetype` == "A")
     -   `is_t1d`: Define whether the diagnosis was T1D-specific
-        (`c_diag` starts with "DE10")
+        (`diagnosekode` starts with "DE10")
     -   `is_t2d`: Define whether the diagnosis was T2D-specific
-        (`c_diag` starts with "DE11")
+        (`diagnosekode` starts with "DE11")
     -   `department`: Define whether the diagnosis was made made by an
-        endocrinological (`c_spec` == 8) or other medical department
-        (`c_spec` \< 30 & != 8)
+        endocrinological (`hovedspeciale_ans` == "medicinsk
+        endokrinologi") or other medical department (`hovedspeciale_ans`
+        either "Blandet medicin og kirurgi", "Intern medicin",
+        "Geriatri", "Hepatologi", "Hæmatologi", "Infektionsmedicin",
+        "Kardiologi", "Medicinsk allergologi", "Medicinsk
+        gastroenterologi", "Medicinsk lungesygdomme", "Nefrologi",
+        "Reumatologi", "Palliativ medicin", "Akut medicin",
+        "Dermato-venerologi", "Neurologi", "Onkologi", "Fysiurgi", or
+        "Tropemedicin")
 
 These intermediate results are combined for further processing, and
 `include_diabetes_diagnoses()` outputs a single `data.frame` with the
