@@ -1,10 +1,10 @@
 @_default:
     just --list --unsorted
 
-# Generate PNG images from all PlantUML files
+# Generate svg images from all PlantUML files
 generate-puml-all:
-  docker run --rm -v $(pwd):/puml -w /puml ghcr.io/plantuml/plantuml:1.2024.3 -tpng "**/*.puml"
+  docker run --rm -v $(pwd):/puml -w /puml ghcr.io/plantuml/plantuml:1.2024.3 -tsvg "**/*.puml"
 
-# Generate PNG image from specific PlantUML file
+# Generate svg image from specific PlantUML file
 generate-puml name:
-  docker run --rm -v  $(pwd):/puml -w /puml ghcr.io/plantuml/plantuml:1.2024.3 -tpng "**/{{name}}.puml"
+  docker run --rm -v  $(pwd):/puml -w /puml ghcr.io/plantuml/plantuml:1.2024.3 -tsvg "**/{{name}}.puml"
