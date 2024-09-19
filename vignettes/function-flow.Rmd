@@ -92,25 +92,7 @@ outputs.](images/function-flow-population.png)
 
 ### Inclusion events
 
-#### HbA1c tests above 48 mmol/mol
-
-The function `include_hba1c()` uses `lab_forsker` as the input data to
-extract the dates of all elevated HbA1c test results: $\geq$ 48 mmol/mol
-(IFCC units, `analysiscode` NPU27300) or $\geq$ 6.5% (DCCT units,
-`analysiscode` NPU03835). Multiple elevated results on the same day
-within each individual are deduplicated, to account for the same test
-result being reported as two rows (one for IFCC, one for DCCT units).
-
-`include_hba1c()` outputs a 2-column data frame containing the following
-variables:
-
--   identifier variable (`pnr`)
--   the dates of all elevated HbA1c test results (`do_pos_hba1c`).
-
-The output is passed to the `exclude_pregnancy()` function for censoring
-of elevated results due to potential gestational diabetes (see below).
-
-#### Hospital diagnosis of diabetes
+#### Hospital diagnoses
 
 **Joining LPR2 and LPR3 data**
 
@@ -139,10 +121,11 @@ required information by record number (`dw_ek_kontakt`), and outputs a
 -   diagnosis type (`diagnosetype`)
 -   diagnosis retracted (`senere_afkraeftet`)
 
-These outputs are passed to `include_diabetes_diagnoses()` for further
-processing, see below.
+These outputs are passed to `include_diabetes_diagnoses()` (and to
+`get_pregnancy_dates()`, see exclusion events) for further processing
+below.
 
-**Processing of diagnoses**
+**Processing of diabetes diagnoses**
 
 The function `include_diabetes_diagnoses()` uses the hospital contacts
 from LPR2 and LPR3 to include all dates of diabetes diagnoses to use for
@@ -239,6 +222,24 @@ row for each individual, containing the following variables:
 
 The output is passed to the `get_diagnosis_date()` function for the
 final step of the inclusion process.
+
+#### HbA1c tests above 48 mmol/mol
+
+The function `include_hba1c()` uses `lab_forsker` as the input data to
+extract the dates of all elevated HbA1c test results: $\geq$ 48 mmol/mol
+(IFCC units, `analysiscode` NPU27300) or $\geq$ 6.5% (DCCT units,
+`analysiscode` NPU03835). Multiple elevated results on the same day
+within each individual are deduplicated, to account for the same test
+result being reported as two rows (one for IFCC, one for DCCT units).
+
+`include_hba1c()` outputs a 2-column data frame containing the following
+variables:
+
+-   identifier variable (`pnr`)
+-   the dates of all elevated HbA1c test results (`do_pos_hba1c`).
+
+The output is passed to the `exclude_pregnancy()` function for censoring
+of elevated results due to potential gestational diabetes (see below).
 
 #### GLD purchases
 
