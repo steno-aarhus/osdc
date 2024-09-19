@@ -150,20 +150,42 @@ inclusion, as well as additional information needed to classify diabetes
 type. Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 
 The function takes the outputs of `join_lpr2()` and `join_lpr3()` as
-inputs and processes each input separately:
+inputs and processes each input separately to generate the following
+internal variables:
 
 -   LPR2-data:
-    -   Include all diabetes diagnoses, registered as primary (A) or
-        secondary (B) diagnoses, regardless of type or department:
-        `c_diag` starts with "DE1[0-4]", "249", or "250" and
-        `c_diagtype` either "A" or "B"
-    -   Define whether the diagnosis was made made by an
-        endocrinological (`c_spec` = 8) or other medical department
+    -   `pnr`: identifier variable
+    -   `do_diagnosis`: include all diabetes diagnoses, registered as
+        primary (A) or secondary (B) diagnoses, regardless of type or
+        department: `c_diag` starts with "DE1[0-4]", "249", or "250" and
+        `c_diagtype` is either "A" or "B"
+    -   `is_primary`: Define whether the diagnosis was a primary
+        diagnosis (`c_diagtype` == "A")
+    -   `is_t1d`: Define whether the diagnosis was T1D-specific
+        (`c_diag` starts with "DE10" or "249")
+    -   `is_t2d`: Define whether the diagnosis was T2D-specific
+        (`c_diag` starts with "DE11" or "250")
+    -   `department`: Define whether the diagnosis was made made by an
+        endocrinological (`c_spec` == 8) or other medical department
         (`c_spec` \< 8 or 9-30)
 -   LPR3:
-    -   remove retracted diagnoses (LPR3)
+    -   `pnr`: identifier variable
+    -   `do_diagnosis`: include all diabetes diagnoses, registered as
+        primary (A) or secondary (B) diagnoses, regardless of type or
+        department: `diagnosekode` starts with "DE1[0-4]" and
+        `diagnosetype` is either "A" or "B", but exclude retracted
+        diagnoses (`senere_afkraeftet` == "Ja")
+    -   `is_primary`: Define whether the diagnosis was a primary
+        diagnosis (`diagnosetype` == "A")
+    -   `is_t1d`: Define whether the diagnosis was T1D-specific
+        (`c_diag` starts with "DE10")
+    -   `is_t2d`: Define whether the diagnosis was T2D-specific
+        (`c_diag` starts with "DE11")
+    -   `department`: Define whether the diagnosis was made made by an
+        endocrinological (`c_spec` == 8) or other medical department
+        (`c_spec` \< 30 & != 8)
 
-Internally, these intermediate results are joined, so
+These intermediate results are combined for further processing, and
 `include_diabetes_diagnoses()` outputs a single `data.frame` with the
 following variables (one row for each individual):
 
@@ -178,6 +200,10 @@ following variables (one row for each individual):
     departments (`n_t1d_medical`)
 -   number of type 2 diabetes-specific diagnosis codes from medical
     departments (`n_t2d_medical`)
+
+The output is passed to the `get_diagnosis_date()` function for the
+final step of the inclusion process and is subsequently used to classify
+diabetes type.
 
 #### Diabetes-specific podiatrist services
 
