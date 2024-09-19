@@ -246,7 +246,7 @@ of elevated results due to potential gestational diabetes (see below).
 The function `include_gld_purchases()` uses `lmdb` to extract the dates
 of all GLD purchases.
 
-These dates are extracted by filtering values beginning with "A10" in
+These dates are extracted by including all values beginning with "A10" in
 the `atc` variable of the `lmdb` register. Since the diagnosis code data
 on pregnancies (see below) is insufficient to perform censoring prior to
 1997, `include_gld_purchases()` only extracts dates from 1997 onward by
