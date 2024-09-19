@@ -77,9 +77,9 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
 
   # Joining into an initial dataset -----
   # inclusions <- join_inclusions(
-  #   diabetes_diagnosis = diabetes_diagnosis,
-  #   podiatrist_services = podiatrist_services,
-  #   pregnancy = exclude_pregnancy
+  #   included_diabetes_diagnosis,
+  #   included_podiatrist_services,
+  #   exclusions
   # )
 
   # inclusions |>
