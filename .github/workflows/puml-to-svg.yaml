@@ -1,0 +1,24 @@
+name: Generate SVG from PlantUML
+
+on:
+  workflow_call:
+    secrets:
+      github-token:
+        required: true
+
+jobs:
+  generate-plantuml:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+
+    - name: plantuml
+      id: plantuml
+      uses: grassedge/generate-plantuml-action@v1.5
+      with:
+        message: "chore: :bento: (re-)generate `.svg` from `.puml` files"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
