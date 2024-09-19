@@ -1,7 +1,6 @@
 name: Generate SVG from PlantUML
 
 on:
-on:
   pull_request:
     paths:
       - '**.puml'
