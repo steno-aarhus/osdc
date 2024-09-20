@@ -201,7 +201,7 @@ The function `include_podiatrist_services()` uses `sysi` or `sssy` as
 input to extract the dates of all diabetes-specific podiatrist services.
 
 These dates are extracted by filtering values beginning with "54" in the
-`spec` variable of the `sssy` and `sysi` registers by default
+`speciale` variable of the `sssy` and `sysi` registers by default
 (alternatively, the function can take the `spec2` variable as input
 instead, if that is the data available to the user). In addition,
 services provided to a child of the individual (`barnmak` != 0) are
@@ -246,12 +246,12 @@ of elevated results due to potential gestational diabetes (see below).
 The function `include_gld_purchases()` uses `lmdb` to extract the dates
 of all GLD purchases.
 
-These dates are extracted by including all values beginning with "A10" in
-the `atc` variable of the `lmdb` register. Since the diagnosis code data
-on pregnancies (see below) is insufficient to perform censoring prior to
-1997, `include_gld_purchases()` only extracts dates from 1997 onward by
-default (if Medical Birth Register data is available to use for
-censoring, the extraction window can be extended).
+These dates are extracted by including all values beginning with "A10"
+in the `atc` variable of the `lmdb` register. Since the diagnosis code
+data on pregnancies (see below) is insufficient to perform censoring
+prior to 1997, `include_gld_purchases()` only extracts dates from 1997
+onward by default (if Medical Birth Register data is available to use
+for censoring, the extraction window can be extended).
 
 This function outputs a `data.frame` with the following variables needed
 later in the classification part of the function flow:
