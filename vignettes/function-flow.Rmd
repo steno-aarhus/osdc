@@ -122,8 +122,8 @@ the necessary diagnoses (`diagnosekode` starting with "DO", "DZ3", or
 (`dw_ek_kontakt`), and outputs a `data.frame` with the following
 variables:
 
--   identifier variable (`cpr`)
--   date (`dato_start`)
+-   identifier variable (originally `cpr`, renamed to `pnr`)
+-   date (originally `dato_start`, renamed to `date`)
 -   department specialty (`hovedspeciale_ans`)
 -   diagnosis code (`diagnosekode`)
 -   diagnosis type (`diagnosetype`)
@@ -146,10 +146,10 @@ internal variables:
 
 -   LPR2-data:
     -   `pnr`: identifier variable
-    -   `do_diagnosis`: include all diabetes diagnoses, registered as
-        primary (A) or secondary (B) diagnoses, regardless of type or
-        department: `c_diag` starts with "DE1[0-4]", "249", or "250" and
-        `c_diagtype` is either "A" or "B"
+    -   `dates`: dates of all included diabetes diagnoses:
+    -   registered as primary (A) or secondary (B) diagnoses, regardless
+        of type or department: - `c_diag` starts with "DE1[0-4]", "249",
+        or "250" and `c_diagtype` is either "A" or "B"
     -   `is_primary`: Define whether the diagnosis was a primary
         diagnosis (`c_diagtype` == "A")
     -   `is_t1d`: Define whether the diagnosis was T1D-specific
@@ -161,11 +161,11 @@ internal variables:
         (`c_spec` \< 8 or 9-30)
 -   LPR3:
     -   `pnr`: identifier variable
-    -   `do_diagnosis`: include all diabetes diagnoses, registered as
-        primary (A) or secondary (B) diagnoses, regardless of type or
-        department: `diagnosekode` starts with "DE1[0-4]" and
-        `diagnosetype` is either "A" or "B", but exclude retracted
-        diagnoses (`senere_afkraeftet` == "Ja")
+    -   `dates`: dates of all included diabetes diagnoses:
+    -   Registered as primary (A) or secondary (B) diagnoses, regardless
+        of type or department, but exclude retracted diagnoses: -
+        `diagnosekode` starts with "DE1[0-4]", `diagnosetype` is either
+        "A" or "B" and `senere_afkraeftet` == "Nej")
     -   `is_primary`: Define whether the diagnosis was a primary
         diagnosis (`diagnosetype` == "A")
     -   `is_t1d`: Define whether the diagnosis was T1D-specific
@@ -189,7 +189,7 @@ following variables (up to two rows per individual):
 
 -   identifier variable (`pnr`)
 -   dates of the first and second hospital diabetes diagnosis
-    (`diagnosis_dates`)
+    (`diagnosis_date`)
 -   number of type 1 diabetes-specific primary diagnosis codes from
     endocrinological departments (`n_t1d_endo`)
 -   number of type 2 diabetes-specific primary diagnosis codes from
@@ -219,14 +219,12 @@ variable based on the year-week (wwyy-formatted) variable (`honuge`)
 found in the raw data, and de-duplicates multiple services registered on
 the same date.
 
-`include_podiatrist_services()` outputs a 3-column data frame with one
-row for each individual, containing the following variables:
+`include_podiatrist_services()` outputs a 2-column data frame with up to
+two rows for each individual, containing the following variables:
 
 -   identifier variable (`pnr`)
--   the date of the first diabetes-specific podiatrist record
-    (`do_podiatrist_1`)
--   the date of the second diabetes-specific podiatrist record
-    (`do_podiatrist_2`)
+-   the dates of the first and second diabetes-specific podiatrist
+    record (`dates`)
 
 The output is passed to the `get_diagnosis_date()` function for the
 final step of the inclusion process.
@@ -275,10 +273,11 @@ This function outputs a `data.frame` with the following variables needed
 later in the classification part of the function flow:
 
 -   identifier variable (`pnr`)
--   date (`eksd`)
+-   date (originally `eksd`, renamed to `date`)
 -   type of drug (`atc`)
--   amount purchased (`volume` and `apk`)
--   indication code (`indo`)
+-   amount purchased (`volume` and `number_of_packages` (originally
+    named `apk`))
+-   indication code (originally `indo`, renamed to `indication_code`)
 
 These events are then passed to a chain of exclusion functions:
 `exclude_wld_purchases()`, `exclude_potential_pcos()`,
@@ -435,3 +434,4 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
+
