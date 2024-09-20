@@ -312,13 +312,6 @@ in LPR3 data).
 
 <!-- TODO: Add details on how this filtering should be done -->
 
-#### Glucose-lowering brand drugs for weight loss
-
-The function `exclude_wld_purchases()` uses lmdb as input and excludes
-the brand drugs Saxenda and Wegovy.
-
-<!-- TODO: Add details on how this filtering should be done -->
-
 #### Metformin purchases for women below age 40
 
 The function `exclude_potential_pcos()` as input to exclude all
