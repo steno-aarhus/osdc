@@ -91,10 +91,12 @@ that get or extract a condition or joins data or function
 outputs.](images/function-flow-population.png)
 
 ### Inclusion events
+
 ```{r, include=FALSE}
 library(dplyr)
 library(osdc)
 ```
+
 #### Hospital diagnoses
 
 **Joining LPR2 and LPR3 data**
@@ -180,11 +182,11 @@ internal variables:
 
 These intermediate results are combined for further processing, and
 `include_diabetes_diagnoses()` outputs a single `data.frame` with the
-following variables (one row for each individual):
+following variables (up to two rows per individual):
 
 -   identifier variable (`pnr`)
--   date of the first diabetes diagnosis (`do_diagnosis_1`)
--   date of the second diabetes diagnosis (`do_diagnosis_2`)
+-   dates of the first and second hospital diabetes diagnosis
+    (`diagnosis_dates`)
 -   number of type 1 diabetes-specific primary diagnosis codes from
     endocrinological departments (`n_t1d_endo`)
 -   number of type 2 diabetes-specific primary diagnosis codes from
@@ -229,10 +231,11 @@ final step of the inclusion process.
 #### HbA1c tests above the diagnosis cut-off value (48 mmol/mol or 6.5%)
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
-extract the dates of all elevated HbA1c test results, using the appropriate cut-offs:
+extract the dates of all elevated HbA1c test results, using the
+appropriate cut-offs:
 
-- IFCC units: `analysiscode` NPU27300, any `value` $\geq$ 48 mmol/mol
-- DCCT units: `analysiscode` NPU03835: any `value` $\geq$ 6.5% .
+-   IFCC units: `analysiscode` NPU27300, any `value` $\geq$ 48 mmol/mol
+-   DCCT units: `analysiscode` NPU03835: any `value` $\geq$ 6.5% .
 
 ```{r, echo=FALSE}
 algorithm |> 
@@ -240,9 +243,9 @@ algorithm |>
 	knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
 ```
 
-Multiple elevated results on the same day
-within each individual are deduplicated, to account for the same test
-result often being reported twice (one for IFCC, one for DCCT units).
+Multiple elevated results on the same day within each individual are
+deduplicated, to account for the same test result often being reported
+twice (one for IFCC, one for DCCT units).
 
 `include_hba1c()` outputs a 2-column data frame containing the following
 variables:
@@ -273,7 +276,6 @@ later in the classification part of the function flow:
 -   type of drug (`atc`)
 -   amount purchased (`volume` and `apk`)
 -   indication code (`indo`)
--   brand name or vnr-number (`name` or `vnr`)
 
 These events are then passed to a chain of exclusion functions:
 `exclude_wld_purchases()`, `exclude_potential_pcos()`,
@@ -436,3 +438,4 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
+
