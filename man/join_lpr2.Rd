@@ -4,12 +4,12 @@
 \alias{join_lpr2}
 \title{Join together the LPR2 (\code{lpr_diag} and \code{lpr_adm}) registers.}
 \usage{
-join_lpr2(lpr_diag, lpr_adm)
+join_lpr2(lpr_adm, lpr_diag)
 }
 \arguments{
-\item{lpr_diag}{The diagnosis register.}
-
 \item{lpr_adm}{The admission register.}
+
+\item{lpr_diag}{The diagnosis register.}
 }
 \value{
 The same class as the input, defaults to a \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -18,7 +18,9 @@ The same class as the input, defaults to a \code{\link[tibble:tibble]{tibble::ti
 Join together the LPR2 (\code{lpr_diag} and \code{lpr_adm}) registers.
 }
 \examples{
-register_data$lpr_diag |>
-  join_lpr2(register_data$lpr_adm)
+\dontrun{
+register_data$lpr_adm |>
+  join_lpr2(register_data$lpr_diag)
+}
 }
 \keyword{internal}

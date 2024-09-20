@@ -7,8 +7,10 @@
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' register_data$lpr_adm |>
 #'   join_lpr2(register_data$lpr_diag)
+#' }
 join_lpr2 <- function(lpr_adm, lpr_diag) {
   verify_required_variables(lpr_adm, "lpr_adm")
   verify_required_variables(lpr_diag, "lpr_diag")
@@ -28,8 +30,10 @@ join_lpr2 <- function(lpr_adm, lpr_diag) {
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' register_data$kontakter |>
 #'   join_lpr3(register_data$diagnoser)
+#' }
 join_lpr3 <- function(kontakter, diagnoser) {
   verify_required_variables(kontakter, "kontakter")
   verify_required_variables(diagnoser, "diagnoser")

@@ -25,13 +25,17 @@ test_that("the required variables are present in the dataset", {
 
 
 test_that("verification works for DuckDB Database", {
-  actual <- arrow::to_duckdb(bef_complete) |>
+  skip_on_cran()
+  skip_if_not_installed("duckplyr")
+  actual <- duckplyr::as_duckplyr_tibble(bef_complete) |>
     verify_required_variables("bef")
 
   expect_true(actual)
 })
 
 test_that("verification works for Arrow Tables (from Parquet)", {
+  skip_on_cran()
+  skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(bef_complete) |>
     verify_required_variables("bef")
 
@@ -46,6 +50,8 @@ test_that("verification works for data.frame", {
 })
 
 test_that("verification works for data.table", {
+  skip_on_cran()
+  skip_if_not_installed("data.table")
   actual <- data.table::as.data.table(bef_complete) |>
     verify_required_variables("bef")
 

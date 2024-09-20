@@ -16,7 +16,9 @@ The same object type given.
 Convert column names to lower case.
 }
 \examples{
+\dontrun{
 tibble::tibble(A = 1:3, B = 4:6) |>
   osdc:::column_names_to_lower()
+}
 }
 \keyword{internal}

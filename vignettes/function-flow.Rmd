@@ -91,7 +91,10 @@ that get or extract a condition or joins data or function
 outputs.](images/function-flow-population.png)
 
 ### Inclusion events
-
+```{r, include=FALSE}
+library(dplyr)
+library(osdc)
+```
 #### Hospital diagnoses
 
 **Joining LPR2 and LPR3 data**
@@ -223,20 +226,29 @@ row for each individual, containing the following variables:
 The output is passed to the `get_diagnosis_date()` function for the
 final step of the inclusion process.
 
-#### HbA1c tests above 48 mmol/mol
+#### HbA1c tests above the diagnosis cut-off value (48 mmol/mol or 6.5%)
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
-extract the dates of all elevated HbA1c test results: $\geq$ 48 mmol/mol
-(IFCC units, `analysiscode` NPU27300) or $\geq$ 6.5% (DCCT units,
-`analysiscode` NPU03835). Multiple elevated results on the same day
+extract the dates of all elevated HbA1c test results, using the appropriate cut-offs:
+
+- IFCC units: `analysiscode` NPU27300, any `value` $\geq$ 48 mmol/mol
+- DCCT units: `analysiscode` NPU03835: any `value` $\geq$ 6.5% .
+
+```{r, echo=FALSE}
+algorithm |> 
+	filter(name=="hba1c") |>
+	knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
+```
+
+Multiple elevated results on the same day
 within each individual are deduplicated, to account for the same test
-result being reported as two rows (one for IFCC, one for DCCT units).
+result often being reported twice (one for IFCC, one for DCCT units).
 
 `include_hba1c()` outputs a 2-column data frame containing the following
 variables:
 
 -   identifier variable (`pnr`)
--   the dates of all elevated HbA1c test results (`do_pos_hba1c`).
+-   the dates of all elevated HbA1c test results (`dates`).
 
 The output is passed to the `exclude_pregnancy()` function for censoring
 of elevated results due to potential gestational diabetes (see below).
