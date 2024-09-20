@@ -74,7 +74,7 @@ classifying diabetes status using the osdc package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
 events, respectively). Uncoloured boxes are helper functions that get or
 extract a condition or joins data or function
-outputs.](images/function-flow.png)
+outputs.](images/function-flow.svg)
 
 ## Population extraction
 
@@ -88,7 +88,7 @@ extracting the population with diabetes using the osdc package. Light
 blue and orange boxes represent filtering functions (inclusion and
 exclusion events, respectively). Uncoloured boxes are helper functions
 that get or extract a condition or joins data or function
-outputs.](images/function-flow-population.png)
+outputs.](images/function-flow-population.svg)
 
 ### Inclusion events
 
@@ -221,7 +221,7 @@ column with the diabetes type.
 <!-- TODO: add a link to the specific section where this is described -->
 
 ![Flow of functions for classifying diabetes status using the `osdc`
-package.](images/function-flow-classification.png)
+package.](images/function-flow-classification.svg)
 
 #### Type 1 classification
 
