@@ -18,15 +18,21 @@ in the future will also be described in this vignette. We will also
 provide validation metrics here whenever we make a change, and track
 these validations over the different versions.
 
-## Specific changes
+## Specific changes since the original validation (version from the paper)
 
-### Since the original published validation (version 1)
+### Version 1.1
 
 1.  We don't use purchases of semaglutid, dapagliflozin or
     empagliflozin, neither for inclusion events nor classification of
     diabetes type (due to increasing use in treatment of non-diabetes).
 2.  We no longer use diabetes type reclassification based on insulin
     purchases in the previous year.
+3.  The logic defining pregnancy index dates has been simplified to only
+    use diagnoses of pregnancy endings (no longer uses data on maternal
+    care visits).
+4.  De-duplicates subsequent HbA1c samples taken on the same date
+    (originally, if a sampling time was available in the lab data, only
+    samples taken at the same time were de-duplicated)
 
 ## Validity
 
@@ -34,12 +40,35 @@ Algorithm validity across versions. Reports `PPV` (*positive predictive
 value*) and `sensitivity` for typical cases and cases with atypical age
 at onset of T1D (after age 40) and T2D (before age 40), respectively.
 
+### On pre-2019 data (as in the paper)
+
+**Overall and age at onset-stratified (paper table 1 & 2):**
+
 | Version | Diabetes type | PPV   | Sensitivity |
 |---------|---------------|-------|-------------|
-| 1       | T1D           | 0.943 | 0.773       |
-| 1       | T1D \>40 yrs  | 0.708 | 0.378       |
-| 1       | T2D           | 0.875 | 0.944       |
-| 1       | T2D \<40 yrs  | 0.471 | 0.863       |
+| Paper   | T1D           | 0.943 | 0.773       |
+| Paper   | T1D \>40 yrs  | 0.708 | 0.378       |
+| Paper   | T2D           | 0.875 | 0.944       |
+| Paper   | T2D \<40 yrs  | 0.471 | 0.863       |
+
+| Version | Diabetes type | PPV   | Sensitivity |
+|---------|---------------|-------|-------------|
+| 1.1     | T1D           | 0.943 | 0.789       |
+| 1.1     | T1D \>40 yrs  | 0.871 | 0.871       |
+| 1.1     | T2D           | 0.883 | 0.941       |
+| 1.1     | T2D \<40 yrs  | 0.519 | 0.857       |
+
+**Bootstrapped metrics (paper S3):**
+
+| Version | Diabetes type | Sensitivity | Specificity | PPV   | NPV   |
+|---------|---------------|-------------|-------------|-------|-------|
+| Paper   | T1D           | 0.774       | 0.999       | 0.951 | 0.997 |
+| Paper   | T2D           | 0.943       | 0.989       | 0.878 | 0.995 |
+
+| Version | Diabetes type | Sensitivity | Specificity | PPV   | NPV   |
+|---------|---------------|-------------|-------------|-------|-------|
+| 1.1     | T1D           | 0.781       | 0.999       | 0.949 | 0.997 |
+| 1.1     | T2D           | 0.943       | 0.989       | 0.879 | 0.995 |
 
 ## Potential future changes
 
@@ -49,9 +78,7 @@ at onset of T1D (after age 40) and T2D (before age 40), respectively.
     to 1995 (rather than 1997 onward, as the obstetric codes are limited
     to), and enable the extension of the window of valid dates of
     diagnosis to 1996 onward.
-2.  Simplify logic defining pregnancy index dates to remove dependency
-    on maternal care visits (if performance in validation allows).
-3.  Limit the historic scope of primary diagnoses used to evaluate
+2.  Limit the historic scope of primary diagnoses used to evaluate
     majority of diabetes-specific diagnoses in type classification (e.g.
     only evaluate majority among the last five type-specific diabetes
     diagnoses).

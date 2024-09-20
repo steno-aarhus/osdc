@@ -14,13 +14,15 @@
 #' @keywords internal
 #'
 #' @examples
+#' \dontrun{
 #' # TODO: Replace with simulated data.
 #' verify_required_variables(register_data$bef, "bef")
 #' verify_required_variables(register_data$lpr_adm, "lpr_adm")
+#' }
 verify_required_variables <- function(data, register, call = rlang::caller_env()) {
   checkmate::assert_choice(register, get_register_abbrev())
   expected_variables <- sort(get_required_variables(register))
-  actual_variables <- sort(colnames(data))
+  actual_variables <- tolower(sort(colnames(data)))
 
   if (!checkmate::test_names(
     x = actual_variables,

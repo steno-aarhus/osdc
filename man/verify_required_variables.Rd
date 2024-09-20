@@ -25,8 +25,10 @@ error message more informative to the location that the error actually
 occurs, rather than within this function.
 }
 \examples{
+\dontrun{
 # TODO: Replace with simulated data.
 verify_required_variables(register_data$bef, "bef")
-verify_required_variables(register_data$bef, "lpr_adm")
+verify_required_variables(register_data$lpr_adm, "lpr_adm")
+}
 }
 \keyword{internal}
