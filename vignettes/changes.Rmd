@@ -73,6 +73,7 @@ at onset of T1D (after age 40) and T2D (before age 40), respectively.
 |---------|---------------|-------------|-------------|-------|-------|
 | 1.2     | T1D           | 0.788       | 0.999       | 0.947 | 0.997 |
 | 1.2     | T2D           | 0.940       | 0.990       | 0.881 | 0.995 |
+
 ## Potential future changes
 
 1.  Add support for using medical birth register to define pregnancies
