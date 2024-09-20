@@ -283,16 +283,6 @@ These events are then passed to a chain of exclusion functions:
 `exclude_wld_purchases()`, `exclude_potential_pcos()`,
 `exclude_pregnancy()` described in the sections below.
 
-After these exclusion functions have been applied, the output serves as
-inputs to two sets of functions:
-
-1.  the `get_diagnosis_date()` function for the final step of the
-    inclusion process.
-2.  the `get_only_insulin_purchases()`,
-    `get_insulin_purchases_within_180_days()`, and
-    `get_insulin_is_two_thirds_of_gld_doses()` helper functions for the
-    classification of diabetes type.
-
 ### Exclusion events
 
 #### Metformin purchases potentially for the treatment of polycystic ovary syndrome
@@ -311,19 +301,30 @@ After these exclusions are made, the output is passed to
 
 #### HbA1c tests and GLD purchases during pregnancy
 
-The function `exclude_pregnancy()` uses diagnoses from LPR2 or LPR3 as
-input and is used to exclude both HbA1c tests and GLD purchases during
-pregnancy, as these may be due to gestational diabetes, rather than type
-1 or type 2 diabetes.
+The function `exclude_pregnancy()` takes the combined outputs from
+`join_lpr2()`, `join_lpr3()`, `include_hba1c()`, and
+`exclude_potential_pcos()` and uses diagnoses from LPR2 or LPR3 to
+exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
+these may be due to gestational diabetes, rather than type 1 or type 2
+diabetes.
 
 Internally, this relies on the function `get_pregnancy_dates()` that
 uses diagnoses registered in the National Patient Register to extract
 the dates of all pregnancy ending (live births or miscarriages). These
-are identified by filtering values beginning with "DO0[0-6]", "DO8[0-4]"
-or "DZ3[37]" in the `c_diag` variable in the LPR2 data (`diagnosekode`
-in LPR3 data).
+are identified by filtering
+`values beginning with "DO0[0-6]", "DO8[0-4]" or "DZ3[37]" in the`c_diag`variable in the LPR2 data (`diagnosekode`in LPR3 data). The dates output by`get_pregnancy_dates()\`
+are used to exclude all inclusion events registered between 40 weeks
+before and 12 weeks after a pregnancy ending.
 
-<!-- TODO: Add details on how this filtering should be done -->
+After these exclusion functions have been applied, the output serves as
+inputs to two sets of functions:
+
+1.  the `get_diagnosis_date()` function for the final step of the
+    inclusion process.
+2.  the `get_only_insulin_purchases()`,
+    `get_insulin_purchases_within_180_days()`, and
+    `get_insulin_is_two_thirds_of_gld_doses()` helper functions for the
+    classification of diabetes type.
 
 ### Get diagnosis date
 
