@@ -296,6 +296,20 @@ inputs to two sets of functions:
 
 ### Exclusion events
 
+#### Metformin purchases potentially for the treatment of polycystic ovary syndrome
+
+The function `exclude_potential_pcos()` takes the output from
+`include_gld_purchases()` and `bef` (information on sex and date of
+birth) as inputs and censors (filters out) all purchases of metformin in
+women below age 40 at the date of purchase (`atc` = "A10BA02" & `sex` =
+"woman" & date at purchase (`date`-`date_of_birth`) \< 40 years) or an
+indication code suggesting treatment of polycystic ovary syndrome (`atc`
+= "A10BA02" & `sex` = "woman" & `indication_code` either "0000092",
+"0000276", "0000781").
+
+After these exclusions are made, the output is passed to
+`exclude_pregnancy()` for further censoring, described below:
+
 #### HbA1c tests and GLD purchases during pregnancy
 
 The function `exclude_pregnancy()` uses diagnoses from LPR2 or LPR3 as
@@ -309,19 +323,6 @@ the dates of all pregnancy ending (live births or miscarriages). These
 are identified by filtering values beginning with "DO0[0-6]", "DO8[0-4]"
 or "DZ3[37]" in the `c_diag` variable in the LPR2 data (`diagnosekode`
 in LPR3 data).
-
-<!-- TODO: Add details on how this filtering should be done -->
-
-#### Metformin purchases for women below age 40
-
-The function `exclude_potential_pcos()` as input to exclude all
-purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
-the date of purchase. It relies on `bef` as input.
-
-This function contains two helper functions:
-
--   `keep_women()`
--   `drop_age_40_below()`
 
 <!-- TODO: Add details on how this filtering should be done -->
 
