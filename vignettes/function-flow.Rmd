@@ -111,7 +111,7 @@ necessary diagnoses (`c_diag` starting with "DO", "DZ3", "DE1[0-4]",
 (`recnum`), and outputs a `data.frame` with the following variables:
 
 -   identifier variable (`pnr`)
--   date (`d_inddto`)
+-   date (originally `d_inddto`, renamed to `date`)
 -   department specialty (`c_spec`)
 -   diagnosis code (`c_diag`)
 -   diagnosis type (`c_diagtype`)
