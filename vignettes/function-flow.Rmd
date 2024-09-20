@@ -105,9 +105,10 @@ The helper functions `join_lpr2()` and `join_lpr3()` join records of
 diagnoses to administrative information in LPR2-formatted and
 LPR3-formatted data, respectively.
 
-`join_lpr2()` takes `lpr_diag` and `lpr_adm` as inputs, joins the
-required information by record number (`recnum`), and outputs a
-`data.frame` with the following variables:
+`join_lpr2()` takes `lpr_diag` and `lpr_adm` as inputs, filters to the
+necessary diagnoses (`c_diag` starting with "DO", "DZ3", "DE1[0-4]",
+"249", or "250"), joins the required information by record number
+(`recnum`), and outputs a `data.frame` with the following variables:
 
 -   identifier variable (`pnr`)
 -   date (`d_inddto`)
@@ -115,9 +116,11 @@ required information by record number (`recnum`), and outputs a
 -   diagnosis code (`c_diag`)
 -   diagnosis type (`c_diagtype`)
 
-`join_lpr3()` takes `diagnoser` and `kontakter` as inputs, joins the
-required information by record number (`dw_ek_kontakt`), and outputs a
-`data.frame` with the following variables:
+`join_lpr3()` takes `diagnoser` and `kontakter` as inputs, filters to
+the necessary diagnoses (`diagnosekode` starting with "DO", "DZ3", or
+"DE1[0-4]"), joins the required information by record number
+(`dw_ek_kontakt`), and outputs a `data.frame` with the following
+variables:
 
 -   identifier variable (`cpr`)
 -   date (`dato_start`)
@@ -438,4 +441,3 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
-
