@@ -160,8 +160,9 @@ internal variables:
     -   `is_t2d`: Define whether the diagnosis was T2D-specific
         (`diagnosis` starts with "DE11" or "250")
     -   `department`: Define whether the diagnosis was made made by an
-        endocrinological (`specialty` == 8) or other medical department
-        (`specialty` \< 8 or 9-30)
+        endocrinological (`specialty` == 8 -\> `department` ==
+        "endocrinology") or other medical department (`specialty` \< 8
+        or 9-30 -\> `department` == "other medical")
 -   From `join_lpr3()`:
     -   `pnr`: identifier variable
     -   `date`: dates of all included diabetes diagnoses:
@@ -177,14 +178,15 @@ internal variables:
         (`diagnosis` starts with "DE11")
     -   `department`: Define whether the diagnosis was made made by an
         endocrinological department (`specialty` == "medicinsk
-        endokrinologi" -\> `department` == "endocrinological") or other
+        endokrinologi" -\> `department` == "endocrinology") or other
         medical department (`specialty` either "Blandet medicin og
         kirurgi", "Intern medicin", "Geriatri", "Hepatologi",
         "Hæmatologi", "Infektionsmedicin", "Kardiologi", "Medicinsk
         allergologi", "Medicinsk gastroenterologi", "Medicinsk
         lungesygdomme", "Nefrologi", "Reumatologi", "Palliativ medicin",
         "Akut medicin", "Dermato-venerologi", "Neurologi", "Onkologi",
-        "Fysiurgi", or "Tropemedicin" -\> `department` == "medical")
+        "Fysiurgi", or "Tropemedicin" -\> `department` == "other
+        medical")
 
 Internally, these intermediate results are combined and processed
 together. And ultimately, `include_diabetes_diagnoses()` outputs a
