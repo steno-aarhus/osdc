@@ -387,17 +387,18 @@ The function `get_diagnosis_date()` takes the output from
 the inclusion event types.
 
 First, the inputs are sorted by `dates` within each level of `pnr`, then
-the earliest value of `dates` is dropped function outputs with the
-helper `drop_first_event()`, so that only those with two or more events
-are included. The date of inclusion, `raw_inclusion_date`, is then
-defined as the earliest value of `dates`in the remaining rows for each
-individual (effectively the date of the second recorded inclusion
-event). A third variable, `stable_inclusion_date`, is defined based on
-`raw_inclusion_date` (if `raw_inclusion_date` \< stable inclusion
-threshold (default "31-12-1997"), then `stable_inclusion_date` is set to
-`NA`, else it is set to`raw_inclusion_date`). This variable serves to
-limit the included cohort to only individuals with valid date of
-inclusion (and thereby valid age at inclusion & duration of diabetes).
+the earliest value of `dates` is dropped, so that only those with two or
+more events are included. The date of inclusion, `raw_inclusion_date`,
+is then defined as the earliest value of `dates`in the remaining rows
+for each individual (effectively the date of the second recorded
+inclusion event). A third variable, `stable_inclusion_date`, is defined
+based on `raw_inclusion_date` (if `raw_inclusion_date` \< stable
+inclusion threshold (one year after medication data starts to contribute
+to inclusions. Default "31-12-1997"), then `stable_inclusion_date` is
+set to `NA`, else it is set to`raw_inclusion_date`). This variable
+serves to limit the included cohort to only individuals with valid date
+of inclusion (and thereby valid age at inclusion & duration of
+diabetes).
 
 `get_diagnosis_date()` outputs a `data.frame` with the following
 variables needed later in the classification part of the function flow:
