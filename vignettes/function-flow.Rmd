@@ -99,7 +99,7 @@ library(osdc)
 
 #### Hospital diagnoses
 
-**Joining LPR2 and LPR3 data**
+#### Joining LPR2 and LPR3 data
 
 The helper functions `join_lpr2()` and `join_lpr3()` join records of
 diagnoses to administrative information in LPR2-formatted and
@@ -114,7 +114,7 @@ following variables:
 -   `pnr`: identifier variable
 -   `date`: date of the recorded diagnosis (renamed from `d_inddto`)
 -   `specialty`: department specialty (renamed from `c_spec`)
--   `diagnosis`: diagnosis code (renamed from `c_diag`)
+-   `diagnosis_code`: diagnosis code (renamed from `c_diag`)
 -   `diagnosis_type`: diagnosis type (renamed from `c_diagtype`)
 
 `join_lpr3()` takes `diagnoser` and `kontakter` as inputs, filters to
@@ -126,7 +126,7 @@ following variables:
 -   `pnr`: identifier variable (renamed from `cpr`)
 -   `date`: date of the recorded diagnosis (renamed from `dato_start`)
 -   `specialty`: department specialty (renamed from `hovedspeciale_ans`)
--   `diagnosis`: diagnosis code (renamed from `diagnosekode`)
+-   `diagnosis_code`: diagnosis code (renamed from `diagnosekode`)
 -   `diagnosis_type`: diagnosis type (renamed from `diagnosetype`)
 -   `diagnosis_retracted`: if the diagnosis was later retracted (renamed
     from `senere_afkraeftet`)
@@ -135,7 +135,7 @@ These outputs are passed to `include_diabetes_diagnoses()` (and to
 `get_pregnancy_dates()`, see exclusion events) for further processing
 below.
 
-**Processing of diabetes diagnoses**
+#### Processing of diabetes diagnoses
 
 The function `include_diabetes_diagnoses()` uses the hospital contacts
 from LPR2 and LPR3 to include all dates of diabetes diagnoses to use for
@@ -207,7 +207,7 @@ individual):
 
 This output is passed to the `join_inclusions()` function, where the
 `dates` variable is used for the final step of the inclusion process.
-The variables of counts of diabetes type-specific primary diagnoses are
+The variables of counts of diabetes type-specific primary diagnoses (the four columns prefixed `n_` above) are
 carried over for the subsequent classification of diabetes type,
 initially as inputs to the `get_t1d_primary_diagnosis()` and
 `get_majority_of_t1d_diagnoses()` functions.
@@ -232,7 +232,7 @@ the same date.
 two rows for each individual, containing the following variables:
 
 -   `pnr`: identifier variable
--   `dates`: the dates of the first and second diabetes-specific
+-   `date`: the dates of the first and second diabetes-specific
     podiatrist record
 
 The output is passed to the `join_inclusions()` function for the final
@@ -284,7 +284,7 @@ data is available to use for censoring, the extraction window can be
 extended).
 
 This function outputs a long `data.frame` (since all dates of purchases
-must be kept for later use in classifyin diabetes type) with the
+must be kept for later use in classifying diabetes type) with the
 following variables needed later in the classification part of the
 function flow:
 
@@ -318,7 +318,7 @@ This function only performs a filtering operation, and output retains
 the same structure and variables as the input passed from
 `include_gld_purchases()`. After these exclusions are made, the output
 is passed to `exclude_pregnancy()` for further censoring, described
-below:
+below.
 
 #### HbA1c tests and GLD purchases during pregnancy
 
@@ -330,8 +330,8 @@ these may be due to gestational diabetes, rather than type 1 or type 2
 diabetes.
 
 Internally, this relies on the function `get_pregnancy_dates()` that
-uses diagnoses registered in the National Patient Register to extract
-the dates of all recorded pregnancy endings (live births or
+uses diagnoses registered in LPR2 and LPR3 to extract
+the dates of all recorded pregnancy endings (live births and
 miscarriages). These are identified by `diagnosis` values beginning with
 "DO0[0-6]", "DO8[0-4]" or "DZ3[37]". The dates output by
 `get_pregnancy_dates()` are used to exclude all inclusion events
