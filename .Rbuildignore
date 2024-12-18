@@ -12,3 +12,6 @@
 ^_targets$
 ^_targets\.R$
 ^justfile$
+^vignettes/articles$
+^doc$
+^Meta$
