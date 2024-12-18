@@ -29,7 +29,12 @@ utils::globalVariables(".data")
 #' Is a [tibble::tibble()] with two columns:
 #'
 #' \describe{
+#'  \item{register}{Optional. The register used for this criteria.}
 #'  \item{name}{The inclusion or exclusion criteria name.}
+#'  \item{title}{The title to use when displaying the algorithmic logic in tables.}
 #'  \item{logic}{The logic for the criteria.}
+#'  \item{comments}{Some additional comments on the criteria.}
 #' }
+#' @seealso See the `vignette("alogrithm")` and [algorithm] for the logic used
+#'   to filter these patients.
 "algorithm"
