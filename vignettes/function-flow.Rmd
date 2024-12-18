@@ -74,7 +74,7 @@ classifying diabetes status using the osdc package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
 events, respectively). Uncoloured boxes are helper functions that get or
 extract a condition or joins data or function
-outputs.](images/function-flow.png)
+outputs.](images/function-flow.svg)
 
 ## Population extraction
 
@@ -88,7 +88,7 @@ extracting the population with diabetes using the osdc package. Light
 blue and orange boxes represent filtering functions (inclusion and
 exclusion events, respectively). Uncoloured boxes are helper functions
 that get or extract a condition or joins data or function
-outputs.](images/function-flow-population.png)
+outputs.](images/function-flow-population.svg)
 
 ### Inclusion events
 
@@ -248,9 +248,9 @@ appropriate cut-offs:
 -   DCCT units: `analysiscode` NPU03835: any `value` $\geq$ 6.5% .
 
 ```{r, echo=FALSE}
-algorithm |> 
-	filter(name=="hba1c") |>
-	knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
+algorithm |>
+  filter(name == "hba1c") |>
+  knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
 ```
 
 Multiple elevated results on the same day within each individual are
@@ -518,6 +518,9 @@ two inclusion dates and their intended use-cases.
 
 <!-- TODO:  The following explanatory sections on T1D and T2D classification need to be aligned with the technical sections above, and possibly moved up to them-->
 
+![Flow of functions for classifying diabetes status using the `osdc`
+package.](images/function-flow-classification.svg)
+
 #### Type 1 classification
 
 The details for the classification of type 1 diabetes is described in
@@ -594,4 +597,3 @@ is within a time-period of insufficient data coverage,
 contains the inclusion date of this individual.
 
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
-
