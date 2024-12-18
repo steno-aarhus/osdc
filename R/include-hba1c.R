@@ -3,7 +3,7 @@
 #' In the `lab_forsker` register, NPU27300 is HbA1c in the modern units (IFCC)
 #' while NPU03835 is HbA1c in old units (DCCT).
 #'
-#' @param data The `lab_forsker` register.
+#' @param lab_forsker The `lab_forsker` register.
 #'
 #' @return An object of the same input type, default as a [tibble::tibble()],
 #'   with two columns: `pnr` and `included_hba1c`.
@@ -13,12 +13,12 @@
 #' \dontrun{
 #' register_data$lab_forsker |> include_hba1c()
 #' }
-include_hba1c <- function(data) {
-  verify_required_variables(data, "lab_forsker")
+include_hba1c <- function(lab_forsker) {
+  verify_required_variables(lab_forsker, "lab_forsker")
   hba1c_criteria <- get_algorithm_logic("hba1c") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
-  data |>
+  lab_forsker |>
     column_names_to_lower() |>
     # Use !! to inject the expression into filter.
     dplyr::filter(!!hba1c_criteria) |>
