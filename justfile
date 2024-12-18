@@ -2,7 +2,7 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: install-package-dependencies document run-targets spell-check style lint test build-site check install-package
+run-all: install-package-dependencies document run-targets spell-check style lint test build-website check install-package
 
 # Install package dependencies
 install-package-dependencies:
@@ -45,7 +45,7 @@ lint:
   devtools::lint()
 
 # Build the pkgdown website
-build-site:
+build-website:
   #!/usr/bin/Rscript
   pkgdown::build_site()
 
