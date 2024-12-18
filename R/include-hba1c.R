@@ -15,13 +15,13 @@
 #' }
 include_hba1c <- function(data) {
   verify_required_variables(data, "lab_forsker")
-  hba1c_criteria <- get_algorithm_logic("hba1c") |>
+  criteria <- get_algorithm_logic("hba1c") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
   data |>
     column_names_to_lower() |>
     # Use !! to inject the expression into filter.
-    dplyr::filter(!!hba1c_criteria) |>
+    dplyr::filter(!!criteria) |>
     # Keep only the columns we need.
     dplyr::mutate(
       pnr = .data$patient_cpr,
