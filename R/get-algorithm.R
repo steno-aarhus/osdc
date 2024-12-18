@@ -10,12 +10,12 @@
 #' get_algorithm_logic("hba1c")
 #' get_algorithm_logic("gld")
 #' }
-get_algorithm_logic <- function(criteria) {
-  algorithm |>
+get_algorithm_logic <- function(criteria, algorithm_logic = algorithm) {
+  algorithm_logic |>
     dplyr::filter(.data$name == criteria) |>
     dplyr::pull(.data$logic) |>
     stringr::str_replace_all("AND", "&") |>
     stringr::str_replace_all("OR", "|") |>
     # regex are defined with '=~', so convert them into a stringr function.
-    stringr::str_replace_all("(.*) \\=\\~ (.*)", "stringr::str_detect(\\1, \\2)")
+    stringr::str_replace_all("(\\(?)([a-zA-Z0-9_]+)\\)? \\=\\~ ('.*')", "\\1stringr::str_detect(\\2, \\3)")
 }
