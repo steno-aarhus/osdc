@@ -10,8 +10,8 @@
 #' get_algorithm_logic("hba1c")
 #' get_algorithm_logic("gld")
 #' }
-get_algorithm_logic <- function(criteria) {
-  algorithm |>
+get_algorithm_logic <- function(criteria, algorithm_logic = algorithm) {
+  algorithm_logic |>
     dplyr::filter(.data$name == criteria) |>
     dplyr::pull(.data$logic) |>
     stringr::str_replace_all("AND", "&") |>
