@@ -29,9 +29,11 @@ algorithm |>
 
 ## `lpr_adm`
 
--   `c_spec` (hospital department) categorize as "endocrinology" if it
-    equals 8 or as "other medical" if it is \< 8 or equals either 9 to
-    30. 
+```{r, echo=FALSE}
+algorithm |>
+  filter(register == "lpr_adm") |>
+  knitr::kable()
+```
 
 ## `diagnoser`
 
