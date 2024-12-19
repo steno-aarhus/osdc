@@ -219,7 +219,10 @@ create_fake_drug_name <- function(atc) {
 #' to_yyww("2020-12-01")
 #' to_yyww(c("2020-01-12", "1995-04-19"))
 to_yyww <- function(x) {
-  paste0(stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2), lubridate::isoweek(lubridate::as_date(x)))
+  paste0(
+    stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2),
+    sprintf("%02d", lubridate::isoweek(lubridate::as_date(x)))
+  )
 }
 
 #' Transform date(s) to the format yyyymmdd
@@ -316,7 +319,7 @@ insert_false_metformin <- function(data, proportion = 0.05) {
         )
       )
   } else {
-  data
+    data
   }
 }
 
