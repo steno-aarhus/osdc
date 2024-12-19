@@ -1,73 +1,19 @@
 ---
-title: "Function flow"
-output: rmarkdown::html_vignette
-bibliography: references.bib
-csl: vancouver.csl
-vignette: >
-  %\VignetteIndexEntry{Function flow}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "Internal function flow"
 ---
 
-## Introduction
-
-This vignette describes the function conventions and function flow of
-the osdc package. The function convention sections go over how we name
-functions and how we structure them in terms of input and output. The
-function flow describes the functions within the package, both internal
-and user-facing, which data sources they rely on, and how they are
-connected to each other. First, the functions for classifying diabetes
-status are presented, followed by the functions for classifying the
-diabetes type.
-
-## Function conventions
-
-The below conventions are *ideals* only, to be used as a guidelines to
-help with development and understanding of the code. They are not hard
-rules.
-
-### Naming
-
--   First word is an action verb, later words are objects or conditions.
--   Exclusion criteria are prefixed with `exclude_`.
--   Inclusion criteria are prefixed with `include_`.
--   Helpers that get or extract a condition (e.g., "pregnancy" or "date
-    of visit") are prefixed with `get_`.
--   Helpers that drop or keep a specific condition are prefixed with
-    `drop_` or `keep_` (e.g., "first visit date to maternal care for
-    pregnancy after 40 weeks"). These types of helpers likely are
-    contained in the `get_` functions.
--   Helpers that join registers or output of other functions are
-    prefixed with `join_`.
-
-### Input and output
-
--   Few arguments, with one or two core required argument.
--   `include_` functions take a register as the first argument.
-    -   One input register database at a time.
--   `exclude_` functions can take a register as the first argument or
-    take the output from an `include_` function.
--   Second argument can be an output data from another function.
+The function flow describes the functions within the package, both
+internal and user-facing, which data sources they rely on, and how they
+are connected to each other. First, the functions for classifying
+diabetes status are presented, followed by the functions for classifying
+the diabetes type.
 
 ## Function flow
-
-The osdc package contains one main function that classifies individuals
-into those with either type 1 or type 2 diabetes using the Danish
-registers: `classify_diabetes()`. This function classifies those with
-diabetes (type 1 or 2) based on the Danish registers described in the
-`vignette("design")` and `vignette("data-sources")`. All data sources
-are used as input for this function. The specific inclusion and
-exclusion details are also described in the `vignette("design")`.
 
 This results in the functionality flow for classifying diabetes status
 seen below. This flow can be divided into two sections: extracting the
 diabetes population and classifying diabetes type which we will detail
 in the following sections.
-
-All functions take a `data.frame` type object as input and outputs the
-same type of object as the input object (a `data.frame` type). For
-instance, if the input is a `data.table` object, the output will also be
-a `data.table`.
 
 ![Flow of functions, as well as their required input registers, for
 classifying diabetes status using the osdc package. Light blue and
@@ -102,16 +48,16 @@ library(osdc)
 The function `include_hba1c()` uses `lab_forsker` as the input data to
 extract all events of HbA1c tests above the diagnosis cut-off value.
 
-Since the HbA1c diagnosis cut-off value depends on the kind of test that is
-used, the inclusion event is defined as follows:
+Since the HbA1c diagnosis cut-off value depends on the kind of test that
+is used, the inclusion event is defined as follows:
 
 -   For HbA1c IFCC (NPU03835), we include values \>= 6.5 %.
 -   For HbA1c DCCT (NPU27300), we include values \>= 48 mmol/mol.
 
 ```{r, echo=FALSE}
-algorithm |> 
-	filter(name=="hba1c") |>
-	knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
+algorithm |>
+  filter(name == "hba1c") |>
+  knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
 ```
 
 #### Hospital diagnosis of diabetes
@@ -253,49 +199,3 @@ check will be based on primary diagnoses from medical specialties.
 
 As described in the `vignette("design")`, individuals not classified as
 type 1 cases are classified as type 2 cases.
-
-## Output
-
-The output of the OSDC algorithm is a `data.frame` which includes four
-columns:
-
-1.  **PNR**: The pseudonymised social security number of individuals in
-    the diabetes population (one row per individual)
-2.  **stable_inclusion_date**: The *stable* inclusion date (i.e., the
-    raw date mutated so only individuals included in the time-period
-    where data coverage is sufficient to make incident cases
-    reliable)[^1]
-    <!-- TODO: Specify this time-period: e.g., later than 1997 -->
-3.  **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
-    the second inclusion event as described in the [Extracting the
-    diabetes population](#extracting-diabetes-population) section above)
-4.  **diabetes_type** The classified diabetes type
-
-[^1]: For more information on the "raw" versus "stable" inclusion date,
-    see `vignette("design")`.
-
-<!-- TODO: Make sure this is the correct link - and add a link specific to the specific section where this is described -->
-
-For an example, see below.
-
-| PNR        | stable_inclusion_date | raw_inclusion_date | diabetes_type |
-|------------|-----------------------|--------------------|---------------|
-| 0000000001 | 2020-01-01            | 2020-01-01         | T1D           |
-| 0000000004 | NULL                  | 1995-04-19         | T2D           |
-
-: Example rows of the `data.frame` output of the osdc package.
-
-The individuals `0000000001` and `0000000004` have been classified as
-having diabetes (`T1D` and `T2D`, respectively). `0000000004` is
-classified as having type 1 diabetes (T1D) with an inclusion date of
-`2020-01-01`. Since this date is within a time-period of sufficient data
-coverage, the column `stable_inclusion_date` is populated with the same
-date as `raw_inclusion_date`.
-
-The individual in the second row, `0000000004` is classified as having
-type 2 diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995
-is within a time-period of insufficient data coverage,
-`stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
-contains the inclusion date of this individual.
-
-<!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
