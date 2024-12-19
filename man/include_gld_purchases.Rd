@@ -4,7 +4,10 @@
 \alias{include_gld_purchases}
 \title{Include only those who have a purchase of a glucose lowering drug (GLD).}
 \usage{
-include_gld_purchases(data)
+include_gld_purchases(lmdb)
+}
+\arguments{
+\item{lmdb}{The LMDB register.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.

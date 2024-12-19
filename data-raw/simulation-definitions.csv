@@ -28,11 +28,11 @@ diagnoser,senere_afkraeftet,string,Binary natural language,"draw_categorical(N =
 sysi,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
 sysi,barnmak,integer,binary,"draw_binary(0.1, N = N)",0 is no,
 sysi,speciale,string,5 digits,"create_padded_integer(N, 5)","""^54"" is diabetes-specific podiatrist service",
-sysi,honuge,string,"4 digits: WWyy (2 digits week number, 2 digits year)","to_wwyy(create_fake_date(N, from = ""1990-01-01"", to = ""2004-12-31""))",,
+sysi,honuge,string,"4 digits: yyww (2 digits year, 2 digits week number)","to_yyww(create_fake_date(N, from = ""1990-01-01"", to = ""2004-12-31""))",,
 sssy,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
 sssy,barnmak,integer,binary,"draw_binary(0.1, N = N)",0 is no,
 sssy,speciale,string,5 digits,"create_padded_integer(N, 5)","""^54"" is diabetes-specific podiatrist service",
-sssy,honuge,string,"4 digits: WWyy (2 digits week number, 2 digits year)","to_wwyy(create_fake_date(N, from = ""2005-01-01""))",,
+sssy,honuge,string,"4 digits: yyww (2 digits year, 2 digits week number)","to_yyww(create_fake_date(N, from = ""2005-01-01""))",,
 lab_forsker,patient_cpr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
 lab_forsker,samplingdate,date,YYYYMMDD,"to_yyyymmdd(create_fake_date(N, from = ""2011-01-01""))",,
 lab_forsker,analysiscode,string,8 digit NPU code,create_fake_npu(N),NPU27300 is HbA1c in modern units (IFCC),NPU03835 is HbA1c in old units

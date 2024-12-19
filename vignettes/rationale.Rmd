@@ -41,15 +41,14 @@ can apply for access, but fees and conditions apply.
 
 Register data is generally accessed and processed by approved
 researchers on remote servers operated by Statistics Denmark and the
-Danish Health Data Authority. The same raw data used by all 
-researchers, coupled with a common virtual working environment, 
-has the potential to enable reproducible research. This means that 
-any data processing workflow
-could be transferable and reusable between research projects if the
-underlying code is designed with reproducibility in mind and the code is
-shared ("open-sourced") [@Marszalek2016]. While reproducibility in
-research relates to transparent reporting of methods to enable others to
-reproduce analyses and experiments, this also applies to a diabetes
+Danish Health Data Authority. The same raw data used by all researchers,
+coupled with a common virtual working environment, has the potential to
+enable reproducible research. This means that any data processing
+workflow could be transferable and reusable between research projects if
+the underlying code is designed with reproducibility in mind and the
+code is shared ("open-sourced") [@Marszalek2016]. While reproducibility
+in research relates to transparent reporting of methods to enable others
+to reproduce analyses and experiments, this also applies to a diabetes
 classification program, which - if reproducible - could be reused by any
 researcher with access to the necessary register data to dynamically
 identify a study population of individuals with diabetes for their
@@ -57,14 +56,16 @@ research needs [@Dima2017].
 
 ### Current Danish register-based diabetes classifiers
 
-In Denmark, the National Diabetes Register, established in 2006, was the first resource readily
- available to researchers to use for identifying diabetes cases through register data [@Carstensen2011] .
-However, it was discontinued in 2012.
+In Denmark, the National Diabetes Register, established in 2006, was the
+first resource readily available to researchers to use for identifying
+diabetes cases through register data [@Carstensen2011] . However, it was
+discontinued in 2012.
 
-The next resource is the [Register of Selected Chronic Diseases](https://www.esundhed.dk/Dokumentation/DocumentationExtended?id=29) (RSCD),
-which was launched in 2014. It is currently the only publicly available
-resource to identify diabetes cases through Danish register data (by
-application to the Danish Health Data Authority).
+The next resource is the [Register of Selected Chronic
+Diseases](https://www.esundhed.dk/Dokumentation/DocumentationExtended?id=29)
+(RSCD), which was launched in 2014. It is currently the only publicly
+available resource to identify diabetes cases through Danish register
+data (by application to the Danish Health Data Authority).
 
 ## Challenges in current classifiers
 

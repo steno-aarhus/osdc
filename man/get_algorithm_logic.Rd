@@ -4,7 +4,7 @@
 \alias{get_algorithm_logic}
 \title{Get the criteria algorithmic logic and convert to an R logic condition.}
 \usage{
-get_algorithm_logic(criteria)
+get_algorithm_logic(criteria, algorithm_logic = algorithm)
 }
 \arguments{
 \item{criteria}{The name of the inclusion or exclusion criteria to use.}
