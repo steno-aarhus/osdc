@@ -1,6 +1,8 @@
 ---
 title: "Algorithm"
 output: rmarkdown::html_vignette
+bibliography: references.bib
+csl: vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Algorithm}
   %\VignetteEngine{knitr::rmarkdown}
@@ -95,3 +97,64 @@ algorithm |>
   filter(name == "exclude_pregnancy") |>
   knitr::kable()
 ```
+A more complete description of the classifier is found in Anders Aasted
+Isaksen's [PhD Thesis](https://aastedet.github.io/dissertation/) as well
+as the validation paper [@Isaksen2023]. The description of the algorithm
+below is a brief and concise version of those documents.
+
+The overall output of this algorithm is first to classify those with
+diabetes, then to further classify and check if the individuals might
+have type 1 diabetes, otherwise classify as type 2 diabetes.
+
+The initial **diabetes** classification is defined as the second
+occurrence of any of the listed inclusion events. Wherever possible, all
+available data for each event is used, except for the purchases of
+glucose-lowering drugs, since the data on obstetric diagnoses necessary
+to censor glucose-lowering drug purchases is only complete from 1997
+onwards. Inclusion criteria are:
+
+1.  HbA1c measurements of ≥48 mmol/mol.
+2.  Hospital diagnoses of diabetes.
+3.  Diabetes-specific services received at podiatrist.
+4.  Purchase of glucose-lowering drugs.
+
+Exclusions are:
+
+1.  HbA1c samples:
+    -   Samples taken during pregnancies, as that could be a potential
+        gestational diabetes mellitus.
+2.  Glucose-lowering drugs:
+    -   Brand drugs for weight loss, e.g. *Saxenda*.
+    -   Purchases during pregnancies, as that is a potential treatment
+        for gestational diabetes mellitus.
+    -   Metformin for women below age 40, as that could be a treatment
+        for polycystic ovary syndrome.
+
+### Classifying type 1 diabetes
+
+Diabetes type is classified as either T1D or T2D based on patterns of
+purchases of insulin drugs (including analogues) and hospital primary
+diagnoses of T1D and T2D.
+
+Classification as T1D requires an individual to fulfill either of the
+following criteria:
+
+a.  Must have purchased only insulin drugs and never any other type of
+    glucose-lowering drugs, and have at least one diagnosis of T1D
+b.  Must have a majority of T1D diagnoses from endocrinological
+    departments (or from other medical departments, in the absence of
+    contacts to endocrinological departments), and a purchase of insulin
+    within 180 days after onset of diabetes, with insulin contributing
+    at least two thirds of all defined daily doses of glucose-lowering
+    drugs purchased.
+
+In populations generated on a fixed index date (such as the
+cross-sectional studies associated with this dissertation), individuals
+classified as T1D cases must have purchased insulin drugs in the last
+year prior to the index date.
+
+### Classifying type 2 diabetes
+
+Individuals not classified as T1D cases are classified as T2D cases.
+
+## References

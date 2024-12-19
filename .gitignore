@@ -4,3 +4,7 @@
 .Ruserdata
 inst/doc
 docs
+/doc/
+/Meta/
+/pkgdown/
+/dev/
