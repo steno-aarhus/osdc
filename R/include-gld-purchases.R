@@ -7,6 +7,9 @@
 #' dates from 1997 onward by default (if Medical Birth Register data is
 #' available to use for censoring, the extraction window can be extended).
 #'
+#' These events are then passed to a chain of exclusion functions:
+#' `exclude_potential_pcos()` and `exclude_pregnancy()`.
+#'
 #' @param lmdb The `lmdb` register.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()], in
@@ -19,9 +22,9 @@
 #'       doses (DDD).
 #'   -   `indication_code`: The indication code of the prescription (renamed from
 #'       `indo`).
+#'   -  `has_gld_purchases`: A logical variable to use as a helper indicator for
+#'      later functions.
 #'
-#'   These events are then passed to a chain of exclusion functions:
-#'   `exclude_potential_pcos()` and `exclude_pregnancy()`.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -50,5 +53,6 @@ include_gld_purchases <- function(lmdb) {
       "atc",
       "contained_doses",
       "indication_code"
-    )
+    ) |>
+    dplyr::mutate(has_gld_purchases = TRUE)
 }
