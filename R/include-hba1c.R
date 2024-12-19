@@ -16,7 +16,7 @@
 #'
 #'   - `pnr`: Personal identification variable.
 #'   - `dates`: The dates of all elevated HbA1c test results.
-#'   - `included_hba1c`: A logical variable indicating that the HbA1c test
+#'   - `has_elevated_hba1c`: A logical variable indicating that the HbA1c test
 #'   was included. Used as an indicator and reminder in other internal
 #'   functions.
 #'
@@ -39,7 +39,7 @@ include_hba1c <- function(lab_forsker) {
     dplyr::mutate(
       pnr = .data$patient_cpr,
       date = .data$samplingdate,
-      included_hba1c = TRUE,
+      has_elevated_hba1c = TRUE,
       .keep = "none"
     ) |>
     # Remove any duplicates
