@@ -3,6 +3,8 @@
 
 ## usethis namespace: start
 #' @importFrom lifecycle deprecated
+#' @importFrom dplyr na_if
+#' @importFrom lubridate weeks
 ## usethis namespace: end
 NULL
 
