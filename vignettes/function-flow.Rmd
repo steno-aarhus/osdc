@@ -382,7 +382,7 @@ The output from the function is a `data.frame` containing two variables
 
 ### Get diagnosis date
 
-The function `get_diagnosis_date()` takes the output from
+The function `get_inclusion_date()` takes the output from
 `join_inclusions()` and defines the final diagnosis date based on all
 the inclusion event types.
 
