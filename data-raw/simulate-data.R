@@ -72,7 +72,7 @@ create_fake_icd <- function(n, date = NULL) {
 
 #' @description
 #' ICD-8 is the 8th revision of the International Classification of Diseases.
-#' 
+#'
 #' @param n The number of ICD-8 diagnoses to generate.
 #'
 #' @return A character vector of ICD-8 diagnoses.
@@ -90,7 +90,7 @@ create_fake_icd8 <- function(n) {
 #'
 #' @description
 #' ICD-10 is the 10th revision of the International Classification of Diseases.
-#' 
+#'
 #' @param n An integer determining how many diagnoses to create.
 #'
 #' @return A character vector of ICD-10 diagnoses.
@@ -110,7 +110,7 @@ create_fake_icd10 <- function(n) {
 #' @description
 #' Anatomical Therapeutic Chemical (ATC) codes are unique medicine codes
 #' based on on what organ or system it works on and how it works.
-#' 
+#'
 #' @param n The number of random ATC codes to generate.
 #'
 #' @return A character vector of ATC codes.
@@ -161,7 +161,7 @@ create_padded_integer <- function(n, length) {
 #' @description
 #' Nomenclature for Properties and Units (NPUs) are codes that identifies
 #' laboratory results.
-#' 
+#'
 #' @param n The number of NPUs to create.
 #'
 #' @return A character vector.
@@ -209,17 +209,20 @@ create_fake_drug_name <- function(atc) {
     sample(length(atc), replace = TRUE)
 }
 
-#' Transform date(s) to the format wwyy
+#' Transform date(s) to the format yyww
 #'
 #' @param x A date or a vector of dates.
 #'
-#' @return A vector of dates in the format wwyy.
+#' @return A vector of dates in the format yyww.
 #'
 #' @examples
-#' to_wwyy("2020-12-01")
-#' to_wwyy(c("2020-01-12", "1995-04-19"))
-to_wwyy <- function(x) {
-  paste0(lubridate::isoweek(lubridate::as_date(x)), stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2))
+#' to_yyww("2020-12-01")
+#' to_yyww(c("2020-01-12", "1995-04-19"))
+to_yyww <- function(x) {
+  paste0(
+    stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2),
+    sprintf("%02d", lubridate::isoweek(lubridate::as_date(x)))
+  )
 }
 
 #' Transform date(s) to the format yyyymmdd
@@ -316,7 +319,7 @@ insert_false_metformin <- function(data, proportion = 0.05) {
         )
       )
   } else {
-  data
+    data
   }
 }
 
