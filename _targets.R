@@ -8,8 +8,9 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble") # Packages that your targets need for their tasks.
+  packages = c("tibble"), # Packages that your targets need for their tasks.
   # format = "qs", # Optionally set the default storage format. qs is fast.
+  seed = 123 # Set a seed for reproducibility (needed for data simulation)
 )
 
 # Run the R scripts in the R/ folder with your custom functions:

@@ -417,7 +417,6 @@ simulate_data <- function(data, n) {
 #'
 #' @returns A list with simulated register data.
 create_simulated_data <- function(path) {
-  set.seed(123)
   simulation_definitions <- path |>
     readr::read_csv(show_col_types = FALSE) |>
     dplyr::select("register_abbrev", "variable_name", "generator")
