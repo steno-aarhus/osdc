@@ -411,24 +411,17 @@ simulate_data <- function(data, n) {
     list_cbind()
 }
 
-#' Read simulation definitions from csv
-#'
-#' @param path Path to the csv file.
-#'
-#' @returns A tibble with simulation definitions.
-read_simulation_definitions_data <- function(path) {
-  path |>
-    readr::read_csv(show_col_types = FALSE) |>
-    dplyr::select("register_abbrev", "variable_name", "generator")
-}
-
 set.seed(123)
 #' Create simulated register data
 #'
-#' @param simulation_definitions Tibble with simulation definitions.
+#' @param path Path to csv with simulation definitions.
 #'
 #' @returns A list with simulated register data.
-create_simulated_data <- function(simulation_definitions) {
+create_simulated_data <- function(path) {
+  simulation_definitions <- path |>
+    readr::read_csv(show_col_types = FALSE) |>
+    dplyr::select("register_abbrev", "variable_name", "generator")
+
   simulation_definitions_list <- simulation_definitions |>
     dplyr::group_split(register_abbrev)
 

@@ -60,12 +60,8 @@ list(
     format = "file"
   ),
   tar_target(
-    name = simulation_definitions,
-    command = read_simulation_definitions_data(simulation_definitions_csv)
-  ),
-  tar_target(
     name = register_data,
-    command = create_simulated_data(simulation_definitions),
+    command = create_simulated_data(simulation_definitions_csv),
   ),
   tar_target(
     name = register_data_rda,
