@@ -23,7 +23,7 @@ library(dplyr)
 
 ```{r, echo=FALSE}
 algorithm |>
-  filter(str_detect(register, "lpr_diag")) |>
+  filter(register == "lpr_diag") |>
   knitr::kable()
 ```
 
@@ -69,7 +69,6 @@ algorithm |>
 ## `ssyi` and `sssy`
 
 -   `speciale` starts with "54".
-    -   Alternatively, use `spec2` if available.
 -   `barnmark` (services provided to a child of the individual) is not
     equal to 0.
 
