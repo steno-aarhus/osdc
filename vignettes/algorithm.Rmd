@@ -16,14 +16,14 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(osdc)
-library(tidyverse)
+library(dplyr)
 ```
 
 ## `lpr_diag`
 
 ```{r, echo=FALSE}
 algorithm |>
-  filter(str_detect(register, "lpr_diag") |>
+  filter(str_detect(register, "lpr_diag")) |>
   knitr::kable()
 ```
 
@@ -86,3 +86,11 @@ To remove those with potential polycystic ovary syndrome:
 -   `atc` starts with "A10BA02" and `koen` is equal to 2 (woman) and
     (`date` minus `foed_dato` (birth date) is less than 40 or
     `indication_code` equals one of "0000092", "0000276" or "0000781")
+
+## Pregnancy events
+
+```{r, echo=FALSE}
+algorithm |>
+  filter(name == "exclude_pregnancy") |>
+  knitr::kable()
+```

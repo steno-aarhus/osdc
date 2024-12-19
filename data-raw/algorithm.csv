@@ -1,6 +1,8 @@
 register,name,title,logic,comments
 lab_forsker,hba1c,HbA1c inclusion,(analysiscode == 'NPU27300' AND value >= 48) OR (analysiscode == 'NPU03835' AND value >= 6.5),Is the IFCC units for NPU27300 and DCCT units for NPU03835
 lmdb,gld,Glucose-lowering drug inclusion,atc =~ '^A10' & !(atc =~ '^(A10BJ|A10BK01|A10BK03)'),Do not keep GLP-RAs or dapagliflozin/empagliflozin drugs
-lpr_diag,lpr2,LPR2 diabetes diagnoses codes,c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)' AND (c_diagtype == 'A' OR c_diagtype == 'B'),'A' c_diagtype means primary diagnosis.
-lpr_diag,lpr2_is_t1d,LPR2 diagnoses codes for T1D,c_diag =~ '^(DE10|249)',
-lpr_diag,lpr2_is_t2d,LPR2 diagnoses codes for T2D,c_diag =~ '^(DE11|250)',
+lpr_diag,lpr2,Relevant LPR2 diagnoses codes,c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)' AND (c_diagtype == 'A' OR c_diagtype == 'B'),'A' c_diagtype means primary diagnosis
+lpr_diag,lpr2_has_t1d,LPR2 diagnoses codes for T1D,c_diag =~ '^(DE10|249)',
+lpr_diag,lpr2_has_t2d,LPR2 diagnoses codes for T2D,c_diag =~ '^(DE11|250)',
+lpr_diag,lpr2_has_pregnancy_event,LPR2 diagnoses codes for pregnancy-related outcomes,c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])',These are recorded pregnancy endings like live births and miscarriages
+,exclude_pregnancy,Remove events within a potential pregnancy period,!(has_pregnancy_event AND has_elevated_hba1c AND (date >= (pregnancy_date - weeks(40)) OR date <= (pregnancy_date + weeks(12)))),
