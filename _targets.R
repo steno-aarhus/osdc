@@ -65,9 +65,7 @@ list(
   ),
   tar_target(
     name = register_data,
-    command = {
-      create_simulated_data(simulation_definitions)
-    },
+    command = create_simulated_data(simulation_definitions),
   ),
   tar_target(
     name = register_data_rda,
