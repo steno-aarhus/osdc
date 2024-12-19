@@ -411,27 +411,31 @@ simulate_data <- function(data, n) {
     list_cbind()
 }
 
-set.seed(123)
-simulation_definitions <- here("data-raw/simulation-definitions.csv") |>
-  read_csv(show_col_types = FALSE) |>
-  select(register_abbrev, variable_name, generator)
+#' Create simulated register data
+#'
+#' @param path Path to csv with simulation definitions.
+#'
+#' @returns A list with simulated register data.
+create_simulated_data <- function(path) {
+  simulation_definitions <- path |>
+    readr::read_csv(show_col_types = FALSE) |>
+    dplyr::select("register_abbrev", "variable_name", "generator")
 
-simulation_definitions_list <- simulation_definitions |>
-  group_split(register_abbrev)
+  simulation_definitions_list <- simulation_definitions |>
+    dplyr::group_split(register_abbrev)
 
-register_data <- simulation_definitions_list |>
-  map(\(data) simulate_data(data, n = 1000)) |>
-  map(insert_specific_atc) |>
-  map(add_fake_drug_name) |>
-  map(insert_false_drug_names) |>
-  map(insert_false_metformin) |>
-  map(insert_analysiscode) |>
-  # add the register abbreviations as a name to the list
-  set_names(
-    map_chr(
-      simulation_definitions_list,
-      \(data) unique(data$register_abbrev)
+  register_data <- simulation_definitions_list |>
+    map(\(data) simulate_data(data, n = 1000)) |>
+    map(insert_specific_atc) |>
+    map(add_fake_drug_name) |>
+    map(insert_false_drug_names) |>
+    map(insert_false_metformin) |>
+    map(insert_analysiscode) |>
+    # add the register abbreviations as a name to the list
+    set_names(
+      map_chr(
+        simulation_definitions_list,
+        \(data) unique(data$register_abbrev)
+      )
     )
-  )
-
-usethis::use_data(register_data, overwrite = TRUE)
+}
