@@ -1,9 +1,12 @@
-name: Build website
-
 # Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   workflow_call:
+    secrets:
+      github-token:
+        required: true
+
+name: Build the pkgdown website
 
 jobs:
   pkgdown:
@@ -12,9 +15,7 @@ jobs:
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-    permissions:
-      contents: write
+      GITHUB_PAT: ${{ secrets.github-token }}
     steps:
       - uses: actions/checkout@v4
 
