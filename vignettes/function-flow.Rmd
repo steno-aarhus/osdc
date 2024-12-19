@@ -117,8 +117,8 @@ library(osdc)
 #'  -   `has_t1d`: Whether the diagnosis was T1D-specific.
 #'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
 #'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
-#'  -   `department`: Whether the diagnosis was made made by an
-#'      endocrinology or other medical department.
+#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
+#'      endocrinology (TRUE) or other medical (FALSE) department.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -139,7 +139,7 @@ join_lpr2 <- function(lpr_diag, lpr_adm) {
       # has_t1d =
       # has_t2d =
       # has_pregnancy_event =
-      # department =
+      # is_endocrinology_department =
     )
 }
 ```
@@ -165,8 +165,8 @@ join_lpr2 <- function(lpr_diag, lpr_adm) {
 #'  -   `has_t1d`: Whether the diagnosis was T1D-specific
 #'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
 #'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
-#'  -   `department`: Define whether the diagnosis was made made by an
-#'      endocrinology department.
+#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
+#'      endocrinology (TRUE) or other medical (FALSE) department.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -180,6 +180,8 @@ join_lpr3 <- function(diagnoser, kontakter) {
   # Filter using the algorithm for LPR3
   diagnoser |>
     dplyr::full_join(kontakter, by = dplyr::join_by(.data$dw_ek_kontakt)) |>
+    # Ensure the values are always lower case.
+    dplyr::mutate(hovedspeciale_ans = tolower(hovedspeciale_ans)) |>
     dplyr::select(
       "pnr" = "cpr",
       "date" = "dato_start"
@@ -187,7 +189,7 @@ join_lpr3 <- function(diagnoser, kontakter) {
       # has_t1d =
       # has_t2d =
       # has_pregnancy_event =
-      # department =
+      # is_endocrinology_department =
     )
 }
 ```
@@ -407,7 +409,7 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
   excluded_pcos |>
     # Exclude those who are not pregnant.
     dplyr::full_join(pregnancy_dates, by = dplyr::join_by(.data$pnr)) |>
-    dplyr::full_join(included_hba1c, by = dplyr::join_by(pnr)) |>
+    dplyr::full_join(included_hba1c, by = dplyr::join_by(.data$pnr)) |>
     # Filtering here...
     dplyr::mutate(no_pregnancy = TRUE)
 }
@@ -434,12 +436,14 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
     dplyr::filter(has_pregnancy_events) |>
     dplyr::select(
       pnr,
-      pregnancy_date = date
+      pregnancy_event_date = date
     )
 }
 ```
 
-### Join inclusion events
+## Joining inclusions and exclusions
+
+### `join_inclusions()`
 
 The function `join_inclusions()` appends/row-binds the dates output from
 functions the process the four types of inclusion events by `pnr`. Thus,
@@ -467,11 +471,11 @@ functions:
 
 The output from the function is a `data.frame` containing two variables
 (`pnr` and `dates`) and 1 to 8 rows per ´pnr´. This output is passed to
-`get_diagnosis_date()`.
+`get_inclusion_date()`.
 
 ### Get diagnosis date
 
-The function `get_diagnosis_date()` takes the output from
+The function `get_inclusion_date()` takes the output from
 `join_inclusions()` and defines the final diagnosis date based on all
 the inclusion event types.
 
@@ -489,7 +493,7 @@ serves to limit the included cohort to only individuals with valid date
 of inclusion (and thereby valid age at inclusion & duration of
 diabetes).
 
-`get_diagnosis_date()` outputs a `data.frame` with the following
+`get_inclusion_date()` outputs a `data.frame` with the following
 variables:
 
 -   `pnr`: identifier variable
@@ -514,10 +518,10 @@ information on diabetes type-specific primary diagnoses from hospitals
 is also a requirement.
 
 Thus, the function takes the following inputs from
-`get_diagnosis_date()`, `exclude_pregnancy()`, and
+`get_inclusion_date()`, `exclude_pregnancy()`, and
 `include_diabetes_diagnoses()`:
 
--   From `get_diagnosis_date()`: Information on date of diagnosis of
+-   From `get_inclusion_date()`: Information on date of diagnosis of
     diabetes
     -   `pnr`
     -   `raw_inclusion_date`
@@ -554,7 +558,7 @@ return a single value (`TRUE`, otherwise `FALSE`) for each individual:
 -   `get_insulin_purchases_within_180_days()`
     -   Inputs passed from `exclude_pregnancy()`:
         -   `date` & `atc`
-    -   Inputs passed from `get_diagnosis_date()`:
+    -   Inputs passed from `get_inclusion_date()`:
         -   `raw_inclusion_date`
     -   Outputs: `TRUE` If any purchases with `atc` starting with "A10A"
         have a `date` between 0 and 180 days higher than
