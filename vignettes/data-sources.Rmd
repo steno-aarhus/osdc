@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 library(osdc)
-library(tidyverse)
+library(dplyr)
 ```
 
 This document describes the sources of data needed by the OSDC algorithm

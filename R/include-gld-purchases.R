@@ -2,6 +2,8 @@
 #'
 #' See [algorithm] for the logic used to filter these patients.
 #'
+#' @param lmdb The LMDB register.
+#'
 #' @return The same type as the input data, default as a [tibble::tibble()].
 #' @keywords internal
 #'
