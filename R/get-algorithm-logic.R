@@ -17,5 +17,5 @@ get_algorithm_logic <- function(criteria, algorithm_logic = algorithm) {
     stringr::str_replace_all("AND", "&") |>
     stringr::str_replace_all("OR", "|") |>
     # regex are defined with '=~', so convert them into a stringr function.
-    stringr::str_replace_all("(\\(?)([a-zA-Z0-9_]+)\\)? \\=\\~ ('.*')", "\\1stringr::str_detect(\\2, \\3)")
+    stringr::str_replace_all("([a-zA-Z0-9_]+) \\=\\~ '(.*?)'", "stringr::str_detect(\\1, '\\2')")
 }
