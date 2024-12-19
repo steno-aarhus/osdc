@@ -109,7 +109,7 @@ test_that("joining works for data.table", {
 
 actual_diagnoser <- tibble::tibble(
   dw_ek_kontakt = 1:4,
-  diagnosekode = rep(c("DA071","DD075"), times = 2),
+  diagnosekode = rep(c("DA071", "DD075"), times = 2),
   diagnosetype = rep(c("A", "B"), times = 2),
   senere_afkraeftet = rep(c("Nej", "Ja"), times = 2)
 )
@@ -126,7 +126,7 @@ expected_lpr3 <- tibble::tibble(
   dw_ek_kontakt = 2:4,
   dato_start = c("20230101", "20220101", "20200101"),
   hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
-  diagnosekode = c("DD075","DA071", "DD075"),
+  diagnosekode = c("DD075", "DA071", "DD075"),
   diagnosetype = c("B", "A", "B"),
   senere_afkraeftet = c("Ja", "Nej", "Ja")
 )

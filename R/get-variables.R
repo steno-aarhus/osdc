@@ -1,4 +1,3 @@
-
 #' Get a list of the registers' abbreviations.
 #'
 #' @return A character string.
