@@ -25,6 +25,7 @@ Imports:
     cli,
     dplyr,
     lifecycle,
+    lubridate,
     rlang,
     utils
 Suggests:
