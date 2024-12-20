@@ -32,7 +32,7 @@ yyww_to_date <- function(yyww) {
   # calculate date
   date <- first_day_of_iso_year
   lubridate::week(date) <- as.numeric(week)
-  date <- date - n_weekday_start_of_year + 1 # adjust date to be Monday of in that week
+  date <- date - n_weekday_start_of_year + 1 # adjust date to be Monday in that week
 
   return(date)
 }
