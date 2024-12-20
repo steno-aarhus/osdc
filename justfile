@@ -8,11 +8,15 @@ run-all: clean install-package-dependencies document run-targets spell-check sty
 clean:
   #!/usr/bin/Rscript
   devtools::clean_vignettes()
+  pkgdown::clean_site()
 
 # Install package dependencies
 install-package-dependencies:
   #!/usr/bin/Rscript
-  pak::pak(ask = FALSE)
+  pak::pak(
+    dependencies = c("all", "Config/Needs/data"),
+    ask = FALSE
+  )
 
 # Run document generators
 document:
