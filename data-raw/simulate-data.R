@@ -143,8 +143,10 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 
 #' Create a vector of reproducible, random zero-padded integers.
 #'
+#' Generated integers of the same length are identical to facilitate joining by values in pnr, cpr, recnum and dw_ek_kontakt.
+#'
 #' @param n The number of integers to generate.
-#' @param length An integer determining the length of the padded integer. Generated integers of the same length are identical to facilitate joining by pnr, cpr, recnum and dw_ek_kontakt.
+#' @param length An integer determining the length of the padded integer.
 #'
 #' @return A character vector of integers.
 #'
