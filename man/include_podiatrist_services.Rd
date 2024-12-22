@@ -2,7 +2,7 @@
 % Please edit documentation in R/include-podiatrist-services.R
 \name{include_podiatrist_services}
 \alias{include_podiatrist_services}
-\title{Include only those who have had podiatrist services}
+\title{Include diabetes-specific podiatrist services.}
 \usage{
 include_podiatrist_services(sysi, sssy)
 }
@@ -12,21 +12,24 @@ include_podiatrist_services(sysi, sssy)
 \item{sssy}{The SSSY register.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}
-with two columns:
+The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+with two columns and up to two rows for each individual:
 \itemize{
-\item \code{pnr}: Personal identification variable.
-\item \code{dates}: The dates of podiatrist services.
+\item \code{pnr}: Identifier variable
+\item \code{date}: The dates of the first and second diabetes-specific
+podiatrist record
+\item \code{has_podiatrist_services}: A logical variable that acts as a helper
+indicator for use in later functions.
 }
 }
 \description{
-See \link{algorithm} for the logic used to filter these patients.
-In addition to the algorithm logic, duplicates are removed and only
-the two earliest dates per individual are kept.
+#' Uses the \code{sysi} or \code{sssy} registers as input to extract the dates of all
+diabetes-specific podiatrist services. Removes duplicate services on the
+same date. Only the two earliest dates per individual are kept.
 }
 \details{
-The output is passed to \code{join_inclusions()} function to be joined with
-the rest of the inclusion data.
+#' The output is passed to the \code{join_inclusions()} function for the final
+step of the inclusion process.
 }
 \examples{
 \dontrun{
