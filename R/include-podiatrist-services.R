@@ -44,7 +44,7 @@ include_podiatrist_services <- function(sysi, sssy) {
     # keep only the two columns we need and transform `honuge` to date
     dplyr::mutate(
       pnr = .data$pnr,
-      date = yyww_to_date(.data$honuge),
+      date = yyww_to_yyyymmdd(.data$honuge),
       .keep = "none"
     ) |>
     # FIXME: This might be computationally intensive.

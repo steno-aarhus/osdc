@@ -15,10 +15,10 @@
 #'
 #' @examples
 #' \dontrun{
-#' yyww_to_date("0102")
-#' yyww_to_date(c("0102", "0304"))
+#' yyww_to_yyyymmdd("0102")
+#' yyww_to_yyyymmdd(c("0102", "0304"))
 #' }
-yyww_to_date <- function(yyww) {
+yyww_to_yyyymmdd <- function(yyww) {
   # ensure input is zero-padded to length 4
   yyww <- sprintf("%04d", as.numeric(yyww))
 
