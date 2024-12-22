@@ -19,6 +19,10 @@ test_that("conversion works for numeric one digit year", {
   expect_equal(yyww_to_date(107), lubridate::ymd("2001-02-12"))
 })
 
+test_that("conversion works for numeric year 2000", {
+  expect_equal(yyww_to_date(0007), lubridate::ymd("2000-02-14"))
+})
+
 test_that("conversion works for multiple inputs", {
   expect_equal(yyww_to_date(c("0107", "2439")), lubridate::ymd("2001-02-12", "2024-09-23"))
 })
