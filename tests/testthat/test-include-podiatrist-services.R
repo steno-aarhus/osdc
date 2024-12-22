@@ -4,7 +4,8 @@ sysi <- tibble::tribble(
   2000000000, 1, 54800, "9207", # kept but deduplicated
   2000000000, 1, 54800, "9207", # kept but deduplicated
   3000000000, 1, 54005, "0752", # kept bc it's the first date for this person
-  3000000000, 1, 54005, "2430" # removed bc it's the third date for this person
+  3000000000, 1, 54005, "2430", # removed bc it's the third date for this person
+  4000000000, 1, 55000, "0044" # removed since speciale doesn't start with 54
 )
 
 sssy <- tibble::tribble(
