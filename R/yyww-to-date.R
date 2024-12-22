@@ -19,8 +19,8 @@
 #' yyww_to_date(c("0102", "0304"))
 #' }
 yyww_to_date <- function(yyww) {
-  # Add leading zero to year, if it has been removed
-  yyww <- ifelse(stringr::str_length(yyww) == 3, paste0("0", yyww), yyww)
+  # Ensure the input is zero-padded to length 4
+  yyww <- sprintf("%04d", as.numeric(yyww))
 
   year <- stringr::str_sub(yyww, 1, 2)
   week <- stringr::str_sub(yyww, 3, 4)
