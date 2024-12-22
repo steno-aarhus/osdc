@@ -19,7 +19,7 @@
 #' yyww_to_date(c("0102", "0304"))
 #' }
 yyww_to_date <- function(yyww) {
-  # Ensure the input is zero-padded to length 4
+  # ensure input is zero-padded to length 4
   yyww <- sprintf("%04d", as.numeric(yyww))
 
   year <- stringr::str_sub(yyww, 1, 2)
