@@ -1,4 +1,4 @@
 name,logic
 hba1c,(analysiscode == 'NPU27300' AND value >= 48) OR (analysiscode == 'NPU03835' AND value >= 6.5)
 gld,atc =~ '^A10'
-
+podiatrist_services,speciale =~ '^54' AND barnmak != 0
