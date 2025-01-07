@@ -40,5 +40,5 @@ jobs:
           git config --local user.name "$GITHUB_ACTOR"
           git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git add man/\* NAMESPACE DESCRIPTION
-          git commit -m "chore: :bento: Re-generated roxygen2 documentation" || echo "No changes to commit"
+          git commit -m "chore: :bento: re-generate roxygen2 documentation" || echo "No changes to commit"
           git push
