@@ -23,12 +23,12 @@ indicator for use in later functions.
 }
 }
 \description{
-#' Uses the \code{sysi} or \code{sssy} registers as input to extract the dates of all
+Uses the \code{sysi} or \code{sssy} registers as input to extract the dates of all
 diabetes-specific podiatrist services. Removes duplicate services on the
 same date. Only the two earliest dates per individual are kept.
 }
 \details{
-#' The output is passed to the \code{join_inclusions()} function for the final
+The output is passed to the \code{join_inclusions()} function for the final
 step of the inclusion process.
 }
 \examples{
