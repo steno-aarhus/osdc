@@ -135,7 +135,9 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
     sample(n, replace = TRUE)
 }
 
-#' Create a vector of random zero-padded integers.
+#' Create a vector of reproducible, random zero-padded integers.
+#'
+#' Generated integers of the same length are identical to facilitate joining by values in pnr, cpr, recnum and dw_ek_kontakt.
 #'
 #' @param n The number of integers to generate.
 #' @param length An integer determining the length of the padded integer.
@@ -145,6 +147,7 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #' @examples
 #' create_padded_integer(5, 10)
 create_padded_integer <- function(n, length) {
+  set.seed(length)
   purrr::map(1:length, \(ignore) sample(0:9, n, replace = TRUE)) |>
     purrr::reduce(\(integer1, integer2) paste(integer1, integer2, sep = "")) |>
     pad_integers(width = length)
