@@ -26,8 +26,13 @@ expected <- tibble::tribble(
   "A10123",
 ) |>
   dplyr::bind_cols(constants) |>
-  dplyr::rename(date = eksd) |>
-  dplyr::relocate(atc, .after = date)
+  dplyr::rename(date = eksd, indication_code = indo) |>
+  dplyr::mutate(
+    contained_doses = volume * apk,
+    has_gld_purchases = TRUE
+  ) |>
+  dplyr::select(-volume, -apk) |>
+  dplyr::relocate(pnr, date, atc, contained_doses, has_gld_purchases, indication_code)
 
 test_that("dataset needs expected variables", {
   actual <- lmdb[-2]

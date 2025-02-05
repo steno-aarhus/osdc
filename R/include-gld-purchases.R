@@ -20,15 +20,20 @@ include_gld_purchases <- function(lmdb) {
     column_names_to_lower() |>
     # Use !! to inject the expression into filter.
     dplyr::filter(!!criteria) |>
+    dplyr::mutate(
+      contained_doses = volume * apk,
+      # An indicator variable for later joins
+      has_gld_purchases = TRUE
+    ) |>
     # Keep only the columns we need.
     dplyr::select(
       "pnr",
       # Change to date to work with later functions.
       date = "eksd",
       "atc",
-      "volume",
-      "apk",
-      "indo",
+      "contained_doses",
+      "has_gld_purchases",
+      indication_code = "indo",
       "name",
       "vnr"
     )
