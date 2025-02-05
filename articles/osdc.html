@@ -122,8 +122,8 @@ status of an individual. This can be found in the dataset:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: danish_description &lt;chr&gt;, english_description &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Let’s convert that to a nicer format to show the list as a table.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">variable_description</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">register_name</span>, <span class="va">register_abbrev</span>, <span class="va">variable_name</span>, <span class="va">english_description</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">variable_description</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">register_name</span>, <span class="va">register_abbrev</span>, <span class="va">variable_name</span>, <span class="va">english_description</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
