@@ -8,13 +8,12 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tibble"), # Packages that your targets need for their tasks.
-  # format = "qs", # Optionally set the default storage format. qs is fast.
-  seed = 123 # Set a seed for reproducibility (needed for data simulation)
+  packages = c("tidyverse", "here", "lubridate", "fabricatr", "rvest"),
+  # Set a seed for reproducibility (needed for data simulation)
+  seed = 123
 )
 
 # Run the R scripts in the R/ folder with your custom functions:
-tar_source()
 source(here::here("data-raw/algorithm.R"))
 source(here::here("data-raw/variable-description.R"))
 source(here::here("data-raw/simulate-data.R"))

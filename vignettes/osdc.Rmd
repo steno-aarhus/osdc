@@ -49,7 +49,7 @@ variable_description
 Let's convert that to a nicer format to show the list as a table.
 
 ```{r}
-variable_description |> 
-  select(register_name, register_abbrev, variable_name, english_description) |> 
+variable_description |>
+  select(register_name, register_abbrev, variable_name, english_description) |>
   knitr::kable()
 ```

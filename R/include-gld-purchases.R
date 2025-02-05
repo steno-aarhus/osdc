@@ -33,8 +33,6 @@ include_gld_purchases <- function(lmdb) {
       "atc",
       "contained_doses",
       "has_gld_purchases",
-      indication_code = "indo",
-      "name",
-      "vnr"
+      indication_code = "indo"
     )
 }

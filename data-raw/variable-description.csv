@@ -8,8 +8,6 @@ Laegemiddelstatistikregisteret,lmdb,1995,NA,atc,ATC-kode (fuldt specificeret),AT
 Laegemiddelstatistikregisteret,lmdb,1995,NA,volume,antal standarddoser (DDD) i pakken,number of daily standard doses (DDD) in package,NA
 Laegemiddelstatistikregisteret,lmdb,1995,NA,apk,antal pakker koebt,number of packages purchased,NA
 Laegemiddelstatistikregisteret,lmdb,1995,NA,indo,indikationskode for recept,indication code,"the only used values are c(""0000092"", ""0000276"", ""0000781"")"
-Laegemiddelstatistikregisteret,lmdb,1995,NA,name,praeparatnavn,drug retail name,NA
-Laegemiddelstatistikregisteret,lmdb,1995,NA,vnr,varenummer,item code,NA
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,pnr,pseudonymiseret cpr-nummer,pseudonymised social security number,NA
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,recnum,kontakt id-nummer,record id number,NA
 Landspatientregisterets administrationstabel (LPR2),lpr_adm,1977,2018,d_inddto,indlaeggelsesdato (start paa kontakt),date of admission or initial contact,NA
