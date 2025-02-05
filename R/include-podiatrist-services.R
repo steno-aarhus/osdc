@@ -1,10 +1,10 @@
 #' Include diabetes-specific podiatrist services.
 #'
-#' #' Uses the `sysi` or `sssy` registers as input to extract the dates of all
+#' Uses the `sysi` or `sssy` registers as input to extract the dates of all
 #' diabetes-specific podiatrist services. Removes duplicate services on the
 #' same date. Only the two earliest dates per individual are kept.
 #'
-#' #' The output is passed to the `join_inclusions()` function for the final
+#' The output is passed to the `join_inclusions()` function for the final
 #' step of the inclusion process.
 #'
 #' @param sysi The SYSI register.
