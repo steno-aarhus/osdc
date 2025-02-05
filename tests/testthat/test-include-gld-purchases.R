@@ -3,9 +3,7 @@ constants <- tibble::tibble(
   eksd = "20210101",
   volume = 1.1,
   apk = 1.1,
-  indo = "324314324",
-  name = "random",
-  vnr = "123123"
+  indo = "324314324"
 )
 
 lmdb <- tibble::tribble(

@@ -52,7 +52,7 @@ include_gld_purchases <- function(lmdb) {
       date = "eksd",
       "atc",
       "contained_doses",
-      "indication_code" = "indo"
+      indication_code = "indo"
     ) |>
     dplyr::mutate(has_gld_purchases = TRUE)
 }
