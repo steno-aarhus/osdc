@@ -43,16 +43,155 @@ library(dplyr)
 library(osdc)
 ```
 
+#### Hospital diagnoses
+
+#### Joining LPR2 and LPR3 data
+
+The helper functions `join_lpr2()` and `join_lpr3()` join records of
+diagnoses to administrative information in LPR2-formatted and
+LPR3-formatted data, respectively.
+
+`join_lpr2()` takes `lpr_diag` and `lpr_adm` as inputs, filters to the
+necessary diagnoses (`c_diag` starting with "DO0[0-6]", "DO8[0-4]",
+"DZ3[37]", "DE1[0-4]", "249", or "250"), joins the required information
+by record number (`recnum`), and outputs a `data.frame` with the
+following variables:
+
+-   `pnr`: identifier variable
+-   `date`: date of the recorded diagnosis (renamed from `d_inddto`)
+-   `specialty`: department specialty (renamed from `c_spec`)
+-   `diagnosis_code`: diagnosis code (renamed from `c_diag`)
+-   `diagnosis_type`: diagnosis type (renamed from `c_diagtype`)
+
+`join_lpr3()` takes `diagnoser` and `kontakter` as inputs, filters to
+the necessary diagnoses (`diagnosekode` starting with "DO0[0-6]",
+"DO8[0-4]", "DZ3[37]" or "DE1[0-4]"), joins the required information by
+record number (`dw_ek_kontakt`), and outputs a `data.frame` with the
+following variables:
+
+-   `pnr`: identifier variable (renamed from `cpr`)
+-   `date`: date of the recorded diagnosis (renamed from `dato_start`)
+-   `specialty`: department specialty (renamed from `hovedspeciale_ans`)
+-   `diagnosis_code`: diagnosis code (renamed from `diagnosekode`)
+-   `diagnosis_type`: diagnosis type (renamed from `diagnosetype`)
+-   `diagnosis_retracted`: if the diagnosis was later retracted (renamed
+    from `senere_afkraeftet`)
+
+These outputs are passed to `include_diabetes_diagnoses()` (and to
+`get_pregnancy_dates()`, see exclusion events) for further processing
+below.
+
+#### Processing of diabetes diagnoses
+
+The function `include_diabetes_diagnoses()` uses the hospital contacts
+from LPR2 and LPR3 to include all dates of diabetes diagnoses to use for
+inclusion, as well as additional information needed to classify diabetes
+type. Diabetes diagnoses from both ICD-8 and ICD-10 are included.
+
+The function takes the outputs of `join_lpr2()` and `join_lpr3()` as
+inputs and processes each input separately to generate the following
+internal variables:
+
+-   From `join_lpr2`:
+    -   `pnr`: identifier variable
+    -   `date`: dates of all included diabetes diagnoses:
+    -   registered as primary (A) or secondary (B) diagnoses, regardless
+        of type or department:
+        -   Keep rows where `diagnosis` starts with "DE1[0-4]", "249" or
+            "250", and `diagnosis_type` is either "A" or "B"
+    -   `is_primary`: Define whether the diagnosis was a primary
+        diagnosis (`diagnosis_type` == "A")
+    -   `is_t1d`: Define whether the diagnosis was T1D-specific
+        (`diagnosis` starts with "DE10" or "249")
+    -   `is_t2d`: Define whether the diagnosis was T2D-specific
+        (`diagnosis` starts with "DE11" or "250")
+    -   `department`: Define whether the diagnosis was made made by an
+        endocrinological (if `specialty` == 8 then `department` ==
+        "endocrinology") or other medical department (if `specialty` \<
+        8 or 9-30 then `department` == "other medical")
+-   From `join_lpr3()`:
+    -   `pnr`: identifier variable
+    -   `date`: dates of all included diabetes diagnoses:
+    -   registered as primary (A) or secondary (B) diagnoses, regardless
+        of type or department, but exclude retracted diagnoses:
+        -   Keep rows where `diagnosis` starts with "DE1[0-4]",
+            `diagnosis_type` is either "A" or "B" and
+            `diagnosis_retracted` == "Nej"
+    -   `is_primary`: Define whether the diagnosis was a primary
+        diagnosis (`diagnosis_type` == "A")
+    -   `is_t1d`: Define whether the diagnosis was T1D-specific
+        (`diagnosis` starts with "DE10")
+    -   `is_t2d`: Define whether the diagnosis was T2D-specific
+        (`diagnosis` starts with "DE11")
+    -   `department`: Define whether the diagnosis was made made by an
+        endocrinological department (if `specialty` == "medicinsk
+        endokrinologi" then `department` == "endocrinology") or other
+        medical department (if `specialty` is any of "Blandet medicin og
+        kirurgi", "Intern medicin", "Geriatri", "Hepatologi",
+        "Hæmatologi", "Infektionsmedicin", "Kardiologi", "Medicinsk
+        allergologi", "Medicinsk gastroenterologi", "Medicinsk
+        lungesygdomme", "Nefrologi", "Reumatologi", "Palliativ medicin",
+        "Akut medicin", "Dermato-venerologi", "Neurologi", "Onkologi",
+        "Fysiurgi", or "Tropemedicin" then `department` == "other
+        medical")
+
+Internally, these intermediate results are combined and processed
+together. And ultimately, `include_diabetes_diagnoses()` outputs a
+single `data.frame` with the following variables (up to two rows per
+individual):
+
+-   `pnr`: identifier variable
+-   `dates`: dates of the first and second hospital diabetes diagnosis
+-   `n_t1d_endocrinology`: number of type 1 diabetes-specific primary
+    diagnosis codes from endocrinological departments
+-   `n_t2d_endocrinology`: number of type 2 diabetes-specific primary
+    diagnosis codes from endocrinological departments
+-   `n_t1d_medical`: number of type 1 diabetes-specific primary
+    diagnosis codes from medical departments
+-   `n_t2d_medical`: number of type 2 diabetes-specific primary
+    diagnosis codes from medical departments
+
+This output is passed to the `join_inclusions()` function, where the
+`dates` variable is used for the final step of the inclusion process.
+The variables of counts of diabetes type-specific primary diagnoses (the four columns prefixed `n_` above) are
+carried over for the subsequent classification of diabetes type,
+initially as inputs to the `get_t1d_primary_diagnosis()` and
+`get_majority_of_t1d_diagnoses()` functions.
+
+#### Diabetes-specific podiatrist services
+
+The function `include_podiatrist_services()` uses `sysi` or `sssy` as
+input to extract the dates of all diabetes-specific podiatrist services.
+
+These dates are extracted by filtering values beginning with "54" in the
+`speciale` variable of the `sssy` and `sysi` registers by default
+(alternatively, the function can take the `spec2` variable as input
+instead, if that is the data available to the user). In addition,
+services provided to a child of the individual (`barnmak` != 0) are
+excluded using the `barnmak` variable. An internal helper function
+`get_unique_honuge_dates()` is applied to generate a proper date
+variable based on the year-week (wwyy-formatted) variable (`honuge`)
+found in the raw data, and de-duplicates multiple services registered on
+the same date.
+
+`include_podiatrist_services()` outputs a 2-column data frame with up to
+two rows for each individual, containing the following variables:
+
+-   `pnr`: identifier variable
+-   `date`: the dates of the first and second diabetes-specific
+    podiatrist record
+
+The output is passed to the `join_inclusions()` function for the final
+step of the inclusion process.
+
 #### HbA1c tests above the diagnosis cut-off value (48 mmol/mol or 6.5%)
 
 The function `include_hba1c()` uses `lab_forsker` as the input data to
-extract all events of HbA1c tests above the diagnosis cut-off value.
+extract the dates of all elevated HbA1c test results, using the
+appropriate cut-offs:
 
-Since the HbA1c diagnosis cut-off value depends on the kind of test that
-is used, the inclusion event is defined as follows:
-
--   For HbA1c IFCC (NPU03835), we include values \>= 6.5 %.
--   For HbA1c DCCT (NPU27300), we include values \>= 48 mmol/mol.
+-   IFCC units: `analysiscode` NPU27300, any `value` $\geq$ 48 mmol/mol
+-   DCCT units: `analysiscode` NPU03835: any `value` $\geq$ 6.5% .
 
 ```{r, echo=FALSE}
 algorithm |>
@@ -60,96 +199,162 @@ algorithm |>
   knitr::kable(caption = "Algorithm used in the implementation for including HbA1c.")
 ```
 
-#### Hospital diagnosis of diabetes
+Multiple elevated results on the same day within each individual are
+deduplicated, to account for the same test result often being reported
+twice (one for IFCC, one for DCCT units).
 
-The function `include_diabetes_diagnoses()` uses the hospital contacts
-from LPR2 and 3 to include all dates of diabetes diagnoses. Diabetes
-diagnoses from both ICD 8 and ICD 10 are included.
+`include_hba1c()` outputs a 2-column data frame containing the following
+variables:
 
-This function contains two helper functions:
+-   `pnr`: identifier variable
+-   `dates`: the dates of all elevated HbA1c test results
 
--   `keep_diabetes_icd10()`
--   `keep_diabetes_icd8()`
-
-<!-- TODO: Add details on how this filtering should be done, e.g., diagnosis codes -->
-
-<!-- TODO: Which specific ICD 8 and 10 codes are included? -->
-
-#### Diabetes-specific podiatrist services
-
-The function `include_podiatrist_services()` uses `sysi` or `sssy` as
-input to extract the dates of all diabetes-specific podiatrist services.
-
-<!-- TODO: Add details on how this filtering should be done -->
+The output is passed to the `exclude_pregnancy()` function for censoring
+of elevated results due to potential gestational diabetes (see below).
 
 #### GLD purchases
 
 The function `include_gld_purchases()` uses `lmdb` to extract the dates
-of all GLD purchases (from 1997 onwards).
+of all GLD purchases.
 
-<!-- TODO: Add details on how this filtering should be done -->
+These dates are extracted by including all values beginning with "A10"
+in the `atc` variable of the `lmdb` register, except for
+glucose-lowering drugs that may be used for other conditions than
+diabetes: GLP-RAs (`atc` start with "A10BJ") or
+dapagliflozin/empagliflozin (`atc` = "A10BK01" or "A10BK03").
 
-<!-- TODO: Add this + link to resource "For details about this, see [link]." -->
+Since the diagnosis code data on pregnancies (see below) is insufficient
+to perform censoring prior to 1997, `include_gld_purchases()` only
+extracts dates from 1997 onward by default (if Medical Birth Register
+data is available to use for censoring, the extraction window can be
+extended).
+
+This function outputs a long `data.frame` (since all dates of purchases
+must be kept for later use in classifying diabetes type) with the
+following variables needed later in the classification part of the
+function flow:
+
+-   `pnr`: identifier variable
+-   `date`: dates of all purchases of GLD (renamed from `eksd`)
+-   `atc`: type of drug
+-   `contained_doses`: amount purchased, in number of defined daily
+    doses (DDD). Calculated as `volume` (doses contained in the
+    purchased package) times `apk` (number of packages purchased)
+-   `indication_code`: indication code of the prescription (renamed from
+    `indo`)
+
+These events are then passed to a chain of exclusion functions:
+`exclude_potential_pcos()` and `exclude_pregnancy()` described in the
+sections below.
 
 ### Exclusion events
 
+#### Metformin purchases potentially for the treatment of polycystic ovary syndrome
+
+The function `exclude_potential_pcos()` takes the output from
+`include_gld_purchases()` and `bef` (information on sex and date of
+birth) as inputs and censors (filters out) all purchases of metformin in
+women below age 40 at the date of purchase (`atc` = "A10BA02" & `sex` =
+"woman" & age at purchase (`date`-`date_of_birth`) \< 40 years) or an
+indication code suggesting the prescription was made for treatment of
+polycystic ovary syndrome (`atc` = "A10BA02" & `sex` = "woman" &
+`indication_code` either of "0000092", "0000276" or "0000781").
+
+This function only performs a filtering operation, and output retains
+the same structure and variables as the input passed from
+`include_gld_purchases()`. After these exclusions are made, the output
+is passed to `exclude_pregnancy()` for further censoring, described
+below.
+
 #### HbA1c tests and GLD purchases during pregnancy
 
-The function `exclude_pregnancy()` uses diagnoses from LPR2 or LPR3 as
-input and is used to exclude both HbA1c tests and GLD purchases during
-pregnancy.
+The function `exclude_pregnancy()` takes the combined outputs from
+`join_lpr2()`, `join_lpr3()`, `include_hba1c()`, and
+`exclude_potential_pcos()` and uses diagnoses from LPR2 or LPR3 to
+exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
+these may be due to gestational diabetes, rather than type 1 or type 2
+diabetes.
 
 Internally, this relies on the function `get_pregnancy_dates()` that
-contains the following three helper functions:
+uses diagnoses registered in LPR2 and LPR3 to extract
+the dates of all recorded pregnancy endings (live births and
+miscarriages). These are identified by `diagnosis` values beginning with
+"DO0[0-6]", "DO8[0-4]" or "DZ3[37]". The dates output by
+`get_pregnancy_dates()` are used to exclude all inclusion events
+registered between 40 weeks before and 12 weeks after a pregnancy
+ending.
 
--   `calculate_pregnancy_index_date_for_mc_visits_wo_end_date()` (this
-    might be removed with the inclusion of the birth register)
--   `get_pregnancy_end_dates()`: Keep maternal care visits with an end
-    date and drop visits between 40 weeks before end date and 12 weeks
-    after end date.
--   `get_maternal_care_visit_dates_without_end_date()`: Uses the output
-    from `get_pregnancy_end_dates()` which identifies maternal care
-    visits *with* end dates to derive maternal care visits *without* end
-    dates. below.
+After these exclusion functions have been applied, the output serves as
+inputs to two sets of functions:
 
-<!-- TODO: What is done with the mc visits without end dates then? -->
+1.  The censored HbA1c and GLD data are passed to the
+    `join_inclusions()` function for the final step of the inclusion
+    process.
+2.  the censored GLD data is passed to the
+    `get_only_insulin_purchases()`,
+    `get_insulin_purchases_within_180_days()`, and
+    `get_insulin_is_two_thirds_of_gld_doses()` helper functions for the
+    classification of diabetes type.
 
-<!-- TODO: Add details on how this filtering should be done -->
+### Join inclusion events
 
-#### Glucose-lowering brand drugs for weight loss
+The function `join_inclusions()` appends/row-binds the dates output from
+functions the process the four types of inclusion events by `pnr`. Thus,
+it takes as input the following variables output from the following
+functions:
 
-The function `exclude_wld_purchases()` uses lmdb as input and excludes
-the brand drugs Saxenda and Wegovy.
+-   From `include_diabetes_diagnoses()`:
+    -   `pnr`: identifier variable
+    -   `dates`: dates of the first and second hospital diabetes
+        diagnosis
+-   From `include_podiatrist_services()`
+    -   `pnr`: identifier variable
+    -   `dates`: the dates of the first and second diabetes-specific
+        podiatrist record
+-   From `exclude_pregnancy()`:
+    -   `pnr`: identifier variable
+    -   `dates`: the dates of the first and second elevated HbA1c test
+        results (after censoring)
+-   From `exclude_pregnancy()`:
+    -   `pnr`: identifier variable
+    -   `date`: dates of all purchases of GLD
+        -   The dates of the first and second purchase of GLD of each
+            individual are extracted from these and appended as two rows
+            to the ´dates´ variable.
 
-<!-- TODO: Add details on how this filtering should be done -->
-
-#### Metformin purchases for women below age 40
-
-The function `exclude_potential_pcos()` as input to exclude all
-purchases of metformin by women below age 40 (i.e., \<= 39 years old) at
-the date of purchase. It relies on `bef` as input.
-
-This function contains two helper functions:
-
--   `keep_women()`
--   `drop_age_40_below()`
-
-<!-- TODO: Add details on how this filtering should be done -->
+The output from the function is a `data.frame` containing two variables
+(`pnr` and `dates`) and 1 to 8 rows per ´pnr´. This output is passed to
+`get_diagnosis_date()`.
 
 ### Get diagnosis date
 
-The function `get_diagnosis_date()` combines the outputs from the
-inclusion and exclusion functions to get the final diagnosis date.
-Initially, it drops the first inclusion and exclusion events from the
-function outputs with the helper `drop_first_event()`, so that only
-those with two or more events are kept. This is then used to assign an
-initial diagnosis according to OSDC. Then, all the outputs are joined
-together with `join_diagnosis_dates()`.
+The function `get_inclusion_date()` takes the output from
+`join_inclusions()` and defines the final diagnosis date based on all
+the inclusion event types.
 
-Finally, the dates outside of the data coverage period are dropped with
-`drop_diagnosis_dates_outside_coverage()` to end with a final diagnosis
-date. For details on this censoring based on periods with insufficient
-data coverage, see the `vignette("design")`.
+First, the inputs are sorted by `dates` within each level of `pnr`, then
+the earliest value of `dates` is dropped, so that only those with two or
+more events are included. The date of inclusion, `raw_inclusion_date`,
+is then defined as the earliest value of `dates`in the remaining rows
+for each individual (effectively the date of the second recorded
+inclusion event). A third variable, `stable_inclusion_date`, is defined
+based on `raw_inclusion_date` (if `raw_inclusion_date` \< stable
+inclusion threshold (one year after medication data starts to contribute
+to inclusions. Default "31-12-1997"), then `stable_inclusion_date` is
+set to `NA`, else it is set to`raw_inclusion_date`). This variable
+serves to limit the included cohort to only individuals with valid date
+of inclusion (and thereby valid age at inclusion & duration of
+diabetes).
+
+`get_diagnosis_date()` outputs a `data.frame` with the following
+variables:
+
+-   `pnr`: identifier variable
+-   `raw_inclusion_date`: date of inclusion
+-   `stable_inclusion_date`: date of inclusion of valid incident cases
+
+This output is passed to the `get_diabetes_type()` function and used to
+classify the diabetes type as described below.
 
 ### Classifying the diabetes type
 
@@ -158,13 +363,106 @@ extracted diabetes population as having either T1D or T2D. As described
 in the `vignette("design")`, individuals not classified as T1D cases are
 classified as T2D cases.
 
-The output is a `data.frame` that includes one row per individual in the
-diabetes population: one column with their PNR, two columns with
-inclusion dates (one "stable" date and one "raw" date - see the
-`vignette("design")` for an elaboration on what that entails), and one
-column with the diabetes type.
+As the diabetes type classification incorporates an evaluation of the
+time from diagnosis/inclusion to first subsequent purchase of insulin,
+the `get_diabetes_type()` function has to take the date of diagnosis and
+all purchases of GLD drugs (after censoring) as inputs. In addition,
+information on diabetes type-specific primary diagnoses from hospitals
+is also a requirement.
 
-<!-- TODO: add a link to the specific section where this is described -->
+Thus, the function takes the following inputs from
+`get_diagnosis_date()`, `exclude_pregnancy()`, and
+`include_diabetes_diagnoses()`:
+
+-   From `get_diagnosis_date()`: Information on date of diagnosis of
+    diabetes
+    -   `pnr`
+    -   `raw_inclusion_date`
+    -   `stable_inclusion_date`
+-   From `exclude_pregnancy()`: Information on historic GLD purchases:
+    -   `pnr`: identifier variable
+    -   `date`: dates of all purchases of GLD.
+    -   `atc`: type of drug
+    -   `contained_doses`: defined daily doses of drug contained in
+        purchase
+-   From `include_diabetes_diagnoses()`: Information on diabetes
+    type-specific primary diagnoses from hospitals:
+    -   `pnr`: identifier variable
+    -   `n_t1d_endocrinology`: number of type 1 diabetes-specific
+        primary diagnosis codes from endocrinological departments
+    -   `n_t2d_endocrinology`: number of type 2 diabetes-specific
+        primary diagnosis codes from endocrinological departments
+    -   `n_t1d_medical`: number of type 1 diabetes-specific primary
+        diagnosis codes from medical departments
+    -   `n_t2d_medical`: number of type 2 diabetes-specific primary
+        diagnosis codes from medical departments
+
+For each `pnr` number, several helper functions are applied to these
+inputs to extract additional information from the censored GLD data and
+diagnoses to use for classification of diabetes type. All of these
+return a single value (`TRUE`, otherwise `FALSE`) for each individual:
+
+-   `get_only_insulin_purchases()`:
+    -   Inputs passed from `exclude_pregnancy()`:
+        -   `atc`
+    -   Outputs:
+        -   only_insulin_purchases = `TRUE` if no purchases with `atc`
+            starting with "A10A" are present
+-   `get_insulin_purchases_within_180_days()`
+    -   Inputs passed from `exclude_pregnancy()`:
+        -   `date` & `atc`
+    -   Inputs passed from `get_diagnosis_date()`:
+        -   `raw_inclusion_date`
+    -   Outputs: `TRUE` If any purchases with `atc` starting with "A10A"
+        have a `date` between 0 and 180 days higher than
+        `raw_inclusion_date`
+-   `get_insulin_is_two_thirds_of_gld_doses()`
+    -   Inputs passed from `exclude_pregnancy()`:
+        -   `contained_doses` & `atc`
+    -   Outputs: `TRUE` If the sum of `contained_doses` of rows of `atc`
+        starting with "A10A" (except "A10AE5") is at least twice the sum
+        of `contained_doses` of rows of `atc` starting with "A10B" or
+        "A10AE5"
+-   `get_any_t1d_primary_diagnoses()`:
+    -   Inputs passed from `include_diabetes_diagnoses()`:
+        -   `n_t1d_endocrinology` & `n_t1d_medical`
+    -   Outputs: `TRUE` if the combined sum of the inputs is 1 or above.
+-   `get_type_diagnoses_from_endocrinology()`:
+    -   Inputs passed from `include_diabetes_diagnoses()`:
+        -   `n_t1d_endocrinology`, `n_t2d_endocrinology`
+    -   Outputs: `type_diagnoses_from_endocrinology` = `TRUE` if the
+        combined sum of the inputs is 1 or above
+-   `get_type_diagnosis_majority()`:
+    -   Inputs passed from `include_diabetes_diagnoses()`:
+        -   `n_t1d_endocrinology`, `n_t2d_endocrinology`,
+            `n_t1d_medical` & `n_t2d_medical`
+    -   Inputs passed from `get_type_diagnoses_from_endocrinology()`:
+        -   `type_diagnoses_from_endocrinology`
+    -   Outputs: `TRUE` if `type_diagnoses_from_endocrinology` == `TRUE`
+        and `n_t1d_endocrinology` is above `n_t2d_endocrinology`. Also
+        `TRUE` if `type_diagnoses_from_endocrinology` = `FALSE` and
+        `n_t1d_medical` is above `n_t2d_medical`
+
+`get_diabetes_type()` evaluates all the outputs from the helper
+functions to define diabetes type for each individual. Diabetes type is
+classified as "T1D" if:
+
+-   `only_insulin_purchases` == `TRUE` & `any_t1d_primary_diagnoses` ==
+    `TRUE`
+-   Or `only_insulin_purchases` == `FALSE` & `any_t1d_primary_diagnoses`
+    == `TRUE` & `type_diagnosis_majority` == `TRUE` &
+    `insulin_is_two_thirds_of_gld_doses` == `TRUE` &
+    `insulin_purchases_within_180_days` == `TRUE`
+
+`get_diabetes_type()` returns a `data.frame` with one row per `pnr`
+number and four columns: `pnr`, `stable_inclusion_date`,
+`raw_inclusion_date` & `diabetes_type`. This is the final product of the
+OSDC algorithm. See the `vignette("design")` for an more detail on the
+two inclusion dates and their intended use-cases.
+
+<!-- TODO: Create updated image similar to https://aastedet.github.io/dissertation/4-results.html#fig-osdc-type-flow to reflect the new diabetes type logic and embed image here for reference-->
+
+<!-- TODO:  The following explanatory sections on T1D and T2D classification need to be aligned with the technical sections above, and possibly moved up to them-->
 
 ![Flow of functions for classifying diabetes status using the `osdc`
 package.](images/function-flow-classification.svg)
@@ -179,8 +477,8 @@ OSDC algorithm includes the following criteria:
     diagnoses extracted from `lpr_diag` (LPR2) and `diagnoser` (LPR3) in
     the previous steps.
 2.  `get_only_insulin_purchases()` which relies on the GLD purchases
-    from Lægemiddelsdatabasen to get patients where all GLD purchases
-    are insulin only.
+    from Lægemiddeldatabasen to get patients where all GLD purchases are
+    insulin only.
 3.  `get_majority_of_t1d_diagnoses()` (as compared to T2D diagnoses)
     which again relies on primary hospital diagnoses from LPR.
 4.  `get_insulin_purchase_within_180_days()` which relies on both

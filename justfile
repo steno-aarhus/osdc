@@ -2,12 +2,21 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: install-package-dependencies document run-targets spell-check style lint test build-website check install-package
+run-all: clean install-package-dependencies document run-targets spell-check style test build-website check install-package
+
+# Clean up auto-generated files
+clean:
+  #!/usr/bin/Rscript
+  devtools::clean_vignettes()
+  pkgdown::clean_site()
 
 # Install package dependencies
 install-package-dependencies:
   #!/usr/bin/Rscript
-  pak::pak(ask = FALSE)
+  pak::pak(
+    dependencies = c("all", "Config/Needs/data"),
+    ask = FALSE
+  )
 
 # Run document generators
 document:
@@ -38,11 +47,6 @@ url-check:
 style:
   #!/usr/bin/Rscript
   styler::style_pkg()
-
-# Run the linter to check for things not caught by styler
-lint:
-  #!/usr/bin/Rscript
-  devtools::lint()
 
 # Build the pkgdown website
 build-website:
