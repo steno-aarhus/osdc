@@ -1,11 +1,5 @@
-# Script to generate simulated data for tests and examples
-
-# Load required libraries
-library(tidyverse)
-library(here)
-library(lubridate)
-library(fabricatr)
-library(rvest)
+# Functions to generate simulated data for tests and examples.
+# Use `targets::tar_make()` to regenerate the simulated data.
 
 # Get ICD-8 codes -----------------------------------------------------------
 
@@ -192,23 +186,6 @@ create_fake_hovedspeciale_ans <- function(n) {
     sample(n, replace = TRUE)
 }
 
-#' Create a vector of drug names based on a vector of ATC codes
-#'
-#' @param atc A character describing an ATC code.
-#'
-#' @return A character vector with the drug name of the given ATC code.
-#'
-#' @examples
-#' create_fake_drug_name("A03FA05")
-#' create_fake_drug_name(c("A03FA05", "A02BA04"))
-create_fake_drug_name <- function(atc) {
-  codeCollection::ATCKoodit |>
-    tibble::as_tibble() |>
-    dplyr::filter(Koodi %in% atc) |>
-    dplyr::pull(en) |>
-    sample(length(atc), replace = TRUE)
-}
-
 #' Transform date(s) to the format yyww
 #'
 #' @param x A date or a vector of dates.
@@ -301,44 +278,16 @@ insert_specific_atc <- function(data, proportion = 0.3) {
 #' @param data A tibble.
 #' @param proportion Proportion to resample. Defaults to 0.05.
 #'
-#' @return A tibble. If all column names in the tibble is either 'atc' or
-#' 'name', a proportion of observations is resampled as metmorfin.
+#' @return A tibble. If all column names in the tibble is either 'atc',
+#' a proportion of observations is resampled as metmorfin.
 insert_false_metformin <- function(data, proportion = 0.05) {
-  if (all(c("atc", "name", "indo") %in% colnames(data))) {
+  if (all(c("atc", "indo") %in% colnames(data))) {
     data |>
       dplyr::mutate(
         atc = dplyr::if_else(
           indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
           "A10BA02",
           atc
-        ),
-        name = dplyr::if_else(
-          indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
-          "metformin",
-          name
-        )
-      )
-  } else {
-    data
-  }
-}
-
-# Insert false positives for Wegovy and Saxenda
-#'
-#' @param data A tibble.
-#' @param proportion Proportion to resample. Defaults to 0.05.
-#'
-#' @return A tibble. If all column names in the tibble is either 'atc' or 'name'
-#' and the atc is a A10BJ06 or A10BJ02, a proportion of observations is resampled
-#' to have the name Wegovy Flextouch or Saxenda.
-insert_false_drug_names <- function(data, proportion = 0.05) {
-  if (all(c("atc", "name") %in% colnames(data))) {
-    data |>
-      mutate(
-        name = case_when(
-          atc == "A10BJ06" & insertion_rate(proportion) ~ "Wegovy Flextouch",
-          atc == "A10BJ02" & insertion_rate(proportion) ~ "Saxenda",
-          TRUE ~ name
         )
       )
   } else {
@@ -365,22 +314,6 @@ insert_analysiscode <- function(data, proportion = 0.3) {
           sample(c("NPU27300", "NPU03835"), dplyr::n(), replace = TRUE),
           column
         )
-      )
-    )
-}
-
-#' Add drug names (from ATC codes)
-#'
-#' @param data A tibble.
-#'
-#' @return A tibble. For columns named "name", a fake drug name (atc) will be
-#' added.
-add_fake_drug_name <- function(data) {
-  data |>
-    mutate(
-      across(
-        matches("^name$"),
-        \(x) create_fake_drug_name(atc = atc)
       )
     )
 }
@@ -427,8 +360,6 @@ create_simulated_data <- function(path) {
   register_data <- simulation_definitions_list |>
     map(\(data) simulate_data(data, n = 1000)) |>
     map(insert_specific_atc) |>
-    map(add_fake_drug_name) |>
-    map(insert_false_drug_names) |>
     map(insert_false_metformin) |>
     map(insert_analysiscode) |>
     # add the register abbreviations as a name to the list
