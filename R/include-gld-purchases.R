@@ -28,8 +28,6 @@ include_gld_purchases <- function(lmdb) {
       "atc",
       "volume",
       "apk",
-      "indo",
-      "name",
-      "vnr"
+      "indo"
     )
 }

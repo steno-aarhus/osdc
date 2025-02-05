@@ -8,8 +8,6 @@ lmdb,eksd,date,YYYYMMDD,"to_yyyymmdd(create_fake_date(N, from = ""1995-01-01""))
 lmdb,atc,string,7 digits,create_fake_atc(N),"""^A10"" is glucose-lowering medications",
 lmdb,apk,integer,standard,"runif(N, 1, 10)",,
 lmdb,indo,string,blank or 7 digits zero-padded,"create_padded_integer(N, 7)",refer to the KAT classification,"the only used values are ""0000092"", ""0000276"", ""0000781"""
-lmdb,name,string,natural language,,,"Need to run create_fake_drug_name() afterwards, since it depends on atc"
-lmdb,vnr,string,6 digits zero-padded,"create_padded_integer(N, 6)",,
 lpr_adm,c_spec,string,2 digits zero-padded,"create_padded_integer(N, 2)",,c_blok is derived from c_spec
 lpr_adm,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
 lpr_adm,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",,
