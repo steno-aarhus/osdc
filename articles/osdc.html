@@ -105,7 +105,7 @@ different registers that are needed in order to classify the diabetes
 status of an individual. This can be found in the dataset:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">variable_description</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 38 × 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 36 × 7</span></span></span>
 <span><span class="co">#&gt;    register_name               register_abbrev variable_name start_year end_year</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> CPR-registerets befolkning… bef             pnr                 <span style="text-decoration: underline;">1</span>968       <span style="color: #BB0000;">NA</span></span></span>
@@ -117,8 +117,8 @@ status of an individual. This can be found in the dataset:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Laegemiddelstatistikregist… lmdb            volume              <span style="text-decoration: underline;">1</span>995       <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Laegemiddelstatistikregist… lmdb            apk                 <span style="text-decoration: underline;">1</span>995       <span style="color: #BB0000;">NA</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Laegemiddelstatistikregist… lmdb            indo                <span style="text-decoration: underline;">1</span>995       <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Laegemiddelstatistikregist… lmdb            name                <span style="text-decoration: underline;">1</span>995       <span style="color: #BB0000;">NA</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 28 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Landspatientregisterets ad… lpr_adm         pnr                 <span style="text-decoration: underline;">1</span>977     <span style="text-decoration: underline;">2</span>018</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 26 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: danish_description &lt;chr&gt;, english_description &lt;chr&gt;</span></span></span></code></pre></div>
 <p>Let’s convert that to a nicer format to show the list as a table.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -192,18 +192,6 @@ status of an individual. This can be found in the dataset:</p>
 <td align="left">lmdb</td>
 <td align="left">indo</td>
 <td align="left">indication code</td>
-</tr>
-<tr class="even">
-<td align="left">Laegemiddelstatistikregisteret</td>
-<td align="left">lmdb</td>
-<td align="left">name</td>
-<td align="left">drug retail name</td>
-</tr>
-<tr class="odd">
-<td align="left">Laegemiddelstatistikregisteret</td>
-<td align="left">lmdb</td>
-<td align="left">vnr</td>
-<td align="left">item code</td>
 </tr>
 <tr class="even">
 <td align="left">Landspatientregisterets administrationstabel
