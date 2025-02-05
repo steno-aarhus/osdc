@@ -42,7 +42,7 @@ register_data$lmdb |> include_gld_purchases()
 }
 }
 \seealso{
-See the \code{vignette("alogrithm")} and \link{algorithm} for the logic used
+See the \code{vignette("algorithm")} and \link{algorithm} for the logic used
 to filter these patients.
 }
 \keyword{internal}

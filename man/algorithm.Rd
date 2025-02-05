@@ -23,7 +23,7 @@ This data frame contains the logic details of the algorithm for specific
 inclusion and exclusion criteria.
 }
 \seealso{
-See the \code{vignette("alogrithm")} and \link{algorithm} for the logic used
+See the \code{vignette("algorithm")} and \link{algorithm} for the logic used
 to filter these patients.
 }
 \keyword{datasets}
