@@ -21,7 +21,7 @@ include_gld_purchases <- function(lmdb) {
     # Use !! to inject the expression into filter.
     dplyr::filter(!!criteria) |>
     dplyr::mutate(
-      contained_doses = volume * apk,
+      contained_doses = .data$volume * .data$apk,
       # An indicator variable for later joins
       has_gld_purchases = TRUE
     ) |>
