@@ -29,12 +29,12 @@ include_diabetes_diagnoses <- function(lpr_diag, lpr_adm, diagnoser, kontakter) 
   verify_required_variables(register_data$kontakter, "kontakter")
 
   # Filter and join LPR2 data:
-  lpr2_criteria <- get_algorithm_logic("lpr2_diabetes", algorithm_logic = algorithm_logic) |>
+  lpr2_criteria <- get_algorithm_logic("lpr2_diabetes") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
 
   # Filter to diabetes diagnoses using expression filter.
-  lpr2_diabetes_diagnoses <- lpr2_diag |>
+  lpr2_diabetes_diagnoses <- lpr_diag |>
     column_names_to_lower() |>
     dplyr::filter(!!lpr2_criteria)
 
@@ -56,7 +56,7 @@ include_diabetes_diagnoses <- function(lpr_diag, lpr_adm, diagnoser, kontakter) 
   )
 
   # Filter and join LPR3 data:
-  lpr3_criteria <- get_algorithm_logic("lpr3_diabetes", algorithm_logic = algorithm_logic) |>
+  lpr3_criteria <- get_algorithm_logic("lpr3_diabetes") |>
     rlang::parse_expr()
 
   # Filter to diabetes diagnoses using expression filter.
@@ -83,25 +83,47 @@ include_diabetes_diagnoses <- function(lpr_diag, lpr_adm, diagnoser, kontakter) 
     .keep = "none"
   )
 
-# Combine lpr2 and lpr 3 and compute necessary variables by pnr before slicing to inclusion dates
+  # Combine lpr2 and lpr 3 and compute necessary variables by pnr before slicing to inclusion dates
 
   lpr_diabetes <- rbind(lpr2_diabetes, lpr3_diabetes) |>
     dplyr::group_by(.data$pnr) |>
-    dplyr::mutate(n_t1d_endocrinology = sum(is_t1d, is_primary, department == 'endocrinology', na.rm = TRUE),
-                  n_t2d_endocrinology = sum(is_t2d, is_primary, department == 'endocrinology', na.rm = TRUE),
-                  n_t1d_medical = sum(is_t1d, is_primary, department == 'other medical', na.rm = TRUE),
-                  n_t2d_medical = sum(is_t2d, is_primary, department == 'other medical', na.rm = TRUE)) |>
+    dplyr::mutate(
+      n_t1d_endocrinology = sum(
+        (is_t1d == TRUE) &
+          (is_primary == TRUE) & (department == 'endocrinology'),
+        na.rm = TRUE
+      ),
+      n_t2d_endocrinology = sum(
+        (is_t2d == TRUE) &
+          (is_primary == TRUE) & (department == 'endocrinology'),
+        na.rm = TRUE
+      ),
+      n_t1d_medical = sum(
+        (is_t1d == TRUE) &
+          (is_primary == TRUE) & (department == 'other medical'),
+        na.rm = TRUE
+      ),
+      n_t2d_medical = sum(
+        (is_t2d == TRUE) &
+          (is_primary == TRUE) & (department == 'other medical'),
+        na.rm = TRUE
+      )
+    ) |>
     # Keep earliest two dates.
     dplyr::filter(dplyr::row_number(date) %in% 1:2) |>
-      dplyr::mutate(pnr,
-                    date,
-                    any_t1d_primary_diagnosis = sum(n_t1d_endocrinology, n_t1d_medical) >= 1,
-                    majority_t1d_primary_diagnoses = get_majority_of_t1d_diagnoses(
-                      n_t1d_endocrinology, n_t2d_endocrinology, n_t1d_medical, n_t2d_medical
-                    ),
-                    .keep = "none"
-      ) |>
-      dplyr::ungroup()
+    dplyr::mutate(
+      pnr,
+      date,
+      any_t1d_primary_diagnosis = sum(n_t1d_endocrinology, n_t1d_medical, na.rm = TRUE) >= 1,
+      majority_t1d_primary_diagnoses = get_majority_of_t1d_diagnoses(
+        n_t1d_endocrinology,
+        n_t2d_endocrinology,
+        n_t1d_medical,
+        n_t2d_medical
+      ),
+      .keep = "none"
+    ) |>
+    dplyr::arrange(.data$pnr)
 
   return(lpr_diabetes)
 
