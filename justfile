@@ -14,7 +14,11 @@ clean:
 install-package-dependencies:
   #!/usr/bin/Rscript
   pak::pak(
-    dependencies = c("all", "Config/Needs/data"),
+    dependencies = c(
+      "all", 
+      "Config/Needs/data", 
+      "Config/Needs/website"
+    ),
     ask = FALSE
   )
 
