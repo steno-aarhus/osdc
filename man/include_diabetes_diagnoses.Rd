@@ -2,9 +2,9 @@
 % Please edit documentation in R/include-diabetes-diagnoses.R
 \name{include_diabetes_diagnoses}
 \alias{include_diabetes_diagnoses}
-\title{Include ICD-8 and ICD-10 codes of diabetes from hospital contacts for inclusion and type-specification.}
+\title{Include ICD-8 and ICD-10 Codes for Diabetes Diagnosis and Type-Specific Classification}
 \usage{
-include_diabetes_diagnoses(lpr2_diag, lpr2_adm, lpr3_diagnoser, lpr3_kontakter)
+include_diabetes_diagnoses(lpr_diag, lpr_adm, diagnoser, kontakter)
 }
 \arguments{
 \item{lpr_diag}{The diagnosis table from LPR2}
@@ -16,21 +16,19 @@ include_diabetes_diagnoses(lpr2_diag, lpr2_adm, lpr3_diagnoser, lpr3_kontakter)
 \item{kontakter}{The contacts table from LPR3}
 }
 \value{
-An object of the same input type, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
-with six columns and up to two rows per unique \code{pnr} value):
+A tibble with the following columns:
 \itemize{
-\item \code{pnr}: identifier variable
-\item \code{dates}: dates of the first and second hospital diabetes diagnosis
-\item \code{n_t1d_endocrinology}: number of type 1 diabetes-specific primary diagnosis codes from endocrinological departments
-\item \code{n_t2d_endocrinology}: number of type 2 diabetes-specific primary diagnosis codes from endocrinological departments
-\item \code{n_t1d_medical}: number of type 1 diabetes-specific primary diagnosis codes from medical departments
-\item \code{n_t2d_medical}: number of type 2 diabetes-specific primary diagnosis codes from medical departments
-This output is passed to the \code{join_inclusions()} function, where the \code{dates} variable is used for the final step of the inclusion process.
-The variables of counts of diabetes type-specific primary diagnoses (the four columns prefixed \code{n_} above) are carried over for the subsequent classification of diabetes type, initially as inputs to the \code{get_t1d_primary_diagnosis()} and \code{get_majority_of_t1d_diagnoses()} functions..
+\item \code{pnr}: Identifier variable (unique to individuals).
+\item \code{date}: Dates of the first and second hospital diabetes diagnoses.
+\item \code{any_t1d_primary_diagnosis}: Logical value indicating whether an individual has at least one type 1 diabetes-specific primary diagnosis code from either an endocrinological or other medical department.
+\item \code{majority_t1d_primary_diagnoses}: Logical value indicating whether an individual has a majority of type 1 diabetes-specific primary diagnoses among all type-specific primary diagnoses recorded in endocrinological departments (or among diagnoses from other medical departments if no endocrinological contacts are recorded).
 }
+
+The output is passed to \code{join_inclusions()}, where the \code{date} variable is used to define the inclusion date.
+The variables \code{any_t1d_primary_diagnosis} and \code{majority_t1d_primary_diagnoses} are subsequently passed to \code{get_diabetes_type()} for final classification of diabetes type.
 }
 \description{
-This function calls \code{join_lpr2()} and \code{join_lpr3()} and processes their output for inclusion, as well as additional information needed to classify diabetes type.
+This function processes hospital contact data by combining outputs from \code{join_lpr2()} and \code{join_lpr3()} to identify diabetes-related diagnoses, evaluate inclusion criteria, and compute variables for type-specific classification.
 }
 \examples{
 \dontrun{
