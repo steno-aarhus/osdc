@@ -16,9 +16,11 @@ Date(s) in the format YYYY-MM-DD.
 Since the exact date isn't given in the input, this function will set the
 date to Monday of the week. As a precaution, a leading zero is added if it
 has been removed. This can e.g., happen if the input was "0107" and has been
-converted to a numeric 107.
+converted to a numeric 107. We need to export this function so that it can
+be found when using Arrow to process the data.
 }
 \examples{
+\dontrun{
 yyww_to_yyyymmdd("0101")
 yyww_to_yyyymmdd("2402")
 yyww_to_yyyymmdd("2453")
@@ -27,4 +29,4 @@ yyww_to_yyyymmdd(c("0100", "0353"))
 yyww_to_yyyymmdd(c("0953", "0701"))
 yyww_to_yyyymmdd(953)
 }
-\keyword{internal}
+}
