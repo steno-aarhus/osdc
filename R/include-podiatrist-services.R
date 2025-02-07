@@ -33,15 +33,22 @@ include_podiatrist_services <- function(sysi, sssy) {
     # To convert the string into an R expression.
     rlang::parse_expr()
 
-  column_names_to_lower(sysi) |>
+  sysi |>
+    column_names_to_lower() |>
     dplyr::full_join(column_names_to_lower(sssy),
-      by = dplyr::join_by(pnr, barnmak, speciale, honuge)
+      by = dplyr::join_by("pnr", "barnmak", "speciale", "honuge")
     ) |>
-    # filter based algorithm logic
+    # Both of these need to be converted to correct format in order for
+    # Arrow to correctly filter them later.
+    dplyr::mutate(
+      speciale = as.character(.data$speciale),
+      barnmak = as.integer(.data$barnmak)
+    ) |>
+    # Filter based algorithm logic.
     dplyr::filter(!!criteria) |>
-    # remove duplicates
+    # Remove duplicates
     dplyr::distinct() |>
-    # keep only the two columns we need and transform `honuge` to date
+    # Keep only the two columns we need and transform `honuge` to YYYY-MM-DD.
     dplyr::mutate(
       pnr = .data$pnr,
       date = yyww_to_yyyymmdd(.data$honuge),
@@ -49,9 +56,9 @@ include_podiatrist_services <- function(sysi, sssy) {
     ) |>
     # FIXME: This might be computationally intensive.
     dplyr::group_by(.data$pnr) |>
-    # keep earliest two dates per individual
+    # Keep earliest two dates per individual.
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2) |>
     dplyr::ungroup() |>
-  # create Boolean helper variable
-  dplyr::mutate(has_podiatrist_services = TRUE)
+    # Create an indicator variable for later use.
+    dplyr::mutate(has_podiatrist_services = TRUE)
 }

@@ -18,11 +18,10 @@ sssy <- tibble::tribble(
 
 expected <- tibble::tribble(
   ~pnr, ~date, ~has_podiatrist_services,
-  2000000000, lubridate::ymd("1992-02-10"),TRUE,
-  3000000000, lubridate::ymd("2007-12-24"),TRUE,
-  3000000000, lubridate::ymd("2008-07-21"),TRUE
+  2000000000, lubridate::ymd("1992-02-10"), TRUE,
+  3000000000, lubridate::ymd("2007-12-24"), TRUE,
+  3000000000, lubridate::ymd("2008-07-21"), TRUE
 )
-
 
 test_that("sysi needs expected variables", {
   sysi <- sysi[-2]
@@ -66,14 +65,15 @@ test_that("verification works for DuckDB Database", {
 })
 
 test_that("verification works for Arrow Tables (from Parquet)", {
-  # FIXME: This test fails because of some issue with the criteria and colnames
-  skip()
   skip_on_cran()
   skip_if_not_installed("arrow")
 
   sysi <- arrow::as_arrow_table(sysi)
   sssy <- arrow::as_arrow_table(sssy)
-  actual <- include_podiatrist_services(sysi, sssy)
+  # Unfortunately, when we convert to YYYY-MM-DD, Arrow can't seem to handle
+  # the code, so it has to pull it into R. Which is less than ideal, but this is
+  # a small edge case that we may have to consider/figure out later.
+  actual <- suppressWarnings(include_podiatrist_services(sysi, sssy))
 
   actual_rows <- actual |>
     dplyr::count() |>
