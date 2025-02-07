@@ -1,5 +1,5 @@
 # Test: Majority is determined from endocrinology when counts are available
-test_that("Error in determining majority from endocrinology when counts are available", {
+test_that("Error in determining majority from endocrinology when type-specific diagnoses from endocrinology are available", {
   expect_equal(
     get_majority_of_t1d_diagnoses(n_t1d_endocrinology = 3, n_t2d_endocrinology = 2,
                                   n_t1d_medical = 5, n_t2d_medical = 10),
@@ -14,7 +14,7 @@ test_that("Error in determining majority from endocrinology when counts are avai
 })
 
 # Test: Majority is determined from medical departments when endocrinology is unavailable
-test_that("Error in determining majority from medical departments when endocrinology is unavailable", {
+test_that("Error in determining majority from medical departments when type-specific diagnoses from endocrinology are unavailable", {
   expect_equal(
     get_majority_of_t1d_diagnoses(n_t1d_endocrinology = 0, n_t2d_endocrinology = 0,
                                   n_t1d_medical = 8, n_t2d_medical = 4),
@@ -43,8 +43,8 @@ test_that("Error when counts are equal between type 1 and type 2 diagnoses", {
   )
 })
 
-# Test: All counts are zero (edge case)
-test_that("Error when all counts are zero", {
+# Test: All counts are zero
+test_that("Error when all counts are zero (should return FALSE)", {
   expect_equal(
     get_majority_of_t1d_diagnoses(n_t1d_endocrinology = 0, n_t2d_endocrinology = 0,
                                   n_t1d_medical = 0, n_t2d_medical = 0),
@@ -77,7 +77,7 @@ test_that("Error when mixed NA values are present in counts", {
 })
 
 # Test: Non-positive counts (extreme case, can't see this happening)
-test_that("Error when non-positive counts are provided", {
+test_that("Error when non-positive counts are provided (what did you do to get here?)", {
   expect_equal(
     get_majority_of_t1d_diagnoses(n_t1d_endocrinology = -1, n_t2d_endocrinology = -2,
                                   n_t1d_medical = 0, n_t2d_medical = 0),

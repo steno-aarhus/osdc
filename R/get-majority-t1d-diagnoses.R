@@ -29,12 +29,19 @@
 #'   dplyr::ungroup()
 #'
 #' @seealso [dplyr::case_when()] for condition handling.
-get_majority_of_t1d_diagnoses <- function(n_t1d_endocrinology, n_t2d_endocrinology, n_t1d_medical, n_t2d_medical) {
+get_majority_of_t1d_diagnoses <- function(n_t1d_endocrinology,
+                                          n_t2d_endocrinology,
+                                          n_t1d_medical,
+                                          n_t2d_medical) {
   # Not sure how to go about verify_required_variables() here, or if we needed since the variables have already been verified previously in the pipeline
 
-    dplyr::case_when(
-      sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) > 0 ~ n_t1d_endocrinology > n_t2d_endocrinology,
-      sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) == 0 ~ n_t1d_medical > n_t2d_medical,
-      .default = FALSE
-    )
-  }
+  dplyr::case_when(
+    sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) > 0 ~
+      dplyr::coalesce(n_t1d_endocrinology, 0) > dplyr::coalesce(n_t2d_endocrinology, 0),
+    # coalesce() is used to handle NAs when evaluating the right-hand side of the expression by returning those as zero
+
+    sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) <= 0 ~
+      dplyr::coalesce(n_t1d_medical, 0) > dplyr::coalesce(n_t2d_medical, 0),
+    .default = FALSE
+  )
+}
