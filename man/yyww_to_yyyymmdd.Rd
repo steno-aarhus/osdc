@@ -7,24 +7,24 @@
 yyww_to_yyyymmdd(yyww)
 }
 \arguments{
-\item{yyww}{Character(s) of the format yyww}
+\item{yyww}{Character(s) of the format YYWW.}
 }
 \value{
 Date(s) in the format YYYY-MM-DD.
 }
 \description{
 Since the exact date isn't given in the input, this function will set the
-date to Monday of the week.
-}
-\details{
-As a precaution, a leading zero is added if it has been removed
-This can e.g., happen if the input was "0107" and has been converted to a
-numeric 107.
+date to Monday of the week. As a precaution, a leading zero is added if it
+has been removed. This can e.g., happen if the input was "0107" and has been
+converted to a numeric 107.
 }
 \examples{
-\dontrun{
-yyww_to_yyyymmdd("0102")
+yyww_to_yyyymmdd("0101")
+yyww_to_yyyymmdd("2402")
+yyww_to_yyyymmdd("2453")
 yyww_to_yyyymmdd(c("0102", "0304"))
-}
+yyww_to_yyyymmdd(c("0100", "0353"))
+yyww_to_yyyymmdd(c("0953", "0701"))
+yyww_to_yyyymmdd(953)
 }
 \keyword{internal}
