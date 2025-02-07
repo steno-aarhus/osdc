@@ -1,33 +1,32 @@
-#' Include ICD-8 and ICD-10 codes of diabetes from hospital contacts for inclusion and type-specification.
+#' Include ICD-8 and ICD-10 Codes for Diabetes Diagnosis and Type-Specific Classification
 #'
-#' This function calls `join_lpr2()` and `join_lpr3()` and processes their output for inclusion, as well as additional information needed to classify diabetes type.
+#' This function processes hospital contact data by combining outputs from `join_lpr2()` and `join_lpr3()` to identify diabetes-related diagnoses, evaluate inclusion criteria, and compute variables for type-specific classification.
 #'
 #' @param lpr_diag The diagnosis table from LPR2
 #' @param lpr_adm The admission table from LPR2
 #' @param diagnoser The diagnosis table from LPR3
 #' @param kontakter The contacts table from LPR3
 #'
-#' @return An object of the same input type, default as a [tibble::tibble()],
-#'   with six columns and up to two rows per unique `pnr` value):
-#'  -   `pnr`: identifier variable
-#'  -   `dates`: dates of the first and second hospital diabetes diagnosis
-#'  -   `n_t1d_endocrinology`: number of type 1 diabetes-specific primary diagnosis codes from endocrinological departments
-#'  -   `n_t2d_endocrinology`: number of type 2 diabetes-specific primary diagnosis codes from endocrinological departments
-#'  -   `n_t1d_medical`: number of type 1 diabetes-specific primary diagnosis codes from medical departments
-#'  -   `n_t2d_medical`: number of type 2 diabetes-specific primary diagnosis codes from medical departments
-#' This output is passed to the `join_inclusions()` function, where the `dates` variable is used for the final step of the inclusion process.
-#' The variables of counts of diabetes type-specific primary diagnoses (the four columns prefixed `n_` above) are carried over for the subsequent classification of diabetes type, initially as inputs to the `get_t1d_primary_diagnosis()` and `get_majority_of_t1d_diagnoses()` functions..
+#' @return A tibble with the following columns:
+#' - `pnr`: Identifier variable (unique to individuals).
+#' - `date`: Dates of the first and second hospital diabetes diagnoses.
+#' - `any_t1d_primary_diagnosis`: Logical value indicating whether an individual has at least one type 1 diabetes-specific primary diagnosis code from either an endocrinological or other medical department.
+#' - `majority_t1d_primary_diagnoses`: Logical value indicating whether an individual has a majority of type 1 diabetes-specific primary diagnoses among all type-specific primary diagnoses recorded in endocrinological departments (or among diagnoses from other medical departments if no endocrinological contacts are recorded).
+#'
+#' The output is passed to `join_inclusions()`, where the `date` variable is used to define the inclusion date.
+#' The variables `any_t1d_primary_diagnosis` and `majority_t1d_primary_diagnoses` are subsequently passed to `get_diabetes_type()` for final classification of diabetes type.
+#'
 #' @keywords internal
 #'
 #' @examples
 #' \dontrun{
 #' include_diabetes_diagnoses(lpr_diag, lpr_adm, diagnoser, kontakter)
 #' }
-include_diabetes_diagnoses <- function(lpr2_diag, lpr2_adm, lpr3_diagnoser, lpr3_kontakter) {
-  verify_required_variables(register_data$lpr_diag, "lpr2_diag")
-  verify_required_variables(register_data$lpr_adm, "lpr2_adm")
-  verify_required_variables(register_data$diagnoser, "lpr3_diagnoser")
-  verify_required_variables(register_data$kontakter, "lpr3_kontakter")
+include_diabetes_diagnoses <- function(lpr_diag, lpr_adm, diagnoser, kontakter) {
+  verify_required_variables(register_data$lpr_diag, "lpr_diag")
+  verify_required_variables(register_data$lpr_adm, "lpr_adm")
+  verify_required_variables(register_data$diagnoser, "diagnoser")
+  verify_required_variables(register_data$kontakter, "kontakter")
 
   # Filter and join LPR2 data:
   lpr2_criteria <- get_algorithm_logic("lpr2_diabetes", algorithm_logic = algorithm_logic) |>
@@ -39,7 +38,7 @@ include_diabetes_diagnoses <- function(lpr2_diag, lpr2_adm, lpr3_diagnoser, lpr3
     column_names_to_lower() |>
     dplyr::filter(!!lpr2_criteria)
 
-  lpr2_diabetes <- join_lpr2(lpr_adm = lpr2_adm, lpr_diag = lpr2_diabetes_diagnoses)
+  lpr2_diabetes <- join_lpr2(lpr_adm = lpr_adm, lpr_diag = lpr2_diabetes_diagnoses)
 
   # Define variables
   lpr2_diabetes <- lpr2_diabetes |> dplyr::mutate(
@@ -57,15 +56,15 @@ include_diabetes_diagnoses <- function(lpr2_diag, lpr2_adm, lpr3_diagnoser, lpr3
   )
 
   # Filter and join LPR3 data:
-  lpr3_criteria <- get_algorithm_logic("lpr3_diabetes", algorithm_logic =algorithm_logic) |>
+  lpr3_criteria <- get_algorithm_logic("lpr3_diabetes", algorithm_logic = algorithm_logic) |>
     rlang::parse_expr()
 
   # Filter to diabetes diagnoses using expression filter.
-  lpr3_diabetes_diagnoses <- lpr3_diagnoser |>
+  lpr3_diabetes_diagnoses <- diagnoser |>
     column_names_to_lower() |>
     dplyr::filter(!!lpr3_criteria)
 
-  lpr3_diabetes <- join_lpr3(kontakter = lpr3_kontakter, diagnoser = lpr3_diabetes_diagnoses)
+  lpr3_diabetes <- join_lpr3(kontakter = kontakter, diagnoser = lpr3_diabetes_diagnoses)
 
   # Define variables
   hovedspeciale_other_medical_pattern <- '[Mm]edicin|[Gg]eriatri|[Hh]epatologi|[Hh]æmatologi|[Ii]nfektion|[Kk]ardiologi|[Nn]efrologi|[Rr]eumatologi|[Dd]ermato|[Nn]eurologi|[Oo]nkologi|[Oo]ftalmologi|[Nn]eurofysiologi'
@@ -86,23 +85,24 @@ include_diabetes_diagnoses <- function(lpr2_diag, lpr2_adm, lpr3_diagnoser, lpr3
 
 # Combine lpr2 and lpr 3 and compute necessary variables by pnr before slicing to inclusion dates
 
-  rbind(lpr2_diabetes, lpr3_diabetes) |>
-    # Remove any duplicates
-    dplyr::distinct() |>
-    # FIXME: This might be computationally intensive.
+  lpr_diabetes <- rbind(lpr2_diabetes, lpr3_diabetes) |>
     dplyr::group_by(.data$pnr) |>
-    dplyr::mutate(n_t1d_endocrinology = sum(is_t1d & is_primary & department == 'endocrinology', na.rm = TRUE),
-                  n_t2d_endocrinology = sum(is_t2d & is_primary & department == 'endocrinology', na.rm = TRUE),
-                  n_t1d_medical = sum(is_t1d & is_primary & department == 'other medical', na.rm = TRUE),
-                  n_t2d_medical = sum(is_t2d & is_primary & department == 'other medical', na.rm = TRUE))
+    dplyr::mutate(n_t1d_endocrinology = sum(is_t1d, is_primary, department == 'endocrinology', na.rm = TRUE),
+                  n_t2d_endocrinology = sum(is_t2d, is_primary, department == 'endocrinology', na.rm = TRUE),
+                  n_t1d_medical = sum(is_t1d, is_primary, department == 'other medical', na.rm = TRUE),
+                  n_t2d_medical = sum(is_t2d, is_primary, department == 'other medical', na.rm = TRUE)) |>
     # Keep earliest two dates.
-    return(dplyr::filter(dplyr::row_number(date) %in% 1:2) |>
+    dplyr::filter(dplyr::row_number(date) %in% 1:2) |>
       dplyr::mutate(pnr,
                     date,
                     any_t1d_primary_diagnosis = sum(n_t1d_endocrinology, n_t1d_medical) >= 1,
-                    majority_t1d_primary_diagnoses = get_majority_of_t1d_diagnoses()
+                    majority_t1d_primary_diagnoses = get_majority_of_t1d_diagnoses(
+                      n_t1d_endocrinology, n_t2d_endocrinology, n_t1d_medical, n_t2d_medical
+                    ),
+                    .keep = "none"
       ) |>
-      dplyr::ungroup())
+      dplyr::ungroup()
 
+  return(lpr_diabetes)
 
 }
