@@ -27,6 +27,11 @@ document:
   #!/usr/bin/env Rscript
   devtools::document()
 
+# Update wordlist
+update-wordlist:
+  #!/usr/bin/env Rscript
+  spelling::update_wordlist()
+
 # Run the pipeline to re-build the data objects
 run-targets:
   #!/usr/bin/env Rscript
