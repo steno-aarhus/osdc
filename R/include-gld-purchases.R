@@ -13,7 +13,7 @@
 #' @param lmdb The `lmdb` register.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()], in
-#'   a long format with all dates of purchases kept and the following variables:
+#'   a long format with all dates of GLD purchases kept and the following variables:
 #'
 #'   -   `pnr`: Personal identification variable.
 #'   -   `date`: The dates of all purchases of GLD.

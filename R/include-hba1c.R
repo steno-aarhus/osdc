@@ -1,4 +1,4 @@
-#' Include only those with HbA1c in the required range.
+#' Include only those with HbA1c above the required threshold.
 #'
 #' In the `lab_forsker` register, NPU27300 is HbA1c in the modern units (IFCC)
 #' while NPU03835 is HbA1c in old units (DCCT). Multiple elevated results on the
