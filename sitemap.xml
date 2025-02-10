@@ -22,6 +22,7 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_required_variables.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/include_gld_purchases.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/include_hba1c.html</loc></url>
+<url><loc>https://steno-aarhus.github.io/osdc/reference/include_podiatrist_services.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/index.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/join_lpr2.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/join_lpr3.html</loc></url>
@@ -33,5 +34,6 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/variable_description.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/variables_as_md_table.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/verify_required_variables.html</loc></url>
+<url><loc>https://steno-aarhus.github.io/osdc/reference/yyww_to_yyyymmdd.html</loc></url>
 </urlset>
 
