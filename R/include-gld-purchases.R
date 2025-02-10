@@ -18,13 +18,12 @@
 #'   -   `pnr`: Personal identification variable.
 #'   -   `date`: The dates of all purchases of GLD.
 #'   -   `atc`: The ATC code for the type of drug.
-#'   -   `contained_doses`: The amount of doses purchased, in number of defined daily
-#'       doses (DDD).
-#'   -   `indication_code`: The indication code of the prescription (renamed from
-#'       `indo`).
-#'   -  `has_gld_purchases`: A logical variable to use as a helper indicator for
-#'      later functions.
-#'
+#'   -   `contained_doses`: The amount of doses purchased, in number of defined
+#'        daily doses (DDD).
+#'   -   `indication_code`: The indication code of the prescription (renamed
+#'        from `indo`).
+#'   -   `has_gld_purchases`: A logical variable to use as a helper indicator 
+#'       for later functions.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -51,8 +50,8 @@ include_gld_purchases <- function(lmdb) {
       # Change to date to work with later functions.
       date = "eksd",
       "atc",
-      "contained_doses",
-      indication_code = "indo"
+      indication_code = "indo",
+      "contained_doses"
     ) |>
     dplyr::mutate(has_gld_purchases = TRUE)
 }
