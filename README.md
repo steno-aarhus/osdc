@@ -10,7 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 ## Overview
 
-The goal of osdc (**O**pen **S**ource **D**iabetes **C**lassifier) is to
+The goal of osdc (Open Source Diabetes Classifier) is to
 expose an algorithm for classifying diabetes within the Danish registers
 that can be accessible as an R package. The algorithm that has been
 developed at Steno Diabetes Center Aarhus is flexible and convenient to
