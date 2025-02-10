@@ -482,9 +482,9 @@ OSDC algorithm includes the following criteria:
 3.  `get_majority_of_t1d_diagnoses()` (as compared to T2D diagnoses)
     which again relies on primary hospital diagnoses from LPR.
 4.  `get_insulin_purchase_within_180_days()` which relies on both
-    diagnosis from LPR and GLD purchases from Lægemiddelsdatabasen.
+    diagnosis from LPR and GLD purchases from Lægemiddeldatabasen.
 5.  `get_insulin_is_two_thirds_of_gld_doses` which relies on the GLD
-    purchases from Lægemiddelsdatabasen.
+    purchases from Lægemiddeldatabasen.
 
 Note the following hierarchy in first function above: First, the
 function checks whether the individual has primary diagnoses from
