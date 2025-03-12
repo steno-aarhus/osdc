@@ -154,54 +154,26 @@ as for each</p>
 </h3>
 <table class="table">
 <colgroup>
-<col width="3%">
-<col width="8%">
-<col width="18%">
-<col width="44%">
-<col width="25%">
+<col width="4%">
+<col width="14%">
+<col width="61%">
+<col width="20%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
-<tbody>
-<tr class="odd">
+<tbody><tr class="odd">
 <td align="left">lpr_diag</td>
-<td align="left">lpr2</td>
 <td align="left">Relevant LPR2 diagnoses codes</td>
 <td align="left">c_diag =~
 ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)’ AND (c_diagtype == ‘A’
 OR c_diagtype == ‘B’)</td>
 <td align="left">‘A’ <code>c_diagtype</code> means primary
 diagnosis.</td>
-</tr>
-<tr class="even">
-<td align="left">lpr_diag</td>
-<td align="left">lpr2_has_t1d</td>
-<td align="left">LPR2 diagnoses codes for T1D</td>
-<td align="left">c_diag =~ ‘^(DE10|249)’</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">lpr_diag</td>
-<td align="left">lpr2_has_t2d</td>
-<td align="left">LPR2 diagnoses codes for T2D</td>
-<td align="left">c_diag =~ ‘^(DE11|250)’</td>
-<td align="left">NA</td>
-</tr>
-<tr class="even">
-<td align="left">lpr_diag</td>
-<td align="left">lpr2_has_pregnancy_event</td>
-<td align="left">LPR2 diagnoses codes for pregnancy-related
-outcomes</td>
-<td align="left">c_diag =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
-<td align="left">These are recorded pregnancy endings like live births
-and miscarriages.</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 </div>
 <div class="section level3">
@@ -210,28 +182,25 @@ and miscarriages.</td>
 </h3>
 <table class="table">
 <colgroup>
-<col width="3%">
+<col width="4%">
 <col width="14%">
-<col width="12%">
-<col width="17%">
-<col width="52%">
+<col width="19%">
+<col width="60%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">lpr_adm</td>
-<td align="left">lpr2_is_endocrinology_department</td>
 <td align="left">LPR2 endocrinology department</td>
 <td align="left">na_if(c_spec, !(c_spec %in% 8:30)) == 8</td>
 <td align="left">
-<code>TRUE</code> when the department is
-endocrinology,<code>FALSE</code> when it is other medical departments,
-and missing is all other cases.</td>
+<code>TRUE</code> when the department is endocrinology,
+<code>FALSE</code> when it is other medical departments, and missing is
+all other cases.</td>
 </tr></tbody>
 </table>
 </div>
@@ -242,45 +211,27 @@ and missing is all other cases.</td>
 <table class="table">
 <colgroup>
 <col width="3%">
-<col width="4%">
-<col width="9%">
-<col width="49%">
-<col width="33%">
+<col width="10%">
+<col width="51%">
+<col width="35%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
-<tbody>
-<tr class="odd">
+<tbody><tr class="odd">
 <td align="left">diagnoser</td>
-<td align="left">lpr3</td>
 <td align="left">Relevant LPR3 diagnoses codes</td>
 <td align="left">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])’
 AND (diagnosetype == ‘A’ OR diagnosetype == ‘B’) AND (senere_afkraeftet
-== “Nej”)</td>
-<td align="left">‘A’ <code>diagnosekode</code> means primary diagnosis
-and <code>senere_afkraeftet</code> means diagnosis was later
+== ‘Nej’)</td>
+<td align="left">
+<code>A</code> <code>diagnosekode</code> means primary
+diagnosis and <code>senere_afkraeftet</code> means diagnosis was later
 retracted.</td>
-</tr>
-<tr class="even">
-<td align="left">diagnoser</td>
-<td align="left">lpr3_has_t1d</td>
-<td align="left">LPR3 diagnoses codes for T1D</td>
-<td align="left">diagnosekode =~ ‘^(DE10)’</td>
-<td align="left">NA</td>
-</tr>
-<tr class="odd">
-<td align="left">diagnoser</td>
-<td align="left">lpr3_has_t2d</td>
-<td align="left">LPR3 diagnoses codes for T2D</td>
-<td align="left">diagnosekode =~ ‘^(DE11)’</td>
-<td align="left">NA</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
 </div>
 <div class="section level3">
@@ -290,21 +241,18 @@ retracted.</td>
 <table class="table">
 <colgroup>
 <col width="1%">
-<col width="5%">
 <col width="4%">
-<col width="69%">
-<col width="18%">
+<col width="73%">
+<col width="19%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">kontakter</td>
-<td align="left">lpr3_is_endocrinology_department</td>
 <td align="left">LPR3 endocrinology department</td>
 <td align="left">na_if(hovedspeciale_ans, !(hovedspeciale_ans %in%
 c(‘medicinsk endokrinologi’, ‘blandet medicin og kirurgi’, ‘intern
@@ -327,21 +275,18 @@ all other cases.</td>
 <table class="table">
 <colgroup>
 <col width="6%">
-<col width="3%">
 <col width="8%">
-<col width="50%">
-<col width="31%">
+<col width="51%">
+<col width="32%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">lab_forsker</td>
-<td align="left">hba1c</td>
 <td align="left">HbA1c inclusion</td>
 <td align="left">(analysiscode == ‘NPU27300’ AND value &gt;= 48) OR
 (analysiscode == ‘NPU03835’ AND value &gt;= 6.5)</td>
@@ -357,22 +302,19 @@ NPU03835.</td>
 <table class="table">
 <colgroup>
 <col width="6%">
-<col width="13%">
-<col width="4%">
-<col width="24%">
-<col width="51%">
+<col width="14%">
+<col width="25%">
+<col width="53%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">NA</td>
-<td align="left">podiatrist_services</td>
-<td align="left">NA</td>
+<td align="left">Podiatrist services</td>
 <td align="left">speciale =~ ‘^54’ AND barnmak != 0</td>
 <td align="left">
 <code>barnmak</code> means the services were provided
@@ -387,21 +329,18 @@ to a child of the individual.</td>
 <table class="table">
 <colgroup>
 <col width="5%">
-<col width="2%">
-<col width="18%">
-<col width="38%">
-<col width="34%">
+<col width="19%">
+<col width="39%">
+<col width="35%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">lmdb</td>
-<td align="left">gld</td>
 <td align="left">Glucose-lowering drug inclusion</td>
 <td align="left">atc =~ ‘^A10’ AND !(atc =~
 ‘^(A10BJ|A10BK01|A10BK03)’)</td>
@@ -419,21 +358,18 @@ polycystic ovary syndrome<a class="anchor" aria-label="anchor" href="#bef-and-on
 <colgroup>
 <col width="4%">
 <col width="9%">
-<col width="3%">
-<col width="64%">
-<col width="17%">
+<col width="67%">
+<col width="18%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">NA</td>
-<td align="left">no_potential_pcos</td>
-<td align="left">NA</td>
+<td align="left">No potential PCOS</td>
 <td align="left">koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
 foed_dato) &lt; 40 OR indication_code %in% c(‘0000092’, ‘0000276’,
 ‘0000781’))</td>
@@ -447,26 +383,23 @@ foed_dato) &lt; 40 OR indication_code %in% c(‘0000092’, ‘0000276’,
 <table class="table">
 <colgroup>
 <col width="4%">
-<col width="5%">
-<col width="22%">
-<col width="63%">
+<col width="24%">
+<col width="67%">
 <col width="4%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
-<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
 <td align="left">NA</td>
-<td align="left">no_pregnancy</td>
 <td align="left">Remove events within a potential pregnancy period</td>
 <td align="left">!(has_pregnancy_event AND has_elevated_hba1c AND (date
 &gt;= (pregnancy_event_date - weeks(40)) OR date &lt;=
-(pregnancy_event_date + weeks(12))))</td>
-<td align="left">NA</td>
+(pregnancy_event_date + weeks(12)))</td>
+<td align="left"></td>
 </tr></tbody>
 </table>
 </div>

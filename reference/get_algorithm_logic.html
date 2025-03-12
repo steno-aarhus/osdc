@@ -38,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get the criteria algorithmic logic and convert to an R logic condition.</h1>
-      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/R/get-algorithm-logic.R" class="external-link"><code>R/get-algorithm-logic.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/R/algorithm.R" class="external-link"><code>R/algorithm.R</code></a></small>
       <div class="d-none name"><code>get_algorithm_logic.Rd</code></div>
     </div>
 
@@ -48,7 +48,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_algorithm_logic</span><span class="op">(</span><span class="va">criteria</span>, algorithm_logic <span class="op">=</span> <span class="va">algorithm</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_algorithm_logic</span><span class="op">(</span><span class="va">criteria</span>, algorithm <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -57,6 +57,11 @@
 
 <dl><dt id="arg-criteria">criteria<a class="anchor" aria-label="anchor" href="#arg-criteria"></a></dt>
 <dd><p>The name of the inclusion or exclusion criteria to use.</p></dd>
+
+
+<dt id="arg-algorithm">algorithm<a class="anchor" aria-label="anchor" href="#arg-algorithm"></a></dt>
+<dd><p>The list of algorithmic logic for each criteria. Default is
+<code><a href="algorithm.html">algorithm()</a></code>. This argument is used for testing only.</p></dd>
 
 </dl></div>
     <div class="section level2">
