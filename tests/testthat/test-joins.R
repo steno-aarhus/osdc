@@ -41,8 +41,8 @@ test_that("lpr_adm and lpr_diag must be in correct arg position", {
 test_that("joining works for DuckDB Database", {
   skip_on_cran()
   skip_if_not_installed("duckplyr")
-  adm_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_lpr_adm)
-  diag_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_lpr_diag)
+  adm_as_duckdb <- duckplyr::as_duckdb_tibble(actual_lpr_adm)
+  diag_as_duckdb <- duckplyr::as_duckdb_tibble(actual_lpr_diag)
   actual <- join_lpr2(
     lpr_adm = adm_as_duckdb,
     lpr_diag = diag_as_duckdb
@@ -63,15 +63,16 @@ test_that("joining works for Arrow Tables (from Parquet)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(actual_lpr_adm) |>
-    join_lpr2(arrow::as_arrow_table(actual_lpr_diag))
+    join_lpr2(arrow::as_arrow_table(actual_lpr_diag)) |>
+    dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>
     dplyr::pull(n) |>
     as.integer()
 
-  expect_contains(class(actual), "arrow_dplyr_query")
-  expect_identical(names(actual), colnames(expected_lpr2))
+  expect_contains(class(actual), "Table")
+  expect_identical(colnames(actual), colnames(expected_lpr2))
   expect_identical(actual_rows, nrow(expected_lpr2))
 })
 
@@ -109,7 +110,7 @@ test_that("joining works for data.table", {
 
 actual_diagnoser <- tibble::tibble(
   dw_ek_kontakt = 1:4,
-  diagnosekode = rep(c("DA071","DD075"), times = 2),
+  diagnosekode = rep(c("DA071", "DD075"), times = 2),
   diagnosetype = rep(c("A", "B"), times = 2),
   senere_afkraeftet = rep(c("Nej", "Ja"), times = 2)
 )
@@ -126,7 +127,7 @@ expected_lpr3 <- tibble::tibble(
   dw_ek_kontakt = 2:4,
   dato_start = c("20230101", "20220101", "20200101"),
   hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
-  diagnosekode = c("DD075","DA071", "DD075"),
+  diagnosekode = c("DD075", "DA071", "DD075"),
   diagnosetype = c("B", "A", "B"),
   senere_afkraeftet = c("Ja", "Nej", "Ja")
 )
@@ -150,8 +151,8 @@ test_that("kontakter and diagnoser are in correct order", {
 test_that("joining works for DuckDB Database", {
   skip_on_cran()
   skip_if_not_installed("duckplyr")
-  kontakter_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_kontakter)
-  diagnoser_as_duckdb <- duckplyr::as_duckplyr_tibble(actual_diagnoser)
+  kontakter_as_duckdb <- duckplyr::as_duckdb_tibble(actual_kontakter)
+  diagnoser_as_duckdb <- duckplyr::as_duckdb_tibble(actual_diagnoser)
   actual <- join_lpr3(
     kontakter = kontakter_as_duckdb,
     diagnoser = diagnoser_as_duckdb
@@ -172,15 +173,16 @@ test_that("joining works for Arrow Tables (from Parquet)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(actual_kontakter) |>
-    join_lpr3(arrow::as_arrow_table(actual_diagnoser))
+    join_lpr3(arrow::as_arrow_table(actual_diagnoser)) |>
+    dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>
     dplyr::pull(n) |>
     as.integer()
 
-  expect_contains(class(actual), "arrow_dplyr_query")
-  expect_identical(names(actual), colnames(expected_lpr3))
+  expect_contains(class(actual), "Table")
+  expect_identical(colnames(actual), colnames(expected_lpr3))
   expect_identical(actual_rows, nrow(expected_lpr3))
 })
 

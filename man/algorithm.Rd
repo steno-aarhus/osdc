@@ -8,8 +8,11 @@
 Is a \code{\link[tibble:tibble]{tibble::tibble()}} with two columns:
 
 \describe{
+\item{register}{Optional. The register used for this criteria.}
 \item{name}{The inclusion or exclusion criteria name.}
+\item{title}{The title to use when displaying the algorithmic logic in tables.}
 \item{logic}{The logic for the criteria.}
+\item{comments}{Some additional comments on the criteria.}
 }
 }
 \usage{
@@ -18,5 +21,9 @@ algorithm
 \description{
 This data frame contains the logic details of the algorithm for specific
 inclusion and exclusion criteria.
+}
+\seealso{
+See the \code{vignette("algorithm")} and \link{algorithm} for the logic used
+to filter these patients.
 }
 \keyword{datasets}

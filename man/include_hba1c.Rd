@@ -2,20 +2,34 @@
 % Please edit documentation in R/include-hba1c.R
 \name{include_hba1c}
 \alias{include_hba1c}
-\title{Include only those with HbA1c in the required range.}
+\title{Include only those with HbA1c above the required threshold.}
 \usage{
-include_hba1c(data)
+include_hba1c(lab_forsker)
 }
 \arguments{
-\item{data}{The \code{lab_forsker} register.}
+\item{lab_forsker}{The \code{lab_forsker} register.}
 }
 \value{
 An object of the same input type, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
-with two columns: \code{pnr} and \code{included_hba1c}.
+with three columns:
+\itemize{
+\item \code{pnr}: Personal identification variable.
+\item \code{dates}: The dates of all elevated HbA1c test results.
+\item \code{has_elevated_hba1c}: A logical variable indicating that the HbA1c test
+was included. Used as an indicator and reminder in other internal
+functions.
+}
 }
 \description{
 In the \code{lab_forsker} register, NPU27300 is HbA1c in the modern units (IFCC)
-while NPU03835 is HbA1c in old units (DCCT).
+while NPU03835 is HbA1c in old units (DCCT). Multiple elevated results on the
+same day within each individual are deduplicated, to account for the same
+test result often being reported twice (one for IFCC, one for DCCT units).
+}
+\details{
+The output is passed to the \code{exclude_pregnancy()} function for
+filtering of elevated results due to potential gestational diabetes (see
+below).
 }
 \examples{
 \dontrun{

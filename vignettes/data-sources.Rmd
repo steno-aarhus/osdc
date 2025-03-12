@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 library(osdc)
+library(dplyr)
 ```
 
 This document describes the sources of data needed by the OSDC algorithm
@@ -35,18 +36,30 @@ Birth Register to extend the period of time of valid inclusions further
 back in time compared to what is possible using obstetric codes from the
 National Patient Register.
 
+## Data required from registers
+
+The following is a list of the variables required from specific
+registers in order for the package to classify diabetes status:
+
+```{r, echo=FALSE}
+variable_description |>
+  mutate(Register = paste0(register_name, " (", register_abbrev, ")")) |>
+  select(Register, Variable = variable_name) |>
+  knitr::kable()
+```
+
 ## Expected data structure
 
-This section describes how the data sources are expected to look like
-when they are input into the OSDC algorithm. We try to mimic as much as
-possible how the raw data looks like within Denmark Statistics. So since
-registers are often stored on a per year basis, we don't expect a year
-variable in the data itself. If you've processed the data so that it has
-a year variable, you will likely need to do a split-apply-combine
-approach when using the osdc package. We internally convert all variable
-names to lower case, and so we present them here in lower case, but case
-may vary between data sources (and even between years in the same data
-source) in real data.
+This section describes how the data sources listed from the above table
+are expected to look like when they are input into the OSDC algorithm.
+We try to mimic as much as possible how the raw data looks like within
+Denmark Statistics. So since registers are often stored on a per year
+basis, we don't expect a year variable in the data itself. If you've
+processed the data so that it has a year variable, you will likely need
+to do a split-apply-combine approach when using the osdc package. We
+internally convert all variable names to lower case, and so we present
+them here in lower case, but case may vary between data sources (and
+even between years in the same data source) in real data.
 
 A small note about the National Patient Register. It contains several
 tables and types of data. The algorithm uses only hospital diagnosis

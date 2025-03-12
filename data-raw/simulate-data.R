@@ -1,11 +1,5 @@
-# Script to generate simulated data for tests and examples
-
-# Load required libraries
-library(tidyverse)
-library(here)
-library(lubridate)
-library(fabricatr)
-library(rvest)
+# Functions to generate simulated data for tests and examples.
+# Use `targets::tar_make()` to regenerate the simulated data.
 
 # Get ICD-8 codes -----------------------------------------------------------
 
@@ -72,7 +66,7 @@ create_fake_icd <- function(n, date = NULL) {
 
 #' @description
 #' ICD-8 is the 8th revision of the International Classification of Diseases.
-#' 
+#'
 #' @param n The number of ICD-8 diagnoses to generate.
 #'
 #' @return A character vector of ICD-8 diagnoses.
@@ -90,7 +84,7 @@ create_fake_icd8 <- function(n) {
 #'
 #' @description
 #' ICD-10 is the 10th revision of the International Classification of Diseases.
-#' 
+#'
 #' @param n An integer determining how many diagnoses to create.
 #'
 #' @return A character vector of ICD-10 diagnoses.
@@ -110,7 +104,7 @@ create_fake_icd10 <- function(n) {
 #' @description
 #' Anatomical Therapeutic Chemical (ATC) codes are unique medicine codes
 #' based on on what organ or system it works on and how it works.
-#' 
+#'
 #' @param n The number of random ATC codes to generate.
 #'
 #' @return A character vector of ATC codes.
@@ -141,7 +135,9 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
     sample(n, replace = TRUE)
 }
 
-#' Create a vector of random zero-padded integers.
+#' Create a vector of reproducible, random zero-padded integers.
+#'
+#' Generated integers of the same length are identical to facilitate joining by values in pnr, cpr, recnum and dw_ek_kontakt.
 #'
 #' @param n The number of integers to generate.
 #' @param length An integer determining the length of the padded integer.
@@ -151,6 +147,7 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #' @examples
 #' create_padded_integer(5, 10)
 create_padded_integer <- function(n, length) {
+  set.seed(length)
   purrr::map(1:length, \(ignore) sample(0:9, n, replace = TRUE)) |>
     purrr::reduce(\(integer1, integer2) paste(integer1, integer2, sep = "")) |>
     pad_integers(width = length)
@@ -161,7 +158,7 @@ create_padded_integer <- function(n, length) {
 #' @description
 #' Nomenclature for Properties and Units (NPUs) are codes that identifies
 #' laboratory results.
-#' 
+#'
 #' @param n The number of NPUs to create.
 #'
 #' @return A character vector.
@@ -192,34 +189,20 @@ create_fake_hovedspeciale_ans <- function(n) {
     sample(n, replace = TRUE)
 }
 
-#' Create a vector of drug names based on a vector of ATC codes
-#'
-#' @param atc A character describing an ATC code.
-#'
-#' @return A character vector with the drug name of the given ATC code.
-#'
-#' @examples
-#' create_fake_drug_name("A03FA05")
-#' create_fake_drug_name(c("A03FA05", "A02BA04"))
-create_fake_drug_name <- function(atc) {
-  codeCollection::ATCKoodit |>
-    tibble::as_tibble() |>
-    dplyr::filter(Koodi %in% atc) |>
-    dplyr::pull(en) |>
-    sample(length(atc), replace = TRUE)
-}
-
-#' Transform date(s) to the format wwyy
+#' Transform date(s) to the format yyww
 #'
 #' @param x A date or a vector of dates.
 #'
-#' @return A vector of dates in the format wwyy.
+#' @return A vector of dates in the format yyww.
 #'
 #' @examples
-#' to_wwyy("2020-12-01")
-#' to_wwyy(c("2020-01-12", "1995-04-19"))
-to_wwyy <- function(x) {
-  paste0(lubridate::isoweek(lubridate::as_date(x)), stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2))
+#' to_yyww("2020-12-01")
+#' to_yyww(c("2020-01-12", "1995-04-19"))
+to_yyww <- function(x) {
+  paste0(
+    stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2),
+    sprintf("%02d", lubridate::isoweek(lubridate::as_date(x)))
+  )
 }
 
 #' Transform date(s) to the format yyyymmdd
@@ -298,44 +281,16 @@ insert_specific_atc <- function(data, proportion = 0.3) {
 #' @param data A tibble.
 #' @param proportion Proportion to resample. Defaults to 0.05.
 #'
-#' @return A tibble. If all column names in the tibble is either 'atc' or
-#' 'name', a proportion of observations is resampled as metmorfin.
+#' @return A tibble. If all column names in the tibble is either 'atc',
+#' a proportion of observations is resampled as metmorfin.
 insert_false_metformin <- function(data, proportion = 0.05) {
-  if (all(c("atc", "name", "indo") %in% colnames(data))) {
+  if (all(c("atc", "indo") %in% colnames(data))) {
     data |>
       dplyr::mutate(
         atc = dplyr::if_else(
           indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
           "A10BA02",
           atc
-        ),
-        name = dplyr::if_else(
-          indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
-          "metformin",
-          name
-        )
-      )
-  } else {
-  data
-  }
-}
-
-# Insert false positives for Wegovy and Saxenda
-#'
-#' @param data A tibble.
-#' @param proportion Proportion to resample. Defaults to 0.05.
-#'
-#' @return A tibble. If all column names in the tibble is either 'atc' or 'name'
-#' and the atc is a A10BJ06 or A10BJ02, a proportion of observations is resampled
-#' to have the name Wegovy Flextouch or Saxenda.
-insert_false_drug_names <- function(data, proportion = 0.05) {
-  if (all(c("atc", "name") %in% colnames(data))) {
-    data |>
-      mutate(
-        name = case_when(
-          atc == "A10BJ06" & insertion_rate(proportion) ~ "Wegovy Flextouch",
-          atc == "A10BJ02" & insertion_rate(proportion) ~ "Saxenda",
-          TRUE ~ name
         )
       )
   } else {
@@ -366,22 +321,6 @@ insert_analysiscode <- function(data, proportion = 0.3) {
     )
 }
 
-#' Add drug names (from ATC codes)
-#'
-#' @param data A tibble.
-#'
-#' @return A tibble. For columns named "name", a fake drug name (atc) will be
-#' added.
-add_fake_drug_name <- function(data) {
-  data |>
-    mutate(
-      across(
-        matches("^name$"),
-        \(x) create_fake_drug_name(atc = atc)
-      )
-    )
-}
-
 # TODO: Need a function to reuse recnum and dw_ek_kontakt in LPR data
 
 # Simulate data -----------------------------------------------------------
@@ -408,27 +347,29 @@ simulate_data <- function(data, n) {
     list_cbind()
 }
 
-set.seed(123)
-simulation_definitions <- here("data-raw/simulation-definitions.csv") |>
-  read_csv(show_col_types = FALSE) |>
-  select(register_abbrev, variable_name, generator)
+#' Create simulated register data
+#'
+#' @param path Path to csv with simulation definitions.
+#'
+#' @returns A list with simulated register data.
+create_simulated_data <- function(path) {
+  simulation_definitions <- path |>
+    readr::read_csv(show_col_types = FALSE) |>
+    dplyr::select("register_abbrev", "variable_name", "generator")
 
-simulation_definitions_list <- simulation_definitions |>
-  group_split(register_abbrev)
+  simulation_definitions_list <- simulation_definitions |>
+    dplyr::group_split(register_abbrev)
 
-register_data <- simulation_definitions_list |>
-  map(\(data) simulate_data(data, n = 1000)) |>
-  map(insert_specific_atc) |>
-  map(add_fake_drug_name) |>
-  map(insert_false_drug_names) |>
-  map(insert_false_metformin) |>
-  map(insert_analysiscode) |>
-  # add the register abbreviations as a name to the list
-  set_names(
-    map_chr(
-      simulation_definitions_list,
-      \(data) unique(data$register_abbrev)
+  register_data <- simulation_definitions_list |>
+    map(\(data) simulate_data(data, n = 1000)) |>
+    map(insert_specific_atc) |>
+    map(insert_false_metformin) |>
+    map(insert_analysiscode) |>
+    # add the register abbreviations as a name to the list
+    set_names(
+      map_chr(
+        simulation_definitions_list,
+        \(data) unique(data$register_abbrev)
+      )
     )
-  )
-
-usethis::use_data(register_data, overwrite = TRUE)
+}

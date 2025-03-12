@@ -28,16 +28,12 @@ hide <<exclusion>> stereotype
         database bef
     }
     together {
-            action "join_lpr2()" as lpr2
+            action "create_lpr2()" as lpr2
             action "join_lpr3()" as lpr3
     }
 
-    action "get_potential_pcos()" as pcos
-    action "get_wld_purchases()" as wld
-
     together {
         action "exclude_pregnancy()" as ex_pregnancy <<exclusion>>
-        action "exclude_wld_purchases()" as ex_wld <<exclusion>>
         action "exclude_potential_pcos()" as ex_pcos <<exclusion>>
     }
     together {
@@ -49,7 +45,7 @@ hide <<exclusion>> stereotype
     }
 
     action "join_inclusion()" as join_inclusion
-    action "get_diagnosis_date()" as diagnosis_date
+    action "get_inclusion_date()" as inclusion_date
 
 'join lpr
     lpr_diag --> lpr2
@@ -70,22 +66,18 @@ hide <<exclusion>> stereotype
 'inclusion: gld purchases
     lmdb --> in_gld
     in_gld --> ex_pcos
-    ex_pcos --> ex_wld
-    ex_wld --> ex_pregnancy
+    ex_pcos --> ex_pregnancy
 
 'inclusion: diabetes diagnoses
     lpr2 --> in_diagnoses
     lpr3 --> in_diagnoses
     in_diagnoses --> join_inclusion
 
-'helper functions
+'exclusion and helper functions
+    bef --> ex_pcos
     lpr2 --> pregnancy
     lpr3 --> pregnancy
     pregnancy --> ex_pregnancy
-    lmdb --> wld
-    wld --> ex_wld
-    bef --> pcos
-    pcos --> ex_pcos
-    join_inclusion --> diagnosis_date
+    join_inclusion --> inclusion_date
 
 @enduml

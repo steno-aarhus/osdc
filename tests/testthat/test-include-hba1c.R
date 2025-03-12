@@ -1,6 +1,6 @@
 lab_forsker <- tibble::tribble(
   ~patient_cpr, ~samplingdate, ~analysiscode, ~value,
-  # Three events, so only earliest two should be kept.
+  # Three events, all of which should be kept (except duplicates)
   "498718589800", "20230101", "NPU27300", 49,
   "498718589800", "20210101", "NPU27300", 49,
   "498718589800", "20220101", "NPU27300", 49,
@@ -29,7 +29,8 @@ lab_forsker <- tibble::tribble(
 )
 
 expected <- tibble::tribble(
-  ~pnr, ~date, ~included_hba1c,
+  ~pnr, ~date, ~has_elevated_hba1c,
+  "498718589800", "20230101", TRUE,
   "498718589800", "20210101", TRUE,
   "498718589800", "20220101", TRUE,
   "498718589801", "20230101", TRUE,
@@ -60,7 +61,7 @@ test_that("casing of input variables doesn't matter", {
 test_that("verification works for DuckDB Database", {
   skip_on_cran()
   skip_if_not_installed("duckplyr")
-  actual <- duckplyr::as_duckplyr_tibble(lab_forsker) |>
+  actual <- duckplyr::as_duckdb_tibble(lab_forsker) |>
     include_hba1c()
 
   actual_rows <- actual |>
@@ -75,10 +76,8 @@ test_that("verification works for Arrow Tables (from Parquet)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(lab_forsker) |>
-    include_hba1c() |>
-    # TODO: Arrow doesn't like the `row_number()` function, find a fix?
-    # Ignoring the warning for now, low priority.
-    suppressWarnings()
+    include_hba1c() |> 
+    dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>

@@ -1,0 +1,595 @@
+---
+title: "Internal function flow"
+---
+
+The function flow describes the functions within the package, both
+internal and user-facing, which data sources they rely on, and how they
+are connected to each other. First, the functions for classifying
+diabetes status are presented, followed by the functions for classifying
+the diabetes type.
+
+## Function flow
+
+This results in the functionality flow for classifying diabetes status
+seen below. This flow can be divided into two sections: extracting the
+diabetes population and classifying diabetes type which we will detail
+in the following sections.
+
+![Flow of functions, as well as their required input registers, for
+classifying diabetes status using the osdc package. Light blue and
+orange boxes represent filtering functions (inclusion and exclusion
+events, respectively). Uncoloured boxes are helper functions that get or
+extract a condition or joins data or function
+outputs.](images/function-flow.svg)
+
+## Population extraction
+
+In the following sections, we describe the functions used to extract the
+diabetes population from the Danish registers. The functions are divided
+into inclusion and exclusion events, and the final diagnosis date is
+calculated based on these events.
+
+![Flow of functions, as well as their required input registers, for
+extracting the population with diabetes using the osdc package. Light
+blue and orange boxes represent filtering functions (inclusion and
+exclusion events, respectively). Uncoloured boxes are helper functions
+that get or extract a condition or joins data or function
+outputs.](images/function-flow-population.svg)
+
+## Inclusion events
+
+```{r, include=FALSE}
+library(dplyr)
+library(osdc)
+```
+
+### `join_lpr2()`
+
+```{r}
+#' Process and join the two LPR2 registers to extract diabetes diagnoses data.
+#'
+#' The output is used as inputs to `include_diabetes_diagnoses()` and to
+#' `get_pregnancy_dates()` (see exclusion events).
+#'
+#' @param lpr_diag The LPR2 register containing diabetes diagnoses.
+#' @param lpr_adm The LPR2 register containing hospital admissions.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()],
+#'  with the following columns:
+#'
+#'  -   `pnr`: The personal identification variable.
+#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).
+#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary diagnosis.
+#'  -   `has_t1d`: Whether the diagnosis was T1D-specific.
+#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
+#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
+#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
+#'      endocrinology (TRUE) or other medical (FALSE) department.
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' join_lpr2(
+#'   lpr_diag = register_data$lpr_diag,
+#'   lpr_adm = register_data$lpr_adm
+#' )
+join_lpr2 <- function(lpr_diag, lpr_adm) {
+  # Filter using the algorithm for LPR2
+  lpr_diag |>
+    dplyr::full_join(lpr_adm, by = dplyr::join_by(.data$recnum)) |>
+    dplyr::select(
+      pnr,
+      date = d_inddto
+      # is_primary_diagnosis =
+      # has_t1d =
+      # has_t2d =
+      # has_pregnancy_event =
+      # is_endocrinology_department =
+    )
+}
+```
+
+### `join_lpr3()`
+
+```{r}
+#' Process and join the two LPR3 registers to extract diabetes diagnoses data.
+#'
+#' The output is used as inputs to `include_diabetes_diagnoses()` and to
+#' `get_pregnancy_dates()` (see exclusion events).
+#'
+#' @param diagnoser The LPR3 register containing diabetes diagnoses.
+#' @param kontakter The LPR3 register containing hospital contacts/admissions.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()],
+#'  with the following columns:
+#'
+#'  -   `pnr`: The personal identification variable.
+#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).
+#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary
+#'      diagnosis.
+#'  -   `has_t1d`: Whether the diagnosis was T1D-specific
+#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
+#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
+#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
+#'      endocrinology (TRUE) or other medical (FALSE) department.
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' join_lpr3(
+#'   diagnoser = register_data$diagnoser,
+#'   kontakter = register_data$kontakter
+#' )
+join_lpr3 <- function(diagnoser, kontakter) {
+  # Filter using the algorithm for LPR3
+  diagnoser |>
+    dplyr::full_join(kontakter, by = dplyr::join_by(.data$dw_ek_kontakt)) |>
+    # Ensure the values are always lower case.
+    dplyr::mutate(hovedspeciale_ans = tolower(hovedspeciale_ans)) |>
+    dplyr::select(
+      "pnr" = "cpr",
+      "date" = "dato_start"
+      # is_primary_diagnosis =
+      # has_t1d =
+      # has_t2d =
+      # has_pregnancy_event =
+      # is_endocrinology_department =
+    )
+}
+```
+
+### `include_diabetes_diagnosis()`
+
+```{r}
+#' Include diabetes diagnoses from LPR2 and LPR3.
+#'
+#' Uses the hospital contacts from LPR2 and LPR3 to include all dates of diabetes
+#' diagnoses to use for inclusion, as well as additional information needed to classify diabetes
+#' type. Diabetes diagnoses from both ICD-8 and ICD-10 are included.
+#'
+#' The output is used as inputs to `join_inclusions()`.
+#' This output is passed to the `join_inclusions()` function, where the
+#' `dates` variable is used for the final step of the inclusion process.
+#' The variables of counts of diabetes type-specific primary diagnoses (the
+#' four columns prefixed `n_` above) are carried over for the subsequent
+#' classification of diabetes type, initially as inputs to the
+#' `get_t1d_primary_diagnosis()` and `get_majority_of_t1d_diagnoses()`
+#' functions.
+#'
+#' @param lpr2 The output from `join_lpr2()`.
+#' @param lpr3 The output from `join_lpr3()`.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()],
+#'  with the following columns and up to two rows per individual:
+#'
+#'  -   `pnr`: The personal identification variable.
+#'  -   `dates`: The dates of the first and second hospital diabetes diagnosis.
+#'  -   `n_t1d_endocrinology`: The number of type 1 diabetes-specific primary
+#'      diagnosis codes from endocrinology departments.
+#'  -   `n_t2d_endocrinology`: The number of type 2 diabetes-specific primary
+#'      diagnosis codes from endocrinology departments.
+#'  -   `n_t1d_medical`: The number of type 1 diabetes-specific primary
+#'      diagnosis codes from medical departments.
+#'  -  `n_t2d_medical`: The number of type 2 diabetes-specific primary
+#'      diagnosis codes from medical departments.
+#'  -  `has_lpr_diabetes_diagnosis`: A logical variable that acts as a helper
+#'      indicator for use in later functions.
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' include_diabetes_diagnosis(
+#'   lpr2 = join_lpr2(register_data$lpr_diag, register_data$lpr_adm),
+#'   lpr3 = join_lpr3(register_data$diagnoser, register_data$kontakter)
+#' )
+include_diabetes_diagnosis <- function(lpr2, lpr3) {
+  # Combine and process the two inputs
+  lpr2 |>
+    dplyr::full_join(lpr3, by = dplyr::join_by(.data$pnr)) |>
+    dplyr::select(
+      "pnr",
+      "dates" = "date"
+      # n_t1d_endocrinology =
+      # n_t2d_endocrinology =
+      # n_t1d_medical =
+      # n_t2d_medical =
+    ) |>
+    dplyr::mutate(has_lpr_diabetes_diagnosis = TRUE)
+}
+```
+
+### `include_podiatrist_services()`
+
+```{r}
+#' Include diabetes-specific podiatrist services.
+#'
+#' Uses the `sysi` or `sssy` registers as input to extract the dates of all
+#' diabetes-specific podiatrist services. Removes duplicate services on the
+#' same date
+#'
+#' The output is passed to the `join_inclusions()` function for the final
+#' step of the inclusion process.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()],
+#'   with two columns and up to two rows for each individual:
+#'
+#'   -  `pnr`: identifier variable
+#'   -  `date`: the dates of the first and second diabetes-specific
+#'      podiatrist record
+#'  -  `has_podiatrist_services`: A logical variable that acts as a helper
+#'      indicator for use in later functions.
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' include_podiatrist_services(register_data$sssy, register_data$sysi)
+include_podiatrist_services <- function(sssy, sysi) {
+  # Filter using the algorithm for podiatrist services
+  sssy |>
+    dplyr::full_join(sysi, by = dplyr::join_by(.date$pnr, .data$barnmak, .data$speciale, .data$honuge)) |>
+    # Filtering...
+    dplyr::select(
+      pnr,
+      date = yyww_to_yyyymmdd(honuge),
+      had
+    ) |>
+    # Remove duplicate multiple services on the same date
+    dplyr::distinct() |>
+    dplyr::mutate(has_podiatrist_services = TRUE)
+}
+```
+
+```{r}
+#' Converts the "YYWW" date format to the ISO8601 standard date format.
+#'
+#' Since the original date format ("YYWW", two-digit year and two-digit week number)
+#' doesn't include a day, we assume it would be the first day of that week.
+#'
+#' @param date The date variable in the format "YYWW".
+#'
+#' @returns A character vector of unique dates in the format "YYYY-MM-DD".
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' yyww_to_yyymmdd(c("0452", "5302", "3232"))
+yyww_to_yyyymmdd <- function(date) {
+  date
+}
+```
+
+### `include_hba1c()`
+
+See `?include_hba1c` for more information.
+
+### `include_gld_purchases()`
+
+See `?include_gld_purchases` for more information.
+
+## Exclusion events
+
+### `exclude_potential_pcos()`
+
+```{r}
+#' Exclude metformin purchases potentially for the treatment of polycystic ovary syndrome.
+#'
+#' Takes the output from `include_gld_purchases()` and `bef` (information on sex and date of birth) to do the exclusions.
+#' This function only performs a filtering operation so outputs the same structure and variables as the input from `include_gld_purchases()`.
+#' After these exclusions are made, the output is used by `exclude_pregnancy()`.
+#'
+#' @param gld_purchases The output from `include_gld_purchases()`.
+#' @param bef The `bef` register.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()].
+#'    Also has the same columns as `include_gld_purchases()`, except for a helper
+#'    logical variable `no_pcos` that is used in later functions.
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' exclude_potential_pcos(
+#'   gld_purchases = include_gld_purchases(register_data$lmdb),
+#'   bef = register_data$bef
+#' )
+exclude_potential_pcos <- function(gld_purchases, bef) {
+  # Filter using the algorithm for potential PCOS
+  gld_purchases |>
+    dplyr::full_join(bef, by = dplyr::join_by(.data$pnr)) |>
+    dplyr::mutate(no_pcos = TRUE)
+}
+```
+
+### `exclude_pregnancy()`
+
+```{r}
+#' Exclude any pregnancy events that could be gestational diabetes.
+#'
+#'
+#' The function `exclude_pregnancy()` takes the combined outputs from
+#' `join_lpr2()`, `join_lpr3()`, `include_hba1c()`, and
+#' `exclude_potential_pcos()` and uses diagnoses from LPR2 or LPR3 to
+#' exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
+#' these may be due to gestational diabetes, rather than type 1 or type 2
+#' diabetes. The aim is to identify pregnancies based on diagnosis codes
+#' specific to pregnancy-ending events (e.g. live births or miscarriages),
+#' and then use the dates of these events to remove inclusion events in the
+#' preceding months that may be related to gestational diabetes (e.g.
+#' elevated HbA1c tests or purchases of glucose-lowering drugs during
+#' pregnancy).
+#'
+#' After these exclusion functions have been applied, the output serves as
+#' inputs to two sets of functions:
+#'
+#' 1.  The censored HbA1c and GLD data are passed to the
+#'     `join_inclusions()` function for the final step of the inclusion
+#'     process.
+#' 2.  the censored GLD data is passed to the
+#'     `get_only_insulin_purchases()`,
+#'     `get_insulin_purchases_within_180_days()`, and
+#'     `get_insulin_is_two_thirds_of_gld_doses()` helper functions for the
+#'     classification of diabetes type.
+#'
+#' @param excluded_pcos Ouptut from `exclude_potential_pcos()`.
+#' @param pregnancy_dates Output from `get_pregnancy_dates()`.
+#' @param included_hba1c Output from `include_hba1c()`.
+#'
+#' @returns The same type as the input data, default as a [tibble::tibble()].
+#'    Has the same output data as the input `excluded_potential_pcos()`, except
+#'    for a helper logical variable `no_pregnancy` that is used in later functions.
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
+#' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
+#' lmdb |>
+#'   include_gld_purchases() |>
+#'   exclude_potential_pcos(register_data$bef) |>
+#'   exclude_pregnancy(
+#'     get_pregnancy_dates(lpr2, lpr3),
+#'     include_hba1c(register_data$lab_forsker)
+#'   )
+exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
+  # Filter using the algorithm for pregnancy
+  excluded_pcos |>
+    # Exclude those who are not pregnant.
+    dplyr::full_join(pregnancy_dates, by = dplyr::join_by(.data$pnr)) |>
+    dplyr::full_join(included_hba1c, by = dplyr::join_by(.data$pnr)) |>
+    # Filtering here...
+    dplyr::mutate(no_pregnancy = TRUE)
+}
+```
+
+```{r}
+#' Simple function to get only the pregnancy event dates.
+#'
+#' @param lpr2 Output from `join_lpr2()`.
+#' @param lpr3 Output from `join_lpr3()`.
+#'
+#' @returns The same type as the input data, default as a [tibble::tibble()].
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
+#' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
+#' get_pregnancy_dates(lpr2, lpr3)
+get_pregnancy_dates <- function(lpr2, lpr3) {
+  # Filter using the algorithm for pregnancy
+  lpr2 |>
+    dplyr::full_join(lpr3, by = dplyr::join_by(pnr)) |>
+    dplyr::filter(has_pregnancy_events) |>
+    dplyr::select(
+      pnr,
+      pregnancy_event_date = date
+    )
+}
+```
+
+## Joining inclusions and exclusions
+
+### `join_inclusions()`
+
+The function `join_inclusions()` appends/row-binds the dates output from
+functions the process the four types of inclusion events by `pnr`. Thus,
+it takes as input the following variables output from the following
+functions:
+
+-   From `include_diabetes_diagnoses()`:
+    -   `pnr`: identifier variable
+    -   `dates`: dates of the first and second hospital diabetes
+        diagnosis
+-   From `include_podiatrist_services()`
+    -   `pnr`: identifier variable
+    -   `dates`: the dates of the first and second diabetes-specific
+        podiatrist record
+-   From `exclude_pregnancy()`:
+    -   `pnr`: identifier variable
+    -   `dates`: the dates of the first and second elevated HbA1c test
+        results (after censoring)
+-   From `exclude_pregnancy()`:
+    -   `pnr`: identifier variable
+    -   `date`: dates of all purchases of GLD
+        -   The dates of the first and second purchase of GLD of each
+            individual are extracted from these and appended as two rows
+            to the ´dates´ variable.
+
+The output from the function is a `data.frame` containing two variables
+(`pnr` and `dates`) and 1 to 8 rows per ´pnr´. This output is passed to
+`get_inclusion_date()`.
+
+### Get diagnosis date
+
+The function `get_inclusion_date()` takes the output from
+`join_inclusions()` and defines the final diagnosis date based on all
+the inclusion event types.
+
+First, the inputs are sorted by `dates` within each level of `pnr`, then
+the earliest value of `dates` is dropped, so that only those with two or
+more events are included. The date of inclusion, `raw_inclusion_date`,
+is then defined as the earliest value of `dates`in the remaining rows
+for each individual (effectively the date of the second recorded
+inclusion event). A third variable, `stable_inclusion_date`, is defined
+based on `raw_inclusion_date` (if `raw_inclusion_date` \< stable
+inclusion threshold (one year after medication data starts to contribute
+to inclusions. Default "31-12-1997"), then `stable_inclusion_date` is
+set to `NA`, else it is set to`raw_inclusion_date`). This variable
+serves to limit the included cohort to only individuals with valid date
+of inclusion (and thereby valid age at inclusion & duration of
+diabetes).
+
+`get_inclusion_date()` outputs a `data.frame` with the following
+variables:
+
+-   `pnr`: identifier variable
+-   `raw_inclusion_date`: date of inclusion
+-   `stable_inclusion_date`: date of inclusion of valid incident cases
+
+This output is passed to the `get_diabetes_type()` function and used to
+classify the diabetes type as described below.
+
+### Classifying the diabetes type
+
+The next step of the OSDC algorithm classifies individuals from the
+extracted diabetes population as having either T1D or T2D. As described
+in the `vignette("design")`, individuals not classified as T1D cases are
+classified as T2D cases.
+
+As the diabetes type classification incorporates an evaluation of the
+time from diagnosis/inclusion to first subsequent purchase of insulin,
+the `get_diabetes_type()` function has to take the date of diagnosis and
+all purchases of GLD drugs (after censoring) as inputs. In addition,
+information on diabetes type-specific primary diagnoses from hospitals
+is also a requirement.
+
+Thus, the function takes the following inputs from
+`get_inclusion_date()`, `exclude_pregnancy()`, and
+`include_diabetes_diagnoses()`:
+
+-   From `get_inclusion_date()`: Information on date of diagnosis of
+    diabetes
+    -   `pnr`
+    -   `raw_inclusion_date`
+    -   `stable_inclusion_date`
+-   From `exclude_pregnancy()`: Information on historic GLD purchases:
+    -   `pnr`: identifier variable
+    -   `date`: dates of all purchases of GLD.
+    -   `atc`: type of drug
+    -   `contained_doses`: defined daily doses of drug contained in
+        purchase
+-   From `include_diabetes_diagnoses()`: Information on diabetes
+    type-specific primary diagnoses from hospitals:
+    -   `pnr`: identifier variable
+    -   `n_t1d_endocrinology`: number of type 1 diabetes-specific
+        primary diagnosis codes from endocrinological departments
+    -   `n_t2d_endocrinology`: number of type 2 diabetes-specific
+        primary diagnosis codes from endocrinological departments
+    -   `n_t1d_medical`: number of type 1 diabetes-specific primary
+        diagnosis codes from medical departments
+    -   `n_t2d_medical`: number of type 2 diabetes-specific primary
+        diagnosis codes from medical departments
+
+For each `pnr` number, several helper functions are applied to these
+inputs to extract additional information from the censored GLD data and
+diagnoses to use for classification of diabetes type. All of these
+return a single value (`TRUE`, otherwise `FALSE`) for each individual:
+
+-   `get_only_insulin_purchases()`:
+    -   Inputs passed from `exclude_pregnancy()`:
+        -   `atc`
+    -   Outputs:
+        -   only_insulin_purchases = `TRUE` if no purchases with `atc`
+            starting with "A10A" are present
+-   `get_insulin_purchases_within_180_days()`
+    -   Inputs passed from `exclude_pregnancy()`:
+        -   `date` & `atc`
+    -   Inputs passed from `get_inclusion_date()`:
+        -   `raw_inclusion_date`
+    -   Outputs: `TRUE` If any purchases with `atc` starting with "A10A"
+        have a `date` between 0 and 180 days higher than
+        `raw_inclusion_date`
+-   `get_insulin_is_two_thirds_of_gld_doses()`
+    -   Inputs passed from `exclude_pregnancy()`:
+        -   `contained_doses` & `atc`
+    -   Outputs: `TRUE` If the sum of `contained_doses` of rows of `atc`
+        starting with "A10A" (except "A10AE5") is at least twice the sum
+        of `contained_doses` of rows of `atc` starting with "A10B" or
+        "A10AE5"
+-   `get_any_t1d_primary_diagnoses()`:
+    -   Inputs passed from `include_diabetes_diagnoses()`:
+        -   `n_t1d_endocrinology` & `n_t1d_medical`
+    -   Outputs: `TRUE` if the combined sum of the inputs is 1 or above.
+-   `get_type_diagnoses_from_endocrinology()`:
+    -   Inputs passed from `include_diabetes_diagnoses()`:
+        -   `n_t1d_endocrinology`, `n_t2d_endocrinology`
+    -   Outputs: `type_diagnoses_from_endocrinology` = `TRUE` if the
+        combined sum of the inputs is 1 or above
+-   `get_type_diagnosis_majority()`:
+    -   Inputs passed from `include_diabetes_diagnoses()`:
+        -   `n_t1d_endocrinology`, `n_t2d_endocrinology`,
+            `n_t1d_medical` & `n_t2d_medical`
+    -   Inputs passed from `get_type_diagnoses_from_endocrinology()`:
+        -   `type_diagnoses_from_endocrinology`
+    -   Outputs: `TRUE` if `type_diagnoses_from_endocrinology` == `TRUE`
+        and `n_t1d_endocrinology` is above `n_t2d_endocrinology`. Also
+        `TRUE` if `type_diagnoses_from_endocrinology` = `FALSE` and
+        `n_t1d_medical` is above `n_t2d_medical`
+
+`get_diabetes_type()` evaluates all the outputs from the helper
+functions to define diabetes type for each individual. Diabetes type is
+classified as "T1D" if:
+
+-   `only_insulin_purchases` == `TRUE` & `any_t1d_primary_diagnoses` ==
+    `TRUE`
+-   Or `only_insulin_purchases` == `FALSE` & `any_t1d_primary_diagnoses`
+    == `TRUE` & `type_diagnosis_majority` == `TRUE` &
+    `insulin_is_two_thirds_of_gld_doses` == `TRUE` &
+    `insulin_purchases_within_180_days` == `TRUE`
+
+`get_diabetes_type()` returns a `data.frame` with one row per `pnr`
+number and four columns: `pnr`, `stable_inclusion_date`,
+`raw_inclusion_date` & `diabetes_type`. This is the final product of the
+OSDC algorithm. See the `vignette("design")` for an more detail on the
+two inclusion dates and their intended use-cases.
+
+<!-- TODO: Create updated image similar to https://aastedet.github.io/dissertation/4-results.html#fig-osdc-type-flow to reflect the new diabetes type logic and embed image here for reference-->
+
+<!-- TODO:  The following explanatory sections on T1D and T2D classification need to be aligned with the technical sections above, and possibly moved up to them-->
+
+![Flow of functions for classifying diabetes status using the `osdc`
+package.](images/function-flow-classification.svg)
+
+#### Type 1 classification
+
+The details for the classification of type 1 diabetes is described in
+`vignette("design")`. To classify whether an individual has T1D, the
+OSDC algorithm includes the following criteria:
+
+1.  `get_t1d_primary_diagnosis()`, which relies on the hospital
+    diagnoses extracted from `lpr_diag` (LPR2) and `diagnoser` (LPR3) in
+    the previous steps.
+2.  `get_only_insulin_purchases()` which relies on the GLD purchases
+    from Lægemiddeldatabasen to get patients where all GLD purchases are
+    insulin only.
+3.  `get_majority_of_t1d_diagnoses()` (as compared to T2D diagnoses)
+    which again relies on primary hospital diagnoses from LPR.
+4.  `get_insulin_purchase_within_180_days()` which relies on both
+    diagnosis from LPR and GLD purchases from Lægemiddeldatabasen.
+5.  `get_insulin_is_two_thirds_of_gld_doses` which relies on the GLD
+    purchases from Lægemiddeldatabasen.
+
+Note the following hierarchy in first function above: First, the
+function checks whether the individual has primary diagnoses from
+endocrinological specialty. If that's the case for a given person, the
+check of whether they have a majority of T1D primary diagnoses are based
+on data from endocrinological specialty. If that's not the case, the
+check will be based on primary diagnoses from medical specialties.
+
+#### Type 2 classification
+
+As described in the `vignette("design")`, individuals not classified as
+type 1 cases are classified as type 2 cases.

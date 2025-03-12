@@ -1,8 +1,8 @@
 ---
-title: "Getting started with osdc"
+title: "Getting started"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting started with osdc}
+  %\VignetteIndexEntry{Getting started}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -26,7 +26,8 @@ This package serves two overarching purposes:
 To read up on the overall design of this package as well as on the
 algorithm, check out the `vignette("design")`. For more explanation on
 the motivations, rationale, and needs for this algorithm and package,
-check out the `vignette("rationale")`.
+check out the `vignette("rationale")`. To see the specific data needed
+for this package and algorithm, see `vignette("data-sources")`.
 
 ## Usage
 
@@ -48,7 +49,7 @@ variable_description
 Let's convert that to a nicer format to show the list as a table.
 
 ```{r}
-variable_description |> 
-  select(register_name, register_abbrev, variable_name, english_description) |> 
+variable_description |>
+  select(register_name, register_abbrev, variable_name, english_description) |>
   knitr::kable()
 ```

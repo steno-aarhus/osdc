@@ -80,79 +80,114 @@ This is the list of functionality we aim to have in the osdc package
     diabetes status within the context of research using Danish
     registers.
 
-## Classifier algorithm
+## Function conventions
 
-A more complete description of the classifier is found in Anders Aasted
-Isaksen's [PhD Thesis](https://aastedet.github.io/dissertation/) as well
-as the validation paper [@Isaksen2023]. The description below is a brief
-and concise version of those documents.
+Effectively developing both the main user-exposed and internal functions
+requires following some conventions and design patterns for building
+these functions. There are a few conventions we describe here: naming
+patterns for functions and arguments, their argument input requirements,
+and their output data structure.
 
-The algorithm for classifying individuals with diabetes is described
-below. The overall output of this algorithm is first to classify those
-with diabetes, then to further classify and check if the individuals
-might have type 1 diabetes, otherwise classify as type 2 diabetes.
+The below conventions are *ideals* only, to be used as a guidelines to
+help with development and understanding of the code. They are not hard
+rules.
 
-Initial **diabetes** classification is defined as the second occurrence
-of any of the listed inclusion events. Wherever possible, all available
-data for each event is used, except for the purchases of
-glucose-lowering drugs, since the data on obstetric diagnoses necessary
-to censor glucose-lowering drug purchases is only complete from 1997
-onwards. Inclusion criteria are:
+### Naming
 
-1.  HbA1c measurements of ≥48 mmol/mol.
-2.  Hospital diagnoses of diabetes.
-3.  Diabetes-specific services received at podiatrist.
-4.  Purchase of glucose-lowering drugs.
+-   First word is an action verb, later words are objects or conditions.
+-   Exclusion criteria are prefixed with `exclude_`.
+-   Inclusion criteria are prefixed with `include_`.
+-   Helpers that get or extract a condition (e.g., "pregnancy" or "date
+    of visit") are prefixed with `get_`.
+-   Helpers that drop or keep a specific condition are prefixed with
+    `drop_` or `keep_` (e.g., "first visit date to maternal care for
+    pregnancy after 40 weeks"). These types of helpers likely are
+    contained in the `get_` functions.
+-   Helpers that join registers or output of other functions are
+    prefixed with `join_`.
 
-Exclusions are:
+### Input
 
-1.  HbA1c samples:
-    -   Samples taken during pregnancies, as that could be a potential
-        gestational diabetes mellitus.
-2.  Glucose-lowering drugs:
-    -   Brand drugs for weight loss, e.g. *Saxenda*.
-    -   Purchases during pregnancies, as that is a potential treatment
-        for gestational diabetes mellitus.
-    -   Metformin for women below age 40, as that could be a treatment
-        for polycystic ovary syndrome.
+-   As few arguments as is possible, with as few core required arguments
+    as possible (ideally one or two).
+-   `include_` functions take a register as the first argument.
+    -   One input register database at a time.
+-   `exclude_` functions can take a register as the first argument or
+    take the output from an `include_` function.
+-   All functions take a `data.frame` type object as input. This input
+    object doesn't need to be strictly a `data.frame` as long as it acts
+    like a `data.frame`. For instance, it could be a `data.table`, a
+    `tibble`, or a `duckdb` object.
+-   The first argument will always take a data frame type object.
+-   The second argument could be an output data frame object from
+    another function (usually `include_`).
 
-### Classifying type 1 diabetes
+### Output
 
-Diabetes type is classified as either T1D or T2D based on patterns of
-purchases of insulin drugs (including analogues) and hospital primary
-diagnoses of T1D and T2D.
+-   All functions output the same type of object as the input object (a
+    `data.frame` type object). For instance, if the input is a
+    `data.table` object, the output will also be a `data.table`.
 
-Classification as T1D requires an individual to fulfill either of the
-following criteria:
+## Interface
 
-a.  Must have purchased only insulin drugs and never any other type of
-    glucose-lowering drugs, and have at least one diagnosis of T1D
-b.  Must have a majority of T1D diagnoses from endocrinological
-    departments (or from other medical departments, in the absence of
-    contacts to endocrinological departments), and a purchase of insulin
-    within 180 days after onset of diabetes, with insulin contributing
-    at least two thirds of all defined daily doses of glucose-lowering
-    drugs purchased.
+The osdc package contains one main function that classifies individuals
+into those with either type 1 or type 2 diabetes using the Danish
+registers: `classify_diabetes()`. This function classifies those with
+diabetes (type 1 or 2) based on the Danish registers described in the
+`vignette("design")` and `vignette("data-sources")`. All data sources
+are used as input for this function. The specific inclusion and
+exclusion details are described in the `vignette("algorithm")`.
 
-In populations generated on a fixed index date (such as the
-cross-sectional studies associated with this dissertation), individuals
-classified as T1D cases must have purchased insulin drugs in the last
-year prior to the index date.
+### Input
 
-### Classifying type 2 diabetes
+There is one argument in `classify_diabetes()` for each required
+register, so the argument is:
 
-Individuals not classified as T1D cases are classified as T2D cases.
-
-## Data required from registers
-
-The following is a list of the variables required from specific
-registers in order for the package to classify diabetes status:
-
-```{r, echo=FALSE}
-variable_description |> 
-  mutate(Register = paste0(register_name, " (", register_abbrev, ")")) |> 
-  select(Register, Variable = variable_name) |> 
-  knitr::kable()
+```{r, results='asis'}
+variable_description |>
+  distinct(register_name, register_abbrev) |>
+  glue::glue_data("- `{register_abbrev}`: The register that is called '{register_name}' in Danish.")
 ```
 
-## References
+### Output
+
+The output is a `data.frame` type object which includes four columns:
+
+-   **pnr**: The pseudonymised social security number of individuals in
+    the diabetes population (one row per individual).
+-   **stable_inclusion_date**: The *stable* inclusion date (i.e., the
+    raw date mutated so only individuals included in the time-period
+    where data coverage is sufficient to make incident cases
+    reliable)[^1]
+    <!-- TODO: Specify this time-period: e.g., later than 1997 -->
+-   **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
+    the second inclusion event as described in the [Extracting the
+    diabetes population](#extracting-diabetes-population) section above)
+-   **diabetes_type** The classified diabetes type
+
+[^1]: For more information on the "raw" versus "stable" inclusion date,
+    see `vignette("algorithm")`.
+
+For an example, see below.
+
+| pnr        | stable_inclusion_date | raw_inclusion_date | diabetes_type |
+|------------|-----------------------|--------------------|---------------|
+| 0000000001 | 2020-01-01            | 2020-01-01         | T1D           |
+| 0000000004 | NULL                  | 1995-04-19         | T2D           |
+
+: Example rows of the `data.frame` output of the osdc package.
+
+The individuals `0000000001` and `0000000004` have been classified as
+having diabetes (`T1D` and `T2D`, respectively). `0000000001` is
+classified as having type 1 diabetes (T1D) with an inclusion date of
+`2020-01-01`. Since this date is within a time-period of sufficient data
+coverage, the column `stable_inclusion_date` is populated with the same
+date as `raw_inclusion_date`.
+
+The individual in the second row, `0000000004` is classified as having
+type 2 diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995
+is within a time-period of insufficient data coverage,
+`stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
+contains the inclusion date of this individual.
+
+<!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
