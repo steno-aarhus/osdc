@@ -20,12 +20,11 @@
 #'   -   `date`: The dates of all purchases of GLD.
 #'   -   `atc`: The ATC code for the type of drug.
 #'   -   `contained_doses`: The amount of doses purchased, in number of defined
-#'       daily doses (DDD).
+#'        daily doses (DDD).
 #'   -   `indication_code`: The indication code of the prescription (renamed
-#'       from `indo`).
-#'   -  `has_gld_purchases`: A logical variable to use as a helper indicator for
-#'      later functions.
-#'
+#'        from `indo`).
+#'   -   `has_gld_purchases`: A logical variable to use as a helper indicator
+#'       for later functions.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
