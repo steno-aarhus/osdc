@@ -76,10 +76,7 @@ test_that("verification works for Arrow Tables (from Parquet)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(lab_forsker) |>
-    include_hba1c() |>
-    # TODO: Arrow doesn't like the `row_number()` function, find a fix?
-    # Ignoring the warning for now, low priority.
-    suppressWarnings()
+    include_hba1c() |> dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>
