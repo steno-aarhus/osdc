@@ -52,28 +52,27 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
   #   lpr3 = lpr3
   # )
 
-  # podiatrist_services <- include_podiatrist_services(
-  #   sysi = sysi,
-  #   sssy = sssy
-  # )
+  podiatrist_services <- include_podiatrist_services(
+    sysi = sysi,
+    sssy = sssy
+  )
 
-  # gld_purchases <- include_gld_purchases(
-  #   lmdb = lmdb
-  # )
+  gld_purchases <- include_gld_purchases(
+    lmdb = lmdb
+  )
 
   hba1c_over_threshold <- include_hba1c(
     lab_forsker = lab_forsker
   )
 
   # Exclusion steps -----
-  exclusions <- gld_purchases |>
-    exclude_potential_pcos(bef = bef) |>
-    exclude_wld_purchases(lmdb = lmdb) |>
-    exclude_pregnancy(
-      # TODO: Need to think about arg naming here..
-      hba1c = included_hba1c,
-      pregnancy_dates = pregnancy_dates
-    )
+  # gld_hba1c_after_exclusions <- gld_purchases |>
+  #   exclude_potential_pcos(bef = bef) |>
+  #   exclude_pregnancy(
+  #     # TODO: Need to think about arg naming here..
+  #     included_hba1c = hba1c_over_threshold,
+  #     pregnancy_dates = pregnancy_dates
+  #   )
 
   # Joining into an initial dataset -----
   # inclusions <- join_inclusions(
