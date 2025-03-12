@@ -19,7 +19,7 @@ Join together the LPR2 (\code{lpr_diag} and \code{lpr_adm}) registers.
 }
 \examples{
 \dontrun{
-register_data$lpr_adm |>
+simulate_registers("lpr_adm", 100)[[1]] |>
   join_lpr2(register_data$lpr_diag)
 }
 }
