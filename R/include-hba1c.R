@@ -43,10 +43,5 @@ include_hba1c <- function(lab_forsker) {
       .keep = "none"
     ) |>
     # Remove any duplicates
-    dplyr::distinct() |>
-    # FIXME: This might be computationally intensive.
-    dplyr::group_by(.data$pnr) |>
-    # Keep earliest two dates.
-    dplyr::filter(dplyr::row_number(date) %in% 1:2) |>
-    dplyr::ungroup()
+    dplyr::distinct()
 }
