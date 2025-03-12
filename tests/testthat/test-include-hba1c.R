@@ -60,7 +60,7 @@ test_that("casing of input variables doesn't matter", {
 test_that("verification works for DuckDB Database", {
   skip_on_cran()
   skip_if_not_installed("duckplyr")
-  actual <- duckplyr::as_duckplyr_tibble(lab_forsker) |>
+  actual <- duckplyr::as_duckdb_tibble(lab_forsker) |>
     include_hba1c()
 
   actual_rows <- actual |>
