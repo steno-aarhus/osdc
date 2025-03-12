@@ -92,20 +92,20 @@ algorithm <- function() {
       comments = ""
     ),
     no_pregnancy = list(
-      register = NULL,
+      register = NA,
       title = "Remove events within a potential pregnancy period",
       logic = "!(has_pregnancy_event AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
       comments = ""
     ),
     podiatrist_services = list(
-      register = NULL,
+      register = NA,
       title = "Podiatrist services",
       logic = "speciale =~ '^54' AND barnmak != 0",
       # TODO: Explain what barnmark 0 means
       comments = "`barnmak` means the services were provided to a child of the individual."
     ),
     no_potential_pcos = list(
-      register = NULL,
+      register = NA,
       title = "No potential PCOS",
       logic = "koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < 40 OR indication_code %in% c('0000092', '0000276', '0000781'))",
       comments = "Woman is defined as 2 in `koen`."
