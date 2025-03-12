@@ -16,8 +16,8 @@
 #' @examples
 #' \dontrun{
 #' # TODO: Replace with simulated data.
-#' verify_required_variables(register_data$bef, "bef")
-#' verify_required_variables(register_data$lpr_adm, "lpr_adm")
+#' verify_required_variables(simulate_registers("bef")[[1]], "bef")
+#' verify_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
 #' }
 verify_required_variables <- function(data, register, call = rlang::caller_env()) {
   checkmate::assert_choice(register, get_register_abbrev())
