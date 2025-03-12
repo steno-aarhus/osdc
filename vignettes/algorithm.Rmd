@@ -9,94 +9,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = FALSE
 )
-```
-
-```{r setup}
 library(osdc)
 library(dplyr)
 ```
 
-## `lpr_diag`
+## General description
 
-```{r, echo=FALSE}
-algorithm |>
-  filter(register == "lpr_diag") |>
-  knitr::kable()
-```
-
-## `lpr_adm`
-
-```{r, echo=FALSE}
-algorithm |>
-  filter(register == "lpr_adm") |>
-  knitr::kable()
-```
-
-## `diagnoser`
-
--   `diagnosekode` starts with "DO0[0-6]", "DO8[0-4]", "DZ3[37]" or
-    "DE1[0-4]".
-    -   Is T1D if `diagnosekode` starts with "DE10".
-    -   Is T2D if `diagnosekode` starts with "DE11".
--   `diagnosetype` is equal to either "A" or "B".
-    -   Is a primary diagnosis if it equals "A".
--   `senere_afkraeftet` (if the diagnosis was later retracted) is equal
-    to "Nej".
-
-## `kontakter`
-
--   `hovedspeciale_ans` (hospital department) is categorized as
-    "endocrinology" if it equals "medicinsk endokrinologi" or as "other
-    medical" if it equals any of "Blandet medicin og kirurgi", "Intern
-    medicin", "Geriatri", "Hepatologi", "Hæmatologi",
-    "Infektionsmedicin", "Kardiologi", "Medicinsk allergologi",
-    "Medicinsk gastroenterologi", "Medicinsk lungesygdomme",
-    "Nefrologi", "Reumatologi", "Palliativ medicin", "Akut medicin",
-    "Dermato-venerologi", "Neurologi", "Onkologi", "Fysiurgi", or
-    "Tropemedicin".
-
-## `lab_forsker`
-
-```{r, echo=FALSE}
-algorithm |>
-  filter(name == "hba1c") |>
-  knitr::kable()
-```
-
-## `ssyi` and `sssy`
-
--   `speciale` starts with "54".
--   `barnmark` (services provided to a child of the individual) is not
-    equal to 0.
-
-## `lmdb`
-
-```{r, echo=FALSE}
-algorithm |>
-  filter(name == "gld") |>
-  knitr::kable()
-```
-
-## `bef` and only GLD (via `lmdb`)
-
-To remove those with potential polycystic ovary syndrome:
-
--   `atc` starts with "A10BA02" and `koen` is equal to 2 (woman) and
-    (`date` minus `foed_dato` (birth date) is less than 40 or
-    `indication_code` equals one of "0000092", "0000276" or "0000781")
-
-## Pregnancy events
-
-```{r, echo=FALSE}
-algorithm |>
-  filter(name == "exclude_pregnancy") |>
-  knitr::kable()
-```
 A more complete description of the classifier is found in Anders Aasted
 Isaksen's [PhD Thesis](https://aastedet.github.io/dissertation/) as well
 as the validation paper [@Isaksen2023]. The description of the algorithm
@@ -156,5 +80,84 @@ year prior to the index date.
 ### Classifying type 2 diabetes
 
 Individuals not classified as T1D cases are classified as T2D cases.
+
+## Detailed and technical description
+
+Below are the technical, exact implementation of the above description.
+These are the logical conditions and exact variables and registers used
+that results in the classification of diabetes status and types. They are
+shown in the form of tables for each register, as well as for each
+
+### `lpr_diag`
+
+```{r}
+algorithm |>
+  filter(register == "lpr_diag") |>
+  knitr::kable()
+```
+
+### `lpr_adm`
+
+```{r}
+algorithm |>
+  filter(register == "lpr_adm") |>
+  knitr::kable()
+```
+
+### `diagnoser`
+
+```{r}
+algorithm |>
+  filter(register == "diagnoser") |>
+  knitr::kable()
+```
+
+### `kontakter`
+
+```{r}
+algorithm |>
+  filter(register == "kontakter") |>
+  knitr::kable()
+```
+
+### `lab_forsker`
+
+```{r}
+algorithm |>
+  filter(name == "hba1c") |>
+  knitr::kable()
+```
+
+### `ssyi` and `sssy` for podiatrist services
+
+```{r}
+algorithm |>
+  filter(name == "podiatrist_services") |>
+  knitr::kable()
+```
+
+### `lmdb` for glucose lowering drugs
+
+```{r}
+algorithm |>
+  filter(name == "gld") |>
+  knitr::kable()
+```
+
+### `bef` and only GLD (via `lmdb`) for potential polycystic ovary syndrome
+
+```{r}
+algorithm |>
+  filter(name == "no_potential_pcos") |>
+  knitr::kable()
+```
+
+### Pregnancy events
+
+```{r}
+algorithm |>
+  filter(name == "no_pregnancy") |>
+  knitr::kable()
+```
 
 ## References
