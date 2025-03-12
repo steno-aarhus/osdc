@@ -73,15 +73,15 @@ test_that("verification works for Arrow Tables (from Parquet)", {
   # Unfortunately, when we convert to YYYY-MM-DD, Arrow can't seem to handle
   # the code, so it has to pull it into R. Which is less than ideal, but this is
   # a small edge case that we may have to consider/figure out later.
-  actual <- suppressWarnings(include_podiatrist_services(sysi, sssy))
+  actual <- suppressWarnings(include_podiatrist_services(sysi, sssy)) |>
+    dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>
     dplyr::pull(n)
 
   expect_equal(actual_rows, nrow(expected))
-  # TODO: Arrow doesn't work with colname(), fix?
-  expect_equal(names(actual), colnames(expected))
+  expect_equal(colnames(actual), colnames(expected))
 })
 
 test_that("verification works for data.frame", {
