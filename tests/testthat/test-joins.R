@@ -63,15 +63,16 @@ test_that("joining works for Arrow Tables (from Parquet)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(actual_lpr_adm) |>
-    join_lpr2(arrow::as_arrow_table(actual_lpr_diag))
+    join_lpr2(arrow::as_arrow_table(actual_lpr_diag)) |>
+    dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>
     dplyr::pull(n) |>
     as.integer()
 
-  expect_contains(class(actual), "arrow_dplyr_query")
-  expect_identical(names(actual), colnames(expected_lpr2))
+  expect_contains(class(actual), "Table")
+  expect_identical(colnames(actual), colnames(expected_lpr2))
   expect_identical(actual_rows, nrow(expected_lpr2))
 })
 
@@ -172,15 +173,16 @@ test_that("joining works for Arrow Tables (from Parquet)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(actual_kontakter) |>
-    join_lpr3(arrow::as_arrow_table(actual_diagnoser))
+    join_lpr3(arrow::as_arrow_table(actual_diagnoser)) |>
+    dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>
     dplyr::pull(n) |>
     as.integer()
 
-  expect_contains(class(actual), "arrow_dplyr_query")
-  expect_identical(names(actual), colnames(expected_lpr3))
+  expect_contains(class(actual), "Table")
+  expect_identical(colnames(actual), colnames(expected_lpr3))
   expect_identical(actual_rows, nrow(expected_lpr3))
 })
 

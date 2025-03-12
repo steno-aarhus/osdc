@@ -70,15 +70,15 @@ test_that("verification works for Arrow Tables (from Parquet)", {
   skip_on_cran()
   skip_if_not_installed("arrow")
   actual <- arrow::as_arrow_table(lmdb) |>
-    include_gld_purchases()
+    include_gld_purchases() |>
+    dplyr::compute()
 
   actual_rows <- actual |>
     dplyr::count() |>
     dplyr::pull(n)
 
   expect_equal(actual_rows, nrow(expected))
-  # TODO: Arrow doesn't work with colname(), fix?
-  expect_equal(names(actual), colnames(expected))
+  expect_equal(colnames(actual), colnames(expected))
 })
 
 test_that("verification works for data.frame", {
