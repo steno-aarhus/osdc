@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @importFrom fabricatr draw_binary draw_categorical
 #' @importFrom lifecycle deprecated
 #' @importFrom dplyr na_if
 #' @importFrom lubridate weeks
