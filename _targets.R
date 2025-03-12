@@ -14,29 +14,11 @@ tar_option_set(
 )
 
 # Run the R scripts in the R/ folder with your custom functions:
-source(here::here("data-raw/algorithm.R"))
 source(here::here("data-raw/variable-description.R"))
 source(here::here("data-raw/simulate-data.R"))
 
 # Replace the target list below with your own:
 list(
-  tar_target(
-    name = algorithm_csv,
-    command = "data-raw/algorithm.csv",
-    format = "file"
-  ),
-  tar_target(
-    name = algorithm,
-    command = read_algorithm_data(algorithm_csv)
-  ),
-  tar_target(
-    name = algorithm_rda,
-    command = {
-      usethis::use_data(algorithm, overwrite = TRUE)
-      here::here("data/algorithm.rda")
-    },
-    format = "file"
-  ),
   tar_target(
     name = variable_description_csv,
     command = "data-raw/variable-description.csv",
@@ -74,7 +56,7 @@ list(
   tar_target(
     name = internal_rda,
     command = {
-      usethis::use_data(algorithm,
+      usethis::use_data(
         variable_description,
         register_data,
         overwrite = TRUE, internal = TRUE
