@@ -274,61 +274,8 @@ function outputs.</div>
 <h3 id="include_podiatrist_services">
 <code>include_podiatrist_services()</code><a class="anchor" aria-label="anchor" href="#include_podiatrist_services"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Include diabetes-specific podiatrist services.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' Uses the `sysi` or `sssy` registers as input to extract the dates of all</span></span>
-<span><span class="co">#' diabetes-specific podiatrist services. Removes duplicate services on the</span></span>
-<span><span class="co">#' same date</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' The output is passed to the `join_inclusions()` function for the final</span></span>
-<span><span class="co">#' step of the inclusion process.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @return The same type as the input data, default as a [tibble::tibble()],</span></span>
-<span><span class="co">#'   with two columns and up to two rows for each individual:</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#'   -  `pnr`: identifier variable</span></span>
-<span><span class="co">#'   -  `date`: the dates of the first and second diabetes-specific</span></span>
-<span><span class="co">#'      podiatrist record</span></span>
-<span><span class="co">#'  -  `has_podiatrist_services`: A logical variable that acts as a helper</span></span>
-<span><span class="co">#'      indicator for use in later functions.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @keywords internal</span></span>
-<span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' include_podiatrist_services(register_data$sssy, register_data$sysi)</span></span>
-<span><span class="va">include_podiatrist_services</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">sssy</span>, <span class="va">sysi</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Filter using the algorithm for podiatrist services</span></span>
-<span>  <span class="va">sssy</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">sysi</span>, by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">.date</span><span class="op">$</span><span class="va">pnr</span>, <span class="va">.data</span><span class="op">$</span><span class="va">barnmak</span>, <span class="va">.data</span><span class="op">$</span><span class="va">speciale</span>, <span class="va">.data</span><span class="op">$</span><span class="va">honuge</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="co"># Filtering...</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
-<span>      <span class="va">pnr</span>,</span>
-<span>      date <span class="op">=</span> <span class="fu"><a href="../reference/yyww_to_yyyymmdd.html">yyww_to_yyyymmdd</a></span><span class="op">(</span><span class="va">honuge</span><span class="op">)</span>,</span>
-<span>      <span class="va">had</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="co"># Remove duplicate multiple services on the same date</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/distinct.html" class="external-link">distinct</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>has_podiatrist_services <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Converts the "YYWW" date format to the ISO8601 standard date format.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' Since the original date format ("YYWW", two-digit year and two-digit week number)</span></span>
-<span><span class="co">#' doesn't include a day, we assume it would be the first day of that week.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @param date The date variable in the format "YYWW".</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @returns A character vector of unique dates in the format "YYYY-MM-DD".</span></span>
-<span><span class="co">#' @keywords internal</span></span>
-<span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' yyww_to_yyymmdd(c("0452", "5302", "3232"))</span></span>
-<span><span class="va">yyww_to_yyyymmdd</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">date</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<p>See <code><a href="../reference/include_podiatrist_services.html">?include_podiatrist_services</a></code> for more
+information.</p>
 </div>
 <div class="section level3">
 <h3 id="include_hba1c">
@@ -350,7 +297,7 @@ function outputs.</div>
 <h3 id="exclude_potential_pcos">
 <code>exclude_potential_pcos()</code><a class="anchor" aria-label="anchor" href="#exclude_potential_pcos"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Exclude metformin purchases potentially for the treatment of polycystic ovary syndrome.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' Takes the output from `include_gld_purchases()` and `bef` (information on sex and date of birth) to do the exclusions.</span></span>
@@ -382,7 +329,7 @@ function outputs.</div>
 <h3 id="exclude_pregnancy">
 <code>exclude_pregnancy()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancy"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Exclude any pregnancy events that could be gestational diabetes.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#'</span></span>
@@ -439,7 +386,7 @@ function outputs.</div>
 <span>    <span class="co"># Filtering here...</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_pregnancy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Simple function to get only the pregnancy event dates.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param lpr2 Output from `join_lpr2()`.</span></span>
