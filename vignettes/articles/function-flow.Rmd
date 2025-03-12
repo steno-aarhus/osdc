@@ -203,64 +203,7 @@ include_diabetes_diagnosis <- function(lpr2, lpr3) {
 
 ### `include_podiatrist_services()`
 
-```{r}
-#' Include diabetes-specific podiatrist services.
-#'
-#' Uses the `sysi` or `sssy` registers as input to extract the dates of all
-#' diabetes-specific podiatrist services. Removes duplicate services on the
-#' same date
-#'
-#' The output is passed to the `join_inclusions()` function for the final
-#' step of the inclusion process.
-#'
-#' @return The same type as the input data, default as a [tibble::tibble()],
-#'   with two columns and up to two rows for each individual:
-#'
-#'   -  `pnr`: identifier variable
-#'   -  `date`: the dates of the first and second diabetes-specific
-#'      podiatrist record
-#'  -  `has_podiatrist_services`: A logical variable that acts as a helper
-#'      indicator for use in later functions.
-#'
-#' @keywords internal
-#' @inherit algorithm seealso
-#'
-#' @examples
-#' include_podiatrist_services(register_data$sssy, register_data$sysi)
-include_podiatrist_services <- function(sssy, sysi) {
-  # Filter using the algorithm for podiatrist services
-  sssy |>
-    dplyr::full_join(sysi, by = dplyr::join_by(.date$pnr, .data$barnmak, .data$speciale, .data$honuge)) |>
-    # Filtering...
-    dplyr::select(
-      pnr,
-      date = yyww_to_yyyymmdd(honuge),
-      had
-    ) |>
-    # Remove duplicate multiple services on the same date
-    dplyr::distinct() |>
-    dplyr::mutate(has_podiatrist_services = TRUE)
-}
-```
-
-```{r}
-#' Converts the "YYWW" date format to the ISO8601 standard date format.
-#'
-#' Since the original date format ("YYWW", two-digit year and two-digit week number)
-#' doesn't include a day, we assume it would be the first day of that week.
-#'
-#' @param date The date variable in the format "YYWW".
-#'
-#' @returns A character vector of unique dates in the format "YYYY-MM-DD".
-#' @keywords internal
-#' @inherit algorithm seealso
-#'
-#' @examples
-#' yyww_to_yyymmdd(c("0452", "5302", "3232"))
-yyww_to_yyyymmdd <- function(date) {
-  date
-}
-```
+See `?include_podiatrist_services` for more information.
 
 ### `include_hba1c()`
 
