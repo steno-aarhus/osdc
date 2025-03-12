@@ -11,15 +11,16 @@ include_gld_purchases(lmdb)
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}, in
-a long format with all dates of purchases kept and the following variables:
+a long format with all dates of GLD purchases kept and the following
+variables:
 \itemize{
 \item \code{pnr}: Personal identification variable.
 \item \code{date}: The dates of all purchases of GLD.
 \item \code{atc}: The ATC code for the type of drug.
-\item \code{contained_doses}: The amount of doses purchased, in number of defined daily
-doses (DDD).
-\item \code{indication_code}: The indication code of the prescription (renamed from
-\code{indo}).
+\item \code{contained_doses}: The amount of doses purchased, in number of defined
+daily doses (DDD).
+\item \code{indication_code}: The indication code of the prescription (renamed
+from \code{indo}).
 \item \code{has_gld_purchases}: A logical variable to use as a helper indicator for
 later functions.
 }

@@ -13,7 +13,7 @@
 #' @param lmdb The `lmdb` register.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()], in
-#'   a long format with all dates of GLD purchases kept and the following 
+#'   a long format with all dates of GLD purchases kept and the following
 #'   variables:
 #'
 #'   -   `pnr`: Personal identification variable.
@@ -21,7 +21,7 @@
 #'   -   `atc`: The ATC code for the type of drug.
 #'   -   `contained_doses`: The amount of doses purchased, in number of defined
 #'       daily doses (DDD).
-#'   -   `indication_code`: The indication code of the prescription (renamed 
+#'   -   `indication_code`: The indication code of the prescription (renamed
 #'       from `indo`).
 #'   -  `has_gld_purchases`: A logical variable to use as a helper indicator for
 #'      later functions.

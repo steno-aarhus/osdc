@@ -36,4 +36,8 @@ step of the inclusion process.
 include_podiatrist_services(register_data$sysi, register_data$sssy)
 }
 }
+\seealso{
+See the \code{vignette("algorithm")} and \link{algorithm} for the logic used
+to filter these patients.
+}
 \keyword{internal}

@@ -2,7 +2,7 @@
 % Please edit documentation in R/include-hba1c.R
 \name{include_hba1c}
 \alias{include_hba1c}
-\title{Include only those with HbA1c in the required range.}
+\title{Include only those with HbA1c above the required threshold.}
 \usage{
 include_hba1c(lab_forsker)
 }
