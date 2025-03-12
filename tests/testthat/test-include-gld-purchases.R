@@ -55,7 +55,7 @@ test_that("casing of input variables doesn't matter", {
 test_that("verification works for DuckDB Database", {
   skip_on_cran()
   skip_if_not_installed("duckplyr")
-  actual <- duckplyr::as_duckplyr_tibble(lmdb) |>
+  actual <- duckplyr::as_duckdb_tibble(lmdb) |>
     include_gld_purchases()
 
   actual_rows <- actual |>
