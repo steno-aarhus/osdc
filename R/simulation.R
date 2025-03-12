@@ -3,23 +3,24 @@
 
 # Get ICD-8 codes -----------------------------------------------------------
 
-# "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
-#   read_lines() |>
-#   str_trim() |>
-#   as_tibble() |>
-#   separate_wider_delim(
-#     value,
-#     delim = regex("   +"),
-#     names = c("icd8", "description", "unknown"),
-#     too_many = "merge"
-#   ) |>
-#   mutate(across(everything(), str_trim)) |>
-#   mutate(
-#     description = str_remove(description, "\\d+"),
-#     icd8 = str_remove(icd8, "dia")
-#   ) |>
-#   select(icd8) |>
-#   write_csv(here("data-raw/icd8-codes.csv"))
+get_icd8_codes <- function() {
+  "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
+    readr::read_lines() |>
+    stringr::str_trim() |>
+    dplyr::as_tibble() |>
+    tidyr::separate_wider_delim(
+      value,
+      delim = stringr::regex("   +"),
+      names = c("icd8", "description", "unknown"),
+      too_many = "merge"
+    ) |>
+    dplyr::mutate(dplyr::across(tidyselect::everything(), stringr::str_trim)) |>
+    dplyr::mutate(
+      description = stringr::str_remove(description, "\\d+"),
+      icd8 = stringr::str_remove(icd8, "dia")
+    ) |>
+    dplyr::select(icd8)
+}
 
 # Simulation functions -----------------------------------------------------
 
