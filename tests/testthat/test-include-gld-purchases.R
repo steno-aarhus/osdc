@@ -30,7 +30,10 @@ expected <- tibble::tribble(
     has_gld_purchases = TRUE
   ) |>
   dplyr::select(-volume, -apk) |>
-  dplyr::relocate(atc, .after = date)
+  dplyr::relocate(
+    pnr, date, atc, contained_doses,
+    has_gld_purchases, indication_code
+  )
 
 test_that("dataset needs expected variables", {
   actual <- lmdb[-2]

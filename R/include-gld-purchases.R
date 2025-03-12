@@ -13,15 +13,16 @@
 #' @param lmdb The `lmdb` register.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()], in
-#'   a long format with all dates of GLD purchases kept and the following variables:
+#'   a long format with all dates of GLD purchases kept and the following 
+#'   variables:
 #'
 #'   -   `pnr`: Personal identification variable.
 #'   -   `date`: The dates of all purchases of GLD.
 #'   -   `atc`: The ATC code for the type of drug.
-#'   -   `contained_doses`: The amount of doses purchased, in number of defined daily
-#'       doses (DDD).
-#'   -   `indication_code`: The indication code of the prescription (renamed from
-#'       `indo`).
+#'   -   `contained_doses`: The amount of doses purchased, in number of defined
+#'       daily doses (DDD).
+#'   -   `indication_code`: The indication code of the prescription (renamed 
+#'       from `indo`).
 #'   -  `has_gld_purchases`: A logical variable to use as a helper indicator for
 #'      later functions.
 #'
@@ -44,7 +45,11 @@ include_gld_purchases <- function(lmdb) {
     dplyr::filter(!!criteria) |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
-    dplyr::mutate(contained_doses = .data$volume * .data$apk) |>
+    dplyr::mutate(
+      contained_doses = .data$volume * .data$apk,
+      # An indicator variable for later joins
+      has_gld_purchases = TRUE
+    ) |>
     # Keep only the columns we need.
     dplyr::select(
       "pnr",
@@ -52,7 +57,7 @@ include_gld_purchases <- function(lmdb) {
       date = "eksd",
       "atc",
       "contained_doses",
+      "has_gld_purchases",
       indication_code = "indo"
-    ) |>
-    dplyr::mutate(has_gld_purchases = TRUE)
+    )
 }
