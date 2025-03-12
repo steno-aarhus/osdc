@@ -39,7 +39,7 @@ These events are then passed to a chain of exclusion functions:
 }
 \examples{
 \dontrun{
-simulate_registers("lmdb")$lmdb |> include_gld_purchases()
+simulate_registers("lmdb", 100)[[1]] |> include_gld_purchases()
 }
 }
 \seealso{
