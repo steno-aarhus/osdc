@@ -21,8 +21,8 @@ variables:
 daily doses (DDD).
 \item \code{indication_code}: The indication code of the prescription (renamed
 from \code{indo}).
-\item \code{has_gld_purchases}: A logical variable to use as a helper indicator for
-later functions.
+\item \code{has_gld_purchases}: A logical variable to use as a helper indicator
+for later functions.
 }
 }
 \description{
