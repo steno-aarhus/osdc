@@ -61,7 +61,7 @@ classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sss
   #   lmdb = lmdb
   # )
 
-  included_hba1c <- include_hba1c(
+  hba1c_over_threshold <- include_hba1c(
     lab_forsker = lab_forsker
   )
 
