@@ -314,8 +314,12 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
 #' `exclude_potential_pcos()` and uses diagnoses from LPR2 or LPR3 to
 #' exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
-#' diabetes. The main aim is to identify and remove recorded pregnancy 
-#' "events" like live births or miscarriages.
+#' diabetes. The aim is to identify pregnancies based on diagnosis codes
+#' specific to pregnancy-ending events (e.g. live births or miscarriages),
+#' and then use the dates of these events to remove inclusion events in the
+#' preceding months that may be related to gestational diabetes (e.g.
+#' elevated HbA1c tests or purchases of glucose-lowering drugs during
+#' pregnancy).
 #'
 #' After these exclusion functions have been applied, the output serves as
 #' inputs to two sets of functions:
