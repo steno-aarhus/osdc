@@ -7,17 +7,43 @@
 include_gld_purchases(lmdb)
 }
 \arguments{
-\item{lmdb}{The LMDB register.}
+\item{lmdb}{The \code{lmdb} register.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}, in
+a long format with all dates of GLD purchases kept and the following
+variables:
+\itemize{
+\item \code{pnr}: Personal identification variable.
+\item \code{date}: The dates of all purchases of GLD.
+\item \code{atc}: The ATC code for the type of drug.
+\item \code{contained_doses}: The amount of doses purchased, in number of defined
+daily doses (DDD).
+\item \code{indication_code}: The indication code of the prescription (renamed
+from \code{indo}).
+\item \code{has_gld_purchases}: A logical variable to use as a helper indicator for
+later functions.
+}
 }
 \description{
-See \link{algorithm} for the logic used to filter these patients.
+But don't include glucose-lowering drugs that may be used for other
+conditions than diabetes like GLP-RAs or dapagliflozin/empagliflozin drugs.
+Since the diagnosis code data on pregnancies (see below) is insufficient to
+perform censoring prior to 1997, \code{include_gld_purchases()} only extracts
+dates from 1997 onward by default (if Medical Birth Register data is
+available to use for censoring, the extraction window can be extended).
+}
+\details{
+These events are then passed to a chain of exclusion functions:
+\code{exclude_potential_pcos()} and \code{exclude_pregnancy()}.
 }
 \examples{
 \dontrun{
 register_data$lmdb |> include_gld_purchases()
 }
+}
+\seealso{
+See the \code{vignette("algorithm")} and \link{algorithm} for the logic used
+to filter these patients.
 }
 \keyword{internal}

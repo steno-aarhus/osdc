@@ -9,6 +9,18 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  echo = FALSE
+)
+library(osdc)
+library(dplyr)
+```
+
+## General description
+
 A more complete description of the classifier is found in Anders Aasted
 Isaksen's [PhD Thesis](https://aastedet.github.io/dissertation/) as well
 as the validation paper [@Isaksen2023]. The description of the algorithm
@@ -68,5 +80,84 @@ year prior to the index date.
 ### Classifying type 2 diabetes
 
 Individuals not classified as T1D cases are classified as T2D cases.
+
+## Detailed and technical description
+
+Below are the technical, exact implementation of the above description.
+These are the logical conditions and exact variables and registers used
+that results in the classification of diabetes status and types. They are
+shown in the form of tables for each register, as well as for each
+
+### `lpr_diag`
+
+```{r}
+algorithm |>
+  filter(register == "lpr_diag") |>
+  knitr::kable()
+```
+
+### `lpr_adm`
+
+```{r}
+algorithm |>
+  filter(register == "lpr_adm") |>
+  knitr::kable()
+```
+
+### `diagnoser`
+
+```{r}
+algorithm |>
+  filter(register == "diagnoser") |>
+  knitr::kable()
+```
+
+### `kontakter`
+
+```{r}
+algorithm |>
+  filter(register == "kontakter") |>
+  knitr::kable()
+```
+
+### `lab_forsker`
+
+```{r}
+algorithm |>
+  filter(name == "hba1c") |>
+  knitr::kable()
+```
+
+### `ssyi` and `sssy` for podiatrist services
+
+```{r}
+algorithm |>
+  filter(name == "podiatrist_services") |>
+  knitr::kable()
+```
+
+### `lmdb` for glucose lowering drugs
+
+```{r}
+algorithm |>
+  filter(name == "gld") |>
+  knitr::kable()
+```
+
+### `bef` and only GLD (via `lmdb`) for potential polycystic ovary syndrome
+
+```{r}
+algorithm |>
+  filter(name == "no_potential_pcos") |>
+  knitr::kable()
+```
+
+### Pregnancy events
+
+```{r}
+algorithm |>
+  filter(name == "no_pregnancy") |>
+  knitr::kable()
+```
 
 ## References
