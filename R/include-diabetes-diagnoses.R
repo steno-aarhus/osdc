@@ -28,12 +28,12 @@ include_diabetes_diagnoses <- function(lpr_diag, lpr_adm, diagnoser, kontakter) 
   verify_required_variables(register_data$diagnoser, "diagnoser")
   verify_required_variables(register_data$kontakter, "kontakter")
 
-  # Filter and join LPR2 data:
+  # Filter and join LPR2 data
   lpr2_criteria <- get_algorithm_logic("lpr2_diabetes") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
 
-  # Filter to diabetes diagnoses using expression filter.
+  # Filter to diabetes diagnoses using expression filter
   lpr2_diabetes_diagnoses <- lpr_diag |>
     column_names_to_lower() |>
     dplyr::filter(!!lpr2_criteria)
