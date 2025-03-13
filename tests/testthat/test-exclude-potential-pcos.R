@@ -101,7 +101,7 @@ expected <- tibble::tribble(
   ### Age at purchase doesn't match (> 40)
   2000000000, "2025-02-02", "A10", 1.21, TRUE, "324314324", TRUE,
   2000000000, "2025-02-02", "A10", 1.21, TRUE, "0000276", TRUE, # indication_code matches
-)  |>
+) |>
   dplyr::mutate(date = lubridate::as_date(date))
 
 
