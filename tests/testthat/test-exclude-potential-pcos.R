@@ -1,12 +1,12 @@
 bef <- tibble::tribble(
   ~koen, ~pnr, ~foed_dato,
   # Men (as defined by PNR)
-  1, 1000000001, 19800101,
+  1, 1000000001, as.Date("1980-01-01"),
   # Women (as defined by PNR)
-  2, 2000000000, 19800101,
+  2, 2000000000, as.Date("1980-01-01"),
   # No GLD purchases (excluded)
-  1, 3000000001, 19800101,
-  2, 4000000000, 19800101,
+  1, 3000000001, as.Date("1980-01-01"),
+  2, 4000000000, as.Date("1980-01-01"),
 )
 
 gld_purchases <- tibble::tribble(
@@ -14,48 +14,48 @@ gld_purchases <- tibble::tribble(
   # Men (as defined by PNR)
   ## ATC matches criteria
   ### Age at purchase matches criteria (< 40)
-  1000000001, 20100202, "A10BA02", 1.21, TRUE, "324314324",
-  1000000001, 20100202, "A10BA02", 1.21, TRUE, "0000092", # indication_code matches
+  1000000001, as.Date("2010-02-02"), "A10BA02", 1.21, TRUE, "324314324",
+  1000000001, as.Date("2010-02-02"), "A10BA02", 1.21, TRUE, "0000092", # indication_code matches
   ### Age at purchase doesn't match (= 40)
-  1000000001, 20200202, "A10BA02", 1.21, TRUE, "324314324",
-  1000000001, 20200202, "A10BA02", 1.21, TRUE, "0000781", # indication_code matches
+  1000000001, as.Date("2020-02-02"), "A10BA02", 1.21, TRUE, "324314324",
+  1000000001, as.Date("2020-02-02"), "A10BA02", 1.21, TRUE, "0000781", # indication_code matches
   ### Age at purchase doesn't match (> 40)
-  1000000001, 20250202, "A10BA02", 1.21, TRUE, "324314324",
-  1000000001, 20250202, "A10BA02", 1.21, TRUE, "0000276", # indication_code matches
+  1000000001, as.Date("2025-02-02"), "A10BA02", 1.21, TRUE, "324314324",
+  1000000001, as.Date("2025-02-02"), "A10BA02", 1.21, TRUE, "0000276", # indication_code matches
   ## ATC doesn't match criteria
   ### Age at purchase matches criteria (< 40)
-  1000000001, 20100202, "A10", 1.21, TRUE, "324314324",
-  1000000001, 20100202, "A10", 1.21, TRUE, "0000092", # indication_code matches
+  1000000001, as.Date("2010-02-02"), "A10", 1.21, TRUE, "324314324",
+  1000000001, as.Date("2010-02-02"), "A10", 1.21, TRUE, "0000092", # indication_code matches
   ### Age at purchase doesn't match (= 40)
-  1000000001, 20200202, "A10", 1.21, TRUE, "324314324",
-  1000000001, 20200202, "A10", 1.21, TRUE, "0000781", # indication_code matches
+  1000000001, as.Date("2020-02-02"), "A10", 1.21, TRUE, "324314324",
+  1000000001, as.Date("2020-02-02"), "A10", 1.21, TRUE, "0000781", # indication_code matches
   ### Age at purchase doesn't match (> 40)
-  1000000001, 20250202, "A10", 1.21, TRUE, "324314324",
-  1000000001, 20250202, "A10", 1.21, TRUE, "0000276", # indication_code matches
+  1000000001, as.Date("2025-02-02"), "A10", 1.21, TRUE, "324314324",
+  1000000001, as.Date("2025-02-02"), "A10", 1.21, TRUE, "0000276", # indication_code matches
 
   # Women (as defined by PNR)
   ## ATC matches criteria
   ### Age at purchase matches criteria (< 40)
-  2000000000, 20100202, "A10BA02", 1.21, TRUE, "324314324", # excluded
-  2000000000, 20100202, "A10BA02", 1.21, TRUE, "0000092", # indication_code matches, excluded
+  2000000000, as.Date("2010-02-02"), "A10BA02", 1.21, TRUE, "324314324", # excluded
+  2000000000, as.Date("2010-02-02"), "A10BA02", 1.21, TRUE, "0000092", # indication_code matches, excluded
   ### Age at purchase doesn't match (= 40)
-  2000000000, 20200202, "A10BA02", 1.21, TRUE, "324314324",
-  2000000000, 20200202, "A10BA02", 1.21, TRUE, "0000781", # indication_code matches, excluded
+  2000000000, as.Date("2020-02-02"), "A10BA02", 1.21, TRUE, "324314324",
+  2000000000, as.Date("2020-02-02"), "A10BA02", 1.21, TRUE, "0000781", # indication_code matches, excluded
   ### Age at purchase doesn't match (> 40)
-  2000000000, 20250202, "A10BA02", 1.21, TRUE, "324314324",
-  2000000000, 20250202, "A10BA02", 1.21, TRUE, "0000276", # indication_code matches, excluded
+  2000000000, as.Date("2025-02-02"), "A10BA02", 1.21, TRUE, "324314324",
+  2000000000, as.Date("2025-02-02"), "A10BA02", 1.21, TRUE, "0000276", # indication_code matches, excluded
   ## ATC doesn't match criteria
   ### Age at purchase matches criteria (< 40)
-  2000000000, 20100202, "A10", 1.21, TRUE, "324314324",
-  2000000000, 20100202, "A10", 1.21, TRUE, "0000092", # indication_code matches
+  2000000000, as.Date("2010-02-02"), "A10", 1.21, TRUE, "324314324",
+  2000000000, as.Date("2010-02-02"), "A10", 1.21, TRUE, "0000092", # indication_code matches
   ### Age at purchase doesn't match (= 40)
-  2000000000, 20200202, "A10", 1.21, TRUE, "324314324",
-  2000000000, 20200202, "A10", 1.21, TRUE, "0000781", # indication_code matches
+  2000000000, as.Date("2020-02-02"), "A10", 1.21, TRUE, "324314324",
+  2000000000, as.Date("2020-02-02"), "A10", 1.21, TRUE, "0000781", # indication_code matches
   ### Age at purchase doesn't match (> 40)
-  2000000000, 20250202, "A10", 1.21, TRUE, "324314324",
-  2000000000, 20250202, "A10", 1.21, TRUE, "0000276", # indication_code matches
+  2000000000, as.Date("2025-02-02"), "A10", 1.21, TRUE, "324314324",
+  2000000000, as.Date("2025-02-02"), "A10", 1.21, TRUE, "0000276", # indication_code matches
   # Not in BEF (excluded)
-  5000000000, 20100101, "A10", 1.21, TRUE, "0000276",
+  5000000000, as.Date("2010-01-01"), "A10", 1.21, TRUE, "0000276",
 )
 
 expected <- tibble::tribble(
