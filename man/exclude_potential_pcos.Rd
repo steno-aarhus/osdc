@@ -7,28 +7,30 @@
 exclude_potential_pcos(gld_purchases, bef)
 }
 \arguments{
-\item{gld_purchases}{The output from \code{include_gld_purchases()}.}
+\item{gld_purchases}{The output from \code{\link[=include_gld_purchases]{include_gld_purchases()}}.}
 
 \item{bef}{The \code{bef} register.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
-It also has the same columns as \code{include_gld_purchases()}, except for a logical
+It also has the same columns as \code{\link[=include_gld_purchases]{include_gld_purchases()}}, except for a logical
 helper variable \code{no_pcos} that is used in later functions.
 }
 \description{
-Takes the output from \code{include_gld_purchases()} and \code{bef} (information on sex and date
+Takes the output from \code{\link[=include_gld_purchases]{include_gld_purchases()}} and \code{bef} (information on sex and date
 of birth) to do the exclusions.
 This function only performs a filtering operation so outputs the same structure and
-variables as the input from \code{include_gld_purchases()}, except the addition of a logical
+variables as the input from \code{\link[=include_gld_purchases]{include_gld_purchases()}}, except the addition of a logical
 helper variable \code{no_pcos} that is used in later functions.
-After these exclusions are made, the output is used by \code{exclude_pregnancy()}.
+After these exclusions are made, the output is used by \code{\link[=exclude_pregnancy]{exclude_pregnancy()}}.
 }
 \examples{
+\dontrun{
 exclude_potential_pcos(
   gld_purchases = include_gld_purchases(register_data$lmdb),
   bef = register_data$bef
 )
+}
 }
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
