@@ -42,12 +42,12 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
     dplyr::filter(!(!!criteria)) |>
     # Keep only the columns we need
     dplyr::select(
-      pnr,
-      date,
-      atc,
-      contained_doses,
-      has_gld_purchases,
-      indication_code
+      "pnr",
+      "date",
+      "atc",
+      "contained_doses",
+      "has_gld_purchases",
+      "indication_code"
     ) |>
     # Add logical helper variable
     dplyr::mutate(no_pcos = TRUE)
