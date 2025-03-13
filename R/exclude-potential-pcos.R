@@ -32,14 +32,6 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
   # Use the algorithm criteria to exclude potential PCOS
   column_names_to_lower(gld_purchases) |>
     dplyr::inner_join(column_names_to_lower(bef), by = dplyr::join_by(pnr)) |>
-    # Ensure that columns used in filtering is the correct format
-    dplyr::mutate(
-      date = as.Date(as.character(date), format = "%Y%m%d"),
-      atc = as.character(atc),
-      indication_code = as.character(indication_code),
-      koen = as.numeric(koen),
-      foed_dato = as.Date(as.character(foed_dato), format = "%Y%m%d")
-    ) |>
     # Use !! to inject the expression into filter
     dplyr::filter(!(!!criteria)) |>
     # Keep only the columns we need
