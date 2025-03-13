@@ -17,10 +17,12 @@
 #' @inherit algorithm seealso
 #'
 #' @examples
+#' \dontrun{
 #' exclude_potential_pcos(
 #'   gld_purchases = include_gld_purchases(register_data$lmdb),
 #'   bef = register_data$bef
 #' )
+#' }
 exclude_potential_pcos <- function(gld_purchases, bef) {
   verify_required_variables(bef, "bef")
   criteria <- get_algorithm_logic("no_potential_pcos") |>
