@@ -367,33 +367,52 @@ The output from the function is a `data.frame` containing two variables
 
 ### Get diagnosis date
 
-The function `get_inclusion_date()` takes the output from
-`join_inclusions()` and defines the final diagnosis date based on all
-the inclusion event types.
-
-First, the inputs are sorted by `dates` within each level of `pnr`, then
-the earliest value of `dates` is dropped, so that only those with two or
-more events are included. The date of inclusion, `raw_inclusion_date`,
-is then defined as the earliest value of `dates`in the remaining rows
-for each individual (effectively the date of the second recorded
-inclusion event). A third variable, `stable_inclusion_date`, is defined
-based on `raw_inclusion_date` (if `raw_inclusion_date` \< stable
-inclusion threshold (one year after medication data starts to contribute
-to inclusions. Default "31-12-1997"), then `stable_inclusion_date` is
-set to `NA`, else it is set to`raw_inclusion_date`). This variable
-serves to limit the included cohort to only individuals with valid date
-of inclusion (and thereby valid age at inclusion & duration of
-diabetes).
-
-`get_inclusion_date()` outputs a `data.frame` with the following
-variables:
-
--   `pnr`: identifier variable
--   `raw_inclusion_date`: date of inclusion
--   `stable_inclusion_date`: date of inclusion of valid incident cases
-
-This output is passed to the `get_diabetes_type()` function and used to
-classify the diabetes type as described below.
+```{r}
+#' Get the final diagnosis date based on all the inclusion event types.
+#'
+#' The function `get_inclusion_date()` takes the output from `join_inclusions()`
+#' and defines the final diagnosis date based on all the inclusion event types.
+#' Keeps only those with 2 or more events.
+#'
+#' @param inclusions Output from [join_inclusions()].
+#'
+#' @returns The same type as the input data, default as a [tibble::tibble()],
+#'   with the following columns:
+#'
+#'   - `pnr`: The person identifier variable.
+#'   - `raw_inclusion_date`: Date of inclusion, which is the second earliest recorded event.
+#'   - `stable_inclusion_date`: Date of inclusion of those with after medication
+#'     data contributes to inclusions. Limits the included cohort to only individuals
+#'     with valid date of inclusion (and thereby valid age at inclusion & duration of diabetes).
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+get_inclusion_date <- function(inclusions) {
+  # Stable inclusion threshold is one year after medication data starts
+  # to contribute to inclusions. Default is 1997-12-31.
+  # TODO: Need to define this threshold more explicitly
+  stable_inclusion_threshold <- NA
+  inclusions |>
+    # TODO: May need to consider more efficient ways than using group by.
+    dplyr::group_by(.data$pnr) |>
+    # Drop earliest date so only those with two or more events are included.
+    dplyr::filter(.data$dates != min(.data$dates, na.rm = TRUE)) |>
+    dplyr::mutate(
+      # Earliest date in the rows for each individual.
+      raw_inclusion_date = min(.data$dates, na.rm = TRUE),
+      stable_inclusion_date = dplyr::if_else(
+        .data$raw_inclusion_date < stable_inclusion_threshold,
+        NA,
+        .data$raw_inclusion_date
+      )
+    ) |>
+    dplyr::select(
+      .data$pnr,
+      .data$raw_inclusion_date,
+      .data$stable_inclusion_date
+    )
+}
+```
 
 ### Classifying the diabetes type
 
