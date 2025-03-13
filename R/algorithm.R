@@ -18,8 +18,8 @@
 #'   fields `register`, `title`, `logic`, and `comments`.
 #' @export
 #'
-#' @seealso See the `vignette("algorithm")` and [algorithm] for the logic used
-#'   to filter these patients.
+#' @seealso See the `vignette("algorithm")` for the logic used to filter these
+#'   patients.
 #' @examples
 #' algorithm()$hba1c
 #' algorithm()$gld$logic
