@@ -33,7 +33,7 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
   column_names_to_lower(gld_purchases) |>
     dplyr::inner_join(column_names_to_lower(bef), by = dplyr::join_by("pnr")) |>
     # Use !! to inject the expression into filter
-    dplyr::filter(!(!!criteria)) |>
+    dplyr::filter(!!criteria) |>
     # Keep only the columns we need
     dplyr::select(
       "pnr",
