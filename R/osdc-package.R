@@ -5,6 +5,7 @@
 #' @importFrom lifecycle deprecated
 #' @importFrom dplyr na_if
 #' @importFrom lubridate weeks
+#' @importFrom lubridate years
 ## usethis namespace: end
 NULL
 
