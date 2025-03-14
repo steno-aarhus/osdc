@@ -16,6 +16,25 @@ classify_diabetes(
   lmdb
 )
 }
+\arguments{
+\item{kontakter}{The contacts register for lpr3}
+
+\item{diagnoser}{The diagnoses register for lpr3}
+
+\item{lpr_diag}{The diagnoses register for lpr2}
+
+\item{lpr_adm}{The admissions register for lpr2}
+
+\item{sysi}{The SYSI register}
+
+\item{sssy}{The SSSY register}
+
+\item{lab_forsker}{The lab forsker register}
+
+\item{bef}{The BEF register}
+
+\item{lmdb}{The LMDB register}
+}
 \value{
 The same object type as the input data, which would be a
 \code{\link[tibble:tibble]{tibble::tibble()}} type object.
@@ -39,6 +58,6 @@ classify_diabetes(
 }
 }
 \seealso{
-See the \link{vignette("function-flow", package = "osdc")} for a detailed
+See the \link{osdc} vignette for a detailed
 description of the internal implementation of this classification function.
 }
