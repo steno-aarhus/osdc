@@ -19,8 +19,8 @@ Join together the LPR2 (\code{lpr_diag} and \code{lpr_adm}) registers.
 }
 \examples{
 \dontrun{
-register_data$lpr_adm |>
-  join_lpr2(register_data$lpr_diag)
+sim_data <- simulate_registers(c("lpr_adm", "lpr_diag"), 100)
+join_lpr2(sim_data$lpr_adm, sim_data$lpr_diag)
 }
 }
 \keyword{internal}

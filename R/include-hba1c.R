@@ -24,7 +24,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' register_data$lab_forsker |> include_hba1c()
+#' simulate_registers("lab_forsker", 100)[[1]] |> include_hba1c()
 #' }
 include_hba1c <- function(lab_forsker) {
   verify_required_variables(lab_forsker, "lab_forsker")

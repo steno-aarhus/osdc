@@ -15,9 +15,7 @@ install-package-dependencies:
   #!/usr/bin/env Rscript
   pak::pak(
     dependencies = c(
-      "all", 
-      "Config/Needs/data", 
-      "Config/Needs/website"
+      "all"
     ),
     ask = FALSE
   )
