@@ -372,7 +372,7 @@ The output from the function is a `data.frame` containing two variables
 #'
 #' The function `get_inclusion_date()` takes the output from `join_inclusions()`
 #' and defines the final diagnosis date based on all the inclusion event types.
-#' Keeps only those with 2 or more events.
+#' Keeps only those with 2 or more recorded events, regardless of the type of these events (e.g. two elevated HbA1c tests will lead to inclusion as well as one elevated HbA1c test followed by a purchase of glucose-lowering drugs).
 #'
 #' @param inclusions Output from [join_inclusions()].
 #'
@@ -381,9 +381,8 @@ The output from the function is a `data.frame` containing two variables
 #'
 #'   - `pnr`: The person identifier variable.
 #'   - `raw_inclusion_date`: Date of inclusion, which is the second earliest recorded event.
-#'   - `stable_inclusion_date`: Date of inclusion of those with after medication
-#'     data contributes to inclusions. Limits the included cohort to only individuals
-#'     with valid date of inclusion (and thereby valid age at inclusion & duration of diabetes).
+#'   - `stable_inclusion_date`: Date of inclusion of individuals included at least one year after the incorporation of inclusions based on glucose-lowering drug data (1998 onwards when using National Patient Register data for censoring of gestational diabetes). Limits the included cohort to only individuals
+#'     with a valid date of inclusion (and thereby valid age at inclusion & duration of diabetes).
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
