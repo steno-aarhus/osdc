@@ -7,6 +7,7 @@
 #'   description of the internal implementation of this classification function.
 #'
 #' @examples
+#' \dontrun{
 #' classify_diabetes(
 #'   kontakter = register_data$kontakter,
 #'   diagnoser = register_data$diagnoser,
@@ -18,6 +19,7 @@
 #'   bef = register_data$bef,
 #'   lmdb = register_data$lmdb
 #' )
+#' }
 classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sssy, lab_forsker, bef, lmdb) {
   # Verification step -----
   verify_required_variables(kontakter, "kontakter")
