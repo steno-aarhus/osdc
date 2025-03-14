@@ -358,8 +358,8 @@ polycystic ovary syndrome<a class="anchor" aria-label="anchor" href="#bef-and-on
 <colgroup>
 <col width="4%">
 <col width="9%">
-<col width="67%">
-<col width="18%">
+<col width="69%">
+<col width="16%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
@@ -370,9 +370,9 @@ polycystic ovary syndrome<a class="anchor" aria-label="anchor" href="#bef-and-on
 <tbody><tr class="odd">
 <td align="left">NA</td>
 <td align="left">No potential PCOS</td>
-<td align="left">koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
-foed_dato) &lt; 40 OR indication_code %in% c(‘0000092’, ‘0000276’,
-‘0000781’))</td>
+<td align="left">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
+foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’,
+‘0000276’, ‘0000781’)))</td>
 <td align="left">Woman is defined as 2 in <code>koen</code>.</td>
 </tr></tbody>
 </table>

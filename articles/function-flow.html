@@ -83,7 +83,7 @@ status seen below. This flow can be divided into two sections:
 extracting the diabetes population and classifying diabetes type which
 we will detail in the following sections.</p>
 <div class="float">
-<img src="images/function-flow.svg" alt="Flow of functions, as well as their required input registers, for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively). Uncoloured boxes are helper functions that get or extract a condition or joins data or function outputs."><div class="figcaption">Flow of functions, as well as their required
+<img src="function-flow.svg" alt="Flow of functions, as well as their required input registers, for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively). Uncoloured boxes are helper functions that get or extract a condition or joins data or function outputs."><div class="figcaption">Flow of functions, as well as their required
 input registers, for classifying diabetes status using the osdc package.
 Light blue and orange boxes represent filtering functions (inclusion and
 exclusion events, respectively). Uncoloured boxes are helper functions
@@ -98,7 +98,7 @@ the diabetes population from the Danish registers. The functions are
 divided into inclusion and exclusion events, and the final diagnosis
 date is calculated based on these events.</p>
 <div class="float">
-<img src="images/function-flow-population.svg" alt="Flow of functions, as well as their required input registers, for extracting the population with diabetes using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively). Uncoloured boxes are helper functions that get or extract a condition or joins data or function outputs."><div class="figcaption">Flow of functions, as well as their required
+<img src="function-flow-population.svg" alt="Flow of functions, as well as their required input registers, for extracting the population with diabetes using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively). Uncoloured boxes are helper functions that get or extract a condition or joins data or function outputs."><div class="figcaption">Flow of functions, as well as their required
 input registers, for extracting the population with diabetes using the
 osdc package. Light blue and orange boxes represent filtering functions
 (inclusion and exclusion events, respectively). Uncoloured boxes are
@@ -138,9 +138,10 @@ function outputs.</div>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
+<span><span class="co">#' sim_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm"), 100)</span></span>
 <span><span class="co">#' join_lpr2(</span></span>
-<span><span class="co">#'   lpr_diag = register_data$lpr_diag,</span></span>
-<span><span class="co">#'   lpr_adm = register_data$lpr_adm</span></span>
+<span><span class="co">#'   lpr_diag = sim_data$lpr_diag,</span></span>
+<span><span class="co">#'   lpr_adm = sim_data$lpr_adm</span></span>
 <span><span class="co">#' )</span></span>
 <span><span class="va">join_lpr2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lpr_diag</span>, <span class="va">lpr_adm</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Filter using the algorithm for LPR2</span></span>
@@ -187,9 +188,10 @@ function outputs.</div>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
+<span><span class="co">#' sim_data &lt;- simulate_registers(c("diagnoser", "kontakter"), 100)</span></span>
 <span><span class="co">#' join_lpr3(</span></span>
-<span><span class="co">#'   diagnoser = register_data$diagnoser,</span></span>
-<span><span class="co">#'   kontakter = register_data$kontakter</span></span>
+<span><span class="co">#'   diagnoser = sim_data$diagnoser,</span></span>
+<span><span class="co">#'   kontakter = sim_data$kontakter</span></span>
 <span><span class="co">#' )</span></span>
 <span><span class="va">join_lpr3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">diagnoser</span>, <span class="va">kontakter</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Filter using the algorithm for LPR3</span></span>
@@ -251,9 +253,10 @@ function outputs.</div>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
+<span><span class="co">#' sim_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)</span></span>
 <span><span class="co">#' include_diabetes_diagnosis(</span></span>
-<span><span class="co">#'   lpr2 = join_lpr2(register_data$lpr_diag, register_data$lpr_adm),</span></span>
-<span><span class="co">#'   lpr3 = join_lpr3(register_data$diagnoser, register_data$kontakter)</span></span>
+<span><span class="co">#'   lpr2 = join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm),</span></span>
+<span><span class="co">#'   lpr3 = join_lpr3(sim_data$diagnoser, sim_data$kontakter)</span></span>
 <span><span class="co">#' )</span></span>
 <span><span class="va">include_diabetes_diagnosis</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Combine and process the two inputs</span></span>
@@ -297,39 +300,13 @@ information.</p>
 <h3 id="exclude_potential_pcos">
 <code>exclude_potential_pcos()</code><a class="anchor" aria-label="anchor" href="#exclude_potential_pcos"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Exclude metformin purchases potentially for the treatment of polycystic ovary syndrome.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' Takes the output from `include_gld_purchases()` and `bef` (information on sex and date of birth) to do the exclusions.</span></span>
-<span><span class="co">#' This function only performs a filtering operation so outputs the same structure and variables as the input from `include_gld_purchases()`.</span></span>
-<span><span class="co">#' After these exclusions are made, the output is used by `exclude_pregnancy()`.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @param gld_purchases The output from `include_gld_purchases()`.</span></span>
-<span><span class="co">#' @param bef The `bef` register.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @return The same type as the input data, default as a [tibble::tibble()].</span></span>
-<span><span class="co">#'    Also has the same columns as `include_gld_purchases()`, except for a helper</span></span>
-<span><span class="co">#'    logical variable `no_pcos` that is used in later functions.</span></span>
-<span><span class="co">#' @keywords internal</span></span>
-<span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' exclude_potential_pcos(</span></span>
-<span><span class="co">#'   gld_purchases = include_gld_purchases(register_data$lmdb),</span></span>
-<span><span class="co">#'   bef = register_data$bef</span></span>
-<span><span class="co">#' )</span></span>
-<span><span class="va">exclude_potential_pcos</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">gld_purchases</span>, <span class="va">bef</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Filter using the algorithm for potential PCOS</span></span>
-<span>  <span class="va">gld_purchases</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">bef</span>, by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">pnr</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_pcos <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<p>See <code><a href="../reference/exclude_potential_pcos.html">?exclude_potential_pcos</a></code> for more information.</p>
 </div>
 <div class="section level3">
 <h3 id="exclude_pregnancy">
 <code>exclude_pregnancy()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancy"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Exclude any pregnancy events that could be gestational diabetes.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#'</span></span>
@@ -368,14 +345,18 @@ information.</p>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
-<span><span class="co">#' lpr2 &lt;- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)</span></span>
-<span><span class="co">#' lpr3 &lt;- join_lpr3(register_data$diagnoser, register_data$kontakter)</span></span>
+<span><span class="co">#' sim_data &lt;- simulate_registers(c(</span></span>
+<span><span class="co">#'   "lmdb", "bef", "lpr_diag", "lpr_adm",</span></span>
+<span><span class="co">#'   "diagnoser", "kontakter", "lab_forsker"</span></span>
+<span><span class="co">#' ), 100)</span></span>
+<span><span class="co">#' lpr2 &lt;- join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm)</span></span>
+<span><span class="co">#' lpr3 &lt;- join_lpr3(sim_data$diagnoser, sim_data$kontakter)</span></span>
 <span><span class="co">#' lmdb |&gt;</span></span>
 <span><span class="co">#'   include_gld_purchases() |&gt;</span></span>
-<span><span class="co">#'   exclude_potential_pcos(register_data$bef) |&gt;</span></span>
+<span><span class="co">#'   exclude_potential_pcos(sim_data$bef) |&gt;</span></span>
 <span><span class="co">#'   exclude_pregnancy(</span></span>
 <span><span class="co">#'     get_pregnancy_dates(lpr2, lpr3),</span></span>
-<span><span class="co">#'     include_hba1c(register_data$lab_forsker)</span></span>
+<span><span class="co">#'     include_hba1c(sim_data$lab_forsker)</span></span>
 <span><span class="co">#'   )</span></span>
 <span><span class="va">exclude_pregnancy</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">excluded_pcos</span>, <span class="va">pregnancy_dates</span>, <span class="va">included_hba1c</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Filter using the algorithm for pregnancy</span></span>
@@ -386,7 +367,7 @@ information.</p>
 <span>    <span class="co"># Filtering here...</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_pregnancy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Simple function to get only the pregnancy event dates.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param lpr2 Output from `join_lpr2()`.</span></span>
@@ -397,8 +378,9 @@ information.</p>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
-<span><span class="co">#' lpr2 &lt;- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)</span></span>
-<span><span class="co">#' lpr3 &lt;- join_lpr3(register_data$diagnoser, register_data$kontakter)</span></span>
+<span><span class="co">#' sim_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)</span></span>
+<span><span class="co">#' lpr2 &lt;- join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm)</span></span>
+<span><span class="co">#' lpr3 &lt;- join_lpr3(sim_data$diagnoser, sim_data$kontakter)</span></span>
 <span><span class="co">#' get_pregnancy_dates(lpr2, lpr3)</span></span>
 <span><span class="va">get_pregnancy_dates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Filter using the algorithm for pregnancy</span></span>
@@ -708,7 +690,7 @@ dates and their intended use-cases.</p>
 <!-- TODO: Create updated image similar to https://aastedet.github.io/dissertation/4-results.html#fig-osdc-type-flow to reflect the new diabetes type logic and embed image here for reference-->
 <!-- TODO:  The following explanatory sections on T1D and T2D classification need to be aligned with the technical sections above, and possibly moved up to them-->
 <div class="float">
-<img src="images/function-flow-classification.svg" alt="Flow of functions for classifying diabetes status using the osdc package."><div class="figcaption">Flow of functions for classifying diabetes
+<img src="function-flow-classification.svg" alt="Flow of functions for classifying diabetes status using the osdc package."><div class="figcaption">Flow of functions for classifying diabetes
 status using the <code>osdc</code> package.</div>
 </div>
 <div class="section level4">
