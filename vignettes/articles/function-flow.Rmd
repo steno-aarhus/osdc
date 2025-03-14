@@ -20,7 +20,7 @@ classifying diabetes status using the osdc package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
 events, respectively). Uncoloured boxes are helper functions that get or
 extract a condition or joins data or function
-outputs.](images/function-flow.svg)
+outputs.](function-flow.svg)
 
 ## Population extraction
 
@@ -34,7 +34,7 @@ extracting the population with diabetes using the osdc package. Light
 blue and orange boxes represent filtering functions (inclusion and
 exclusion events, respectively). Uncoloured boxes are helper functions
 that get or extract a condition or joins data or function
-outputs.](images/function-flow-population.svg)
+outputs.](function-flow-population.svg)
 
 ## Inclusion events
 
@@ -504,7 +504,7 @@ two inclusion dates and their intended use-cases.
 <!-- TODO:  The following explanatory sections on T1D and T2D classification need to be aligned with the technical sections above, and possibly moved up to them-->
 
 ![Flow of functions for classifying diabetes status using the `osdc`
-package.](images/function-flow-classification.svg)
+package.](function-flow-classification.svg)
 
 #### Type 1 classification
 
