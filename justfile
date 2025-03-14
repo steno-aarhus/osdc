@@ -16,7 +16,6 @@ install-package-dependencies:
   pak::pak(
     dependencies = c(
       "all",
-      "Config/Needs/data",
       "Config/Needs/website"
     ),
     ask = FALSE
