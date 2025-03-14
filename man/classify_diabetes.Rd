@@ -24,6 +24,7 @@ The same object type as the input data, which would be a
 Classify diabetes status using Danish registers.
 }
 \examples{
+\dontrun{
 classify_diabetes(
   kontakter = register_data$kontakter,
   diagnoser = register_data$diagnoser,
@@ -35,6 +36,7 @@ classify_diabetes(
   bef = register_data$bef,
   lmdb = register_data$lmdb
 )
+}
 }
 \seealso{
 See the \link{vignette("function-flow", package = "osdc")} for a detailed
