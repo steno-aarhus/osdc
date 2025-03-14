@@ -30,6 +30,6 @@ algorithm()$hba1c
 algorithm()$gld$logic
 }
 \seealso{
-See the \code{vignette("algorithm")} and \link{algorithm} for the logic used
-to filter these patients.
+See the \code{vignette("algorithm")} for the logic used to filter these
+patients.
 }

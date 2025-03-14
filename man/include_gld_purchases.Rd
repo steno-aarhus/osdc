@@ -43,7 +43,7 @@ simulate_registers("lmdb", 100)[[1]] |> include_gld_purchases()
 }
 }
 \seealso{
-See the \code{vignette("algorithm")} and \link{algorithm} for the logic used
-to filter these patients.
+See the \code{vignette("algorithm")} for the logic used to filter these
+patients.
 }
 \keyword{internal}
