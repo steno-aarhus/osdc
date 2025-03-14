@@ -8,7 +8,7 @@ bef <- tibble::tribble(
   1, 3000000001, "1980-01-01",
   2, 4000000000, "1980-01-01",
 ) |>
-  dplyr::mutate(foed_dato = lubridate::as_date(foed_dato))
+  dplyr::mutate(pnr = as.character(pnr), foed_dato = lubridate::as_date(foed_dato))
 
 gld_purchases <- tibble::tribble(
   ~pnr, ~date, ~atc, ~contained_doses, ~has_gld_purchases, ~indication_code,
@@ -58,7 +58,7 @@ gld_purchases <- tibble::tribble(
   # Not in BEF (excluded)
   5000000000, "2010-01-01", "A10", 1.21, TRUE, "0000276",
 ) |>
-  dplyr::mutate(date = lubridate::as_date(date))
+  dplyr::mutate(pnr = as.character(pnr), date = lubridate::as_date(date))
 
 expected <- tibble::tribble(
   ~pnr, ~date, ~atc, ~contained_doses, ~has_gld_purchases, ~indication_code, ~no_pcos,
@@ -102,7 +102,7 @@ expected <- tibble::tribble(
   2000000000, "2025-02-02", "A10", 1.21, TRUE, "324314324", TRUE,
   2000000000, "2025-02-02", "A10", 1.21, TRUE, "0000276", TRUE, # indication_code matches
 ) |>
-  dplyr::mutate(date = lubridate::as_date(date))
+  dplyr::mutate(pnr = as.character(pnr), date = lubridate::as_date(date))
 
 
 test_that("bef needs expected variables", {
