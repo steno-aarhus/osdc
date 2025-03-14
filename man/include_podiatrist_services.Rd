@@ -33,7 +33,8 @@ step of the inclusion process.
 }
 \examples{
 \dontrun{
-include_podiatrist_services(register_data$sysi, register_data$sssy)
+sim_data <- simulate_registers(c("sysi", "sssy"), 100)
+include_podiatrist_services(sim_data$sysi, sim_data$sssy)
 }
 }
 \seealso{

@@ -2,7 +2,10 @@
 
 export(classify_diabetes)
 export(algorithm)
+export(simulate_registers)
 export(yyww_to_yyyymmdd)
 importFrom(dplyr,na_if)
+importFrom(fabricatr,draw_binary)
+importFrom(fabricatr,draw_categorical)
 importFrom(lifecycle,deprecated)
 importFrom(lubridate,weeks)
