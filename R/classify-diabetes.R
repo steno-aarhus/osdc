@@ -13,7 +13,7 @@
 #' @returns The same object type as the input data, which would be a
 #'   [tibble::tibble()] type object.
 #' @export
-#' @seealso See the [vignette("function-flow", package = "osdc")] for a detailed
+#' @seealso See the [vignette("osdc", package = "osdc")] for a detailed
 #'   description of the internal implementation of this classification function.
 #'
 #' @examples
