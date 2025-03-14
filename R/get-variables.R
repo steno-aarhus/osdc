@@ -8,7 +8,7 @@
 #' get_register_abbrev()
 #' }
 get_register_abbrev <- function() {
-  unique(variable_description$register_abbrev)
+  names(registers())
 }
 
 #' Get a list of required variables from a specific register.
@@ -29,7 +29,6 @@ get_required_variables <- function(register) {
   }
   checkmate::assert_choice(register, get_register_abbrev())
   register <- rlang::arg_match(register, get_register_abbrev())
-  variable_description |>
-    dplyr::filter(.data$register_abbrev == register) |>
-    dplyr::pull(.data$variable_name)
+  registers()[[register]]$variables |>
+    dplyr::pull(.data$name)
 }
