@@ -1,15 +1,15 @@
-#' Variables from registers and their descriptions that are required for the
+#’ Register variables (with descriptions) required for the
 #' osdc algorithm.
 #'
-#' @returns Outputs a list with osdc's required registers and variables. Each
+#' @returns Outputs a list of registers and variables required by osdc. Each
 #'   list item contains the official Danish name of the register, the start
 #'   year, the end year, and the variables with their descriptions. The
 #'   variables item is a data frame with 4 columns:
 #'
 #'   \describe{
 #'      \item{name}{The official name of the variable found in the register.}
-#'      \item{danish_description}{The official description in Danish for the variable.}
-#'      \item{english_description}{The translated description in English for the variable.}
+#'      \item{danish_description}{The official Danish description of the variable.}
+#'      \item{english_description}{The translated English description of the variable.}
 #'      \item{data_type}{The data type, e.g. "character" of the variable. Could have multiple options (e.g. "Date" or "character").}
 #'   }
 #' @source Many of the details within the [registers()] metadata come
