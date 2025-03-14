@@ -26,8 +26,7 @@ Imports:
     dplyr,
     lifecycle,
     lubridate,
-    rlang,
-    utils
+    rlang
 Suggests:
     dbplyr,
     glue,
@@ -52,4 +51,8 @@ Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Config/Needs/website: rmarkdown
+Config/Needs/website: 
+    rmarkdown,
+    purrr,
+    tidyr,
+    tidyselect
