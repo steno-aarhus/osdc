@@ -5,7 +5,7 @@
 #' This function only performs a filtering operation so outputs the same structure and
 #' variables as the input from [include_gld_purchases()], except the addition of a logical
 #' helper variable `no_pcos` that is used in later functions.
-#' After these exclusions are made, the output is used by [exclude_pregnancy()].
+#' After these exclusions are made, the output is used by `exclude_pregnancy()`.
 #'
 #' @param gld_purchases The output from [include_gld_purchases()].
 #' @param bef The `bef` register.
