@@ -338,10 +338,10 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
 ### `join_inclusions()`
 
 ```{r}
-#' Join the outputs from the inclusion and exclusion events.
+#' Join included events.
 #'
 #' This function joins the outputs from all the inclusion and exclusion
-#' events, by `pnr` and `dates`. From the input datasets:
+#' functions, by `pnr` and `dates`. Input datasets:
 #'
 #' - `included_diabetes_diagnoses`: Dates are the first and second hospital diabetes diagnosis.
 #' - `included_podiatrist_services`: Dates are the first and second diabetes-specific podiatrist record.
@@ -356,7 +356,7 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'   with the joined columns from the output of [include_diabetes_diagnoses()],
 #'   [include_podiatrist_services()], [exclude_pregnancy()], and
-#'   [include_gld_purchases()]. There should be between 1 to 8 rows per `pnr`.
+#'   [include_gld_purchases()]. There will be 1-8 rows per `pnr`.
 #' @keyword internal
 #' @inherit algorithm seealso
 join_inclusions <- function(
