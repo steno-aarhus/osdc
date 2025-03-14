@@ -1,6 +1,16 @@
 #' Classify diabetes status using Danish registers.
 #'
-#' @return The same object type as the input data, which would be a
+#' @param kontakter The contacts register for lpr3
+#' @param diagnoser The diagnoses register for lpr3
+#' @param lpr_diag The diagnoses register for lpr2
+#' @param lpr_adm The admissions register for lpr2
+#' @param sysi The SYSI register
+#' @param sssy The SSSY register
+#' @param lab_forsker The lab forsker register
+#' @param bef The BEF register
+#' @param lmdb The LMDB register
+#'
+#' @returns The same object type as the input data, which would be a
 #'   [tibble::tibble()] type object.
 #' @export
 #' @seealso See the [vignette("function-flow", package = "osdc")] for a detailed
