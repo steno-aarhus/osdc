@@ -70,9 +70,10 @@ library(osdc)
 #' @inherit algorithm seealso
 #'
 #' @examples
+#' sim_data <- simulate_registers(c("lpr_diag", "lpr_adm"), 100)
 #' join_lpr2(
-#'   lpr_diag = register_data$lpr_diag,
-#'   lpr_adm = register_data$lpr_adm
+#'   lpr_diag = sim_data$lpr_diag,
+#'   lpr_adm = sim_data$lpr_adm
 #' )
 join_lpr2 <- function(lpr_diag, lpr_adm) {
   # Filter using the algorithm for LPR2
@@ -118,9 +119,10 @@ join_lpr2 <- function(lpr_diag, lpr_adm) {
 #' @inherit algorithm seealso
 #'
 #' @examples
+#' sim_data <- simulate_registers(c("diagnoser", "kontakter"), 100)
 #' join_lpr3(
-#'   diagnoser = register_data$diagnoser,
-#'   kontakter = register_data$kontakter
+#'   diagnoser = sim_data$diagnoser,
+#'   kontakter = sim_data$kontakter
 #' )
 join_lpr3 <- function(diagnoser, kontakter) {
   # Filter using the algorithm for LPR3
@@ -181,9 +183,10 @@ join_lpr3 <- function(diagnoser, kontakter) {
 #' @inherit algorithm seealso
 #'
 #' @examples
+#' sim_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)
 #' include_diabetes_diagnosis(
-#'   lpr2 = join_lpr2(register_data$lpr_diag, register_data$lpr_adm),
-#'   lpr3 = join_lpr3(register_data$diagnoser, register_data$kontakter)
+#'   lpr2 = join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm),
+#'   lpr3 = join_lpr3(sim_data$diagnoser, sim_data$kontakter)
 #' )
 include_diabetes_diagnosis <- function(lpr2, lpr3) {
   # Combine and process the two inputs
@@ -234,9 +237,10 @@ See `?include_gld_purchases` for more information.
 #' @inherit algorithm seealso
 #'
 #' @examples
+#' sim_data <- simulate_registers(c("lmdb", "bef"), 100)
 #' exclude_potential_pcos(
-#'   gld_purchases = include_gld_purchases(register_data$lmdb),
-#'   bef = register_data$bef
+#'   gld_purchases = include_gld_purchases(sim_data$lmdb),
+#'   bef = sim_data$bef
 #' )
 exclude_potential_pcos <- function(gld_purchases, bef) {
   # Filter using the algorithm for potential PCOS
@@ -287,14 +291,18 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
 #' @inherit algorithm seealso
 #'
 #' @examples
-#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
-#' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
+#' sim_data <- simulate_registers(c(
+#'   "lmdb", "bef", "lpr_diag", "lpr_adm",
+#'   "diagnoser", "kontakter", "lab_forsker"
+#' ), 100)
+#' lpr2 <- join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm)
+#' lpr3 <- join_lpr3(sim_data$diagnoser, sim_data$kontakter)
 #' lmdb |>
 #'   include_gld_purchases() |>
-#'   exclude_potential_pcos(register_data$bef) |>
+#'   exclude_potential_pcos(sim_data$bef) |>
 #'   exclude_pregnancy(
 #'     get_pregnancy_dates(lpr2, lpr3),
-#'     include_hba1c(register_data$lab_forsker)
+#'     include_hba1c(sim_data$lab_forsker)
 #'   )
 exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
   # Filter using the algorithm for pregnancy
@@ -318,8 +326,9 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
 #' @inherit algorithm seealso
 #'
 #' @examples
-#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
-#' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
+#' sim_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)
+#' lpr2 <- join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm)
+#' lpr3 <- join_lpr3(sim_data$diagnoser, sim_data$kontakter)
 #' get_pregnancy_dates(lpr2, lpr3)
 get_pregnancy_dates <- function(lpr2, lpr3) {
   # Filter using the algorithm for pregnancy

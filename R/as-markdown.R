@@ -50,7 +50,7 @@ register_as_md_header <- function(register) {
 
 #' Convert the fake register data into a Markdown table
 #'
-#' @param data The data of a specific register from [register_data].
+#' @param data The data of a specific register from [simulate_registers()].
 #' @param caption A caption to add to the table.
 #'
 #' @return A character vector as a Markdown table.

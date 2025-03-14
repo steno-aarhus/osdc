@@ -8,14 +8,13 @@ library(targets)
 
 # Set target options:
 tar_option_set(
-  packages = c("tidyverse", "here", "lubridate", "fabricatr", "rvest"),
+  packages = c("tidyverse", "here"),
   # Set a seed for reproducibility (needed for data simulation)
   seed = 123
 )
 
 # Run the R scripts in the R/ folder with your custom functions:
 source(here::here("data-raw/variable-description.R"))
-source(here::here("data-raw/simulate-data.R"))
 
 # Replace the target list below with your own:
 list(
@@ -37,28 +36,10 @@ list(
     format = "file"
   ),
   tar_target(
-    name = simulation_definitions_csv,
-    command = "data-raw/simulation-definitions.csv",
-    format = "file"
-  ),
-  tar_target(
-    name = register_data,
-    command = create_simulated_data(simulation_definitions_csv),
-  ),
-  tar_target(
-    name = register_data_rda,
-    command = {
-      usethis::use_data(register_data, overwrite = TRUE)
-      here::here("data/register_data.rda")
-    },
-    format = "file"
-  ),
-  tar_target(
     name = internal_rda,
     command = {
       usethis::use_data(
         variable_description,
-        register_data,
         overwrite = TRUE, internal = TRUE
       )
       here::here("R/sysdata.rda")

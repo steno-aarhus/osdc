@@ -7,7 +7,7 @@
 register_data_as_md_table(data, caption = NULL)
 }
 \arguments{
-\item{data}{The data of a specific register from \link{register_data}.}
+\item{data}{The data of a specific register from \code{\link[=simulate_registers]{simulate_registers()}}.}
 
 \item{caption}{A caption to add to the table.}
 }
