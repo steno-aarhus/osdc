@@ -108,7 +108,7 @@ algorithm <- function() {
     no_potential_pcos = list(
       register = NA,
       title = "No potential PCOS",
-      logic = "koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < 40 OR indication_code %in% c('0000092', '0000276', '0000781'))",
+      logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
     )
   )
@@ -139,6 +139,7 @@ get_algorithm_logic <- function(criteria, algorithm = NULL) {
   algorithm[[criteria]]$logic |>
     stringr::str_replace_all("AND", "&") |>
     stringr::str_replace_all("OR", "|") |>
+    stringr::str_replace_all("NOT", "!") |>
     # regex are defined with '=~', so convert them into a stringr function.
     stringr::str_replace_all("([a-zA-Z0-9_]+) \\=\\~ '(.*?)'", "stringr::str_detect(\\1, '\\2')")
 }
