@@ -85,78 +85,78 @@ Individuals not classified as T1D cases are classified as T2D cases.
 
 Below are the technical, exact implementation of the above description.
 These are the logical conditions and exact variables and registers used
-that results in the classification of diabetes status and types. They are
-shown in the form of tables for each register, as well as for each
+that results in the classification of diabetes status and types. They
+are shown in the form of tables for each register, as well as for each
 
 ### `lpr_diag`
 
 ```{r}
-algorithm |>
-  filter(register == "lpr_diag") |>
+algorithm()$lpr2 |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### `lpr_adm`
 
 ```{r}
-algorithm |>
-  filter(register == "lpr_adm") |>
+algorithm()$lpr2_is_endocrinology |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### `diagnoser`
 
 ```{r}
-algorithm |>
-  filter(register == "diagnoser") |>
+algorithm()$lpr3 |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### `kontakter`
 
 ```{r}
-algorithm |>
-  filter(register == "kontakter") |>
+algorithm()$lpr3_is_endocrinology_department |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### `lab_forsker`
 
 ```{r}
-algorithm |>
-  filter(name == "hba1c") |>
+algorithm()$hba1c |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### `ssyi` and `sssy` for podiatrist services
 
 ```{r}
-algorithm |>
-  filter(name == "podiatrist_services") |>
+algorithm()$podiatrist_services |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### `lmdb` for glucose lowering drugs
 
 ```{r}
-algorithm |>
-  filter(name == "gld") |>
+algorithm()$gld |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### `bef` and only GLD (via `lmdb`) for potential polycystic ovary syndrome
 
 ```{r}
-algorithm |>
-  filter(name == "no_potential_pcos") |>
+algorithm()$no_potential_pcos |>
+  as_tibble() |>
   knitr::kable()
 ```
 
 ### Pregnancy events
 
 ```{r}
-algorithm |>
-  filter(name == "no_pregnancy") |>
+algorithm()$no_pregnancy |>
+  as_tibble() |>
   knitr::kable()
 ```
 
