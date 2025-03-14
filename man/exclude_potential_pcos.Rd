@@ -22,7 +22,7 @@ of birth) to do the exclusions.
 This function only performs a filtering operation so outputs the same structure and
 variables as the input from \code{\link[=include_gld_purchases]{include_gld_purchases()}}, except the addition of a logical
 helper variable \code{no_pcos} that is used in later functions.
-After these exclusions are made, the output is used by \code{\link[=exclude_pregnancy]{exclude_pregnancy()}}.
+After these exclusions are made, the output is used by \code{exclude_pregnancy()}.
 }
 \examples{
 \dontrun{
