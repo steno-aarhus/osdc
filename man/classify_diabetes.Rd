@@ -58,6 +58,6 @@ classify_diabetes(
 }
 }
 \seealso{
-See the \link{vignette("osdc", package = "osdc")} for a detailed
+See the \link{osdc} vignette for a detailed
 description of the internal implementation of this classification function.
 }
