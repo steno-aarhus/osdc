@@ -16,14 +16,14 @@ test_that("one register can be simulated", {
 })
 
 test_that("two registers can be simulated", {
-  fake_registers <- simulate_registers(c("bef", "lmdb"))
-  expect_type(fake_registers, "list")
-  expect_contains(class(fake_registers[[1]]), "tbl_df")
-  expect_contains(class(fake_registers[[2]]), "tbl_df")
-  expect_length(fake_registers, 2)
+  simulated_registers <- simulate_registers(c("bef", "lmdb"))
+  expect_type(simulated_registers, "list")
+  expect_contains(class(simulated_registers[[1]]), "tbl_df")
+  expect_contains(class(simulated_registers[[2]]), "tbl_df")
+  expect_length(simulated_registers, 2)
 
   # Different length
-  small_fake_registers <- simulate_registers(c("bef", "lmdb"), 100)
-  expect_equal(nrow(small_fake_registers[[1]]), 100)
-  expect_equal(nrow(small_fake_registers[[2]]), 100)
+  small_simulated_registers <- simulate_registers(c("bef", "lmdb"), 100)
+  expect_equal(nrow(small_simulated_registers[[1]]), 100)
+  expect_equal(nrow(small_simulated_registers[[2]]), 100)
 })
