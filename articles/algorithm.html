@@ -184,7 +184,7 @@ diagnosis.</td>
 <colgroup>
 <col width="4%">
 <col width="14%">
-<col width="19%">
+<col width="20%">
 <col width="60%">
 </colgroup>
 <thead><tr class="header">
@@ -196,7 +196,7 @@ diagnosis.</td>
 <tbody><tr class="odd">
 <td align="left">lpr_adm</td>
 <td align="left">LPR2 endocrinology department</td>
-<td align="left">na_if(c_spec, !(c_spec %in% 8:30)) == 8</td>
+<td align="left">na_if(c_spec, NOT (c_spec %in% 8:30)) == 8</td>
 <td align="left">
 <code>TRUE</code> when the department is endocrinology,
 <code>FALSE</code> when it is other medical departments, and missing is
@@ -238,7 +238,7 @@ retracted.</td>
 <h3 id="kontakter">
 <code>kontakter</code><a class="anchor" aria-label="anchor" href="#kontakter"></a>
 </h3>
-<table class="table">
+<table style="width:100%;" class="table">
 <colgroup>
 <col width="1%">
 <col width="4%">
@@ -254,7 +254,7 @@ retracted.</td>
 <tbody><tr class="odd">
 <td align="left">kontakter</td>
 <td align="left">LPR3 endocrinology department</td>
-<td align="left">na_if(hovedspeciale_ans, !(hovedspeciale_ans %in%
+<td align="left">na_if(hovedspeciale_ans, NOT (hovedspeciale_ans %in%
 c(‘medicinsk endokrinologi’, ‘blandet medicin og kirurgi’, ‘intern
 medicin’, ‘geriatri’, ‘hepatologi’, ‘hæmatologi’, ‘infektionsmedicin’,
 ‘kardiologi’, ‘medicinsk allergologi’, ‘medicinsk gastroenterologi’,
@@ -330,8 +330,8 @@ to a child of the individual.</td>
 <colgroup>
 <col width="5%">
 <col width="19%">
-<col width="39%">
-<col width="35%">
+<col width="40%">
+<col width="34%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
@@ -342,7 +342,7 @@ to a child of the individual.</td>
 <tbody><tr class="odd">
 <td align="left">lmdb</td>
 <td align="left">Glucose-lowering drug inclusion</td>
-<td align="left">atc =~ ‘^A10’ AND !(atc =~
+<td align="left">atc =~ ‘^A10’ AND NOT (atc =~
 ‘^(A10BJ|A10BK01|A10BK03)’)</td>
 <td align="left">Do not keep GLP-RAs or dapagliflozin/empagliflozin
 drugs.</td>
@@ -358,8 +358,8 @@ polycystic ovary syndrome<a class="anchor" aria-label="anchor" href="#bef-and-on
 <colgroup>
 <col width="4%">
 <col width="9%">
-<col width="67%">
-<col width="18%">
+<col width="69%">
+<col width="16%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
@@ -370,9 +370,9 @@ polycystic ovary syndrome<a class="anchor" aria-label="anchor" href="#bef-and-on
 <tbody><tr class="odd">
 <td align="left">NA</td>
 <td align="left">No potential PCOS</td>
-<td align="left">koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
-foed_dato) &lt; 40 OR indication_code %in% c(‘0000092’, ‘0000276’,
-‘0000781’))</td>
+<td align="left">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
+foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’,
+‘0000276’, ‘0000781’)))</td>
 <td align="left">Woman is defined as 2 in <code>koen</code>.</td>
 </tr></tbody>
 </table>
@@ -383,7 +383,7 @@ foed_dato) &lt; 40 OR indication_code %in% c(‘0000092’, ‘0000276’,
 <table class="table">
 <colgroup>
 <col width="4%">
-<col width="24%">
+<col width="23%">
 <col width="67%">
 <col width="4%">
 </colgroup>
@@ -396,8 +396,8 @@ foed_dato) &lt; 40 OR indication_code %in% c(‘0000092’, ‘0000276’,
 <tbody><tr class="odd">
 <td align="left">NA</td>
 <td align="left">Remove events within a potential pregnancy period</td>
-<td align="left">!(has_pregnancy_event AND has_elevated_hba1c AND (date
-&gt;= (pregnancy_event_date - weeks(40)) OR date &lt;=
+<td align="left">NOT (has_pregnancy_event AND has_elevated_hba1c AND
+(date &gt;= (pregnancy_event_date - weeks(40)) OR date &lt;=
 (pregnancy_event_date + weeks(12)))</td>
 <td align="left"></td>
 </tr></tbody>

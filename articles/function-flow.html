@@ -300,40 +300,13 @@ information.</p>
 <h3 id="exclude_potential_pcos">
 <code>exclude_potential_pcos()</code><a class="anchor" aria-label="anchor" href="#exclude_potential_pcos"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Exclude metformin purchases potentially for the treatment of polycystic ovary syndrome.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' Takes the output from `include_gld_purchases()` and `bef` (information on sex and date of birth) to do the exclusions.</span></span>
-<span><span class="co">#' This function only performs a filtering operation so outputs the same structure and variables as the input from `include_gld_purchases()`.</span></span>
-<span><span class="co">#' After these exclusions are made, the output is used by `exclude_pregnancy()`.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @param gld_purchases The output from `include_gld_purchases()`.</span></span>
-<span><span class="co">#' @param bef The `bef` register.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @return The same type as the input data, default as a [tibble::tibble()].</span></span>
-<span><span class="co">#'    Also has the same columns as `include_gld_purchases()`, except for a helper</span></span>
-<span><span class="co">#'    logical variable `no_pcos` that is used in later functions.</span></span>
-<span><span class="co">#' @keywords internal</span></span>
-<span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' sim_data &lt;- simulate_registers(c("lmdb", "bef"), 100)</span></span>
-<span><span class="co">#' exclude_potential_pcos(</span></span>
-<span><span class="co">#'   gld_purchases = include_gld_purchases(sim_data$lmdb),</span></span>
-<span><span class="co">#'   bef = sim_data$bef</span></span>
-<span><span class="co">#' )</span></span>
-<span><span class="va">exclude_potential_pcos</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">gld_purchases</span>, <span class="va">bef</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Filter using the algorithm for potential PCOS</span></span>
-<span>  <span class="va">gld_purchases</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">bef</span>, by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">pnr</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_pcos <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<p>See <code><a href="../reference/exclude_potential_pcos.html">?exclude_potential_pcos</a></code> for more information.</p>
 </div>
 <div class="section level3">
 <h3 id="exclude_pregnancy">
 <code>exclude_pregnancy()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancy"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Exclude any pregnancy events that could be gestational diabetes.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#'</span></span>
@@ -394,7 +367,7 @@ information.</p>
 <span>    <span class="co"># Filtering here...</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_pregnancy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Simple function to get only the pregnancy event dates.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param lpr2 Output from `join_lpr2()`.</span></span>
