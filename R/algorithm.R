@@ -34,7 +34,7 @@ algorithm <- function() {
     gld = list(
       register = "lmdb",
       title = "Glucose-lowering drug inclusion",
-      logic = "atc =~ '^A10' AND !(atc =~ '^(A10BJ|A10BK01|A10BK03)')",
+      logic = "atc =~ '^A10' AND NOT (atc =~ '^(A10BJ|A10BK01|A10BK03)')",
       comments = "Do not keep GLP-RAs or dapagliflozin/empagliflozin drugs."
     ),
     lpr2 = list(
@@ -64,14 +64,14 @@ algorithm <- function() {
     lpr2_is_endocrinology_department = list(
       register = "lpr_adm",
       title = "LPR2 endocrinology department",
-      logic = "na_if(c_spec, !(c_spec %in% 8:30)) == 8",
+      logic = "na_if(c_spec, NOT (c_spec %in% 8:30)) == 8",
       comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing is all other cases."
     ),
     lpr3_is_endocrinology_department = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
-      logic = "na_if(hovedspeciale_ans, !(hovedspeciale_ans %in% c('medicinsk endokrinologi', 'blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin'))) == 'medicinsk endokrinologi'",
+      logic = "na_if(hovedspeciale_ans, NOT (hovedspeciale_ans %in% c('medicinsk endokrinologi', 'blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin'))) == 'medicinsk endokrinologi'",
       comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing in all other cases."
     ),
     lpr3 = list(
@@ -95,7 +95,7 @@ algorithm <- function() {
     no_pregnancy = list(
       register = NA,
       title = "Remove events within a potential pregnancy period",
-      logic = "!(has_pregnancy_event AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
+      logic = "NOT (has_pregnancy_event AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
       comments = ""
     ),
     podiatrist_services = list(
