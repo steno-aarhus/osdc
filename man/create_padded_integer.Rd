@@ -4,12 +4,14 @@
 \alias{create_padded_integer}
 \title{Create a vector of reproducible, random zero-padded integers}
 \usage{
-create_padded_integer(n, length)
+create_padded_integer(n, length, non_padded_digits = 5)
 }
 \arguments{
-\item{n}{The number of integers to generate.}
+\item{n}{The number of integer strings to generate.}
 
 \item{length}{An integer determining the length of the padded integer.}
+
+\item{non_padded_digits}{The number of non-zero digits in the generated integer strings}
 }
 \value{
 A character vector of integers.
@@ -20,7 +22,7 @@ values in \code{pnr}, \code{cpr}, \code{recnum} and \code{dw_ek_kontakt}.
 }
 \examples{
 \dontrun{
-create_padded_integer(5, 10)
+create_padded_integer(n = 1000, length = 12, non_padded_digits = 4)
 }
 }
 \keyword{internal}
