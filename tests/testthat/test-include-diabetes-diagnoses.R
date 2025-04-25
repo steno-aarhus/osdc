@@ -1,5 +1,5 @@
 # Define toy data for lpr_adm
-lpr_adm <- tibble(
+lpr_adm <- tibble::tibble(
   pnr = rep(sprintf("%018d", 1:6), 2),  # Padded to 18 digits
   recnum = sprintf("%018d", 1:12),  # Record ID as padded 18-digit strings
   d_inddto = as.Date(c(
@@ -14,7 +14,7 @@ lpr_adm <- tibble(
 )
 
 # Define toy data for lpr_diag
-lpr_diag <- tibble(
+lpr_diag <- tibble::tibble(
   recnum = sprintf("%018d", 1:12),
   c_diag = c(
     "24903", "DE103", "DE115", "DE134", "DC456", "DN102",
@@ -27,7 +27,7 @@ lpr_diag <- tibble(
 )
 
 # Define toy data for kontakter
-kontakter <- tibble(
+kontakter <- tibble::tibble(
   cpr = rep(sprintf("%018d", 1:6), 2),  # Padded CPR numbers
   dw_ek_kontakt = sprintf("%018d", 1:12),
   dato_start = as.Date(c(
@@ -43,7 +43,7 @@ kontakter <- tibble(
 )
 
 # Define toy data for diagnoser
-diagnoser <- tibble(
+diagnoser <- tibble::tibble(
   dw_ek_kontakt = sprintf("%018d", c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)),
   diagnosekode = c(
     "DE113", "DE103", "DD123", "DE125", "DC456", "DN102",
@@ -59,10 +59,10 @@ diagnoser <- tibble(
   )
 )
 
-test_that("Error verifying structure of the output: Output should be a tibble, with 4 columns, and correct column names", {
+# Run the function on toy data
+output <- include_diabetes_diagnoses(lpr_diag, lpr_adm, diagnoser, kontakter)
 
-  # Run the function on toy data
-  output <- include_diabetes_diagnoses(lpr_diag, lpr_adm, diagnoser, kontakter)
+test_that("Error verifying structure of the output: Output should be a tibble, with 4 columns, and correct column names", {
 
   # Test if the output is a tibble
   expect_s3_class(output, "tbl_df")
@@ -76,9 +76,6 @@ test_that("Error verifying structure of the output: Output should be a tibble, w
 
 test_that("Error verifying output data Types: 'pnr' should be a character, 'date' a Date, and the remaining two variables should be logicals", {
 
-  # Run the function on toy data
-  output <- include_diabetes_diagnoses(lpr_diag, lpr_adm, diagnoser, kontakter)
-
   # Test the data type of each column
   expect_type(output$pnr, "character")
   expect_type(output$date, "double")
@@ -87,9 +84,6 @@ test_that("Error verifying output data Types: 'pnr' should be a character, 'date
 })
 
 test_that("Error verifying pnr-level output values: Inspect logic for defining and counting diabetes diagnoses", {
-
-  # Run the function on toy data
-  output <- include_diabetes_diagnoses(lpr_diag, lpr_adm, diagnoser, kontakter)
 
   # Check the values for specific 'pnr' and 'date' pairs
 
