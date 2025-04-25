@@ -190,7 +190,7 @@ create_padded_integer <- function(n, length, non_padded_digits = 5) {
                          nrow = max_n, ncol = max_length)
   all_integers <- apply(digit_matrix, 1, paste0, collapse = "")
 
-  # Slice the first `n` IDs and return the first `length` digits of each
+  # Slice the specified number of non-zero digits and return these padded to match the requested length:
   non_padded_integers <- base::substr(all_integers[1:n], 1, non_padded_digits)
   return(pad_integers(non_padded_integers, length))
 }
