@@ -169,21 +169,30 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #' Generated integers of the same length are identical to facilitate joining by
 #' values in `pnr`, `cpr`, `recnum` and `dw_ek_kontakt`.
 #'
-#' @param n The number of integers to generate.
+#' @param n The number of integer strings to generate.
 #' @param length An integer determining the length of the padded integer.
+#' @param non_padded_digits The number of non-zero digits in the generated integer strings
+#'
 #'
 #' @return A character vector of integers.
 #' @keywords internal
 #'
 #' @examples
 #' \dontrun{
-#' create_padded_integer(5, 10)
+#' create_padded_integer(n = 1000, length = 12, non_padded_digits = 4)
 #' }
-create_padded_integer <- function(n, length) {
-  set.seed(length)
-  purrr::map(1:length, \(ignore) sample(0:9, n, replace = TRUE)) |>
-    purrr::reduce(\(integer1, integer2) paste(integer1, integer2, sep = "")) |>
-    pad_integers(width = length)
+create_padded_integer <- function(n, length, non_padded_digits = 5) {
+  set.seed(123) # can/should perhaps be handled via targets?
+
+  max_n <- 10000  # Maximal potential number of strings to generate (A specified constant. Changing it may change the random stream)
+  max_length <- 18 # Maximal potential length of integers generated ((recnum/dw_ek_kontakt are the longest at 18 digits). Must be constant for reproducibility.
+  digit_matrix <- matrix(sample(0:9, max_n * max_length, replace = TRUE),
+                         nrow = max_n, ncol = max_length)
+  all_integers <- apply(digit_matrix, 1, paste0, collapse = "")
+
+  # Slice the first `n` IDs and return the first `length` digits of each
+  non_padded_integers <- base::substr(all_integers[1:n], 1, non_padded_digits)
+  return(pad_integers(non_padded_integers, length))
 }
 
 #' Create a vector of random NPU codes
@@ -361,8 +370,6 @@ insert_analysiscode <- function(data, proportion = 0.3) {
       )
     )
 }
-
-# TODO: Need a function to reuse recnum and dw_ek_kontakt in LPR data
 
 # Simulate data -----------------------------------------------------------
 
