@@ -170,7 +170,7 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #' values in `pnr`, `cpr`, `recnum` and `dw_ek_kontakt`.
 #'
 #' @param n The number of integer strings to generate.
-#' @param length An integer determining the length of the padded integer.
+#' @param length The length of the padded integer strings.
 #' @param non_padded_digits The number of non-zero digits in the generated integer strings
 #'
 #'
