@@ -9,7 +9,7 @@ create_padded_integer(n, length, non_padded_digits = 5)
 \arguments{
 \item{n}{The number of integer strings to generate.}
 
-\item{length}{An integer determining the length of the padded integer.}
+\item{length}{The length of the padded integer strings.}
 
 \item{non_padded_digits}{The number of non-zero digits in the generated integer strings}
 }
