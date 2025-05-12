@@ -17,8 +17,8 @@ output_df <- count_primary_diagnoses_by_department(test_df)
 # === Structural test ===
 test_that("Output is a tibble with expected column names and number of columns", {
   expect_s3_class(output_df, "tbl_df")
-  expect_named(output_df, c("pnr", "n_t1d_endocrinology", "n_t2d_endocrinology", "n_t1d_medical", "n_t2d_medical"))
-  expect_equal(ncol(output_df), 5)
+  expect_named(output_df, c("pnr", "is_t1d", "is_t2d", "is_primary", "department", "n_t1d_endocrinology", "n_t2d_endocrinology", "n_t1d_medical", "n_t2d_medical"))
+  expect_equal(ncol(output_df), 9)
 })
 
 # === Row-specific content tests ===
@@ -57,3 +57,4 @@ test_that("pnr 000000000000000004 has correct counts", {
   expect_equal(row$n_t1d_medical, 1)
   expect_equal(row$n_t2d_medical, 0)
 })
+
