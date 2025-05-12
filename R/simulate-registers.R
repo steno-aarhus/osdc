@@ -182,7 +182,7 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #' create_padded_integer(n = 1000, length = 12, non_padded_digits = 4)
 #' }
 create_padded_integer <- function(n, length, non_padded_digits = 5) {
-  set.seed(123) # can/should perhaps be handled via targets?
+  set.seed(length) # Creates different sequences of strings for keys of different length. E.g. pnr and recnum aren't duplicates of one another, apart from their differing zero-padding/lengths
 
   max_n <- 10000  # Maximal potential number of strings to generate (A specified constant. Changing it may change the random stream)
   max_length <- 18 # Maximal potential length of integers generated ((recnum/dw_ek_kontakt are the longest at 18 digits). Must be constant for reproducibility.
