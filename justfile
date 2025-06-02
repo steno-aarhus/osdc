@@ -47,8 +47,8 @@ url-check:
 
 # Style all R code in the package
 style:
-  #!/usr/bin/env Rscript
-  styler::style_pkg()
+  # Need to install air first.
+  air format .
 
 # Build the pkgdown website
 build-website:
