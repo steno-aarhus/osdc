@@ -1,5 +1,4 @@
-#’ Register variables (with descriptions) required for the
-#' osdc algorithm.
+#' Register variables (with descriptions) required for the osdc algorithm.
 #'
 #' @returns Outputs a list of registers and variables required by osdc. Each
 #'   list item contains the official Danish name of the register, the start
