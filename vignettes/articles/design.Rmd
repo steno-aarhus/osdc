@@ -1,8 +1,8 @@
 ---
 title: "Design"
 output: rmarkdown::html_vignette
-bibliography: references.bib
-csl: vancouver.csl
+bibliography: ../references.bib
+csl: ../vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Design}
   %\VignetteEngine{knitr::rmarkdown}
@@ -144,9 +144,9 @@ There is one argument in `classify_diabetes()` for each required
 register, so the argument is:
 
 ```{r, results='asis'}
-variable_description |>
-  distinct(register_name, register_abbrev) |>
-  glue::glue_data("- `{register_abbrev}`: The register that is called '{register_name}' in Danish.")
+registers() |>
+  purrr::imap_chr(~ glue::glue("- `{.y}`: The register that is called '{.x$name}' in Danish.")) |>
+  unname()
 ```
 
 ### Output
