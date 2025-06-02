@@ -8,8 +8,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' sim_data <- simulate_registers(c("lpr_adm", "lpr_diag"), 100)
-#' join_lpr2(sim_data$lpr_adm, sim_data$lpr_diag)
+#' register_data <- simulate_registers(c("lpr_adm", "lpr_diag"))
+#' join_lpr2(register_data$lpr_adm, register_data$lpr_diag)
 #' }
 join_lpr2 <- function(lpr_adm, lpr_diag) {
   verify_required_variables(lpr_adm, "lpr_adm")
@@ -31,8 +31,12 @@ join_lpr2 <- function(lpr_adm, lpr_diag) {
 #'
 #' @examples
 #' \dontrun{
-#' simulate_registers("kontakter", 100)[[1]] |>
-#'   join_lpr3(register_data$diagnoser)
+#' kontakter <- simulate_registers("kontakter", 100)[[1]]
+#' diagnoser <- simulate_registers("diagnoser", 100)[[1]]
+#' join_lpr3(
+#'   kontakter = kontakter,
+#'   diagnoser = diagnoser
+#' )
 #' }
 join_lpr3 <- function(kontakter, diagnoser) {
   verify_required_variables(kontakter, "kontakter")
