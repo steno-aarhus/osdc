@@ -2,7 +2,7 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: clean install-package-dependencies document update-wordlist run-targets spell-check style test build-website check install-package
+run-all: clean install-package-dependencies document update-wordlist spell-check style test build-website check install-package
 
 # Clean up auto-generated files
 clean:
@@ -15,9 +15,7 @@ install-package-dependencies:
   #!/usr/bin/env Rscript
   pak::pak(
     dependencies = c(
-      "all", 
-      "Config/Needs/data", 
-      "Config/Needs/website"
+      "all"
     ),
     ask = FALSE
   )
@@ -31,11 +29,6 @@ document:
 update-wordlist:
   #!/usr/bin/env Rscript
   spelling::update_wordlist()
-
-# Run the pipeline to re-build the data objects
-run-targets:
-  #!/usr/bin/env Rscript
-  targets::tar_make()
 
 # Run the package tests
 test:

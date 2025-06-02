@@ -33,7 +33,7 @@ below).
 }
 \examples{
 \dontrun{
-register_data$lab_forsker |> include_hba1c()
+simulate_registers("lab_forsker", 100)[[1]] |> include_hba1c()
 }
 }
 \keyword{internal}

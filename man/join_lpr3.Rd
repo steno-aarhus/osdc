@@ -19,7 +19,7 @@ Join together the LPR3 (\code{diagnoser} and \code{kontakter}) registers.
 }
 \examples{
 \dontrun{
-register_data$kontakter |>
+simulate_registers("kontakter", 100)[[1]] |>
   join_lpr3(register_data$diagnoser)
 }
 }
