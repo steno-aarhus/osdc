@@ -2,27 +2,27 @@
 % Please edit documentation in R/simulate-registers.R
 \name{create_padded_integer}
 \alias{create_padded_integer}
-\title{Create a vector of reproducible, random zero-padded integers}
+\title{Create a vector of reproducible, random zero-padded integers.}
 \usage{
-create_padded_integer(n, length, non_padded_digits = 5)
+create_padded_integer(n, length)
 }
 \arguments{
 \item{n}{The number of integer strings to generate.}
 
 \item{length}{The length of the padded integer strings.}
-
-\item{non_padded_digits}{The number of non-zero digits in the generated integer strings}
 }
 \value{
 A character vector of integers.
 }
 \description{
-Generated integers of the same length are identical to facilitate joining by
-values in \code{pnr}, \code{cpr}, \code{recnum} and \code{dw_ek_kontakt}.
+For a given number of generated integers that are the same length, they will
+always be identical. This makes it easier to do joining by
+values that represent people, e.g. in \code{pnr}, \code{cpr}, \code{recnum} and
+\code{dw_ek_kontakt}.
 }
 \examples{
 \dontrun{
-create_padded_integer(n = 1000, length = 12, non_padded_digits = 4)
+create_padded_integer(n = 10, length = 13)
 }
 }
 \keyword{internal}
