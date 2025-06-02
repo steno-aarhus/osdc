@@ -23,10 +23,20 @@ Depends:
 Imports: 
     checkmate,
     cli,
+    codeCollection,
     dplyr,
+    fabricatr,
+    fs,
     lifecycle,
     lubridate,
-    rlang
+    purrr,
+    readr,
+    rlang,
+    rvest,
+    stats,
+    tidyr,
+    tidyselect,
+    utils
 Suggests:
     dbplyr,
     glue,
@@ -42,17 +52,8 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
-Config/Needs/data:
-    fabricatr,
-    codeCollection,
-    rvest
 Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Config/Needs/website: 
-    rmarkdown,
-    purrr,
-    tidyr,
-    tidyselect
