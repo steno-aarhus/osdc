@@ -27,3 +27,17 @@ test_that("two registers can be simulated", {
   expect_equal(nrow(small_simulated_registers[[1]]), 100)
   expect_equal(nrow(small_simulated_registers[[2]]), 100)
 })
+
+test_that("padded integers for given length and n are always the same", {
+  actual <- create_padded_integer(2, 2)
+  expected <- c("45", "57")
+  expect_equal(actual, expected)
+
+  actual <- create_padded_integer(3, 2)
+  expected <- c("47", "50", "50")
+  expect_equal(actual, expected)
+
+  actual <- create_padded_integer(2, 3)
+  expected <- c("469", "937")
+  expect_equal(actual, expected)
+})
