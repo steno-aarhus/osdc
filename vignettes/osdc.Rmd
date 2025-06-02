@@ -33,23 +33,15 @@ for this package and algorithm, see `vignette("data-sources")`.
 
 First, let's load up the package, as well as dplyr.
 
-```{r setup}
+```{r setup, message=FALSE}
 library(dplyr)
 library(osdc)
 ```
 
 The core of this package depends on the list of variables within
 different registers that are needed in order to classify the diabetes
-status of an individual. This can be found in the dataset:
+status of an individual. This can be found in the list:
 
 ```{r}
-variable_description
-```
-
-Let's convert that to a nicer format to show the list as a table.
-
-```{r}
-variable_description |>
-  select(register_name, register_abbrev, variable_name, english_description) |>
-  knitr::kable()
+registers()
 ```

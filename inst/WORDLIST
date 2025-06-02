@@ -1,6 +1,7 @@
 AE
 ATC
 Aarhus
+BEF
 CMD
 DCCT
 DDD
@@ -12,6 +13,7 @@ HbA
 ICD
 IFCC
 Isaksen's
+LMDB
 LPR
 Lifecycle
 Lægemiddeldatabasen
@@ -38,6 +40,8 @@ dk
 dplyr
 empagliflozin
 endocrinological
+forsker
+lpr
 medinfo
 mellitus
 metformin
@@ -48,7 +52,6 @@ pnr
 polycystic
 pre
 pseudonymised
-reproducibility
 semaglutid
 th
 tibble
