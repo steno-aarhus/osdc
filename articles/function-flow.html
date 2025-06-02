@@ -456,37 +456,58 @@ per ´pnr´. This output is passed to
 <div class="section level3">
 <h3 id="get-diagnosis-date">Get diagnosis date<a class="anchor" aria-label="anchor" href="#get-diagnosis-date"></a>
 </h3>
-<p>The function <code>get_inclusion_date()</code> takes the output from
-<code>join_inclusions()</code> and defines the final diagnosis date
-based on all the inclusion event types.</p>
-<p>First, the inputs are sorted by <code>dates</code> within each level
-of <code>pnr</code>, then the earliest value of <code>dates</code> is
-dropped, so that only those with two or more events are included. The
-date of inclusion, <code>raw_inclusion_date</code>, is then defined as
-the earliest value of <code>dates</code>in the remaining rows for each
-individual (effectively the date of the second recorded inclusion
-event). A third variable, <code>stable_inclusion_date</code>, is defined
-based on <code>raw_inclusion_date</code> (if
-<code>raw_inclusion_date</code> &lt; stable inclusion threshold (one
-year after medication data starts to contribute to inclusions. Default
-“31-12-1997”), then <code>stable_inclusion_date</code> is set to
-<code>NA</code>, else it is set to<code>raw_inclusion_date</code>). This
-variable serves to limit the included cohort to only individuals with
-valid date of inclusion (and thereby valid age at inclusion &amp;
-duration of diabetes).</p>
-<p><code>get_inclusion_date()</code> outputs a <code>data.frame</code>
-with the following variables:</p>
-<ul>
-<li>
-<code>pnr</code>: identifier variable</li>
-<li>
-<code>raw_inclusion_date</code>: date of inclusion</li>
-<li>
-<code>stable_inclusion_date</code>: date of inclusion of valid
-incident cases</li>
-</ul>
-<p>This output is passed to the <code>get_diabetes_type()</code>
-function and used to classify the diabetes type as described below.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Get the final diagnosis date based on all the inclusion event types.</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' The function `get_inclusion_date()` takes the output from `join_inclusions()`</span></span>
+<span><span class="co">#' and defines the final diagnosis date based on all the inclusion event types.</span></span>
+<span><span class="co">#' Keeps only those with 2 or more recorded inclusion events, regardless of the </span></span>
+<span><span class="co">#' type of these events (e.g. two elevated HbA1c tests will lead to inclusion as </span></span>
+<span><span class="co">#' well as one elevated HbA1c test followed by a purchase of glucose-lowering </span></span>
+<span><span class="co">#' drugs).</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @param inclusions Output from [join_inclusions()].</span></span>
+<span><span class="co">#' @param stable_inclusion_start_date The date from when the inclusion events</span></span>
+<span><span class="co">#'    from all sources are considered more 'stable' (e.g. time after the change</span></span>
+<span><span class="co">#'    in how medication drugs are labeled and how doctors actually regularly </span></span>
+<span><span class="co">#'    input the new change into the database).</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @returns The same type as the input data, default as a [tibble::tibble()],</span></span>
+<span><span class="co">#'   with the following columns:</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#'   - `pnr`: The person identifier variable.</span></span>
+<span><span class="co">#'   - `raw_inclusion_date`: Date of inclusion, which is the second </span></span>
+<span><span class="co">#'      earliest recorded event.</span></span>
+<span><span class="co">#'   - `stable_inclusion_date`: Date of inclusion of individuals included </span></span>
+<span><span class="co">#'      at least one year after the incorporation of inclusions based on </span></span>
+<span><span class="co">#'      glucose-lowering drug data (1998 onwards when using National Patient </span></span>
+<span><span class="co">#'      Register data for censoring of gestational diabetes). Limits the </span></span>
+<span><span class="co">#'      included cohort to only individuals with a valid date of inclusion </span></span>
+<span><span class="co">#'      (and thereby valid age at inclusion &amp; duration of diabetes).</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @keywords internal</span></span>
+<span><span class="co">#' @inherit algorithm seealso</span></span>
+<span><span class="va">get_inclusion_date</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">inclusions</span>, <span class="va">stable_inclusion_start_date</span> <span class="op">=</span> <span class="st">"1998-01-01"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">inclusions</span> <span class="op">|&gt;</span></span>
+<span>    <span class="co"># TODO: May need to consider more efficient ways than using group by.</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">pnr</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="co"># Drop earliest date so only those with two or more events are included.</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>      <span class="co"># Earliest date in the rows for each individual.</span></span>
+<span>      raw_inclusion_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>      stable_inclusion_date <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
+<span>        <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span> <span class="op">&lt;</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">stable_inclusion_start_date</span><span class="op">)</span>,</span>
+<span>        <span class="cn">NA</span>,</span>
+<span>        <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>      <span class="va">.data</span><span class="op">$</span><span class="va">pnr</span>,</span>
+<span>      <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span>,</span>
+<span>      <span class="va">.data</span><span class="op">$</span><span class="va">stable_inclusion_date</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="classifying-the-diabetes-type">Classifying the diabetes type<a class="anchor" aria-label="anchor" href="#classifying-the-diabetes-type"></a>
