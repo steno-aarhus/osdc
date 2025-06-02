@@ -1,8 +1,8 @@
 ---
 title: "Data sources"
 output: rmarkdown::html_vignette
-bibliography: references.bib
-csl: vancouver.csl
+bibliography: ../references.bib
+csl: ../vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Data sources}
   %\VignetteEngine{knitr::rmarkdown}
