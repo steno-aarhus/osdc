@@ -353,25 +353,33 @@ The output from the function is a `data.frame` containing two variables
 #'
 #' The function `get_inclusion_date()` takes the output from `join_inclusions()`
 #' and defines the final diagnosis date based on all the inclusion event types.
-#' Keeps only those with 2 or more recorded events, regardless of the type of these events (e.g. two elevated HbA1c tests will lead to inclusion as well as one elevated HbA1c test followed by a purchase of glucose-lowering drugs).
+#' Keeps only those with 2 or more recorded inclusion events, regardless of the 
+#' type of these events (e.g. two elevated HbA1c tests will lead to inclusion as 
+#' well as one elevated HbA1c test followed by a purchase of glucose-lowering 
+#' drugs).
 #'
 #' @param inclusions Output from [join_inclusions()].
+#' @param stable_inclusion_start_date The date from when the inclusion events
+#'    from all sources are considered more 'stable' (e.g. time after the change
+#'    in how medication drugs are labeled and how doctors actually regularly 
+#'    input the new change into the database).
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'   with the following columns:
 #'
 #'   - `pnr`: The person identifier variable.
-#'   - `raw_inclusion_date`: Date of inclusion, which is the second earliest recorded event.
-#'   - `stable_inclusion_date`: Date of inclusion of individuals included at least one year after the incorporation of inclusions based on glucose-lowering drug data (1998 onwards when using National Patient Register data for censoring of gestational diabetes). Limits the included cohort to only individuals
-#'     with a valid date of inclusion (and thereby valid age at inclusion & duration of diabetes).
+#'   - `raw_inclusion_date`: Date of inclusion, which is the second 
+#'      earliest recorded event.
+#'   - `stable_inclusion_date`: Date of inclusion of individuals included 
+#'      at least one year after the incorporation of inclusions based on 
+#'      glucose-lowering drug data (1998 onwards when using National Patient 
+#'      Register data for censoring of gestational diabetes). Limits the 
+#'      included cohort to only individuals with a valid date of inclusion 
+#'      (and thereby valid age at inclusion & duration of diabetes).
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-get_inclusion_date <- function(inclusions) {
-  # Stable inclusion threshold is one year after medication data starts
-  # to contribute to inclusions. Default is 1997-12-31.
-  # TODO: Need to define this threshold more explicitly
-  stable_inclusion_threshold <- NA
+get_inclusion_date <- function(inclusions, stable_inclusion_start_date = "1998-01-01") {
   inclusions |>
     # TODO: May need to consider more efficient ways than using group by.
     dplyr::group_by(.data$pnr) |>
@@ -381,7 +389,7 @@ get_inclusion_date <- function(inclusions) {
       # Earliest date in the rows for each individual.
       raw_inclusion_date = min(.data$dates, na.rm = TRUE),
       stable_inclusion_date = dplyr::if_else(
-        .data$raw_inclusion_date < stable_inclusion_threshold,
+        .data$raw_inclusion_date < lubridate::as_date(stable_inclusion_start_date),
         NA,
         .data$raw_inclusion_date
       )
