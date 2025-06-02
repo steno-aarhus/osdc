@@ -55,12 +55,6 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DE11|250)'",
       comments = ""
     ),
-    lpr2_has_pregnancy_event = list(
-      register = "lpr_diag",
-      title = "LPR2 diagnoses codes for pregnancy-related outcomes",
-      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
-      comments = "These are recorded pregnancy endings like live births and miscarriages."
-    ),
     lpr2_is_endocrinology_department = list(
       register = "lpr_adm",
       title = "LPR2 endocrinology department",
@@ -91,6 +85,12 @@ algorithm <- function() {
       title = "LPR3 diagnoses codes for T2D",
       logic = "diagnosekode =~ '^(DE11)'",
       comments = ""
+    ),
+    has_pregnancy_event = list(
+      register = "lpr_diag",
+      title = "LPR2 diagnoses codes for pregnancy-related outcomes",
+      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
     no_pregnancy = list(
       register = NA,
