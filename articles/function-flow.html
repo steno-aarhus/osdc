@@ -164,10 +164,10 @@ function outputs.</div>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
-<span><span class="co">#' sim_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)</span></span>
+<span><span class="co">#' register_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))</span></span>
 <span><span class="co">#' include_diabetes_diagnosis(</span></span>
-<span><span class="co">#'   lpr2 = join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm),</span></span>
-<span><span class="co">#'   lpr3 = join_lpr3(sim_data$diagnoser, sim_data$kontakter)</span></span>
+<span><span class="co">#'   lpr2 = join_lpr2(register_data$lpr_diag, register_data$lpr_adm),</span></span>
+<span><span class="co">#'   lpr3 = join_lpr3(register_data$diagnoser, register_data$kontakter)</span></span>
 <span><span class="co">#' )</span></span>
 <span><span class="va">include_diabetes_diagnosis</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Combine and process the two inputs</span></span>
@@ -245,7 +245,7 @@ information.</p>
 <span><span class="co">#'     `get_insulin_is_two_thirds_of_gld_doses()` helper functions for the</span></span>
 <span><span class="co">#'     classification of diabetes type.</span></span>
 <span><span class="co">#'</span></span>
-<span><span class="co">#' @param excluded_pcos Ouptut from `exclude_potential_pcos()`.</span></span>
+<span><span class="co">#' @param excluded_pcos Output from `exclude_potential_pcos()`.</span></span>
 <span><span class="co">#' @param pregnancy_dates Output from `get_pregnancy_dates()`.</span></span>
 <span><span class="co">#' @param included_hba1c Output from `include_hba1c()`.</span></span>
 <span><span class="co">#'</span></span>
@@ -256,18 +256,18 @@ information.</p>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
-<span><span class="co">#' sim_data &lt;- simulate_registers(c(</span></span>
+<span><span class="co">#' register_data &lt;- simulate_registers(c(</span></span>
 <span><span class="co">#'   "lmdb", "bef", "lpr_diag", "lpr_adm",</span></span>
 <span><span class="co">#'   "diagnoser", "kontakter", "lab_forsker"</span></span>
-<span><span class="co">#' ), 100)</span></span>
-<span><span class="co">#' lpr2 &lt;- join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm)</span></span>
-<span><span class="co">#' lpr3 &lt;- join_lpr3(sim_data$diagnoser, sim_data$kontakter)</span></span>
+<span><span class="co">#' ))</span></span>
+<span><span class="co">#' lpr2 &lt;- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)</span></span>
+<span><span class="co">#' lpr3 &lt;- join_lpr3(register_data$diagnoser, register_data$kontakter)</span></span>
 <span><span class="co">#' lmdb |&gt;</span></span>
 <span><span class="co">#'   include_gld_purchases() |&gt;</span></span>
-<span><span class="co">#'   exclude_potential_pcos(sim_data$bef) |&gt;</span></span>
+<span><span class="co">#'   exclude_potential_pcos(register_data$bef) |&gt;</span></span>
 <span><span class="co">#'   exclude_pregnancy(</span></span>
 <span><span class="co">#'     get_pregnancy_dates(lpr2, lpr3),</span></span>
-<span><span class="co">#'     include_hba1c(sim_data$lab_forsker)</span></span>
+<span><span class="co">#'     include_hba1c(register_data$lab_forsker)</span></span>
 <span><span class="co">#'   )</span></span>
 <span><span class="va">exclude_pregnancy</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">excluded_pcos</span>, <span class="va">pregnancy_dates</span>, <span class="va">included_hba1c</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Filter using the algorithm for pregnancy</span></span>
@@ -289,9 +289,9 @@ information.</p>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @examples</span></span>
-<span><span class="co">#' sim_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)</span></span>
-<span><span class="co">#' lpr2 &lt;- join_lpr2(sim_data$lpr_diag, sim_data$lpr_adm)</span></span>
-<span><span class="co">#' lpr3 &lt;- join_lpr3(sim_data$diagnoser, sim_data$kontakter)</span></span>
+<span><span class="co">#' register_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)</span></span>
+<span><span class="co">#' lpr2 &lt;- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)</span></span>
+<span><span class="co">#' lpr3 &lt;- join_lpr3(register_data$diagnoser, register_data$kontakter)</span></span>
 <span><span class="co">#' get_pregnancy_dates(lpr2, lpr3)</span></span>
 <span><span class="va">get_pregnancy_dates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># Filter using the algorithm for pregnancy</span></span>

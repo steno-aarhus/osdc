@@ -115,6 +115,20 @@ description of the internal implementation of this classification function.</p><
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">register_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_registers.html">simulate_registers</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"kontakter"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"diagnoser"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"lpr_diag"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"lpr_adm"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"sysi"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"sssy"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"lab_forsker"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"bef"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"lmdb"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">10000</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">classify_diabetes</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  kontakter <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">kontakter</span>,</span></span>
 <span class="r-in"><span>  diagnoser <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">diagnoser</span>,</span></span>
