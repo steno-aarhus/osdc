@@ -331,12 +331,11 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
 #' @param included_diabetes_diagnoses Output from [include_diabetes_diagnoses()].
 #' @param included_podiatrist_services Output from [include_podiatrist_services()].
 #' @param excluded_pregnancy Output from [exclude_pregnancy()].
-#' @param included_gld_purchases Output from [include_gld_purchases()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'   with the joined columns from the output of [include_diabetes_diagnoses()],
-#'   [include_podiatrist_services()], [exclude_pregnancy()], and
-#'   [include_gld_purchases()]. There will be 1-8 rows per `pnr`.
+#'   [include_podiatrist_services()] and [exclude_pregnancy()]. There will be 
+#'   1-8 rows per `pnr`.
 #' @keyword internal
 #' @inherit algorithm seealso
 join_inclusions <- function(
