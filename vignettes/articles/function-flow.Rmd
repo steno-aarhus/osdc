@@ -327,7 +327,6 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
 #' - `included_diabetes_diagnoses`: Dates are the first and second hospital diabetes diagnosis.
 #' - `included_podiatrist_services`: Dates are the first and second diabetes-specific podiatrist record.
 #' - `excluded_pregnancy`: Dates are the first and second elevated HbA1c test results (after censoring).
-#' - `included_gld_purchases`: Dates are the first and second purchase of GLD of each individual.
 #'
 #' @param included_diabetes_diagnoses Output from [include_diabetes_diagnoses()].
 #' @param included_podiatrist_services Output from [include_podiatrist_services()].
@@ -343,22 +342,18 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
 join_inclusions <- function(
     included_diabetes_diagnoses,
     included_podiatrist_services,
-    excluded_pregnancy,
-    # TODO: Do we need this? There isn't an arrow from it in the diagram
-    included_gld_purchases) {
+    excluded_pregnancy
+    ) {
   # Combine the outputs from the inclusion and exclusion events
   purrr::reduce(
     list(
       included_diabetes_diagnoses,
       included_podiatrist_services,
-      excluded_pregnancy,
-      included_gld_purchases
+      excluded_pregnancy
     ),
-    # TODO: I think full join works fine here, but may be computationally
-    # expensive.
     # This joins *only* by pnr and dates. If datasets have the same column
     # names, they will be renamed to differentiate them.
-    # TODO: We will need to ensure that no two datasets have the same columns.
+    # TODO: We may need to ensure that no two datasets have the same columns.
     \(x, y) dplyr::full_join(x, y, by = dplyr::join_by(.data$pnr, .data$dates))
   )
 }
