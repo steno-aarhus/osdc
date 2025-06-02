@@ -2,6 +2,7 @@
 
 export(algorithm)
 export(classify_diabetes)
+export(registers)
 export(simulate_registers)
 export(yyww_to_yyyymmdd)
 importFrom(dplyr,na_if)
