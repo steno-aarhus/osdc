@@ -18,6 +18,20 @@
 #'
 #' @examples
 #' \dontrun{
+#' register_data <- simulate_registers(
+#'   c(
+#'     "kontakter",
+#'     "diagnoser",
+#'     "lpr_diag",
+#'     "lpr_adm",
+#'     "sysi",
+#'     "sssy",
+#'     "lab_forsker",
+#'     "bef",
+#'     "lmdb"
+#'   ),
+#'   n = 10000
+#' )
 #' classify_diabetes(
 #'   kontakter = register_data$kontakter,
 #'   diagnoser = register_data$diagnoser,

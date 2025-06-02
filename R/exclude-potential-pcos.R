@@ -18,6 +18,7 @@
 #'
 #' @examples
 #' \dontrun{
+#' register_data <- simulate_registers(c("lmdb", "bef"), 100)
 #' exclude_potential_pcos(
 #'   gld_purchases = include_gld_purchases(register_data$lmdb),
 #'   bef = register_data$bef

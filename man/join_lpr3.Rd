@@ -19,8 +19,12 @@ Join together the LPR3 (\code{diagnoser} and \code{kontakter}) registers.
 }
 \examples{
 \dontrun{
-simulate_registers("kontakter", 100)[[1]] |>
-  join_lpr3(register_data$diagnoser)
+kontakter <- simulate_registers("kontakter", 100)[[1]]
+diagnoser <- simulate_registers("diagnoser", 100)[[1]]
+join_lpr3(
+  kontakter = kontakter,
+  diagnoser = diagnoser
+)
 }
 }
 \keyword{internal}
