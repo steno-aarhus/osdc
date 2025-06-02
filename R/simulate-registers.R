@@ -164,35 +164,32 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
     sample(n, replace = TRUE)
 }
 
-#' Create a vector of reproducible, random zero-padded integers
+#' Create a vector of reproducible, random zero-padded integers.
 #'
-#' Generated integers of the same length are identical to facilitate joining by
-#' values in `pnr`, `cpr`, `recnum` and `dw_ek_kontakt`.
+#' For a given number of generated integers that are the same length, they will
+#' always be identical. This makes it easier to do joining by
+#' values that represent people, e.g. in `pnr`, `cpr`, `recnum` and
+#' `dw_ek_kontakt`.
 #'
 #' @param n The number of integer strings to generate.
 #' @param length The length of the padded integer strings.
-#' @param non_padded_digits The number of non-zero digits in the generated integer strings
-#'
 #'
 #' @return A character vector of integers.
 #' @keywords internal
 #'
 #' @examples
 #' \dontrun{
-#' create_padded_integer(n = 1000, length = 12, non_padded_digits = 4)
+#' create_padded_integer(n = 10, length = 13)
 #' }
-create_padded_integer <- function(n, length, non_padded_digits = 5) {
-  set.seed(length) # Creates different sequences of strings for keys of different length. E.g. pnr and recnum aren't duplicates of one another, apart from their differing zero-padding/lengths
+create_padded_integer <- function(n, length) {
+  # Creates different sequences of strings for keys of different length.
+  # E.g. pnr and recnum aren't duplicates of one another, apart from
+  # their differing zero-padding/lengths.
+  set.seed(length)
 
-  max_n <- 10000  # Maximal potential number of strings to generate (A specified constant. Changing it may change the random stream)
-  max_length <- 18 # Maximal potential length of integers generated ((recnum/dw_ek_kontakt are the longest at 18 digits). Must be constant for reproducibility.
-  digit_matrix <- matrix(sample(0:9, max_n * max_length, replace = TRUE),
-                         nrow = max_n, ncol = max_length)
-  all_integers <- apply(digit_matrix, 1, paste0, collapse = "")
-
-  # Slice the specified number of non-zero digits and return these padded to match the requested length:
-  non_padded_integers <- base::substr(all_integers[1:n], 1, non_padded_digits)
-  return(pad_integers(non_padded_integers, length))
+  purrr::map(1:length, \(ignore) sample(0:9, n, replace = TRUE)) |>
+    purrr::reduce(\(integer1, integer2) paste(integer1, integer2, sep = "")) |>
+    pad_integers(width = length)
 }
 
 #' Create a vector of random NPU codes
