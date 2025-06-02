@@ -164,23 +164,29 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
     sample(n, replace = TRUE)
 }
 
-#' Create a vector of reproducible, random zero-padded integers
+#' Create a vector of reproducible, random zero-padded integers.
 #'
-#' Generated integers of the same length are identical to facilitate joining by
-#' values in `pnr`, `cpr`, `recnum` and `dw_ek_kontakt`.
+#' For a given number of generated integers that are the same length, they will
+#' always be identical. This makes it easier to do joining by
+#' values that represent people, e.g. in `pnr`, `cpr`, `recnum` and
+#' `dw_ek_kontakt`.
 #'
-#' @param n The number of integers to generate.
-#' @param length An integer determining the length of the padded integer.
+#' @param n The number of integer strings to generate.
+#' @param length The length of the padded integer strings.
 #'
 #' @return A character vector of integers.
 #' @keywords internal
 #'
 #' @examples
 #' \dontrun{
-#' create_padded_integer(5, 10)
+#' create_padded_integer(n = 10, length = 13)
 #' }
 create_padded_integer <- function(n, length) {
+  # Creates different sequences of strings for keys of different length.
+  # E.g. pnr and recnum aren't duplicates of one another, apart from
+  # their differing zero-padding/lengths.
   set.seed(length)
+
   purrr::map(1:length, \(ignore) sample(0:9, n, replace = TRUE)) |>
     purrr::reduce(\(integer1, integer2) paste(integer1, integer2, sep = "")) |>
     pad_integers(width = length)
@@ -361,8 +367,6 @@ insert_analysiscode <- function(data, proportion = 0.3) {
       )
     )
 }
-
-# TODO: Need a function to reuse recnum and dw_ek_kontakt in LPR data
 
 # Simulate data -----------------------------------------------------------
 

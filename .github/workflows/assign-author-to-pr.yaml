@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Assign PR to author
         run: |
-          gh pr edit $PR --add-assignee $AUTHOR
+          gh pr edit $PR --add-assignee $AUTHOR --repo ${{ github.repository }}
         env:
           AUTHOR: ${{ github.event.pull_request.user.login }}
           PR: ${{ github.event.pull_request.html_url }}
