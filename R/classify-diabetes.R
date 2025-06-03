@@ -102,8 +102,9 @@ classify_diabetes <- function(
   )
 
   # Exclusion steps -----
-  # gld_hba1c_after_exclusions <- gld_purchases |>
-  #   exclude_potential_pcos(bef = bef) |>
+  gld_hba1c_after_exclusions <- gld_purchases |>
+    exclude_potential_pcos(bef = bef)
+  #   |>
   #   exclude_pregnancy(
   #     # TODO: Need to think about arg naming here..
   #     included_hba1c = hba1c_over_threshold,
