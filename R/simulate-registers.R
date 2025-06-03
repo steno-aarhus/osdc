@@ -309,11 +309,12 @@ insert_specific_atc <- function(data, proportion = 0.3) {
     dplyr::mutate(
       dplyr::across(
         tidyselect::matches("^atc$"),
-        \(column) dplyr::if_else(
-          stats::runif(dplyr::n()) < proportion,
-          sample(unname(glucose_lowering_drugs), 1),
-          column
-        )
+        \(column)
+          dplyr::if_else(
+            stats::runif(dplyr::n()) < proportion,
+            sample(unname(glucose_lowering_drugs), 1),
+            column
+          )
       )
     )
 }
@@ -334,7 +335,9 @@ insert_false_metformin <- function(data, proportion = 0.05) {
     data |>
       dplyr::mutate(
         atc = dplyr::if_else(
-          .data$indo %in% c("0000092", "0000276", "0000781") & insertion_rate(proportion),
+          .data$indo %in%
+            c("0000092", "0000276", "0000781") &
+            insertion_rate(proportion),
           "A10BA02",
           .data$atc
         )
@@ -359,11 +362,12 @@ insert_analysiscode <- function(data, proportion = 0.3) {
     dplyr::mutate(
       dplyr::across(
         dplyr::matches("^analysiscode$"),
-        \(column) dplyr::if_else(
-          stats::runif(dplyr::n()) < proportion,
-          sample(c("NPU27300", "NPU03835"), dplyr::n(), replace = TRUE),
-          column
-        )
+        \(column)
+          dplyr::if_else(
+            stats::runif(dplyr::n()) < proportion,
+            sample(c("NPU27300", "NPU03835"), dplyr::n(), replace = TRUE),
+            column
+          )
       )
     )
 }
@@ -388,7 +392,9 @@ create_simulated_data <- function(data, n) {
     # this evaluates the character string
     purrr::map(~ eval(parse(text = .x))) |>
     # enframe converts a list to a tibble
-    purrr::imap(\(column, name) tibble::enframe(column, name = NULL, value = name)) |>
+    purrr::imap(
+      \(column, name) tibble::enframe(column, name = NULL, value = name)
+    ) |>
     unname() |>
     purrr::list_cbind()
 }
@@ -405,7 +411,11 @@ create_simulated_data <- function(data, n) {
 #' simulate_registers(c("bef", "sysi"))
 #' simulate_registers("bef")
 simulate_registers <- function(registers, n = 1000) {
-  simulation_definitions <- fs::path_package("osdc", "resources", "simulation-definitions.csv") |>
+  simulation_definitions <- fs::path_package(
+    "osdc",
+    "resources",
+    "simulation-definitions.csv"
+  ) |>
     readr::read_csv(show_col_types = FALSE) |>
     dplyr::select("register_abbrev", "variable_name", "generator")
 

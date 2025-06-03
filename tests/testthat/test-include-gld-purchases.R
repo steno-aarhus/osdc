@@ -31,8 +31,12 @@ expected <- tibble::tribble(
   ) |>
   dplyr::select(-volume, -apk) |>
   dplyr::relocate(
-    pnr, date, atc, contained_doses,
-    has_gld_purchases, indication_code
+    pnr,
+    date,
+    atc,
+    contained_doses,
+    has_gld_purchases,
+    indication_code
   )
 
 test_that("dataset needs expected variables", {

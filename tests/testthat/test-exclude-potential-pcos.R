@@ -8,7 +8,10 @@ bef <- tibble::tribble(
   1, 3000000001, "1980-01-01",
   2, 4000000000, "1980-01-01",
 ) |>
-  dplyr::mutate(pnr = as.character(pnr), foed_dato = lubridate::as_date(foed_dato))
+  dplyr::mutate(
+    pnr = as.character(pnr),
+    foed_dato = lubridate::as_date(foed_dato)
+  )
 
 gld_purchases <- tibble::tribble(
   ~pnr, ~date, ~atc, ~contained_doses, ~has_gld_purchases, ~indication_code,

@@ -36,7 +36,8 @@ include_podiatrist_services <- function(sysi, sssy) {
 
   sysi |>
     column_names_to_lower() |>
-    dplyr::full_join(column_names_to_lower(sssy),
+    dplyr::full_join(
+      column_names_to_lower(sssy),
       by = dplyr::join_by("pnr", "barnmak", "speciale", "honuge")
     ) |>
     # Both of these need to be converted to correct format in order for
