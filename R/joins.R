@@ -45,7 +45,8 @@ join_lpr3 <- function(kontakter, diagnoser) {
   verify_required_variables(kontakter, "kontakter")
   verify_required_variables(diagnoser, "diagnoser")
 
-  kontakter <- kontakter |> dplyr::rename(pnr = cpr)
+  kontakter <- kontakter |> 
+    dplyr::rename("pnr" = "cpr")
 
   dplyr::inner_join(
     column_names_to_lower(kontakter),
