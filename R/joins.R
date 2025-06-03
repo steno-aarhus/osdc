@@ -23,6 +23,9 @@ join_lpr2 <- function(lpr_adm, lpr_diag) {
 
 #' Join together the LPR3 (`diagnoser` and `kontakter`) registers.
 #'
+#' To prepare the LPR3 data for the inclusion process, this function also
+#' renames the `cpr` variable to `pnr` to match the other registers.
+#'
 #' @param diagnoser The diagnosis register.
 #' @param kontakter The contacts register.
 #'
@@ -41,6 +44,9 @@ join_lpr2 <- function(lpr_adm, lpr_diag) {
 join_lpr3 <- function(kontakter, diagnoser) {
   verify_required_variables(kontakter, "kontakter")
   verify_required_variables(diagnoser, "diagnoser")
+
+  kontakter <- kontakter |> 
+    dplyr::rename("pnr" = "cpr")
 
   dplyr::inner_join(
     column_names_to_lower(kontakter),
