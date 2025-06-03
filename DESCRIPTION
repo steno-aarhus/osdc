@@ -35,20 +35,19 @@ Imports:
     rvest,
     stats,
     tidyr,
-    tidyselect,
-    utils
+    tidyselect
 Suggests:
+    arrow,
+    data.table,
     dbplyr,
+    duckplyr,
     glue,
     knitr,
     rmarkdown,
     spelling,
     stringr,
     testthat (>= 3.0.0),
-    tibble,
-    data.table,
-    arrow,
-    duckplyr
+    tibble
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
