@@ -29,7 +29,7 @@ jobs:
 
   cran-checks:
     runs-on: ${{ matrix.config.os }}
-
+    needs: format-check
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
 
     strategy:
@@ -38,8 +38,10 @@ jobs:
         config:
           - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
+          # NOTE: These take a long time to run, so won't use them for regular development.
+          # For releasing, we'll use `rhub` and do the full checks there.
+          # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           # - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
@@ -63,7 +65,6 @@ jobs:
           needs: |
             check
             tests
-
 
       - uses: r-lib/actions/check-r-package@v2
         with:
