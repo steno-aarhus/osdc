@@ -41,17 +41,23 @@ To install all dependencies **for development only**, like simulating
 more data or running the full test suite, use:
 
 ``` r
-pak::pak("steno-aarhus/osdc")
+pak::pak("steno-aarhus/osdc", dependencies = "all")
 ```
 
 ## Development
 
-When developing the package and you make changes to any of the files in
-`data-raw/`, use the targets pipeline to re-generate the data files:
+When developing the package, we use [`justfile`](https://just.systems/)
+to simplify and make our development workflow explicit. The justfile
+contains commands that runs formatters, various checks like CRAN checks
+or spelling checks, tests, and builds the files for the website (but not
+publishes it). We use it to ensure that we have a consistent development
+workflow and that we do not forget to run any of the important checks
+before committing our changes. For example, before we make any pull
+request to contribute changes, we run the following command *in the
+Terminal* of the project directory:
 
-``` r
-# install.packages("targets")
-targets::tar_make()
+``` bash
+just run-all
 ```
 
 ## Code of Conduct
