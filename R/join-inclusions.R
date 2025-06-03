@@ -31,10 +31,11 @@
 #' @keywords internal
 #' @inherit algorithm seealso
 join_inclusions <- function(
-    included_diabetes_diagnoses,
-    included_podiatrist_services,
-    hba1c_censored_pregnancy,
-    gld_censored_pcos_pregnancy) {
+  included_diabetes_diagnoses,
+  included_podiatrist_services,
+  hba1c_censored_pregnancy,
+  gld_censored_pcos_pregnancy
+) {
   # Combine the outputs from the inclusion and exclusion events
   purrr::reduce(
     list(
