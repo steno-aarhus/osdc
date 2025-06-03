@@ -87,9 +87,9 @@ algorithm <- function() {
       comments = ""
     ),
     has_pregnancy_event = list(
-      register = "lpr_diag",
-      title = "LPR2 diagnoses codes for pregnancy-related outcomes",
-      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      register = c("lpr_diag", "diagnoser"),
+      title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
+      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])' OR diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
     no_pregnancy = list(
