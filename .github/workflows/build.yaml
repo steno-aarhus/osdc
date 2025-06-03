@@ -15,7 +15,19 @@ on:
 permissions: read-all
 
 jobs:
-  checks:
+  format-check:
+    name: format-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install
+        uses: posit-dev/setup-air@v1
+
+      - name: Check
+        run: air format . --check
+
+  cran-checks:
     runs-on: ${{ matrix.config.os }}
 
     name: ${{ matrix.config.os }} (${{ matrix.config.r }})
@@ -26,9 +38,9 @@ jobs:
         config:
           - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
-          # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'oldrel-1'}
+          # - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
@@ -52,11 +64,6 @@ jobs:
             check
             tests
 
-      - name: Install Air
-        uses: posit-dev/setup-air@v1
-
-      - name: Check
-        run: air format . --check
 
       - uses: r-lib/actions/check-r-package@v2
         with:
@@ -65,7 +72,7 @@ jobs:
 
   pkgdown:
     uses: ./.github/workflows/reusable-pkgdown.yaml
-    needs: checks
+    needs: cran-checks
     permissions:
       contents: write
     secrets:
