@@ -15,7 +15,8 @@ join_lpr3(kontakter, diagnoser)
 The same class as the input, defaults to a \code{\link[tibble:tibble]{tibble::tibble()}}.
 }
 \description{
-Join together the LPR3 (\code{diagnoser} and \code{kontakter}) registers.
+To prepare the LPR3 data for the inclusion process, this function also
+renames the \code{cpr} variable to \code{pnr} to match the other registers.
 }
 \examples{
 \dontrun{
