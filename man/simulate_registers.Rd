@@ -20,4 +20,5 @@ Simulate a fake data frame of one or more Danish registers
 \examples{
 simulate_registers(c("bef", "sysi"))
 simulate_registers("bef")
+simulate_registers("diagnoser")
 }

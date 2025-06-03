@@ -65,7 +65,7 @@ actual_kontakter <- tibble::tibble(
 )
 
 expected_lpr3 <- tibble::tibble(
-  cpr = c(1, 1, 2),
+  pnr = c(1, 1, 2),
   dw_ek_kontakt = 2:4,
   dato_start = c("20230101", "20220101", "20200101"),
   hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),

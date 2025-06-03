@@ -118,7 +118,10 @@ create_fake_icd8 <- function(n) {
 create_fake_icd10 <- function(n) {
   # Downloaded from: https://medinfo.dk/sks/brows.php
   fs::path_package("osdc", "resources", "icd10-codes.csv") |>
-    readr::read_csv2(show_col_types = FALSE) |>
+    readr::read_delim(
+      col_types = "cc",
+      delim = ";"
+    ) |>
     dplyr::pull(.data$icd10) |>
     sample(size = n, replace = TRUE)
 }
@@ -234,6 +237,8 @@ create_fake_hovedspeciale_ans <- function(n) {
     sample(n, replace = TRUE)
 }
 
+# Transformations/fixes ----------------------------------------------------
+
 #' Transform date(s) to the format `yyww`
 #'
 #' @param x A date or a vector of dates.
@@ -268,6 +273,23 @@ to_yyww <- function(x) {
 #' }
 to_yyyymmdd <- function(x) {
   format(lubridate::as_date(x), format = "%Y%m%d")
+}
+
+#' Convert all factor variables to character variables.
+#'
+#' @param data A tibble or data frame.
+#'
+#' @returns A [tibble::tibble()].
+#' @keywords internal
+#'
+fct_to_chr <- function(data) {
+  data |>
+    dplyr::mutate(
+      dplyr::across(
+        tidyselect::where(is.factor),
+        as.character
+      )
+    )
 }
 
 # Insert extra values to over-represent certain values ------------------------------------------------------
@@ -410,6 +432,7 @@ create_simulated_data <- function(data, n) {
 #' @examples
 #' simulate_registers(c("bef", "sysi"))
 #' simulate_registers("bef")
+#' simulate_registers("diagnoser")
 simulate_registers <- function(registers, n = 1000) {
   simulation_definitions <- fs::path_package(
     "osdc",
@@ -437,6 +460,7 @@ simulate_registers <- function(registers, n = 1000) {
     purrr::map(insert_specific_atc) |>
     purrr::map(insert_false_metformin) |>
     purrr::map(insert_analysiscode) |>
+    purrr::map(fct_to_chr) |>
     # add the register abbreviations as a name to the list
     rlang::set_names(
       purrr::map_chr(
