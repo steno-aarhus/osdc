@@ -44,7 +44,17 @@
 #'   lmdb = register_data$lmdb
 #' )
 #' }
-classify_diabetes <- function(kontakter, diagnoser, lpr_diag, lpr_adm, sysi, sssy, lab_forsker, bef, lmdb) {
+classify_diabetes <- function(
+  kontakter,
+  diagnoser,
+  lpr_diag,
+  lpr_adm,
+  sysi,
+  sssy,
+  lab_forsker,
+  bef,
+  lmdb
+) {
   # Verification step -----
   verify_required_variables(kontakter, "kontakter")
   verify_required_variables(diagnoser, "diagnoser")

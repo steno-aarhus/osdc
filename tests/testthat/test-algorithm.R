@@ -20,7 +20,9 @@ test_that("algorithm outputs a list", {
 
 test_that("`or` logic is converted to R logic", {
   get_algorithm_logic("ands_ors", test_algorithm_logic) |>
-    expect_equal("(analysiscode == 'NPU27300' & value >= 48) | (analysiscode == 'NPU03835' & value >= 6.5)")
+    expect_equal(
+      "(analysiscode == 'NPU27300' & value >= 48) | (analysiscode == 'NPU03835' & value >= 6.5)"
+    )
 })
 
 test_that("single regex is converted to R logic", {
@@ -33,5 +35,7 @@ test_that("`and` logic and regex within parentheses are converted to R logic", {
   get_algorithm_logic("regex_ands", test_algorithm_logic) |>
     expect_equal("(stringr::str_detect(speciale, '^54')) & (barnmak != 0)")
   get_algorithm_logic("two_regex", test_algorithm_logic) |>
-    expect_equal("stringr::str_detect(atc, '^A10') & !(stringr::str_detect(atc, '^(A10BJ|A10D)'))")
+    expect_equal(
+      "stringr::str_detect(atc, '^A10') & !(stringr::str_detect(atc, '^(A10BJ|A10D)'))"
+    )
 })

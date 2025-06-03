@@ -19,15 +19,21 @@
 #' verify_required_variables(simulate_registers("bef")[[1]], "bef")
 #' verify_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
 #' }
-verify_required_variables <- function(data, register, call = rlang::caller_env()) {
+verify_required_variables <- function(
+  data,
+  register,
+  call = rlang::caller_env()
+) {
   checkmate::assert_choice(register, get_register_abbrev())
   expected_variables <- sort(get_required_variables(register))
   actual_variables <- tolower(sort(colnames(data)))
 
-  if (!checkmate::test_names(
-    x = actual_variables,
-    must.include = expected_variables
-  )) {
+  if (
+    !checkmate::test_names(
+      x = actual_variables,
+      must.include = expected_variables
+    )
+  ) {
     cli::cli_abort(
       c(
         "This function needs specific variables from the {.val {register}} register.",
