@@ -2,7 +2,7 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: clean install-package-dependencies document update-wordlist spell-check style test build-website check install-package
+run-all: clean install-package-dependencies document spell-check style test build-website check install-package
 
 # Clean up auto-generated files
 clean:
@@ -15,7 +15,8 @@ install-package-dependencies:
   #!/usr/bin/env Rscript
   pak::pak(
     dependencies = c(
-      "all"
+      "all",
+      "Config/Needs/local"
     ),
     ask = FALSE
   )

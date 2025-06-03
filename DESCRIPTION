@@ -37,10 +37,6 @@ Imports:
     tidyr,
     tidyselect
 Suggests:
-    arrow,
-    data.table,
-    dbplyr,
-    duckplyr,
     glue,
     knitr,
     rmarkdown,
@@ -51,6 +47,11 @@ Suggests:
 VignetteBuilder: 
     knitr
 Config/testthat/edition: 3
+Config/Needs/local:
+    arrow,
+    data.table,
+    dbplyr,
+    duckplyr
 Encoding: UTF-8
 Language: en-US
 LazyData: true

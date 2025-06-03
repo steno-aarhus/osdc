@@ -41,7 +41,7 @@ To install all dependencies **for development only**, like simulating
 more data or running the full test suite, use:
 
 ``` r
-pak::pak("steno-aarhus/osdc")
+pak::pak("steno-aarhus/osdc", dependencies = c("all", "Config/Needs/local"))
 ```
 
 ## Development
