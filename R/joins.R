@@ -1,22 +1,83 @@
-#' Join together the LPR2 (`lpr_diag` and `lpr_adm`) registers.
+#' Prepare the two LPR2 registers into one to extract diabetes diagnoses data.
 #'
-#' @param lpr_diag The diagnosis register.
-#' @param lpr_adm The admission register.
+#' The output is used as inputs to `include_diabetes_diagnoses()` and to
+#' `get_pregnancy_dates()` (see exclusion events).
 #'
-#' @return The same class as the input, defaults to a [tibble::tibble()].
+#' @param lpr_diag The LPR2 register containing diabetes diagnoses.
+#' @param lpr_adm The LPR2 register containing hospital admissions.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()],
+#'  with the following columns:
+#'
+#'  -   `pnr`: The personal identification variable.
+#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).
+#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary diagnosis.
+#'  -   `has_diabetes`: Whether the diagnosis was any type of diabetes.
+#'  -   `has_t1d`: Whether the diagnosis was T1D-specific.
+#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
+#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
+#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
+#'      endocrinology (TRUE) or other medical (FALSE) department.
+#'
 #' @keywords internal
+#' @inherit algorithm seealso
 #'
 #' @examples
 #' \dontrun{
-#' register_data <- simulate_registers(c("lpr_adm", "lpr_diag"))
-#' join_lpr2(register_data$lpr_adm, register_data$lpr_diag)
+#' register_data <- simulate_registers(c("lpr_diag", "lpr_adm"), 100000)
+#' lpr2 <- prepare_lpr2(
+#'   lpr_diag = register_data$lpr_diag,
+#'   lpr_adm = register_data$lpr_adm
+#' )
 #' }
-join_lpr2 <- function(lpr_adm, lpr_diag) {
-  dplyr::inner_join(
-    column_names_to_lower(lpr_adm),
-    column_names_to_lower(lpr_diag),
-    by = "recnum"
-  )
+prepare_lpr2 <- function(lpr_adm, lpr_diag) {
+  # Filter using the algorithm for LPR2
+  needed_codes <- get_algorithm_logic("lpr2_needed_codes") |>
+    # To convert the string into an R expression
+    rlang::parse_expr()
+  has_pregnancy_event <- get_algorithm_logic("lpr2_has_pregnancy_event") |>
+    # To convert the string into an R expression
+    rlang::parse_expr()
+  has_t1d <- get_algorithm_logic("lpr2_has_t1d") |>
+    # To convert the string into an R expression
+    rlang::parse_expr()
+  has_t2d <- get_algorithm_logic("lpr2_has_t2d") |>
+    # To convert the string into an R expression
+    rlang::parse_expr()
+  has_diabetes <- get_algorithm_logic("lpr2_has_diabetes") |>
+    # To convert the string into an R expression
+    rlang::parse_expr()
+  is_endocrinology_department <- get_algorithm_logic("lpr2_is_endocrinology_department") |>
+    # To convert the string into an R expression
+    rlang::parse_expr()
+
+  lpr_diag |>
+    column_names_to_lower() |>
+    dplyr::filter(!!needed_codes) |>
+    dplyr::inner_join(
+      column_names_to_lower(lpr_adm),
+      by = dplyr::join_by("recnum")
+    ) |>
+    dplyr::mutate(
+      # Algorithm needs c_spec to be an integer to work correctly.
+      c_spec = as.integer(.data$c_spec),
+      date = lubridate::as_date(.data$d_inddto),
+      is_primary_diagnosis = .data$c_diag == "A",
+      has_diabetes = !!has_diabetes,
+      has_t1d = !!has_t1d,
+      has_t2d = !!has_t2d,
+      has_pregnancy_event = !!has_pregnancy_event,
+      is_endocrinology_department = !!is_endocrinology_department
+    ) |>
+    dplyr::select(
+      "pnr",
+      "date",
+      "is_primary_diagnosis",
+      "has_diabetes",
+      "has_t1d",
+      "has_t2d",
+      "is_endocrinology_department"
+    )
 }
 
 #' Join together the LPR3 (`diagnoser` and `kontakter`) registers.
