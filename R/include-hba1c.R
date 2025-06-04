@@ -27,7 +27,6 @@
 #' simulate_registers("lab_forsker", 100)[[1]] |> include_hba1c()
 #' }
 include_hba1c <- function(lab_forsker) {
-  verify_required_variables(lab_forsker, "lab_forsker")
   criteria <- get_algorithm_logic("hba1c") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
