@@ -43,13 +43,19 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)' AND (c_diagtype == 'A' OR c_diagtype == 'B')",
       comments = "'A' `c_diagtype` means primary diagnosis."
     ),
-    lpr2_has_t1d = list(
+    lpr2_any_diabetes = list(
+      register = "lpr_diag",
+      title = "LPR2 diagnoses codes for any diabetes",
+      logic = "c_diag =~ '^(DE1[0-4]|249|250)'",
+      comments = ""
+    ),
+    lpr2_t1d = list(
       register = "lpr_diag",
       title = "LPR2 diagnoses codes for T1D",
       logic = "c_diag =~ '^(DE10|249)'",
       comments = ""
     ),
-    lpr2_has_t2d = list(
+    lpr2_t2d = list(
       register = "lpr_diag",
       title = "LPR2 diagnoses codes for T2D",
       logic = "c_diag =~ '^(DE11|250)'",
@@ -58,14 +64,22 @@ algorithm <- function() {
     lpr2_is_endocrinology_department = list(
       register = "lpr_adm",
       title = "LPR2 endocrinology department",
-      logic = "na_if(c_spec, NOT (c_spec %in% 8:30)) == 8",
+      logic = "dplyr::case_when(
+      c_spec %in% c('8', '08', '008') ~ TRUE,
+      c_spec <= 30 ~ FALSE,
+      .default = NA
+    )",
       comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing is all other cases."
     ),
     lpr3_is_endocrinology_department = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
-      logic = "na_if(hovedspeciale_ans, NOT (hovedspeciale_ans %in% c('medicinsk endokrinologi', 'blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin'))) == 'medicinsk endokrinologi'",
+      logic = "dplyr::case_when(
+      stringr::str_detect(hovedspeciale_ans, '[Ee]ndokrinologi') ~ TRUE,
+      stringr::str_detect(hovedspeciale_ans, '[Mm]edicin|[Gg]eriatri|[Hh]epatologi|[Hh]æmatologi|[Ii]nfektion|[Kk]ardiologi|[Nn]efrologi|[Rr]eumatologi|[Dd]ermato|[Nn]eurologi|[Oo]nkologi|[Oo]ftalmologi|[Nn]eurofysiologi') ~ FALSE,
+      .default = NA
+    )",
       comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing in all other cases."
     ),
     lpr3 = list(
@@ -74,13 +88,19 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
     ),
-    lpr3_has_t1d = list(
+    lpr3_any_diabetes = list(
+      register = "diagnoser",
+      title = "LPR3 diagnoses codes for any diabetes",
+      logic = "diagnosekode =~ '^(DE1[0-4])'",
+      comments = ""
+    ),
+    lpr3_t1d = list(
       register = "diagnoser",
       title = "LPR3 diagnoses codes for T1D",
       logic = "diagnosekode =~ '^(DE10)'",
       comments = ""
     ),
-    lpr3_has_t2d = list(
+    lpr3_t2d = list(
       register = "diagnoser",
       title = "LPR3 diagnoses codes for T2D",
       logic = "diagnosekode =~ '^(DE11)'",
@@ -141,8 +161,6 @@ get_algorithm_logic <- function(criteria, algorithm = NULL) {
     stringr::str_replace_all("OR", "|") |>
     stringr::str_replace_all("NOT", "!") |>
     # regex are defined with '=~', so convert them into a stringr function.
-    stringr::str_replace_all(
-      "([a-zA-Z0-9_]+) \\=\\~ '(.*?)'",
-      "stringr::str_detect(\\1, '\\2')"
-    )
+    stringr::str_replace_all("([a-zA-Z0-9_]+) \\=\\~ '(.*?)'",
+                             "stringr::str_detect(\\1, '\\2')")
 }
