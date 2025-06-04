@@ -37,11 +37,17 @@ algorithm <- function() {
       logic = "atc =~ '^A10' AND NOT (atc =~ '^(A10BJ|A10BK01|A10BK03)')",
       comments = "Do not keep GLP-RAs or dapagliflozin/empagliflozin drugs."
     ),
-    lpr2 = list(
+    lpr2_needed_codes = list(
       register = "lpr_diag",
-      title = "Relevant LPR2 diagnoses codes",
+      title = "Required LPR2 diagnoses codes",
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)' AND (c_diagtype == 'A' OR c_diagtype == 'B')",
       comments = "'A' `c_diagtype` means primary diagnosis."
+    ),
+    lpr2_has_diabetes = list(
+      register = "lpr_diag",
+      title = "LPR2 diagnoses codes for any diabetes",
+      logic = "c_diag =~ '^(DE1[0-4]|249|250)'",
+      comments = ""
     ),
     lpr2_has_t1d = list(
       register = "lpr_diag",
@@ -60,6 +66,12 @@ algorithm <- function() {
       title = "LPR2 endocrinology department",
       logic = "na_if(c_spec, NOT (c_spec %in% 8:30)) == 8",
       comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing is all other cases."
+    ),
+    lpr2_has_pregnancy_event = list(
+      register = "lpr_diag",
+      title = "LPR2 diagnoses codes for pregnancy-related outcomes",
+      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
     lpr3_is_endocrinology_department = list(
       register = "kontakter",
@@ -87,9 +99,9 @@ algorithm <- function() {
       comments = ""
     ),
     has_pregnancy_event = list(
-      register = c("lpr_diag", "diagnoser"),
-      title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
-      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])' OR diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      register = "diagnoser",
+      title = "LPR3 diagnoses codes for pregnancy-related outcomes",
+      logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
     no_pregnancy = list(
