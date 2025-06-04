@@ -113,19 +113,108 @@ function outputs.</div>
 <h3 id="join_lpr2">
 <code>join_lpr2()</code><a class="anchor" aria-label="anchor" href="#join_lpr2"></a>
 </h3>
-<p>See <code><a href="../reference/join_lpr2.html">?join_lpr2</a></code> for more information.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Process and join the two LPR2 registers to extract diabetes diagnoses data.</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' The output is used as inputs to `include_diabetes_diagnoses()` and to</span></span>
+<span><span class="co">#' `get_pregnancy_dates()` (see exclusion events).</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @param lpr_diag The LPR2 register containing diabetes diagnoses.</span></span>
+<span><span class="co">#' @param lpr_adm The LPR2 register containing hospital admissions.</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @return The same type as the input data, default as a [tibble::tibble()],</span></span>
+<span><span class="co">#'  with the following columns:</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#'  -   `pnr`: The personal identification variable.</span></span>
+<span><span class="co">#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).</span></span>
+<span><span class="co">#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary diagnosis.</span></span>
+<span><span class="co">#'  -   `has_t1d`: Whether the diagnosis was T1D-specific.</span></span>
+<span><span class="co">#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.</span></span>
+<span><span class="co">#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.</span></span>
+<span><span class="co">#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an</span></span>
+<span><span class="co">#'      endocrinology (TRUE) or other medical (FALSE) department.</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @keywords internal</span></span>
+<span><span class="co">#' @inherit algorithm seealso</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @examples</span></span>
+<span><span class="co">#' sim_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm"), 100)</span></span>
+<span><span class="co">#' join_lpr2(</span></span>
+<span><span class="co">#'   lpr_diag = sim_data$lpr_diag,</span></span>
+<span><span class="co">#'   lpr_adm = sim_data$lpr_adm</span></span>
+<span><span class="co">#' )</span></span>
+<span><span class="va">join_lpr2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lpr_diag</span>, <span class="va">lpr_adm</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Filter using the algorithm for LPR2</span></span>
+<span>  <span class="va">lpr_diag</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">lpr_adm</span>, by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">recnum</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>      <span class="va">pnr</span>,</span>
+<span>      date <span class="op">=</span> <span class="va">d_inddto</span></span>
+<span>      <span class="co"># is_primary_diagnosis =</span></span>
+<span>      <span class="co"># has_t1d =</span></span>
+<span>      <span class="co"># has_t2d =</span></span>
+<span>      <span class="co"># has_pregnancy_event =</span></span>
+<span>      <span class="co"># is_endocrinology_department =</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="join_lpr3">
 <code>join_lpr3()</code><a class="anchor" aria-label="anchor" href="#join_lpr3"></a>
 </h3>
-<p>See <code><a href="../reference/join_lpr3.html">?join_lpr3</a></code> for more information.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#' Process and join the two LPR3 registers to extract diabetes diagnoses data.</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' The output is used as inputs to `include_diabetes_diagnoses()` and to</span></span>
+<span><span class="co">#' `get_pregnancy_dates()` (see exclusion events).</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @param diagnoser The LPR3 register containing diabetes diagnoses.</span></span>
+<span><span class="co">#' @param kontakter The LPR3 register containing hospital contacts/admissions.</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @return The same type as the input data, default as a [tibble::tibble()],</span></span>
+<span><span class="co">#'  with the following columns:</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#'  -   `pnr`: The personal identification variable.</span></span>
+<span><span class="co">#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).</span></span>
+<span><span class="co">#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary</span></span>
+<span><span class="co">#'      diagnosis.</span></span>
+<span><span class="co">#'  -   `has_t1d`: Whether the diagnosis was T1D-specific</span></span>
+<span><span class="co">#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.</span></span>
+<span><span class="co">#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.</span></span>
+<span><span class="co">#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an</span></span>
+<span><span class="co">#'      endocrinology (TRUE) or other medical (FALSE) department.</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @keywords internal</span></span>
+<span><span class="co">#' @inherit algorithm seealso</span></span>
+<span><span class="co">#'</span></span>
+<span><span class="co">#' @examples</span></span>
+<span><span class="co">#' sim_data &lt;- simulate_registers(c("diagnoser", "kontakter"), 100)</span></span>
+<span><span class="co">#' join_lpr3(</span></span>
+<span><span class="co">#'   diagnoser = sim_data$diagnoser,</span></span>
+<span><span class="co">#'   kontakter = sim_data$kontakter</span></span>
+<span><span class="co">#' )</span></span>
+<span><span class="va">join_lpr3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">diagnoser</span>, <span class="va">kontakter</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Filter using the algorithm for LPR3</span></span>
+<span>  <span class="va">diagnoser</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">kontakter</span>, by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dw_ek_kontakt</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="co"># Ensure the values are always lower case.</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>hovedspeciale_ans <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">hovedspeciale_ans</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
+<span>      <span class="st">"pnr"</span> <span class="op">=</span> <span class="st">"cpr"</span>,</span>
+<span>      <span class="st">"date"</span> <span class="op">=</span> <span class="st">"dato_start"</span></span>
+<span>      <span class="co"># is_primary_diagnosis =</span></span>
+<span>      <span class="co"># has_t1d =</span></span>
+<span>      <span class="co"># has_t2d =</span></span>
+<span>      <span class="co"># has_pregnancy_event =</span></span>
+<span>      <span class="co"># is_endocrinology_department =</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="include_diabetes_diagnosis">
 <code>include_diabetes_diagnosis()</code><a class="anchor" aria-label="anchor" href="#include_diabetes_diagnosis"></a>
 </h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Include diabetes diagnoses from LPR2 and LPR3.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' Uses the hospital contacts from LPR2 and LPR3 to include all dates of diabetes</span></span>
@@ -217,7 +306,7 @@ information.</p>
 <h3 id="exclude_pregnancy">
 <code>exclude_pregnancy()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancy"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Exclude any pregnancy events that could be gestational diabetes.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#'</span></span>
@@ -278,7 +367,7 @@ information.</p>
 <span>    <span class="co"># Filtering here...</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_pregnancy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Simple function to get only the pregnancy event dates.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param lpr2 Output from `join_lpr2()`.</span></span>
@@ -312,7 +401,7 @@ information.</p>
 <h3 id="join_inclusions">
 <code>join_inclusions()</code><a class="anchor" aria-label="anchor" href="#join_inclusions"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Join included events.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' This function joins the outputs from all the inclusion and exclusion</span></span>
@@ -357,7 +446,7 @@ information.</p>
 <div class="section level3">
 <h3 id="get-diagnosis-date">Get diagnosis date<a class="anchor" aria-label="anchor" href="#get-diagnosis-date"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Get the final diagnosis date based on all the inclusion event types.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' The function `get_inclusion_date()` takes the output from `join_inclusions()`</span></span>
