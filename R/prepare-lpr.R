@@ -101,13 +101,6 @@ join_lpr3 <- function(kontakter, diagnoser) {
   kontakter <- kontakter |>
     dplyr::rename("pnr" = "cpr")
 
-  kontakter |>
-    dplyr::mutate(
-      hovedspeciale_ans = stringr::str_to_lower(.data$hovedspeciale_ans),
-      test = dplyr::na_if(hovedspeciale_ans, hovedspeciale_ans[!hovedspeciale_ans %in% c("medicinsk endokrinologi", "blandet medicin og kirurgi", "intern medicin", "geriatri", "hepatologi", "h\u00e6matologi", "infektionsmedicin", "kardiologi", "medicinsk allergologi", "medicinsk gastroenterologi", "medicinsk lungesygdomme", "nefrologi", "reumatologi", "palliativ medicin", "akut medicin", "dermato-venerologi", "neurologi", "onkologi", "fysiurgi", "tropemedicin")]) == "medicinsk endokrinologi"
-    ) |>
-    View()
-
   dplyr::inner_join(
     column_names_to_lower(kontakter),
     column_names_to_lower(diagnoser),
