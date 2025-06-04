@@ -444,12 +444,12 @@ information.</p>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="get-diagnosis-date">Get diagnosis date<a class="anchor" aria-label="anchor" href="#get-diagnosis-date"></a>
+<h3 id="create-inclusion-dates">Create inclusion dates<a class="anchor" aria-label="anchor" href="#create-inclusion-dates"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Get the final diagnosis date based on all the inclusion event types.</span></span>
+<code class="sourceCode R"><span><span class="co">#' Create the final diagnosis date based on all the inclusion event types.</span></span>
 <span><span class="co">#'</span></span>
-<span><span class="co">#' The function `get_inclusion_date()` takes the output from `join_inclusions()`</span></span>
+<span><span class="co">#' The function `create_inclusion_dates()` takes the output from `join_inclusions()`</span></span>
 <span><span class="co">#' and defines the final diagnosis date based on all the inclusion event types.</span></span>
 <span><span class="co">#' Keeps only those with 2 or more recorded inclusion events, regardless of the</span></span>
 <span><span class="co">#' type of these events (e.g. two elevated HbA1c tests will lead to inclusion as</span></span>
@@ -463,9 +463,11 @@ information.</p>
 <span><span class="co">#'    input the new change into the database).</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @returns The same type as the input data, default as a [tibble::tibble()],</span></span>
-<span><span class="co">#'   with the following columns:</span></span>
+<span><span class="co">#'   along with the `purchase_date`, `atc`, `contained_doses` columns from</span></span>
+<span><span class="co">#'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,</span></span>
+<span><span class="co">#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from</span></span>
+<span><span class="co">#'   `include_diabetes_diagnoses()`. It also creates two new columns:</span></span>
 <span><span class="co">#'</span></span>
-<span><span class="co">#'   - `pnr`: The person identifier variable.</span></span>
 <span><span class="co">#'   - `raw_inclusion_date`: Date of inclusion, which is the second</span></span>
 <span><span class="co">#'      earliest recorded event.</span></span>
 <span><span class="co">#'   - `stable_inclusion_date`: Date of inclusion of individuals included</span></span>
@@ -477,7 +479,7 @@ information.</p>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @keywords internal</span></span>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="va">get_inclusion_date</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">inclusions</span>, <span class="va">stable_inclusion_start_date</span> <span class="op">=</span> <span class="st">"1998-01-01"</span><span class="op">)</span> <span class="op">{</span></span>
+<span><span class="va">create_inclusion_dates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">inclusions</span>, <span class="va">stable_inclusion_start_date</span> <span class="op">=</span> <span class="st">"1998-01-01"</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">inclusions</span> <span class="op">|&gt;</span></span>
 <span>    <span class="co"># TODO: May need to consider more efficient ways than using group by.</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">pnr</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -492,10 +494,23 @@ information.</p>
 <span>        <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span></span>
 <span>      <span class="op">)</span></span>
 <span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
-<span>      <span class="va">.data</span><span class="op">$</span><span class="va">pnr</span>,</span>
-<span>      <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span>,</span>
-<span>      <span class="va">.data</span><span class="op">$</span><span class="va">stable_inclusion_date</span></span>
+<span>      <span class="st">"pnr"</span>,</span>
+<span>      <span class="st">"raw_inclusion_date"</span>,</span>
+<span>      <span class="st">"stable_inclusion_date"</span>,</span>
+<span></span>
+<span>      <span class="co"># From `exclude_pregnancy()` via the GLD purchases</span></span>
+<span>      <span class="co"># TODO: this might need to be renamed in a previous step, rather than here.</span></span>
+<span>      <span class="st">"purchase_date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
+<span>      <span class="st">"atc"</span>,</span>
+<span>      <span class="st">"contained_doses"</span>,</span>
+<span></span>
+<span>      <span class="co"># From `include_diabetes_diagnoses()`</span></span>
+<span>      <span class="st">"n_t1d_endocrinology"</span>,</span>
+<span>      <span class="st">"n_t2d_endocrinology"</span>,</span>
+<span>      <span class="st">"n_t1d_medical"</span>,</span>
+<span>      <span class="st">"n_t2d_medical"</span></span>
 <span>    <span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>
