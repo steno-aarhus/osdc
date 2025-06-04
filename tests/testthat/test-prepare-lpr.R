@@ -164,7 +164,7 @@ expected_lpr2 <- tibble::tribble(
   "27", "2022-01-01", TRUE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE,
   # General diabetes secondary with other medical department
   "28", "2020-01-01", FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE
-)  |>
+) |>
   dplyr::mutate(date = lubridate::as_date(date)) |>
   dplyr::arrange(pnr, date)
 
