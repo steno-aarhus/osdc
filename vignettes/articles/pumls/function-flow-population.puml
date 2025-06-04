@@ -45,7 +45,7 @@ hide <<exclusion>> stereotype
     }
 
     action "join_inclusion()" as join_inclusion
-    action "get_inclusion_date()" as inclusion_date
+    action "create_inclusion_dates()" as inclusion_date
 
 'join lpr
     lpr_diag --> lpr2

@@ -58,7 +58,7 @@ build-website:
 # Run local CRAN checks
 check:
   #!/usr/bin/env Rscript
-  devtools::check()
+  devtools::check(error_on = "note")
 
 # Install the package itself
 install-package:
