@@ -35,17 +35,20 @@ pregnancy).
 \details{
 After these exclusion functions have been applied, the output serves as
 inputs to two sets of functions:
+}
+\section{TODO: Add "[]" instead of quotes around function names, when they've been implemented}{
 \enumerate{
 \item The censored HbA1c and GLD data are passed to the
-\code{\link[=join_inclusions]{join_inclusions()}} function for the final step of the inclusion
+"join_inclusions()" function for the final step of the inclusion
 process.
 \item the censored GLD data is passed to the
-\code{\link[=get_only_insulin_purchases]{get_only_insulin_purchases()}},
-\code{\link[=get_insulin_purchases_within_180_days]{get_insulin_purchases_within_180_days()}}, and
-\code{\link[=get_insulin_is_two_thirds_of_gld_doses]{get_insulin_is_two_thirds_of_gld_doses()}} helper functions for the
+"get_only_insulin_purchases()",
+"get_insulin_purchases_within_180_days()", and
+"get_insulin_is_two_thirds_of_gld_doses()" helper functions for the
 classification of diabetes type.
 }
 }
+
 \examples{
 \dontrun{
 register_data <- simulate_registers(
