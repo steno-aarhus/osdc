@@ -44,34 +44,39 @@ test_that("joining LPR2 correctly", {
 
 # join_lpr3 -----------------------------------------------------------------
 
-actual_diagnoser <- tibble::tibble(
-  dw_ek_kontakt = 1:4,
-  diagnosekode = rep(c("DA071", "DD075"), times = 2),
-  diagnosetype = rep(c("A", "B"), times = 2),
-  senere_afkraeftet = rep(c("Nej", "Ja"), times = 2)
+diagnoser <- tibble::tibble(
+  dw_ek_kontakt = 1:6,
+  diagnosekode = rep(c("DE10", "DO06", "DE11"), times = 2),
+  diagnosetype = rep(c("A", "B", "B"), times = 2),
+  senere_afkraeftet = rep(c("Nej", "Ja"), times = 3)
 )
 
-actual_kontakter <- tibble::tibble(
-  cpr = c(1, 1, 2, 3),
-  dw_ek_kontakt = 2:5,
-  dato_start = c("20230101", "20220101", "20200101", "20200101"),
-  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi", "Neurologi")
+kontakter <- tibble::tibble(
+  cpr = 1:6,
+  dw_ek_kontakt = 1:6,
+  dato_start = rep(c("20230101", "20220101"), times = 3),
+  hovedspeciale_ans = rep(
+    c("Unknown department", "Akut medicin", "Medicinsk endokrinologi"),
+    times = 2
+  )
 )
 
 expected_lpr3 <- tibble::tibble(
-  pnr = c(1, 1, 2),
-  dw_ek_kontakt = 2:4,
-  dato_start = c("20230101", "20220101", "20200101"),
-  hovedspeciale_ans = c("Neurologi", "Akut medicin", "Kardiologi"),
-  diagnosekode = c("DD075", "DA071", "DD075"),
-  diagnosetype = c("B", "A", "B"),
-  senere_afkraeftet = c("Ja", "Nej", "Ja")
-)
+  pnr = c(1, 3, 5),
+  date = rep(c("20230101"), times = 3),
+  has_t1d = c(TRUE, FALSE, FALSE),
+  has_t2d = c(FALSE, TRUE, FALSE),
+  has_pregnancy_event = c(FALSE, FALSE, TRUE),
+  is_endocrinology_department = c(FALSE, TRUE, FALSE),
+  is_medical_department = c(FALSE, FALSE, TRUE),
+  is_primary_diagnosis = c(TRUE, FALSE, FALSE),
+) |>
+  dplyr::mutate(date = lubridate::as_date(date))
 
 test_that("joining LPR3 correctly", {
   actual <- join_lpr3(
-    kontakter = actual_kontakter,
-    diagnoser = actual_diagnoser
+    kontakter = kontakter,
+    diagnoser = diagnoser
   )
 
   expect_equal(actual, expected_lpr3)
