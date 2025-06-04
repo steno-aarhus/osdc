@@ -35,8 +35,6 @@ pregnancy).
 \details{
 After these exclusion functions have been applied, the output serves as
 inputs to two sets of functions:
-}
-\section{TODO: Add "[]" instead of quotes around function names, when they've been implemented}{
 \enumerate{
 \item The censored HbA1c and GLD data are passed to the
 "join_inclusions()" function for the final step of the inclusion
@@ -48,7 +46,6 @@ process.
 classification of diabetes type.
 }
 }
-
 \examples{
 \dontrun{
 register_data <- simulate_registers(
