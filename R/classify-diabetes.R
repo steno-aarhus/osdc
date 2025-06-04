@@ -45,16 +45,15 @@
 #' )
 #' }
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
-  sysi,
-  sssy,
-  lab_forsker,
-  bef,
-  lmdb
-) {
+    kontakter,
+    diagnoser,
+    lpr_diag,
+    lpr_adm,
+    sysi,
+    sssy,
+    lab_forsker,
+    bef,
+    lmdb) {
   # Verification step -----
   verify_required_variables(kontakter, "kontakter")
   verify_required_variables(diagnoser, "diagnoser")
@@ -67,7 +66,7 @@ classify_diabetes <- function(
   verify_required_variables(lmdb, "lmdb")
 
   # Initially processing -----
-  lpr2 <- join_lpr2(
+  lpr2 <- prepare_lpr2(
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm
   )

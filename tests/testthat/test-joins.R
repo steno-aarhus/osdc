@@ -1,4 +1,4 @@
-# join_lpr2 -----------------------------------------------------------------
+# prepare_lpr2 -----------------------------------------------------------------
 
 actual_lpr_diag <- tibble::tibble(
   recnum = rep(1:6, each = 2),
@@ -33,7 +33,7 @@ expected_lpr2 <- tibble::tibble(
 )
 
 test_that("joining LPR2 correctly", {
-  actual <- join_lpr2(
+  actual <- prepare_lpr2(
     lpr_adm = actual_lpr_adm,
     lpr_diag = actual_lpr_diag
   )
