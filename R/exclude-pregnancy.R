@@ -67,26 +67,26 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
     # To convert the string into an R expression.
     rlang::parse_expr()
 
-  # Exclude GLD purchases within pregnancy period
-  excluded_pcos_no_pregnancy <- excluded_pcos |>
+  # Ensure both date columns are of type Date
+  excluded_pcos <- excluded_pcos |>
+    dplyr::mutate(
+      date = lubridate::as_date(.data$date)
+    )
+  included_hba1c <- included_hba1c |>
+    dplyr::mutate(
+      date = lubridate::as_date(.data$date)
+    )
+
+  excluded_pcos |>
     dplyr::full_join(pregnancy_dates, by = dplyr::join_by(pnr)) |>
+    dplyr::full_join(included_hba1c, by = dplyr::join_by(pnr, date)) |>
     dplyr::mutate(date = lubridate::as_date(date)) |>
     dplyr::filter(!!criteria) |>
-    dplyr::select(pnr, date, has_gld_purchases)
-
-  # Exclude increased hba1c events within pregnancy period
-  included_pcos_no_pregnancy <- included_hba1c |>
-    dplyr::full_join(pregnancy_dates, by = dplyr::join_by(pnr)) |>
-    dplyr::mutate(date = lubridate::as_date(date)) |>
-    dplyr::filter(!!criteria) |>
-    # Only keep columns we need
-    dplyr::select(pnr, date, has_elevated_hba1c)
-
-  # join
-  excluded_pcos_no_pregnancy |>
-    dplyr::full_join(
-      included_pcos_no_pregnancy,
-      by = dplyr::join_by(pnr, date)
+    dplyr::select(
+      pnr,
+      date,
+      has_gld_purchases,
+      has_elevated_hba1c
     ) |>
     dplyr::mutate(no_pregnancy = TRUE)
 }
