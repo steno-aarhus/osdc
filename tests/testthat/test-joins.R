@@ -34,19 +34,13 @@ expected_lpr2 <- tibble::tibble(
 
 test_that("joining LPR2 correctly", {
   actual <- join_lpr2(
-    actual_lpr_adm,
-    actual_lpr_diag
+    lpr_adm = actual_lpr_adm,
+    lpr_diag = actual_lpr_diag
   )
 
   expect_equal(actual, expected_lpr2)
 })
 
-test_that("lpr_adm and lpr_diag must be in correct arg position", {
-  expect_error(join_lpr2(
-    actual_lpr_diag,
-    actual_lpr_adm
-  ))
-})
 
 # join_lpr3 -----------------------------------------------------------------
 
@@ -76,16 +70,9 @@ expected_lpr3 <- tibble::tibble(
 
 test_that("joining LPR3 correctly", {
   actual <- join_lpr3(
-    actual_kontakter,
-    actual_diagnoser
+    kontakter = actual_kontakter,
+    diagnoser = actual_diagnoser
   )
 
   expect_equal(actual, expected_lpr3)
-})
-
-test_that("kontakter and diagnoser are in correct order", {
-  expect_error(join_lpr3(
-    actual_diagnoser,
-    actual_kontakter
-  ))
 })

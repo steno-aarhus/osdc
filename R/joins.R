@@ -12,8 +12,6 @@
 #' join_lpr2(register_data$lpr_adm, register_data$lpr_diag)
 #' }
 join_lpr2 <- function(lpr_adm, lpr_diag) {
-  verify_required_variables(lpr_adm, "lpr_adm")
-  verify_required_variables(lpr_diag, "lpr_diag")
   dplyr::inner_join(
     column_names_to_lower(lpr_adm),
     column_names_to_lower(lpr_diag),
@@ -42,9 +40,6 @@ join_lpr2 <- function(lpr_adm, lpr_diag) {
 #' )
 #' }
 join_lpr3 <- function(kontakter, diagnoser) {
-  verify_required_variables(kontakter, "kontakter")
-  verify_required_variables(diagnoser, "diagnoser")
-
   kontakter <- kontakter |>
     dplyr::rename("pnr" = "cpr")
 
