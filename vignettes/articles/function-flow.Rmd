@@ -361,12 +361,12 @@ join_inclusions <- function(
 }
 ```
 
-### Get diagnosis date
+### Create inclusion dates
 
 ```{r}
-#' Get the final diagnosis date based on all the inclusion event types.
+#' Create the final diagnosis date based on all the inclusion event types.
 #'
-#' The function `get_inclusion_date()` takes the output from `join_inclusions()`
+#' The function `create_inclusion_dates()` takes the output from `join_inclusions()`
 #' and defines the final diagnosis date based on all the inclusion event types.
 #' Keeps only those with 2 or more recorded inclusion events, regardless of the
 #' type of these events (e.g. two elevated HbA1c tests will lead to inclusion as
@@ -380,9 +380,11 @@ join_inclusions <- function(
 #'    input the new change into the database).
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
-#'   with the following columns:
+#'   along with the `purchase_date`, `atc`, `contained_doses` columns from
+#'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,
+#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from
+#'   `include_diabetes_diagnoses()`. It also creates two new columns:
 #'
-#'   - `pnr`: The person identifier variable.
 #'   - `raw_inclusion_date`: Date of inclusion, which is the second
 #'      earliest recorded event.
 #'   - `stable_inclusion_date`: Date of inclusion of individuals included
@@ -394,7 +396,7 @@ join_inclusions <- function(
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-get_inclusion_date <- function(inclusions, stable_inclusion_start_date = "1998-01-01") {
+create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "1998-01-01") {
   inclusions |>
     # TODO: May need to consider more efficient ways than using group by.
     dplyr::group_by(.data$pnr) |>
@@ -409,10 +411,23 @@ get_inclusion_date <- function(inclusions, stable_inclusion_start_date = "1998-0
         .data$raw_inclusion_date
       )
     ) |>
+    dplyr::ungroup() |>
     dplyr::select(
-      .data$pnr,
-      .data$raw_inclusion_date,
-      .data$stable_inclusion_date
+      "pnr",
+      "raw_inclusion_date",
+      "stable_inclusion_date",
+
+      # From `exclude_pregnancy()` via the GLD purchases
+      # TODO: this might need to be renamed in a previous step, rather than here.
+      "purchase_date" = "date",
+      "atc",
+      "contained_doses",
+
+      # From `include_diabetes_diagnoses()`
+      "n_t1d_endocrinology",
+      "n_t2d_endocrinology",
+      "n_t1d_medical",
+      "n_t2d_medical"
     )
 }
 ```
