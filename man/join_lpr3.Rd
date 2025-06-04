@@ -2,30 +2,48 @@
 % Please edit documentation in R/joins.R
 \name{join_lpr3}
 \alias{join_lpr3}
-\title{Join together the LPR3 (\code{diagnoser} and \code{kontakter}) registers.}
+\title{Prepare and join the two LPR3 registers to extract diabetes and pregnancy diagnoses.}
 \usage{
-join_lpr3(kontakter, diagnoser)
+join_lpr3(diagnoser, kontakter)
 }
 \arguments{
-\item{kontakter}{The contacts register.}
+\item{diagnoser}{The LPR3 register containing diabetes diagnoses.}
 
-\item{diagnoser}{The diagnosis register.}
+\item{kontakter}{The LPR3 register containing hospital contacts/admissions.}
 }
 \value{
-The same class as the input, defaults to a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+with the following columns:
+\itemize{
+\item \code{pnr}: The personal identification variable.
+\item \code{date}: The date of all the recorded diagnosis (renamed from
+\code{d_inddto}).
+\item \code{is_primary_diagnosis}: Whether the diagnosis was a primary
+diagnosis.
+\item \code{has_t1d}: Whether the diagnosis was T1D-specific
+\item \code{has_t2d}: Whether the diagnosis was T2D-specific.
+\item \code{has_diabetes}: Whether the diagnosis was any type of diabetes.
+\item \code{has_pregnancy_event}: Whether the person has an event related to
+pregnancy like giving birth or having a miscarriage at the given date.
+\item \code{is_endocrinology_department}: \code{TRUE} if the diagnosis was made made by
+an endocrinology department.
+\item \code{is_medical_department}: \code{TRUE} if the diagnosis was made by a medical
+department excluding endocrinology).
+\item \code{is_primary_diagnosis}: \code{TRUE} the diagnosis was a primary diagnosis.
+}
 }
 \description{
-To prepare the LPR3 data for the inclusion process, this function also
-renames the \code{cpr} variable to \code{pnr} to match the other registers.
+The output is used as inputs to \code{include_diabetes_diagnoses()} and to
+\code{get_pregnancy_dates()} (see exclusion events).
 }
 \examples{
 \dontrun{
-kontakter <- simulate_registers("kontakter", 100)[[1]]
-diagnoser <- simulate_registers("diagnoser", 100)[[1]]
-join_lpr3(
-  kontakter = kontakter,
-  diagnoser = diagnoser
-)
+register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
+join_lpr3(register_data$diagnoser, register_data$kontakter)
 }
+}
+\seealso{
+See the \code{vignette("algorithm")} for the logic used to filter these
+patients.
 }
 \keyword{internal}
