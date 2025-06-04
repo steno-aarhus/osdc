@@ -77,10 +77,10 @@ classify_diabetes <- function(
     diagnoser = diagnoser
   )
 
-  # pregnancy_dates <-  get_pregrancy_dates(
-  #   lpr2 = lpr2,
-  #   lpr3 = lpr3
-  # )
+  pregnancy_dates <- get_pregnancy_dates(
+    lpr2 = lpr2,
+    lpr3 = lpr3
+  )
 
   # Inclusion steps -----
   # diabetes_diagnosis <-  include_diabetes_diagnosis(
