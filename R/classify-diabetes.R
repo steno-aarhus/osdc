@@ -119,7 +119,7 @@ classify_diabetes <- function(
   # )
 
   # inclusions |>
-  #   get_diagnosis_dates() |>
+  #   create_inclusion_dates() |>
   #   classify_t1d()
 }
 
