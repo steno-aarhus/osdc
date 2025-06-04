@@ -47,7 +47,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 
   lpr_diag |>
     column_names_to_lower() |>
-    dplyr::filter(!!needed_codes) |>
+    dplyr::filter(!!logic$lpr2_needed_codes) |>
     dplyr::inner_join(
       column_names_to_lower(lpr_adm),
       by = dplyr::join_by("recnum")
@@ -57,11 +57,12 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       c_spec = as.integer(.data$c_spec),
       date = lubridate::as_date(.data$d_inddto),
       is_primary_diagnosis = .data$c_diag == "A",
-      has_diabetes = !!has_diabetes,
-      has_t1d = !!has_t1d,
-      has_t2d = !!has_t2d,
-      has_pregnancy_event = !!has_pregnancy_event,
-      is_endocrinology_department = !!is_endocrinology_department
+      has_diabetes = !!logic$lpr2_has_diabetes,
+      has_t1d = !!logic$lpr2_has_t1d,
+      has_t2d = !!logic$lpr2_has_t2d,
+      has_pregnancy_event = !!logic$lpr2_has_pregnancy_event,
+      is_endocrinology_department = !!logic$lpr2_is_endocrinology_department,
+      is_medical_department = !!logic$lpr2_is_medical_department
     ) |>
     dplyr::select(
       "pnr",
@@ -70,7 +71,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       "has_diabetes",
       "has_t1d",
       "has_t2d",
-      "is_endocrinology_department"
+      "is_endocrinology_department",
+      "is_medical_department"
     )
 }
 
@@ -97,6 +99,13 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 join_lpr3 <- function(kontakter, diagnoser) {
   kontakter <- kontakter |>
     dplyr::rename("pnr" = "cpr")
+
+  kontakter |>
+    dplyr::mutate(
+      hovedspeciale_ans = stringr::str_to_lower(.data$hovedspeciale_ans),
+      test = dplyr::na_if(hovedspeciale_ans, hovedspeciale_ans[!hovedspeciale_ans %in% c("medicinsk endokrinologi", "blandet medicin og kirurgi", "intern medicin", "geriatri", "hepatologi", "h\u00e6matologi", "infektionsmedicin", "kardiologi", "medicinsk allergologi", "medicinsk gastroenterologi", "medicinsk lungesygdomme", "nefrologi", "reumatologi", "palliativ medicin", "akut medicin", "dermato-venerologi", "neurologi", "onkologi", "fysiurgi", "tropemedicin")]) == "medicinsk endokrinologi"
+    ) |>
+    View()
 
   dplyr::inner_join(
     column_names_to_lower(kontakter),
