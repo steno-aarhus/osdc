@@ -11,8 +11,7 @@
 #' -  `has_diabetes_diagnoses`: A logical variable that acts as a helper
 #'      indicator for use in later functions.
 #'
-#' The output is passed to `join_inclusions()`, where the `dates` variable is used to define the inclusion date.
-#' The variables `any_t1d_primary_diagnosis` and `majority_t1d_primary_diagnoses` are subsequently passed to `get_diabetes_type()` for final classification of diabetes type.
+#' The output is passed to `join_inclusions()`, where the `date` variable is used to define the inclusion date.
 #'
 #' @keywords internal
 #'
