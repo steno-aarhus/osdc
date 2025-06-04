@@ -31,25 +31,19 @@
 #' )
 #' }
 prepare_lpr2 <- function(lpr_adm, lpr_diag) {
-  # Filter using the algorithm for LPR2
-  needed_codes <- get_algorithm_logic("lpr2_needed_codes") |>
+  logic <- c(
+    "lpr2_needed_codes",
+    "lpr2_has_pregnancy_event",
+    "lpr2_has_t1d",
+    "lpr2_has_t2d",
+    "lpr2_has_diabetes",
+    "lpr2_is_endocrinology_department",
+    "lpr2_is_medical_department"
+  ) |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
     # To convert the string into an R expression
-    rlang::parse_expr()
-  has_pregnancy_event <- get_algorithm_logic("lpr2_has_pregnancy_event") |>
-    # To convert the string into an R expression
-    rlang::parse_expr()
-  has_t1d <- get_algorithm_logic("lpr2_has_t1d") |>
-    # To convert the string into an R expression
-    rlang::parse_expr()
-  has_t2d <- get_algorithm_logic("lpr2_has_t2d") |>
-    # To convert the string into an R expression
-    rlang::parse_expr()
-  has_diabetes <- get_algorithm_logic("lpr2_has_diabetes") |>
-    # To convert the string into an R expression
-    rlang::parse_expr()
-  is_endocrinology_department <- get_algorithm_logic("lpr2_is_endocrinology_department") |>
-    # To convert the string into an R expression
-    rlang::parse_expr()
+    purrr::map(rlang::parse_expr)
 
   lpr_diag |>
     column_names_to_lower() |>
