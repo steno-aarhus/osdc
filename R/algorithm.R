@@ -64,8 +64,14 @@ algorithm <- function() {
     lpr2_is_endocrinology_department = list(
       register = "lpr_adm",
       title = "LPR2 endocrinology department",
-      logic = "na_if(c_spec, NOT (c_spec %in% 8:30)) == 8",
-      comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing is all other cases."
+      logic = "c_spec == 8",
+      comments = "`TRUE` when the department is endocrinology."
+    ),
+    lpr2_is_medical_department = list(
+      register = "lpr_adm",
+      title = "LPR2 endocrinology department",
+      logic = "c_spec %in% 9:30",
+      comments = "`TRUE` when it is other medical departments."
     ),
     lpr2_has_pregnancy_event = list(
       register = "lpr_diag",
