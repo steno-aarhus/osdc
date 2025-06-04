@@ -95,7 +95,7 @@ algorithm <- function() {
     no_pregnancy = list(
       register = NA,
       title = "Remove events within a potential pregnancy period",
-      logic = "NOT (has_pregnancy_event AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
+      logic = "NOT (has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12))) OR is.na(pregnancy_event_date)",
       comments = ""
     ),
     podiatrist_services = list(
