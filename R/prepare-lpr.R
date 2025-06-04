@@ -56,7 +56,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       # Algorithm needs c_spec to be an integer to work correctly.
       c_spec = as.integer(.data$c_spec),
       date = lubridate::as_date(.data$d_inddto),
-      is_primary_diagnosis = .data$c_diag == "A",
+      is_primary_diagnosis = .data$c_diagtype == "A",
       has_diabetes = !!logic$lpr2_has_diabetes,
       has_t1d = !!logic$lpr2_has_t1d,
       has_t2d = !!logic$lpr2_has_t2d,
@@ -72,7 +72,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       "has_t1d",
       "has_t2d",
       "is_endocrinology_department",
-      "is_medical_department"
+      "is_medical_department",
+      "has_pregnancy_event"
     )
 }
 
