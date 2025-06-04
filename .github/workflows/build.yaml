@@ -70,6 +70,8 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
+          error-on: '"note"'
+
 
   pkgdown:
     uses: ./.github/workflows/reusable-pkgdown.yaml
