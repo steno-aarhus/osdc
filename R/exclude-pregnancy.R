@@ -80,7 +80,6 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
   excluded_pcos |>
     dplyr::full_join(pregnancy_dates, by = dplyr::join_by(pnr)) |>
     dplyr::full_join(included_hba1c, by = dplyr::join_by(pnr, date)) |>
-    dplyr::mutate(date = lubridate::as_date(date)) |>
     dplyr::filter(!!criteria) |>
     dplyr::select(
       pnr,
@@ -91,10 +90,3 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
     dplyr::mutate(no_pregnancy = TRUE)
 }
 
-# excluded_pcos <- register_data$lmdb |>
-#   include_gld_purchases() |>
-#   exclude_potential_pcos(register_data$bef)
-#
-# pregnancy_dates <- get_pregnancy_dates(lpr2, lpr3)
-#
-# included_hba1c <- include_hba1c(register_data$lab_forsker)

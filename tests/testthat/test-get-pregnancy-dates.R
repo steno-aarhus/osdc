@@ -23,12 +23,13 @@ lpr3 <- tibble::tribble(
 expected_pregnancy_dates <- tibble::tribble(
   ~pnr, ~pregnancy_event_date, ~has_pregnancy_event,
   # from LPR2
-  952443913885, lubridate::as_date("20150710"), TRUE,
-  952443913885, lubridate::as_date("20000710"), TRUE,
+  952443913885,"20150710", TRUE,
+  952443913885, "20000710", TRUE,
   # from LPR3
-  120172052967, lubridate::as_date("20050411"), TRUE,
-  164409653234, lubridate::as_date("19811226"), TRUE
-)
+  120172052967, "20050411", TRUE,
+  164409653234, "19811226", TRUE
+) |>
+  dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
 
 test_that("get_pregnancy_dates() returns expected", {
   actual <- get_pregnancy_dates(lpr2, lpr3)
