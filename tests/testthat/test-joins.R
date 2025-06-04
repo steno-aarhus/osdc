@@ -42,7 +42,7 @@ test_that("joining LPR2 correctly", {
 })
 
 
-# join_lpr3 -----------------------------------------------------------------
+# prepare_lpr3 -----------------------------------------------------------------
 
 diagnoser <- tibble::tibble(
   dw_ek_kontakt = 1:6,
@@ -74,7 +74,7 @@ expected_lpr3 <- tibble::tibble(
   dplyr::mutate(date = lubridate::as_date(date))
 
 test_that("joining LPR3 correctly", {
-  actual <- join_lpr3(
+  actual <- prepare_lpr3(
     kontakter = kontakter,
     diagnoser = diagnoser
   )

@@ -53,9 +53,9 @@ join_lpr2 <- function(lpr_adm, lpr_diag) {
 #' @examples
 #' \dontrun{
 #' register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
-#' join_lpr3(register_data$diagnoser, register_data$kontakter)
+#' prepare_lpr3(register_data$diagnoser, register_data$kontakter)
 #' }
-join_lpr3 <- function(diagnoser, kontakter) {
+prepare_lpr3 <- function(diagnoser, kontakter) {
   logic <- c(
     "lpr3_needed_codes",
     "lpr3_has_pregnancy_event",
