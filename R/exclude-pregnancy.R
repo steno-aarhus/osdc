@@ -15,6 +15,7 @@
 #'
 #' After these exclusion functions have been applied, the output serves as
 #' inputs to two sets of functions:
+
 #' #  TODO: Add "[]" instead of quotes around function names, when they've been implemented
 #' 1.  The censored HbA1c and GLD data are passed to the
 #'     "join_inclusions()" function for the final step of the inclusion
@@ -84,6 +85,8 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
     dplyr::select(
       pnr,
       date,
+      atc,
+      contained_doses,
       has_gld_purchases,
       has_elevated_hba1c
     ) |>

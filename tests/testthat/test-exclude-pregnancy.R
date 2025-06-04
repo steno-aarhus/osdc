@@ -39,11 +39,11 @@ pregnancy_dates <- tibble::tribble(
   dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
 
 expected <- tibble::tribble(
-  ~pnr, ~date, ~has_gld_purchases, ~has_elevated_hba1c, ~no_pregnancy,
-  1000000001, "2000-01-01", TRUE, TRUE, TRUE,
-  1000000001, "2020-01-01", TRUE, TRUE, TRUE,
-  2000000001, "2010-02-02", TRUE, NA, TRUE,
-  3000000001, "2010-02-02", NA, TRUE, TRUE,
+  ~pnr, ~date, ~atc, ~contained_doses, ~has_gld_purchases, ~has_elevated_hba1c, ~no_pregnancy,
+  1000000001, "2000-01-01", "A10BA02", 1.21, TRUE, TRUE, TRUE,
+  1000000001, "2020-01-01", "A10BA02", 1.21, TRUE, TRUE, TRUE,
+  2000000001, "2010-02-02", "A10BA02", 1.21, TRUE, NA, TRUE,
+  3000000001, "2010-02-02", NA, NA, NA, TRUE, TRUE,
 ) |>
   dplyr::mutate(date = lubridate::as_date(date))
 
