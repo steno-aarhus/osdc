@@ -64,9 +64,15 @@ algorithm <- function() {
     lpr3_is_endocrinology_department = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
+      logic = "hovedspeciale_ans  == 'medicinsk endokrinologi'",
+      comments = "`TRUE` when the department is endocrinology."
+    ),
+    lpr3_is_medical_department = list(
+      register = "kontakter",
+      title = "LPR3 medical department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
-      logic = "na_if(hovedspeciale_ans, NOT (hovedspeciale_ans %in% c('medicinsk endokrinologi', 'blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin'))) == 'medicinsk endokrinologi'",
-      comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing in all other cases."
+      logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin')",
+      comments = "`TRUE` when the department is other medical departments (than endocrinology)."
     ),
     lpr3 = list(
       register = "diagnoser",
