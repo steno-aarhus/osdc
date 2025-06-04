@@ -36,8 +36,8 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
       ))
     ) |>
     dplyr::select(
-      pnr,
-      pregnancy_event_date
+      "pnr",
+      "pregnancy_event_date"
     ) |>
     # Add logical helper variable to indicate pregnancy events
     dplyr::mutate(has_pregnancy_event = TRUE)

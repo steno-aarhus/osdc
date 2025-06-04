@@ -1,5 +1,5 @@
+#  TODO: Add "[]" instead of quotes around function names, when they've been implemented
 #' Exclude any pregnancy events that could be gestational diabetes.
-#'
 #'
 #' This function takes the combined outputs from
 #' [get_pregnancy_dates()], [include_hba1c()], and
@@ -15,8 +15,6 @@
 #'
 #' After these exclusion functions have been applied, the output serves as
 #' inputs to two sets of functions:
-
-#' #  TODO: Add "[]" instead of quotes around function names, when they've been implemented
 #' 1.  The censored HbA1c and GLD data are passed to the
 #'     "join_inclusions()" function for the final step of the inclusion
 #'     process.
@@ -79,16 +77,16 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
     )
 
   excluded_pcos |>
-    dplyr::full_join(pregnancy_dates, by = dplyr::join_by(pnr)) |>
-    dplyr::full_join(included_hba1c, by = dplyr::join_by(pnr, date)) |>
+    dplyr::full_join(pregnancy_dates, by = dplyr::join_by("pnr")) |>
+    dplyr::full_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
     dplyr::filter(!!criteria) |>
     dplyr::select(
-      pnr,
-      date,
-      atc,
-      contained_doses,
-      has_gld_purchases,
-      has_elevated_hba1c
+      "pnr",
+      "date",
+      "atc",
+      "contained_doses",
+      "has_gld_purchases",
+      "has_elevated_hba1c"
     ) |>
     dplyr::mutate(no_pregnancy = TRUE)
 }
