@@ -74,7 +74,7 @@ algorithm <- function() {
       logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin')",
       comments = "`TRUE` when the department is other medical departments (than endocrinology)."
     ),
-    lpr3 = list(
+    lpr3_needed_codes = list(
       register = "diagnoser",
       title = "Relevant LPR3 diagnoses codes",
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
