@@ -30,7 +30,7 @@
 #' @param included_hba1c Output from [include_hba1c()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
-#'    Has the same output data as the input [excluded_potential_pcos()], except
+#'    Has the same output data as the input [exclude_potential_pcos()], except
 #'    for a helper logical variable `no_pregnancy` that is used in later
 #'    functions.
 #' @keywords internal

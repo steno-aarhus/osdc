@@ -15,7 +15,7 @@ exclude_pregnancy(excluded_pcos, pregnancy_dates, included_hba1c)
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
-Has the same output data as the input \code{\link[=excluded_potential_pcos]{excluded_potential_pcos()}}, except
+Has the same output data as the input \code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}}, except
 for a helper logical variable \code{no_pregnancy} that is used in later
 functions.
 }
