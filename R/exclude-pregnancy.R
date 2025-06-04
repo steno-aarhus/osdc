@@ -89,4 +89,3 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
     ) |>
     dplyr::mutate(no_pregnancy = TRUE)
 }
-
