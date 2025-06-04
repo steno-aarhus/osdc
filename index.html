@@ -83,15 +83,13 @@
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steno-aarhus/osdc"</span><span class="op">)</span></span></code></pre></div>
 <p>To install all dependencies <strong>for development only</strong>, like simulating more data or running the full test suite, use:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steno-aarhus/osdc"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steno-aarhus/osdc"</span>, dependencies <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
 </h2>
-<p>When developing the package and you make changes to any of the files in <code>data-raw/</code>, use the targets pipeline to re-generate the data files:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("targets")</span></span>
-<span><span class="fu">targets</span><span class="fu">::</span><span class="fu">tar_make</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>While developing the package, we use <a href="https://just.systems/" class="external-link"><code>justfile</code></a> to simplify our development workflow and make it explicit. The <code>justfile</code> contains commands that runs formatters, various checks like CRAN checks or spelling checks, tests, and builds the files for the website (but doesn’t publish it). We use it to ensure that we have a consistent development workflow and that we do not forget to run any of the important checks before committing our changes. For example, before we make any pull request to contribute changes, we run the following command <em>in the Terminal</em> of the project directory:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">just</span> run-all</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
