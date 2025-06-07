@@ -8,6 +8,14 @@
 #' @return A tibble with the following columns:
 #' -  `pnr`: The personal identification variable.
 #' -  `date`: The dates of the first and second hospital diabetes diagnosis.
+#' -   `n_t1d_endocrinology`: The number of type 1 diabetes-specific primary
+#' -   diagnosis codes from endocrinology departments.
+#' -  `n_t2d_endocrinology`: The number of type 2 diabetes-specific primary
+#'      diagnosis codes from endocrinology departments.
+#' -  `n_t1d_medical`: The number of type 1 diabetes-specific primary
+#'      diagnosis codes from medical departments.
+#' -  `n_t2d_medical`: The number of type 2 diabetes-specific primary
+#'      diagnosis codes from medical departments.
 #' -  `has_diabetes_diagnoses`: A logical variable that acts as a helper
 #'      indicator for use in later functions.
 #'
@@ -56,11 +64,25 @@ include_diabetes_diagnoses <- function(lpr_2, lpr_3) {
   lpr3_diabetes_diagnoses <- lpr_3 |>
     dplyr::filter(!!lpr3_any_diabetes_logic)
 
-  # rename LPR3 variables:
+  # Get diabetes type logic:
+  lpr3_t1d_logic <- get_algorithm_logic("lpr3_t1d") |>
+    rlang::parse_expr()
+
+  lpr3_t2d_logic <- get_algorithm_logic("lpr3_t2d") |>
+    rlang::parse_expr()
+
+  lpr3_department_logic <- get_algorithm_logic("lpr3_is_endocrinology_department") |>
+    rlang::parse_expr()
+
+  # rename LPR3 variables and add type variables:
 
   lpr3_diabetes_renamed <- lpr3_diabetes_diagnoses |> dplyr::mutate(
     pnr = pnr,
     date = dato_start,
+    is_primary = diagnosetype == 'A',
+    is_t1d = !!lpr3_t1d_logic,
+    is_t2d = !!lpr3_t2d_logic,
+    is_endo_department = !!lpr3_department_logic,
     .keep = "none"
   )
 
@@ -70,7 +92,9 @@ lpr2_diabetes_renamed |>
   dplyr::full_join(
     lpr3_diabetes_renamed,
     by = dplyr::join_by("pnr", "date")
-  ) |> dplyr::mutate(
+  ) |>
+  count_primary_diagnoses_by_department() |>
+  dplyr::mutate(
     date = lubridate::ymd(date)) |>
   dplyr::group_by(.data$pnr) |>
   # Keep earliest two dates per individual.
@@ -80,3 +104,7 @@ lpr2_diabetes_renamed |>
   dplyr::mutate(has_diabetes_diagnoses = TRUE)
 
 }
+
+
+#
+# is_t1d and is_t2d is coming in lpr-joins, only need to process them to n_tXd_xxxx
