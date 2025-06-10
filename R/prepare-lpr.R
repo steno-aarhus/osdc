@@ -76,7 +76,10 @@ prepare_lpr3 <- function(diagnoser, kontakter) {
     # Only keep relevant diagnoses
     dplyr::filter(!!logic$lpr3_needed_codes) |>
     # Inner join to only keep contacts that are in both diagnoser and kontakter
-    dplyr::inner_join(column_names_to_lower(kontakter), by = dplyr::join_by("dw_ek_kontakt")) |>
+    dplyr::inner_join(
+      column_names_to_lower(kontakter),
+      by = dplyr::join_by("dw_ek_kontakt")
+    ) |>
     dplyr::mutate(
       # Algorithm needs "hovedspeciale_ans" values to be lowercase
       hovedspeciale_ans = tolower(.data$hovedspeciale_ans),
