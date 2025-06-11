@@ -29,7 +29,7 @@ hide <<exclusion>> stereotype
     }
     together {
             action "join_lpr2()" as lpr2
-            action "join_lpr3()" as lpr3
+            action "prepare_lpr3()" as lpr3
     }
 
     together {
