@@ -35,6 +35,7 @@ included_hba1c <- tibble::tribble(
 pregnancy_dates <- tibble::tribble(
   ~pnr, ~pregnancy_event_date, ~has_pregnancy_event,
   1000000001, "2010-02-02", TRUE,
+  1000000001, "2011-02-02", TRUE,
 ) |>
   dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
 
