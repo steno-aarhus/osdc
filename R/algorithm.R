@@ -119,7 +119,7 @@ algorithm <- function() {
     lpr3_is_diabetes_code = list(
       register = "diagnoser",
       title = "LPR3 diagnoses codes for diabetes",
-      logic = "diagnosekode =~ '^(DE1[0-4])'",
+      logic = "diagnosekode =~ '^DE1[0-4]'",
       comments = "This is a general diabetes code, not specific to T1D or T2D."
     ),
     lpr3_is_pregnancy_code = list(

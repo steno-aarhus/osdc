@@ -83,28 +83,11 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 
 #' Prepare and join the two LPR3 registers to extract diabetes and pregnancy diagnoses.
 #'
-#' The output is used as inputs to `include_diabetes_diagnoses()` and to
-#' `get_pregnancy_dates()` (see exclusion events).
-#'
+#' @inherit prepare_lpr2 description
 #' @param diagnoser The LPR3 register containing diabetes diagnoses.
 #' @param kontakter The LPR3 register containing hospital contacts/admissions.
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()],
-#'  with the following columns:
-#'
-#'  -   `pnr`: The personal identification variable.
-#'  -   `date`: The date of all the recorded diagnosis (renamed from
-#'      `d_inddto`).
-#'  -   `is_primary_dx`: Whether the diagnosis was a primary diagnosis.
-#'  -   `is_diabetes_code`: Whether the diagnosis was any type of diabetes.
-#'  -   `is_t1d_code`: Whether the diagnosis was T1D-specific.
-#'  -   `is_t2d_code`: Whether the diagnosis was T2D-specific.
-#'  -   `is_endocrinology_dept`: Whether the diagnosis was made by an
-#'      endocrinology medical department.
-#'  -   `is_medical_dept`: Whether the diagnosis was made by a
-#'      non-endocrinology medical department.
-#'  -   `is_pregnancy_code`: Whether the person has an event related to
-#'       pregnancy like giving birth or having a miscarriage at the given date.
+#' @inherit prepare_lpr2 return
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
