@@ -30,3 +30,4 @@ yyww_to_yyyymmdd(c("0953", "0701"))
 yyww_to_yyyymmdd(953)
 }
 }
+\keyword{internal}
