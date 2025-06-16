@@ -152,29 +152,6 @@ as for each</p>
 <h3 id="lpr_diag">
 <code>lpr_diag</code><a class="anchor" aria-label="anchor" href="#lpr_diag"></a>
 </h3>
-<table class="table">
-<colgroup>
-<col width="4%">
-<col width="14%">
-<col width="61%">
-<col width="20%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">lpr_diag</td>
-<td align="left">Relevant LPR2 diagnoses codes</td>
-<td align="left">c_diag =~
-‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)’ AND (c_diagtype == ‘A’
-OR c_diagtype == ‘B’)</td>
-<td align="left">‘A’ <code>c_diagtype</code> means primary
-diagnosis.</td>
-</tr></tbody>
-</table>
 </div>
 <div class="section level3">
 <h3 id="lpr_adm">
@@ -182,10 +159,10 @@ diagnosis.</td>
 </h3>
 <table class="table">
 <colgroup>
-<col width="4%">
-<col width="14%">
-<col width="20%">
-<col width="60%">
+<col width="7%">
+<col width="23%">
+<col width="9%">
+<col width="59%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">register</th>
@@ -196,11 +173,10 @@ diagnosis.</td>
 <tbody><tr class="odd">
 <td align="left">lpr_adm</td>
 <td align="left">LPR2 endocrinology department</td>
-<td align="left">na_if(c_spec, NOT (c_spec %in% 8:30)) == 8</td>
+<td align="left">c_spec == 8</td>
 <td align="left">
-<code>TRUE</code> when the department is endocrinology,
-<code>FALSE</code> when it is other medical departments, and missing is
-all other cases.</td>
+<code>TRUE</code> when the department where the
+recorded diagnosis was endocrinology.</td>
 </tr></tbody>
 </table>
 </div>
@@ -396,8 +372,8 @@ foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’,
 <tbody><tr class="odd">
 <td align="left">NA</td>
 <td align="left">Remove events within a potential pregnancy period</td>
-<td align="left">NOT (has_pregnancy_event AND has_elevated_hba1c AND
-(date &gt;= (pregnancy_event_date - weeks(40)) OR date &lt;=
+<td align="left">NOT (is_pregnancy_code AND has_elevated_hba1c AND (date
+&gt;= (pregnancy_event_date - weeks(40)) OR date &lt;=
 (pregnancy_event_date + weeks(12)))</td>
 <td align="left"></td>
 </tr></tbody>
