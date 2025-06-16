@@ -43,53 +43,7 @@ library(dplyr)
 library(osdc)
 ```
 
-### `join_lpr2()`
-
-```{r}
-#' Process and join the two LPR2 registers to extract diabetes diagnoses data.
-#'
-#' The output is used as inputs to `include_diabetes_diagnoses()` and to
-#' `get_pregnancy_dates()` (see exclusion events).
-#'
-#' @param lpr_diag The LPR2 register containing diabetes diagnoses.
-#' @param lpr_adm The LPR2 register containing hospital admissions.
-#'
-#' @return The same type as the input data, default as a [tibble::tibble()],
-#'  with the following columns:
-#'
-#'  -   `pnr`: The personal identification variable.
-#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).
-#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary diagnosis.
-#'  -   `has_t1d`: Whether the diagnosis was T1D-specific.
-#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
-#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
-#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
-#'      endocrinology (TRUE) or other medical (FALSE) department.
-#'
-#' @keywords internal
-#' @inherit algorithm seealso
-#'
-#' @examples
-#' sim_data <- simulate_registers(c("lpr_diag", "lpr_adm"), 100)
-#' join_lpr2(
-#'   lpr_diag = sim_data$lpr_diag,
-#'   lpr_adm = sim_data$lpr_adm
-#' )
-join_lpr2 <- function(lpr_diag, lpr_adm) {
-  # Filter using the algorithm for LPR2
-  lpr_diag |>
-    dplyr::full_join(lpr_adm, by = dplyr::join_by(.data$recnum)) |>
-    dplyr::select(
-      pnr,
-      date = d_inddto
-      # is_primary_diagnosis =
-      # has_t1d =
-      # has_t2d =
-      # has_pregnancy_event =
-      # is_endocrinology_department =
-    )
-}
-```
+- `prepare_lpr2()`: See `?prepare_lpr2` for more information.
 
 ### `join_lpr3()`
 
@@ -160,7 +114,7 @@ join_lpr3 <- function(diagnoser, kontakter) {
 #' `get_t1d_primary_diagnosis()` and `get_majority_of_t1d_diagnoses()`
 #' functions.
 #'
-#' @param lpr2 The output from `join_lpr2()`.
+#' @param lpr2 The output from `prepare_lpr2()`.
 #' @param lpr3 The output from `join_lpr3()`.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()],
@@ -185,7 +139,7 @@ join_lpr3 <- function(diagnoser, kontakter) {
 #' @examples
 #' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))
 #' include_diabetes_diagnosis(
-#'   lpr2 = join_lpr2(register_data$lpr_diag, register_data$lpr_adm),
+#'   lpr2 = prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm),
 #'   lpr3 = join_lpr3(register_data$diagnoser, register_data$kontakter)
 #' )
 include_diabetes_diagnosis <- function(lpr2, lpr3) {
@@ -229,7 +183,7 @@ See `?exclude_potential_pcos` for more information.
 #'
 #'
 #' The function `exclude_pregnancy()` takes the combined outputs from
-#' `join_lpr2()`, `join_lpr3()`, `include_hba1c()`, and
+#' `prepare_lpr2()`, `join_lpr3()`, `include_hba1c()`, and
 #' `exclude_potential_pcos()` and uses diagnoses from LPR2 or LPR3 to
 #' exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
@@ -267,7 +221,7 @@ See `?exclude_potential_pcos` for more information.
 #'   "lmdb", "bef", "lpr_diag", "lpr_adm",
 #'   "diagnoser", "kontakter", "lab_forsker"
 #' ))
-#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
+#' lpr2 <- prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm)
 #' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
 #' lmdb |>
 #'   include_gld_purchases() |>
@@ -290,7 +244,7 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
 ```{r}
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from `join_lpr2()`.
+#' @param lpr2 Output from `prepare_lpr2()`.
 #' @param lpr3 Output from `join_lpr3()`.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
@@ -299,7 +253,7 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
 #'
 #' @examples
 #' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)
-#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
+#' lpr2 <- prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm)
 #' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
 #' get_pregnancy_dates(lpr2, lpr3)
 get_pregnancy_dates <- function(lpr2, lpr3) {
