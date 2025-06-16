@@ -3,8 +3,8 @@ template:
   bootstrap: 5
 
 reference:
-- title: OSDC package
-  desc: Main functions of the OSDC package.
+- title: Classify diabetes
+  desc: Main functions for classifying diabetes with the OSDC package.
 - contents:
   - algorithm
   - classify_diabetes
