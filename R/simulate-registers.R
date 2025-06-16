@@ -331,12 +331,13 @@ insert_specific_atc <- function(data, proportion = 0.3) {
     dplyr::mutate(
       dplyr::across(
         tidyselect::matches("^atc$"),
-        \(column)
+        \(column) {
           dplyr::if_else(
             stats::runif(dplyr::n()) < proportion,
             sample(unname(glucose_lowering_drugs), 1),
             column
           )
+        }
       )
     )
 }
@@ -384,12 +385,13 @@ insert_analysiscode <- function(data, proportion = 0.3) {
     dplyr::mutate(
       dplyr::across(
         dplyr::matches("^analysiscode$"),
-        \(column)
+        \(column) {
           dplyr::if_else(
             stats::runif(dplyr::n()) < proportion,
             sample(c("NPU27300", "NPU03835"), dplyr::n(), replace = TRUE),
             column
           )
+        }
       )
     )
 }

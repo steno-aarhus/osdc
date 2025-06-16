@@ -28,7 +28,7 @@
 #' include_podiatrist_services(register_data$sysi, register_data$sssy)
 #' }
 include_podiatrist_services <- function(sysi, sssy) {
-  criteria <- get_algorithm_logic("podiatrist_services") |>
+  criteria <- get_algorithm_logic("is_podiatrist_services") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
 
