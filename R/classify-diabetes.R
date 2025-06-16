@@ -67,7 +67,7 @@ classify_diabetes <- function(
   verify_required_variables(lmdb, "lmdb")
 
   # Initially processing -----
-  lpr2 <- join_lpr2(
+  lpr2 <- prepare_lpr2(
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm
   )
@@ -119,7 +119,7 @@ classify_diabetes <- function(
   # )
 
   # inclusions |>
-  #   get_diagnosis_dates() |>
+  #   create_inclusion_dates() |>
   #   classify_t1d()
 }
 

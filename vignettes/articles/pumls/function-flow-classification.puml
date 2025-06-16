@@ -14,7 +14,7 @@ action, card, database, rectangle {
 
 'Diabetes type classification
 
-    action "get_inclusion_date()" as inclusion_date
+    action "create_inclusion_dates()" as inclusion_date
 
     rectangle Classification {
         action "get_has_t1d_primary_diagnosis()" as t1d_diagnosis
@@ -29,6 +29,5 @@ action, card, database, rectangle {
     only_insulins -d-> t1d_diagnosis_majority
     t1d_diagnosis_majority -r-> insulin_within_180_days
     insulin_within_180_days -r-> insulin_is_two_thirds
-
 
 @enduml

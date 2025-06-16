@@ -17,6 +17,7 @@ test_that("columns are correctly converted to lowercase", {
 test_that("columns are converted for DuckDB Database", {
   skip_on_cran()
   skip_if_not_installed("duckplyr")
+  # DuckDB can't use `rename()` yet, so has to revert to dplyr for it.
   actual <- duckplyr::as_duckdb_tibble(data) |>
     column_names_to_lower() |>
     # DuckDB needs to use `colnames()`

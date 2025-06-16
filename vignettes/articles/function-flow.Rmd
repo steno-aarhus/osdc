@@ -43,17 +43,122 @@ library(dplyr)
 library(osdc)
 ```
 
-### `join_lpr2()`
-
-See `?join_lpr2` for more information.
+-   `prepare_lpr2()`: See `?prepare_lpr2` for more information.
 
 ### `join_lpr3()`
 
-See `?join_lpr3` for more information.
+```{r}
+#' Process and join the two LPR3 registers to extract diabetes diagnoses data.
+#'
+#' The output is used as inputs to `include_diabetes_diagnoses()` and to
+#' `get_pregnancy_dates()` (see exclusion events).
+#'
+#' @param diagnoser The LPR3 register containing diabetes diagnoses.
+#' @param kontakter The LPR3 register containing hospital contacts/admissions.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()],
+#'  with the following columns:
+#'
+#'  -   `pnr`: The personal identification variable.
+#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).
+#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary
+#'      diagnosis.
+#'  -   `has_t1d`: Whether the diagnosis was T1D-specific
+#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
+#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
+#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
+#'      endocrinology (TRUE) or other medical (FALSE) department.
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' sim_data <- simulate_registers(c("diagnoser", "kontakter"), 100)
+#' join_lpr3(
+#'   diagnoser = sim_data$diagnoser,
+#'   kontakter = sim_data$kontakter
+#' )
+join_lpr3 <- function(diagnoser, kontakter) {
+  # Filter using the algorithm for LPR3
+  diagnoser |>
+    dplyr::full_join(kontakter, by = dplyr::join_by(.data$dw_ek_kontakt)) |>
+    # Ensure the values are always lower case.
+    dplyr::mutate(hovedspeciale_ans = tolower(hovedspeciale_ans)) |>
+    dplyr::select(
+      "pnr" = "cpr",
+      "date" = "dato_start"
+      # is_primary_diagnosis =
+      # has_t1d =
+      # has_t2d =
+      # has_pregnancy_event =
+      # is_endocrinology_department =
+    )
+}
+```
 
 ### `include_diabetes_diagnoses()`
 
 See `?include_diabetes_diagnoses` for more information.
+
+```{r}
+#' Include diabetes diagnoses from LPR2 and LPR3.
+#'
+#' Uses the hospital contacts from LPR2 and LPR3 to include all dates of diabetes
+#' diagnoses to use for inclusion, as well as additional information needed to classify diabetes
+#' type. Diabetes diagnoses from both ICD-8 and ICD-10 are included.
+#'
+#' The output is used as inputs to `join_inclusions()`.
+#' This output is passed to the `join_inclusions()` function, where the
+#' `dates` variable is used for the final step of the inclusion process.
+#' The variables of counts of diabetes type-specific primary diagnoses (the
+#' four columns prefixed `n_` above) are carried over for the subsequent
+#' classification of diabetes type, initially as inputs to the
+#' `get_t1d_primary_diagnosis()` and `get_majority_of_t1d_diagnoses()`
+#' functions.
+#'
+#' @param lpr2 The output from `prepare_lpr2()`.
+#' @param lpr3 The output from `join_lpr3()`.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()],
+#'  with the following columns and up to two rows per individual:
+#'
+#'  -   `pnr`: The personal identification variable.
+#'  -   `dates`: The dates of the first and second hospital diabetes diagnosis.
+#'  -   `n_t1d_endocrinology`: The number of type 1 diabetes-specific primary
+#'      diagnosis codes from endocrinology departments.
+#'  -   `n_t2d_endocrinology`: The number of type 2 diabetes-specific primary
+#'      diagnosis codes from endocrinology departments.
+#'  -   `n_t1d_medical`: The number of type 1 diabetes-specific primary
+#'      diagnosis codes from medical departments.
+#'  -  `n_t2d_medical`: The number of type 2 diabetes-specific primary
+#'      diagnosis codes from medical departments.
+#'  -  `has_lpr_diabetes_diagnosis`: A logical variable that acts as a helper
+#'      indicator for use in later functions.
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))
+#' include_diabetes_diagnosis(
+#'   lpr2 = prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm),
+#'   lpr3 = join_lpr3(register_data$diagnoser, register_data$kontakter)
+#' )
+include_diabetes_diagnosis <- function(lpr2, lpr3) {
+  # Combine and process the two inputs
+  lpr2 |>
+    dplyr::full_join(lpr3, by = dplyr::join_by(.data$pnr)) |>
+    dplyr::select(
+      "pnr",
+      "dates" = "date"
+      # n_t1d_endocrinology =
+      # n_t2d_endocrinology =
+      # n_t1d_medical =
+      # n_t2d_medical =
+    ) |>
+    dplyr::mutate(has_lpr_diabetes_diagnosis = TRUE)
+}
+```
 
 ### `include_podiatrist_services()`
 
@@ -80,7 +185,7 @@ See `?exclude_potential_pcos` for more information.
 #'
 #'
 #' The function `exclude_pregnancy()` takes the combined outputs from
-#' `join_lpr2()`, `join_lpr3()`, `include_hba1c()`, and
+#' `prepare_lpr2()`, `join_lpr3()`, `include_hba1c()`, and
 #' `exclude_potential_pcos()` and uses diagnoses from LPR2 or LPR3 to
 #' exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
@@ -118,7 +223,7 @@ See `?exclude_potential_pcos` for more information.
 #'   "lmdb", "bef", "lpr_diag", "lpr_adm",
 #'   "diagnoser", "kontakter", "lab_forsker"
 #' ))
-#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
+#' lpr2 <- prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm)
 #' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
 #' lmdb |>
 #'   include_gld_purchases() |>
@@ -141,7 +246,7 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
 ```{r}
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from `join_lpr2()`.
+#' @param lpr2 Output from `prepare_lpr2()`.
 #' @param lpr3 Output from `join_lpr3()`.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
@@ -150,7 +255,7 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
 #'
 #' @examples
 #' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 100)
-#' lpr2 <- join_lpr2(register_data$lpr_diag, register_data$lpr_adm)
+#' lpr2 <- prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm)
 #' lpr3 <- join_lpr3(register_data$diagnoser, register_data$kontakter)
 #' get_pregnancy_dates(lpr2, lpr3)
 get_pregnancy_dates <- function(lpr2, lpr3) {
@@ -212,12 +317,12 @@ join_inclusions <- function(
 }
 ```
 
-### Get diagnosis date
+### Create inclusion dates
 
 ```{r}
-#' Get the final diagnosis date based on all the inclusion event types.
+#' Create the final diagnosis date based on all the inclusion event types.
 #'
-#' The function `get_inclusion_date()` takes the output from `join_inclusions()`
+#' The function `create_inclusion_dates()` takes the output from `join_inclusions()`
 #' and defines the final diagnosis date based on all the inclusion event types.
 #' Keeps only those with 2 or more recorded inclusion events, regardless of the
 #' type of these events (e.g. two elevated HbA1c tests will lead to inclusion as
@@ -231,9 +336,11 @@ join_inclusions <- function(
 #'    input the new change into the database).
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
-#'   with the following columns:
+#'   along with the `purchase_date`, `atc`, `contained_doses` columns from
+#'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,
+#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from
+#'   `include_diabetes_diagnoses()`. It also creates two new columns:
 #'
-#'   - `pnr`: The person identifier variable.
 #'   - `raw_inclusion_date`: Date of inclusion, which is the second
 #'      earliest recorded event.
 #'   - `stable_inclusion_date`: Date of inclusion of individuals included
@@ -245,7 +352,7 @@ join_inclusions <- function(
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-get_inclusion_date <- function(inclusions, stable_inclusion_start_date = "1998-01-01") {
+create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "1998-01-01") {
   inclusions |>
     # TODO: May need to consider more efficient ways than using group by.
     dplyr::group_by(.data$pnr) |>
@@ -260,10 +367,23 @@ get_inclusion_date <- function(inclusions, stable_inclusion_start_date = "1998-0
         .data$raw_inclusion_date
       )
     ) |>
+    dplyr::ungroup() |>
     dplyr::select(
-      .data$pnr,
-      .data$raw_inclusion_date,
-      .data$stable_inclusion_date
+      "pnr",
+      "raw_inclusion_date",
+      "stable_inclusion_date",
+
+      # From `exclude_pregnancy()` via the GLD purchases
+      # TODO: this might need to be renamed in a previous step, rather than here.
+      "purchase_date" = "date",
+      "atc",
+      "contained_doses",
+
+      # From `include_diabetes_diagnoses()`
+      "n_t1d_endocrinology",
+      "n_t2d_endocrinology",
+      "n_t1d_medical",
+      "n_t2d_medical"
     )
 }
 ```
@@ -410,4 +530,3 @@ check will be based on primary diagnoses from medical specialties.
 
 As described in the `vignette("design")`, individuals not classified as
 type 1 cases are classified as type 2 cases.
-
