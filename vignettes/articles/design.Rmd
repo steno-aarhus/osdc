@@ -103,8 +103,10 @@ rules.
     `drop_` or `keep_` (e.g., "first visit date to maternal care for
     pregnancy after 40 weeks"). These types of helpers likely are
     contained in the `get_` functions.
--   Helpers that join registers or output of other functions are
+-   Helpers that join the output of other functions are
     prefixed with `join_`.
+-   Functions that prepare and process register data are prefixed with
+    `prepare_`.
 
 ### Input
 
