@@ -16,14 +16,18 @@ The same type as the input data, default as a \code{\link[tibble:tibble]{tibble:
 with the following columns:
 \itemize{
 \item \code{pnr}: The personal identification variable.
-\item \code{date}: The date of all the recorded diagnosis (renamed from \code{d_inddto}).
-\item \code{is_primary_diagnosis}: Whether the diagnosis was a primary diagnosis.
-\item \code{has_diabetes}: Whether the diagnosis was any type of diabetes.
-\item \code{has_t1d}: Whether the diagnosis was T1D-specific.
-\item \code{has_t2d}: Whether the diagnosis was T2D-specific.
-\item \code{has_pregnancy_event}: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
-\item \code{is_endocrinology_department}: Whether the diagnosis was made made by an
-endocrinology (TRUE) or other medical (FALSE) department.
+\item \code{date}: The date of all the recorded diagnosis (renamed from
+\code{d_inddto}).
+\item \code{is_primary_dx}: Whether the diagnosis was a primary diagnosis.
+\item \code{is_diabetes_code}: Whether the diagnosis was any type of diabetes.
+\item \code{is_t1d_code}: Whether the diagnosis was T1D-specific.
+\item \code{is_t2d_code}: Whether the diagnosis was T2D-specific.
+\item \code{is_pregnancy_code}: Whether the person has an event related to
+pregnancy like giving birth or having a miscarriage at the given date.
+\item \code{is_endocrinology_dept}: Whether the diagnosis was made by an
+endocrinology medical department.
+\item \code{is_medical_dept}: Whether the diagnosis was made by a
+non-endocrinology medical department.
 }
 }
 \description{
