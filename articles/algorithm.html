@@ -184,200 +184,36 @@ recorded diagnosis was endocrinology.</td>
 <h3 id="diagnoser">
 <code>diagnoser</code><a class="anchor" aria-label="anchor" href="#diagnoser"></a>
 </h3>
-<table class="table">
-<colgroup>
-<col width="3%">
-<col width="10%">
-<col width="51%">
-<col width="35%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">diagnoser</td>
-<td align="left">Relevant LPR3 diagnoses codes</td>
-<td align="left">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])’
-AND (diagnosetype == ‘A’ OR diagnosetype == ‘B’) AND (senere_afkraeftet
-== ‘Nej’)</td>
-<td align="left">
-<code>A</code> <code>diagnosekode</code> means primary
-diagnosis and <code>senere_afkraeftet</code> means diagnosis was later
-retracted.</td>
-</tr></tbody>
-</table>
 </div>
 <div class="section level3">
 <h3 id="kontakter">
 <code>kontakter</code><a class="anchor" aria-label="anchor" href="#kontakter"></a>
 </h3>
-<table style="width:100%;" class="table">
-<colgroup>
-<col width="1%">
-<col width="4%">
-<col width="73%">
-<col width="19%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">kontakter</td>
-<td align="left">LPR3 endocrinology department</td>
-<td align="left">na_if(hovedspeciale_ans, NOT (hovedspeciale_ans %in%
-c(‘medicinsk endokrinologi’, ‘blandet medicin og kirurgi’, ‘intern
-medicin’, ‘geriatri’, ‘hepatologi’, ‘hæmatologi’, ‘infektionsmedicin’,
-‘kardiologi’, ‘medicinsk allergologi’, ‘medicinsk gastroenterologi’,
-‘medicinsk lungesygdomme’, ‘nefrologi’, ‘reumatologi’, ‘palliativ
-medicin’, ‘akut medicin’, ‘dermato-venerologi’, ‘neurologi’, ‘onkologi’,
-‘fysiurgi’, ‘tropemedicin’))) == ‘medicinsk endokrinologi’</td>
-<td align="left">
-<code>TRUE</code> when the department is endocrinology,
-<code>FALSE</code> when it is other medical departments, and missing in
-all other cases.</td>
-</tr></tbody>
-</table>
 </div>
 <div class="section level3">
 <h3 id="lab_forsker">
 <code>lab_forsker</code><a class="anchor" aria-label="anchor" href="#lab_forsker"></a>
 </h3>
-<table class="table">
-<colgroup>
-<col width="6%">
-<col width="8%">
-<col width="51%">
-<col width="32%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">lab_forsker</td>
-<td align="left">HbA1c inclusion</td>
-<td align="left">(analysiscode == ‘NPU27300’ AND value &gt;= 48) OR
-(analysiscode == ‘NPU03835’ AND value &gt;= 6.5)</td>
-<td align="left">Is the IFCC units for NPU27300 and DCCT units for
-NPU03835.</td>
-</tr></tbody>
-</table>
 </div>
 <div class="section level3">
 <h3 id="ssyi-and-sssy-for-podiatrist-services">
 <code>ssyi</code> and <code>sssy</code> for podiatrist services<a class="anchor" aria-label="anchor" href="#ssyi-and-sssy-for-podiatrist-services"></a>
 </h3>
-<table class="table">
-<colgroup>
-<col width="6%">
-<col width="14%">
-<col width="25%">
-<col width="53%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">NA</td>
-<td align="left">Podiatrist services</td>
-<td align="left">speciale =~ ‘^54’ AND barnmak != 0</td>
-<td align="left">
-<code>barnmak</code> means the services were provided
-to a child of the individual.</td>
-</tr></tbody>
-</table>
 </div>
 <div class="section level3">
 <h3 id="lmdb-for-glucose-lowering-drugs">
 <code>lmdb</code> for glucose lowering drugs<a class="anchor" aria-label="anchor" href="#lmdb-for-glucose-lowering-drugs"></a>
 </h3>
-<table class="table">
-<colgroup>
-<col width="5%">
-<col width="19%">
-<col width="40%">
-<col width="34%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">lmdb</td>
-<td align="left">Glucose-lowering drug inclusion</td>
-<td align="left">atc =~ ‘^A10’ AND NOT (atc =~
-‘^(A10BJ|A10BK01|A10BK03)’)</td>
-<td align="left">Do not keep GLP-RAs or dapagliflozin/empagliflozin
-drugs.</td>
-</tr></tbody>
-</table>
 </div>
 <div class="section level3">
 <h3 id="bef-and-only-gld-via-lmdb-for-potential-polycystic-ovary-syndrome">
 <code>bef</code> and only GLD (via <code>lmdb</code>) for potential
 polycystic ovary syndrome<a class="anchor" aria-label="anchor" href="#bef-and-only-gld-via-lmdb-for-potential-polycystic-ovary-syndrome"></a>
 </h3>
-<table class="table">
-<colgroup>
-<col width="4%">
-<col width="9%">
-<col width="69%">
-<col width="16%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">NA</td>
-<td align="left">No potential PCOS</td>
-<td align="left">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
-foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’,
-‘0000276’, ‘0000781’)))</td>
-<td align="left">Woman is defined as 2 in <code>koen</code>.</td>
-</tr></tbody>
-</table>
 </div>
 <div class="section level3">
 <h3 id="pregnancy-events">Pregnancy events<a class="anchor" aria-label="anchor" href="#pregnancy-events"></a>
 </h3>
-<table class="table">
-<colgroup>
-<col width="4%">
-<col width="23%">
-<col width="67%">
-<col width="4%">
-</colgroup>
-<thead><tr class="header">
-<th align="left">register</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
-</tr></thead>
-<tbody><tr class="odd">
-<td align="left">NA</td>
-<td align="left">Remove events within a potential pregnancy period</td>
-<td align="left">NOT (is_pregnancy_code AND has_elevated_hba1c AND (date
-&gt;= (pregnancy_event_date - weeks(40)) OR date &lt;=
-(pregnancy_event_date + weeks(12)))</td>
-<td align="left"></td>
-</tr></tbody>
-</table>
 </div>
 </div>
 <div class="section level2 unnumbered">
