@@ -11,7 +11,7 @@ sysi <- tibble::tribble(
 sssy <- tibble::tribble(
   ~pnr, ~barnmak, ~speciale, ~honuge,
   2000000000, 0, 54800, "9207", # kept but deduplicated
-  3000000000, 1, 10000, "1801", # removed since barnmark = 0
+  3000000000, 1, 10000, "1801", # removed since barnmark = 1
   3000000000, 0, 54005, "0830", # kept bc it's the second date for this person
   4000000000, 0, 76255, "1123", # removed since speciale doesn't start with 54
 )
