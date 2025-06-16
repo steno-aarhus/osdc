@@ -40,8 +40,8 @@
 #' @examples
 #' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))
 #' include_diabetes_diagnoses(
-#'   lpr2 = prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm),
-#'   lpr3 = prepare_lpr3(register_data$diagnoser, register_data$kontakter)
+#'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+#'   lpr3 = prepare_lpr3(register_data$kontakter, register_data$diagnoser)
 #' )
 include_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
@@ -56,6 +56,7 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
     dplyr::ungroup() |>
     dplyr::select(
       pnr,
+      # Rename to 'dates' after slicing to first two rows to prepare for join_inclusions()
       dates = date,
       n_t1d_endocrinology,
       n_t2d_endocrinology,
