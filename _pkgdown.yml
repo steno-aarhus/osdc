@@ -2,3 +2,14 @@ url: https://steno-aarhus.github.io/osdc/
 template:
   bootstrap: 5
 
+reference:
+- title: OSDC package
+  desc: Main functions of the OSDC package.
+- contents:
+  - algorithm
+  - classify_diabetes
+- title: Documentation and examples
+  desc:  Functions used in the documentation and examples.
+- contents:
+  - registers
+  - simulate_registers
