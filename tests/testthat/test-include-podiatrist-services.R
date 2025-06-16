@@ -1,6 +1,6 @@
 sysi <- tibble::tribble(
   ~pnr, ~barnmak, ~speciale, ~honuge,
-  1000000000, 1, 54711, "1879", # removed since barnmark = 0
+  1000000000, 1, 54711, "1879", # removed since barnmark = 1
   2000000000, 0, 54800, "9207", # kept but deduplicated
   2000000000, 0, 54800, "9207", # kept but deduplicated
   3000000000, 0, 54005, "0752", # kept bc it's the first date for this person
