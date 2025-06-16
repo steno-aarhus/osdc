@@ -2,7 +2,7 @@
 % Please edit documentation in R/prepare-lpr.R
 \name{prepare_lpr2}
 \alias{prepare_lpr2}
-\title{Prepare the two LPR2 registers into one to extract diabetes diagnoses data.}
+\title{Prepare and join the two LPR2 registers to extract diabetes and pregnancy diagnoses.}
 \usage{
 prepare_lpr2(lpr_adm, lpr_diag)
 }
