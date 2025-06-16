@@ -65,8 +65,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       is_t1d_code = !!logic$lpr2_is_t1d_code,
       is_t2d_code = !!logic$lpr2_is_t2d_code,
       is_pregnancy_code = !!logic$lpr2_is_pregnancy_code,
-      is_endocrinology_department = !!logic$lpr2_is_endocrinology_dept,
-      is_medical_department = !!logic$lpr2_is_medical_dept
+      is_endocrinology_dept = !!logic$lpr2_is_endocrinology_dept,
+      is_medical_dept = !!logic$lpr2_is_medical_dept
     ) |>
     dplyr::select(
       "pnr",
@@ -75,8 +75,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       "is_diabetes_code",
       "is_t1d_code",
       "is_t2d_code",
-      "is_endocrinology_department",
-      "is_medical_department",
+      "is_endocrinology_dept",
+      "is_medical_dept",
       "is_pregnancy_code"
     )
 }
