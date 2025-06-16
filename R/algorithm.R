@@ -85,7 +85,7 @@ algorithm <- function() {
       logic = "hovedspeciale_ans  == 'medicinsk endokrinologi'",
       comments = "`TRUE` when the department is endocrinology."
     ),
-    lpr3_is_medical_department = list(
+    lpr3_is_medical_dept = list(
       register = "kontakter",
       title = "LPR3 medical department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
@@ -98,7 +98,7 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
     ),
-    lpr3_is_primary_diagnosis = list(
+    lpr3_is_primary_dx = list(
       register = "diagnoser",
       title = "LPR3 primary diagnosis",
       logic = "diagnosetype == 'A'",
@@ -116,13 +116,13 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DE11)'",
       comments = ""
     ),
-    lpr3_has_diabetes = list(
+    lpr3_is_diabetes_code = list(
       register = "diagnoser",
       title = "LPR3 diagnoses codes for diabetes",
       logic = "diagnosekode =~ '^(DE1[0-4])'",
       comments = "This is a general diabetes code, not specific to T1D or T2D."
     ),
-    lpr3_has_pregnancy_event = list(
+    lpr3_is_pregnancy_code = list(
       register = "diagnoser",
       title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",

@@ -195,12 +195,13 @@ kontakter <- tibble::tibble(
 expected_lpr3 <- tibble::tibble(
   pnr = c(1, 3, 5),
   date = rep(c("20230101"), times = 3),
-  has_t1d = c(TRUE, FALSE, FALSE),
-  has_t2d = c(FALSE, TRUE, FALSE),
-  has_pregnancy_event = c(FALSE, FALSE, TRUE),
-  is_endocrinology_department = c(FALSE, TRUE, FALSE),
-  is_medical_department = c(FALSE, FALSE, TRUE),
-  is_primary_diagnosis = c(TRUE, FALSE, FALSE),
+  is_primary_dx = c(TRUE, FALSE, FALSE),
+  is_diabetes_code = c(TRUE, TRUE, FALSE),
+  is_t1d_code = c(TRUE, FALSE, FALSE),
+  is_t2d_code = c(FALSE, TRUE, FALSE),
+  is_endocrinology_dept = c(FALSE, TRUE, FALSE),
+  is_medical_dept = c(FALSE, FALSE, TRUE),
+  is_pregnancy_code = c(FALSE, FALSE, TRUE),
 ) |>
   dplyr::mutate(date = lubridate::as_date(date))
 

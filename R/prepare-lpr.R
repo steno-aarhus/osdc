@@ -94,19 +94,17 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #'
 #'  -   `pnr`: The personal identification variable.
 #'  -   `date`: The date of all the recorded diagnosis (renamed from
-#'        `d_inddto`).
-#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary
-#'        diagnosis.
-#'  -   `has_t1d`: Whether the diagnosis was T1D-specific
-#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
-#'  -   `has_diabetes`: Whether the diagnosis was any type of diabetes.
-#'  -   `has_pregnancy_event`: Whether the person has an event related to
-#'        pregnancy like giving birth or having a miscarriage at the given date.
-#'  -   `is_endocrinology_department`: `TRUE` if the diagnosis was made made by
-#'        an endocrinology department.
-#'  -   `is_medical_department`: `TRUE` if the diagnosis was made by a medical
-#'        department excluding endocrinology).
-#'  -   `is_primary_diagnosis`: `TRUE` the diagnosis was a primary diagnosis.
+#'      `d_inddto`).
+#'  -   `is_primary_dx`: Whether the diagnosis was a primary diagnosis.
+#'  -   `is_diabetes_code`: Whether the diagnosis was any type of diabetes.
+#'  -   `is_t1d_code`: Whether the diagnosis was T1D-specific.
+#'  -   `is_t2d_code`: Whether the diagnosis was T2D-specific.
+#'  -   `is_endocrinology_dept`: Whether the diagnosis was made by an
+#'      endocrinology medical department.
+#'  -   `is_medical_dept`: Whether the diagnosis was made by a
+#'      non-endocrinology medical department.
+#'  -   `is_pregnancy_code`: Whether the person has an event related to
+#'       pregnancy like giving birth or having a miscarriage at the given date.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -118,14 +116,14 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #' }
 prepare_lpr3 <- function(diagnoser, kontakter) {
   logic <- c(
-    "lpr3_needed_codes",
-    "lpr3_has_pregnancy_event",
-    "lpr3_has_t1d",
-    "lpr3_has_t2d",
-    "lpr3_has_diabetes",
-    "lpr3_is_endocrinology_department",
-    "lpr3_is_medical_department",
-    "lpr3_is_primary_diagnosis"
+    "lpr3_is_needed_code",
+    "lpr3_is_pregnancy_code",
+    "lpr3_is_t1d_code",
+    "lpr3_is_t2d_code",
+    "lpr3_is_diabetes_code",
+    "lpr3_is_endocrinology_dept",
+    "lpr3_is_medical_dept",
+    "lpr3_is_primary_dx"
   ) |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>
@@ -135,7 +133,7 @@ prepare_lpr3 <- function(diagnoser, kontakter) {
   diagnoser |>
     column_names_to_lower() |>
     # Only keep relevant diagnoses
-    dplyr::filter(!!logic$lpr3_needed_codes) |>
+    dplyr::filter(!!logic$lpr3_is_needed_code) |>
     # Inner join to only keep contacts that are in both diagnoser and kontakter
     dplyr::inner_join(
       column_names_to_lower(kontakter),
@@ -145,23 +143,24 @@ prepare_lpr3 <- function(diagnoser, kontakter) {
       # Algorithm needs "hovedspeciale_ans" values to be lowercase
       hovedspeciale_ans = tolower(.data$hovedspeciale_ans),
       date = lubridate::as_date(.data$dato_start),
-      has_t1d = !!logic$lpr3_has_t1d,
-      has_t2d = !!logic$lpr3_has_t2d,
-      has_diabetes = !!logic$lpr3_has_diabetes,
-      has_pregnancy_event = !!logic$lpr3_has_pregnancy_event,
-      is_endocrinology_department = !!logic$lpr3_is_endocrinology_department,
-      is_medical_department = !!logic$lpr3_is_medical_department,
-      is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
+      is_primary_dx = !!logic$lpr3_is_primary_dx,
+      is_t1d_code = !!logic$lpr3_is_t1d_code,
+      is_t2d_code = !!logic$lpr3_is_t2d_code,
+      is_diabetes_code = !!logic$lpr3_is_diabetes_code,
+      is_pregnancy_code = !!logic$lpr3_is_pregnancy_code,
+      is_endocrinology_dept = !!logic$lpr3_is_endocrinology_dept,
+      is_medical_dept = !!logic$lpr3_is_medical_dept,
     ) |>
     dplyr::select(
       # Rename pnr to cpr for consistency with o
       "pnr" = "cpr",
       "date",
-      "has_t1d",
-      "has_t2d",
-      "has_pregnancy_event",
-      "is_endocrinology_department",
-      "is_medical_department",
-      "is_primary_diagnosis"
+      "is_primary_dx",
+      "is_diabetes_code",
+      "is_t1d_code",
+      "is_t2d_code",
+      "is_endocrinology_dept",
+      "is_medical_dept",
+      "is_pregnancy_code",
     )
 }
