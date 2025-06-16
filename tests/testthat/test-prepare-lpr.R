@@ -107,7 +107,7 @@ lpr_adm <- tibble::tribble(
 )
 
 expected_lpr2 <- tibble::tribble(
-  ~pnr, ~date, ~is_primary_diagnosis, ~has_diabetes, ~has_t1d, ~has_t2d, ~is_endocrinology_department, ~is_medical_department, ~has_pregnancy_event,
+  ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_department, ~is_medical_department, ~is_pregnancy_code,
   # T1D primary diagnosis with endocrinology department
   "1", "2023-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
   "2", "2023-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
@@ -140,12 +140,6 @@ expected_lpr2 <- tibble::tribble(
   "20", "2023-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
   "21", "2022-01-01", FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
   "22", "2020-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
-  # TODO: Not sure how we deal with this... How to merge pregnancy
-  # events with diabetes diagnoses? Which "primary diagnosis" to use?
-  # Do we join them? What if it the diagnosis happens on the same day?
-  # And which department to use? How do we handle multi-day diagnoses?
-  # For now, I've offset people with pregnancy events by one day and
-  # set FALSE to `has_pregnancy_event`.
   # Pregnancy with T2D primary with endocrinology department
   "21", "2022-01-02", TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, FALSE,
   # Pregnancy with T2D secondary with endocrinology department

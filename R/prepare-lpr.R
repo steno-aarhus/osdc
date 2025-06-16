@@ -10,14 +10,18 @@
 #'  with the following columns:
 #'
 #'  -   `pnr`: The personal identification variable.
-#'  -   `date`: The date of all the recorded diagnosis (renamed from `d_inddto`).
-#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary diagnosis.
-#'  -   `has_diabetes`: Whether the diagnosis was any type of diabetes.
-#'  -   `has_t1d`: Whether the diagnosis was T1D-specific.
-#'  -   `has_t2d`: Whether the diagnosis was T2D-specific.
-#'  -   `has_pregnancy_event`: Whether the person has an event related to pregnancy like giving birth or having a miscarriage at the given date.
-#'  -   `is_endocrinology_department`: Whether the diagnosis was made made by an
-#'      endocrinology (TRUE) or other medical (FALSE) department.
+#'  -   `date`: The date of all the recorded diagnosis (renamed from
+#'      `d_inddto`).
+#'  -   `is_primary_dx`: Whether the diagnosis was a primary diagnosis.
+#'  -   `is_diabetes_code`: Whether the diagnosis was any type of diabetes.
+#'  -   `is_t1d_code`: Whether the diagnosis was T1D-specific.
+#'  -   `is_t2d_code`: Whether the diagnosis was T2D-specific.
+#'  -   `is_pregnancy_code`: Whether the person has an event related to
+#'       pregnancy like giving birth or having a miscarriage at the given date.
+#'  -   `is_endocrinology_dept`: Whether the diagnosis was made by an
+#'      endocrinology medical department.
+#'  -   `is_medical_dept`: Whether the diagnosis was made by a
+#'      non-endocrinology medical department.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -56,24 +60,24 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       # Algorithm needs c_spec to be an integer to work correctly.
       c_spec = as.integer(.data$c_spec),
       date = lubridate::as_date(.data$d_inddto),
-      is_primary_diagnosis = .data$c_diagtype == "A",
-      has_diabetes = !!logic$lpr2_has_diabetes,
-      has_t1d = !!logic$lpr2_has_t1d,
-      has_t2d = !!logic$lpr2_has_t2d,
-      has_pregnancy_event = !!logic$lpr2_has_pregnancy_event,
+      is_primary_dx = .data$c_diagtype == "A",
+      is_diabetes_code = !!logic$lpr2_has_diabetes,
+      is_t1d_code = !!logic$lpr2_has_t1d,
+      is_t2d_code = !!logic$lpr2_has_t2d,
+      is_pregnancy_code = !!logic$lpr2_has_pregnancy_event,
       is_endocrinology_department = !!logic$lpr2_is_endocrinology_department,
       is_medical_department = !!logic$lpr2_is_medical_department
     ) |>
     dplyr::select(
       "pnr",
       "date",
-      "is_primary_diagnosis",
-      "has_diabetes",
-      "has_t1d",
-      "has_t2d",
+      "is_primary_dx",
+      "is_diabetes_code",
+      "is_t1d_code",
+      "is_t2d_code",
       "is_endocrinology_department",
       "is_medical_department",
-      "has_pregnancy_event"
+      "is_pregnancy_code"
     )
 }
 
