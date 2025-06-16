@@ -28,7 +28,7 @@ hide <<exclusion>> stereotype
         database bef
     }
     together {
-            action "join_lpr2()" as lpr2
+            action "prepare_lpr2()" as lpr2
             action "prepare_lpr3()" as lpr3
     }
 
