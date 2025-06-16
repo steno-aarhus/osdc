@@ -65,13 +65,13 @@ algorithm <- function() {
       register = "lpr_adm",
       title = "LPR2 endocrinology department",
       logic = "c_spec == 8",
-      comments = "`TRUE` when the department is endocrinology where diagnosis took place."
+      comments = "`TRUE` when the department where the recorded diagnosis was endocrinology."
     ),
     lpr2_is_medical_department = list(
       register = "lpr_adm",
       title = "LPR2 other medical department",
-      logic = "c_spec %in% 9:30",
-      comments = "`TRUE` when it is other medical departments where diagnosis took place."
+      logic = "c_spec %in% c(1:7, 9:30)",
+      comments = "`TRUE` when the diagnosis was recorded at a medical department other than endocrinology."
     ),
     lpr2_has_pregnancy_event = list(
       register = "lpr_diag",
