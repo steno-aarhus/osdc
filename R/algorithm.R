@@ -43,6 +43,12 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)' AND (c_diagtype == 'A' OR c_diagtype == 'B')",
       comments = "A `c_diagtype` of` 'A'` means primary diagnosis, while 'B' means secondary diagnosis. "
     ),
+    lpr2_is_diabetes_code = list(
+      register = "lpr_diag",
+      title = "LPR2 diagnoses codes for any diabetes",
+      logic = "c_diag =~ '^(DE1[0-4]|249|250)'",
+      comments = ""
+    ),
     lpr2_is_t1d_code = list(
       register = "lpr_diag",
       title = "LPR2 diagnoses codes for T1D",
@@ -58,8 +64,20 @@ algorithm <- function() {
     lpr2_is_endocrinology_dept = list(
       register = "lpr_adm",
       title = "LPR2 endocrinology department",
-      logic = "na_if(c_spec, NOT (c_spec %in% 8:30)) == 8",
-      comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing is all other cases."
+      logic = "c_spec == 8",
+      comments = "`TRUE` when the department where the recorded diagnosis was endocrinology."
+    ),
+    lpr2_is_medical_department = list(
+      register = "lpr_adm",
+      title = "LPR2 other medical department",
+      logic = "c_spec %in% c(1:7, 9:30)",
+      comments = "`TRUE` when the diagnosis was recorded at a medical department other than endocrinology."
+    ),
+    lpr2_is_pregnancy_code = list(
+      register = "lpr_diag",
+      title = "LPR2 diagnoses codes for pregnancy-related outcomes",
+      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
     lpr3_is_endocrinology_dept = list(
       register = "kontakter",
@@ -86,16 +104,10 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DE11)'",
       comments = ""
     ),
-    is_pregnancy_code = list(
-      register = c("lpr_diag", "diagnoser"),
-      title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
-      logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])' OR diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
-      comments = "These are recorded pregnancy endings like live births and miscarriages."
-    ),
     is_not_within_pregnancy_period = list(
       register = NA,
       title = "Events that are not within a potential pregnancy period",
-      logic = "NOT (has_pregnancy_event AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
+      logic = "NOT (is_pregnancy_code AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
       comments = "The potential pregnancy period is defined as 40 weeks before and 12 weeks after the pregnancy event date."
     ),
     is_podiatrist_services = list(
