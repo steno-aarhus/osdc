@@ -34,7 +34,7 @@
 #' simulate_registers("lmdb", 100)[[1]] |> include_gld_purchases()
 #' }
 include_gld_purchases <- function(lmdb) {
-  criteria <- get_algorithm_logic("gld") |>
+  criteria <- get_algorithm_logic("is_gld_code") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
   lmdb |>
