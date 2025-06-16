@@ -113,9 +113,8 @@ algorithm <- function() {
     podiatrist_services = list(
       register = NA,
       title = "Podiatrist services",
-      logic = "speciale =~ '^54' AND barnmak != 0",
-      # TODO: Explain what barnmark 0 means
-      comments = "`barnmak` means the services were provided to a child of the individual."
+      logic = "speciale =~ '^54' AND barnmak == 0",
+      comments = "`barnmak` means the services were provided to a child of the individual. When barnmak == 0, the PNR belongs to the recipient of the service. When barnmak == 1, the PNR belongs to the child of the individual."
     ),
     no_potential_pcos = list(
       register = NA,
