@@ -36,13 +36,13 @@
 #' }
 prepare_lpr2 <- function(lpr_adm, lpr_diag) {
   logic <- c(
-    "lpr2_needed_codes",
-    "lpr2_has_pregnancy_event",
-    "lpr2_has_t1d",
-    "lpr2_has_t2d",
-    "lpr2_has_diabetes",
-    "lpr2_is_endocrinology_department",
-    "lpr2_is_medical_department"
+    "lpr2_is_needed_code",
+    "lpr2_is_pregnancy_code",
+    "lpr2_is_t1d_code",
+    "lpr2_is_t2d_code",
+    "lpr2_is_diabetes_code",
+    "lpr2_is_endocrinology_dept",
+    "lpr2_is_medical_dept"
   ) |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>
@@ -51,7 +51,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 
   lpr_diag |>
     column_names_to_lower() |>
-    dplyr::filter(!!logic$lpr2_needed_codes) |>
+    dplyr::filter(!!logic$lpr2_is_needed_code) |>
     dplyr::inner_join(
       column_names_to_lower(lpr_adm),
       by = dplyr::join_by("recnum")
@@ -61,12 +61,12 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       c_spec = as.integer(.data$c_spec),
       date = lubridate::as_date(.data$d_inddto),
       is_primary_dx = .data$c_diagtype == "A",
-      is_diabetes_code = !!logic$lpr2_has_diabetes,
-      is_t1d_code = !!logic$lpr2_has_t1d,
-      is_t2d_code = !!logic$lpr2_has_t2d,
-      is_pregnancy_code = !!logic$lpr2_has_pregnancy_event,
-      is_endocrinology_department = !!logic$lpr2_is_endocrinology_department,
-      is_medical_department = !!logic$lpr2_is_medical_department
+      is_diabetes_code = !!logic$lpr2_is_diabetes_code,
+      is_t1d_code = !!logic$lpr2_is_t1d_code,
+      is_t2d_code = !!logic$lpr2_is_t2d_code,
+      is_pregnancy_code = !!logic$lpr2_is_pregnancy_code,
+      is_endocrinology_department = !!logic$lpr2_is_endocrinology_dept,
+      is_medical_department = !!logic$lpr2_is_medical_dept
     ) |>
     dplyr::select(
       "pnr",

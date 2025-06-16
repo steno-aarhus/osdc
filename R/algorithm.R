@@ -67,7 +67,7 @@ algorithm <- function() {
       logic = "c_spec == 8",
       comments = "`TRUE` when the department where the recorded diagnosis was endocrinology."
     ),
-    lpr2_is_medical_department = list(
+    lpr2_is_medical_dept = list(
       register = "lpr_adm",
       title = "LPR2 other medical department",
       logic = "c_spec %in% c(1:7, 9:30)",
