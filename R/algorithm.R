@@ -104,12 +104,6 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DE11)'",
       comments = ""
     ),
-    has_pregnancy_event = list(
-      register = "diagnoser",
-      title = "LPR3 diagnoses codes for pregnancy-related outcomes",
-      logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
-      comments = "These are recorded pregnancy endings like live births and miscarriages."
-    ),
     no_pregnancy = list(
       register = NA,
       title = "Remove events within a potential pregnancy period",
