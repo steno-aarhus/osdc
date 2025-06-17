@@ -82,19 +82,27 @@ algorithm <- function() {
     lpr3_is_endocrinology_dept = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
+      logic = "hovedspeciale_ans  == 'medicinsk endokrinologi'",
+      comments = "`TRUE` when the department is endocrinology."
+    ),
+    lpr3_is_medical_dept = list(
+      register = "kontakter",
+      title = "LPR3 medical department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
-      logic = "dplyr::case_when(
-      stringr::str_detect(hovedspeciale_ans, '[Ee]ndokrinologi') ~ TRUE,
-      stringr::str_detect(hovedspeciale_ans, '[Mm]edicin|[Gg]eriatri|[Hh]epatologi|[Hh]æmatologi|[Ii]nfektion|[Kk]ardiologi|[Nn]efrologi|[Rr]eumatologi|[Dd]ermato|[Nn]eurologi|[Oo]nkologi|[Oo]ftalmologi|[Nn]eurofysiologi') ~ FALSE,
-      .default = NA
-    )",
-      comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing in all other cases."
+      logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin')",
+      comments = "`TRUE` when the department is other medical departments (than endocrinology)."
     ),
     lpr3_is_needed_code = list(
       register = "diagnoser",
       title = "LPR3 codes used throughout the algorithm",
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
+    ),
+    lpr3_is_primary_dx = list(
+      register = "diagnoser",
+      title = "LPR3 primary diagnosis",
+      logic = "diagnosetype == 'A'",
+      comments = ""
     ),
     lpr3_is_t1d_code = list(
       register = "diagnoser",
@@ -108,6 +116,18 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DE11)'",
       comments = ""
     ),
+    lpr3_is_diabetes_code = list(
+      register = "diagnoser",
+      title = "LPR3 diagnoses codes for diabetes",
+      logic = "diagnosekode =~ '^DE1[0-4]'",
+      comments = "This is a general diabetes code, not specific to T1D or T2D."
+    ),
+    lpr3_is_pregnancy_code = list(
+      register = "diagnoser",
+      title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
+      logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      comments = "These are recorded pregnancy endings like live births and miscarriages."
+    ),
     is_not_within_pregnancy_period = list(
       register = NA,
       title = "Events that are not within a potential pregnancy period",
@@ -117,9 +137,8 @@ algorithm <- function() {
     is_podiatrist_services = list(
       register = NA,
       title = "Podiatrist services",
-      logic = "speciale =~ '^54' AND barnmak != 0",
-      # TODO: Explain what barnmark 0 means
-      comments = "`barnmak` means the services were provided to a child of the individual. Barnmark 0 means the service was provided to a child."
+      logic = "speciale =~ '^54' AND barnmak == 0",
+      comments = "When `barnmak == 0`, the PNR belongs to the recipient of the service. When `barnmak == 1`, the PNR belongs to the child of the individual."
     ),
     is_not_metformin_for_pcos = list(
       register = NA,

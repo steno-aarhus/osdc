@@ -72,7 +72,7 @@ classify_diabetes <- function(
     lpr_adm = lpr_adm
   )
 
-  lpr3 <- join_lpr3(
+  lpr3 <- prepare_lpr3(
     kontakter = kontakter,
     diagnoser = diagnoser
   )
