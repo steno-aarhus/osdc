@@ -62,9 +62,10 @@
 #'   )
 #' }
 exclude_pregnancy <- function(
-    excluded_pcos,
-    pregnancy_dates,
-    included_hba1c) {
+  excluded_pcos,
+  pregnancy_dates,
+  included_hba1c
+) {
   criteria <- get_algorithm_logic("is_not_within_pregnancy_period") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
