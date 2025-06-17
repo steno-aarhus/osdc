@@ -9,7 +9,7 @@
 #' @param yyww Character(s) of the format YYWW.
 #'
 #' @returns Date(s) in the format YYYY-MM-DD.
-#' @export
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
