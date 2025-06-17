@@ -46,7 +46,8 @@
 include_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
   lpr2 |>
-    dplyr::full_join(lpr3, by = dplyr::join_by(.data$pnr, .data$date)) |>
+    dplyr::bind_rows(lpr3) |>
+    dplyr::filter(.data$is_diabetes_code) |>
     count_primary_diagnoses_by_department() |>
     dplyr::mutate(
       date = lubridate::ymd(date)) |>
@@ -63,6 +64,7 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
       n_t1d_medical,
       n_t2d_medical
     ) |>
+    dplyr::arrange(pnr) |>
     # Create an indicator variable for later use.
     dplyr::mutate(has_lpr_diabetes_diagnosis = TRUE)
 
