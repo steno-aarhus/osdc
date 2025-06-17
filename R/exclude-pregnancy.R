@@ -49,8 +49,8 @@
 #'   ),
 #'   n = 1000
 #' )
-#' lpr2 <- join_lpr2(register_data$lpr_adm, register_data$lpr_diag)
-#' lpr3 <- join_lpr3(register_data$kontakter, register_data$diagnoser)
+#' lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag)
+#' lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
 #'
 #' # Exclude pregnancy dates
 #' register_data$lmdb |>
@@ -61,12 +61,16 @@
 #'     include_hba1c(register_data$lab_forsker)
 #'   )
 #' }
-exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
-  criteria <- get_algorithm_logic("no_pregnancy") |>
+exclude_pregnancy <- function(
+    excluded_pcos,
+    pregnancy_dates,
+    included_hba1c) {
+  criteria <- get_algorithm_logic("is_not_within_pregnancy_period") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
 
-  # Ensure both date columns are of type Date
+  # TODO: This should be done at an earlier stage.
+  # Ensure both date columns are of type Date.
   excluded_pcos <- excluded_pcos |>
     dplyr::mutate(
       date = lubridate::as_date(.data$date)
@@ -77,9 +81,33 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
     )
 
   excluded_pcos |>
-    dplyr::full_join(pregnancy_dates, by = dplyr::join_by("pnr")) |>
-    dplyr::full_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
-    dplyr::filter(!!criteria) |>
+    dplyr::full_join(
+      included_hba1c,
+      by = dplyr::join_by("pnr", "date")
+    ) |>
+    dplyr::full_join(
+      pregnancy_dates,
+      by = dplyr::join_by("pnr"),
+      relationship = "many-to-many"
+    ) |>
+    # Apply the criteria to flag rows that are within the pregnancy period.
+    dplyr::mutate(
+      is_not_within_pregnancy_period = !!criteria
+    ) |>
+    # Group by pnr and date to ensure the row is dropped if it falls within
+    # *any* pregnancy period. This prevents mistakenly keeping a row just
+    # because it falls outside one pregnancy window, when it may still fall
+    # inside another for the same pnr.
+    dplyr::group_by(.data$pnr, .data$date) |>
+    dplyr::mutate(
+      is_not_within_any_pregnancy_period = all(
+        .data$is_not_within_pregnancy_period == TRUE
+      )
+    ) |>
+    dplyr::ungroup() |>
+    # Only keep rows that don't fall within any pregnancy period.
+    dplyr::filter(.data$is_not_within_any_pregnancy_period) |>
+    # Select relevant columns.
     dplyr::select(
       "pnr",
       "date",
@@ -88,5 +116,10 @@ exclude_pregnancy <- function(excluded_pcos, pregnancy_dates, included_hba1c) {
       "has_gld_purchases",
       "has_elevated_hba1c"
     ) |>
+    # Remove duplicates after pregnancy date column has been removed.
+    # Duplicates are created when a pnr has multiple pregnancy events and a
+    # row that falls outside all of them.
+    dplyr::distinct() |>
+    # Add logical helper variable.
     dplyr::mutate(no_pregnancy = TRUE)
 }
