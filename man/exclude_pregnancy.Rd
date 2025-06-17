@@ -60,8 +60,8 @@ register_data <- simulate_registers(
   ),
   n = 1000
 )
-lpr2 <- join_lpr2(register_data$lpr_adm, register_data$lpr_diag)
-lpr3 <- join_lpr3(register_data$kontakter, register_data$diagnoser)
+lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag)
+lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
 
 # Exclude pregnancy dates
 register_data$lmdb |>
