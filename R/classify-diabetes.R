@@ -82,11 +82,11 @@ classify_diabetes <- function(
   #   lpr3 = lpr3
   # )
 
-  # Inclusion steps -----
-  # diabetes_diagnosis <-  include_diabetes_diagnosis(
-  #   lpr2 = lpr2,
-  #   lpr3 = lpr3
-  # )
+  Inclusion steps -----
+  diabetes_diagnoses <-  include_diabetes_diagnoses(
+    lpr2 = lpr2,
+    lpr3 = lpr3
+  )
 
   podiatrist_services <- include_podiatrist_services(
     sysi = sysi,
@@ -113,7 +113,7 @@ classify_diabetes <- function(
 
   # Joining into an initial dataset -----
   # inclusions <- join_inclusions(
-  #   included_diabetes_diagnosis,
+  #   included_diabetes_diagnoses,
   #   included_podiatrist_services,
   #   exclusions
   # )
