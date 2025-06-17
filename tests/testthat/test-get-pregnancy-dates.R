@@ -1,33 +1,44 @@
 lpr2 <- tibble::tribble(
-  ~c_spec, ~pnr, ~recnum, ~d_inddto, ~c_diagtype, ~c_diag,
+  ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
   # no pregnancy diagnosis (drop)
-  46, 164409653234, 942848630572354208, "20150812", "A", "E9511",
+  1, "1990-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
   # pregnancy diagnosis (keep)
-  58, 952443913885, 069594786879610784, "20150710", "B", "DO00",
-  # duplicate PNR, pregnancy diagnosis (keep both)
-  31, 952443913885, 470350823177866548, "20000710", "B", "DO04",
-)
+  2, "1990-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
+  2, "2000-01-01", FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, # duplicate PNR, other date, keep both
+  3, "1990-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
+  3, "1990-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, # duplicate PNR, same date, keep one
+) |>
+  dplyr::mutate(
+    date = lubridate::as_date(date)
+  )
+
 
 lpr3 <- tibble::tribble(
-  ~pnr, ~dw_ek_kontakt, ~dato_start, ~hovedspeciale_ans, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
+  ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
+  # no pregnancy diagnosis (drop)
+  4, "2020-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
   # pregnancy diagnosis (keep)
-  120172052967, 371073944504254886, "20050411", "Oftalmologi", "DE470", "A", "Nej",
-  # pregnancy diagnosis same date as row above (only keep one),
-  120172052967, 371073944504254886, "20050411", "Oftalmologi", "DO80", "A", "Nej",
-  # duplicate PNR from LPR2, pregnancy diagnosis (keep)
-  164409653234, 849133686529524253, "19811226", "Psykiatri", "DZ33", "B", "Nej",
-  # duplicate PNR from LPR2, pregnancy diagnosis (keep)
-  164409653234, 849133686529524253, "19811226", "Psykiatri", "E9511", "B", "Nej"
-)
+  5, "2020-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
+  5, "2009-01-01", FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, # duplicate PNR, other date, keep both
+  6, "2020-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE,
+  6, "2020-01-01", TRUE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, # duplicate PNR, same date, keep one
+  2, "2020-01-01", FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, TRUE, # duplicate pnr from lpr2, keep both
+) |>
+  dplyr::mutate(
+    date = lubridate::as_date(date)
+  )
 
 expected_pregnancy_dates <- tibble::tribble(
   ~pnr, ~pregnancy_event_date, ~has_pregnancy_event,
   # from LPR2
-  952443913885,"20150710", TRUE,
-  952443913885, "20000710", TRUE,
+  2,"1990-01-01", TRUE,
+  2, "2000-01-01", TRUE,
+  3, "1990-01-01", TRUE,
   # from LPR3
-  120172052967, "20050411", TRUE,
-  164409653234, "19811226", TRUE
+  5, "2020-01-01", TRUE,
+  5, "2009-01-01", TRUE,
+  6, "2020-01-01", TRUE,
+  2, "2020-01-01", TRUE
 ) |>
   dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
 
