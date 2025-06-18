@@ -35,6 +35,18 @@ algorithm <- function() {
       logic = "atc =~ '^A10' AND NOT (atc =~ '^(A10BJ|A10BK01|A10BK03)')",
       comments = "GLP-RAs or dapagliflozin/empagliflozin drugs are not kept."
     ),
+    is_non_insulin_gld_code = list(
+      register = "lmdb",
+      title = "Non-insulin glucose-lowering drugs",
+      logic = "NOT (atc =~ '^A10B' OR atc =~ '^A10AE5')",
+      comments = "This is used during the classification of type 1 diabetes."
+    ),
+    is_insulin_gld_code = list(
+      register = "lmdb",
+      title = "Only insulin glucose-lowering drugs",
+      logic = "atc =~ '^A10A' AND NOT (atc =~ '^A10AE5')",
+      comments = "This is used during the classification of type 1 diabetes."
+    ),
     lpr2_is_needed_code = list(
       register = "lpr_diag",
       title = "LPR2 codes used throughout the algorithm",
