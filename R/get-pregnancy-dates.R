@@ -25,8 +25,8 @@ get_pregnancy_dates <- function(lpr2, lpr3) {
       "pnr",
       "pregnancy_event_date" = date
     ) |>
-    # Remove potential duplicates
+    # Remove potential duplicates.
     dplyr::distinct() |>
-    # Add logical helper variable to indicate pregnancy events
+    # Add logical helper variable to indicate pregnancy events.
     dplyr::mutate(has_pregnancy_event = TRUE)
 }
