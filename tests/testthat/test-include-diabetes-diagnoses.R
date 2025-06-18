@@ -22,7 +22,8 @@ test_input_from_lpr2 <- tibble::tribble(
     # 00006 - Equal counts case: 1 x T2D + 1 x T1D from endo from LPR2, same from medical in LPR3
     "00006", "2015-02-01", TRUE, TRUE,  TRUE,  FALSE, FALSE, TRUE, FALSE,
     "00006", "2015-03-01", TRUE, TRUE,  FALSE, TRUE,  FALSE, TRUE,  FALSE
-  ) |> dplyr::mutate(date = as.Date(date))
+  ) |>
+  dplyr::mutate(date = as.Date(date))
 
 test_input_from_lpr3 <- tibble::tribble(
   ~pnr,     ~date,        ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
@@ -50,7 +51,8 @@ test_input_from_lpr3 <- tibble::tribble(
   # 00006 - Equal counts case: 1 x T2D + 1 x T1D from endo from LPR2, same from medical in LPR3
   "00006", "2022-02-01", TRUE, TRUE,  TRUE,  FALSE, FALSE, FALSE, TRUE,
   "00006", "2022-03-01", TRUE, TRUE,  FALSE, TRUE,  FALSE, FALSE,  TRUE
-) |> dplyr::mutate(date = as.Date(date))
+) |>
+  dplyr::mutate(date = as.Date(date))
 
 expected_output <- tibble::tribble(
   ~pnr,    ~dates,        ~n_t1d_endocrinology, ~n_t2d_endocrinology, ~n_t1d_medical, ~n_t2d_medical, ~has_lpr_diabetes_diagnosis,
@@ -63,17 +65,20 @@ expected_output <- tibble::tribble(
   "00005", "2022-01-01",              1,                    0,               0,               0,              TRUE,
   "00006", "2015-02-01",              1,                    1,               1,               1,              TRUE,
   "00006", "2015-03-01",              1,                    1,               1,               1,              TRUE
-) |> dplyr::mutate(dates = as.Date(dates))
+) |>
+  dplyr::mutate(dates = as.Date(dates))
 
 # Test
-test_that("Filtering and counting diabetes diagnoses",
-          {
-            actual_output <- include_diabetes_diagnoses(test_input_from_lpr2, test_input_from_lpr3)
+test_that("Filtering and counting diabetes diagnoses", {
+  actual_output <- include_diabetes_diagnoses(
+    test_input_from_lpr2,
+    test_input_from_lpr3
+  )
 
-            # Sorted stable comparison
-            actual_output_sorted    <- dplyr::arrange(actual_output,  pnr, dates)
-            expected_output_sorted  <- dplyr::arrange(expected_output, pnr, dates)
+  # Sorted stable comparison
+  actual_output_sorted <- dplyr::arrange(actual_output, pnr, dates)
+  expected_output_sorted <- dplyr::arrange(expected_output, pnr, dates)
 
-            # Test
-            expect_equal(actual_output_sorted, expected_output_sorted)
-          })
+  # Test
+  expect_equal(actual_output_sorted, expected_output_sorted)
+})

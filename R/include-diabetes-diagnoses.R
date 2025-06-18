@@ -63,5 +63,4 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
     dplyr::arrange(.data$pnr) |>
     # Create an indicator variable for later use.
     dplyr::mutate(has_lpr_diabetes_diagnosis = TRUE)
-
 }
