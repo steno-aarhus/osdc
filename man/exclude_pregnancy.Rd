@@ -39,7 +39,7 @@ inputs to two sets of functions:
 \item The censored HbA1c and GLD data are passed to the
 "join_inclusions()" function for the final step of the inclusion
 process.
-\item the censored GLD data is passed to the
+\item The censored GLD data is passed to the
 "get_only_insulin_purchases()",
 "get_insulin_purchases_within_180_days()", and
 "get_insulin_is_two_thirds_of_gld_doses()" helper functions for the
