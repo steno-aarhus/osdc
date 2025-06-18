@@ -47,14 +47,14 @@ pak::pak("steno-aarhus/osdc", dependencies = "all")
 ## Development
 
 While developing the package, we use [`justfile`](https://just.systems/)
-to simplify our development workflow and make it explicit. The `justfile`
-contains commands that runs formatters, various checks like CRAN checks
-or spelling checks, tests, and builds the files for the website (but doesn't
-publish it). We use it to ensure that we have a consistent development
-workflow and that we do not forget to run any of the important checks
-before committing our changes. For example, before we make any pull
-request to contribute changes, we run the following command *in the
-Terminal* of the project directory:
+to simplify our development workflow and make it explicit. The
+`justfile` contains commands that runs formatters, various checks like
+CRAN checks or spelling checks, tests, and builds the files for the
+website (but doesn't publish it). We use it to ensure that we have a
+consistent development workflow and that we do not forget to run any of
+the important checks before committing our changes. For example, before
+we make any pull request to contribute changes, we run the following
+command *in the Terminal* of the project directory:
 
 ``` bash
 just run-all
