@@ -79,10 +79,8 @@ exclude_pregnancy <- function(
     )
 
   excluded_pcos |>
-    dplyr::full_join(
-      included_hba1c,
-      by = dplyr::join_by("pnr", "date")
-    ) |>
+    # Row bind to keep rows from excluded_pcos and included_hba1c separate.
+    dplyr::bind_rows(included_hba1c) |>
     dplyr::left_join(
       pregnancy_dates,
       by = dplyr::join_by("pnr"),
