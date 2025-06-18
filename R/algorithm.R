@@ -151,6 +151,13 @@ algorithm <- function() {
       title = "Metformin purchases that aren't potentially for the treatment of PCOS",
       logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
+    ),
+    is_two_thirds_insulin = list(
+      register = NA,
+      title = "Two-thirds of GLD doses are insulin doses",
+      logic = "(insulin_doses / gld_doses) >= 2/3",
+      comments = "This is used to classify type 1 diabetes."
+    ),
     )
   )
 }
