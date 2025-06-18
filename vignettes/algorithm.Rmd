@@ -19,6 +19,12 @@ library(osdc)
 library(dplyr)
 ```
 
+```{r, include=FALSE}
+algorithm_df <- tibble(name = names(algorithm()), value = algorithm()) |>
+  tidyr::unnest_wider(value) |>
+  dplyr::select(register, name, title, logic, comments)
+```
+
 ## General description
 
 A more complete description of the classifier is found in Anders Aasted
@@ -86,77 +92,69 @@ Individuals not classified as T1D cases are classified as T2D cases.
 Below are the technical, exact implementation of the above description.
 These are the logical conditions and exact variables and registers used
 that results in the classification of diabetes status and types. They
-are shown in the form of tables for each register, as well as for each
+are shown in the form of tables for each register with a table at the
+end showing the logic that is applied across registers.
 
 ### `lpr_diag`
 
 ```{r}
-algorithm()$lpr2 |>
-  as_tibble() |>
+algorithm_df |> 
+  dplyr::filter(register=="lpr_diag") |>
+  dplyr::select(-register) |> 
   knitr::kable()
 ```
 
 ### `lpr_adm`
 
 ```{r}
-algorithm()$lpr2_is_endocrinology |>
-  as_tibble() |>
+algorithm_df |> 
+  dplyr::filter(register=="lpr_adm") |>
+  dplyr::select(-register) |> 
   knitr::kable()
 ```
 
 ### `diagnoser`
 
 ```{r}
-algorithm()$lpr3 |>
-  as_tibble() |>
+algorithm_df |> 
+  dplyr::filter(register=="diagnoser") |>
+  dplyr::select(-register) |> 
   knitr::kable()
 ```
 
 ### `kontakter`
 
 ```{r}
-algorithm()$lpr3_is_endocrinology_department |>
-  as_tibble() |>
+algorithm_df |> 
+  dplyr::filter(register=="kontakter") |>
+  dplyr::select(-register) |> 
   knitr::kable()
 ```
 
 ### `lab_forsker`
 
 ```{r}
-algorithm()$hba1c |>
-  as_tibble() |>
+algorithm_df |> 
+  dplyr::filter(register=="lab_forsker") |>
+  dplyr::select(-register) |> 
   knitr::kable()
 ```
 
-### `ssyi` and `sssy` for podiatrist services
+### `lmdb`
 
 ```{r}
-algorithm()$podiatrist_services |>
-  as_tibble() |>
+algorithm_df |> 
+  dplyr::filter(register=="lmdb") |>
+  dplyr::select(-register) |> 
   knitr::kable()
 ```
 
-### `lmdb` for glucose lowering drugs
+### Across register logic
 
 ```{r}
-algorithm()$gld |>
-  as_tibble() |>
-  knitr::kable()
-```
-
-### `bef` and only GLD (via `lmdb`) for potential polycystic ovary syndrome
-
-```{r}
-algorithm()$no_potential_pcos |>
-  as_tibble() |>
-  knitr::kable()
-```
-
-### Pregnancy events
-
-```{r}
-algorithm()$no_pregnancy |>
-  as_tibble() |>
+algorithm_df |> 
+  dplyr::filter(is.na(register)) |>
+  dplyr::select(-register) |> 
   knitr::kable()
 ```
 
