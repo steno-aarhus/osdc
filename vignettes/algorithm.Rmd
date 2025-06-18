@@ -19,7 +19,7 @@ library(osdc)
 library(dplyr)
 ```
 
-```{r, get algorithm and transform to df, include=FALSE}
+```{r, include=FALSE}
 algorithm_df <- tibble(name = names(algorithm()), value = algorithm()) |>
   tidyr::unnest_wider(value) |>
   dplyr::select(register, name, title, logic, comments)
