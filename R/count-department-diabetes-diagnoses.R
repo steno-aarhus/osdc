@@ -7,19 +7,19 @@ count_primary_diagnoses_by_department <- function(data) {
     dplyr::group_by(.data$pnr) |>
     dplyr::mutate(
       n_t1d_endocrinology = sum(
-        is_t1d_code & is_primary_dx & is_endocrinology_dept,
+        .data$is_t1d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
         na.rm = TRUE
       ),
       n_t2d_endocrinology = sum(
-        is_t2d_code & is_primary_dx & is_endocrinology_dept,
+        .data$is_t2d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
         na.rm = TRUE
       ),
       n_t1d_medical = sum(
-        is_t1d_code & is_primary_dx & is_medical_dept,
+        .data$is_t1d_code & .data$is_primary_dx & .data$is_medical_dept,
         na.rm = TRUE
       ),
       n_t2d_medical = sum(
-        is_t2d_code & is_primary_dx & is_medical_dept,
+        .data$is_t2d_code & .data$is_primary_dx & .data$is_medical_dept,
         na.rm = TRUE
       ),
       .keep = "all"
