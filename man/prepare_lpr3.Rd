@@ -22,12 +22,12 @@ with the following columns:
 \item \code{is_diabetes_code}: Whether the diagnosis was any type of diabetes.
 \item \code{is_t1d_code}: Whether the diagnosis was T1D-specific.
 \item \code{is_t2d_code}: Whether the diagnosis was T2D-specific.
+\item \code{is_pregnancy_code}: Whether the person has an event related to
+pregnancy like giving birth or having a miscarriage at the given date.
 \item \code{is_endocrinology_dept}: Whether the diagnosis was made by an
 endocrinology medical department.
 \item \code{is_medical_dept}: Whether the diagnosis was made by a
 non-endocrinology medical department.
-\item \code{is_pregnancy_code}: Whether the person has an event related to
-pregnancy like giving birth or having a miscarriage at the given date.
 }
 }
 \description{

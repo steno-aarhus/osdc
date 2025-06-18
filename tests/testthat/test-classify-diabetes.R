@@ -53,7 +53,7 @@ test_that("classifying works with DuckDB Database", {
 test_that("classifying works for Arrow Tables (from Parquet)", {
   # TODO: Currently, Arrow fails bc it can't handle doing a comparison (<)
   # between two different types (date - foed_dato is a duration; years(40) is
-  # a period) in the criteria.
+  # a period) in the logic.
   # This issue happens in the `exclude_potential_pcos()` function.
   # I've also tried converting date, foed_dato, and 40 years to
   # numbers before the comparison, but it still fails bc arrow can't cast date32
@@ -142,6 +142,40 @@ test_that("classifying works for data.table", {
     lmdb = registers_as_dt$lmdb
   ) |>
     dplyr::collect()
+
+  # TODO: Need to update this when we have the expected output
+  # expected_columns <- c(
+  #   "",
+  # )
+
+  actual_rows <- actual |>
+    dplyr::count() |>
+    dplyr::pull(n) |>
+    as.integer()
+
+  expect_contains(class(actual), "data.frame")
+  # expect_identical(colnames(actual), expected_columns)
+  # expect_identical(actual_rows, expected_rows)
+})
+
+test_that("casing of input variables doesn't matter", {
+  # Testing this for data.frame input only here.
+  registers_as_df <- register_data |>
+    purrr::map(as.data.frame) |>
+    # Convert column names to upper case.
+    purrr::map(~ setNames(.x, toupper(names(.x))))
+
+  actual <- classify_diabetes(
+    kontakter = registers_as_df$kontakter,
+    diagnoser = registers_as_df$diagnoser,
+    lpr_diag = registers_as_df$lpr_diag,
+    lpr_adm = registers_as_df$lpr_adm,
+    sysi = registers_as_df$sysi,
+    sssy = registers_as_df$sssy,
+    lab_forsker = registers_as_df$lab_forsker,
+    bef = registers_as_df$bef,
+    lmdb = registers_as_df$lmdb
+  )
 
   # TODO: Need to update this when we have the expected output
   # expected_columns <- c(
