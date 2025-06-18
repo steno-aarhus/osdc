@@ -72,12 +72,12 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2) |>
     dplyr::ungroup() |>
     dplyr::select(
-      pnr,
-      date,
-      n_t1d_endocrinology,
-      n_t2d_endocrinology,
-      n_t1d_medical,
-      n_t2d_medical
+      "pnr",
+      "date",
+      "n_t1d_endocrinology",
+      "n_t2d_endocrinology",
+      "n_t1d_medical",
+      "n_t2d_medical"
     ) |>
     dplyr::arrange(.data$pnr) |>
     # Create an indicator variable for later use.
