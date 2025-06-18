@@ -15,10 +15,11 @@
 #'
 #' After these exclusion functions have been applied, the output serves as
 #' inputs to two sets of functions:
+#' 
 #' 1.  The censored HbA1c and GLD data are passed to the
 #'     "join_inclusions()" function for the final step of the inclusion
 #'     process.
-#' 2.  the censored GLD data is passed to the
+#' 2.  The censored GLD data is passed to the
 #'     "get_only_insulin_purchases()",
 #'     "get_insulin_purchases_within_180_days()", and
 #'     "get_insulin_is_two_thirds_of_gld_doses()" helper functions for the
@@ -100,14 +101,9 @@ exclude_pregnancy <- function(
     # because it falls outside one pregnancy window, when it may still fall
     # inside another for the same pnr.
     dplyr::group_by(.data$pnr, .data$date) |>
-    dplyr::mutate(
-      is_not_within_any_pregnancy_period = all(
-        .data$is_not_within_pregnancy_period == TRUE
-      )
-    ) |>
-    dplyr::ungroup() |>
     # Only keep rows that don't fall within any pregnancy period.
-    dplyr::filter(.data$is_not_within_any_pregnancy_period) |>
+    dplyr::filter(all(.data$is_not_within_pregnancy_period)) |>
+    dplyr::ungroup() |>
     # Select relevant columns.
     dplyr::select(
       "pnr",
