@@ -65,16 +65,15 @@ expected_output <- tibble::tribble(
   "00006", "2015-03-01",              1,                    1,               1,               1,              TRUE
 ) |> dplyr::mutate(dates = as.Date(dates))
 
-# Run tests
-
-actual_output <- include_diabetes_diagnoses(test_input_from_lpr2, test_input_from_lpr3)
-
-# Sort both tibbles for stable comparison
-actual_output_sorted    <- dplyr::arrange(actual_output,  pnr, dates)
-expected_output_sorted  <- dplyr::arrange(expected_output, pnr, dates)
-
 # Test
 test_that("Filtering and counting diabetes diagnoses",
           {
+            actual_output <- include_diabetes_diagnoses(test_input_from_lpr2, test_input_from_lpr3)
+
+            # Sorted stable comparison
+            actual_output_sorted    <- dplyr::arrange(actual_output,  pnr, dates)
+            expected_output_sorted  <- dplyr::arrange(expected_output, pnr, dates)
+
+            # Test
             expect_equal(actual_output_sorted, expected_output_sorted)
           })
