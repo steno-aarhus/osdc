@@ -31,7 +31,6 @@ include_hba1c <- function(lab_forsker) {
     # To convert the string into an R expression.
     rlang::parse_expr()
   lab_forsker |>
-    column_names_to_lower() |>
     # Use !! to inject the expression into filter.
     dplyr::filter(!!criteria) |>
     # Keep only the columns we need.
