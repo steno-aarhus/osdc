@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/steno-aarhus/osdc/actions/workflows/build-package.yaml/badge.svg)](https://github.com/steno-aarhus/osdc/actions/workflows/build-package.yaml)
+[![R-CMD-check](https://github.com/steno-aarhus/osdc/actions/workflows/build.yaml/badge.svg)](https://github.com/steno-aarhus/osdc/actions/workflows/build.yaml)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 
