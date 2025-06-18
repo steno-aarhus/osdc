@@ -30,8 +30,8 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
     rlang::parse_expr()
 
   # Use the algorithm logic to exclude potential PCOS
-  column_names_to_lower(gld_purchases) |>
-    dplyr::inner_join(column_names_to_lower(bef), by = dplyr::join_by("pnr")) |>
+  gld_purchases |>
+    dplyr::inner_join(bef, by = dplyr::join_by("pnr")) |>
     dplyr::mutate(
       date = lubridate::as_date(.data$date),
       foed_dato = lubridate::as_date(.data$foed_dato)

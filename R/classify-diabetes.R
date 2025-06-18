@@ -66,6 +66,17 @@ classify_diabetes <- function(
   verify_required_variables(bef, "bef")
   verify_required_variables(lmdb, "lmdb")
 
+  # Lowercase column names -----
+  kontakter <- column_names_to_lower(kontakter)
+  diagnoser <- column_names_to_lower(diagnoser)
+  lpr_diag <- column_names_to_lower(lpr_diag)
+  lpr_adm <- column_names_to_lower(lpr_adm)
+  sysi <- column_names_to_lower(sysi)
+  sssy <- column_names_to_lower(sssy)
+  lab_forsker <- column_names_to_lower(lab_forsker)
+  bef <- column_names_to_lower(bef)
+  lmdb <- column_names_to_lower(lmdb)
+
   # Initially processing -----
   lpr2 <- prepare_lpr2(
     lpr_diag = lpr_diag,
