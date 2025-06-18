@@ -137,7 +137,7 @@ algorithm <- function() {
     is_not_within_pregnancy_interval = list(
       register = NA,
       title = "Events that are not within a potential pregnancy interval",
-      logic = "NOT (has_gld_purchases AND has_elevated_hba1c AND has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12))) OR is.na(pregnancy_event_date)",
+      logic = "NOT (has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12))) OR is.na(pregnancy_event_date)",
       comments = "The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date."
     ),
     is_podiatrist_services = list(
