@@ -29,8 +29,10 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/create_padded_integer.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/create_simulated_data.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/exclude_potential_pcos.html</loc></url>
+<url><loc>https://steno-aarhus.github.io/osdc/reference/exclude_pregnancy.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/fct_to_chr.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_algorithm_logic.html</loc></url>
+<url><loc>https://steno-aarhus.github.io/osdc/reference/get_pregnancy_dates.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_register_abbrev.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_required_variables.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/include_gld_purchases.html</loc></url>
