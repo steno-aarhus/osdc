@@ -48,13 +48,32 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
   lpr2 |>
     dplyr::bind_rows(lpr3) |>
     dplyr::filter(.data$is_diabetes_code) |>
-    count_primary_diagnoses_by_department() |>
     dplyr::group_by(.data$pnr) |>
+    dplyr::mutate(
+      n_t1d_endocrinology = sum(
+        .data$is_t1d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
+        na.rm = TRUE
+      ),
+      n_t2d_endocrinology = sum(
+        .data$is_t2d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
+        na.rm = TRUE
+      ),
+      n_t1d_medical = sum(
+        .data$is_t1d_code & .data$is_primary_dx & .data$is_medical_dept,
+        na.rm = TRUE
+      ),
+      n_t2d_medical = sum(
+        .data$is_t2d_code & .data$is_primary_dx & .data$is_medical_dept,
+        na.rm = TRUE
+      ),
+      .keep = "all"
+    ) |>
     # Keep earliest two dates per individual.
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2) |>
     dplyr::ungroup() |>
     dplyr::select(
       pnr,
+      date,
       n_t1d_endocrinology,
       n_t2d_endocrinology,
       n_t1d_medical,
