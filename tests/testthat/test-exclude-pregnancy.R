@@ -52,12 +52,13 @@ pregnancy_dates <- tibble::tribble(
 expected <- tibble::tribble(
   ~pnr, ~date, ~atc, ~contained_doses, ~has_gld_purchases, ~has_elevated_hba1c, ~no_pregnancy,
   # From excluded_pcos.
-  1, "2000-01-01", "A10BA02", 1.21, TRUE, TRUE, TRUE, # Joined row with both hba1c and gld.
+  1, "2000-01-01", "A10BA02", 1.21, TRUE, NA, TRUE, # same pnr and date as row from hba1c, both kept
   1, "2019-01-01", "A10BA02", 1.21, TRUE, NA, TRUE,
   1, "2015-01-01", "A10BA02", 1.21, TRUE, NA, TRUE,
   1, "2025-01-01", "A10BA02", 1.21, TRUE, NA, TRUE,
   2, "2010-02-02", "A10BA02", 1.21, TRUE, NA, TRUE,
   # From included_hba1c.
+  1, "2000-01-01", NA, NA, NA, TRUE, TRUE, # same pnr and date as row from excluded_pcos, both kept
   1, "2000-01-02", NA, NA, NA, TRUE, TRUE,
   1, "2015-01-02", NA, NA, NA, TRUE, TRUE,
   3, "2010-02-02", NA, NA, NA, TRUE, TRUE,
