@@ -15,7 +15,7 @@
 #'
 #' After these exclusion functions have been applied, the output serves as
 #' inputs to two sets of functions:
-#' 
+#'
 #' 1.  The censored HbA1c and GLD data are passed to the
 #'     "join_inclusions()" function for the final step of the inclusion
 #'     process.
@@ -63,6 +63,10 @@
 #'   )
 #' }
 exclude_pregnancy <- function(
+  excluded_pcos,
+  pregnancy_dates,
+  included_hba1c
+) {
   criteria <- get_algorithm_logic("is_not_within_pregnancy_interval") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
