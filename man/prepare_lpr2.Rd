@@ -17,7 +17,7 @@ with the following columns:
 \itemize{
 \item \code{pnr}: The personal identification variable.
 \item \code{date}: The date of all the recorded diagnosis (renamed from
-\code{d_inddto}).
+\code{d_inddto} or \code{dato_start}).
 \item \code{is_primary_dx}: Whether the diagnosis was a primary diagnosis.
 \item \code{is_diabetes_code}: Whether the diagnosis was any type of diabetes.
 \item \code{is_t1d_code}: Whether the diagnosis was T1D-specific.

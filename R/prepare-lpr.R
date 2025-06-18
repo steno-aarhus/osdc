@@ -11,7 +11,7 @@
 #'
 #'  -   `pnr`: The personal identification variable.
 #'  -   `date`: The date of all the recorded diagnosis (renamed from
-#'      `d_inddto`).
+#'      `d_inddto` or `dato_start`).
 #'  -   `is_primary_dx`: Whether the diagnosis was a primary diagnosis.
 #'  -   `is_diabetes_code`: Whether the diagnosis was any type of diabetes.
 #'  -   `is_t1d_code`: Whether the diagnosis was T1D-specific.
