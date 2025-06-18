@@ -87,7 +87,7 @@ exclude_pregnancy <- function(
       included_hba1c,
       by = dplyr::join_by("pnr", "date")
     ) |>
-    dplyr::full_join(
+    dplyr::left_join(
       pregnancy_dates,
       by = dplyr::join_by("pnr"),
       relationship = "many-to-many"
