@@ -51,10 +51,9 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     purrr::map(rlang::parse_expr)
 
   lpr_diag |>
-    column_names_to_lower() |>
     dplyr::filter(!!logic$lpr2_is_needed_code) |>
     dplyr::inner_join(
-      column_names_to_lower(lpr_adm),
+      lpr_adm,
       by = dplyr::join_by("recnum")
     ) |>
     dplyr::mutate(
@@ -115,12 +114,11 @@ prepare_lpr3 <- function(diagnoser, kontakter) {
     purrr::map(rlang::parse_expr)
 
   diagnoser |>
-    column_names_to_lower() |>
     # Only keep relevant diagnoses
     dplyr::filter(!!logic$lpr3_is_needed_code) |>
     # Inner join to only keep contacts that are in both diagnoser and kontakter
     dplyr::inner_join(
-      column_names_to_lower(kontakter),
+      kontakter,
       by = dplyr::join_by("dw_ek_kontakt")
     ) |>
     dplyr::mutate(
