@@ -123,11 +123,11 @@ classify_diabetes <- function(
   #   )
 
   # Joining into an initial dataset -----
-  # inclusions <- join_inclusions(
-  #   included_diabetes_diagnosis,
-  #   included_podiatrist_services,
-  #   exclusions
-  # )
+  inclusions <- join_inclusions(
+    # diabetes_diagnosis,
+    podiatrist_services
+    # exclusions
+  )
 
   # inclusions |>
   #   create_inclusion_dates() |>
