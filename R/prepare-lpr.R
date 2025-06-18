@@ -42,7 +42,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     "lpr2_is_t2d_code",
     "lpr2_is_diabetes_code",
     "lpr2_is_endocrinology_dept",
-    "lpr2_is_medical_dept"
+    "lpr2_is_medical_dept",
+    "lpr2_is_primary_dx"
   ) |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>
@@ -60,7 +61,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       # Algorithm needs c_spec to be an integer to work correctly.
       c_spec = as.integer(.data$c_spec),
       date = lubridate::as_date(.data$d_inddto),
-      is_primary_dx = .data$c_diagtype == "A",
+      is_primary_dx = !!logic$lpr2_is_primary_dx,
       is_diabetes_code = !!logic$lpr2_is_diabetes_code,
       is_t1d_code = !!logic$lpr2_is_t1d_code,
       is_t2d_code = !!logic$lpr2_is_t2d_code,

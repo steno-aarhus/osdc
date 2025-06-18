@@ -79,6 +79,12 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
+    lpr2_is_primary_dx = list(
+      register = "lpr_diag",
+      title = "LPR2 primary diagnosis",
+      logic = "c_diagtype == 'A'",
+      comments = ""
+    ),
     lpr3_is_endocrinology_dept = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
