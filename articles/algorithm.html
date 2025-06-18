@@ -146,12 +146,69 @@ cases.</p>
 <p>Below are the technical, exact implementation of the above
 description. These are the logical conditions and exact variables and
 registers used that results in the classification of diabetes status and
-types. They are shown in the form of tables for each register, as well
-as for each</p>
+types. They are shown in the form of tables for each register with a
+table at the end showing the logic that is applied across registers.</p>
 <div class="section level3">
 <h3 id="lpr_diag">
 <code>lpr_diag</code><a class="anchor" aria-label="anchor" href="#lpr_diag"></a>
 </h3>
+<table class="table">
+<colgroup>
+<col width="7%">
+<col width="17%">
+<col width="44%">
+<col width="29%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">logic</th>
+<th align="left">comments</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">lpr2_is_needed_code</td>
+<td align="left">LPR2 codes used throughout the algorithm</td>
+<td align="left">c_diag =~
+‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)’ AND (c_diagtype == ‘A’
+OR c_diagtype == ‘B’)</td>
+<td align="left">A <code>c_diagtype</code> of<code>'A'</code> means
+primary diagnosis, while ‘B’ means secondary diagnosis.</td>
+</tr>
+<tr class="even">
+<td align="left">lpr2_is_diabetes_code</td>
+<td align="left">LPR2 diagnoses codes for any diabetes</td>
+<td align="left">c_diag =~ ‘^(DE1[0-4]|249|250)’</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">lpr2_is_t1d_code</td>
+<td align="left">LPR2 diagnoses codes for T1D</td>
+<td align="left">c_diag =~ ‘^(DE10|249)’</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">lpr2_is_t2d_code</td>
+<td align="left">LPR2 diagnoses codes for T2D</td>
+<td align="left">c_diag =~ ‘^(DE11|250)’</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">lpr2_is_pregnancy_code</td>
+<td align="left">LPR2 diagnoses codes for pregnancy-related
+outcomes</td>
+<td align="left">c_diag =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
+<td align="left">These are recorded pregnancy endings like live births
+and miscarriages.</td>
+</tr>
+<tr class="even">
+<td align="left">lpr2_is_primary_dx</td>
+<td align="left">LPR2 primary diagnosis</td>
+<td align="left">c_diagtype == ‘A’</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level3">
 <h3 id="lpr_adm">
@@ -159,61 +216,245 @@ as for each</p>
 </h3>
 <table class="table">
 <colgroup>
-<col width="7%">
-<col width="23%">
-<col width="9%">
-<col width="59%">
+<col width="15%">
+<col width="17%">
+<col width="14%">
+<col width="52%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">register</th>
+<th align="left">name</th>
 <th align="left">title</th>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
-<tbody><tr class="odd">
-<td align="left">lpr_adm</td>
+<tbody>
+<tr class="odd">
+<td align="left">lpr2_is_endocrinology_dept</td>
 <td align="left">LPR2 endocrinology department</td>
 <td align="left">c_spec == 8</td>
 <td align="left">
 <code>TRUE</code> when the department where the
 recorded diagnosis was endocrinology.</td>
-</tr></tbody>
+</tr>
+<tr class="even">
+<td align="left">lpr2_is_medical_dept</td>
+<td align="left">LPR2 other medical department</td>
+<td align="left">c_spec %in% c(1:7, 9:30)</td>
+<td align="left">
+<code>TRUE</code> when the diagnosis was recorded at a
+medical department other than endocrinology.</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="section level3">
 <h3 id="diagnoser">
 <code>diagnoser</code><a class="anchor" aria-label="anchor" href="#diagnoser"></a>
 </h3>
+<table class="table">
+<colgroup>
+<col width="6%">
+<col width="16%">
+<col width="45%">
+<col width="31%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">logic</th>
+<th align="left">comments</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">lpr3_is_needed_code</td>
+<td align="left">LPR3 codes used throughout the algorithm</td>
+<td align="left">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])’
+AND (diagnosetype == ‘A’ OR diagnosetype == ‘B’) AND (senere_afkraeftet
+== ‘Nej’)</td>
+<td align="left">
+<code>A</code> <code>diagnosekode</code> means primary
+diagnosis and <code>senere_afkraeftet</code> means diagnosis was later
+retracted.</td>
+</tr>
+<tr class="even">
+<td align="left">lpr3_is_primary_dx</td>
+<td align="left">LPR3 primary diagnosis</td>
+<td align="left">diagnosetype == ‘A’</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">lpr3_is_t1d_code</td>
+<td align="left">LPR3 diagnoses codes for T1D</td>
+<td align="left">diagnosekode =~ ‘^(DE10)’</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">lpr3_is_t2d_code</td>
+<td align="left">LPR3 diagnoses codes for T2D</td>
+<td align="left">diagnosekode =~ ‘^(DE11)’</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">lpr3_is_diabetes_code</td>
+<td align="left">LPR3 diagnoses codes for diabetes</td>
+<td align="left">diagnosekode =~ ‘^DE1[0-4]’</td>
+<td align="left">This is a general diabetes code, not specific to T1D or
+T2D.</td>
+</tr>
+<tr class="even">
+<td align="left">lpr3_is_pregnancy_code</td>
+<td align="left">ICD-10 diagnoses codes for pregnancy-related
+outcomes</td>
+<td align="left">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
+<td align="left">These are recorded pregnancy endings like live births
+and miscarriages.</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level3">
 <h3 id="kontakter">
 <code>kontakter</code><a class="anchor" aria-label="anchor" href="#kontakter"></a>
 </h3>
+<table class="table">
+<colgroup>
+<col width="5%">
+<col width="5%">
+<col width="73%">
+<col width="15%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">logic</th>
+<th align="left">comments</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">lpr3_is_endocrinology_dept</td>
+<td align="left">LPR3 endocrinology department</td>
+<td align="left">hovedspeciale_ans == ‘medicinsk endokrinologi’</td>
+<td align="left">
+<code>TRUE</code> when the department is
+endocrinology.</td>
+</tr>
+<tr class="even">
+<td align="left">lpr3_is_medical_dept</td>
+<td align="left">LPR3 medical department</td>
+<td align="left">hovedspeciale_ans %in% c(‘blandet medicin og kirurgi’,
+‘intern medicin’, ‘geriatri’, ‘hepatologi’, ‘hæmatologi’,
+‘infektionsmedicin’, ‘kardiologi’, ‘medicinsk allergologi’, ‘medicinsk
+gastroenterologi’, ‘medicinsk lungesygdomme’, ‘nefrologi’,
+‘reumatologi’, ‘palliativ medicin’, ‘akut medicin’,
+‘dermato-venerologi’, ‘neurologi’, ‘onkologi’, ‘fysiurgi’,
+‘tropemedicin’)</td>
+<td align="left">
+<code>TRUE</code> when the department is other medical
+departments (than endocrinology).</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section level3">
 <h3 id="lab_forsker">
 <code>lab_forsker</code><a class="anchor" aria-label="anchor" href="#lab_forsker"></a>
 </h3>
+<table class="table">
+<colgroup>
+<col width="11%">
+<col width="13%">
+<col width="45%">
+<col width="29%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">logic</th>
+<th align="left">comments</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">is_hba1c_over_threshold</td>
+<td align="left">HbA1c values over threshold</td>
+<td align="left">(analysiscode == ‘NPU27300’ AND value &gt;= 48) OR
+(analysiscode == ‘NPU03835’ AND value &gt;= 6.5)</td>
+<td align="left">Is the IFCC units for NPU27300 and DCCT units for
+NPU03835.</td>
+</tr></tbody>
+</table>
 </div>
 <div class="section level3">
-<h3 id="ssyi-and-sssy-for-podiatrist-services">
-<code>ssyi</code> and <code>sssy</code> for podiatrist services<a class="anchor" aria-label="anchor" href="#ssyi-and-sssy-for-podiatrist-services"></a>
+<h3 id="lmdb">
+<code>lmdb</code><a class="anchor" aria-label="anchor" href="#lmdb"></a>
 </h3>
+<table class="table">
+<colgroup>
+<col width="6%">
+<col width="24%">
+<col width="37%">
+<col width="32%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">logic</th>
+<th align="left">comments</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">is_gld_code</td>
+<td align="left">ATC codes for glucose-lowering drugs (GLDs)</td>
+<td align="left">atc =~ ‘^A10’ AND NOT (atc =~
+‘^(A10BJ|A10BK01|A10BK03)’)</td>
+<td align="left">GLP-RAs or dapagliflozin/empagliflozin drugs are not
+kept.</td>
+</tr></tbody>
+</table>
 </div>
 <div class="section level3">
-<h3 id="lmdb-for-glucose-lowering-drugs">
-<code>lmdb</code> for glucose lowering drugs<a class="anchor" aria-label="anchor" href="#lmdb-for-glucose-lowering-drugs"></a>
+<h3 id="across-register-logic">Across register logic<a class="anchor" aria-label="anchor" href="#across-register-logic"></a>
 </h3>
-</div>
-<div class="section level3">
-<h3 id="bef-and-only-gld-via-lmdb-for-potential-polycystic-ovary-syndrome">
-<code>bef</code> and only GLD (via <code>lmdb</code>) for potential
-polycystic ovary syndrome<a class="anchor" aria-label="anchor" href="#bef-and-only-gld-via-lmdb-for-potential-polycystic-ovary-syndrome"></a>
-</h3>
-</div>
-<div class="section level3">
-<h3 id="pregnancy-events">Pregnancy events<a class="anchor" aria-label="anchor" href="#pregnancy-events"></a>
-</h3>
+<table class="table">
+<colgroup>
+<col width="8%">
+<col width="18%">
+<col width="37%">
+<col width="36%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">name</th>
+<th align="left">title</th>
+<th align="left">logic</th>
+<th align="left">comments</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">is_not_within_pregnancy_period</td>
+<td align="left">Events that are not within a potential pregnancy
+period</td>
+<td align="left">NOT (is_pregnancy_code AND has_elevated_hba1c AND (date
+&gt;= (pregnancy_event_date - weeks(40)) OR date &lt;=
+(pregnancy_event_date + weeks(12)))</td>
+<td align="left">The potential pregnancy period is defined as 40 weeks
+before and 12 weeks after the pregnancy event date.</td>
+</tr>
+<tr class="even">
+<td align="left">is_podiatrist_services</td>
+<td align="left">Podiatrist services</td>
+<td align="left">speciale =~ ‘^54’ AND barnmak == 0</td>
+<td align="left">When <code>barnmak == 0</code>, the PNR belongs to the
+recipient of the service. When <code>barnmak == 1</code>, the PNR
+belongs to the child of the individual.</td>
+</tr>
+<tr class="odd">
+<td align="left">is_not_metformin_for_pcos</td>
+<td align="left">Metformin purchases that aren’t potentially for the
+treatment of PCOS</td>
+<td align="left">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
+foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’,
+‘0000276’, ‘0000781’)))</td>
+<td align="left">Woman is defined as 2 in <code>koen</code>.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section level2 unnumbered">
