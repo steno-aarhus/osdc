@@ -82,8 +82,8 @@ classify_diabetes <- function(
   #   lpr3 = lpr3
   # )
 
-  Inclusion steps -----
-  diabetes_diagnoses <-  include_diabetes_diagnoses(
+  # Inclusion steps -----
+  included_diabetes_diagnoses <-  include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
   )

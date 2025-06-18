@@ -1,4 +1,4 @@
-#' Include ICD-8 and ICD-10 Codes for Diabetes Diagnosis and Type-Specific Classification
+#' Include ICD-8 and ICD-10 codes for diabetes diagnosis and type-specific classification
 #'
 #' Include diabetes diagnoses from LPR2 and LPR3.
 #'
@@ -49,8 +49,6 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
     dplyr::bind_rows(lpr3) |>
     dplyr::filter(.data$is_diabetes_code) |>
     count_primary_diagnoses_by_department() |>
-    dplyr::mutate(
-      date = lubridate::ymd(date)) |>
     dplyr::group_by(.data$pnr) |>
     # Keep earliest two dates per individual.
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2) |>
@@ -64,7 +62,7 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
       n_t1d_medical,
       n_t2d_medical
     ) |>
-    dplyr::arrange(pnr) |>
+    dplyr::arrange(.data$pnr) |>
     # Create an indicator variable for later use.
     dplyr::mutate(has_lpr_diabetes_diagnosis = TRUE)
 
