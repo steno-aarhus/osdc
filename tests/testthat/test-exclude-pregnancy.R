@@ -44,6 +44,8 @@ pregnancy_dates <- tibble::tribble(
   # pregnancy periods are excluded
   1, "2010-02-02", TRUE,
   1, "2020-02-02", TRUE,
+  # Pregnancy event for pnr not in gld_purchases and included_hba1c (drop).
+  4, "2010-01-01", TRUE,
 ) |>
   dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
 
