@@ -38,7 +38,7 @@ algorithm <- function() {
     is_non_insulin_gld_code = list(
       register = "lmdb",
       title = "Non-insulin glucose-lowering drugs",
-      logic = "NOT (atc =~ '^A10B' OR atc =~ '^A10AE5')",
+      logic = "NOT (atc =~ '^A10B' OR atc =~ '^A10A' OR atc =~ '^A10AE5')",
       comments = "This is used during the classification of type 1 diabetes."
     ),
     is_insulin_gld_code = list(
