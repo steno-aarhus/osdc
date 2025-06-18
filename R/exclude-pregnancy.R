@@ -63,9 +63,10 @@
 #'   )
 #' }
 exclude_pregnancy <- function(
-    excluded_pcos,
-    pregnancy_dates,
-    included_hba1c) {
+  excluded_pcos,
+  pregnancy_dates,
+  included_hba1c
+) {
   criteria <- get_algorithm_logic("is_not_within_pregnancy_interval") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
@@ -98,7 +99,10 @@ exclude_pregnancy <- function(
     # because it falls outside one pregnancy window, when it may still fall
     # inside another for the same pnr.
     # Only keep rows that don't fall within any pregnancy interval.
-    dplyr::filter(all(.data$is_not_within_pregnancy_interval), .by = c("pnr", "date")) |>
+    dplyr::filter(
+      all(.data$is_not_within_pregnancy_interval),
+      .by = c("pnr", "date")
+    ) |>
     # Select relevant columns.
     dplyr::select(
       "pnr",
