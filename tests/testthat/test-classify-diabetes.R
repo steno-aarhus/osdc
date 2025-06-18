@@ -175,8 +175,7 @@ test_that("casing of input variables doesn't matter", {
     lab_forsker = registers_as_df$lab_forsker,
     bef = registers_as_df$bef,
     lmdb = registers_as_df$lmdb
-  ) |>
-    dplyr::collect()
+  )
 
   # TODO: Need to update this when we have the expected output
   # expected_columns <- c(
