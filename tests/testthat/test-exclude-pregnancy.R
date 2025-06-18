@@ -6,7 +6,7 @@ excluded_pcos <- tibble::tribble(
   # Exactly 40 weeks before pregnancy event (drop).
   1, "2009-04-28", "A10BA02", 1.21, TRUE, "324314324", TRUE,
   1, "2019-04-28", "A10BA02", 1.21, TRUE, "324314324", TRUE,
-  # Within pregnancy period (drop).
+  # Within pregnancy interval (drop).
   1, "2010-02-02", "A10BA02", 1.21, TRUE, "324314324", TRUE,
   1, "2020-02-02", "A10BA02", 1.21, TRUE, "324314324", TRUE,
   # Exactly 12 weeks after pregnancy event (drop).
@@ -27,7 +27,7 @@ included_hba1c <- tibble::tribble(
   1, "2000-01-02", TRUE,
   # Exactly 40 weeks before pregnancy event (drop).
   1, "2009-04-28", TRUE,
-  # Within pregnancy period (drop).
+  # Within pregnancy interval (drop).
   1, "2010-02-02", TRUE,
   # Exactly 12 weeks after pregnancy event (drop).
   1, "2010-04-27", TRUE,
@@ -41,7 +41,7 @@ included_hba1c <- tibble::tribble(
 pregnancy_dates <- tibble::tribble(
   ~pnr, ~pregnancy_event_date, ~has_pregnancy_event,
   # Two pregnancy events for the same pnr to ensure that all events within both
-  # pregnancy periods are excluded
+  # pregnancy intervals are excluded
   1, "2010-02-02", TRUE,
   1, "2020-02-02", TRUE,
   # Pregnancy event for pnr not in gld_purchases and included_hba1c (drop).
