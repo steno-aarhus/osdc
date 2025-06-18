@@ -25,27 +25,40 @@
 #'        from `indo`).
 #'   -   `has_gld_purchases`: A logical variable to use as a helper indicator
 #'       for later functions.
+#'   -   `is_insulin_gld_code`: A logical variable to use as a helper indicator
+#'       for later functions, used for classifying type 1 diabetes.
+#'   -   `is_non_insulin_gld_code`: A logical variable to use as a helper
+#'       indicator for later functions, used for classifying type 1 diabetes.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
 #'
 #' @examples
 #' \dontrun{
-#' simulate_registers("lmdb", 100)[[1]] |> include_gld_purchases()
+#' simulate_registers("lmdb", 10000)[[1]] |> include_gld_purchases()
 #' }
 include_gld_purchases <- function(lmdb) {
-  logic <- get_algorithm_logic("is_gld_code") |>
-    # To convert the string into an R expression.
-    rlang::parse_expr()
+  logic <- c(
+    "is_non_insulin_gld_code",
+    "is_insulin_gld_code",
+    "is_gld_code"
+  ) |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
+    # To convert the string into an R expression
+    purrr::map(rlang::parse_expr)
+
   lmdb |>
     # Use !! to inject the expression into filter.
-    dplyr::filter(!!logic) |>
+    dplyr::filter(!!logic$is_gld_code) |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
       contained_doses = .data$volume * .data$apk,
       # An indicator variable for later joins
-      has_gld_purchases = TRUE
+      has_gld_purchases = TRUE,
+      is_insulin_gld_code = !!logic$is_insulin_gld_code,
+      is_non_insulin_gld_code = !!logic$is_non_insulin_gld_code
     ) |>
     # Keep only the columns we need.
     dplyr::select(
@@ -55,6 +68,8 @@ include_gld_purchases <- function(lmdb) {
       "atc",
       "contained_doses",
       "has_gld_purchases",
-      indication_code = "indo"
+      indication_code = "indo",
+      "is_insulin_gld_code",
+      "is_non_insulin_gld_code"
     )
 }

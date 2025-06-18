@@ -8,8 +8,10 @@ constants <- tibble::tibble(
 
 lmdb <- tibble::tribble(
   ~atc,
-  "A10abc",
+  "A10Abc",
   "A10",
+  "A10B",
+  "A10AE5",
   "A10123",
   "A11",
   "A21",
@@ -18,16 +20,18 @@ lmdb <- tibble::tribble(
   dplyr::bind_cols(constants)
 
 expected <- tibble::tribble(
-  ~atc,
-  "A10abc",
-  "A10",
-  "A10123",
+  ~atc, ~is_insulin_gld_code, ~is_non_insulin_gld_code,
+  "A10Abc", TRUE, FALSE,
+  "A10", FALSE, TRUE,
+  "A10B", FALSE, FALSE,
+  "A10AE5", FALSE, FALSE,
+  "A10123", FALSE, TRUE
 ) |>
   dplyr::bind_cols(constants) |>
   dplyr::rename(date = eksd, indication_code = indo) |>
   dplyr::mutate(
     contained_doses = volume * apk,
-    has_gld_purchases = TRUE
+    has_gld_purchases = TRUE,
   ) |>
   dplyr::select(-volume, -apk) |>
   dplyr::relocate(
@@ -36,7 +40,9 @@ expected <- tibble::tribble(
     atc,
     contained_doses,
     has_gld_purchases,
-    indication_code
+    indication_code,
+    is_insulin_gld_code,
+    is_non_insulin_gld_code
   )
 
 test_that("dataset needs expected variables", {
