@@ -55,8 +55,6 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
     dplyr::ungroup() |>
     dplyr::select(
       pnr,
-      # Rename to 'dates' after slicing to first two rows to prepare for join_inclusions()
-      dates = date,
       n_t1d_endocrinology,
       n_t2d_endocrinology,
       n_t1d_medical,
