@@ -117,13 +117,3 @@ test_that("potential pcos instances are excluded", {
   actual <- exclude_potential_pcos(gld_purchases, bef)
   expect_equal(actual, expected)
 })
-
-
-test_that("casing of input variables doesn't matter", {
-  gld_purchases <- gld_purchases |>
-    dplyr::rename_with(\(columns) toupper(columns))
-  bef <- bef |>
-    dplyr::rename_with(\(columns) toupper(columns))
-  actual <- exclude_potential_pcos(gld_purchases, bef)
-  expect_equal(actual, expected)
-})

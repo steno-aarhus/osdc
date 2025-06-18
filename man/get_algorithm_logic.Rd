@@ -2,21 +2,20 @@
 % Please edit documentation in R/algorithm.R
 \name{get_algorithm_logic}
 \alias{get_algorithm_logic}
-\title{Get the criteria algorithmic logic and convert to an R logic condition.}
+\title{Get the algorithmic logic and convert to an R logic condition.}
 \usage{
-get_algorithm_logic(criteria, algorithm = NULL)
+get_algorithm_logic(logic_name, algorithm = NULL)
 }
 \arguments{
-\item{criteria}{The name of the inclusion or exclusion criteria to use.}
+\item{logic_name}{The name of the logic to use.}
 
-\item{algorithm}{The list of algorithmic logic for each criteria. Default is
-\code{algorithm()}. This argument is used for testing only.}
+\item{algorithm}{The list of algorithmic logic, one list for each.}
 }
 \value{
 A character string.
 }
 \description{
-Get the criteria algorithmic logic and convert to an R logic condition.
+Get the algorithmic logic and convert to an R logic condition.
 }
 \examples{
 \dontrun{

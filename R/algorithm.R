@@ -1,20 +1,18 @@
-#' A list of the algorithmic logic for each criteria underlying osdc.
+#' A list of the algorithmic logic underlying osdc.
 #'
-#' This nested list contains the logic details of the algorithm for specific
-#' inclusion and exclusion criteria.
+#' This nested list contains the logic details of the algorithm.
 #'
 #' @format
 #' Is a list with nested lists that have these named elements:
 #'
 #' \describe{
-#'  \item{register}{Optional. The register used for this criteria.}
-#'  \item{name}{The inclusion or exclusion criteria name.}
-#'  \item{title}{The title to use when displaying the algorithmic logic in tables.}
-#'  \item{logic}{The logic for the criteria.}
-#'  \item{comments}{Some additional comments on the criteria.}
+#'  \item{register}{Optional. The register used for this logic}
+#'  \item{title}{The title to use when displaying the logic in tables.}
+#'  \item{logic}{The logic itself.}
+#'  \item{comments}{Some additional comments on the logic.}
 #' }
 #'
-#' @returns A nested list with the algorithmic logic for each criteria. Contains
+#' @returns A nested list with the algorithmic logic. Contains
 #'   fields `register`, `title`, `logic`, and `comments`.
 #' @export
 #'
@@ -155,11 +153,10 @@ algorithm <- function() {
   )
 }
 
-#' Get the criteria algorithmic logic and convert to an R logic condition.
+#' Get the algorithmic logic and convert to an R logic condition.
 #'
-#' @param criteria The name of the inclusion or exclusion criteria to use.
-#' @param algorithm The list of algorithmic logic for each criteria. Default is
-#'   `algorithm()`. This argument is used for testing only.
+#' @param logic_name The name of the logic to use.
+#' @param algorithm The list of algorithmic logic, one list for each.
 #'
 #' @return A character string.
 #' @keywords internal
@@ -169,15 +166,15 @@ algorithm <- function() {
 #' get_algorithm_logic("hba1c")
 #' get_algorithm_logic("gld")
 #' }
-get_algorithm_logic <- function(criteria, algorithm = NULL) {
-  checkmate::assert_character(criteria)
+get_algorithm_logic <- function(logic_name, algorithm = NULL) {
+  checkmate::assert_character(logic_name)
   if (!is.null(algorithm)) {
     checkmate::assert_list(algorithm)
   } else {
     algorithm <- algorithm()
   }
 
-  algorithm[[criteria]]$logic |>
+  algorithm[[logic_name]]$logic |>
     stringr::str_replace_all("AND", "&") |>
     stringr::str_replace_all("OR", "|") |>
     stringr::str_replace_all("NOT", "!") |>

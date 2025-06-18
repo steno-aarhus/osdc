@@ -28,14 +28,13 @@
 #' include_podiatrist_services(register_data$sysi, register_data$sssy)
 #' }
 include_podiatrist_services <- function(sysi, sssy) {
-  criteria <- get_algorithm_logic("is_podiatrist_services") |>
+  logic <- get_algorithm_logic("is_podiatrist_services") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
 
   sysi |>
-    column_names_to_lower() |>
     dplyr::full_join(
-      column_names_to_lower(sssy),
+      sssy,
       by = dplyr::join_by("pnr", "barnmak", "speciale", "honuge")
     ) |>
     # Both of these need to be converted to correct format in order for
@@ -45,7 +44,7 @@ include_podiatrist_services <- function(sysi, sssy) {
       barnmak = as.integer(.data$barnmak)
     ) |>
     # Filter based algorithm logic.
-    dplyr::filter(!!criteria) |>
+    dplyr::filter(!!logic) |>
     # Remove duplicates
     dplyr::distinct() |>
     # Keep only the two columns we need and transform `honuge` to YYYY-MM-DD.
