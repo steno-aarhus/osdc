@@ -27,13 +27,13 @@
 #' simulate_registers("lab_forsker", 100)[[1]] |> include_hba1c()
 #' }
 include_hba1c <- function(lab_forsker) {
-  criteria <- get_algorithm_logic("is_hba1c_over_threshold") |>
+  logic <- get_algorithm_logic("is_hba1c_over_threshold") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
   lab_forsker |>
     column_names_to_lower() |>
     # Use !! to inject the expression into filter.
-    dplyr::filter(!!criteria) |>
+    dplyr::filter(!!logic) |>
     # Keep only the columns we need.
     dplyr::mutate(
       pnr = .data$patient_cpr,

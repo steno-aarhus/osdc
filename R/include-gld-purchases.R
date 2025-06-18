@@ -34,13 +34,13 @@
 #' simulate_registers("lmdb", 100)[[1]] |> include_gld_purchases()
 #' }
 include_gld_purchases <- function(lmdb) {
-  criteria <- get_algorithm_logic("is_gld_code") |>
+  logic <- get_algorithm_logic("is_gld_code") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
   lmdb |>
     column_names_to_lower() |>
     # Use !! to inject the expression into filter.
-    dplyr::filter(!!criteria) |>
+    dplyr::filter(!!logic) |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
