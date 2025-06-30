@@ -36,14 +36,16 @@ get_majority_of_t1d_diagnoses <- function(n_t1d_endocrinology,
                                           n_t2d_medical) {
 
   dplyr::case_when(
-    # coalesce() is used to handle NAs when evaluating the right-hand side of 
-    # the expression by returning those as zero.
+
+    # Cases with contacts to endocrinological departments: evaluate endo contacts
     sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) > 0 ~
-      dplyr::coalesce(n_t1d_endocrinology, 0) > dplyr::coalesce(n_t2d_endocrinology, 0),
+      n_t1d_endocrinology > n_t2d_endocrinology,
 
+    # Cases without any contacts to endocrinological departments: evaluate medical contacts
+    sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) == 0 ~
+      n_t1d_medical > n_t2d_medical,
 
-    sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) <= 0 ~
-      dplyr::coalesce(n_t1d_medical, 0) > dplyr::coalesce(n_t2d_medical, 0),
+    # Cases with no contacts to endocrinology nor medical departments: default to false
     .default = FALSE
   )
 }
