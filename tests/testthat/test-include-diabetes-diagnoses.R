@@ -80,5 +80,5 @@ test_that("Filtering and counting diabetes diagnoses", {
   expected_sorted <- dplyr::arrange(expected, pnr, date)
 
   # Test
-  expect_equal(actual_output_sorted, expected_output_sorted)
+  expect_equal(actual_sorted, expected_sorted)
 })

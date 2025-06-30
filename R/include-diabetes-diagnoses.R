@@ -68,6 +68,13 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
       ),
       .keep = "all"
     ) |>
+    # Coalesce NA values to 0
+    dplyr::mutate(
+      n_t1d_endocrinology = dplyr::coalesce(.data$n_t1d_endocrinology, 0),
+      n_t2d_endocrinology = dplyr::coalesce(.data$n_t2d_endocrinology, 0),
+      n_t1d_medical = dplyr::coalesce(.data$n_t1d_medical, 0),
+      n_t2d_medical = dplyr::coalesce(.data$n_t2d_medical, 0)
+    ) |>
     # Keep earliest two dates per individual.
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2) |>
     dplyr::ungroup() |>
