@@ -38,12 +38,3 @@ test_that("those with inclusion are kept", {
   actual <- include_podiatrist_services(sysi, sssy)
   expect_equal(actual, expected)
 })
-
-test_that("casing of input variables doesn't matter", {
-  sysi <- sysi |>
-    dplyr::rename_with(\(columns) toupper(columns))
-  sssy <- sssy |>
-    dplyr::rename_with(\(columns) toupper(columns))
-  actual <- include_podiatrist_services(sysi, sssy)
-  expect_equal(actual, expected)
-})

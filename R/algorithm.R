@@ -1,20 +1,18 @@
-#' A list of the algorithmic logic for each criteria underlying osdc.
+#' A list of the algorithmic logic underlying osdc.
 #'
-#' This nested list contains the logic details of the algorithm for specific
-#' inclusion and exclusion criteria.
+#' This nested list contains the logic details of the algorithm.
 #'
 #' @format
 #' Is a list with nested lists that have these named elements:
 #'
 #' \describe{
-#'  \item{register}{Optional. The register used for this criteria.}
-#'  \item{name}{The inclusion or exclusion criteria name.}
-#'  \item{title}{The title to use when displaying the algorithmic logic in tables.}
-#'  \item{logic}{The logic for the criteria.}
-#'  \item{comments}{Some additional comments on the criteria.}
+#'  \item{register}{Optional. The register used for this logic}
+#'  \item{title}{The title to use when displaying the logic in tables.}
+#'  \item{logic}{The logic itself.}
+#'  \item{comments}{Some additional comments on the logic.}
 #' }
 #'
-#' @returns A nested list with the algorithmic logic for each criteria. Contains
+#' @returns A nested list with the algorithmic logic. Contains
 #'   fields `register`, `title`, `logic`, and `comments`.
 #' @export
 #'
@@ -79,18 +77,36 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
+    lpr2_is_primary_dx = list(
+      register = "lpr_diag",
+      title = "LPR2 primary diagnosis",
+      logic = "c_diagtype == 'A'",
+      comments = ""
+    ),
     lpr3_is_endocrinology_dept = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
+      logic = "hovedspeciale_ans  == 'medicinsk endokrinologi'",
+      comments = "`TRUE` when the department is endocrinology."
+    ),
+    lpr3_is_medical_dept = list(
+      register = "kontakter",
+      title = "LPR3 medical department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
-      logic = "na_if(hovedspeciale_ans, NOT (hovedspeciale_ans %in% c('medicinsk endokrinologi', 'blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin'))) == 'medicinsk endokrinologi'",
-      comments = "`TRUE` when the department is endocrinology, `FALSE` when it is other medical departments, and missing in all other cases."
+      logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin')",
+      comments = "`TRUE` when the department is other medical departments (than endocrinology)."
     ),
     lpr3_is_needed_code = list(
       register = "diagnoser",
       title = "LPR3 codes used throughout the algorithm",
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
+    ),
+    lpr3_is_primary_dx = list(
+      register = "diagnoser",
+      title = "LPR3 primary diagnosis",
+      logic = "diagnosetype == 'A'",
+      comments = ""
     ),
     lpr3_is_t1d_code = list(
       register = "diagnoser",
@@ -104,11 +120,23 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DE11)'",
       comments = ""
     ),
-    is_not_within_pregnancy_period = list(
+    lpr3_is_diabetes_code = list(
+      register = "diagnoser",
+      title = "LPR3 diagnoses codes for diabetes",
+      logic = "diagnosekode =~ '^DE1[0-4]'",
+      comments = "This is a general diabetes code, not specific to T1D or T2D."
+    ),
+    lpr3_is_pregnancy_code = list(
+      register = "diagnoser",
+      title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
+      logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      comments = "These are recorded pregnancy endings like live births and miscarriages."
+    ),
+    is_not_within_pregnancy_interval = list(
       register = NA,
-      title = "Events that are not within a potential pregnancy period",
-      logic = "NOT (is_pregnancy_code AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
-      comments = "The potential pregnancy period is defined as 40 weeks before and 12 weeks after the pregnancy event date."
+      title = "Events that are not within a potential pregnancy interval",
+      logic = "NOT (has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12))) OR is.na(pregnancy_event_date)",
+      comments = "The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date."
     ),
     is_podiatrist_services = list(
       register = NA,
@@ -125,11 +153,10 @@ algorithm <- function() {
   )
 }
 
-#' Get the criteria algorithmic logic and convert to an R logic condition.
+#' Get the algorithmic logic and convert to an R logic condition.
 #'
-#' @param criteria The name of the inclusion or exclusion criteria to use.
-#' @param algorithm The list of algorithmic logic for each criteria. Default is
-#'   `algorithm()`. This argument is used for testing only.
+#' @param logic_name The name of the logic to use.
+#' @param algorithm The list of algorithmic logic, one list for each.
 #'
 #' @return A character string.
 #' @keywords internal
@@ -139,15 +166,15 @@ algorithm <- function() {
 #' get_algorithm_logic("hba1c")
 #' get_algorithm_logic("gld")
 #' }
-get_algorithm_logic <- function(criteria, algorithm = NULL) {
-  checkmate::assert_character(criteria)
+get_algorithm_logic <- function(logic_name, algorithm = NULL) {
+  checkmate::assert_character(logic_name)
   if (!is.null(algorithm)) {
     checkmate::assert_list(algorithm)
   } else {
     algorithm <- algorithm()
   }
 
-  algorithm[[criteria]]$logic |>
+  algorithm[[logic_name]]$logic |>
     stringr::str_replace_all("AND", "&") |>
     stringr::str_replace_all("OR", "|") |>
     stringr::str_replace_all("NOT", "!") |>
