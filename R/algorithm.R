@@ -19,8 +19,8 @@
 #' @seealso See the `vignette("algorithm")` for the logic used to filter these
 #'   patients.
 #' @examples
-#' algorithm()$hba1c
-#' algorithm()$gld$logic
+#' algorithm()$is_hba1c_over_threshold
+#' algorithm()$is_gld_code$logic
 algorithm <- function() {
   list(
     is_hba1c_over_threshold = list(
