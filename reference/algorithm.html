@@ -81,10 +81,21 @@ patients.</p></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">algorithm</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">hba1c</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span><span class="fu">algorithm</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">gld</span><span class="op">$</span><span class="va">logic</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">algorithm</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">is_hba1c_over_threshold</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $register</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "lab_forsker"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $title</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "HbA1c values over threshold"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $logic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "(analysiscode == 'NPU27300' AND value &gt;= 48) OR (analysiscode == 'NPU03835' AND value &gt;= 6.5)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $comments</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Is the IFCC units for NPU27300 and DCCT units for NPU03835."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">algorithm</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">is_gld_code</span><span class="op">$</span><span class="va">logic</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "atc =~ '^A10' AND NOT (atc =~ '^(A10BJ|A10BK01|A10BK03)')"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
