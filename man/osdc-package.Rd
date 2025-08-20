@@ -24,8 +24,8 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Signe Kirk Brødbæk \email{signekb@clin.au.dk}
-  \item Anders Aasted Isaksen \email{andaas@rm.dk}
+  \item Signe Kirk Brødbæk \email{signekb@clin.au.dk} (\href{https://orcid.org/0009-0000-2208-7088}{ORCID})
+  \item Anders Aasted Isaksen \email{andaas@rm.dk} (\href{https://orcid.org/0000-0001-8457-5466}{ORCID})
 }
 
 Other contributors:

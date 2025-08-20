@@ -2,32 +2,30 @@
 % Please edit documentation in R/algorithm.R
 \name{algorithm}
 \alias{algorithm}
-\title{A list of the algorithmic logic for each criteria underlying osdc.}
+\title{A list of the algorithmic logic underlying osdc.}
 \format{
 Is a list with nested lists that have these named elements:
 
 \describe{
-\item{register}{Optional. The register used for this criteria.}
-\item{name}{The inclusion or exclusion criteria name.}
-\item{title}{The title to use when displaying the algorithmic logic in tables.}
-\item{logic}{The logic for the criteria.}
-\item{comments}{Some additional comments on the criteria.}
+\item{register}{Optional. The register used for this logic}
+\item{title}{The title to use when displaying the logic in tables.}
+\item{logic}{The logic itself.}
+\item{comments}{Some additional comments on the logic.}
 }
 }
 \usage{
 algorithm()
 }
 \value{
-A nested list with the algorithmic logic for each criteria. Contains
+A nested list with the algorithmic logic. Contains
 fields \code{register}, \code{title}, \code{logic}, and \code{comments}.
 }
 \description{
-This nested list contains the logic details of the algorithm for specific
-inclusion and exclusion criteria.
+This nested list contains the logic details of the algorithm.
 }
 \examples{
-algorithm()$hba1c
-algorithm()$gld$logic
+algorithm()$is_hba1c_over_threshold
+algorithm()$is_gld_code$logic
 }
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these

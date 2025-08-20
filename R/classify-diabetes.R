@@ -66,21 +66,32 @@ classify_diabetes <- function(
   verify_required_variables(bef, "bef")
   verify_required_variables(lmdb, "lmdb")
 
+  # Lowercase column names -----
+  kontakter <- column_names_to_lower(kontakter)
+  diagnoser <- column_names_to_lower(diagnoser)
+  lpr_diag <- column_names_to_lower(lpr_diag)
+  lpr_adm <- column_names_to_lower(lpr_adm)
+  sysi <- column_names_to_lower(sysi)
+  sssy <- column_names_to_lower(sssy)
+  lab_forsker <- column_names_to_lower(lab_forsker)
+  bef <- column_names_to_lower(bef)
+  lmdb <- column_names_to_lower(lmdb)
+
   # Initially processing -----
   lpr2 <- prepare_lpr2(
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm
   )
 
-  lpr3 <- join_lpr3(
+  lpr3 <- prepare_lpr3(
     kontakter = kontakter,
     diagnoser = diagnoser
   )
 
-  # pregnancy_dates <-  get_pregrancy_dates(
-  #   lpr2 = lpr2,
-  #   lpr3 = lpr3
-  # )
+  pregnancy_dates <- get_pregnancy_dates(
+    lpr2 = lpr2,
+    lpr3 = lpr3
+  )
 
   # Inclusion steps -----
   # diabetes_diagnosis <-  include_diabetes_diagnosis(
@@ -103,19 +114,17 @@ classify_diabetes <- function(
 
   # Exclusion steps -----
   gld_hba1c_after_exclusions <- gld_purchases |>
-    exclude_potential_pcos(bef = bef)
-  #   |>
-  #   exclude_pregnancy(
-  #     # TODO: Need to think about arg naming here..
-  #     included_hba1c = hba1c_over_threshold,
-  #     pregnancy_dates = pregnancy_dates
-  #   )
+    exclude_potential_pcos(bef = bef) |>
+    exclude_pregnancy(
+      pregnancy_dates = pregnancy_dates,
+      included_hba1c = hba1c_over_threshold
+    )
 
   # Joining into an initial dataset -----
   inclusions <- join_inclusions(
     # diabetes_diagnosis,
-    podiatrist_services
-    # exclusions
+    podiatrist_services,
+    gld_hba1c_after_exclusions
   )
 
   # inclusions |>
