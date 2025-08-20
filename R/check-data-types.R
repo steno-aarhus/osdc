@@ -19,7 +19,9 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
   for (colname in intersect(register_variables$name, names(data))) {
     # Get expected data type for current column.
     # If the column has multiple expected data types, this will be a list.
-    expected_data_type <- register_variables$data_type[register_variables$name == colname]
+    expected_data_type <- register_variables$data_type[
+      register_variables$name == colname
+    ]
 
     if (!(class(data[[colname]]) %in% unlist(expected_data_type))) {
       cli::cli_abort(
@@ -27,7 +29,8 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
           "The column {.val {colname}} in the data {.val {register}} does not have the expected data type.",
           "i" = "Expected: {.val {register_variables$data_type[register_variables$name == colname]}}",
           "x" = "Found: {.val {class(data[[colname]])}}"
-        ), call = call
+        ),
+        call = call
       )
     }
   }
