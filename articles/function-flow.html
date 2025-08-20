@@ -118,67 +118,11 @@ information.</li>
 information.</li>
 </ul>
 <div class="section level3">
-<h3 id="include_diabetes_diagnosis">
-<code>include_diabetes_diagnosis()</code><a class="anchor" aria-label="anchor" href="#include_diabetes_diagnosis"></a>
+<h3 id="include_diabetes_diagnoses">
+<code>include_diabetes_diagnoses()</code><a class="anchor" aria-label="anchor" href="#include_diabetes_diagnoses"></a>
 </h3>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Include diabetes diagnoses from LPR2 and LPR3.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' Uses the hospital contacts from LPR2 and LPR3 to include all dates of diabetes</span></span>
-<span><span class="co">#' diagnoses to use for inclusion, as well as additional information needed to classify diabetes</span></span>
-<span><span class="co">#' type. Diabetes diagnoses from both ICD-8 and ICD-10 are included.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' The output is used as inputs to `join_inclusions()`.</span></span>
-<span><span class="co">#' This output is passed to the `join_inclusions()` function, where the</span></span>
-<span><span class="co">#' `dates` variable is used for the final step of the inclusion process.</span></span>
-<span><span class="co">#' The variables of counts of diabetes type-specific primary diagnoses (the</span></span>
-<span><span class="co">#' four columns prefixed `n_` above) are carried over for the subsequent</span></span>
-<span><span class="co">#' classification of diabetes type, initially as inputs to the</span></span>
-<span><span class="co">#' `get_t1d_primary_diagnosis()` and `get_majority_of_t1d_diagnoses()`</span></span>
-<span><span class="co">#' functions.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @param lpr2 The output from `prepare_lpr2()`.</span></span>
-<span><span class="co">#' @param lpr3 The output from `prepare_lpr3()`.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @return The same type as the input data, default as a [tibble::tibble()],</span></span>
-<span><span class="co">#'  with the following columns and up to two rows per individual:</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#'  -   `pnr`: The personal identification variable.</span></span>
-<span><span class="co">#'  -   `dates`: The dates of the first and second hospital diabetes diagnosis.</span></span>
-<span><span class="co">#'  -   `n_t1d_endocrinology`: The number of type 1 diabetes-specific primary</span></span>
-<span><span class="co">#'      diagnosis codes from endocrinology departments.</span></span>
-<span><span class="co">#'  -   `n_t2d_endocrinology`: The number of type 2 diabetes-specific primary</span></span>
-<span><span class="co">#'      diagnosis codes from endocrinology departments.</span></span>
-<span><span class="co">#'  -   `n_t1d_medical`: The number of type 1 diabetes-specific primary</span></span>
-<span><span class="co">#'      diagnosis codes from medical departments.</span></span>
-<span><span class="co">#'  -  `n_t2d_medical`: The number of type 2 diabetes-specific primary</span></span>
-<span><span class="co">#'      diagnosis codes from medical departments.</span></span>
-<span><span class="co">#'  -  `has_lpr_diabetes_diagnosis`: A logical variable that acts as a helper</span></span>
-<span><span class="co">#'      indicator for use in later functions.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @keywords internal</span></span>
-<span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @examples</span></span>
-<span><span class="co">#' register_data &lt;- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))</span></span>
-<span><span class="co">#' include_diabetes_diagnosis(</span></span>
-<span><span class="co">#'   lpr2 = prepare_lpr2(register_data$lpr_diag, register_data$lpr_adm),</span></span>
-<span><span class="co">#'   lpr3 = prepare_lpr3(register_data$diagnoser, register_data$kontakter)</span></span>
-<span><span class="co">#' )</span></span>
-<span><span class="va">include_diabetes_diagnosis</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Combine and process the two inputs</span></span>
-<span>  <span class="va">lpr2</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">lpr3</span>, by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">pnr</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
-<span>      <span class="st">"pnr"</span>,</span>
-<span>      <span class="st">"dates"</span> <span class="op">=</span> <span class="st">"date"</span></span>
-<span>      <span class="co"># n_t1d_endocrinology =</span></span>
-<span>      <span class="co"># n_t2d_endocrinology =</span></span>
-<span>      <span class="co"># n_t1d_medical =</span></span>
-<span>      <span class="co"># n_t2d_medical =</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>has_lpr_diabetes_diagnosis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
+<p>See <code><a href="../reference/include_diabetes_diagnoses.html">?include_diabetes_diagnoses</a></code> for more
+information.</p>
 </div>
 <div class="section level3">
 <h3 id="include_podiatrist_services">
@@ -213,7 +157,7 @@ information.</p>
 <h3 id="exclude_pregnancy">
 <code>exclude_pregnancy()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancy"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Exclude any pregnancy events that could be gestational diabetes.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#'</span></span>
@@ -274,7 +218,7 @@ information.</p>
 <span>    <span class="co"># Filtering here...</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>no_pregnancy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Simple function to get only the pregnancy event dates.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @param lpr2 Output from `prepare_lpr2()`.</span></span>
@@ -308,7 +252,7 @@ information.</p>
 <h3 id="join_inclusions">
 <code>join_inclusions()</code><a class="anchor" aria-label="anchor" href="#join_inclusions"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Join included events.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' This function joins the outputs from all the inclusion and exclusion</span></span>
@@ -353,7 +297,7 @@ information.</p>
 <div class="section level3">
 <h3 id="create-inclusion-dates">Create inclusion dates<a class="anchor" aria-label="anchor" href="#create-inclusion-dates"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Create the final diagnosis date based on all the inclusion event types.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' The function `create_inclusion_dates()` takes the output from `join_inclusions()`</span></span>
@@ -433,10 +377,11 @@ time from diagnosis/inclusion to first subsequent purchase of insulin,
 the <code>get_diabetes_type()</code> function has to take the date of
 diagnosis and all purchases of GLD drugs (after censoring) as inputs. In
 addition, information on diabetes type-specific primary diagnoses from
-hospitals is also a requirement.</p>
+hospitals is also needed, which is provided by
+<code>count_primary_diagnoses_by_department()</code>.</p>
 <p>Thus, the function takes the following inputs from
 <code>get_inclusion_date()</code>, <code><a href="../reference/exclude_pregnancy.html">exclude_pregnancy()</a></code>, and
-<code>include_diabetes_diagnoses()</code>:</p>
+<code>count_primary_diagnoses_by_department</code>:</p>
 <ul>
 <li>From <code>get_inclusion_date()</code>: Information on date of
 diagnosis of diabetes
@@ -460,8 +405,8 @@ purchases:
 in purchase</li>
 </ul>
 </li>
-<li>From <code>include_diabetes_diagnoses()</code>: Information on
-diabetes type-specific primary diagnoses from hospitals:
+<li>From <code>count_primary_diagnoses_by_department</code>: Information
+on diabetes type-specific primary diagnoses from hospitals:
 <ul>
 <li>
 <code>pnr</code>: identifier variable</li>
@@ -543,7 +488,7 @@ higher than <code>raw_inclusion_date</code>
 <li>
 <code>get_any_t1d_primary_diagnoses()</code>:
 <ul>
-<li>Inputs passed from <code>include_diabetes_diagnoses()</code>:
+<li>Inputs passed from <code><a href="../reference/include_diabetes_diagnoses.html">include_diabetes_diagnoses()</a></code>:
 <ul>
 <li>
 <code>n_t1d_endocrinology</code> &amp;
@@ -558,7 +503,7 @@ above.</li>
 <li>
 <code>get_type_diagnoses_from_endocrinology()</code>:
 <ul>
-<li>Inputs passed from <code>include_diabetes_diagnoses()</code>:
+<li>Inputs passed from <code><a href="../reference/include_diabetes_diagnoses.html">include_diabetes_diagnoses()</a></code>:
 <ul>
 <li>
 <code>n_t1d_endocrinology</code>,
@@ -573,7 +518,7 @@ above.</li>
 <li>
 <code>get_type_diagnosis_majority()</code>:
 <ul>
-<li>Inputs passed from <code>include_diabetes_diagnoses()</code>:
+<li>Inputs passed from <code><a href="../reference/include_diabetes_diagnoses.html">include_diabetes_diagnoses()</a></code>:
 <ul>
 <li>
 <code>n_t1d_endocrinology</code>, <code>n_t2d_endocrinology</code>,
