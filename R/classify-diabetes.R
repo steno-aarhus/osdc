@@ -77,6 +77,17 @@ classify_diabetes <- function(
   bef <- column_names_to_lower(bef)
   lmdb <- column_names_to_lower(lmdb)
 
+  # Check that data types are as expected -----
+  check_data_types(kontakter, "kontakter")
+  check_data_types(diagnoser, "diagnoser")
+  check_data_types(lpr_diag, "lpr_diag")
+  check_data_types(lpr_adm, "lpr_adm")
+  check_data_types(sysi, "sysi")
+  check_data_types(sssy, "sssy")
+  check_data_types(lab_forsker, "lab_forsker")
+  check_data_types(bef, "bef")
+  check_data_types(lmdb, "lmdb")
+
   # Initially processing -----
   lpr2 <- prepare_lpr2(
     lpr_diag = lpr_diag,
