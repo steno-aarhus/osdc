@@ -94,10 +94,10 @@ classify_diabetes <- function(
   )
 
   # Inclusion steps -----
-  # diabetes_diagnosis <-  include_diabetes_diagnosis(
-  #   lpr2 = lpr2,
-  #   lpr3 = lpr3
-  # )
+  included_diabetes_diagnoses <- include_diabetes_diagnoses(
+    lpr2 = lpr2,
+    lpr3 = lpr3
+  )
 
   podiatrist_services <- include_podiatrist_services(
     sysi = sysi,
