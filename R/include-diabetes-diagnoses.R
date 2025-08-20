@@ -38,11 +38,13 @@
 #' @inherit algorithm seealso
 #'
 #' @examples
+#' \dontrun{
 #' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))
 #' include_diabetes_diagnoses(
 #'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
 #'   lpr3 = prepare_lpr3(register_data$kontakter, register_data$diagnoser)
 #' )
+#' }
 include_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
   lpr2 |>
