@@ -4,12 +4,12 @@
 \alias{prepare_lpr3}
 \title{Prepare and join the two LPR3 registers to extract diabetes and pregnancy diagnoses.}
 \usage{
-prepare_lpr3(diagnoser, kontakter)
+prepare_lpr3(kontakter, diagnoser)
 }
 \arguments{
-\item{diagnoser}{The LPR3 register containing diabetes diagnoses.}
-
 \item{kontakter}{The LPR3 register containing hospital contacts/admissions.}
+
+\item{diagnoser}{The LPR3 register containing diabetes diagnoses.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
@@ -22,12 +22,12 @@ with the following columns:
 \item \code{is_diabetes_code}: Whether the diagnosis was any type of diabetes.
 \item \code{is_t1d_code}: Whether the diagnosis was T1D-specific.
 \item \code{is_t2d_code}: Whether the diagnosis was T2D-specific.
+\item \code{is_pregnancy_code}: Whether the person has an event related to
+pregnancy like giving birth or having a miscarriage at the given date.
 \item \code{is_endocrinology_dept}: Whether the diagnosis was made by an
 endocrinology medical department.
 \item \code{is_medical_dept}: Whether the diagnosis was made by a
 non-endocrinology medical department.
-\item \code{is_pregnancy_code}: Whether the person has an event related to
-pregnancy like giving birth or having a miscarriage at the given date.
 }
 }
 \description{
@@ -37,7 +37,10 @@ The output is used as inputs to \code{include_diabetes_diagnoses()} and to
 \examples{
 \dontrun{
 register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
-prepare_lpr3(register_data$diagnoser, register_data$kontakter)
+prepare_lpr3(
+  kontakter = register_data$kontakter,
+  diagnoser = register_data$diagnoser
+)
 }
 }
 \seealso{
