@@ -96,7 +96,10 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #' @examples
 #' \dontrun{
 #' register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
-#' prepare_lpr3(register_data$diagnoser, register_data$kontakter)
+#' prepare_lpr3(
+#'   kontakter = register_data$kontakter,
+#'   diagnoser = register_data$diagnoser
+#' )
 #' }
 prepare_lpr3 <- function(kontakter, diagnoser) {
   logic <- c(
