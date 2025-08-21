@@ -129,7 +129,15 @@ classify_diabetes <- function(
 
   # inclusions |>
   #   create_inclusion_dates() |>
-  #   classify_t1d()
+  #   classify_t1d() |>
+  #   dplyr::mutate(t2d = !t1d) |>
+  #   dplyr::select(
+  #     "pnr",
+  #     "stable_inclusion_date",
+  #     "raw_inclusion_date",
+  #     "t1d",
+  #     "t2d"
+  #   )
 }
 
 #' After inclusion and exclusion, classify those with type 1 diabetes.
@@ -141,10 +149,24 @@ classify_diabetes <- function(
 #' @keywords internal
 #'
 classify_t1d <- function(data) {
-  # data |>
-  #   get_has_t1d_primary_diagnosis() |>
-  #   get_only_insulin_purchases() |>
-  #   get_majority_of_t1d_primary_diagnosis() |>
-  #   get_insulin_purchases_within_180_days() |>
-  #   get_insulin_is_two_thirds_of_gld_purchases()
+  logic <- c(
+    "is_any_t1d_primary_diagnosis",
+    "insulin_purchases_within_180_days",
+    "t1d"
+  ) |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
+    # To convert the string into an R expression
+    purrr::map(rlang::parse_expr)
+
+  data |>
+    dplyr::mutate(
+      is_any_t1d_primary_diagnosis = !!logic$is_any_t1d_primary_diagnosis,
+      insulin_purchases_within_180_days = !!logic$insulin_purchases_within_180_days,
+      t1d = !!logic$t1d
+    ) |>
+    dplyr::select(
+      -"is_any_t1d_primary_diagnosis",
+      -"insulin_purchases_within_180_days"
+    )
 }

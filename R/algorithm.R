@@ -149,6 +149,31 @@ algorithm <- function() {
       title = "Metformin purchases that aren't potentially for the treatment of PCOS",
       logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
+    ),
+    is_any_t1d_primary_diagnosis = list(
+      register = NA,
+      title = "Any primary diagnosis for type 1 diabetes",
+      logic = "(n_1td_endocrinology + n_t1d_medical) >= 1",
+      comments = "This is used to classify type 1 diabetes."
+    ),
+    is_endocrinology_dx = list(
+      register = NA,
+      title = "Diagnosis of diabetes from an endocrinology department",
+      logic = "n_t1d_is_endocrinology_dept AND (is_t1d_code OR is_t2d_code)",
+      comments = "This is used to classify type 1 diabetes."
+    ),
+    insulin_purchases_within_180_days = list(
+      register = NA,
+      title = "Any insulin purchases within 180 days",
+      # Any purchase equal to or after the inclusion date.
+      logic = "is_only_insulin_purchases & (purchase_date >= raw_inclusion_date | purchase_date <= (raw_inclusion_date + lubridate::days(180)))",
+      comments = "This is used to classify type 1 diabetes."
+    ),
+    t1d = list(
+      register = NA,
+      title = "Classifying type 1 diabetes status",
+      logic = "(only_insulin_purchases & is_any_t1d_primary_diagnosis) | (!only_insulin_purchases & is_any_t1d_primary_diagnosis & is_majority_dx & is_two_thirds_insulin & insulin_purchases_within_180_days)",
+      comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     )
   )
 }
