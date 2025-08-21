@@ -86,7 +86,8 @@ lmdb_tbl <- tribble(
   "19_nodm_female_u40_pcosT",               10, "20230101", "A10BA02",    5, "1900001",
   "19_nodm_female_u40_pcosT",               10, "20230401", "A10BA02",    5, "1900002",
   "20_nodm_female_o40_pcosT",               10, "20230101", "A10BA02",    5, "0000092",
-  "20_nodm_female_o40_pcosT",               10, "20230401", "A10BA02",    5, "2000002",
+  "20_nodm_female_o40_pcosT",               10, "20230401", "A10BA02",    5, "0000276",
+  "20_nodm_female_o40_pcosT",               10, "20230501", "A10BA02",    5, "0000781",
   "21_nodm_female_pregnancyT",              10, "20230901", "A10BA02",    5, "2100001"
 )
 
