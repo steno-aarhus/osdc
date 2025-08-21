@@ -1,10 +1,10 @@
-#' Add column for persons who only purchase insulin drugs.
+#' Add column describing if persons have purchased only insulin drugs or not
 #'
 #' This function adds a column to the input data indicating whether each person
-#' has only purchased insulin drugs. It is used to classify type 1 diabetes
-#' status.
+#' has only purchased insulin drugs. This column is used to classify type 1 diabetes
+#' status later in the `classify_diabetes()` function.
 #'
-#' @param data A [tibble::tibble()] object with at least `pnr` data.
+#' @param data A [tibble::tibble()] object with at least a `pnr` column.
 #' @param gld_purchases A [tibble::tibble()] object with GLD purchase
 #'   information, with `is_insulin_gld_code` and `is_non_insulin_gld_code`
 #'   columns, which should come from [include_gld_purchases()].
@@ -24,7 +24,7 @@ add_only_insulin_purchases <- function(data, gld_purchases) {
     tidyr::pivot_longer(
       cols = c("is_insulin_gld_code", "is_non_insulin_gld_code")
     ) |>
-    # Only want TRUE values of GLD codes.
+    # Only keep TRUE values of GLD codes.
     dplyr::filter(.data$value) |>
     dplyr::count("pnr", "name") |>
     tidyr::pivot_wider(
