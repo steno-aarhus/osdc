@@ -24,6 +24,8 @@ expected <- tibble::tribble(
   ~atc, ~is_insulin_gld_code, ~is_non_insulin_gld_code,
   "A10A23", TRUE, FALSE,
   "A10", FALSE, FALSE,
+  # This ATC doesn't exist, but is added to be certain
+  # the function correctly identifies the drug classes.
   "A10C", FALSE, FALSE,
   "A10B", FALSE, TRUE,
   "A10AE5", FALSE, TRUE,
