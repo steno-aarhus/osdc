@@ -45,16 +45,15 @@
 #' )
 #' }
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
-  sysi,
-  sssy,
-  lab_forsker,
-  bef,
-  lmdb
-) {
+    kontakter,
+    diagnoser,
+    lpr_diag,
+    lpr_adm,
+    sysi,
+    sssy,
+    lab_forsker,
+    bef,
+    lmdb) {
   # Verification step -----
   verify_required_variables(kontakter, "kontakter")
   verify_required_variables(diagnoser, "diagnoser")
@@ -129,6 +128,9 @@ classify_diabetes <- function(
 
   # inclusions |>
   #   create_inclusion_dates() |>
+  #   add_two_thirds_insulin_doses(
+  #     gld_purchases = gld_purchases
+  #   ) |>
   #   classify_t1d()
 }
 
