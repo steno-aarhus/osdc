@@ -1,11 +1,8 @@
-#' Check data types
+#' Check data types of the register variables
 #'
-#' @param data A data frame to check.
-#' @param register The name of the register to check against.
-#' @param call The environment where the function is called, so that the error
-#'   traceback gives a more meaningful location.
+#' @inheritParams get_register_abbrev
 #'
-#' @return Either TRUE if the verification passes, or an error.
+#' @inherit check_required_variables return
 #' @keywords internal
 #'
 #' @examples
@@ -13,6 +10,8 @@
 #' check_data_types(simulate_register("kontakter"), "kontakter")
 #' }
 check_data_types <- function(data, register, call = rlang::caller_env()) {
+   checkmate::assert_choice(register, get_register_abbrev())
+   
   # Get register variables and their expected data type(s).
   register_variables <- registers()[[register]]$variables
 
