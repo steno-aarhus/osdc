@@ -226,7 +226,7 @@ join_inclusions <- function(
 #'    input the new change into the database).
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
-#'   along with the `purchase_date`, `atc`, `contained_doses` columns from
+#'   along with the `purchase_date`, and `atc` columns from
 #'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,
 #'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from
 #'   `include_diabetes_diagnoses()`. It also creates two new columns:
@@ -267,7 +267,6 @@ create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "19
       # TODO: this might need to be renamed in a previous step, rather than here.
       "purchase_date" = "date",
       "atc",
-      "contained_doses",
 
       # From `include_diabetes_diagnoses()`
       "n_t1d_endocrinology",
