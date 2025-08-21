@@ -47,6 +47,6 @@ join_inclusions <- function(
     # This joins *only* by pnr and dates. If datasets have the same column
     # names, they will be renamed to differentiate them.
     # TODO: We may need to ensure that no two datasets have the same columns.
-    \(x, y) dplyr::full_join(x, y, by = dplyr::join_by(.data$pnr, .data$dates))
+    \(x, y) dplyr::full_join(x, y, by = dplyr::join_by("pnr", "date"))
   )
 }
