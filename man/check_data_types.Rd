@@ -2,23 +2,15 @@
 % Please edit documentation in R/check-data-types.R
 \name{check_data_types}
 \alias{check_data_types}
-\title{Check data types}
+\title{Check data types of the register variables}
 \usage{
 check_data_types(data, register, call = rlang::caller_env())
-}
-\arguments{
-\item{data}{A data frame to check.}
-
-\item{register}{The name of the register to check against.}
-
-\item{call}{The environment where the function is called, so that the error
-traceback gives a more meaningful location.}
 }
 \value{
 Either TRUE if the verification passes, or an error.
 }
 \description{
-Check data types
+Check data types of the register variables
 }
 \examples{
 \dontrun{
