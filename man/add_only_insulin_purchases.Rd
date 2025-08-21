@@ -2,12 +2,12 @@
 % Please edit documentation in R/add-only-insulin-purchase.R
 \name{add_only_insulin_purchases}
 \alias{add_only_insulin_purchases}
-\title{Add column for persons who only purchase insulin drugs.}
+\title{Add column describing if persons have purchased only insulin drugs or not}
 \usage{
 add_only_insulin_purchases(data, gld_purchases)
 }
 \arguments{
-\item{data}{A \code{\link[tibble:tibble]{tibble::tibble()}} object with at least \code{pnr} data.}
+\item{data}{A \code{\link[tibble:tibble]{tibble::tibble()}} object with at least a \code{pnr} column.}
 
 \item{gld_purchases}{A \code{\link[tibble:tibble]{tibble::tibble()}} object with GLD purchase
 information, with \code{is_insulin_gld_code} and \code{is_non_insulin_gld_code}
@@ -20,7 +20,7 @@ only purchased insulin drugs and no non-insulin drugs.
 }
 \description{
 This function adds a column to the input data indicating whether each person
-has only purchased insulin drugs. It is used to classify type 1 diabetes
-status.
+has only purchased insulin drugs. This column is used to classify type 1 diabetes
+status later in the \code{classify_diabetes()} function.
 }
 \keyword{internal}
