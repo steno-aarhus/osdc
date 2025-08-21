@@ -155,7 +155,7 @@ algorithm <- function() {
       title = "Two-thirds of GLD doses are insulin doses",
       logic = "(insulin_doses / gld_doses) >= 2/3",
       comments = "This is used to classify type 1 diabetes."
-    ),
+    )
   )
 }
 
