@@ -16,6 +16,7 @@
 <url><loc>https://steno-aarhus.github.io/osdc/index.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/news/index.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/algorithm.html</loc></url>
+<url><loc>https://steno-aarhus.github.io/osdc/reference/check_required_variables.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/classify_diabetes.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/classify_t1d.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/column_names_to_lower.html</loc></url>
@@ -53,7 +54,6 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/simulate_registers.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/to_yyww.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/to_yyyymmdd.html</loc></url>
-<url><loc>https://steno-aarhus.github.io/osdc/reference/verify_required_variables.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/yyww_to_yyyymmdd.html</loc></url>
 </urlset>
 
