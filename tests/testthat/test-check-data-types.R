@@ -34,3 +34,10 @@ test_that("fails when cols are unexpected data types", {
   )
   expect_error(check_data_types(data, "kontakter"))
 })
+
+test_that("fails with unknown or incorrect register", {
+  unknown_register <- tibble::tibble(
+    cpr = c("1", "2")
+  )
+  expect_error(check_data_types(unknown_register, "unknown_register"))
+})
