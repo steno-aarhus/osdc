@@ -32,7 +32,9 @@ add_only_insulin_purchases <- function(data, gld_purchases) {
       values_from = "n",
       values_fill = 0
     ) |>
-    dplyr::filter(.data$is_insulin_gld_code >= 1 & .data$is_non_insulin_gld_code == 0) |>
+    dplyr::filter(
+      .data$is_insulin_gld_code >= 1 & .data$is_non_insulin_gld_code == 0
+    ) |>
     dplyr::mutate(only_insulin_purchases = TRUE) |>
     dplyr::select("pnr", "only_insulin_purchases")
 
