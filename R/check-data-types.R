@@ -16,11 +16,11 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
   expected <- registers()[[register]]$variables |>
     # If data_type is a list, collapse it into a single string.
     dplyr::mutate(
-      expected_data_type = purrr::map_chr(data_type, \(x) {
+      expected_data_type = purrr::map_chr(.data$data_type, \(x) {
         paste(x, collapse = " or ")
       })
     ) |>
-    dplyr::select(name, expected_data_type)
+    dplyr::select("name", "expected_data_type")
 
   # Get actual variables and their data types.
   actual <- tibble::tibble(
@@ -32,7 +32,7 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
   mismatched <- actual |>
     #  Remove columns in data we don't have expectations to.
     dplyr::inner_join(expected, by = "name") |>
-    dplyr::filter(!actual_data_type %in% expected_data_type)
+    dplyr::filter(!.data$actual_data_type %in% .data$expected_data_type)
 
   if (nrow(mismatched) > 0) {
     expected_str <- paste0(
