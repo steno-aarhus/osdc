@@ -229,7 +229,7 @@ information.</p>
 <span><span class="co">#'    input the new change into the database).</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @returns The same type as the input data, default as a [tibble::tibble()],</span></span>
-<span><span class="co">#'   along with the `purchase_date`, `atc`, `contained_doses` columns from</span></span>
+<span><span class="co">#'   along with the `purchase_date`, and `atc` columns from</span></span>
 <span><span class="co">#'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,</span></span>
 <span><span class="co">#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from</span></span>
 <span><span class="co">#'   `include_diabetes_diagnoses()`. It also creates two new columns:</span></span>
@@ -247,10 +247,8 @@ information.</p>
 <span><span class="co">#' @inherit algorithm seealso</span></span>
 <span><span class="va">create_inclusion_dates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">inclusions</span>, <span class="va">stable_inclusion_start_date</span> <span class="op">=</span> <span class="st">"1998-01-01"</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">inclusions</span> <span class="op">|&gt;</span></span>
-<span>    <span class="co"># TODO: May need to consider more efficient ways than using group by.</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">pnr</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="co"># Drop earliest date so only those with two or more events are included.</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, .by <span class="op">=</span> <span class="st">"pnr"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>      <span class="co"># Earliest date in the rows for each individual.</span></span>
 <span>      raw_inclusion_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
@@ -258,9 +256,9 @@ information.</p>
 <span>        <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span> <span class="op">&lt;</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">stable_inclusion_start_date</span><span class="op">)</span>,</span>
 <span>        <span class="cn">NA</span>,</span>
 <span>        <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span></span>
-<span>      <span class="op">)</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      .by <span class="op">=</span> <span class="st">"pnr"</span></span>
 <span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
 <span>      <span class="st">"pnr"</span>,</span>
 <span>      <span class="st">"raw_inclusion_date"</span>,</span>
@@ -270,7 +268,6 @@ information.</p>
 <span>      <span class="co"># TODO: this might need to be renamed in a previous step, rather than here.</span></span>
 <span>      <span class="st">"purchase_date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>      <span class="st">"atc"</span>,</span>
-<span>      <span class="st">"contained_doses"</span>,</span>
 <span></span>
 <span>      <span class="co"># From `include_diabetes_diagnoses()`</span></span>
 <span>      <span class="st">"n_t1d_endocrinology"</span>,</span>
