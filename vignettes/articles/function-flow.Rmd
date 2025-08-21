@@ -13,12 +13,9 @@ classifying diabetes status using the osdc package. Light blue and
 orange boxes represent filtering functions (inclusion and exclusion
 events, respectively).](function-flow.svg)
 
-We use this document mainly for us (the developers) to coordinate what needs to
-be done and how all the pieces fit together. We also use this document to create
-pseudocode of the internal functions before actually implementing them. The
-sections are split into inclusion and exclusion functions as well as the
+The sections below are split into functions for inclusion and exclusion as well as
 functions for determining the final diagnosis date and eventual classification
-into type 1 and type 2 diabetes.
+of type 1 and type 2 diabetes.
 
 ## Inclusion events
 
