@@ -53,11 +53,8 @@ include_podiatrist_services <- function(sysi, sssy) {
       date = yyww_to_yyyymmdd(.data$honuge),
       .keep = "none"
     ) |>
-    # FIXME: This might be computationally intensive.
-    dplyr::group_by(.data$pnr) |>
     # Keep earliest two dates per individual.
-    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2) |>
-    dplyr::ungroup() |>
+    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr") |>
     # Create an indicator variable for later use.
     dplyr::mutate(has_podiatrist_services = TRUE)
 }

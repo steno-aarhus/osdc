@@ -24,8 +24,8 @@ fields \code{register}, \code{title}, \code{logic}, and \code{comments}.
 This nested list contains the logic details of the algorithm.
 }
 \examples{
-algorithm()$hba1c
-algorithm()$gld$logic
+algorithm()$is_hba1c_over_threshold
+algorithm()$is_gld_code$logic
 }
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these

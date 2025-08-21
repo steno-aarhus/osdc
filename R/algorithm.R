@@ -19,8 +19,8 @@
 #' @seealso See the `vignette("algorithm")` for the logic used to filter these
 #'   patients.
 #' @examples
-#' algorithm()$hba1c
-#' algorithm()$gld$logic
+#' algorithm()$is_hba1c_over_threshold
+#' algorithm()$is_gld_code$logic
 algorithm <- function() {
   list(
     is_hba1c_over_threshold = list(
@@ -132,11 +132,11 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
-    is_not_within_pregnancy_period = list(
+    is_not_within_pregnancy_interval = list(
       register = NA,
-      title = "Events that are not within a potential pregnancy period",
-      logic = "NOT (is_pregnancy_code AND has_elevated_hba1c AND (date >= (pregnancy_event_date - weeks(40)) OR date <= (pregnancy_event_date + weeks(12)))",
-      comments = "The potential pregnancy period is defined as 40 weeks before and 12 weeks after the pregnancy event date."
+      title = "Events that are not within a potential pregnancy interval",
+      logic = "NOT (has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12))) OR is.na(pregnancy_event_date)",
+      comments = "The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date."
     ),
     is_podiatrist_services = list(
       register = NA,

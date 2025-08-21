@@ -4,12 +4,12 @@
 \alias{prepare_lpr3}
 \title{Prepare and join the two LPR3 registers to extract diabetes and pregnancy diagnoses.}
 \usage{
-prepare_lpr3(diagnoser, kontakter)
+prepare_lpr3(kontakter, diagnoser)
 }
 \arguments{
-\item{diagnoser}{The LPR3 register containing diabetes diagnoses.}
-
 \item{kontakter}{The LPR3 register containing hospital contacts/admissions.}
+
+\item{diagnoser}{The LPR3 register containing diabetes diagnoses.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
@@ -17,7 +17,7 @@ with the following columns:
 \itemize{
 \item \code{pnr}: The personal identification variable.
 \item \code{date}: The date of all the recorded diagnosis (renamed from
-\code{d_inddto}).
+\code{d_inddto} or \code{dato_start}).
 \item \code{is_primary_dx}: Whether the diagnosis was a primary diagnosis.
 \item \code{is_diabetes_code}: Whether the diagnosis was any type of diabetes.
 \item \code{is_t1d_code}: Whether the diagnosis was T1D-specific.
@@ -37,7 +37,10 @@ The output is used as inputs to \code{include_diabetes_diagnoses()} and to
 \examples{
 \dontrun{
 register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
-prepare_lpr3(register_data$diagnoser, register_data$kontakter)
+prepare_lpr3(
+  kontakter = register_data$kontakter,
+  diagnoser = register_data$diagnoser
+)
 }
 }
 \seealso{

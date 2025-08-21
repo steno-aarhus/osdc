@@ -11,7 +11,7 @@
 #'
 #'  -   `pnr`: The personal identification variable.
 #'  -   `date`: The date of all the recorded diagnosis (renamed from
-#'      `d_inddto`).
+#'      `d_inddto` or `dato_start`).
 #'  -   `is_primary_dx`: Whether the diagnosis was a primary diagnosis.
 #'  -   `is_diabetes_code`: Whether the diagnosis was any type of diabetes.
 #'  -   `is_t1d_code`: Whether the diagnosis was T1D-specific.
@@ -95,9 +95,12 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #' @examples
 #' \dontrun{
 #' register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
-#' prepare_lpr3(register_data$diagnoser, register_data$kontakter)
+#' prepare_lpr3(
+#'   kontakter = register_data$kontakter,
+#'   diagnoser = register_data$diagnoser
+#' )
 #' }
-prepare_lpr3 <- function(diagnoser, kontakter) {
+prepare_lpr3 <- function(kontakter, diagnoser) {
   logic <- c(
     "lpr3_is_needed_code",
     "lpr3_is_pregnancy_code",

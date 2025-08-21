@@ -88,16 +88,16 @@ classify_diabetes <- function(
     diagnoser = diagnoser
   )
 
-  # pregnancy_dates <-  get_pregrancy_dates(
-  #   lpr2 = lpr2,
-  #   lpr3 = lpr3
-  # )
+  pregnancy_dates <- get_pregnancy_dates(
+    lpr2 = lpr2,
+    lpr3 = lpr3
+  )
 
   # Inclusion steps -----
-  # diabetes_diagnosis <-  include_diabetes_diagnosis(
-  #   lpr2 = lpr2,
-  #   lpr3 = lpr3
-  # )
+  included_diabetes_diagnoses <- include_diabetes_diagnoses(
+    lpr2 = lpr2,
+    lpr3 = lpr3
+  )
 
   podiatrist_services <- include_podiatrist_services(
     sysi = sysi,
@@ -114,19 +114,17 @@ classify_diabetes <- function(
 
   # Exclusion steps -----
   gld_hba1c_after_exclusions <- gld_purchases |>
-    exclude_potential_pcos(bef = bef)
-  #   |>
-  #   exclude_pregnancy(
-  #     # TODO: Need to think about arg naming here..
-  #     included_hba1c = hba1c_over_threshold,
-  #     pregnancy_dates = pregnancy_dates
-  #   )
+    exclude_potential_pcos(bef = bef) |>
+    exclude_pregnancy(
+      pregnancy_dates = pregnancy_dates,
+      included_hba1c = hba1c_over_threshold
+    )
 
   # Joining into an initial dataset -----
   # inclusions <- join_inclusions(
-  #   included_diabetes_diagnosis,
+  #   included_diabetes_diagnoses,
   #   included_podiatrist_services,
-  #   exclusions
+  #   gld_hba1c_after_exclusions
   # )
 
   # inclusions |>
