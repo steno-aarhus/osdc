@@ -13,7 +13,7 @@ test_that("passes when cols have the expected data types (register with multiple
     analysiscode = c("A", "B"),
     value = c(1, 2)
   )
-  expect_true(check_data_types(kontakter, "labforsker"))
+  expect_true(check_data_types(kontakter, "lab_forsker"))
 })
 
 
