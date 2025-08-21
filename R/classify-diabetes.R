@@ -129,6 +129,7 @@ classify_diabetes <- function(
 
   # inclusions |>
   #   create_inclusion_dates() |>
+  #   add_only_insulin_purchases(gld_purchases) |>
   #   classify_t1d()
 }
 
