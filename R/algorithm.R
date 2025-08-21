@@ -156,7 +156,6 @@ algorithm <- function() {
       logic = "(insulin_doses / gld_doses) >= 2/3",
       comments = "This is used to classify type 1 diabetes."
     ),
-    )
   )
 }
 
