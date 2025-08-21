@@ -10,9 +10,10 @@ lmdb <- tibble::tribble(
   ~atc,
   "A10A23",
   "A10",
+  "A10C",
   "A10B",
   "A10AE5",
-  "A10123",
+  "A10B02",
   "A11",
   "A21",
   "B10A10",
@@ -22,7 +23,8 @@ lmdb <- tibble::tribble(
 expected <- tibble::tribble(
   ~atc, ~is_insulin_gld_code, ~is_non_insulin_gld_code,
   "A10A23", TRUE, FALSE,
-  "A10", NA, NA,
+  "A10", FALSE, FALSE,
+  "A10C", FALSE, FALSE,
   "A10B", FALSE, TRUE,
   "A10AE5", FALSE, TRUE,
   "A10B02", FALSE, TRUE
