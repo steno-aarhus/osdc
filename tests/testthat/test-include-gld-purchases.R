@@ -8,7 +8,7 @@ constants <- tibble::tibble(
 
 lmdb <- tibble::tribble(
   ~atc,
-  "A10Abc",
+  "A10A23",
   "A10",
   "A10B",
   "A10AE5",
@@ -21,11 +21,11 @@ lmdb <- tibble::tribble(
 
 expected <- tibble::tribble(
   ~atc, ~is_insulin_gld_code, ~is_non_insulin_gld_code,
-  "A10Abc", TRUE, FALSE,
-  "A10", FALSE, TRUE,
-  "A10B", FALSE, FALSE,
-  "A10AE5", FALSE, FALSE,
-  "A10123", FALSE, TRUE
+  "A10A23", TRUE, FALSE,
+  "A10", NA, NA,
+  "A10B", FALSE, TRUE,
+  "A10AE5", FALSE, TRUE,
+  "A10B02", FALSE, TRUE
 ) |>
   dplyr::bind_cols(constants) |>
   dplyr::rename(date = eksd, indication_code = indo) |>
