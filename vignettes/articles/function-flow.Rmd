@@ -244,10 +244,8 @@ join_inclusions <- function(
 #' @inherit algorithm seealso
 create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "1998-01-01") {
   inclusions |>
-    # TODO: May need to consider more efficient ways than using group by.
-    dplyr::group_by(.data$pnr) |>
     # Drop earliest date so only those with two or more events are included.
-    dplyr::filter(.data$dates != min(.data$dates, na.rm = TRUE)) |>
+    dplyr::filter(.data$dates != min(.data$dates, na.rm = TRUE), .by = "pnr") |>
     dplyr::mutate(
       # Earliest date in the rows for each individual.
       raw_inclusion_date = min(.data$dates, na.rm = TRUE),
@@ -255,9 +253,9 @@ create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "19
         .data$raw_inclusion_date < lubridate::as_date(stable_inclusion_start_date),
         NA,
         .data$raw_inclusion_date
-      )
+      ),
+      .by = "pnr"
     ) |>
-    dplyr::ungroup() |>
     dplyr::select(
       "pnr",
       "raw_inclusion_date",
