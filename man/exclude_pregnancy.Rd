@@ -37,13 +37,11 @@ After these exclusion functions have been applied, the output serves as
 inputs to two sets of functions:
 \enumerate{
 \item The censored HbA1c and GLD data are passed to the
-"join_inclusions()" function for the final step of the inclusion
+\code{\link[=join_inclusions]{join_inclusions()}} function for the final step of the inclusion
 process.
-\item The censored GLD data is passed to the
-"get_only_insulin_purchases()",
-"get_insulin_purchases_within_180_days()", and
-"get_insulin_is_two_thirds_of_gld_doses()" helper functions for the
-classification of diabetes type.
+\item The censored GLD data is passed to the later function
+\code{\link[=add_insulin_purchases_cols]{add_insulin_purchases_cols()}} to help classify type 1 diabetes
+status.
 }
 }
 \examples{
