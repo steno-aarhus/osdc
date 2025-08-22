@@ -30,7 +30,7 @@ add_two_thirds_and_only_insulin <- function(data, gld_purchases) {
     ) |>
     dplyr::summarise(
       insulin_doses = sum(
-        .data$contained_doses[is_insulin_gld_code],
+        .data$contained_doses[.data$is_insulin_gld_code],
         na.rm = TRUE
       ),
       total_gld_doses = sum(.data$contained_doses, na.rm = TRUE),
