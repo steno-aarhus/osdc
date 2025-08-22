@@ -31,7 +31,7 @@
 
 # 1. bef: Demographics table -------------------------------------------------------------------------
 
-bef_tbl <- tribble(
+bef_tbl <- tibble::tribble(
   ~pnr,                               ~koen, ~foed_dato,
   "01_t1d_oipT_anyt1dT",                   1, "19800101",
   "02_t2d_oipT_anyt1dF",                   2, "19810203",
@@ -58,7 +58,7 @@ bef_tbl <- tribble(
 
 # 2. lmdb: Drug purchases table -------------------------------------------------------------------------
 
-lmdb_tbl <- tribble(
+lmdb_tbl <- tibble::tribble(
   ~pnr,                                ~volume, ~eksd,     ~atc,      ~apk, ~indo,
   "01_t1d_oipT_anyt1dT",                      10, "20200110", "A10AB01",    5, "1234567",
   "01_t1d_oipT_anyt1dT",                      10, "20200410", "A10AE01",    5, "1234568",
@@ -93,7 +93,7 @@ lmdb_tbl <- tribble(
 
 # 3. lpr_adm: Hospital admissions (LPR2) -------------------------------------------------------------------------
 
-lpr_adm_tbl <- tribble(
+lpr_adm_tbl <- tibble::tribble(
   ~pnr,                                ~c_spec, ~recnum,      ~d_inddto,
   "01_t1d_oipT_anyt1dT",                   "08", "pnr01_rec01", "20210515",
   "02_t2d_oipT_anyt1dF",                   "08", "pnr02_rec01", "20220616",
@@ -111,7 +111,7 @@ lpr_adm_tbl <- tribble(
 
 # 4. lpr_diag: Hospital diagnoses (LPR2) -------------------------------------------------------------------------
 
-lpr_diag_tbl <- tribble(
+lpr_diag_tbl <- tibble::tribble(
   ~recnum,       ~c_diag, ~c_diagtype,
   "pnr01_rec01", "250",    "A",
   "pnr02_rec01", "250",    "B",
@@ -132,7 +132,7 @@ lpr_diag_tbl <- tribble(
 
 # 5. kontakter: Hospital contacts (LPR3) -------------------------------------------------------------------------
 
-kontakter_tbl <- tribble(
+kontakter_tbl <- tibble::tribble(
   ~cpr,                                ~dw_ek_kontakt, ~hovedspeciale_ans,        ~dato_start,
   "01_t1d_oipT_anyt1dT",                 "pnr01_dw01", "medicinsk endokrinologi", "20210515",
   "02_t2d_oipT_anyt1dF",                 "pnr02_dw01", "medicinsk endokrinologi", "20220616",
@@ -151,7 +151,7 @@ kontakter_tbl <- tribble(
 
 # 6. diagnoser: Hospital diagnoses (LPR3) -------------------------------------------------------------------------
 
-diagnoser_tbl <- tribble(
+diagnoser_tbl <- tibble::tribble(
   ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
   "pnr01_dw01",   "DE10",        "A",           "Nej",
   "pnr02_dw01",   "DE10",        "B",           "Nej",
@@ -174,7 +174,7 @@ diagnoser_tbl <- tribble(
 
 # 7. sysi: Health services table -------------------------------------------------------------------------
 
-sysi_tbl <- tribble(
+sysi_tbl <- tibble::tribble(
   ~pnr,                                ~barnmak, ~speciale, ~honuge,
   "01_t1d_oipT_anyt1dT",                      0, "10022",    "9329",
   "02_t2d_oipT_anyt1dF",                      0, "88475",    "0442",
@@ -201,7 +201,7 @@ sysi_tbl <- tribble(
 
 # 8. sssy: Health services table-------------------------------------------------------------------------
 
-sssy_tbl <- tribble(
+sssy_tbl <- tibble::tribble(
   ~pnr,                                ~barnmak, ~speciale, ~honuge,
   "01_t1d_oipT_anyt1dT",                      0, "54100",    "0830",
   "02_t2d_oipT_anyt1dF",                      0, "88475",    "1942",
@@ -229,7 +229,7 @@ sssy_tbl <- tribble(
 
 # 9. lab_forsker: Lab results table -------------------------------------------------------------------------
 
-lab_forsker_tbl <- tribble(
+lab_forsker_tbl <- tibble::tribble(
   ~patient_cpr,                        ~samplingdate, ~analysiscode, ~value,
   "01_t1d_oipT_anyt1dT",                 "20190101",    "NPU27300",    50,
   "02_t2d_oipT_anyt1dF",                 "20190101",    "NPU27300",    51,
