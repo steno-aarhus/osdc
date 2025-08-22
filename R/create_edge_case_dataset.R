@@ -79,16 +79,24 @@ lmdb_tbl <- tibble::tribble(
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",     10, "20230101", "A10BA02",    2, "1112233",
   "16_t2d_gldT_diagF_hba1cF_podF",           10, "20230101", "A10BA02",    5, "1600001",
   "16_t2d_gldT_diagF_hba1cF_podF",           10, "20230401", "A10BA02",    5, "1600002",
-  "17_nodm_glp1a_dapa_empa",                10, "20230101", "A10BJ01",    5, "1700001",
-  "17_nodm_glp1a_dapa_empa",                10, "20230401", "A10BK01",    5, "1700002",
+  "17_nodm_glp1a_dapa_empa",                10, "20220101", "A10BJ01",    5, "1700002",
+  "17_nodm_glp1a_dapa_empa",                10, "20220201", "A10BK01",    5, "1700001",
+  "17_nodm_glp1a_dapa_empa",                10, "20220401", "A10BK03",    5, "1700002",
+  "17_nodm_glp1a_dapa_empa",                10, "20230101", "A10BJ01",    5, "1700002",
+  "17_nodm_glp1a_dapa_empa",                10, "20230201", "A10BK01",    5, "1700001",
+  "17_nodm_glp1a_dapa_empa",                10, "20230401", "A10BK03",    5, "1700002",
   "18_t2d_male_pcosF",                      10, "20230101", "A10BA02",    5, "1800001",
   "18_t2d_male_pcosF",                      10, "20230401", "A10BA02",    5, "1800002",
   "19_nodm_female_u40_pcosT",               10, "20230101", "A10BA02",    5, "1900001",
   "19_nodm_female_u40_pcosT",               10, "20230401", "A10BA02",    5, "1900002",
+  "20_nodm_female_o40_pcosT",               10, "20220101", "A10BA02",    5, "0000092",
+  "20_nodm_female_o40_pcosT",               10, "20220401", "A10BA02",    5, "0000276",
+  "20_nodm_female_o40_pcosT",               10, "20220501", "A10BA02",    5, "0000781",
   "20_nodm_female_o40_pcosT",               10, "20230101", "A10BA02",    5, "0000092",
   "20_nodm_female_o40_pcosT",               10, "20230401", "A10BA02",    5, "0000276",
   "20_nodm_female_o40_pcosT",               10, "20230501", "A10BA02",    5, "0000781",
-  "21_nodm_female_pregnancyT",              10, "20230901", "A10BA02",    5, "2100001"
+  "21_nodm_female_pregnancyT",              10, "20230901", "A10AB01",    5, "2100001",
+  "21_nodm_female_pregnancyT",              10, "20240102", "A10AB01",    5, "2100001"
 )
 
 # 3. lpr_adm: Hospital admissions (LPR2) -------------------------------------------------------------------------
@@ -245,7 +253,8 @@ lab_forsker_tbl <- tibble::tribble(
   "12_nodm_gldF_diagF_hba1cF_podF",      "20230101",    "NPU27300",    50,
   "14_t2d_gldF_diagF_hba1cT_podF",       "20230101",    "NPU27300",    55,
   "14_t2d_gldF_diagF_hba1cT_podF",       "20230401",    "NPU27300",    56,
-  "21_nodm_female_pregnancyT",           "20230801",    "NPU27300",    55
+  "21_nodm_female_pregnancyT",           "20230801",    "NPU27300",    55,
+  "21_nodm_female_pregnancyT",           "20240201",    "NPU27300",    55
 )
 
 # Combine all tibbles into a named list -------------------------------------------------------------------------
