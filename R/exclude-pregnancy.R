@@ -1,4 +1,3 @@
-#  TODO: Add "[]" instead of quotes around function names, when they've been implemented
 #' Exclude any pregnancy events that could be gestational diabetes.
 #'
 #' This function takes the combined outputs from
@@ -17,13 +16,11 @@
 #' inputs to two sets of functions:
 #'
 #' 1.  The censored HbA1c and GLD data are passed to the
-#'     "join_inclusions()" function for the final step of the inclusion
+#'     [join_inclusions()] function for the final step of the inclusion
 #'     process.
-#' 2.  The censored GLD data is passed to the
-#'     "get_only_insulin_purchases()",
-#'     "get_insulin_purchases_within_180_days()", and
-#'     "get_insulin_is_two_thirds_of_gld_doses()" helper functions for the
-#'     classification of diabetes type.
+#' 2.  The censored GLD data is passed to the later function
+#'     [add_insulin_purchases_cols()] to help classify type 1 diabetes
+#'     status.
 #'
 #' @param excluded_pcos Output from [exclude_potential_pcos()].
 #' @param pregnancy_dates Output from [get_pregnancy_dates()].
