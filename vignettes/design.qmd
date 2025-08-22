@@ -140,11 +140,12 @@ There is one argument in `classify_diabetes()` for each required
 register, so the argument is:
 
 ```{r}
-#| output: "asis"
+#| output: asis
 #| echo: false
 registers() |>
-  purrr::imap_chr(~ glue::glue("- `{.y}`: The register that is called '{.x$name}' in Danish.")) |>
-  unname()
+  purrr::imap_chr(~ glue::glue("- `{.y}`: The register called '{.x$name}' in Danish.")) |>
+  unname() |> 
+  cat(sep = "\n")
 ```
 
 ### Output
