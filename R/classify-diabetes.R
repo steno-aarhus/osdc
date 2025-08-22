@@ -138,12 +138,12 @@ classify_diabetes <- function(
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
-  # inclusions |>
-  #   create_inclusion_dates() |>
-  #   add_insulin_classification_cols(
-  #     gld_purchases = gld_purchases
-  #   ) |>
-  #   classify_t1d()
+  inclusions |>
+    # create_inclusion_dates() |>
+    add_insulin_purchases_cols(
+      gld_purchases = gld_purchases
+    )
+  # classify_t1d()
 }
 
 #' After inclusion and exclusion, classify those with type 1 diabetes.
