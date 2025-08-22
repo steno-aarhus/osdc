@@ -1,0 +1,21 @@
+name: Release project
+
+on:
+  push:
+    branches:
+      - main
+
+# Limit token permissions for security
+permissions: read-all
+
+jobs:
+  release-package:
+    # This job outputs env variables `previous_version` and `current_version`.
+    # The workflow needs write permissions for `GITHUB_TOKEN` to create a release.
+    permissions:
+      contents: write
+    uses: seedcase-project/.github/.github/workflows/reusable-release-project.yml@main
+    with:
+      app-id: ${{ vars.UPDATE_VERSION_APP_ID }}
+    secrets:
+      update-version-gh-token: ${{ secrets.UPDATE_VERSION_TOKEN }}
