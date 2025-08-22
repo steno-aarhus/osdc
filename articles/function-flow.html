@@ -119,53 +119,11 @@
 <section class="level3"><h3 id="join_inclusions">
 <code>join_inclusions()</code><a class="anchor" aria-label="anchor" href="#join_inclusions"></a>
 </h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Join included events.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' This function joins the outputs from all the inclusion and exclusion</span></span>
-<span><span class="co">#' functions, by `pnr` and `dates`. Input datasets:</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' - `included_diabetes_diagnoses`: Dates are the first and second hospital diabetes diagnosis.</span></span>
-<span><span class="co">#' - `included_podiatrist_services`: Dates are the first and second diabetes-specific podiatrist record.</span></span>
-<span><span class="co">#' - `hba1c_censored_pregnancy`: Dates are the first and second elevated HbA1c test results (after censoring potential gestational diabetes).</span></span>
-<span><span class="co">#' - `gld_censored_pcos_pregnancy`: Dates are the first and second purchase of a glucose-lowering drug (after censoring potential polycystic ovary syndrome and gestational diabetes).</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @param included_diabetes_diagnoses Output from [include_diabetes_diagnoses()].</span></span>
-<span><span class="co">#' @param included_podiatrist_services Output from [include_podiatrist_services()].</span></span>
-<span><span class="co">#' @param hba1c_censored_pregnancy Output from [exclude_pregnancy()] when given `hba1c` data.</span></span>
-<span><span class="co">#' @param gld_censored_pcos_pregnancy Output from [exclude_pregnancy()] when given `gld_censored_pcos` data.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @returns The same type as the input data, default as a [tibble::tibble()],</span></span>
-<span><span class="co">#'   with the joined columns from the output of [include_diabetes_diagnoses()],</span></span>
-<span><span class="co">#'   [include_podiatrist_services()] and [exclude_pregnancy()]. There will be </span></span>
-<span><span class="co">#'   1-8 rows per `pnr`.</span></span>
-<span><span class="co">#' @keyword internal</span></span>
-<span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="va">join_inclusions</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
-<span>    <span class="va">included_diabetes_diagnoses</span>,</span>
-<span>    <span class="va">included_podiatrist_services</span>,</span>
-<span>    <span class="va">hba1c_censored_pregnancy</span>,</span>
-<span>    <span class="va">gld_censored_pcos_pregnancy</span></span>
-<span>    <span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Combine the outputs from the inclusion and exclusion events</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/reduce.html" class="external-link">reduce</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      <span class="va">included_diabetes_diagnoses</span>,</span>
-<span>      <span class="va">included_podiatrist_services</span>,</span>
-<span>      <span class="va">excluded_pregnancy</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    <span class="co"># This joins *only* by pnr and dates. If datasets have the same column</span></span>
-<span>    <span class="co"># names, they will be renamed to differentiate them.</span></span>
-<span>    <span class="co"># TODO: We may need to ensure that no two datasets have the same columns.</span></span>
-<span>    \<span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, by <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">pnr</span>, <span class="va">.data</span><span class="op">$</span><span class="va">dates</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
+<p>See <code><a href="../reference/join_inclusions.html">?join_inclusions</a></code> for more information.</p>
 </section><section class="level3"><h3 id="create-inclusion-dates">Create inclusion dates<a class="anchor" aria-label="anchor" href="#create-inclusion-dates"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#' Create the final diagnosis date based on all the inclusion event types.</span></span>
 <span><span class="co">#'</span></span>
 <span><span class="co">#' The function `create_inclusion_dates()` takes the output from `join_inclusions()`</span></span>
