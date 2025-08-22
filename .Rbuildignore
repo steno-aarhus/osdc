@@ -13,7 +13,9 @@
 ^_targets\.R$
 ^justfile$
 ^vignettes/articles$
+^vignettes/.quarto$
 ^doc$
 ^Meta$
 ^air.toml$
+^vignettes/*_files$
 ^.cz.toml$

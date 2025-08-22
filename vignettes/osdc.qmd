@@ -1,18 +1,10 @@
 ---
 title: "Getting started"
-output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Getting started}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
 
 This package serves two overarching purposes:
 
@@ -33,7 +25,8 @@ for this package and algorithm, see `vignette("data-sources")`.
 
 First, let's load up the package, as well as dplyr.
 
-```{r setup, message=FALSE}
+```{r setup}
+#| message: false
 library(dplyr)
 library(osdc)
 ```

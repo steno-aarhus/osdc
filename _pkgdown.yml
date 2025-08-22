@@ -2,6 +2,24 @@ url: https://steno-aarhus.github.io/osdc/
 template:
   bootstrap: 5
 
+navbar:
+ components:
+   articles:
+    text: Articles
+    menu:
+    - text: Rationale
+      href: articles/rationale.html
+    - text: Design
+      href: articles/design.html
+    - text: Algorithm
+      href: articles/algorithm.html
+    - text: Changes from original
+      href: articles/changes.html
+    - text: Data sources
+      href: articles/data-sources.html
+    - text: Function flow
+      href: articles/function-flow.html
+
 reference:
 - title: Classifying diabetes
   desc: Main functions for classifying diabetes.
