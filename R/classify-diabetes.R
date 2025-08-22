@@ -45,16 +45,15 @@
 #' )
 #' }
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
-  sysi,
-  sssy,
-  lab_forsker,
-  bef,
-  lmdb
-) {
+    kontakter,
+    diagnoser,
+    lpr_diag,
+    lpr_adm,
+    sysi,
+    sssy,
+    lab_forsker,
+    bef,
+    lmdb) {
   # Verification step -----
   check_required_variables(kontakter, "kontakter")
   check_required_variables(diagnoser, "diagnoser")
@@ -94,7 +93,7 @@ classify_diabetes <- function(
   )
 
   # Inclusion steps -----
-  included_diabetes_diagnoses <- include_diabetes_diagnoses(
+  diabetes_diagnoses <- include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
   )
@@ -122,8 +121,8 @@ classify_diabetes <- function(
 
   # Joining into an initial dataset -----
   inclusions <- join_inclusions(
-    included_diabetes_diagnoses = included_diabetes_diagnoses,
-    included_podiatrist_services = podiatrist_services,
+    diabetes_diagnoses = diabetes_diagnoses,
+    podiatrist_services = podiatrist_services,
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
