@@ -8,28 +8,30 @@
 #' @keywords internal
 #' @inherit algorithm seealso
 #'
-add_two_thirds_and_only_insulin <- function(data, gld_purchases) {
+add_insulin_classification_cols <- function(data, gld_purchases) {
   logic <- c(
     "is_two_thirds_insulin",
-    "only_insulin_purchases"
+    "only_insulin_purchases",
+    "insulin_purchases_within_180_days"
   ) |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>
     # To convert the string into an R expression
     purrr::map(rlang::parse_expr)
-
-  two_thirds_and_only_insulin <- gld_purchases |>
-    dplyr::select(
-      "pnr",
-      "contained_doses",
-      "is_insulin_gld_code",
-      "is_non_insulin_gld_code"
-    ) |>
+  
+  insulin_cols <- gld_purchases |>
+    dplyr::mutate(date = lubridate::ymd(date)) |> 
+    dplyr::select("pnr",
+                  "date",
+                  "contained_doses",
+                  "is_insulin_gld_code",
+                  "is_non_insulin_gld_code") |>
+    # Calculate first date of a GLD purchase and if a purchase of insulin occurs within 180 day:
     dplyr::summarise(
-      insulin_doses = sum(
-        .data$contained_doses[.data$is_insulin_gld_code],
-        na.rm = TRUE
-      ),
+      first_gld_date = min(date, na.rm = TRUE),
+      insulin_purchases_within_180_days = !!logic$insulin_purchases_within_180_days,
+      # Calculate total doses of insulin and of all GLD:
+      insulin_doses = sum(.data$contained_doses[.data$is_insulin_gld_code], na.rm = TRUE),
       total_gld_doses = sum(.data$contained_doses, na.rm = TRUE),
       .by = "pnr"
     ) |>
@@ -43,9 +45,10 @@ add_two_thirds_and_only_insulin <- function(data, gld_purchases) {
     dplyr::select(
       "pnr",
       "is_two_thirds_insulin",
-      "only_insulin_purchases"
+      "only_insulin_purchases",
+      "insulin_purchases_within_180_days"
     )
-
+  
   data |>
-    dplyr::left_join(two_thirds_and_only_insulin, by = dplyr::join_by("pnr"))
-}
+    dplyr::left_join(insulin_cols, by = dplyr::join_by("pnr"))
+    }
