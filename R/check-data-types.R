@@ -32,7 +32,9 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
   mismatched <- actual |>
     #  Remove columns in data we don't have expectations to.
     dplyr::inner_join(expected, by = "name") |>
-    dplyr::fitler(!stringr::str_detect(.data$expected_data_type, .data$actual_data_type)
+    dplyr::filter(
+      !stringr::str_detect(.data$expected_data_type, .data$actual_data_type)
+    )
 
   if (nrow(mismatched) > 0) {
     expected_str <- paste0(
