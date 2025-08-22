@@ -1,8 +1,0 @@
-@startuml function-flow
-
-card classify_diabetes() as cd {
-    !include function-flow-population.puml
-    !include function-flow-classification.puml
-}
-
-@enduml

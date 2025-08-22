@@ -43,5 +43,5 @@ check_required_variables <- function(
       call = call
     )
   }
-  return(invisible(TRUE))
+  invisible(TRUE)
 }

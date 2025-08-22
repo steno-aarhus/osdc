@@ -8,9 +8,12 @@ constants <- tibble::tibble(
 
 lmdb <- tibble::tribble(
   ~atc,
-  "A10abc",
+  "A10A23",
   "A10",
-  "A10123",
+  "A10C",
+  "A10B",
+  "A10AE56",
+  "A10B02",
   "A11",
   "A21",
   "B10A10",
@@ -18,16 +21,21 @@ lmdb <- tibble::tribble(
   dplyr::bind_cols(constants)
 
 expected <- tibble::tribble(
-  ~atc,
-  "A10abc",
-  "A10",
-  "A10123",
+  ~atc, ~is_insulin_gld_code, ~is_non_insulin_gld_code,
+  "A10A23", TRUE, FALSE,
+  "A10", FALSE, FALSE,
+  # This ATC doesn't exist, but is added to be certain
+  # the function correctly identifies the drug classes.
+  "A10C", FALSE, FALSE,
+  "A10B", FALSE, TRUE,
+  "A10AE56", FALSE, TRUE,
+  "A10B02", FALSE, TRUE
 ) |>
   dplyr::bind_cols(constants) |>
   dplyr::rename(date = eksd, indication_code = indo) |>
   dplyr::mutate(
     contained_doses = volume * apk,
-    has_gld_purchases = TRUE
+    has_gld_purchases = TRUE,
   ) |>
   dplyr::select(-volume, -apk) |>
   dplyr::relocate(
@@ -36,7 +44,9 @@ expected <- tibble::tribble(
     atc,
     contained_doses,
     has_gld_purchases,
-    indication_code
+    indication_code,
+    is_insulin_gld_code,
+    is_non_insulin_gld_code
   )
 
 test_that("dataset needs expected variables", {
