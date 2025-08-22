@@ -87,6 +87,10 @@ daily doses (DDD).</p></li>
 from <code>indo</code>).</p></li>
 <li><p><code>has_gld_purchases</code>: A logical variable to use as a helper indicator
 for later functions.</p></li>
+<li><p><code>is_insulin_gld_code</code>: A logical variable to use as a helper indicator
+for later functions, used for classifying type 1 diabetes.</p></li>
+<li><p><code>is_non_insulin_gld_code</code>: A logical variable to use as a helper
+indicator for later functions, used for classifying type 1 diabetes.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -102,7 +106,7 @@ patients.</p></div>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="simulate_registers.html">simulate_registers</a></span><span class="op">(</span><span class="st">"lmdb"</span>, <span class="fl">100</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu">include_gld_purchases</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="simulate_registers.html">simulate_registers</a></span><span class="op">(</span><span class="st">"lmdb"</span>, <span class="fl">10000</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu">include_gld_purchases</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

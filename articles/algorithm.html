@@ -388,10 +388,10 @@ NPU03835.</td>
 </h3>
 <table class="table">
 <colgroup>
-<col width="6%">
-<col width="24%">
-<col width="37%">
-<col width="32%">
+<col width="8%">
+<col width="16%">
+<col width="25%">
+<col width="49%">
 </colgroup>
 <thead><tr class="header">
 <th align="left">name</th>
@@ -399,14 +399,32 @@ NPU03835.</td>
 <th align="left">logic</th>
 <th align="left">comments</th>
 </tr></thead>
-<tbody><tr class="odd">
+<tbody>
+<tr class="odd">
 <td align="left">is_gld_code</td>
 <td align="left">ATC codes for glucose-lowering drugs (GLDs)</td>
 <td align="left">atc =~ ‘^A10’ AND NOT (atc =~
 ‘^(A10BJ|A10BK01|A10BK03)’)</td>
 <td align="left">GLP-RAs or dapagliflozin/empagliflozin drugs are not
 kept.</td>
-</tr></tbody>
+</tr>
+<tr class="even">
+<td align="left">is_non_insulin_gld_code</td>
+<td align="left">Non-insulin glucose-lowering drugs</td>
+<td align="left">atc =~ ‘^A10B’ OR atc =~ ‘^A10AE56’</td>
+<td align="left">This is used during the classification of type 1
+diabetes to identify persons who only purchase insulin or mostly
+purchase insulin.</td>
+</tr>
+<tr class="odd">
+<td align="left">is_insulin_gld_code</td>
+<td align="left">Only insulin glucose-lowering drugs</td>
+<td align="left">atc =~ ‘^A10A’ AND NOT (atc =~ ‘^A10AE56’)</td>
+<td align="left">This is used during the classification of type 1
+diabetes to identify persons who only purchase insulin or mostly
+purchase insulin.</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div class="section level3">
