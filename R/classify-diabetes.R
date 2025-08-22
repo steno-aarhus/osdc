@@ -53,7 +53,8 @@ classify_diabetes <- function(
     sssy,
     lab_forsker,
     bef,
-    lmdb) {
+  lmdb
+) {
   # Verification step -----
   check_required_variables(kontakter, "kontakter")
   check_required_variables(diagnoser, "diagnoser")
