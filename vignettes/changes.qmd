@@ -1,5 +1,9 @@
 ---
 title: "Changes from original"
+vignette: >
+  %\VignetteIndexEntry{Changes from original}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 ---
 
 In this vignette, you'll find a description of the changes that have

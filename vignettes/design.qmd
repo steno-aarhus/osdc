@@ -1,5 +1,9 @@
 ---
 title: "Design"
+vignette: >
+  %\VignetteIndexEntry{Design}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup}

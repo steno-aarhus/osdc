@@ -1,5 +1,9 @@
 ---
 title: "Data sources"
+vignette: >
+  %\VignetteIndexEntry{Data sources}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 execute: 
   echo: false
   output: "asis"

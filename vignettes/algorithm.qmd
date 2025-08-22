@@ -2,6 +2,10 @@
 title: "Algorithm"
 bibliography: references.bib
 csl: vancouver.csl
+vignette: >
+  %\VignetteIndexEntry{Algorithm}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 execute: 
   echo: false
 ---

@@ -2,6 +2,10 @@
 title: "Internal function flow"
 execute: 
   eval: false
+vignette: >
+  %\VignetteIndexEntry{Internal function flow}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 ---
 
 This document describes the flow of functions and objects within the package,

@@ -2,6 +2,10 @@
 title: "Rationale"
 bibliography: references.bib
 csl: vancouver.csl
+vignette: >
+  %\VignetteIndexEntry{Rationale}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 ---
 
 This document explains the rationale behind the development of this
