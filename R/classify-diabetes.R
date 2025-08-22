@@ -127,8 +127,8 @@ classify_diabetes <- function(
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
-  # inclusions |>
-  #   create_inclusion_dates() |>
+  inclusions |>
+    create_inclusion_dates() # |>
   #   classify_t1d()
 }
 
