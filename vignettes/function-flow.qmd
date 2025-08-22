@@ -1,5 +1,11 @@
 ---
 title: "Internal function flow"
+execute: 
+  eval: false
+vignette: >
+  %\VignetteIndexEntry{Internal function flow}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
 ---
 
 This document describes the flow of functions and objects within the package,
@@ -18,11 +24,6 @@ functions for determining the final diagnosis date and eventual classification
 of type 1 and type 2 diabetes.
 
 ## Inclusion events
-
-```{r, include=FALSE}
-library(dplyr)
-library(osdc)
-```
 
 -   `prepare_lpr2()`: See `?prepare_lpr2` for more information.
 -   `prepare_lpr3()`: See `?prepare_lpr3` for more information.

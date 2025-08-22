@@ -1,11 +1,10 @@
 ---
 title: "Rationale"
-output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Rationale}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 

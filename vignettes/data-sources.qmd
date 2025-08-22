@@ -1,21 +1,16 @@
 ---
 title: "Data sources"
-output: rmarkdown::html_vignette
-bibliography: ../references.bib
-csl: ../vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Data sources}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+execute: 
+  echo: false
+  output: "asis"
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  echo = FALSE,
-  results = "asis",
-  collapse = TRUE,
-  comment = "#>"
-)
+```{r setup}
+#| include: false
 library(osdc)
 library(dplyr)
 
@@ -50,7 +45,6 @@ registers_as_md_table <- function(caption = NULL) {
 #' Convert the register list to a table showing registers and their variables.
 #'
 #' @returns A character vector as a Markdown table.
-#'
 register_variables_as_md_table <- function() {
   register_names <- registers() |>
     purrr::map("name") |>
@@ -156,7 +150,7 @@ the `dw_ek_kontakt` variable (LPR3 data).
 ```{r}
 registers() |>
   # iwalk takes the name of the element in the list (`.y`) as well as the
-  # list iself (`.x`) and passes them to the function.
+  # list itself (`.x`) and passes them to the function.
   purrr::iwalk(~ {
     print(register_as_md_header(.x, .y))
     print(variables_as_md_table(.x, .y))
