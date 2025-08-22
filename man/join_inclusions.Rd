@@ -5,15 +5,15 @@
 \title{Join included events.}
 \usage{
 join_inclusions(
-  included_diabetes_diagnoses,
-  included_podiatrist_services,
+  diabetes_diagnoses,
+  podiatrist_services,
   gld_hba1c_after_exclusions
 )
 }
 \arguments{
-\item{included_diabetes_diagnoses}{Output from \code{\link[=include_diabetes_diagnoses]{include_diabetes_diagnoses()}}.}
+\item{diabetes_diagnoses}{Output from \code{\link[=include_diabetes_diagnoses]{include_diabetes_diagnoses()}}.}
 
-\item{included_podiatrist_services}{Output from \code{\link[=include_podiatrist_services]{include_podiatrist_services()}}.}
+\item{podiatrist_services}{Output from \code{\link[=include_podiatrist_services]{include_podiatrist_services()}}.}
 
 \item{gld_hba1c_after_exclusions}{Output from \code{\link[=exclude_pregnancy]{exclude_pregnancy()}} and
 \code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}}.}
@@ -28,9 +28,9 @@ with the joined columns from the output of \code{\link[=include_diabetes_diagnos
 This function joins the outputs from all the inclusion and exclusion
 functions, by \code{pnr} and \code{dates}. Input datasets:
 \itemize{
-\item \code{included_diabetes_diagnoses}: Dates are the first and second hospital
+\item \code{diabetes_diagnoses}: Dates are the first and second hospital
 diabetes diagnosis.
-\item \code{included_podiatrist_services}: Dates are the first and second
+\item \code{podiatrist_services}: Dates are the first and second
 diabetes-specific podiatrist record.
 \item \code{gld_hba1c_after_exclusions}: Dates are the first and second elevated HbA1c
 test results (after censoring potential gestational diabetes) and are the
