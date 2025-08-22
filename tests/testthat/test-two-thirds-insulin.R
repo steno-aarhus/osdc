@@ -4,8 +4,8 @@ test_that("added column, but keep same number of rows", {
   gld_purchases <- include_gld_purchases(register_data$lmdb)
   # Add two-thirds insulin doses
   actual <- register_data$lmdb |>
-    dplyr::select(pnr, date = eksd) |>
-    add_two_thirds_insulin_doses(gld_purchases = gld_purchases)
+    dplyr::select(pnr) |>
+    add_two_thirds_and_only_insulin(gld_purchases = gld_purchases)
 
   expect_equal(nrow(actual), nrow(register_data$lmdb))
 })
