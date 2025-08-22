@@ -165,7 +165,7 @@ algorithm <- function() {
     is_any_t1d_primary_diagnosis = list(
       register = NA,
       title = "Any primary diagnosis for type 1 diabetes",
-      logic = "(n_1td_endocrinology + n_t1d_medical) >= 1",
+      logic = "(n_t1d_endocrinology + n_t1d_medical) >= 1",
       comments = "This is used to classify type 1 diabetes."
     ),
     is_endocrinology_dx = list(
