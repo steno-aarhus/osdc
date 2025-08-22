@@ -10,7 +10,10 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Algorithm">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="algorithm_files/libs/quarto-html/popper.min.js"></script><script src="algorithm_files/libs/quarto-html/tippy.umd.min.js"></script><link href="algorithm_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="algorithm_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Algorithm">
+<meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,12 +37,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/changes.html">Changes to algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+<li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
     <li><a class="dropdown-item" href="../articles/design.html">Design</a></li>
-    <li><a class="dropdown-item" href="../articles/function-flow.html">Internal function flow</a></li>
-    <li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
+    <li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
+    <li><a class="dropdown-item" href="../articles/changes.html">Changes from original</a></li>
+    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+    <li><a class="dropdown-item" href="../articles/function-flow.html">Function flow</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -54,443 +57,459 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Algorithm</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/algorithm.Rmd" class="external-link"><code>vignettes/algorithm.Rmd</code></a></small>
-      <div class="d-none name"><code>algorithm.Rmd</code></div>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/algorithm.qmd" class="external-link"><code>vignettes/algorithm.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="section level2">
-<h2 id="general-description">General description<a class="anchor" aria-label="anchor" href="#general-description"></a>
+
+
+
+
+
+    <section class="level2"><h2 id="general-description">General description<a class="anchor" aria-label="anchor" href="#general-description"></a>
 </h2>
-<p>A more complete description of the classifier is found in Anders
-Aasted Isaksen’s <a href="https://aastedet.github.io/dissertation/" class="external-link">PhD
-Thesis</a> as well as the validation paper <span class="citation">(1)</span>. The description of the algorithm below is a
-brief and concise version of those documents.</p>
-<p>The overall output of this algorithm is first to classify those with
-diabetes, then to further classify and check if the individuals might
-have type 1 diabetes, otherwise classify as type 2 diabetes.</p>
-<p>The initial <strong>diabetes</strong> classification is defined as
-the second occurrence of any of the listed inclusion events. Wherever
-possible, all available data for each event is used, except for the
-purchases of glucose-lowering drugs, since the data on obstetric
-diagnoses necessary to censor glucose-lowering drug purchases is only
-complete from 1997 onwards. Inclusion criteria are:</p>
-<ol style="list-style-type: decimal">
+<p>A more complete description of the classifier is found in Anders Aasted Isaksen’s <a href="https://aastedet.github.io/dissertation/" class="external-link">PhD Thesis</a> as well as the validation paper <span class="citation" data-cites="Isaksen2023">(<a href="#ref-Isaksen2023" role="doc-biblioref">1</a>)</span>. The description of the algorithm below is a brief and concise version of those documents.</p>
+<p>The overall output of this algorithm is first to classify those with diabetes, then to further classify and check if the individuals might have type 1 diabetes, otherwise classify as type 2 diabetes.</p>
+<p>The initial <strong>diabetes</strong> classification is defined as the second occurrence of any of the listed inclusion events. Wherever possible, all available data for each event is used, except for the purchases of glucose-lowering drugs, since the data on obstetric diagnoses necessary to censor glucose-lowering drug purchases is only complete from 1997 onwards. Inclusion criteria are:</p>
+<ol type="1">
 <li>HbA1c measurements of ≥48 mmol/mol.</li>
 <li>Hospital diagnoses of diabetes.</li>
 <li>Diabetes-specific services received at podiatrist.</li>
 <li>Purchase of glucose-lowering drugs.</li>
 </ol>
 <p>Exclusions are:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>HbA1c samples:
 <ul>
-<li>Samples taken during pregnancies, as that could be a potential
-gestational diabetes mellitus.</li>
+<li>Samples taken during pregnancies, as that could be a potential gestational diabetes mellitus.</li>
 </ul>
 </li>
 <li>Glucose-lowering drugs:
 <ul>
 <li>Brand drugs for weight loss, e.g. <em>Saxenda</em>.</li>
-<li>Purchases during pregnancies, as that is a potential treatment for
-gestational diabetes mellitus.</li>
-<li>Metformin for women below age 40, as that could be a treatment for
-polycystic ovary syndrome.</li>
+<li>Purchases during pregnancies, as that is a potential treatment for gestational diabetes mellitus.</li>
+<li>Metformin for women below age 40, as that could be a treatment for polycystic ovary syndrome.</li>
 </ul>
 </li>
 </ol>
-<div class="section level3">
-<h3 id="classifying-type-1-diabetes">Classifying type 1 diabetes<a class="anchor" aria-label="anchor" href="#classifying-type-1-diabetes"></a>
+<section class="level3"><h3 id="classifying-type-1-diabetes">Classifying type 1 diabetes<a class="anchor" aria-label="anchor" href="#classifying-type-1-diabetes"></a>
 </h3>
-<p>Diabetes type is classified as either T1D or T2D based on patterns of
-purchases of insulin drugs (including analogues) and hospital primary
-diagnoses of T1D and T2D.</p>
-<p>Classification as T1D requires an individual to fulfill either of the
-following criteria:</p>
-<ol style="list-style-type: lower-alpha">
-<li>Must have purchased only insulin drugs and never any other type of
-glucose-lowering drugs, and have at least one diagnosis of T1D</li>
-<li>Must have a majority of T1D diagnoses from endocrinological
-departments (or from other medical departments, in the absence of
-contacts to endocrinological departments), and a purchase of insulin
-within 180 days after onset of diabetes, with insulin contributing at
-least two thirds of all defined daily doses of glucose-lowering drugs
-purchased.</li>
+<p>Diabetes type is classified as either T1D or T2D based on patterns of purchases of insulin drugs (including analogues) and hospital primary diagnoses of T1D and T2D.</p>
+<p>Classification as T1D requires an individual to fulfill either of the following criteria:</p>
+<ol type="a">
+<li>Must have purchased only insulin drugs and never any other type of glucose-lowering drugs, and have at least one diagnosis of T1D</li>
+<li>Must have a majority of T1D diagnoses from endocrinological departments (or from other medical departments, in the absence of contacts to endocrinological departments), and a purchase of insulin within 180 days after onset of diabetes, with insulin contributing at least two thirds of all defined daily doses of glucose-lowering drugs purchased.</li>
 </ol>
-<p>In populations generated on a fixed index date (such as the
-cross-sectional studies associated with this dissertation), individuals
-classified as T1D cases must have purchased insulin drugs in the last
-year prior to the index date.</p>
-</div>
-<div class="section level3">
-<h3 id="classifying-type-2-diabetes">Classifying type 2 diabetes<a class="anchor" aria-label="anchor" href="#classifying-type-2-diabetes"></a>
+<p>In populations generated on a fixed index date (such as the cross-sectional studies associated with this dissertation), individuals classified as T1D cases must have purchased insulin drugs in the last year prior to the index date.</p>
+</section><section class="level3"><h3 id="classifying-type-2-diabetes">Classifying type 2 diabetes<a class="anchor" aria-label="anchor" href="#classifying-type-2-diabetes"></a>
 </h3>
-<p>Individuals not classified as T1D cases are classified as T2D
-cases.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="detailed-and-technical-description">Detailed and technical description<a class="anchor" aria-label="anchor" href="#detailed-and-technical-description"></a>
+<p>Individuals not classified as T1D cases are classified as T2D cases.</p>
+</section></section><section class="level2"><h2 id="detailed-and-technical-description">Detailed and technical description<a class="anchor" aria-label="anchor" href="#detailed-and-technical-description"></a>
 </h2>
-<p>Below are the technical, exact implementation of the above
-description. These are the logical conditions and exact variables and
-registers used that results in the classification of diabetes status and
-types. They are shown in the form of tables for each register with a
-table at the end showing the logic that is applied across registers.</p>
-<div class="section level3">
-<h3 id="lpr_diag">
+<p>Below are the technical, exact implementation of the above description. These are the logical conditions and exact variables and registers used that results in the classification of diabetes status and types. They are shown in the form of tables for each register with a table at the end showing the logic that is applied across registers.</p>
+<section class="level3"><h3 id="lpr_diag">
 <code>lpr_diag</code><a class="anchor" aria-label="anchor" href="#lpr_diag"></a>
 </h3>
-<table class="table">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <colgroup>
-<col width="7%">
-<col width="17%">
-<col width="44%">
-<col width="29%">
+<col style="width: 7%">
+<col style="width: 17%">
+<col style="width: 44%">
+<col style="width: 29%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">logic</th>
+<th style="text-align: left;">comments</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">lpr2_is_needed_code</td>
-<td align="left">LPR2 codes used throughout the algorithm</td>
-<td align="left">c_diag =~
-‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)’ AND (c_diagtype == ‘A’
-OR c_diagtype == ‘B’)</td>
-<td align="left">A <code>c_diagtype</code> of<code>'A'</code> means
-primary diagnosis, while ‘B’ means secondary diagnosis.</td>
+<td style="text-align: left;">lpr2_is_needed_code</td>
+<td style="text-align: left;">LPR2 codes used throughout the algorithm</td>
+<td style="text-align: left;">c_diag =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4]|249|250)’ AND (c_diagtype == ‘A’ OR c_diagtype == ‘B’)</td>
+<td style="text-align: left;">A <code>c_diagtype</code> of<code>'A'</code> means primary diagnosis, while ‘B’ means secondary diagnosis.</td>
 </tr>
 <tr class="even">
-<td align="left">lpr2_is_diabetes_code</td>
-<td align="left">LPR2 diagnoses codes for any diabetes</td>
-<td align="left">c_diag =~ ‘^(DE1[0-4]|249|250)’</td>
-<td align="left"></td>
+<td style="text-align: left;">lpr2_is_diabetes_code</td>
+<td style="text-align: left;">LPR2 diagnoses codes for any diabetes</td>
+<td style="text-align: left;">c_diag =~ ‘^(DE1[0-4]|249|250)’</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td align="left">lpr2_is_t1d_code</td>
-<td align="left">LPR2 diagnoses codes for T1D</td>
-<td align="left">c_diag =~ ‘^(DE10|249)’</td>
-<td align="left"></td>
+<td style="text-align: left;">lpr2_is_t1d_code</td>
+<td style="text-align: left;">LPR2 diagnoses codes for T1D</td>
+<td style="text-align: left;">c_diag =~ ‘^(DE10|249)’</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td align="left">lpr2_is_t2d_code</td>
-<td align="left">LPR2 diagnoses codes for T2D</td>
-<td align="left">c_diag =~ ‘^(DE11|250)’</td>
-<td align="left"></td>
+<td style="text-align: left;">lpr2_is_t2d_code</td>
+<td style="text-align: left;">LPR2 diagnoses codes for T2D</td>
+<td style="text-align: left;">c_diag =~ ‘^(DE11|250)’</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td align="left">lpr2_is_pregnancy_code</td>
-<td align="left">LPR2 diagnoses codes for pregnancy-related
-outcomes</td>
-<td align="left">c_diag =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
-<td align="left">These are recorded pregnancy endings like live births
-and miscarriages.</td>
+<td style="text-align: left;">lpr2_is_pregnancy_code</td>
+<td style="text-align: left;">LPR2 diagnoses codes for pregnancy-related outcomes</td>
+<td style="text-align: left;">c_diag =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
+<td style="text-align: left;">These are recorded pregnancy endings like live births and miscarriages.</td>
 </tr>
 <tr class="even">
-<td align="left">lpr2_is_primary_dx</td>
-<td align="left">LPR2 primary diagnosis</td>
-<td align="left">c_diagtype == ‘A’</td>
-<td align="left"></td>
+<td style="text-align: left;">lpr2_is_primary_dx</td>
+<td style="text-align: left;">LPR2 primary diagnosis</td>
+<td style="text-align: left;">c_diagtype == ‘A’</td>
+<td style="text-align: left;"></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="lpr_adm">
+</div>
+</section><section class="level3"><h3 id="lpr_adm">
 <code>lpr_adm</code><a class="anchor" aria-label="anchor" href="#lpr_adm"></a>
 </h3>
-<table class="table">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <colgroup>
-<col width="15%">
-<col width="17%">
-<col width="14%">
-<col width="52%">
+<col style="width: 15%">
+<col style="width: 17%">
+<col style="width: 14%">
+<col style="width: 52%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">logic</th>
+<th style="text-align: left;">comments</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">lpr2_is_endocrinology_dept</td>
-<td align="left">LPR2 endocrinology department</td>
-<td align="left">c_spec == 8</td>
-<td align="left">
-<code>TRUE</code> when the department where the
-recorded diagnosis was endocrinology.</td>
+<td style="text-align: left;">lpr2_is_endocrinology_dept</td>
+<td style="text-align: left;">LPR2 endocrinology department</td>
+<td style="text-align: left;">c_spec == 8</td>
+<td style="text-align: left;">
+<code>TRUE</code> when the department where the recorded diagnosis was endocrinology.</td>
 </tr>
 <tr class="even">
-<td align="left">lpr2_is_medical_dept</td>
-<td align="left">LPR2 other medical department</td>
-<td align="left">c_spec %in% c(1:7, 9:30)</td>
-<td align="left">
-<code>TRUE</code> when the diagnosis was recorded at a
-medical department other than endocrinology.</td>
+<td style="text-align: left;">lpr2_is_medical_dept</td>
+<td style="text-align: left;">LPR2 other medical department</td>
+<td style="text-align: left;">c_spec %in% c(1:7, 9:30)</td>
+<td style="text-align: left;">
+<code>TRUE</code> when the diagnosis was recorded at a medical department other than endocrinology.</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="diagnoser">
+</div>
+</section><section class="level3"><h3 id="diagnoser">
 <code>diagnoser</code><a class="anchor" aria-label="anchor" href="#diagnoser"></a>
 </h3>
-<table class="table">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <colgroup>
-<col width="6%">
-<col width="16%">
-<col width="45%">
-<col width="31%">
+<col style="width: 6%">
+<col style="width: 16%">
+<col style="width: 45%">
+<col style="width: 31%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">logic</th>
+<th style="text-align: left;">comments</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">lpr3_is_needed_code</td>
-<td align="left">LPR3 codes used throughout the algorithm</td>
-<td align="left">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])’
-AND (diagnosetype == ‘A’ OR diagnosetype == ‘B’) AND (senere_afkraeftet
-== ‘Nej’)</td>
-<td align="left">
-<code>A</code> <code>diagnosekode</code> means primary
-diagnosis and <code>senere_afkraeftet</code> means diagnosis was later
-retracted.</td>
+<td style="text-align: left;">lpr3_is_needed_code</td>
+<td style="text-align: left;">LPR3 codes used throughout the algorithm</td>
+<td style="text-align: left;">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])’ AND (diagnosetype == ‘A’ OR diagnosetype == ‘B’) AND (senere_afkraeftet == ‘Nej’)</td>
+<td style="text-align: left;">
+<code>A</code> <code>diagnosekode</code> means primary diagnosis and <code>senere_afkraeftet</code> means diagnosis was later retracted.</td>
 </tr>
 <tr class="even">
-<td align="left">lpr3_is_primary_dx</td>
-<td align="left">LPR3 primary diagnosis</td>
-<td align="left">diagnosetype == ‘A’</td>
-<td align="left"></td>
+<td style="text-align: left;">lpr3_is_primary_dx</td>
+<td style="text-align: left;">LPR3 primary diagnosis</td>
+<td style="text-align: left;">diagnosetype == ‘A’</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td align="left">lpr3_is_t1d_code</td>
-<td align="left">LPR3 diagnoses codes for T1D</td>
-<td align="left">diagnosekode =~ ‘^(DE10)’</td>
-<td align="left"></td>
+<td style="text-align: left;">lpr3_is_t1d_code</td>
+<td style="text-align: left;">LPR3 diagnoses codes for T1D</td>
+<td style="text-align: left;">diagnosekode =~ ‘^(DE10)’</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td align="left">lpr3_is_t2d_code</td>
-<td align="left">LPR3 diagnoses codes for T2D</td>
-<td align="left">diagnosekode =~ ‘^(DE11)’</td>
-<td align="left"></td>
+<td style="text-align: left;">lpr3_is_t2d_code</td>
+<td style="text-align: left;">LPR3 diagnoses codes for T2D</td>
+<td style="text-align: left;">diagnosekode =~ ‘^(DE11)’</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td align="left">lpr3_is_diabetes_code</td>
-<td align="left">LPR3 diagnoses codes for diabetes</td>
-<td align="left">diagnosekode =~ ‘^DE1[0-4]’</td>
-<td align="left">This is a general diabetes code, not specific to T1D or
-T2D.</td>
+<td style="text-align: left;">lpr3_is_diabetes_code</td>
+<td style="text-align: left;">LPR3 diagnoses codes for diabetes</td>
+<td style="text-align: left;">diagnosekode =~ ‘^DE1[0-4]’</td>
+<td style="text-align: left;">This is a general diabetes code, not specific to T1D or T2D.</td>
 </tr>
 <tr class="even">
-<td align="left">lpr3_is_pregnancy_code</td>
-<td align="left">ICD-10 diagnoses codes for pregnancy-related
-outcomes</td>
-<td align="left">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
-<td align="left">These are recorded pregnancy endings like live births
-and miscarriages.</td>
+<td style="text-align: left;">lpr3_is_pregnancy_code</td>
+<td style="text-align: left;">ICD-10 diagnoses codes for pregnancy-related outcomes</td>
+<td style="text-align: left;">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
+<td style="text-align: left;">These are recorded pregnancy endings like live births and miscarriages.</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="kontakter">
+</div>
+</section><section class="level3"><h3 id="kontakter">
 <code>kontakter</code><a class="anchor" aria-label="anchor" href="#kontakter"></a>
 </h3>
-<table class="table">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <colgroup>
-<col width="5%">
-<col width="5%">
-<col width="73%">
-<col width="15%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 73%">
+<col style="width: 15%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">logic</th>
+<th style="text-align: left;">comments</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">lpr3_is_endocrinology_dept</td>
-<td align="left">LPR3 endocrinology department</td>
-<td align="left">hovedspeciale_ans == ‘medicinsk endokrinologi’</td>
-<td align="left">
-<code>TRUE</code> when the department is
-endocrinology.</td>
+<td style="text-align: left;">lpr3_is_endocrinology_dept</td>
+<td style="text-align: left;">LPR3 endocrinology department</td>
+<td style="text-align: left;">hovedspeciale_ans == ‘medicinsk endokrinologi’</td>
+<td style="text-align: left;">
+<code>TRUE</code> when the department is endocrinology.</td>
 </tr>
 <tr class="even">
-<td align="left">lpr3_is_medical_dept</td>
-<td align="left">LPR3 medical department</td>
-<td align="left">hovedspeciale_ans %in% c(‘blandet medicin og kirurgi’,
-‘intern medicin’, ‘geriatri’, ‘hepatologi’, ‘hæmatologi’,
-‘infektionsmedicin’, ‘kardiologi’, ‘medicinsk allergologi’, ‘medicinsk
-gastroenterologi’, ‘medicinsk lungesygdomme’, ‘nefrologi’,
-‘reumatologi’, ‘palliativ medicin’, ‘akut medicin’,
-‘dermato-venerologi’, ‘neurologi’, ‘onkologi’, ‘fysiurgi’,
-‘tropemedicin’)</td>
-<td align="left">
-<code>TRUE</code> when the department is other medical
-departments (than endocrinology).</td>
+<td style="text-align: left;">lpr3_is_medical_dept</td>
+<td style="text-align: left;">LPR3 medical department</td>
+<td style="text-align: left;">hovedspeciale_ans %in% c(‘blandet medicin og kirurgi’, ‘intern medicin’, ‘geriatri’, ‘hepatologi’, ‘hæmatologi’, ‘infektionsmedicin’, ‘kardiologi’, ‘medicinsk allergologi’, ‘medicinsk gastroenterologi’, ‘medicinsk lungesygdomme’, ‘nefrologi’, ‘reumatologi’, ‘palliativ medicin’, ‘akut medicin’, ‘dermato-venerologi’, ‘neurologi’, ‘onkologi’, ‘fysiurgi’, ‘tropemedicin’)</td>
+<td style="text-align: left;">
+<code>TRUE</code> when the department is other medical departments (than endocrinology).</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="lab_forsker">
+</div>
+</section><section class="level3"><h3 id="lab_forsker">
 <code>lab_forsker</code><a class="anchor" aria-label="anchor" href="#lab_forsker"></a>
 </h3>
-<table class="table">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <colgroup>
-<col width="11%">
-<col width="13%">
-<col width="45%">
-<col width="29%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 45%">
+<col style="width: 29%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">logic</th>
+<th style="text-align: left;">comments</th>
 </tr></thead>
 <tbody><tr class="odd">
-<td align="left">is_hba1c_over_threshold</td>
-<td align="left">HbA1c values over threshold</td>
-<td align="left">(analysiscode == ‘NPU27300’ AND value &gt;= 48) OR
-(analysiscode == ‘NPU03835’ AND value &gt;= 6.5)</td>
-<td align="left">Is the IFCC units for NPU27300 and DCCT units for
-NPU03835.</td>
+<td style="text-align: left;">is_hba1c_over_threshold</td>
+<td style="text-align: left;">HbA1c values over threshold</td>
+<td style="text-align: left;">(analysiscode == ‘NPU27300’ AND value &gt;= 48) OR (analysiscode == ‘NPU03835’ AND value &gt;= 6.5)</td>
+<td style="text-align: left;">Is the IFCC units for NPU27300 and DCCT units for NPU03835.</td>
 </tr></tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="lmdb">
+</div>
+</section><section class="level3"><h3 id="lmdb">
 <code>lmdb</code><a class="anchor" aria-label="anchor" href="#lmdb"></a>
 </h3>
-<table class="table">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <colgroup>
-<col width="8%">
-<col width="16%">
-<col width="25%">
-<col width="49%">
+<col style="width: 8%">
+<col style="width: 16%">
+<col style="width: 25%">
+<col style="width: 49%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">logic</th>
+<th style="text-align: left;">comments</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">is_gld_code</td>
-<td align="left">ATC codes for glucose-lowering drugs (GLDs)</td>
-<td align="left">atc =~ ‘^A10’ AND NOT (atc =~
-‘^(A10BJ|A10BK01|A10BK03)’)</td>
-<td align="left">GLP-RAs or dapagliflozin/empagliflozin drugs are not
-kept.</td>
+<td style="text-align: left;">is_gld_code</td>
+<td style="text-align: left;">ATC codes for glucose-lowering drugs (GLDs)</td>
+<td style="text-align: left;">atc =~ ‘^A10’ AND NOT (atc =~ ‘^(A10BJ|A10BK01|A10BK03)’)</td>
+<td style="text-align: left;">GLP-RAs or dapagliflozin/empagliflozin drugs are not kept.</td>
 </tr>
 <tr class="even">
-<td align="left">is_non_insulin_gld_code</td>
-<td align="left">Non-insulin glucose-lowering drugs</td>
-<td align="left">atc =~ ‘^A10B’ OR atc =~ ‘^A10AE56’</td>
-<td align="left">This is used during the classification of type 1
-diabetes to identify persons who only purchase insulin or mostly
-purchase insulin.</td>
+<td style="text-align: left;">is_non_insulin_gld_code</td>
+<td style="text-align: left;">Non-insulin glucose-lowering drugs</td>
+<td style="text-align: left;">atc =~ ‘^A10B’ OR atc =~ ‘^A10AE56’</td>
+<td style="text-align: left;">This is used during the classification of type 1 diabetes to identify persons who only purchase insulin or mostly purchase insulin.</td>
 </tr>
 <tr class="odd">
-<td align="left">is_insulin_gld_code</td>
-<td align="left">Only insulin glucose-lowering drugs</td>
-<td align="left">atc =~ ‘^A10A’ AND NOT (atc =~ ‘^A10AE56’)</td>
-<td align="left">This is used during the classification of type 1
-diabetes to identify persons who only purchase insulin or mostly
-purchase insulin.</td>
+<td style="text-align: left;">is_insulin_gld_code</td>
+<td style="text-align: left;">Only insulin glucose-lowering drugs</td>
+<td style="text-align: left;">atc =~ ‘^A10A’ AND NOT (atc =~ ‘^A10AE56’)</td>
+<td style="text-align: left;">This is used during the classification of type 1 diabetes to identify persons who only purchase insulin or mostly purchase insulin.</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section level3">
-<h3 id="across-register-logic">Across register logic<a class="anchor" aria-label="anchor" href="#across-register-logic"></a>
+</div>
+</section><section class="level3"><h3 id="across-register-logic">Across register logic<a class="anchor" aria-label="anchor" href="#across-register-logic"></a>
 </h3>
-<table class="table">
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
 <colgroup>
-<col width="8%">
-<col width="17%">
-<col width="38%">
-<col width="35%">
+<col style="width: 8%">
+<col style="width: 17%">
+<col style="width: 38%">
+<col style="width: 35%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">title</th>
-<th align="left">logic</th>
-<th align="left">comments</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">title</th>
+<th style="text-align: left;">logic</th>
+<th style="text-align: left;">comments</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">is_not_within_pregnancy_interval</td>
-<td align="left">Events that are not within a potential pregnancy
-interval</td>
-<td align="left">NOT (has_pregnancy_event AND date &gt;=
-(pregnancy_event_date - weeks(40)) AND date &lt;= (pregnancy_event_date
-+ weeks(12))) OR is.na(pregnancy_event_date)</td>
-<td align="left">The potential pregnancy interval is defined as 40 weeks
-before and 12 weeks after the pregnancy event date.</td>
+<td style="text-align: left;">is_not_within_pregnancy_interval</td>
+<td style="text-align: left;">Events that are not within a potential pregnancy interval</td>
+<td style="text-align: left;">NOT (has_pregnancy_event AND date &gt;= (pregnancy_event_date - weeks(40)) AND date &lt;= (pregnancy_event_date + weeks(12))) OR is.na(pregnancy_event_date)</td>
+<td style="text-align: left;">The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date.</td>
 </tr>
 <tr class="even">
-<td align="left">is_podiatrist_services</td>
-<td align="left">Podiatrist services</td>
-<td align="left">speciale =~ ‘^54’ AND barnmak == 0</td>
-<td align="left">When <code>barnmak == 0</code>, the PNR belongs to the
-recipient of the service. When <code>barnmak == 1</code>, the PNR
-belongs to the child of the individual.</td>
+<td style="text-align: left;">is_podiatrist_services</td>
+<td style="text-align: left;">Podiatrist services</td>
+<td style="text-align: left;">speciale =~ ‘^54’ AND barnmak == 0</td>
+<td style="text-align: left;">When <code>barnmak == 0</code>, the PNR belongs to the recipient of the service. When <code>barnmak == 1</code>, the PNR belongs to the child of the individual.</td>
 </tr>
 <tr class="odd">
-<td align="left">is_not_metformin_for_pcos</td>
-<td align="left">Metformin purchases that aren’t potentially for the
-treatment of PCOS</td>
-<td align="left">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date -
-foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’,
-‘0000276’, ‘0000781’)))</td>
-<td align="left">Woman is defined as 2 in <code>koen</code>.</td>
+<td style="text-align: left;">is_not_metformin_for_pcos</td>
+<td style="text-align: left;">Metformin purchases that aren’t potentially for the treatment of PCOS</td>
+<td style="text-align: left;">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date - foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’, ‘0000276’, ‘0000781’)))</td>
+<td style="text-align: left;">Woman is defined as 2 in <code>koen</code>.</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<div class="section level2 unnumbered">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</section></section><section class="level2 unnumbered"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body">
-<div id="ref-Isaksen2023" class="csl-entry">
+<div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-Isaksen2023" class="csl-entry" role="listitem">
 <div class="csl-left-margin">1. </div>
-<div class="csl-right-inline">Isaksen AA, Sandbæk A, Bjerg L. <a href="https://doi.org/10.2147/clep.s407019" class="external-link">Validation of register-based
-diabetes classifiers in danish data</a>. Clinical Epidemiology. 2023
-May;Volume 15:569–81. </div>
+<div class="csl-right-inline">Isaksen AA, Sandbæk A, Bjerg L. <a href="https://doi.org/10.2147/clep.s407019" class="external-link">Validation of register-based diabetes classifiers in danish data</a>. Clinical Epidemiology. 2023 May;Volume 15:569–81. </div>
 </div>
 </div>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+</section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">

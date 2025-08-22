@@ -5,12 +5,15 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Changes to algorithm • osdc</title>
+<title>Changes from original • osdc</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changes to algorithm">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="changes_files/libs/quarto-html/popper.min.js"></script><script src="changes_files/libs/quarto-html/tippy.umd.min.js"></script><link href="changes_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="changes_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changes from original">
+<meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,12 +37,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/changes.html">Changes to algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+<li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
     <li><a class="dropdown-item" href="../articles/design.html">Design</a></li>
-    <li><a class="dropdown-item" href="../articles/function-flow.html">Internal function flow</a></li>
-    <li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
+    <li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
+    <li><a class="dropdown-item" href="../articles/changes.html">Changes from original</a></li>
+    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+    <li><a class="dropdown-item" href="../articles/function-flow.html">Function flow</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -54,76 +57,45 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Changes to algorithm</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/changes.Rmd" class="external-link"><code>vignettes/changes.Rmd</code></a></small>
-      <div class="d-none name"><code>changes.Rmd</code></div>
+      <img src="../logo.png" class="logo" alt=""><h1>Changes from original</h1>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/changes.qmd" class="external-link"><code>vignettes/changes.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<p>In this vignette, you’ll find a description of the changes that have
-been made to the OSDC algorithm since its <a href="https://doi.org/10.2147/CLEP.S407019" class="external-link">original validation</a>. The
-osdc package uses the latest changes to the algorithm. Potential changes
-to the algorithm, rather than the specific implementation and code
-details, that we might in the future will also be described in this
-vignette. We will also provide validation metrics here whenever we make
-a change, and track these validations over the different versions.</p>
-<div class="section level2">
-<h2 id="specific-changes-since-the-original-validation-version-from-the-paper">Specific changes since the original validation (version from the
-paper)<a class="anchor" aria-label="anchor" href="#specific-changes-since-the-original-validation-version-from-the-paper"></a>
+
+
+
+
+
+    <p>In this vignette, you’ll find a description of the changes that have been made to the OSDC algorithm since its <a href="https://doi.org/10.2147/CLEP.S407019" class="external-link">original validation</a>. The osdc package uses the latest changes to the algorithm. Potential changes to the algorithm, rather than the specific implementation and code details, that we might in the future will also be described in this vignette. We will also provide validation metrics here whenever we make a change, and track these validations over the different versions.</p>
+<section class="level2"><h2 id="specific-changes-since-the-original-validation-version-from-the-paper">Specific changes since the original validation (version from the paper)<a class="anchor" aria-label="anchor" href="#specific-changes-since-the-original-validation-version-from-the-paper"></a>
 </h2>
-<div class="section level3">
-<h3 id="version-1-1">Version 1.1<a class="anchor" aria-label="anchor" href="#version-1-1"></a>
+<section class="level3"><h3 id="version-1-1">Version 1.1<a class="anchor" aria-label="anchor" href="#version-1-1"></a>
 </h3>
-<ol style="list-style-type: decimal">
-<li>We don’t use purchases of semaglutid, dapagliflozin or
-empagliflozin, neither for inclusion events nor classification of
-diabetes type (due to increasing use in treatment of non-diabetes).</li>
-<li>We no longer use diabetes type reclassification based on insulin
-purchases in the previous year.</li>
-<li>The logic defining pregnancy index dates has been simplified to only
-use diagnoses of pregnancy endings (no longer uses data on maternal care
-visits).</li>
-<li>De-duplicates subsequent HbA1c samples taken on the same date
-(originally, if a sampling time was available in the lab data, only
-samples taken at the same time were de-duplicated)</li>
-</ol>
-</div>
-<div class="section level3">
-<h3 id="version-1-2">Version 1.2<a class="anchor" aria-label="anchor" href="#version-1-2"></a>
+<ol type="1">
+<li>We don’t use purchases of semaglutid, dapagliflozin or empagliflozin, neither for inclusion events nor classification of diabetes type (due to increasing use in treatment of non-diabetes).</li>
+<li>We no longer use diabetes type reclassification based on insulin purchases in the previous year.</li>
+<li>The logic defining pregnancy index dates has been simplified to only use diagnoses of pregnancy endings (no longer uses data on maternal care visits).</li>
+<li>De-duplicates subsequent HbA1c samples taken on the same date (originally, if a sampling time was available in the lab data, only samples taken at the same time were de-duplicated)</li>
+</ol></section><section class="level3"><h3 id="version-1-2">Version 1.2<a class="anchor" aria-label="anchor" href="#version-1-2"></a>
 </h3>
-<ol style="list-style-type: decimal">
-<li>No longer uses any GLP1-RAs for inclusion or
-type-specification.</li>
-<li>For diabetes type-classification, the window of 180 days when a T1D
-case must make a purchase of an insulin is now evaluated from the date
-of the first purchase of a glucose-lowering drug, rather than from the
-inclusion date.</li>
-</ol>
-</div>
-</div>
-<div class="section level2">
-<h2 id="validity">Validity<a class="anchor" aria-label="anchor" href="#validity"></a>
+<ol type="1">
+<li>No longer uses any GLP1-RAs for inclusion or type-specification.</li>
+<li>For diabetes type-classification, the window of 180 days when a T1D case must make a purchase of an insulin is now evaluated from the date of the first purchase of a glucose-lowering drug, rather than from the inclusion date.</li>
+</ol></section></section><section class="level2"><h2 id="validity">Validity<a class="anchor" aria-label="anchor" href="#validity"></a>
 </h2>
-<p>Algorithm validity across versions. Reports <code>PPV</code>
-(<em>positive predictive value</em>) and <code>sensitivity</code> for
-typical cases and cases with atypical age at onset of T1D (after age 40)
-and T2D (before age 40), respectively.</p>
-<div class="section level3">
-<h3 id="on-pre-2019-data-as-in-the-paper">On pre-2019 data (as in the paper)<a class="anchor" aria-label="anchor" href="#on-pre-2019-data-as-in-the-paper"></a>
+<p>Algorithm validity across versions. Reports <code>PPV</code> (<em>positive predictive value</em>) and <code>sensitivity</code> for typical cases and cases with atypical age at onset of T1D (after age 40) and T2D (before age 40), respectively.</p>
+<section class="level3"><h3 id="on-pre-2019-data-as-in-the-paper">On pre-2019 data (as in the paper)<a class="anchor" aria-label="anchor" href="#on-pre-2019-data-as-in-the-paper"></a>
 </h3>
-<p><strong>Overall and age at onset-stratified (paper table 1 &amp;
-2):</strong></p>
-<table class="table">
+<p><strong>Overall and age at onset-stratified (paper table 1 &amp; 2):</strong></p>
+<table class="table caption-top">
 <thead><tr class="header">
 <th>Version</th>
 <th>Diabetes type</th>
@@ -157,7 +129,7 @@ and T2D (before age 40), respectively.</p>
 </tr>
 </tbody>
 </table>
-<table class="table">
+<table class="table caption-top">
 <thead><tr class="header">
 <th>Version</th>
 <th>Diabetes type</th>
@@ -192,7 +164,7 @@ and T2D (before age 40), respectively.</p>
 </tbody>
 </table>
 <p><strong>Bootstrapped metrics (paper S3):</strong></p>
-<table class="table">
+<table class="table caption-top">
 <thead><tr class="header">
 <th>Version</th>
 <th>Diabetes type</th>
@@ -220,7 +192,7 @@ and T2D (before age 40), respectively.</p>
 </tr>
 </tbody>
 </table>
-<table class="table">
+<table class="table caption-top">
 <thead><tr class="header">
 <th>Version</th>
 <th>Diabetes type</th>
@@ -247,29 +219,97 @@ and T2D (before age 40), respectively.</p>
 <td>0.995</td>
 </tr>
 </tbody>
-</table>
-</div>
-</div>
-<div class="section level2">
-<h2 id="potential-future-changes">Potential future changes<a class="anchor" aria-label="anchor" href="#potential-future-changes"></a>
+</table></section></section><section class="level2"><h2 id="potential-future-changes">Potential future changes<a class="anchor" aria-label="anchor" href="#potential-future-changes"></a>
 </h2>
-<ol style="list-style-type: decimal">
-<li>Add support for using medical birth register to define pregnancies
-to censor gestational diabetes (GDM). This will allow for the censoring
-of glucose-lowering drug (GLD) purchases all the way back to 1995
-(rather than 1997 onward, as the obstetric codes are limited to), and
-enable the extension of the window of valid dates of diagnosis to 1996
-onward.</li>
-<li>Limit the historic scope of primary diagnoses used to evaluate
-majority of diabetes-specific diagnoses in type classification (e.g.
-only evaluate majority among the last five type-specific diabetes
-diagnoses).</li>
-</ol>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+<ol type="1">
+<li>Add support for using medical birth register to define pregnancies to censor gestational diabetes (GDM). This will allow for the censoring of glucose-lowering drug (GLD) purchases all the way back to 1995 (rather than 1997 onward, as the obstetric codes are limited to), and enable the extension of the window of valid dates of diagnosis to 1996 onward.</li>
+<li>Limit the historic scope of primary diagnoses used to evaluate majority of diabetes-specific diagnoses in type classification (e.g. only evaluate majority among the last five type-specific diabetes diagnoses).</li>
+</ol></section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">

@@ -10,7 +10,10 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Design">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="design_files/libs/quarto-html/popper.min.js"></script><script src="design_files/libs/quarto-html/tippy.umd.min.js"></script><link href="design_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="design_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Design">
+<meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,12 +37,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/changes.html">Changes to algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+<li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
     <li><a class="dropdown-item" href="../articles/design.html">Design</a></li>
-    <li><a class="dropdown-item" href="../articles/function-flow.html">Internal function flow</a></li>
-    <li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
+    <li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
+    <li><a class="dropdown-item" href="../articles/changes.html">Changes from original</a></li>
+    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+    <li><a class="dropdown-item" href="../articles/function-flow.html">Function flow</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -54,233 +57,139 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Design</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/articles/design.Rmd" class="external-link"><code>vignettes/articles/design.Rmd</code></a></small>
-      <div class="d-none name"><code>design.Rmd</code></div>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/design.qmd" class="external-link"><code>vignettes/design.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<div class="section level2">
-<h2 id="principles">Principles<a class="anchor" aria-label="anchor" href="#principles"></a>
+
+
+
+
+
+    <section class="level2"><h2 id="principles">Principles<a class="anchor" aria-label="anchor" href="#principles"></a>
 </h2>
 <p>These are the guiding principles for this package:</p>
-<ol style="list-style-type: decimal">
-<li>Functionality is as agnostic to data format as possible (e.g. can be
-used with SQL or Arrow connections, in a data.table format, or as a
-data.frame).</li>
-<li>Functions have consistent inputs and outputs (e.g. inputs and
-outputs are the same, regardless of specific conditions).</li>
-<li>Functions have predictable outputs based on inputs (e.g. if an input
-is a data frame, the output is a data frame).</li>
+<ol type="1">
+<li>Functionality is as agnostic to data format as possible (e.g. can be used with SQL or Arrow connections, in a data.table format, or as a data.frame).</li>
+<li>Functions have consistent inputs and outputs (e.g. inputs and outputs are the same, regardless of specific conditions).</li>
+<li>Functions have predictable outputs based on inputs (e.g. if an input is a data frame, the output is a data frame).</li>
 <li>Functions have consistent naming based on their action.</li>
 <li>Functions have limited additional arguments.</li>
-<li>Casing of input variables (upper or lower case) is agnostic, all
-internal variables are lower case, and output variables are lower
-case.</li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="use-cases">Use cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
+<li>Casing of input variables (upper or lower case) is agnostic, all internal variables are lower case, and output variables are lower case.</li>
+</ol></section><section class="level2"><h2 id="use-cases">Use cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
 </h2>
-<p>We make these assumptions on how this package will be used, based on
-our experiences and expectations for use cases:</p>
+<p>We make these assumptions on how this package will be used, based on our experiences and expectations for use cases:</p>
 <ul>
-<li>Entirely used within the Denmark Statistics or the Danish Health
-Authority’s servers, since that is where their data are kept.</li>
-<li>Used by researchers within or affiliated with Danish research
-institutions.</li>
+<li>Entirely used within the Denmark Statistics or the Danish Health Authority’s servers, since that is where their data are kept.</li>
+<li>Used by researchers within or affiliated with Danish research institutions.</li>
 <li>Used specifically within a Danish register-based context.</li>
 </ul>
-<p>Below is a set of “narratives” or “personas” with associated needs
-that this package aims to fulfill:</p>
+<p>Below is a set of “narratives” or “personas” with associated needs that this package aims to fulfill:</p>
 <ul>
 <li>“As a researcher, …”
 <ul>
-<li>“… I want to determine which registers and variables to request from
-Denmark Statistics and Danish Health Data Authority, so that I am
-certain I will be able to classify diabetes status of individuals in the
-registers.”</li>
-<li>“… I want to easily and simply create a dataset that contains data
-on diabetes status in my population, so that I can begin conducting my
-research that involves persons with diabetes without having to tinker
-with coding the correct algorithm to classify them.”</li>
-<li>“… I want to be informed early and in a clear way whether my data
-fits with the required data type and values, so that I can fix and
-correct these issues without having to do extensive debugging of the
-code and/or data.”</li>
+<li>“… I want to determine which registers and variables to request from Denmark Statistics and Danish Health Data Authority, so that I am certain I will be able to classify diabetes status of individuals in the registers.”</li>
+<li>“… I want to easily and simply create a dataset that contains data on diabetes status in my population, so that I can begin conducting my research that involves persons with diabetes without having to tinker with coding the correct algorithm to classify them.”</li>
+<li>“… I want to be informed early and in a clear way whether my data fits with the required data type and values, so that I can fix and correct these issues without having to do extensive debugging of the code and/or data.”</li>
 </ul>
 </li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="core-functionality">Core functionality<a class="anchor" aria-label="anchor" href="#core-functionality"></a>
+</ul></section><section class="level2"><h2 id="core-functionality">Core functionality<a class="anchor" aria-label="anchor" href="#core-functionality"></a>
 </h2>
-<p>This is the list of functionality we aim to have in the osdc
-package</p>
-<ol style="list-style-type: decimal">
-<li>Classify individuals type 1 and type 2 diabetes status and create a
-data frame with that information and the date of onset of diabetes.</li>
-<li>Provide helper functions to check and process individual registers
-for the variables required to enter into the classifier.</li>
-<li>Provide a list of required variables and registers in order to
-calculate diabetes status.</li>
-<li>Provide validation helper functions to check that variables match
-what is expected of the algorithm.</li>
-<li>Provide a common and easily accessible standard for determining
-diabetes status within the context of research using Danish
-registers.</li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="function-conventions">Function conventions<a class="anchor" aria-label="anchor" href="#function-conventions"></a>
+<p>This is the list of functionality we aim to have in the osdc package</p>
+<ol type="1">
+<li>Classify individuals type 1 and type 2 diabetes status and create a data frame with that information and the date of onset of diabetes.</li>
+<li>Provide helper functions to check and process individual registers for the variables required to enter into the classifier.</li>
+<li>Provide a list of required variables and registers in order to calculate diabetes status.</li>
+<li>Provide validation helper functions to check that variables match what is expected of the algorithm.</li>
+<li>Provide a common and easily accessible standard for determining diabetes status within the context of research using Danish registers.</li>
+</ol></section><section class="level2"><h2 id="function-conventions">Function conventions<a class="anchor" aria-label="anchor" href="#function-conventions"></a>
 </h2>
-<p>Effectively developing both the main user-exposed and internal
-functions requires following some conventions and design patterns for
-building these functions. There are a few conventions we describe here:
-naming patterns for functions and arguments, their argument input
-requirements, and their output data structure.</p>
-<p>The below conventions are <em>ideals</em> only, to be used as a
-guidelines to help with development and understanding of the code. They
-are not hard rules.</p>
-<div class="section level3">
-<h3 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a>
+<p>Effectively developing both the main user-exposed and internal functions requires following some conventions and design patterns for building these functions. There are a few conventions we describe here: naming patterns for functions and arguments, their argument input requirements, and their output data structure.</p>
+<p>The below conventions are <em>ideals</em> only, to be used as a guidelines to help with development and understanding of the code. They are not hard rules.</p>
+<section class="level3"><h3 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a>
 </h3>
 <ul>
-<li>First word is an action verb, later words are objects or
-conditions.</li>
+<li>First word is an action verb, later words are objects or conditions.</li>
 <li>Exclusion criteria are prefixed with <code>exclude_</code>.</li>
 <li>Inclusion criteria are prefixed with <code>include_</code>.</li>
-<li>Helpers that get or extract a condition (e.g., “pregnancy” or “date
-of visit”) are prefixed with <code>get_</code>.</li>
-<li>Helpers that drop or keep a specific condition are prefixed with
-<code>drop_</code> or <code>keep_</code> (e.g., “first visit date to
-maternal care for pregnancy after 40 weeks”). These types of helpers
-likely are contained in the <code>get_</code> functions.</li>
-<li>Helpers that join the output of other functions are prefixed with
-<code>join_</code>.</li>
-<li>Functions that prepare and process register data are prefixed with
-<code>prepare_</code>.</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
+<li>Helpers that get or extract a condition (e.g., “pregnancy” or “date of visit”) are prefixed with <code>get_</code>.</li>
+<li>Helpers that drop or keep a specific condition are prefixed with <code>drop_</code> or <code>keep_</code> (e.g., “first visit date to maternal care for pregnancy after 40 weeks”). These types of helpers likely are contained in the <code>get_</code> functions.</li>
+<li>Helpers that join the output of other functions are prefixed with <code>join_</code>.</li>
+<li>Functions that prepare and process register data are prefixed with <code>prepare_</code>.</li>
+</ul></section><section class="level3"><h3 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
 </h3>
 <ul>
-<li>As few arguments as is possible, with as few core required arguments
-as possible (ideally one or two).</li>
+<li>As few arguments as is possible, with as few core required arguments as possible (ideally one or two).</li>
 <li>
-<code>include_</code> functions take a register as the first
-argument.
+<code>include_</code> functions take a register as the first argument.
 <ul>
 <li>One input register database at a time.</li>
 </ul>
 </li>
 <li>
-<code>exclude_</code> functions can take a register as the first
-argument or take the output from an <code>include_</code> function.</li>
-<li>All functions take a <code>data.frame</code> type object as input.
-This input object doesn’t need to be strictly a <code>data.frame</code>
-as long as it acts like a <code>data.frame</code>. For instance, it
-could be a <code>data.table</code>, a <code>tibble</code>, or a
-<code>duckdb</code> object.</li>
+<code>exclude_</code> functions can take a register as the first argument or take the output from an <code>include_</code> function.</li>
+<li>All functions take a <code>data.frame</code> type object as input. This input object doesn’t need to be strictly a <code>data.frame</code> as long as it acts like a <code>data.frame</code>. For instance, it could be a <code>data.table</code>, a <code>tibble</code>, or a <code>duckdb</code> object.</li>
 <li>The first argument will always take a data frame type object.</li>
-<li>The second argument could be an output data frame object from
-another function (usually <code>include_</code>).</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
+<li>The second argument could be an output data frame object from another function (usually <code>include_</code>).</li>
+</ul></section><section class="level3"><h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h3>
 <ul>
-<li>All functions output the same type of object as the input object (a
-<code>data.frame</code> type object). For instance, if the input is a
-<code>data.table</code> object, the output will also be a
-<code>data.table</code>.</li>
-</ul>
-</div>
-</div>
-<div class="section level2">
-<h2 id="interface">Interface<a class="anchor" aria-label="anchor" href="#interface"></a>
+<li>All functions output the same type of object as the input object (a <code>data.frame</code> type object). For instance, if the input is a <code>data.table</code> object, the output will also be a <code>data.table</code>.</li>
+</ul></section></section><section class="level2"><h2 id="interface">Interface<a class="anchor" aria-label="anchor" href="#interface"></a>
 </h2>
-<p>The osdc package contains one main function that classifies
-individuals into those with either type 1 or type 2 diabetes using the
-Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function
-classifies those with diabetes (type 1 or 2) based on the Danish
-registers described in the <code>vignette("design")</code> and
-<code>vignette("data-sources")</code>. All data sources are used as
-input for this function. The specific inclusion and exclusion details
-are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
-<div class="section level3">
-<h3 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
+<p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in the <code><a href="../articles/design.html">vignette("design")</a></code> and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources are used as input for this function. The specific inclusion and exclusion details are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
+<section class="level3"><h3 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
 </h3>
-<p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each
-required register, so the argument is:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">imap_chr</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"- `{.y}`: The register that is called '{.x$name}' in Danish."</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>[1] “- <code>bef</code>: The register that is called ‘CPR-registerets
-befolkningstabel’ in Danish.”<br>
-[2] “- <code>lmdb</code>: The register that is called
-‘Laegemiddelstatistikregisteret’ in Danish.”<br>
-[3] “- <code>lpr_adm</code>: The register that is called
-‘Landspatientregisterets administrationstabel (LPR2)’ in Danish.” [4] “-
-<code>lpr_diag</code>: The register that is called
-‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.”<br>
-[5] “- <code>kontakter</code>: The register that is called
-‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.”<br>
-[6] “- <code>diagnoser</code>: The register that is called
-‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.”<br>
-[7] “- <code>sysi</code>: The register that is called
-‘Sygesikringsregisteret’ in Danish.”<br>
-[8] “- <code>sssy</code>: The register that is called
-‘Sygesikringsregisteret’ in Danish.”<br>
-[9] “- <code>lab_forsker</code>: The register that is called
-‘Laboratoriedatabasens forskertabel’ in Danish.”</p>
-</div>
-<div class="section level3">
-<h3 id="output-1">Output<a class="anchor" aria-label="anchor" href="#output-1"></a>
-</h3>
-<p>The output is a <code>data.frame</code> type object which includes
-four columns:</p>
+<p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each required register, so the argument is:</p>
 <ul>
 <li>
-<strong>pnr</strong>: The pseudonymised social security number of
-individuals in the diabetes population (one row per individual).</li>
+<code>bef</code>: The register called ‘CPR-registerets befolkningstabel’ in Danish.</li>
 <li>
-<strong>stable_inclusion_date</strong>: The <em>stable</em>
-inclusion date (i.e., the raw date mutated so only individuals included
-in the time-period where data coverage is sufficient to make incident
-cases reliable)<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;For more information on the “raw” versus “stable”
-inclusion date, see &lt;code&gt;&lt;a href="../articles/algorithm.html"&gt;vignette("algorithm")&lt;/a&gt;&lt;/code&gt;.&lt;/p&gt;'><sup>1</sup></a>
-<!-- TODO: Specify this time-period: e.g., later than 1997 -->
+<code>lmdb</code>: The register called ‘Laegemiddelstatistikregisteret’ in Danish.</li>
+<li>
+<code>lpr_adm</code>: The register called ‘Landspatientregisterets administrationstabel (LPR2)’ in Danish.</li>
+<li>
+<code>lpr_diag</code>: The register called ‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.</li>
+<li>
+<code>kontakter</code>: The register called ‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.</li>
+<li>
+<code>diagnoser</code>: The register called ‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.</li>
+<li>
+<code>sysi</code>: The register called ‘Sygesikringsregisteret’ in Danish.</li>
+<li>
+<code>sssy</code>: The register called ‘Sygesikringsregisteret’ in Danish.</li>
+<li>
+<code>lab_forsker</code>: The register called ‘Laboratoriedatabasens forskertabel’ in Danish.</li>
+</ul></section><section class="level3"><h3 id="output-1">Output<a class="anchor" aria-label="anchor" href="#output-1"></a>
+</h3>
+<p>The output is a <code>data.frame</code> type object which includes four columns:</p>
+<ul>
+<li>
+<strong>pnr</strong>: The pseudonymised social security number of individuals in the diabetes population (one row per individual).</li>
+<li>
+<strong>stable_inclusion_date</strong>: The <em>stable</em> inclusion date (i.e., the raw date mutated so only individuals included in the time-period where data coverage is sufficient to make incident cases reliable)<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;For more information on the “raw” versus “stable” inclusion date, see &lt;code&gt;&lt;a href="../articles/algorithm.html"&gt;vignette("algorithm")&lt;/a&gt;&lt;/code&gt;.&lt;/p&gt;'><sup>1</sup></a> <!-- TODO: Specify this time-period: e.g., later than 1997 -->
 </li>
 <li>
-<strong>raw_inclusion_date</strong>: The <em>raw</em> inclusion date
-(i.e., the date of the second inclusion event as described in the <a href="#extracting-diabetes-population">Extracting the diabetes
-population</a> section above)</li>
+<strong>raw_inclusion_date</strong>: The <em>raw</em> inclusion date (i.e., the date of the second inclusion event as described in the <a href="#extracting-diabetes-population">Extracting the diabetes population</a> section above)</li>
 <li>
 <strong>diabetes_type</strong> The classified diabetes type</li>
 </ul>
 <p>For an example, see below.</p>
-<table class="table">
-<caption>Example rows of the <code>data.frame</code> output of the osdc
-package.</caption>
+<table class="table caption-top">
+<caption>Example rows of the <code>data.frame</code> output of the osdc package.</caption>
 <colgroup>
-<col width="17%">
-<col width="32%">
-<col width="28%">
-<col width="21%">
+<col style="width: 17%">
+<col style="width: 32%">
+<col style="width: 28%">
+<col style="width: 21%">
 </colgroup>
 <thead><tr class="header">
 <th>pnr</th>
@@ -303,27 +212,95 @@ package.</caption>
 </tr>
 </tbody>
 </table>
-<p>The individuals <code>0000000001</code> and <code>0000000004</code>
-have been classified as having diabetes (<code>T1D</code> and
-<code>T2D</code>, respectively). <code>0000000001</code> is classified
-as having type 1 diabetes (T1D) with an inclusion date of
-<code>2020-01-01</code>. Since this date is within a time-period of
-sufficient data coverage, the column <code>stable_inclusion_date</code>
-is populated with the same date as <code>raw_inclusion_date</code>.</p>
-<p>The individual in the second row, <code>0000000004</code> is
-classified as having type 2 diabetes <code>T2D</code> with an inclusion
-date of <code>1995-19-04</code>. Since 1995 is within a time-period of
-insufficient data coverage, <code>stable_inclusion_date</code> is
-<code>NULL</code>. However, <code>raw_inclusion_date</code> still
-contains the inclusion date of this individual.</p>
+<p>The individuals <code>0000000001</code> and <code>0000000004</code> have been classified as having diabetes (<code>T1D</code> and <code>T2D</code>, respectively). <code>0000000001</code> is classified as having type 1 diabetes (T1D) with an inclusion date of <code>2020-01-01</code>. Since this date is within a time-period of sufficient data coverage, the column <code>stable_inclusion_date</code> is populated with the same date as <code>raw_inclusion_date</code>.</p>
+<p>The individual in the second row, <code>0000000004</code> is classified as having type 2 diabetes <code>T2D</code> with an inclusion date of <code>1995-19-04</code>. Since 1995 is within a time-period of insufficient data coverage, <code>stable_inclusion_date</code> is <code>NULL</code>. However, <code>raw_inclusion_date</code> still contains the inclusion date of this individual.</p>
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
-</div>
-</div>
-
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+</section></section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">

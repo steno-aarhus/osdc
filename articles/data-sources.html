@@ -10,7 +10,10 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Data sources">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="data-sources_files/libs/quarto-html/popper.min.js"></script><script src="data-sources_files/libs/quarto-html/tippy.umd.min.js"></script><link href="data-sources_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="data-sources_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Data sources">
+<meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,12 +37,12 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/changes.html">Changes to algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+<li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
     <li><a class="dropdown-item" href="../articles/design.html">Design</a></li>
-    <li><a class="dropdown-item" href="../articles/function-flow.html">Internal function flow</a></li>
-    <li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
+    <li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
+    <li><a class="dropdown-item" href="../articles/changes.html">Changes from original</a></li>
+    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+    <li><a class="dropdown-item" href="../articles/function-flow.html">Function flow</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -54,616 +57,581 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Data sources</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/articles/data-sources.Rmd" class="external-link"><code>vignettes/articles/data-sources.Rmd</code></a></small>
-      <div class="d-none name"><code>data-sources.Rmd</code></div>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/data-sources.qmd" class="external-link"><code>vignettes/data-sources.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<p>This document describes the sources of data needed by the OSDC
-algorithm and gives a brief overview of each of these sources and how
-they might look like. In addition, the final section contains
-information on how to gain access to these data.</p>
+
+
+
+
+
+    <p>This document describes the sources of data needed by the OSDC algorithm and gives a brief overview of each of these sources and how they might look like. In addition, the final section contains information on how to gain access to these data.</p>
 <p>The algorithm uses these Danish registers as input data sources:</p>
-<table class="table">
+<table class="table caption-top">
 <caption>Danish registers used in the OSDC algorithm.</caption>
 <colgroup>
-<col width="64%">
-<col width="17%">
-<col width="18%">
+<col style="width: 64%">
+<col style="width: 17%">
+<col style="width: 18%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Register</th>
-<th align="left">Abbreviation</th>
-<th align="left">Years</th>
+<th style="text-align: left;">Register</th>
+<th style="text-align: left;">Abbreviation</th>
+<th style="text-align: left;">Years</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">CPR-registerets befolkningstabel</td>
-<td align="left"><code>bef</code></td>
-<td align="left">1968 - present</td>
+<td style="text-align: left;">CPR-registerets befolkningstabel</td>
+<td style="text-align: left;"><code>bef</code></td>
+<td style="text-align: left;">1968 - present</td>
 </tr>
 <tr class="even">
-<td align="left">Laegemiddelstatistikregisteret</td>
-<td align="left"><code>lmdb</code></td>
-<td align="left">1995 - present</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret</td>
+<td style="text-align: left;"><code>lmdb</code></td>
+<td style="text-align: left;">1995 - present</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets administrationstabel
-(LPR2)</td>
-<td align="left"><code>lpr_adm</code></td>
-<td align="left">1977 - 2018</td>
+<td style="text-align: left;">Landspatientregisterets administrationstabel (LPR2)</td>
+<td style="text-align: left;"><code>lpr_adm</code></td>
+<td style="text-align: left;">1977 - 2018</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets diagnosetabel (LPR2)</td>
-<td align="left"><code>lpr_diag</code></td>
-<td align="left">1977 - 2018</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR2)</td>
+<td style="text-align: left;"><code>lpr_diag</code></td>
+<td style="text-align: left;">1977 - 2018</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets kontakttabel (LPR3)</td>
-<td align="left"><code>kontakter</code></td>
-<td align="left">2019 - present</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3)</td>
+<td style="text-align: left;"><code>kontakter</code></td>
+<td style="text-align: left;">2019 - present</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets diagnosetabel (LPR3)</td>
-<td align="left"><code>diagnoser</code></td>
-<td align="left">2019 - present</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3)</td>
+<td style="text-align: left;"><code>diagnoser</code></td>
+<td style="text-align: left;">2019 - present</td>
 </tr>
 <tr class="odd">
-<td align="left">Sygesikringsregisteret</td>
-<td align="left"><code>sysi</code></td>
-<td align="left">1990 - 2005</td>
+<td style="text-align: left;">Sygesikringsregisteret</td>
+<td style="text-align: left;"><code>sysi</code></td>
+<td style="text-align: left;">1990 - 2005</td>
 </tr>
 <tr class="even">
-<td align="left">Sygesikringsregisteret</td>
-<td align="left"><code>sssy</code></td>
-<td align="left">2006 - present</td>
+<td style="text-align: left;">Sygesikringsregisteret</td>
+<td style="text-align: left;"><code>sssy</code></td>
+<td style="text-align: left;">2006 - present</td>
 </tr>
 <tr class="odd">
-<td align="left">Laboratoriedatabasens forskertabel</td>
-<td align="left"><code>lab_forsker</code></td>
-<td align="left">2011 - present</td>
+<td style="text-align: left;">Laboratoriedatabasens forskertabel</td>
+<td style="text-align: left;"><code>lab_forsker</code></td>
+<td style="text-align: left;">2011 - present</td>
 </tr>
 </tbody>
 </table>
-<p>In a future revision, the algorithm can also use the Danish Medical
-Birth Register to extend the period of time of valid inclusions further
-back in time compared to what is possible using obstetric codes from the
-National Patient Register.</p>
-<div class="section level2">
-<h2 id="data-required-from-registers">Data required from registers<a class="anchor" aria-label="anchor" href="#data-required-from-registers"></a>
+<p>In a future revision, the algorithm can also use the Danish Medical Birth Register to extend the period of time of valid inclusions further back in time compared to what is possible using obstetric codes from the National Patient Register.</p>
+<section class="level2"><h2 id="data-required-from-registers">Data required from registers<a class="anchor" aria-label="anchor" href="#data-required-from-registers"></a>
 </h2>
-<p>The following is a list of the variables required from specific
-registers in order for the package to classify diabetes status:</p>
-<table class="table">
+<p>The following is a list of the variables required from specific registers in order for the package to classify diabetes status:</p>
+<table class="table caption-top">
 <colgroup>
-<col width="78%">
-<col width="21%">
+<col style="width: 78%">
+<col style="width: 21%">
 </colgroup>
 <thead><tr class="header">
-<th align="left">Register</th>
-<th align="left">Variable</th>
+<th style="text-align: left;">Register</th>
+<th style="text-align: left;">Variable</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">CPR-registerets befolkningstabel
-(<code>bef</code>)</td>
-<td align="left">pnr</td>
+<td style="text-align: left;">CPR-registerets befolkningstabel (<code>bef</code>)</td>
+<td style="text-align: left;">pnr</td>
 </tr>
 <tr class="even">
-<td align="left">CPR-registerets befolkningstabel
-(<code>bef</code>)</td>
-<td align="left">koen</td>
+<td style="text-align: left;">CPR-registerets befolkningstabel (<code>bef</code>)</td>
+<td style="text-align: left;">koen</td>
 </tr>
 <tr class="odd">
-<td align="left">CPR-registerets befolkningstabel
-(<code>bef</code>)</td>
-<td align="left">foed_dato</td>
+<td style="text-align: left;">CPR-registerets befolkningstabel (<code>bef</code>)</td>
+<td style="text-align: left;">foed_dato</td>
 </tr>
 <tr class="even">
-<td align="left">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
-<td align="left">pnr</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
+<td style="text-align: left;">pnr</td>
 </tr>
 <tr class="odd">
-<td align="left">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
-<td align="left">eksd</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
+<td style="text-align: left;">eksd</td>
 </tr>
 <tr class="even">
-<td align="left">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
-<td align="left">atc</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
+<td style="text-align: left;">atc</td>
 </tr>
 <tr class="odd">
-<td align="left">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
-<td align="left">volume</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
+<td style="text-align: left;">volume</td>
 </tr>
 <tr class="even">
-<td align="left">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
-<td align="left">apk</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
+<td style="text-align: left;">apk</td>
 </tr>
 <tr class="odd">
-<td align="left">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
-<td align="left">indo</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret (<code>lmdb</code>)</td>
+<td style="text-align: left;">indo</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets administrationstabel (LPR2)
-(<code>lpr_adm</code>)</td>
-<td align="left">pnr</td>
+<td style="text-align: left;">Landspatientregisterets administrationstabel (LPR2) (<code>lpr_adm</code>)</td>
+<td style="text-align: left;">pnr</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets administrationstabel (LPR2)
-(<code>lpr_adm</code>)</td>
-<td align="left">recnum</td>
+<td style="text-align: left;">Landspatientregisterets administrationstabel (LPR2) (<code>lpr_adm</code>)</td>
+<td style="text-align: left;">recnum</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets administrationstabel (LPR2)
-(<code>lpr_adm</code>)</td>
-<td align="left">d_inddto</td>
+<td style="text-align: left;">Landspatientregisterets administrationstabel (LPR2) (<code>lpr_adm</code>)</td>
+<td style="text-align: left;">d_inddto</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets administrationstabel (LPR2)
-(<code>lpr_adm</code>)</td>
-<td align="left">c_spec</td>
+<td style="text-align: left;">Landspatientregisterets administrationstabel (LPR2) (<code>lpr_adm</code>)</td>
+<td style="text-align: left;">c_spec</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets diagnosetabel (LPR2)
-(<code>lpr_diag</code>)</td>
-<td align="left">recnum</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR2) (<code>lpr_diag</code>)</td>
+<td style="text-align: left;">recnum</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets diagnosetabel (LPR2)
-(<code>lpr_diag</code>)</td>
-<td align="left">c_diag</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR2) (<code>lpr_diag</code>)</td>
+<td style="text-align: left;">c_diag</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets diagnosetabel (LPR2)
-(<code>lpr_diag</code>)</td>
-<td align="left">c_diagtype</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR2) (<code>lpr_diag</code>)</td>
+<td style="text-align: left;">c_diagtype</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets kontakttabel (LPR3)
-(<code>kontakter</code>)</td>
-<td align="left">cpr</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3) (<code>kontakter</code>)</td>
+<td style="text-align: left;">cpr</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets kontakttabel (LPR3)
-(<code>kontakter</code>)</td>
-<td align="left">dw_ek_kontakt</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3) (<code>kontakter</code>)</td>
+<td style="text-align: left;">dw_ek_kontakt</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets kontakttabel (LPR3)
-(<code>kontakter</code>)</td>
-<td align="left">dato_start</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3) (<code>kontakter</code>)</td>
+<td style="text-align: left;">dato_start</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets kontakttabel (LPR3)
-(<code>kontakter</code>)</td>
-<td align="left">hovedspeciale_ans</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3) (<code>kontakter</code>)</td>
+<td style="text-align: left;">hovedspeciale_ans</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets diagnosetabel (LPR3)
-(<code>diagnoser</code>)</td>
-<td align="left">dw_ek_kontakt</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3) (<code>diagnoser</code>)</td>
+<td style="text-align: left;">dw_ek_kontakt</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets diagnosetabel (LPR3)
-(<code>diagnoser</code>)</td>
-<td align="left">diagnosekode</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3) (<code>diagnoser</code>)</td>
+<td style="text-align: left;">diagnosekode</td>
 </tr>
 <tr class="odd">
-<td align="left">Landspatientregisterets diagnosetabel (LPR3)
-(<code>diagnoser</code>)</td>
-<td align="left">diagnosetype</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3) (<code>diagnoser</code>)</td>
+<td style="text-align: left;">diagnosetype</td>
 </tr>
 <tr class="even">
-<td align="left">Landspatientregisterets diagnosetabel (LPR3)
-(<code>diagnoser</code>)</td>
-<td align="left">senere_afkraeftet</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3) (<code>diagnoser</code>)</td>
+<td style="text-align: left;">senere_afkraeftet</td>
 </tr>
 <tr class="odd">
-<td align="left">Sygesikringsregisteret (<code>sysi</code>)</td>
-<td align="left">pnr</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sysi</code>)</td>
+<td style="text-align: left;">pnr</td>
 </tr>
 <tr class="even">
-<td align="left">Sygesikringsregisteret (<code>sysi</code>)</td>
-<td align="left">barnmak</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sysi</code>)</td>
+<td style="text-align: left;">barnmak</td>
 </tr>
 <tr class="odd">
-<td align="left">Sygesikringsregisteret (<code>sysi</code>)</td>
-<td align="left">speciale</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sysi</code>)</td>
+<td style="text-align: left;">speciale</td>
 </tr>
 <tr class="even">
-<td align="left">Sygesikringsregisteret (<code>sysi</code>)</td>
-<td align="left">honuge</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sysi</code>)</td>
+<td style="text-align: left;">honuge</td>
 </tr>
 <tr class="odd">
-<td align="left">Sygesikringsregisteret (<code>sssy</code>)</td>
-<td align="left">pnr</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sssy</code>)</td>
+<td style="text-align: left;">pnr</td>
 </tr>
 <tr class="even">
-<td align="left">Sygesikringsregisteret (<code>sssy</code>)</td>
-<td align="left">barnmak</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sssy</code>)</td>
+<td style="text-align: left;">barnmak</td>
 </tr>
 <tr class="odd">
-<td align="left">Sygesikringsregisteret (<code>sssy</code>)</td>
-<td align="left">speciale</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sssy</code>)</td>
+<td style="text-align: left;">speciale</td>
 </tr>
 <tr class="even">
-<td align="left">Sygesikringsregisteret (<code>sssy</code>)</td>
-<td align="left">honuge</td>
+<td style="text-align: left;">Sygesikringsregisteret (<code>sssy</code>)</td>
+<td style="text-align: left;">honuge</td>
 </tr>
 <tr class="odd">
-<td align="left">Laboratoriedatabasens forskertabel
-(<code>lab_forsker</code>)</td>
-<td align="left">patient_cpr</td>
+<td style="text-align: left;">Laboratoriedatabasens forskertabel (<code>lab_forsker</code>)</td>
+<td style="text-align: left;">patient_cpr</td>
 </tr>
 <tr class="even">
-<td align="left">Laboratoriedatabasens forskertabel
-(<code>lab_forsker</code>)</td>
-<td align="left">samplingdate</td>
+<td style="text-align: left;">Laboratoriedatabasens forskertabel (<code>lab_forsker</code>)</td>
+<td style="text-align: left;">samplingdate</td>
 </tr>
 <tr class="odd">
-<td align="left">Laboratoriedatabasens forskertabel
-(<code>lab_forsker</code>)</td>
-<td align="left">analysiscode</td>
+<td style="text-align: left;">Laboratoriedatabasens forskertabel (<code>lab_forsker</code>)</td>
+<td style="text-align: left;">analysiscode</td>
 </tr>
 <tr class="even">
-<td align="left">Laboratoriedatabasens forskertabel
-(<code>lab_forsker</code>)</td>
-<td align="left">value</td>
+<td style="text-align: left;">Laboratoriedatabasens forskertabel (<code>lab_forsker</code>)</td>
+<td style="text-align: left;">value</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level2">
-<h2 id="expected-data-structure">Expected data structure<a class="anchor" aria-label="anchor" href="#expected-data-structure"></a>
+</table></section><section class="level2"><h2 id="expected-data-structure">Expected data structure<a class="anchor" aria-label="anchor" href="#expected-data-structure"></a>
 </h2>
-<p>This section describes how the data sources listed from the above
-table are expected to look like when they are input into the OSDC
-algorithm. We try to mimic as much as possible how the raw data looks
-like within Denmark Statistics. So since registers are often stored on a
-per year basis, we don’t expect a year variable in the data itself. If
-you’ve processed the data so that it has a year variable, you will
-likely need to do a split-apply-combine approach when using the osdc
-package. We internally convert all variable names to lower case, and so
-we present them here in lower case, but case may vary between data
-sources (and even between years in the same data source) in real
-data.</p>
-<p>A small note about the National Patient Register. It contains several
-tables and types of data. The algorithm uses only hospital diagnosis
-data that contained in four registers, which are a pair of two related
-registers used before (LPR2) and after (LPR3) 2019. So the LPR2 to LPR3
-equivalents are <code>lpr_adm</code> to <code>kontakter</code> and
-<code>lpr_diag</code> to <code>diagnoser</code>. Most of the variables
-have equivalents as well, except that while <code>c_spec</code> is the
-LPR2 equivalent of <code>hovedspeciale_ans</code> in LPR3, the specialty
-values in <code>hovedspeciale_ans</code> are coded as literal specialty
-names and are different from the padded integer codes that
-<code>c_spec</code> contains.</p>
-<p>On Statistics Denmark, these tables are provided as a mix of separate
-files for each calendar year prior to 2019 (in LPR2 format) and a single
-file containing all the data from 2019 onward (LPR3 format). The two
-tables can be joined with either the <code>recnum</code> variable (LPR2
-data) or the <code>dw_ek_kontakt</code> variable (LPR3 data).</p>
-<div class="section level3">
-<h3 id="bef-cpr-registerets-befolkningstabel">
+<p>This section describes how the data sources listed from the above table are expected to look like when they are input into the OSDC algorithm. We try to mimic as much as possible how the raw data looks like within Denmark Statistics. So since registers are often stored on a per year basis, we don’t expect a year variable in the data itself. If you’ve processed the data so that it has a year variable, you will likely need to do a split-apply-combine approach when using the osdc package. We internally convert all variable names to lower case, and so we present them here in lower case, but case may vary between data sources (and even between years in the same data source) in real data.</p>
+<p>A small note about the National Patient Register. It contains several tables and types of data. The algorithm uses only hospital diagnosis data that contained in four registers, which are a pair of two related registers used before (LPR2) and after (LPR3) 2019. So the LPR2 to LPR3 equivalents are <code>lpr_adm</code> to <code>kontakter</code> and <code>lpr_diag</code> to <code>diagnoser</code>. Most of the variables have equivalents as well, except that while <code>c_spec</code> is the LPR2 equivalent of <code>hovedspeciale_ans</code> in LPR3, the specialty values in <code>hovedspeciale_ans</code> are coded as literal specialty names and are different from the padded integer codes that <code>c_spec</code> contains.</p>
+<p>On Statistics Denmark, these tables are provided as a mix of separate files for each calendar year prior to 2019 (in LPR2 format) and a single file containing all the data from 2019 onward (LPR3 format). The two tables can be joined with either the <code>recnum</code> variable (LPR2 data) or the <code>dw_ek_kontakt</code> variable (LPR3 data).</p>
+<section class="level3"><h3 id="bef-cpr-registerets-befolkningstabel">
 <code>bef</code>: CPR-registerets befolkningstabel<a class="anchor" aria-label="anchor" href="#bef-cpr-registerets-befolkningstabel"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the <code>bef</code>
-register. If you want to see what the data <em>should</em> look like,
-see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>bef</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">pnr</td>
-<td align="left">Pseudonymised social security number</td>
+<td style="text-align: left;">pnr</td>
+<td style="text-align: left;">Pseudonymised social security number</td>
 </tr>
 <tr class="even">
-<td align="left">koen</td>
-<td align="left">Gender/sex</td>
+<td style="text-align: left;">koen</td>
+<td style="text-align: left;">Gender/sex</td>
 </tr>
 <tr class="odd">
-<td align="left">foed_dato</td>
-<td align="left">Date of birth</td>
+<td style="text-align: left;">foed_dato</td>
+<td style="text-align: left;">Date of birth</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="lmdb-laegemiddelstatistikregisteret">
+</table></section><section class="level3"><h3 id="lmdb-laegemiddelstatistikregisteret">
 <code>lmdb</code>: Laegemiddelstatistikregisteret<a class="anchor" aria-label="anchor" href="#lmdb-laegemiddelstatistikregisteret"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the <code>lmdb</code>
-register. If you want to see what the data <em>should</em> look like,
-see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>lmdb</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">pnr</td>
-<td align="left">Pseudonymised social security number</td>
+<td style="text-align: left;">pnr</td>
+<td style="text-align: left;">Pseudonymised social security number</td>
 </tr>
 <tr class="even">
-<td align="left">eksd</td>
-<td align="left">Date of purchase</td>
+<td style="text-align: left;">eksd</td>
+<td style="text-align: left;">Date of purchase</td>
 </tr>
 <tr class="odd">
-<td align="left">atc</td>
-<td align="left">Atc code (fully specified)</td>
+<td style="text-align: left;">atc</td>
+<td style="text-align: left;">Atc code (fully specified)</td>
 </tr>
 <tr class="even">
-<td align="left">volume</td>
-<td align="left">Number of daily standard doses (ddd) in package</td>
+<td style="text-align: left;">volume</td>
+<td style="text-align: left;">Number of daily standard doses (ddd) in package</td>
 </tr>
 <tr class="odd">
-<td align="left">apk</td>
-<td align="left">Number of packages purchased</td>
+<td style="text-align: left;">apk</td>
+<td style="text-align: left;">Number of packages purchased</td>
 </tr>
 <tr class="even">
-<td align="left">indo</td>
-<td align="left">Indication code</td>
+<td style="text-align: left;">indo</td>
+<td style="text-align: left;">Indication code</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="lpr_adm-landspatientregisterets-administrationstabel-lpr2">
-<code>lpr_adm</code>: Landspatientregisterets administrationstabel
-(LPR2)<a class="anchor" aria-label="anchor" href="#lpr_adm-landspatientregisterets-administrationstabel-lpr2"></a>
+</table></section><section class="level3"><h3 id="lpr_adm-landspatientregisterets-administrationstabel-lpr2">
+<code>lpr_adm</code>: Landspatientregisterets administrationstabel (LPR2)<a class="anchor" aria-label="anchor" href="#lpr_adm-landspatientregisterets-administrationstabel-lpr2"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the
-<code>lpr_adm</code> register. If you want to see what the data
-<em>should</em> look like, see
-<code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>lpr_adm</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">pnr</td>
-<td align="left">Pseudonymised social security number</td>
+<td style="text-align: left;">pnr</td>
+<td style="text-align: left;">Pseudonymised social security number</td>
 </tr>
 <tr class="even">
-<td align="left">recnum</td>
-<td align="left">Record id number</td>
+<td style="text-align: left;">recnum</td>
+<td style="text-align: left;">Record id number</td>
 </tr>
 <tr class="odd">
-<td align="left">d_inddto</td>
-<td align="left">Date of admission or initial contact</td>
+<td style="text-align: left;">d_inddto</td>
+<td style="text-align: left;">Date of admission or initial contact</td>
 </tr>
 <tr class="even">
-<td align="left">c_spec</td>
-<td align="left">Specialty code of department</td>
+<td style="text-align: left;">c_spec</td>
+<td style="text-align: left;">Specialty code of department</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="lpr_diag-landspatientregisterets-diagnosetabel-lpr2">
-<code>lpr_diag</code>: Landspatientregisterets diagnosetabel
-(LPR2)<a class="anchor" aria-label="anchor" href="#lpr_diag-landspatientregisterets-diagnosetabel-lpr2"></a>
+</table></section><section class="level3"><h3 id="lpr_diag-landspatientregisterets-diagnosetabel-lpr2">
+<code>lpr_diag</code>: Landspatientregisterets diagnosetabel (LPR2)<a class="anchor" aria-label="anchor" href="#lpr_diag-landspatientregisterets-diagnosetabel-lpr2"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the
-<code>lpr_diag</code> register. If you want to see what the data
-<em>should</em> look like, see
-<code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>lpr_diag</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">recnum</td>
-<td align="left">Record id number</td>
+<td style="text-align: left;">recnum</td>
+<td style="text-align: left;">Record id number</td>
 </tr>
 <tr class="even">
-<td align="left">c_diag</td>
-<td align="left">Diagnosis code</td>
+<td style="text-align: left;">c_diag</td>
+<td style="text-align: left;">Diagnosis code</td>
 </tr>
 <tr class="odd">
-<td align="left">c_diagtype</td>
-<td align="left">Diagnosis type</td>
+<td style="text-align: left;">c_diagtype</td>
+<td style="text-align: left;">Diagnosis type</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="kontakter-landspatientregisterets-kontakttabel-lpr3">
-<code>kontakter</code>: Landspatientregisterets kontakttabel
-(LPR3)<a class="anchor" aria-label="anchor" href="#kontakter-landspatientregisterets-kontakttabel-lpr3"></a>
+</table></section><section class="level3"><h3 id="kontakter-landspatientregisterets-kontakttabel-lpr3">
+<code>kontakter</code>: Landspatientregisterets kontakttabel (LPR3)<a class="anchor" aria-label="anchor" href="#kontakter-landspatientregisterets-kontakttabel-lpr3"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the
-<code>kontakter</code> register. If you want to see what the data
-<em>should</em> look like, see
-<code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>kontakter</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">cpr</td>
-<td align="left">Pseudonymised social security number</td>
+<td style="text-align: left;">cpr</td>
+<td style="text-align: left;">Pseudonymised social security number</td>
 </tr>
 <tr class="even">
-<td align="left">dw_ek_kontakt</td>
-<td align="left">Record id number</td>
+<td style="text-align: left;">dw_ek_kontakt</td>
+<td style="text-align: left;">Record id number</td>
 </tr>
 <tr class="odd">
-<td align="left">dato_start</td>
-<td align="left">Date of admission or initial contact</td>
+<td style="text-align: left;">dato_start</td>
+<td style="text-align: left;">Date of admission or initial contact</td>
 </tr>
 <tr class="even">
-<td align="left">hovedspeciale_ans</td>
-<td align="left">Specialty of department</td>
+<td style="text-align: left;">hovedspeciale_ans</td>
+<td style="text-align: left;">Specialty of department</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="diagnoser-landspatientregisterets-diagnosetabel-lpr3">
-<code>diagnoser</code>: Landspatientregisterets diagnosetabel
-(LPR3)<a class="anchor" aria-label="anchor" href="#diagnoser-landspatientregisterets-diagnosetabel-lpr3"></a>
+</table></section><section class="level3"><h3 id="diagnoser-landspatientregisterets-diagnosetabel-lpr3">
+<code>diagnoser</code>: Landspatientregisterets diagnosetabel (LPR3)<a class="anchor" aria-label="anchor" href="#diagnoser-landspatientregisterets-diagnosetabel-lpr3"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the
-<code>diagnoser</code> register. If you want to see what the data
-<em>should</em> look like, see
-<code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>diagnoser</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">dw_ek_kontakt</td>
-<td align="left">Record id number</td>
+<td style="text-align: left;">dw_ek_kontakt</td>
+<td style="text-align: left;">Record id number</td>
 </tr>
 <tr class="even">
-<td align="left">diagnosekode</td>
-<td align="left">Diagnosis code</td>
+<td style="text-align: left;">diagnosekode</td>
+<td style="text-align: left;">Diagnosis code</td>
 </tr>
 <tr class="odd">
-<td align="left">diagnosetype</td>
-<td align="left">Diagnosis type</td>
+<td style="text-align: left;">diagnosetype</td>
+<td style="text-align: left;">Diagnosis type</td>
 </tr>
 <tr class="even">
-<td align="left">senere_afkraeftet</td>
-<td align="left">Was the diagnosis retracted later?</td>
+<td style="text-align: left;">senere_afkraeftet</td>
+<td style="text-align: left;">Was the diagnosis retracted later?</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="sysi-sygesikringsregisteret">
+</table></section><section class="level3"><h3 id="sysi-sygesikringsregisteret">
 <code>sysi</code>: Sygesikringsregisteret<a class="anchor" aria-label="anchor" href="#sysi-sygesikringsregisteret"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the <code>sysi</code>
-register. If you want to see what the data <em>should</em> look like,
-see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>sysi</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">pnr</td>
-<td align="left">Pseudonymised social security number</td>
+<td style="text-align: left;">pnr</td>
+<td style="text-align: left;">Pseudonymised social security number</td>
 </tr>
 <tr class="even">
-<td align="left">barnmak</td>
-<td align="left">Was the service provided to the patient’s child?</td>
+<td style="text-align: left;">barnmak</td>
+<td style="text-align: left;">Was the service provided to the patient’s child?</td>
 </tr>
 <tr class="odd">
-<td align="left">speciale</td>
-<td align="left">Billing code of the service (fully specified)</td>
+<td style="text-align: left;">speciale</td>
+<td style="text-align: left;">Billing code of the service (fully specified)</td>
 </tr>
 <tr class="even">
-<td align="left">honuge</td>
-<td align="left">Year and week of service</td>
+<td style="text-align: left;">honuge</td>
+<td style="text-align: left;">Year and week of service</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="sssy-sygesikringsregisteret">
+</table></section><section class="level3"><h3 id="sssy-sygesikringsregisteret">
 <code>sssy</code>: Sygesikringsregisteret<a class="anchor" aria-label="anchor" href="#sssy-sygesikringsregisteret"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the <code>sssy</code>
-register. If you want to see what the data <em>should</em> look like,
-see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>sssy</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">pnr</td>
-<td align="left">Pseudonymised social security number</td>
+<td style="text-align: left;">pnr</td>
+<td style="text-align: left;">Pseudonymised social security number</td>
 </tr>
 <tr class="even">
-<td align="left">barnmak</td>
-<td align="left">Was the service provided to the patient’s child?</td>
+<td style="text-align: left;">barnmak</td>
+<td style="text-align: left;">Was the service provided to the patient’s child?</td>
 </tr>
 <tr class="odd">
-<td align="left">speciale</td>
-<td align="left">Billing code of the service (fully specified)</td>
+<td style="text-align: left;">speciale</td>
+<td style="text-align: left;">Billing code of the service (fully specified)</td>
 </tr>
 <tr class="even">
-<td align="left">honuge</td>
-<td align="left">Year and week of service</td>
+<td style="text-align: left;">honuge</td>
+<td style="text-align: left;">Year and week of service</td>
 </tr>
 </tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="lab_forsker-laboratoriedatabasens-forskertabel">
+</table></section><section class="level3"><h3 id="lab_forsker-laboratoriedatabasens-forskertabel">
 <code>lab_forsker</code>: Laboratoriedatabasens forskertabel<a class="anchor" aria-label="anchor" href="#lab_forsker-laboratoriedatabasens-forskertabel"></a>
 </h3>
-<table class="table">
-<caption>Variables and their descriptions within the
-<code>lab_forsker</code> register. If you want to see what the data
-<em>should</em> look like, see
-<code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
+<table class="table caption-top">
+<caption>Variables and their descriptions within the <code>lab_forsker</code> register. If you want to see what the data <em>should</em> look like, see <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code>.</caption>
 <thead><tr class="header">
-<th align="left">name</th>
-<th align="left">english_description</th>
+<th style="text-align: left;">name</th>
+<th style="text-align: left;">english_description</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left">patient_cpr</td>
-<td align="left">Pseudonymised social security number</td>
+<td style="text-align: left;">patient_cpr</td>
+<td style="text-align: left;">Pseudonymised social security number</td>
 </tr>
 <tr class="even">
-<td align="left">samplingdate</td>
-<td align="left">Date of sampling</td>
+<td style="text-align: left;">samplingdate</td>
+<td style="text-align: left;">Date of sampling</td>
 </tr>
 <tr class="odd">
-<td align="left">analysiscode</td>
-<td align="left">Npu code of analysis</td>
+<td style="text-align: left;">analysiscode</td>
+<td style="text-align: left;">Npu code of analysis</td>
 </tr>
 <tr class="even">
-<td align="left">value</td>
-<td align="left">Numerical result of analysis</td>
+<td style="text-align: left;">value</td>
+<td style="text-align: left;">Numerical result of analysis</td>
 </tr>
 </tbody>
-</table>
-</div>
-</div>
-<div class="section level2">
-<h2 id="getting-access-to-data">Getting access to data<a class="anchor" aria-label="anchor" href="#getting-access-to-data"></a>
+</table></section></section><section class="level2"><h2 id="getting-access-to-data">Getting access to data<a class="anchor" aria-label="anchor" href="#getting-access-to-data"></a>
 </h2>
-<p>The above data is available through Statistics Denmark and the Danish
-Health Data Authority. Researchers must be affiliated with an approved
-research institute in Denmark and fees apply. Information on how to gain
-access to data can be found at <a href="https://www.dst.dk/en/TilSalg/Forskningsservice" class="external-link uri">https://www.dst.dk/en/TilSalg/Forskningsservice</a>.</p>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+<p>The above data is available through Statistics Denmark and the Danish Health Data Authority. Researchers must be affiliated with an approved research institute in Denmark and fees apply. Information on how to gain access to data can be found at <a href="https://www.dst.dk/en/TilSalg/Forskningsservice" class="external-link uri">https://www.dst.dk/en/TilSalg/Forskningsservice</a>.</p>
+</section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">

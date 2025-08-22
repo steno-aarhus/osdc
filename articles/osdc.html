@@ -10,7 +10,10 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="osdc_files/libs/quarto-html/popper.min.js"></script><script src="osdc_files/libs/quarto-html/tippy.umd.min.js"></script><link href="osdc_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="osdc_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Getting started">
+<meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -34,12 +37,12 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/changes.html">Changes to algorithm</a></li>
-    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+<li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
     <li><a class="dropdown-item" href="../articles/design.html">Design</a></li>
-    <li><a class="dropdown-item" href="../articles/function-flow.html">Internal function flow</a></li>
-    <li><a class="dropdown-item" href="../articles/rationale.html">Rationale</a></li>
+    <li><a class="dropdown-item" href="../articles/algorithm.html">Algorithm</a></li>
+    <li><a class="dropdown-item" href="../articles/changes.html">Changes from original</a></li>
+    <li><a class="dropdown-item" href="../articles/data-sources.html">Data sources</a></li>
+    <li><a class="dropdown-item" href="../articles/function-flow.html">Function flow</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -54,48 +57,40 @@
 
 
   </div>
-</nav><div class="container template-article">
-
-
-
-
+</nav><div class="container template-quarto">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Getting started</h1>
-            
-      
-      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/osdc.Rmd" class="external-link"><code>vignettes/osdc.Rmd</code></a></small>
-      <div class="d-none name"><code>osdc.Rmd</code></div>
+
+
+
+
+      <small class="dont-index">Source: <a href="https://github.com/steno-aarhus/osdc/blob/main/vignettes/osdc.qmd" class="external-link"><code>vignettes/osdc.qmd</code></a></small>
+      <div class="d-none name"><code></code></div>
     </div>
 
-    
-    
-<p>This package serves two overarching purposes:</p>
-<ol style="list-style-type: decimal">
-<li>To provide an open-source, code-based algorithm to classify type 1
-and type 2 diabetes using Danish registers as data sources.</li>
-<li>To inspire discussions within the Danish register-based research
-space on the openness and ease of use on the existing tooling and
-registers, and on the need for an official process for updating or
-contributing to existing data sources.</li>
+
+
+
+
+
+    <p>This package serves two overarching purposes:</p>
+<ol type="1">
+<li>To provide an open-source, code-based algorithm to classify type 1 and type 2 diabetes using Danish registers as data sources.</li>
+<li>To inspire discussions within the Danish register-based research space on the openness and ease of use on the existing tooling and registers, and on the need for an official process for updating or contributing to existing data sources.</li>
 </ol>
-<p>To read up on the overall design of this package as well as on the
-algorithm, check out the <code>vignette("design")</code>. For more
-explanation on the motivations, rationale, and needs for this algorithm
-and package, check out the <code><a href="../articles/rationale.html">vignette("rationale")</a></code>. To see
-the specific data needed for this package and algorithm, see
-<code>vignette("data-sources")</code>.</p>
-<div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+<p>To read up on the overall design of this package as well as on the algorithm, check out the <code><a href="../articles/design.html">vignette("design")</a></code>. For more explanation on the motivations, rationale, and needs for this algorithm and package, check out the <code><a href="../articles/rationale.html">vignette("rationale")</a></code>. To see the specific data needed for this package and algorithm, see <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>.</p>
+<section class="level2"><h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>First, let’s load up the package, as well as dplyr.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/steno-aarhus/osdc" class="external-link">osdc</a></span><span class="op">)</span></span></code></pre></div>
-<p>The core of this package depends on the list of variables within
-different registers that are needed in order to classify the diabetes
-status of an individual. This can be found in the list:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+</div>
+<p>The core of this package depends on the list of variables within different registers that are needed in order to classify the diabetes status of an individual. This can be found in the list:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/registers.html">registers</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $bef</span></span>
 <span><span class="co">#&gt; $bef$name</span></span>
@@ -108,12 +103,12 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $bef$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
 <span><span class="co">#&gt;   name      danish_description         english_description             data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pnr       Pseudonymiseret cpr-nummer Pseudonymised social security … character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> koen      Koen                       Gender/sex                      integer  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> foed_dato Foedselsdato               Date of birth                   Date     </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;                      &lt;chr&gt;                           &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 pnr       Pseudonymiseret cpr-nummer Pseudonymised social security … character</span></span>
+<span><span class="co">#&gt; 2 koen      Koen                       Gender/sex                      integer  </span></span>
+<span><span class="co">#&gt; 3 foed_dato Foedselsdato               Date of birth                   Date     </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lmdb</span></span>
@@ -127,15 +122,15 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lmdb$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 4</span></span>
 <span><span class="co">#&gt;   name   danish_description                 english_description        data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pnr    Pseudonymiseret cpr-nummer         Pseudonymised social secu… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> eksd   Ekspeditionsdato                   Date of purchase           <span style="color: #949494;">&lt;chr [2]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> atc    ATC-kode (fuldt specificeret)      ATC code (fully specified) <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> volume Antal standarddoser (DDD) i pakken Number of daily standard … <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> apk    Antal pakker koebt                 Number of packages purcha… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> indo   Indikationskode for recept         Indication code            <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                              &lt;chr&gt;                      &lt;list&gt;   </span></span>
+<span><span class="co">#&gt; 1 pnr    Pseudonymiseret cpr-nummer         Pseudonymised social secu… &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 2 eksd   Ekspeditionsdato                   Date of purchase           &lt;chr [2]&gt;</span></span>
+<span><span class="co">#&gt; 3 atc    ATC-kode (fuldt specificeret)      ATC code (fully specified) &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 4 volume Antal standarddoser (DDD) i pakken Number of daily standard … &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 5 apk    Antal pakker koebt                 Number of packages purcha… &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 6 indo   Indikationskode for recept         Indication code            &lt;chr [1]&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lpr_adm</span></span>
@@ -149,13 +144,13 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] 2018</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lpr_adm$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 4</span></span>
 <span><span class="co">#&gt;   name     danish_description                    english_description   data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> recnum   Kontakt id-nummer                     Record id number      <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> d_inddto Indlaeggelsesdato (start paa kontakt) Date of admission or… <span style="color: #949494;">&lt;chr [2]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> c_spec   Afdelings specialekode                Specialty code of de… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                                 &lt;chr&gt;                 &lt;list&gt;   </span></span>
+<span><span class="co">#&gt; 1 pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 2 recnum   Kontakt id-nummer                     Record id number      &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 3 d_inddto Indlaeggelsesdato (start paa kontakt) Date of admission or… &lt;chr [2]&gt;</span></span>
+<span><span class="co">#&gt; 4 c_spec   Afdelings specialekode                Specialty code of de… &lt;chr [1]&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lpr_diag</span></span>
@@ -169,12 +164,12 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] 2018</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lpr_diag$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
 <span><span class="co">#&gt;   name       danish_description english_description data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> recnum     Kontakt id-nummer  Record id number    character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> c_diag     Diagnosekode       Diagnosis code      character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> c_diagtype Diagnosetype       Diagnosis type      character</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;              &lt;chr&gt;               &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 recnum     Kontakt id-nummer  Record id number    character</span></span>
+<span><span class="co">#&gt; 2 c_diag     Diagnosekode       Diagnosis code      character</span></span>
+<span><span class="co">#&gt; 3 c_diagtype Diagnosetype       Diagnosis type      character</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $kontakter</span></span>
@@ -188,13 +183,13 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $kontakter$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 4</span></span>
 <span><span class="co">#&gt;   name              danish_description             english_description data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> cpr               Pseudonymiseret cpr-nummer     Pseudonymised soci… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> dw_ek_kontakt     Kontakt id-nummer              Record id number    <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> dato_start        Indlaeggelsesdato (start paa … Date of admission … <span style="color: #949494;">&lt;chr [2]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> hovedspeciale_ans Afdelings speciale             Specialty of depar… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;             &lt;chr&gt;                          &lt;chr&gt;               &lt;list&gt;   </span></span>
+<span><span class="co">#&gt; 1 cpr               Pseudonymiseret cpr-nummer     Pseudonymised soci… &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 2 dw_ek_kontakt     Kontakt id-nummer              Record id number    &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 3 dato_start        Indlaeggelsesdato (start paa … Date of admission … &lt;chr [2]&gt;</span></span>
+<span><span class="co">#&gt; 4 hovedspeciale_ans Afdelings speciale             Specialty of depar… &lt;chr [1]&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $diagnoser</span></span>
@@ -208,13 +203,13 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $diagnoser$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 4</span></span>
 <span><span class="co">#&gt;   name              danish_description             english_description data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> dw_ek_kontakt     Kontakt id-nummer              Record id number    character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> diagnosekode      Diagnosekode                   Diagnosis code      character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> diagnosetype      Diagnosetype                   Diagnosis type      character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> senere_afkraeftet Blev diagnosen senere afkraef… Was the diagnosis … character</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;             &lt;chr&gt;                          &lt;chr&gt;               &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 dw_ek_kontakt     Kontakt id-nummer              Record id number    character</span></span>
+<span><span class="co">#&gt; 2 diagnosekode      Diagnosekode                   Diagnosis code      character</span></span>
+<span><span class="co">#&gt; 3 diagnosetype      Diagnosetype                   Diagnosis type      character</span></span>
+<span><span class="co">#&gt; 4 senere_afkraeftet Blev diagnosen senere afkraef… Was the diagnosis … character</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sysi</span></span>
@@ -228,13 +223,13 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] 2005</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sysi$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 4</span></span>
 <span><span class="co">#&gt;   name     danish_description                    english_description   data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> barnmak  Blev ydelse ydet til patientens barn? Was the service prov… integer  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> speciale Ydelsens honoreringskode              Billing code of the … character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> honuge   Aar og uge for ydelse                 Year and week of ser… character</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                                 &lt;chr&gt;                 &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… character</span></span>
+<span><span class="co">#&gt; 2 barnmak  Blev ydelse ydet til patientens barn? Was the service prov… integer  </span></span>
+<span><span class="co">#&gt; 3 speciale Ydelsens honoreringskode              Billing code of the … character</span></span>
+<span><span class="co">#&gt; 4 honuge   Aar og uge for ydelse                 Year and week of ser… character</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sssy</span></span>
@@ -248,13 +243,13 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $sssy$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 4</span></span>
 <span><span class="co">#&gt;   name     danish_description                    english_description   data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> barnmak  Blev ydelse ydet til patientens barn? Was the service prov… integer  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> speciale Ydelsens honoreringskode              Billing code of the … character</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> honuge   Aar og uge for ydelse                 Year and week of ser… character</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;    &lt;chr&gt;                                 &lt;chr&gt;                 &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… character</span></span>
+<span><span class="co">#&gt; 2 barnmak  Blev ydelse ydet til patientens barn? Was the service prov… integer  </span></span>
+<span><span class="co">#&gt; 3 speciale Ydelsens honoreringskode              Billing code of the … character</span></span>
+<span><span class="co">#&gt; 4 honuge   Aar og uge for ydelse                 Year and week of ser… character</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lab_forsker</span></span>
@@ -268,17 +263,99 @@ status of an individual. This can be found in the list:</p>
 <span><span class="co">#&gt; [1] NA</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lab_forsker$variables</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 4</span></span>
 <span><span class="co">#&gt;   name         danish_description           english_description        data_type</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> patient_cpr  Pseudonymiseret cpr-nummer   Pseudonymised social secu… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> samplingdate Dato for proevetagning       Date of sampling           <span style="color: #949494;">&lt;chr [2]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> analysiscode Analysens NPU-kode           NPU code of analysis       <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> value        Numerisk resultat af analyse Numerical result of analy… <span style="color: #949494;">&lt;chr [1]&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;                        &lt;chr&gt;                      &lt;list&gt;   </span></span>
+<span><span class="co">#&gt; 1 patient_cpr  Pseudonymiseret cpr-nummer   Pseudonymised social secu… &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 2 samplingdate Dato for proevetagning       Date of sampling           &lt;chr [2]&gt;</span></span>
+<span><span class="co">#&gt; 3 analysiscode Analysens NPU-kode           NPU code of analysis       &lt;chr [1]&gt;</span></span>
+<span><span class="co">#&gt; 4 value        Numerisk resultat af analyse Numerical result of analy… &lt;chr [1]&gt;</span></span></code></pre></div>
 </div>
-  </main>
+</section><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'light-border',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script></main>
 </div>
-
 
 
     <footer><div class="pkgdown-footer-left">
