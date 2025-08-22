@@ -77,6 +77,17 @@ classify_diabetes <- function(
   bef <- column_names_to_lower(bef)
   lmdb <- column_names_to_lower(lmdb)
 
+  # Check that data types are as expected -----
+  check_data_types(kontakter, "kontakter")
+  check_data_types(diagnoser, "diagnoser")
+  check_data_types(lpr_diag, "lpr_diag")
+  check_data_types(lpr_adm, "lpr_adm")
+  check_data_types(sysi, "sysi")
+  check_data_types(sssy, "sssy")
+  check_data_types(lab_forsker, "lab_forsker")
+  check_data_types(bef, "bef")
+  check_data_types(lmdb, "lmdb")
+
   # Initially processing -----
   lpr2 <- prepare_lpr2(
     lpr_diag = lpr_diag,
@@ -94,7 +105,7 @@ classify_diabetes <- function(
   )
 
   # Inclusion steps -----
-  included_diabetes_diagnoses <- include_diabetes_diagnoses(
+  diabetes_diagnoses <- include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
   )
@@ -121,11 +132,11 @@ classify_diabetes <- function(
     )
 
   # Joining into an initial dataset -----
-  # inclusions <- join_inclusions(
-  #   included_diabetes_diagnoses,
-  #   included_podiatrist_services,
-  #   gld_hba1c_after_exclusions
-  # )
+  inclusions <- join_inclusions(
+    diabetes_diagnoses = diabetes_diagnoses,
+    podiatrist_services = podiatrist_services,
+    gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
+  )
 
   # inclusions |>
   #   create_inclusion_dates() |>
