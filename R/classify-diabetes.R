@@ -56,15 +56,15 @@ classify_diabetes <- function(
   lmdb
 ) {
   # Verification step -----
-  verify_required_variables(kontakter, "kontakter")
-  verify_required_variables(diagnoser, "diagnoser")
-  verify_required_variables(lpr_diag, "lpr_diag")
-  verify_required_variables(lpr_adm, "lpr_adm")
-  verify_required_variables(sysi, "sysi")
-  verify_required_variables(sssy, "sssy")
-  verify_required_variables(lab_forsker, "lab_forsker")
-  verify_required_variables(bef, "bef")
-  verify_required_variables(lmdb, "lmdb")
+  check_required_variables(kontakter, "kontakter")
+  check_required_variables(diagnoser, "diagnoser")
+  check_required_variables(lpr_diag, "lpr_diag")
+  check_required_variables(lpr_adm, "lpr_adm")
+  check_required_variables(sysi, "sysi")
+  check_required_variables(sssy, "sssy")
+  check_required_variables(lab_forsker, "lab_forsker")
+  check_required_variables(bef, "bef")
+  check_required_variables(lmdb, "lmdb")
 
   # Lowercase column names -----
   kontakter <- column_names_to_lower(kontakter)
