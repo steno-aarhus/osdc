@@ -144,7 +144,7 @@ classify_t1d <- function(data) {
   # data |>
   #   get_has_t1d_primary_diagnosis() |>
   #   get_only_insulin_purchases() |>
-  #   get_majority_of_t1d_primary_diagnosis() |>
+  #   get_majority_of_t1d() |>
   #   get_insulin_purchases_within_180_days() |>
   #   get_insulin_is_two_thirds_of_gld_purchases()
 }
