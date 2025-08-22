@@ -1,7 +1,7 @@
 #' Determine if majority of diagnoses are for type 1 diabetes
 #'
 #' This function evaluates whether an individual has a majority of type 1 diabetes-
-#' specific hospital diagnoses (DE10) among all type-specific diabetes primary 
+#' specific hospital diagnoses (DE10) among all type-specific diabetes primary
 #' diagnoses (DE10 & DE11) from medical departments. If an individual has any type-
 #' specific diabetes diagnoses from endocrinology departments, the majority is
 #' determined only among these contacts.
@@ -19,7 +19,7 @@
 #' # Example usage within the include_diabetes_diagnoses() pipeline:
 #' include_diabetes_diagnoses(lpr2, lpr3) |>
 #'  dplyr::mutate(
-#'    majority_t1d_primary_diagnoses = get_majority_of_t1d_diagnoses(
+#'    majority_t1d_primary_diagnoses = get_majority_of_t1d(
 #'      n_t1d_endocrinology,
 #'      n_t2d_endocrinology,
 #'      n_t1d_medical,
@@ -28,15 +28,13 @@
 #'  ) |>
 #'  dplyr::arrange(.data$pnr)
 #' }
-#' 
+#'
 #' @seealso [dplyr::case_when()] for condition handling.
-get_majority_of_t1d_diagnoses <- function(n_t1d_endocrinology,
-                                          n_t2d_endocrinology,
-                                          n_t1d_medical,
-                                          n_t2d_medical) {
-
+get_majority_of_t1d <- function(n_t1d_endocrinology,
+                                n_t2d_endocrinology,
+                                n_t1d_medical,
+                                n_t2d_medical) {
   dplyr::case_when(
-
     # Cases with contacts to endocrinological departments: evaluate endo contacts
     sum(n_t1d_endocrinology, n_t2d_endocrinology, na.rm = TRUE) > 0 ~
       n_t1d_endocrinology > n_t2d_endocrinology,
