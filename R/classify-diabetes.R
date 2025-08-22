@@ -140,7 +140,7 @@ classify_diabetes <- function(
 
   # inclusions |>
   #   create_inclusion_dates() |>
-  #   add_two_thirds_and_only_insulin(
+  #   add_insulin_classification_cols(
   #     gld_purchases = gld_purchases
   #   ) |>
   #   classify_t1d()
