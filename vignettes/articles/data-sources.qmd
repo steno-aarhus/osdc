@@ -1,20 +1,12 @@
 ---
 title: "Data sources"
-output: rmarkdown::html_vignette
-bibliography: ../references.bib
-csl: ../vancouver.csl
-vignette: >
-  %\VignetteIndexEntry{Data sources}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setup}
+#| include: false
 knitr::opts_chunk$set(
   echo = FALSE,
-  results = "asis",
-  collapse = TRUE,
-  comment = "#>"
+  results = "asis"
 )
 library(osdc)
 library(dplyr)
@@ -50,7 +42,6 @@ registers_as_md_table <- function(caption = NULL) {
 #' Convert the register list to a table showing registers and their variables.
 #'
 #' @returns A character vector as a Markdown table.
-#'
 register_variables_as_md_table <- function() {
   register_names <- registers() |>
     purrr::map("name") |>
