@@ -7,7 +7,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' check_data_types(simulate_register("kontakter"), "kontakter")
+#' check_data_types(simulate_registers("kontakter")[[1]], "kontakter")
 #' }
 check_data_types <- function(data, register, call = rlang::caller_env()) {
   checkmate::assert_choice(register, get_register_abbrev())
