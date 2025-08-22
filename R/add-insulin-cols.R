@@ -1,13 +1,10 @@
-#' Add columns for when two-thirds of doses are insulin and if only insulin was purchased.
+#' Add three columns indicating 1) if an insulin purchase has been made within 180 days of the first glucose-lowering drug purchase, 2) if two-thirds of purchased glucose-lowering drug doses are insulins, and 3) if insulin is the only glucose-lowering drug type ever purchased.
 #'
 #' @param data A [tibble::tibble()] with at least the column `pnr`.
 #' @param gld_purchases The output from [include_gld_purchases()].
 #'
-#' @returns A [tibble::tibble()] with two extra columns called
-#'   `is_two_thirds_insulin` and `only_insulin_purchases`. These columns
-#'    are logical variables indicating whether at least two-thirds of the
-#'    GLD doses purchased are insulin doses and if only insulin was
-#'    purchased.
+#' @returns A [tibble::tibble()] with three new columns called
+#'   `is_two_thirds_insulin` and `only_insulin_purchases`. `is_two_thirds_insulin`,  `only_insulin_purchases` and `insulin_purchases_within_180_days`. These columns are logical variables indicating 1) whether at least two-thirds of all purchased glucose-lowering drug doses are insulins, 2) if insulin is the only glucose-lowering drug type ever purchased, and 3) if an insulin purchase has been made within 180 days of the first glucose-lowering drug purchase.
 #' @keywords internal
 #' @inherit algorithm seealso
 #'
