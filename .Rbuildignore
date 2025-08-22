@@ -16,3 +16,4 @@
 ^doc$
 ^Meta$
 ^air.toml$
+^vignettes/*_files$
