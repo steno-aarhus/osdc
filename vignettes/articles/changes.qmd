@@ -1,12 +1,5 @@
 ---
-title: "Changes to algorithm"
-output: rmarkdown::html_vignette
-bibliography: references.bib
-csl: vancouver.csl
-vignette: >
-  %\VignetteIndexEntry{Changes to algorithm}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "Changes from original"
 ---
 
 In this vignette, you'll find a description of the changes that have

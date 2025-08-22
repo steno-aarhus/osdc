@@ -1,12 +1,7 @@
 ---
 title: "Rationale"
-output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
-vignette: >
-  %\VignetteIndexEntry{Rationale}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 This document explains the rationale behind the development of this
