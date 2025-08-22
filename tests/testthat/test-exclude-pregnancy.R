@@ -50,18 +50,18 @@ pregnancy_dates <- tibble::tribble(
   dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
 
 expected <- tibble::tribble(
-  ~pnr, ~date, ~atc, ~contained_doses, ~has_gld_purchases, ~has_elevated_hba1c, ~no_pregnancy,
+  ~pnr, ~date, ~contained_doses, ~has_gld_purchases, ~has_elevated_hba1c, ~no_pregnancy,
   # From excluded_pcos.
-  1, "2000-01-01", "A10BA02", 1.21, TRUE, NA, TRUE, # Same pnr and date as row from hba1c, both kept.
-  1, "2019-01-01", "A10BA02", 1.21, TRUE, NA, TRUE,
-  1, "2015-01-01", "A10BA02", 1.21, TRUE, NA, TRUE,
-  1, "2025-01-01", "A10BA02", 1.21, TRUE, NA, TRUE,
-  2, "2010-02-02", "A10BA02", 1.21, TRUE, NA, TRUE,
+  1, "2000-01-01", 1.21, TRUE, NA, TRUE, # Same pnr and date as row from hba1c, both kept.
+  1, "2019-01-01", 1.21, TRUE, NA, TRUE,
+  1, "2015-01-01", 1.21, TRUE, NA, TRUE,
+  1, "2025-01-01", 1.21, TRUE, NA, TRUE,
+  2, "2010-02-02", 1.21, TRUE, NA, TRUE,
   # From included_hba1c.
-  1, "2000-01-01", NA, NA, NA, TRUE, TRUE, # Same pnr and date as row from excluded_pcos, both kept.
-  1, "2000-01-02", NA, NA, NA, TRUE, TRUE,
-  1, "2015-01-02", NA, NA, NA, TRUE, TRUE,
-  3, "2010-02-02", NA, NA, NA, TRUE, TRUE,
+  1, "2000-01-01", NA, NA, TRUE, TRUE, # Same pnr and date as row from excluded_pcos, both kept.
+  1, "2000-01-02", NA, NA, TRUE, TRUE,
+  1, "2015-01-02", NA, NA, TRUE, TRUE,
+  3, "2010-02-02", NA, NA, TRUE, TRUE,
 ) |>
   dplyr::mutate(date = lubridate::as_date(date))
 
