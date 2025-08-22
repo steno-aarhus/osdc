@@ -165,8 +165,8 @@ algorithm <- function() {
     insulin_purchases_within_180_days = list(
       register = NA,
       title = "Any insulin purchases within 180 days",
-      # Any purchase equal to or after the inclusion date.
-      logic = "is_only_insulin_purchases & (purchase_date >= raw_inclusion_date | purchase_date <= (raw_inclusion_date + lubridate::days(180)))",
+      # Any purchase of insulin within 180 days of the first purchase of a glucose-lowering drug.
+      logic = "is_insulin_gld_code & date <= (first_gld_date + days(180))",
       comments = "This is used to classify type 1 diabetes."
     ),
     t1d = list(
