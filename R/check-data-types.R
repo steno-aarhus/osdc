@@ -54,5 +54,5 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
       call = call
     )
   }
-  return(invisible(TRUE))
+  invisible(TRUE)
 }
