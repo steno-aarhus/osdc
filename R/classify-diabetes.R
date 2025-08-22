@@ -162,7 +162,6 @@ classify_diabetes <- function(
 classify_t1d <- function(data) {
   logic <- c(
     "is_any_t1d_primary_diagnosis",
-    "insulin_purchases_within_180_days",
     "t1d"
   ) |>
     rlang::set_names() |>
@@ -173,11 +172,9 @@ classify_t1d <- function(data) {
   data |>
     dplyr::mutate(
       is_any_t1d_primary_diagnosis = !!logic$is_any_t1d_primary_diagnosis,
-      insulin_purchases_within_180_days = !!logic$insulin_purchases_within_180_days,
       t1d = !!logic$t1d
     ) |>
     dplyr::select(
-      -"is_any_t1d_primary_diagnosis",
-      -"insulin_purchases_within_180_days"
+      -"is_any_t1d_primary_diagnosis"
     )
 }

@@ -174,17 +174,10 @@ algorithm <- function() {
       logic = "n_t1d_is_endocrinology_dept AND (is_t1d_code OR is_t2d_code)",
       comments = "This is used to classify type 1 diabetes."
     ),
-    insulin_purchases_within_180_days = list(
-      register = NA,
-      title = "Any insulin purchases within 180 days",
-      # Any purchase of insulin within 180 days of the first purchase of a glucose-lowering drug.
-      logic = "is_insulin_gld_code & date <= (first_gld_date + days(180))",
-      comments = "This is used to classify type 1 diabetes."
-    ),
     t1d = list(
       register = NA,
       title = "Classifying type 1 diabetes status",
-      logic = "(only_insulin_purchases & is_any_t1d_primary_diagnosis) | (!only_insulin_purchases & is_any_t1d_primary_diagnosis & is_majority_dx & is_two_thirds_insulin & insulin_purchases_within_180_days)",
+      logic = "(is_only_insulin_purchases & is_any_t1d_primary_diagnosis) | (!is_only_insulin_purchases & is_any_t1d_primary_diagnosis & is_majority_dx & is_two_thirds_insulin & is_insulin_purchases_within_180_days)",
       comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     )
   )
