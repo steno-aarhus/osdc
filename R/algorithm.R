@@ -38,13 +38,13 @@ algorithm <- function() {
     is_non_insulin_gld_code = list(
       register = "lmdb",
       title = "Non-insulin glucose-lowering drugs",
-      logic = "atc =~ '^A10B' OR atc =~ '^A10AE5'",
+      logic = "atc =~ '^A10B' OR atc =~ '^A10AE56'",
       comments = "This is used during the classification of type 1 diabetes to identify persons who only purchase insulin or mostly purchase insulin."
     ),
     is_insulin_gld_code = list(
       register = "lmdb",
       title = "Only insulin glucose-lowering drugs",
-      logic = "atc =~ '^A10A' AND NOT (atc =~ '^A10AE5')",
+      logic = "atc =~ '^A10A' AND NOT (atc =~ '^A10AE56')",
       comments = "This is used during the classification of type 1 diabetes to identify persons who only purchase insulin or mostly purchase insulin."
     ),
     lpr2_is_needed_code = list(

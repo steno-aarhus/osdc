@@ -12,7 +12,7 @@ lmdb <- tibble::tribble(
   "A10",
   "A10C",
   "A10B",
-  "A10AE5",
+  "A10AE56",
   "A10B02",
   "A11",
   "A21",
@@ -28,7 +28,7 @@ expected <- tibble::tribble(
   # the function correctly identifies the drug classes.
   "A10C", FALSE, FALSE,
   "A10B", FALSE, TRUE,
-  "A10AE5", FALSE, TRUE,
+  "A10AE56", FALSE, TRUE,
   "A10B02", FALSE, TRUE
 ) |>
   dplyr::bind_cols(constants) |>
