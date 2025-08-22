@@ -1,8 +1,99 @@
 @startuml function-flow
+!theme cerulean-outline
+<style>
+action, card, database, rectangle {
+    FontColor black
+}
+.inclusion {
+    BackgroundColor lightblue
+}
+.exclusion {
+    BackgroundColor orange
+}
+</style>
+
+hide <<inclusion>> stereotype
+hide <<exclusion>> stereotype
 
 card classify_diabetes() as cd {
-    !include function-flow-population.puml
-    !include function-flow-classification.puml
+  together {
+    database sssy
+    database sysi
+    database lpr_diag
+    database lpr_adm
+    database lmdb
+    database lab_forsker
+    database kontakter
+    database diagnoser
+    database bef
+  }
+
+  together {
+    action "prepare_lpr2()" as lpr2
+    action "prepare_lpr3()" as lpr3
+  }
+
+  together {
+    action "exclude_pregnancy()" as ex_pregnancy <<exclusion>>
+    action "exclude_potential_pcos()" as ex_pcos <<exclusion>>
+  }
+
+  together {
+    action "include_diabetes_diagnoses()" as in_diagnoses <<inclusion>>
+    action "include_hba1c()" as in_hba1c <<inclusion>>
+    action "include_podiatrist_services()" as in_podiatrist <<inclusion>>
+    action "include_gld_purchases()" as in_gld <<inclusion>>
+    action "get_pregnancy_dates()" as pregnancy
+  }
+
+  action "join_inclusion()" as join_inclusion
+
+  together {
+    action "create_inclusion_dates()" as inclusion_date
+    action "add_two_thirds_insulin_doses()" as add_two_thirds_insulin_doses
+    action "add_only_insulin_purchases()" as add_only_insulin_purchases
+    action "classify_t1d()" as classify_t1d
+  }
+
+  'join lpr
+  lpr_diag --> lpr2
+  lpr_adm --> lpr2
+  kontakter --> lpr3
+  diagnoser --> lpr3
+
+  'inclusion: podiatrist services
+  sssy --> in_podiatrist
+  sysi --> in_podiatrist
+  in_podiatrist --> join_inclusion
+
+  'inclusion: hba1c
+  lab_forsker --> in_hba1c
+  in_hba1c --> ex_pregnancy
+  ex_pregnancy --> join_inclusion
+
+  'inclusion: gld purchases
+  lmdb --> in_gld
+  in_gld --> ex_pcos
+  ex_pcos --> ex_pregnancy
+
+  'inclusion: diabetes diagnoses
+  lpr2 --> in_diagnoses
+  lpr3 --> in_diagnoses
+  in_diagnoses --> join_inclusion
+
+  'exclusion and helper functions
+  bef --> ex_pcos
+  lpr2 --> pregnancy
+  lpr3 --> pregnancy
+  pregnancy --> ex_pregnancy
+  join_inclusion --> inclusion_date
+
+  ' classification functions
+  inclusion_date --> add_two_thirds_insulin_doses
+  in_gld --> add_two_thirds_insulin_doses
+  add_two_thirds_insulin_doses --> add_only_insulin_purchases
+  in_gld --> add_only_insulin_purchases
+  add_only_insulin_purchases --> classify_t1d
 }
 
 @enduml
