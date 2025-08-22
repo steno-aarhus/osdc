@@ -14,40 +14,32 @@ add_two_thirds_insulin_doses <- function(data, gld_purchases) {
     # To convert the string into an R expression.
     rlang::parse_expr()
 
-  two_thirds <- gld_purchases |>
-    dplyr::select(
-      "pnr",
-      "date",
-      "contained_doses",
-      "is_insulin_gld_code",
-      "is_non_insulin_gld_code"
-    ) |>
-    tidyr::pivot_longer(
-      cols = c("is_insulin_gld_code", "is_non_insulin_gld_code")
-    ) |>
-    # Only keep TRUE values of GLD codes.
-    dplyr::filter(.data$value) |>
-    dplyr::group_by(dplyr::pick(-c("contained_doses"))) |>
-    dplyr::summarise(
-      contained_doses = sum(.data$contained_doses, na.rm = TRUE),
-      .groups = "keep"
-    ) |>
-    dplyr::ungroup() |>
-    tidyr::pivot_wider(
-      names_from = "name",
-      values_from = "contained_doses"
-    ) |>
-    dplyr::mutate(
-      gld_doses = .data$is_insulin_gld_code + .data$is_non_insulin_gld_code,
-      # At least two-thirds of the doses are insulin doses.
-      two_thirds_insulin_doses = !!logic
-    ) |>
-    dplyr::select(
-      "pnr",
-      "date",
-      "two_thirds_insulin_doses"
-    )
+two_thirds_and_only_insulin <- gld_purchases  |>
+  dplyr::select(
+    "pnr",
+    "contained_doses",
+    "is_insulin_gld_code",
+    "is_non_insulin_gld_code"
+  ) |>
+  dplyr::summarise(
+    insulin_doses = sum(.data$contained_doses[is_insulin_gld_code], na.rm = TRUE),
+    total_gld_doses = sum(.data$contained_doses, na.rm = TRUE),
+    .groups = "keep",
+    .by = "pnr"
+  ) |>
+  dplyr::mutate(
+    # At least two-thirds of the doses are insulin doses:
+    two_thirds_insulin_doses = !!logic,
+    # All doses are insulins:
+    only_insulin_purchases = .data$insulin_doses >= 1 & .data$insulin_doses == .data$total_gld_doses,
+    .by = "pnr"
+  ) |>
+  dplyr::select(
+    "pnr",
+    "is_two_thirds_insulin",
+    "only_insulin_purchases"
+  )
 
-  data |>
-    dplyr::left_join(two_thirds, by = dplyr::join_by("pnr", "date"))
+data |>
+  dplyr::left_join(two_thirds_and_only_insulin, by = dplyr::join_by("pnr"))
 }
