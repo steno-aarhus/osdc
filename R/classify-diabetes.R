@@ -45,16 +45,15 @@
 #' )
 #' }
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
-  sysi,
-  sssy,
-  lab_forsker,
-  bef,
-  lmdb
-) {
+    kontakter,
+    diagnoser,
+    lpr_diag,
+    lpr_adm,
+    sysi,
+    sssy,
+    lab_forsker,
+    bef,
+    lmdb) {
   # Verification step -----
   check_required_variables(kontakter, "kontakter")
   check_required_variables(diagnoser, "diagnoser")
@@ -138,17 +137,18 @@ classify_diabetes <- function(
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
-  # inclusions |>
-  #   create_inclusion_dates() |>
-  #   classify_t1d() |>
-  #   dplyr::mutate(t2d = !t1d) |>
-  #   dplyr::select(
-  #     "pnr",
-  #     "stable_inclusion_date",
-  #     "raw_inclusion_date",
-  #     "t1d",
-  #     "t2d"
-  #   )
+  inclusions |>
+    # create_inclusion_dates() |>
+    classify_t1d() |>
+    # If t1d is NA, t2d will also be NA
+    dplyr::mutate(t2d = !.data$t1d) |>
+    dplyr::select(
+      "pnr",
+      "stable_inclusion_date",
+      "raw_inclusion_date",
+      "t1d",
+      "t2d"
+    )
 }
 
 #' After inclusion and exclusion, classify those with type 1 diabetes.
