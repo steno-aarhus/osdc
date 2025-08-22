@@ -1,11 +1,13 @@
-AE
 ATC
 Aarhus
 BEF
 CMD
+Changelog
+Commitizen
 DCCT
 DDD
 De
+DuckDB
 GDM
 GLD
 GLP
@@ -16,7 +18,6 @@ Isaksen's
 LMDB
 LPR
 Lifecycle
-Lægemiddeldatabasen
 Metformin
 NPU
 NPUs
@@ -29,7 +30,6 @@ SDS's
 SSSY
 SYSI
 Saxenda
-Uncoloured
 YYWW
 YYYY
 atc
@@ -42,7 +42,11 @@ empagliflozin
 endocrinological
 formatters
 forsker
-gld
+honuge
+indo
+joinable
+kontakter
+lowercasing
 lpr
 medinfo
 mellitus
@@ -54,8 +58,12 @@ pnr
 polycystic
 pre
 pseudonymised
-reproducibility
+puml
 semaglutid
+simstudy
 th
 tibble
+tidyverse
 traceback
+yyww
+️
