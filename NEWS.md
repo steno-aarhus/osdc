@@ -1,10 +1,10 @@
-# osdc 0.0.1.9000 (development version)
+## 0.0.1.9000
 
-## General
+### General
 
 -   Started package setup and infrastructure.
 
-## Documentation
+### Documentation
 
 -   Added drafts of vignettes on Getting Started in `vignette("osdc")`
     (#53)
@@ -13,13 +13,13 @@
 -   Added draft of rationale for the package and algorithm in
     `vignette("rationale")` (#63).
 
-## Data
+### Data
 
 -   Added a dataset that contains the list of variables and registers we
     need for the algorithm to work with `variable_description` (#37,
     #48).
 
-## Internal
+### Internal
 
 -   Added function to internally verify that the input register database
     contains the necessary variables for the algorithm to work, using
