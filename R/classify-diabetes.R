@@ -94,7 +94,7 @@ classify_diabetes <- function(
   )
 
   # Inclusion steps -----
-  included_diabetes_diagnoses <- include_diabetes_diagnoses(
+  diabetes_diagnoses <- include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
   )
@@ -121,11 +121,11 @@ classify_diabetes <- function(
     )
 
   # Joining into an initial dataset -----
-  # inclusions <- join_inclusions(
-  #   included_diabetes_diagnoses,
-  #   included_podiatrist_services,
-  #   gld_hba1c_after_exclusions
-  # )
+  inclusions <- join_inclusions(
+    diabetes_diagnoses = diabetes_diagnoses,
+    podiatrist_services = podiatrist_services,
+    gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
+  )
 
   # inclusions |>
   #   create_inclusion_dates() |>
