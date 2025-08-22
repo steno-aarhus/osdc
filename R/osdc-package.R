@@ -7,6 +7,7 @@
 #' @importFrom dplyr na_if
 #' @importFrom lubridate weeks
 #' @importFrom lubridate years
+#' @importFrom lubridate days
 ## usethis namespace: end
 NULL
 
