@@ -1,16 +1,12 @@
-#' Create inclusion dates from all the inclusion events.
+#' Create inclusion dates from all the inclusion events
 #'
 #' This function takes the output from
-#' `join_inclusions()` and defines the final inclusion dates, raw and stable
+#' [join_inclusions()] and defines the final inclusion dates, raw and stable
 #' based on all inclusion event types. Since inclusion requires at least two
 #' events (of any type), this function keeps only those with 2 or more events.
 #' E.g., an individual with two elevated HbA1c tests followed by a
 #' glucose-lowering drug purchase is included with the latest elevated HbA1c
 #' test and the purchase of glucose-lowering drugs.
-#'
-#' The function creates two new columns: one indicating the "raw"
-#' inclusion date and one indicating
-#' a "stable" inclusion date, see @returns for more details.
 #'
 #' @param inclusions Output from [join_inclusions()].
 #' @param stable_inclusion_start_date Cutoff date after which inclusion events
@@ -21,10 +17,9 @@
 #'    cohort to individuals with inclusion dates after this cutoff date.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
-#'   along with the `pnr` and `date` columns along with the `atc` column from
-#'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,
-#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from
-#'   `include_diabetes_diagnoses()`. It also creates two new columns:
+#'   along with the `pnr` and `date` columns along with the columns from
+#'   [exclude_pregnancy()] and [include_diabetes_diagnoses()].
+#'   It also creates two new columns:
 #'
 #'   - `raw_inclusion_date`: Date of raw inclusion, the second earliest recorded
 #'        event for each individual.
@@ -32,7 +27,6 @@
 #'        the raw inclusion date is before the stable inclusion start date.
 #'
 #' @keywords internal
-#' @inherit algorithm seealso
 create_inclusion_dates <- function(
   inclusions,
   stable_inclusion_start_date = "1998-01-01"
