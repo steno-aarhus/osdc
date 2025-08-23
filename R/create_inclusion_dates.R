@@ -53,9 +53,6 @@ create_inclusion_dates <- function(
       "raw_inclusion_date",
       "stable_inclusion_date",
 
-      # From `exclude_pregnancy()` via the GLD purchases
-      "atc",
-
       # From `include_diabetes_diagnoses()`
       "n_t1d_endocrinology",
       "n_t2d_endocrinology",
