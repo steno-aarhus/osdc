@@ -3,9 +3,9 @@
 We use [Commitizen](https://commitizen-tools.github.io/commitizen/) to
 automatically increase the versions, release the package on GitHub (with 
 a tag), and auto-generate this NEWS file. The items listed below are
-generated based on the commit messages we use that *must* follow the
+generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
-standard in order for them to be correctly added here.
+standard.
 
 ## 0.3.3 (2025-08-25)
 
