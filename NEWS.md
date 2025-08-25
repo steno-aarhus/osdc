@@ -1,3 +1,12 @@
+# Changelog
+
+We use [Commitizen](https://commitizen-tools.github.io/commitizen/) to
+automatically increase the versions, release the package on GitHub (with 
+a tag), and auto-generate this NEWS file. The items listed below are
+generated based on our commit messages that follow the
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+standard.
+
 ## 0.3.3 (2025-08-25)
 
 ### Refactor
@@ -29,7 +38,7 @@
 - :sparkles: `join_inclusions()` added as step (#246)
 - :sparkles: `include_diabetes_diagnoses()` (#258)
 - ✨ `exclude_pregnancy()` (#261)
-- :sparkles: uncomment first exclusion step (#243)
+- :sparkles: first exclusion step (#243)
 - :sparkles: add `exclude_potential_pcos()` (#214)
 - :sparkles: add `simulate_registers()` (#208)
 - :sparkles: skeleton of the core diabetes classification (#142)
@@ -41,24 +50,14 @@
 - function to join the LPR2 registers (#118)
 - add join_lpr3 with tests
 - :sparkles: add the function to join the LPR2 registers
-- internal function to extract logic from algorithm data. Untested
-- create (draft) function to include hba1c criteria
-- regenerate png from puml
-- update structure (arrows and together) to correct arrows and layout
+- create function to include HbA1c criteria
 - add function that join inclusion events
-- add classification to function-flow
 - helper functions to insert data into Markdown vignettes
 - internal function to extract logic from algorithm data. Untested
-- create (draft) function to include hba1c criteria
-- add cspell en-GB and init word list
-- added simluated data!
+- create (draft) function to include HbA1c criteria
+- added simulated data
 - :construction: code to get list of Danish ICD 8 codes
 - :construction: expand on the fixer functions for the simulation data
-- WIP, working on generating fake data
-- create test health insurance df using. create_test_hi_df()
-- add create_test_hi_df()
-- create test lab_df using create_test_lab_df()
-- add functions script with create_test_lab_df()
 - add function to convert to lowercase.
 - internal function to get the required variables for a register.
 - function to get list of the registers abbreviations
@@ -97,9 +96,8 @@
 - :fire: remove old figure experiments
 - we don't have tidyverse as a dependency, it isn't needed here
 - add missing bracket
-- remove formatOnSave to avoid VS code reformatting
 - apply suggestions from code review
-- small fix to the comments and proportion of npu units inserted
+- small fix to the comments and proportion of NPU units inserted
 - :art: add space before register_abbrev
 - NPU should be 8 long in total, not 8 integers
 - add "_status" to the name of the "classify_diabetes" function
@@ -108,7 +106,7 @@
 - remove all mentions of "before index date" since these filters are based on all data
 - edits from code suggestions
 - move set.seed up
-- change pnr to only include 001-100 independent of num_samples
+- change pnr to only include 001-100 independent of `num_samples`
 - removed leftover man/ file that triggers check warning
 - DuckDB requires `colnames()`, not `names()`
 - Minor text edits
@@ -120,9 +118,9 @@
 
 - :recycle: add (non-)insulin drug indicator variables (#298)
 - :recycle: rename `verify_required_variables()` to `check_required_variables()` (#306)
-- ♻️ move colname lowercasing to `classify_diabetes()` (#295)
+- ♻️ move column name lowercasing to `classify_diabetes()` (#295)
 - :recycle: `criteria` -> `logic` (#294)
-- :recycle: move lpr2 primary dx logic to algorithm (#289)
+- :recycle: move lpr2 primary diagnosis logic to algorithm (#289)
 - ♻️ update `join_lpr3()` to be `prepare_lpr3()` (#273)
 - :recycle: make `yyww_to_yyyymmdd()` internal (#283)
 - :recycle: update `prepare_lpr2()` col names to be `_dept` (#282)
@@ -138,20 +136,10 @@
 - :recycle: make joinable generated padded integers (#170)
 - take a dataframe rather than a string name of the register
 - these functions should only output data
-- quiet the reading message
 - :recycle: convert the `data-raw/` scripts into functions
-- kontakter should come first so cpr is first column, plus use inner join
+- kontakter should come first so `cpr` is first column, plus use inner join
 - keep only earliest two dates, might not work with some databases
-- keep only earliest two dates, might not work with some databases
-- update atc codes based on @Aastedet comments
-- move icd8 processing into own section and store only relevant info
+- move ICD8 processing into own section and store only relevant info
 - completely refactor simulation code since simstudy was not working
-- fully revise the simulation definition file, since simstudy was strange
-- small updates and fixes
 - :recycle: rewrote and revised the code to add false metformin
-- create function to make pnr, plus other small edits
-- Started refactoring but not sure what output should be.
-- move functions to create test lab and hi data into create_test_data.R and delete empty functions.R
-- apply suggestions from code review
-- remove all `rm()`, `saveRDS()`, and `list.files()` code
-- use newly created get variables function
+- create function to make `pnr`, plus other small edits
