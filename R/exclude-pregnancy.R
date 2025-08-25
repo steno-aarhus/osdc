@@ -107,10 +107,7 @@ exclude_pregnancy <- function(
     dplyr::select(
       "pnr",
       "date",
-      "atc",
-      "contained_doses",
-      "has_gld_purchases",
-      "has_elevated_hba1c"
+      "contained_doses"
     ) |>
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a

@@ -23,12 +23,8 @@
 #'        daily doses (DDD).
 #'   -   `indication_code`: The indication code of the prescription (renamed
 #'        from `indo`).
-#'   -   `has_gld_purchases`: A logical variable to use as a helper indicator
-#'       for later functions.
 #'   -   `is_insulin_gld_code`: A logical variable to use as a helper indicator
 #'       for later functions, used for classifying type 1 diabetes.
-#'   -   `is_non_insulin_gld_code`: A logical variable to use as a helper
-#'       indicator for later functions, used for classifying type 1 diabetes.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -39,7 +35,6 @@
 #' }
 include_gld_purchases <- function(lmdb) {
   logic <- c(
-    "is_non_insulin_gld_code",
     "is_insulin_gld_code",
     "is_gld_code"
   ) |>
@@ -55,10 +50,7 @@ include_gld_purchases <- function(lmdb) {
     # number of packages purchased
     dplyr::mutate(
       contained_doses = .data$volume * .data$apk,
-      # An indicator variable for later joins
-      has_gld_purchases = TRUE,
       is_insulin_gld_code = !!logic$is_insulin_gld_code,
-      is_non_insulin_gld_code = !!logic$is_non_insulin_gld_code
     ) |>
     # Keep only the columns we need.
     dplyr::select(
@@ -67,9 +59,7 @@ include_gld_purchases <- function(lmdb) {
       date = "eksd",
       "atc",
       "contained_doses",
-      "has_gld_purchases",
       indication_code = "indo",
-      "is_insulin_gld_code",
-      "is_non_insulin_gld_code"
+      "is_insulin_gld_code"
     )
 }

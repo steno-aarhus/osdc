@@ -17,10 +17,10 @@ sssy <- tibble::tribble(
 )
 
 expected <- tibble::tribble(
-  ~pnr, ~date, ~has_podiatrist_services,
-  2000000000, lubridate::ymd("1992-02-10"), TRUE,
-  3000000000, lubridate::ymd("2007-12-24"), TRUE,
-  3000000000, lubridate::ymd("2008-07-21"), TRUE
+  ~pnr, ~date,
+  2000000000, lubridate::ymd("1992-02-10"),
+  3000000000, lubridate::ymd("2007-12-24"),
+  3000000000, lubridate::ymd("2008-07-21")
 )
 
 test_that("sysi needs expected variables", {
