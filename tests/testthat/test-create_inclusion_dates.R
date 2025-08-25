@@ -23,11 +23,11 @@ inclusions <- tibble::tibble(
 actual <- create_inclusion_dates(inclusions)
 
 test_that("number of rows decreases as expected", {
-  expect_equal(nrow(actual), 3)
+  expect_equal(nrow(actual), 2)
 })
 
 test_that("we have less stable inclusion dates than raw", {
-  expect_less_than(
+  expect_lt(
     sum(!is.na(actual$stable_inclusion_date)),
     sum(!is.na(actual$raw_inclusion_date))
   )

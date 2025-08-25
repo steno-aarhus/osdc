@@ -31,22 +31,19 @@ create_inclusion_dates <- function(
   inclusions,
   stable_inclusion_start_date = "1998-01-01"
 ) {
-  inclusions |>
-    # Drop earliest date per pnr so only those with two or more events are kept.
-    dplyr::filter(.data$date != min(.data$date, na.rm = TRUE), .by = "pnr") |>
+inclusions |>
+    # take the second date per person (or drop)
+    dplyr::filter(dplyr::row_number(.data$date) == 2, .by = "pnr") |>
     dplyr::mutate(
-      # Earliest date in the rows for each individual.
-      raw_inclusion_date = min(.data$date, na.rm = TRUE),
+      raw_inclusion_date = date,
       # Set the stable inclusion date to NA if the raw inclusion date is before
       # stable_inclusion_start_date.
       stable_inclusion_date = dplyr::if_else(
         .data$raw_inclusion_date <
           lubridate::as_date(stable_inclusion_start_date),
         NA,
-        .data$raw_inclusion_date
-      ),
-      .by = "pnr"
-    ) |>
+        .data$raw_inclusion_date)
+      ) |>
     dplyr::select(
       "pnr",
       "date",
