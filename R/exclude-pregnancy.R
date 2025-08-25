@@ -107,7 +107,6 @@ exclude_pregnancy <- function(
     dplyr::select(
       "pnr",
       "date",
-      "atc",
       "contained_doses",
       "has_gld_purchases",
       "has_elevated_hba1c"
