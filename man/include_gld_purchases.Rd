@@ -17,16 +17,18 @@ variables:
 \item \code{pnr}: Personal identification variable.
 \item \code{date}: The dates of all purchases of GLD.
 \item \code{atc}: The ATC code for the type of drug.
-\item \code{contained_doses}: The amount of doses purchased, in number of defined
-daily doses (DDD).
 \item \code{indication_code}: The indication code of the prescription (renamed
 from \code{indo}).
 \item \code{has_gld_purchases}: A logical variable to use as a helper indicator
 for later functions.
-\item \code{is_insulin_gld_code}: A logical variable to use as a helper indicator
-for later functions, used for classifying type 1 diabetes.
 \item \code{is_non_insulin_gld_code}: A logical variable to use as a helper
 indicator for later functions, used for classifying type 1 diabetes.
+\item \code{has_two_thirds_insulin}: A logical variable used in classifying type 1
+diabetes. See \code{\link[=algorithm]{algorithm()}} for more detail.
+\item \code{has_only_insulin_purchases}: A logical variable used in classifying type 1
+diabetes. See \code{\link[=algorithm]{algorithm()}} for more detail.
+\item \code{has_insulin_purchases_within_180_days}: A logical variable used in classifying type 1
+diabetes. See \code{\link[=algorithm]{algorithm()}} for more detail.
 }
 }
 \description{
@@ -38,6 +40,11 @@ dates from 1997 onward by default (if Medical Birth Register data is
 available to use for censoring, the extraction window can be extended).
 }
 \details{
+Additional columns added are 1) if an insulin purchase has been made within
+180 days of the first glucose-lowering drug purchase, 2) if two-thirds of
+purchased glucose-lowering drug doses are insulin, and 3) if insulin is the
+only glucose-lowering drug type ever purchased.
+
 These events are then passed to a chain of exclusion functions:
 \code{exclude_potential_pcos()} and \code{exclude_pregnancy()}.
 }

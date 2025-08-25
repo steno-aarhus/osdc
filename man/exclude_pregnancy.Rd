@@ -34,14 +34,11 @@ pregnancy).
 }
 \details{
 After these exclusion functions have been applied, the output serves as
-inputs to two sets of functions:
+inputs to:
 \enumerate{
 \item The censored HbA1c and GLD data are passed to the
 \code{\link[=join_inclusions]{join_inclusions()}} function for the final step of the inclusion
 process.
-\item The censored GLD data is passed to the later function
-\code{\link[=add_insulin_purchases_cols]{add_insulin_purchases_cols()}} to help classify type 1 diabetes
-status.
 }
 }
 \examples{
@@ -58,8 +55,14 @@ register_data <- simulate_registers(
   ),
   n = 1000
 )
-lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag)
-lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
+lpr2 <- prepare_lpr2(
+  lpr_adm = register_data$lpr_adm,
+  lpr_diag = register_data$lpr_diag
+)
+lpr3 <- prepare_lpr3(
+  kontakter = register_data$kontakter,
+  diagnoser = register_data$diagnoser
+)
 
 # Exclude pregnancy dates
 register_data$lmdb |>
