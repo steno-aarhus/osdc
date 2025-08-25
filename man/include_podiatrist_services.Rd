@@ -18,8 +18,6 @@ with two columns and up to two rows for each individual:
 \item \code{pnr}: Identifier variable
 \item \code{date}: The dates of the first and second diabetes-specific
 podiatrist record
-\item \code{has_podiatrist_services}: A logical variable that acts as a helper
-indicator for use in later functions.
 }
 }
 \description{

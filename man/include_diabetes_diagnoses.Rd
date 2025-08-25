@@ -25,8 +25,6 @@ diagnosis codes from endocrinology departments.
 diagnosis codes from medical departments.
 \item \code{n_t2d_medical}: The number of type 2 diabetes-specific primary
 diagnosis codes from medical departments.
-\item \code{has_lpr_diabetes_diagnosis}: A logical variable that acts as a helper
-indicator for use in later functions.
 }
 }
 \description{

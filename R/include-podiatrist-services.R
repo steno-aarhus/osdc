@@ -16,8 +16,6 @@
 #'   -  `pnr`: Identifier variable
 #'   -  `date`: The dates of the first and second diabetes-specific
 #'      podiatrist record
-#'  -  `has_podiatrist_services`: A logical variable that acts as a helper
-#'      indicator for use in later functions.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -54,7 +52,5 @@ include_podiatrist_services <- function(sysi, sssy) {
       .keep = "none"
     ) |>
     # Keep earliest two dates per individual.
-    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr") |>
-    # Create an indicator variable for later use.
-    dplyr::mutate(has_podiatrist_services = TRUE)
+    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr")
 }
