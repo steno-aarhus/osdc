@@ -125,7 +125,7 @@ lpr_adm_tbl <- tibble::tribble(
 lpr_diag_tbl <- tibble::tribble(
   ~recnum,       ~c_diag, ~c_diagtype,
   "pnr01_rec01", "DE111",    "B",
-  "pnr02_rec01", "250",    "B",
+  "pnr02_rec01", "DE110",    "A",
   "pnr03_rec01", "250",    "A",
   "pnr04_rec01", "250",    "A",
   "pnr04_rec01", "250",    "A",
@@ -148,7 +148,7 @@ lpr_diag_tbl <- tibble::tribble(
 kontakter_tbl <- tibble::tribble(
   ~cpr,                                ~dw_ek_kontakt, ~hovedspeciale_ans,        ~dato_start,
   "01_t1d_oipT_anyt1dT",                 "pnr01_dw01", "medicinsk endokrinologi", "20210515",
-  "02_t2d_oipT_anyt1dF",                 "pnr02_dw01", "medicinsk endokrinologi", "20220616",
+  "02_t2d_oipT_anyt1dF",                 "pnr02_dw01", "thoraxkirurgi",           "20220616",
   "03_t2d_oipF_anyt1dF",                 "pnr03_dw01", "kirurgi",                 "20200717",
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "pnr04_dw01", "medicinsk endokrinologi", "20230120",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "pnr05_dw01", "medicinsk endokrinologi", "20230221",
@@ -168,7 +168,7 @@ kontakter_tbl <- tibble::tribble(
 diagnoser_tbl <- tibble::tribble(
   ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
   "pnr01_dw01",   "DE101",        "A",           "Nej",
-  "pnr02_dw01",   "DE102",        "B",           "Nej",
+  "pnr02_dw01",   "DE102",        "A",           "Nej",
   "pnr03_dw01",   "DE113",        "A",           "Nej",
   "pnr04_dw01",   "DE104",        "A",           "Nej",
   "pnr04_dw01",   "DE105",        "A",           "Nej",
@@ -193,7 +193,7 @@ diagnoser_tbl <- tibble::tribble(
 sysi_tbl <- tibble::tribble(
   ~pnr,                                ~barnmak, ~speciale, ~honuge,
   "01_t1d_oipT_anyt1dT",                      0, "54022",    "9329",
-  "02_t2d_oipT_anyt1dF",                      0, "88475",    "0442",
+  "02_t2d_oipT_anyt1dF",                      0, "54475",    "0442",
   "03_t2d_oipF_anyt1dF",                      0, "83575",    "9549",
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "86409",    "9603",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",      0, "42818",    "9215",
@@ -223,7 +223,7 @@ sysi_tbl <- tibble::tribble(
 sssy_tbl <- tibble::tribble(
   ~pnr,                                ~barnmak, ~speciale, ~honuge,
   "01_t1d_oipT_anyt1dT",                      0, "54100",    "0830",
-  "02_t2d_oipT_anyt1dF",                      0, "88475",    "1942",
+  "02_t2d_oipT_anyt1dF",                      0, "54475",    "1942",
   "03_t2d_oipF_anyt1dF",                      0, "83575",    "1049",
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "86409",    "2421",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",      0, "42818",    "1103",
