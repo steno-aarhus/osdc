@@ -155,6 +155,12 @@ algorithm <- function() {
       title = "Metformin purchases that aren't potentially for the treatment of PCOS",
       logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
+    ),
+    has_majority_t1d_diagnosis = list(
+      register = NA,
+      title = "Determine if the majority of diagnoses are for type 1 diabetes",
+      logic = "if_else(n_t1d_endocrinology + n_t2d_endocrinology > 0, n_t1d_endocrinology > n_t2d_endocrinology, n_t1d_medical > n_t2d_medical)",
+      comments = "Used to classify diabetes status. On it's own, it isn't enough to classify people. Prioritize endocrinology diagnoses if available, otherwise use other medical department diagnoses."
     )
   )
 }

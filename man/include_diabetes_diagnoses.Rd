@@ -2,14 +2,14 @@
 % Please edit documentation in R/include-diabetes-diagnoses.R
 \name{include_diabetes_diagnoses}
 \alias{include_diabetes_diagnoses}
-\title{Include ICD-8 and ICD-10 codes for diabetes diagnosis and type-specific classification}
+\title{Determine if majority of diagnoses are for type 1 diabetes}
 \usage{
 include_diabetes_diagnoses(lpr2, lpr3)
 }
 \arguments{
-\item{lpr2}{The output from \code{join_lpr2()}.}
+\item{lpr2}{The output from \code{\link[=prepare_lpr2]{prepare_lpr2()}}.}
 
-\item{lpr3}{The output from \code{join_lpr3()}.}
+\item{lpr3}{The output from \code{\link[=prepare_lpr3]{prepare_lpr3()}}.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
@@ -17,32 +17,28 @@ with the following columns and up to two rows per individual:
 \itemize{
 \item \code{pnr}: The personal identification variable.
 \item \code{dates}: The dates of the first and second hospital diabetes diagnosis.
-\item \code{n_t1d_endocrinology}: The number of type 1 diabetes-specific primary
-diagnosis codes from endocrinology departments.
-\item \code{n_t2d_endocrinology}: The number of type 2 diabetes-specific primary
-diagnosis codes from endocrinology departments.
-\item \code{n_t1d_medical}: The number of type 1 diabetes-specific primary
-diagnosis codes from medical departments.
-\item \code{n_t2d_medical}: The number of type 2 diabetes-specific primary
-diagnosis codes from medical departments.
+\item \code{has_majority_t1d_diagnosis}: A logical vector indicating whether the
+majority of primary diagnoses are related to type 1 diabetes.
 }
 }
 \description{
-Include diabetes diagnoses from LPR2 and LPR3.
+Uses the hospital contacts from LPR2 and LPR3 to include all
+dates of diabetes diagnoses to use for inclusion, as well as
+additional information needed to classify diabetes type.
+Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 }
 \details{
-Uses the hospital contacts from LPR2 and LPR3 to include all dates of diabetes
-diagnoses to use for inclusion, as well as additional information needed to classify diabetes
-type. Diabetes diagnoses from both ICD-8 and ICD-10 are included.
+This function evaluates whether an individual has a majority of type 1
+diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
+primary diagnoses (DE10 & DE11) from medical departments. If an individual
+has any type-specific diabetes diagnoses from endocrinology departments,
+the majority is determined only among these contacts.
 
-The output is used as inputs to \code{join_inclusions()}.
 This output is passed to the \code{join_inclusions()} function, where the
 \code{dates} variable is used for the final step of the inclusion process.
-The variables of counts of diabetes type-specific primary diagnoses (the
-four columns prefixed \code{n_}) are carried over for the subsequent
-classification of diabetes type, initially as inputs to the
-\code{get_t1d_primary_diagnosis()} and \code{get_majority_of_t1d_diagnoses()}
-functions.
+The variables for whether the majority of diagnoses are for type 1 diabetes
+is used for later classification of type 1 diabetes from various other
+registers.
 }
 \examples{
 \dontrun{
