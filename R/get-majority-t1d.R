@@ -17,16 +17,21 @@
 #' @examples
 #' \dontrun{
 #' # Example usage within the include_diabetes_diagnoses() pipeline:
-#' include_diabetes_diagnoses(lpr2, lpr3) |>
-#'  dplyr::mutate(
-#'    majority_t1d_primary_diagnoses = get_majority_of_t1d(
-#'      n_t1d_endocrinology,
-#'      n_t2d_endocrinology,
-#'      n_t1d_medical,
-#'      n_t2d_medical
-#'    )
-#'  ) |>
-#'  dplyr::arrange(.data$pnr)
+#' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), 10000)
+#' diabetes_dx <- include_diabetes_diagnoses(
+#'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+#'   lpr3 = prepare_lpr3(register_data$kontakter, register_data$diagnoser)
+#' )
+#' diabetes_dx |>
+#'   dplyr::mutate(
+#'     majority_t1d_primary_diagnoses = get_majority_of_t1d(
+#'       n_t1d_endocrinology,
+#'       n_t2d_endocrinology,
+#'       n_t1d_medical,
+#'       n_t2d_medical
+#'     )
+#'   ) |>
+#'   dplyr::arrange(.data$pnr)
 #' }
 #'
 #' @seealso [dplyr::case_when()] for condition handling.
