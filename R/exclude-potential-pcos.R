@@ -43,9 +43,11 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
       "pnr",
       "date",
       "atc",
-      "contained_doses",
       "has_gld_purchases",
-      "indication_code"
+      "indication_code",
+      "has_two_thirds_insulin",
+      "has_only_insulin_purchases",
+      "has_insulin_purchases_within_180_days"
     ) |>
     # Add logical helper variable
     dplyr::mutate(no_pcos = TRUE)
