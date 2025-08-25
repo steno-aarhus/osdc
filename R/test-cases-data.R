@@ -105,7 +105,7 @@ lmdb_tbl <- tibble::tribble(
 
 lpr_adm_tbl <- tibble::tribble(
   ~pnr,                                ~c_spec, ~recnum,      ~d_inddto,
-  "01_t1d_oipT_anyt1dT",                   "08", "pnr01_rec01", "20210515",
+  "01_t1d_oipT_anyt1dT",                   "08", "pnr01_rec01", "20110515",
   "02_t2d_oipT_anyt1dF",                   "08", "pnr02_rec01", "20220616",
   "03_t2d_oipF_anyt1dF",                   "35", "pnr03_rec01", "20200717",
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "08", "pnr04_rec01", "20230120",
@@ -124,7 +124,7 @@ lpr_adm_tbl <- tibble::tribble(
 
 lpr_diag_tbl <- tibble::tribble(
   ~recnum,       ~c_diag, ~c_diagtype,
-  "pnr01_rec01", "250",    "A",
+  "pnr01_rec01", "DE111",    "B",
   "pnr02_rec01", "250",    "B",
   "pnr03_rec01", "250",    "A",
   "pnr04_rec01", "250",    "A",
@@ -192,7 +192,7 @@ diagnoser_tbl <- tibble::tribble(
 
 sysi_tbl <- tibble::tribble(
   ~pnr,                                ~barnmak, ~speciale, ~honuge,
-  "01_t1d_oipT_anyt1dT",                      0, "10022",    "9329",
+  "01_t1d_oipT_anyt1dT",                      0, "54022",    "9329",
   "02_t2d_oipT_anyt1dF",                      0, "88475",    "0442",
   "03_t2d_oipF_anyt1dF",                      0, "83575",    "9549",
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "86409",    "9603",
