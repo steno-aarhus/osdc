@@ -1,3 +1,9 @@
+## 0.3.2 (2025-08-25)
+
+### Refactor
+
+- :fire: remove most `has_` variables, they aren't needed anymore (#324)
+
 ## 0.3.1 (2025-08-25)
 
 ### Refactor
