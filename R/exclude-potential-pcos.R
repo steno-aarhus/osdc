@@ -44,7 +44,6 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
       "date",
       "atc",
       "contained_doses",
-      "has_gld_purchases",
       "indication_code"
     ) |>
     # Add logical helper variable
