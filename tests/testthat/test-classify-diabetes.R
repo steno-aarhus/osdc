@@ -1,7 +1,7 @@
 # Moved from `include_diabetes_diagnoses()` -------------------------------
 
 # test_input_from_lpr2 <- tibble::tribble(
-#   ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
+#   ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
 #   ~is_pregnancy_code, ~is_endocrinology_dept, ~is_medical_dept,
 
 #   # 00001 - clear T1D case onset in 2015: lpr2: 2x T1D from endo (+ 1 from lpr3)
@@ -28,7 +28,7 @@
 #   dplyr::mutate(date = as.Date(date))
 
 # test_input_from_lpr3 <- tibble::tribble(
-#   ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
+#   ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
 #   ~is_pregnancy_code, ~is_endocrinology_dept, ~is_medical_dept,
 
 #   # 00001 - clear T1D case: lpr2: 2x T1D from endo (+ 1 from lpr3)
