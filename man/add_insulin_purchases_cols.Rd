@@ -7,7 +7,7 @@
 add_insulin_purchases_cols(gld_purchases)
 }
 \arguments{
-\item{lmdb}{The \code{lmdb} register.}
+\item{gld_purchases}{The data from \code{\link[=include_gld_purchases]{include_gld_purchases()}} function.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.

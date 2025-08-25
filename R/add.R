@@ -1,6 +1,6 @@
 #' Add columns for information about insulin drug purchases
 #'
-#' @param lmdb The `lmdb` register.
+#' @param gld_purchases The data from [include_gld_purchases()] function.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()].
 #'   Three new columns are added:
