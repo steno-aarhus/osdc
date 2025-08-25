@@ -24,10 +24,12 @@
 # itwo3: insulin_is_two_thirds_of_gld_doses
 
 # Inclusion criteria dictionary (cases 12 - 16):
-
-
-
+# Case 12: Tests exclusion of non-GLD medication, non-diabetes diagnoses (and retracted diagnoses), non-HbA1c lab tests & non-diabetes-specific podiatrist services
+# Case 14: Tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests
 # Censoring criteria dictionary (cases 17 - 21):
+
+
+create_test_cases <- function() {
 
 # 1. bef: Demographics table -------------------------------------------------------------------------
 
@@ -114,6 +116,7 @@ lpr_adm_tbl <- tibble::tribble(
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "01", "pnr09_rec01", "20240221",
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "01", "pnr10_rec01", "20240322",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "01", "pnr11_rec01", "20240423",
+  "12_nodm_gldF_diagF_hba1cF_podF",         "01", "pnr12_rec01", "20220423",
   "15_t2d_gldF_diagT_hba1cF_podF",          "08", "pnr15_rec01", "20230101"
 )
 
@@ -134,6 +137,8 @@ lpr_diag_tbl <- tibble::tribble(
   "pnr09_rec01", "250",    "A",
   "pnr10_rec01", "250",    "A",
   "pnr11_rec01", "250",    "B",
+  "pnr12_rec01", "DI211",    "A",
+  "pnr12_rec01", "DI11",    "B",
   "pnr15_rec01", "250",    "A",
   "pnr15_rec01", "250",    "A"
 )
@@ -153,6 +158,7 @@ kontakter_tbl <- tibble::tribble(
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "pnr09_dw01", "kardiologi",              "20240221",
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "pnr10_dw01", "kardiologi",              "20240322",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw01", "kardiologi",              "20240423",
+  "12_nodm_gldF_diagF_hba1cF_podF",         "pnr12_dw01", "kardiologi",              "20210423",
   "15_t2d_gldF_diagT_hba1cF_podF",       "pnr15_dw01", "almen medicin",           "20230101",
   "21_nodm_female_pregnancyT",           "pnr21_dw01", "gynækologi og obstetrik", "20240101"
 )
@@ -161,23 +167,25 @@ kontakter_tbl <- tibble::tribble(
 
 diagnoser_tbl <- tibble::tribble(
   ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
-  "pnr01_dw01",   "DE10",        "A",           "Nej",
-  "pnr02_dw01",   "DE10",        "B",           "Nej",
-  "pnr03_dw01",   "DE11",        "A",           "Nej",
-  "pnr04_dw01",   "DE10",        "A",           "Nej",
-  "pnr04_dw01",   "DE10",        "A",           "Nej",
+  "pnr01_dw01",   "DE101",        "A",           "Nej",
+  "pnr02_dw01",   "DE102",        "B",           "Nej",
+  "pnr03_dw01",   "DE113",        "A",           "Nej",
+  "pnr04_dw01",   "DE104",        "A",           "Nej",
+  "pnr04_dw01",   "DE105",        "A",           "Nej",
   "pnr04_dw01",   "DE11",        "B",           "Nej",
-  "pnr05_dw01",   "DE10",        "A",           "Nej",
-  "pnr06_dw01",   "DE10",        "A",           "Nej",
-  "pnr07_dw01",   "DE10",        "B",           "Nej",
-  "pnr07_dw01",   "DE11",        "A",           "Nej",
-  "pnr08_dw01",   "DE10",        "A",           "Nej",
+  "pnr05_dw01",   "DE101",        "A",           "Nej",
+  "pnr06_dw01",   "DE102",        "A",           "Nej",
+  "pnr07_dw01",   "DE103",        "B",           "Nej",
+  "pnr07_dw01",   "DE114",        "A",           "Nej",
+  "pnr08_dw01",   "DE105",        "A",           "Nej",
   "pnr09_dw01",   "DE10",        "A",           "Nej",
-  "pnr10_dw01",   "DE10",        "A",           "Nej",
-  "pnr11_dw01",   "DE11",        "A",           "Nej",
-  "pnr15_dw01",   "DE14",        "A",           "Nej",
-  "pnr15_dw01",   "DE14",        "A",           "Nej",
-  "pnr21_dw01",   "DO80",        "A",           "Nej"
+  "pnr10_dw01",   "DE101",        "A",           "Nej",
+  "pnr11_dw01",   "DE112",        "A",           "Nej",
+  "pnr12_dw01",   "DI25",        "A",           "Nej",
+  "pnr12_dw01",   "DE110",        "A",           "Ja",
+  "pnr15_dw01",   "DE144",        "A",           "Nej",
+  "pnr15_dw01",   "DE145",        "A",           "Nej",
+  "pnr21_dw01",   "DO806",        "A",           "Nej"
 )
 
 # 7. sysi: Health services table -------------------------------------------------------------------------
@@ -196,7 +204,10 @@ sysi_tbl <- tibble::tribble(
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",       0, "53825",    "9419",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",       0, "12345",    "1234",
   "12_nodm_gldF_diagF_hba1cF_podF",          0, "10001",    "1001",
-  "13_t2d_gldF_diagF_hba1cF_podT",           0, "10002",    "1002",
+  "12_nodm_gldF_diagF_hba1cF_podF",          1, "54002",    "1001",
+  "12_nodm_gldF_diagF_hba1cF_podF",          0, "10001",    "1002",
+  "12_nodm_gldF_diagF_hba1cF_podF",          1, "54002",    "1002",
+  "13_t2d_gldF_diagF_hba1cF_podT",           0, "54002",    "0002",
   "14_t2d_gldF_diagF_hba1cT_podF",           0, "10003",    "1003",
   "15_t2d_gldF_diagT_hba1cF_podF",           0, "10004",    "1004",
   "16_t2d_gldT_diagF_hba1cF_podF",           0, "10005",    "1005",
@@ -223,8 +234,7 @@ sssy_tbl <- tibble::tribble(
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",       0, "53825",    "1227",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",       0, "12345",    "1234",
   "12_nodm_gldF_diagF_hba1cF_podF",          0, "20001",    "2001",
-  "13_t2d_gldF_diagF_hba1cF_podT",           0, "54001",    "2002",
-  "13_t2d_gldF_diagF_hba1cF_podT",           0, "54002",    "2003",
+  "13_t2d_gldF_diagF_hba1cF_podT",           0, "54001",    "1002",
   "14_t2d_gldF_diagF_hba1cT_podF",           0, "20002",    "2004",
   "15_t2d_gldF_diagT_hba1cF_podF",           0, "20003",    "2005",
   "16_t2d_gldT_diagF_hba1cF_podF",           0, "20004",    "2006",
@@ -250,8 +260,11 @@ lab_forsker_tbl <- tibble::tribble(
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "20190101",    "NPU27300",    58,
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "20190101",    "NPU27300",    59,
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "20190101",    "NPU27300",    60,
-  "12_nodm_gldF_diagF_hba1cF_podF",      "20230101",    "NPU27300",    50,
-  "14_t2d_gldF_diagF_hba1cT_podF",       "20230101",    "NPU27300",    55,
+  "12_nodm_gldF_diagF_hba1cF_podF",      "20200101",    "NPU27300",    50,
+  "12_nodm_gldF_diagF_hba1cF_podF",      "20210101",    "NPU27300",    50,
+  "12_nodm_gldF_diagF_hba1cF_podF",      "20220101",    "DNK35302",    90,
+  "12_nodm_gldF_diagF_hba1cF_podF",      "20230101",    "DNK35302",    90,
+  "14_t2d_gldF_diagF_hba1cT_podF",       "20090101",    "NPU03835",    6.9,
   "14_t2d_gldF_diagF_hba1cT_podF",       "20230401",    "NPU27300",    56,
   "21_nodm_female_pregnancyT",           "20230801",    "NPU27300",    55,
   "21_nodm_female_pregnancyT",           "20240201",    "NPU27300",    55
@@ -270,3 +283,6 @@ osdc_test_data <- list(
   sssy = sssy_tbl,
   lab_forsker = lab_forsker_tbl
 )
+
+return(osdc_test_data)
+}
