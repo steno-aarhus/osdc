@@ -1,4 +1,4 @@
-#' Determine if majority of diagnoses are for type 1 diabetes
+#' Determine if majority of diagnoses are type 1 diabetes
 #'
 #' Uses the hospital contacts from LPR2 and LPR3 to include all
 #' dates of diabetes diagnoses to use for inclusion, as well as
@@ -14,8 +14,7 @@
 #' This output is passed to the `join_inclusions()` function, where the
 #' `dates` variable is used for the final step of the inclusion process.
 #' The variables for whether the majority of diagnoses are for type 1 diabetes
-#' is used for later classification of type 1 diabetes from various other
-#' registers.
+#' is used for later classification of type 1 diabetes.
 #'
 #' @param lpr2 The output from [prepare_lpr2()].
 #' @param lpr3 The output from [prepare_lpr3()].
@@ -71,7 +70,7 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
       .keep = "all",
       .by = "pnr"
     ) |>
-    # Convert NA values to 0
+    # Convert NA values to 0.
     dplyr::mutate(
       dplyr::across(
         tidyselect::matches("^n_t[12]d_"),
