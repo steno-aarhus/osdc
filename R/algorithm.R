@@ -83,7 +83,7 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
-    lpr2_is_primary_dx = list(
+    lpr2_is_primary_diagnosis = list(
       register = "lpr_diag",
       title = "LPR2 primary diagnosis",
       logic = "c_diagtype == 'A'",
@@ -108,7 +108,7 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
     ),
-    lpr3_is_primary_dx = list(
+    lpr3_is_primary_diagnosis = list(
       register = "diagnoser",
       title = "LPR3 primary diagnosis",
       logic = "diagnosetype == 'A'",

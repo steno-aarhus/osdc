@@ -50,19 +50,23 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
     dplyr::filter(.data$is_diabetes_code) |>
     dplyr::mutate(
       n_t1d_endocrinology = sum(
-        .data$is_t1d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
+        .data$is_t1d_code &
+          .data$is_primary_diagnosis &
+          .data$is_endocrinology_dept,
         na.rm = TRUE
       ),
       n_t2d_endocrinology = sum(
-        .data$is_t2d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
+        .data$is_t2d_code &
+          .data$is_primary_diagnosis &
+          .data$is_endocrinology_dept,
         na.rm = TRUE
       ),
       n_t1d_medical = sum(
-        .data$is_t1d_code & .data$is_primary_dx & .data$is_medical_dept,
+        .data$is_t1d_code & .data$is_primary_diagnosis & .data$is_medical_dept,
         na.rm = TRUE
       ),
       n_t2d_medical = sum(
-        .data$is_t2d_code & .data$is_primary_dx & .data$is_medical_dept,
+        .data$is_t2d_code & .data$is_primary_diagnosis & .data$is_medical_dept,
         na.rm = TRUE
       ),
       .keep = "all",

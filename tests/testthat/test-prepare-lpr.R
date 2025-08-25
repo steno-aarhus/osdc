@@ -107,7 +107,7 @@ lpr_adm <- tibble::tribble(
 )
 
 expected_lpr2 <- tibble::tribble(
-  ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
+  ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
   # T1D primary diagnosis with endocrinology department
   "1", "2023-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
   "2", "2023-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
@@ -195,7 +195,7 @@ kontakter <- tibble::tibble(
 expected_lpr3 <- tibble::tibble(
   pnr = c(1, 3, 5),
   date = rep(c("20230101"), times = 3),
-  is_primary_dx = c(TRUE, FALSE, FALSE),
+  is_primary_diagnosis = c(TRUE, FALSE, FALSE),
   is_diabetes_code = c(TRUE, TRUE, FALSE),
   is_t1d_code = c(TRUE, FALSE, FALSE),
   is_t2d_code = c(FALSE, TRUE, FALSE),
