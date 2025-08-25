@@ -13,14 +13,11 @@
 #' pregnancy).
 #'
 #' After these exclusion functions have been applied, the output serves as
-#' inputs to two sets of functions:
+#' inputs to:
 #'
 #' 1.  The censored HbA1c and GLD data are passed to the
 #'     [join_inclusions()] function for the final step of the inclusion
 #'     process.
-#' 2.  The censored GLD data is passed to the later function
-#'     [add_insulin_purchases_cols()] to help classify type 1 diabetes
-#'     status.
 #'
 #' @param excluded_pcos Output from [exclude_potential_pcos()].
 #' @param pregnancy_dates Output from [get_pregnancy_dates()].
@@ -47,8 +44,14 @@
 #'   ),
 #'   n = 1000
 #' )
-#' lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag)
-#' lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
+#' lpr2 <- prepare_lpr2(
+#'   lpr_adm = register_data$lpr_adm,
+#'   lpr_diag = register_data$lpr_diag
+#' )
+#' lpr3 <- prepare_lpr3(
+#'   kontakter = register_data$kontakter,
+#'   diagnoser = register_data$diagnoser
+#' )
 #'
 #' # Exclude pregnancy dates
 #' register_data$lmdb |>
