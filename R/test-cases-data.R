@@ -13,8 +13,6 @@
 # F suffix indicates a criterion not fulfilled
 # T suffix indicates a criterion fulfilled.
 
-# Classification criteria dictionary (cases 1 - 11):
-
 # oip: only_insulin_purchases
 # any_t1d: any_t1d_primary_diagnoses
 # endo: Has any type-specific diagnoses from endocrine dept.
@@ -22,6 +20,10 @@
 # maj_t1d: majority_t1d_diagnoses
 # i180: insulin_purchases_within_180_days
 # itwo3: insulin_is_two_thirds_of_gld_doses
+
+
+# Notes on cases 1 - 11:
+# Case 3: has primary T1D diagnosis from non-medical specialty, and has secondary T1D diagnosis from endocrinological dept
 
 # Inclusion criteria dictionary (cases 12 - 16):
 # Case 12: Tests exclusion of non-GLD medication, non-diabetes diagnoses (and retracted diagnoses), non-HbA1c lab tests & non-diabetes-specific podiatrist services
@@ -107,7 +109,7 @@ lpr_adm_tbl <- tibble::tribble(
   ~pnr,                                ~c_spec, ~recnum,      ~d_inddto,
   "01_t1d_oipT_anyt1dT",                   "08", "pnr01_rec01", "20110515",
   "02_t2d_oipT_anyt1dF",                   "08", "pnr02_rec01", "20220616",
-  "03_t2d_oipF_anyt1dF",                   "35", "pnr03_rec01", "20200717",
+  "03_t2d_oipF_anyt1dF",                   "34", "pnr03_rec01", "20200717",
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "08", "pnr04_rec01", "20230120",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "08", "pnr05_rec01", "20230221",
   "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "08", "pnr06_rec01", "20230322",
@@ -126,7 +128,7 @@ lpr_diag_tbl <- tibble::tribble(
   ~recnum,       ~c_diag, ~c_diagtype,
   "pnr01_rec01", "DE111",    "B",
   "pnr02_rec01", "DE110",    "A",
-  "pnr03_rec01", "250",    "A",
+  "pnr03_rec01", "DE101",    "A",
   "pnr04_rec01", "250",    "A",
   "pnr04_rec01", "250",    "A",
   "pnr04_rec01", "250",    "B",
@@ -149,7 +151,7 @@ kontakter_tbl <- tibble::tribble(
   ~cpr,                                ~dw_ek_kontakt, ~hovedspeciale_ans,        ~dato_start,
   "01_t1d_oipT_anyt1dT",                 "pnr01_dw01", "medicinsk endokrinologi", "20210515",
   "02_t2d_oipT_anyt1dF",                 "pnr02_dw01", "thoraxkirurgi",           "20220616",
-  "03_t2d_oipF_anyt1dF",                 "pnr03_dw01", "kirurgi",                 "20200717",
+  "03_t2d_oipF_anyt1dF",                 "pnr03_dw01", "kardiologi",              "20200717",
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "pnr04_dw01", "medicinsk endokrinologi", "20230120",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "pnr05_dw01", "medicinsk endokrinologi", "20230221",
   "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "pnr06_dw01", "medicinsk endokrinologi", "20230322",
@@ -169,7 +171,7 @@ diagnoser_tbl <- tibble::tribble(
   ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
   "pnr01_dw01",   "DE101",        "A",           "Nej",
   "pnr02_dw01",   "DE102",        "A",           "Nej",
-  "pnr03_dw01",   "DE113",        "A",           "Nej",
+  "pnr03_dw01",   "DE103",        "A",           "Nej",
   "pnr04_dw01",   "DE104",        "A",           "Nej",
   "pnr04_dw01",   "DE105",        "A",           "Nej",
   "pnr04_dw01",   "DE11",        "B",           "Nej",
