@@ -158,7 +158,7 @@ algorithm <- function() {
     ),
     has_two_thirds_insulin = list(
       register = NA,
-      title = "Two-thirds of GLD doses are insulin doses",
+      title = "Whether two-thirds of GLD doses are insulin doses",
       logic = "(n_insulin_doses / n_gld_doses) >= 2/3",
       comments = "This is used to classify type 1 diabetes. If multiple types of GLD are purchased, this indicates if at least two-thirds are insulin, which is important to determine type 1 diabetes status."
     ),
@@ -172,7 +172,7 @@ algorithm <- function() {
       register = NA,
       title = "Any insulin purchases within 180 days of the first purchase of GLD",
       logic = "is_insulin_gld_code & date <= (first_gld_date + days(180))",
-      comments = "This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD."
+      comments = "This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
     )
   )
 }
