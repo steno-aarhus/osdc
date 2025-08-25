@@ -69,25 +69,9 @@ By contributing to this project, you agree to abide by its terms.
 
 ## Citing the package
 
-If you use this package, please cite it! Use `citation()` to generate a 
-citation, or use the text below.
+If you use this package, please cite it! Use `citation()` to generate a
+citation.
 
 ``` r
 citation("osdc")
-```
-
-Johnston LW, Brødbæk SK, Isaksen AA (2025). *osdc: Open Source Diabetes
-Classifier (OSDC) for Danish Registers*. R package version 0.3.1,
-<https://github.com/steno-aarhus/osdc>.
-
-A BibTeX entry for LaTeX users is
-
-```
-@Manual{osdc-r,
-  title = {osdc: Open Source Diabetes Classifier (OSDC) for Danish Registers},
-  author = {Luke William Johnston and Signe Kirk Brødbæk and Anders Aasted Isaksen},
-  year = {2025},
-  note = {R package version 0.3.1},
-  url = {<https://github.com/steno-aarhus/osdc>},
-}
 ```
