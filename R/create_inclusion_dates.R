@@ -47,13 +47,15 @@ create_inclusion_dates <- function(
     dplyr::select(
       "pnr",
       "date",
+      # Columns used for classifying T1D.
+      "is_only_insulin_purchases",
+      "is_two_thirds_insulin",
+      "is_insulin_purchases_within_180_days",
+      "is_majority_t1d_dx",
+      "is_any_t1d_primary_dx",
+      "is_primary_dx",
+      # Inclusion date columns.
       "raw_inclusion_date",
       "stable_inclusion_date",
-
-      # From `include_diabetes_diagnoses()`
-      "n_t1d_endocrinology",
-      "n_t2d_endocrinology",
-      "n_t1d_medical",
-      "n_t2d_medical"
     )
 }
