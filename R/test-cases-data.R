@@ -50,7 +50,7 @@ bef_tbl <- tibble::tribble(
   "13_t2d_gldF_diagF_hba1cF_podT",          1, "19810101",
   "14_t2d_gldF_diagF_hba1cT_podF",          2, "19820101",
   "15_t2d_gldF_diagT_hba1cF_podF",          1, "19830101",
-  "16_t2d_gldT_diagF_hba1cF_podF",          2, "19840101",
+  "16_t2d_gldT_diagF_hba1cF_podF",          2, "19800101",
   "17_nodm_glp1a_dapa_empa",                1, "19700101",
   "18_t2d_male_pcosF",                       1, "20000101",
   "19_nodm_female_u40_pcosT",               2, "20000101",
@@ -80,7 +80,7 @@ lmdb_tbl <- tibble::tribble(
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",     10, "20230101", "A10BA02",    2, "9012345",
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",     10, "20230101", "A10BA02",    2, "1112233",
   "16_t2d_gldT_diagF_hba1cF_podF",           10, "20230101", "A10BA02",    5, "1600001",
-  "16_t2d_gldT_diagF_hba1cF_podF",           10, "20230401", "A10BA02",    5, "1600002",
+  "16_t2d_gldT_diagF_hba1cF_podF",           10, "20230401", "A10AB01",    5, "1600002",
   "17_nodm_glp1a_dapa_empa",                10, "20220101", "A10BJ01",    5, "1700002",
   "17_nodm_glp1a_dapa_empa",                10, "20220201", "A10BK01",    5, "1700001",
   "17_nodm_glp1a_dapa_empa",                10, "20220401", "A10BK03",    5, "1700002",
@@ -117,7 +117,7 @@ lpr_adm_tbl <- tibble::tribble(
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "01", "pnr10_rec01", "20240322",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "01", "pnr11_rec01", "20240423",
   "12_nodm_gldF_diagF_hba1cF_podF",         "01", "pnr12_rec01", "20220423",
-  "15_t2d_gldF_diagT_hba1cF_podF",          "08", "pnr15_rec01", "20230101"
+  "15_t2d_gldF_diagT_hba1cF_podF",          "08", "pnr15_rec01", "20100101"
 )
 
 # 4. lpr_diag: Hospital diagnoses (LPR2) -------------------------------------------------------------------------
@@ -139,8 +139,8 @@ lpr_diag_tbl <- tibble::tribble(
   "pnr11_rec01", "250",    "B",
   "pnr12_rec01", "DI211",    "A",
   "pnr12_rec01", "DI11",    "B",
-  "pnr15_rec01", "250",    "A",
-  "pnr15_rec01", "250",    "A"
+  "pnr15_rec01", "DE110",    "A",
+  "pnr15_rec01", "DI250",    "B"
 )
 
 # 5. kontakter: Hospital contacts (LPR3) -------------------------------------------------------------------------
@@ -183,8 +183,8 @@ diagnoser_tbl <- tibble::tribble(
   "pnr11_dw01",   "DE112",        "A",           "Nej",
   "pnr12_dw01",   "DI25",        "A",           "Nej",
   "pnr12_dw01",   "DE110",        "A",           "Ja",
-  "pnr15_dw01",   "DE144",        "A",           "Nej",
-  "pnr15_dw01",   "DE145",        "A",           "Nej",
+  "pnr15_dw01",   "DI25",        "A",           "Nej",
+  "pnr15_dw01",   "DE110",        "B",           "Nej",
   "pnr21_dw01",   "DO806",        "A",           "Nej"
 )
 
