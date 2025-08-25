@@ -42,8 +42,9 @@ create_inclusion_dates <- function(
         .data$raw_inclusion_date <
           lubridate::as_date(stable_inclusion_start_date),
         NA,
-        .data$raw_inclusion_date)
-      ) |>
+        .data$raw_inclusion_date
+      )
+    ) |>
     dplyr::select(
       "pnr",
       "date",
