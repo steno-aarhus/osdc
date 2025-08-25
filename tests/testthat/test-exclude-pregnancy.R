@@ -21,6 +21,7 @@ lpr3 <- prepare_lpr3(
 
 no_pcos <- register_data$lmdb |>
   include_gld_purchases() |>
+  add_insulin_purchases_cols() |>
   exclude_potential_pcos(register_data$bef)
 
 preg_dates <- get_pregnancy_dates(lpr2, lpr3)
