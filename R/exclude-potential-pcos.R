@@ -43,7 +43,6 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
       "pnr",
       "date",
       "atc",
-      "has_gld_purchases",
       "indication_code",
       "has_two_thirds_insulin",
       "has_only_insulin_purchases",
