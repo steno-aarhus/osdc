@@ -1,3 +1,9 @@
+## 0.3.3 (2025-08-25)
+
+### Refactor
+
+- :fire: `is_non_insulin_gld_code` isn't used, so removing it (#323)
+
 ## 0.3.2 (2025-08-25)
 
 ### Refactor
