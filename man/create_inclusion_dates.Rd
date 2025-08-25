@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_inclusion_dates.R
 \name{create_inclusion_dates}
 \alias{create_inclusion_dates}
-\title{Create inclusion dates from all the inclusion events.}
+\title{Create inclusion dates from all the inclusion events}
 \usage{
 create_inclusion_dates(inclusions, stable_inclusion_start_date = "1998-01-01")
 }
@@ -18,10 +18,9 @@ cohort to individuals with inclusion dates after this cutoff date.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
-along with the \code{pnr} and \code{date} columns along with the \code{atc} column from
-\code{exclude_pregnancy()}, and the \code{n_t1d_endocrinology},
-\code{n_t2d_endocrinology}, \code{n_t1d_medical}, and \code{n_t2d_medical} columns from
-\code{include_diabetes_diagnoses()}. It also creates two new columns:
+with the \code{pnr} and \code{date} columns along with the columns from the input
+that's needed to classify T1D.
+It also creates two new columns:
 \itemize{
 \item \code{raw_inclusion_date}: Date of raw inclusion, the second earliest recorded
 event for each individual.
@@ -31,20 +30,11 @@ the raw inclusion date is before the stable inclusion start date.
 }
 \description{
 This function takes the output from
-\code{join_inclusions()} and defines the final inclusion dates, raw and stable
+\code{\link[=join_inclusions]{join_inclusions()}} and defines the final inclusion dates, raw and stable
 based on all inclusion event types. Since inclusion requires at least two
 events (of any type), this function keeps only those with 2 or more events.
 E.g., an individual with two elevated HbA1c tests followed by a
 glucose-lowering drug purchase is included with the latest elevated HbA1c
 test and the purchase of glucose-lowering drugs.
-}
-\details{
-The function creates two new columns: one indicating the "raw"
-inclusion date and one indicating
-a "stable" inclusion date, see @returns for more details.
-}
-\seealso{
-See the \code{vignette("algorithm")} for the logic used to filter these
-patients.
 }
 \keyword{internal}
