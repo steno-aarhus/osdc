@@ -117,7 +117,8 @@ classify_diabetes <- function(
 
   gld_purchases <- include_gld_purchases(
     lmdb = lmdb
-  )
+  ) |>
+    add_insulin_purchases_cols()
 
   hba1c_over_threshold <- include_hba1c(
     lab_forsker = lab_forsker
@@ -138,9 +139,9 @@ classify_diabetes <- function(
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
-  # inclusions |>
-  #   create_inclusion_dates() |>
-  #   classify_t1d()
+  inclusions # |>
+  # create_inclusion_dates() |>
+  # classify_t1d()
 }
 
 #' After inclusion and exclusion, classify those with type 1 diabetes.

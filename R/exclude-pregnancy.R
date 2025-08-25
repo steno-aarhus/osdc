@@ -56,6 +56,7 @@
 #' # Exclude pregnancy dates
 #' register_data$lmdb |>
 #'   include_gld_purchases() |>
+#'   add_insulin_purchases_cols() |>
 #'   exclude_potential_pcos(register_data$bef) |>
 #'   exclude_pregnancy(
 #'     get_pregnancy_dates(lpr2, lpr3),
@@ -106,8 +107,7 @@ exclude_pregnancy <- function(
     # Select relevant columns.
     dplyr::select(
       "pnr",
-      "date",
-      "contained_doses"
+      "date"
     ) |>
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a

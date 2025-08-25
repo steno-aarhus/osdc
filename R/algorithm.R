@@ -155,6 +155,24 @@ algorithm <- function() {
       title = "Metformin purchases that aren't potentially for the treatment of PCOS",
       logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
+    ),
+    has_two_thirds_insulin = list(
+      register = NA,
+      title = "Whether two-thirds of GLD doses are insulin doses",
+      logic = "(n_insulin_doses / n_gld_doses) >= 2/3",
+      comments = "This is used to classify type 1 diabetes. If multiple types of GLD are purchased, this indicates if at least two-thirds are insulin, which is important to determine type 1 diabetes status."
+    ),
+    has_only_insulin_purchases = list(
+      register = NA,
+      title = "Whether only insulin was purchased as a GLD",
+      logic = "n_insulin_doses >= 1 & n_insulin_doses == n_gld_doses",
+      comments = "This is used to classify type 1 diabetes. If only insulin is purchased, this is a strong reason to suspect type 1 diabetes."
+    ),
+    has_insulin_purchases_within_180_days = list(
+      register = NA,
+      title = "Any insulin purchases within 180 days of the first purchase of GLD",
+      logic = "is_insulin_gld_code & date <= (first_gld_date + days(180))",
+      comments = "This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
     )
   )
 }

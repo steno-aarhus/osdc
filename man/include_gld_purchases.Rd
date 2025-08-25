@@ -2,7 +2,7 @@
 % Please edit documentation in R/include-gld-purchases.R
 \name{include_gld_purchases}
 \alias{include_gld_purchases}
-\title{Include only those who have a purchase of a glucose lowering drug (GLD).}
+\title{Include only glucose lowering drugs (GLD).}
 \usage{
 include_gld_purchases(lmdb)
 }
@@ -10,36 +10,20 @@ include_gld_purchases(lmdb)
 \item{lmdb}{The \code{lmdb} register.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}, in
-a long format with all dates of GLD purchases kept and the following
-variables:
-\itemize{
-\item \code{pnr}: Personal identification variable.
-\item \code{date}: The dates of all purchases of GLD.
-\item \code{atc}: The ATC code for the type of drug.
-\item \code{contained_doses}: The amount of doses purchased, in number of defined
-daily doses (DDD).
-\item \code{indication_code}: The indication code of the prescription (renamed
-from \code{indo}).
-\item \code{is_insulin_gld_code}: A logical variable to use as a helper indicator
-for later functions, used for classifying type 1 diabetes.
-}
+The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+Only glucose lowering drugs are kept, plus some columns are renamed.
 }
 \description{
 But don't include glucose-lowering drugs that may be used for other
 conditions than diabetes like GLP-RAs or dapagliflozin/empagliflozin drugs.
 Since the diagnosis code data on pregnancies (see below) is insufficient to
-perform censoring prior to 1997, \code{include_gld_purchases()} only extracts
+perform censoring prior to 1997, \code{\link[=include_gld_purchases]{include_gld_purchases()}} only extracts
 dates from 1997 onward by default (if Medical Birth Register data is
 available to use for censoring, the extraction window can be extended).
 }
-\details{
-These events are then passed to a chain of exclusion functions:
-\code{exclude_potential_pcos()} and \code{exclude_pregnancy()}.
-}
 \examples{
 \dontrun{
-simulate_registers("lmdb", 10000)[[1]] |> include_gld_purchases()
+simulate_registers("lmdb", 1000)[[1]] |> include_gld_purchases()
 }
 }
 \seealso{
