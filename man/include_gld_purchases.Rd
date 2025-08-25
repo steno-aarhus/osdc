@@ -25,8 +25,6 @@ from \code{indo}).
 for later functions.
 \item \code{is_insulin_gld_code}: A logical variable to use as a helper indicator
 for later functions, used for classifying type 1 diabetes.
-\item \code{is_non_insulin_gld_code}: A logical variable to use as a helper
-indicator for later functions, used for classifying type 1 diabetes.
 }
 }
 \description{
