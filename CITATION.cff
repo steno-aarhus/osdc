@@ -1,0 +1,28 @@
+title: "osdc: Open Source Diabetes Classifier for Danish Registers"
+abstract: "This classifier first identifies a population of individuals with any type of diabetes mellitus and then splits this population into T1D and T2D by identifying individuals with T1D and classifying the remainder of the diabetes population as T2D."
+authors:
+  - family-names: Brødbæk
+    given-names: Signe Kirk
+    affiliation: "Steno Diabetes Center Aarhus"
+    orcid: "https://orcid.org/0009-0000-2208-7088"
+  - family-names: Isaksen
+    given-names: Anders Aasted
+    affiliation: "Steno Diabetes Center Aarhus"
+    orcid: "https://orcid.org/0000-0001-8457-5466"
+  - family-names: Johnston
+    given-names: Luke William
+    orcid: "https://orcid.org/0000-0003-4169-2616"
+    affiliation: "Steno Diabetes Center Aarhus"
+  - family-names: Vago
+    given-names: Marton
+    affiliation: "Steno Diabetes Center Aarhus"
+cff-version: 1.2.0
+date-released: "2025"
+# doi: 
+keywords:
+  - "diabetes classification"
+  - "danish registers"
+license: MIT
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/steno-aarhus/osdc"
+url: "https://steno-aarhus.github.io/osdc"
