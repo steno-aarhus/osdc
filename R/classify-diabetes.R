@@ -138,11 +138,8 @@ classify_diabetes <- function(
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
-  inclusions |>
-    # create_inclusion_dates() |>
-    add_insulin_purchases_cols(
-      gld_purchases = gld_purchases
-    )
+  inclusions # |>
+  # create_inclusion_dates() |>
   # classify_t1d()
 }
 
