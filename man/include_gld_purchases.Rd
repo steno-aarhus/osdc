@@ -19,10 +19,6 @@ variables:
 \item \code{atc}: The ATC code for the type of drug.
 \item \code{indication_code}: The indication code of the prescription (renamed
 from \code{indo}).
-\item \code{has_gld_purchases}: A logical variable to use as a helper indicator
-for later functions.
-\item \code{is_non_insulin_gld_code}: A logical variable to use as a helper
-indicator for later functions, used for classifying type 1 diabetes.
 \item \code{has_two_thirds_insulin}: A logical variable used in classifying type 1
 diabetes. See \code{\link[=algorithm]{algorithm()}} for more detail.
 \item \code{has_only_insulin_purchases}: A logical variable used in classifying type 1

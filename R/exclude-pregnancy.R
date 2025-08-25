@@ -63,10 +63,9 @@
 #'   )
 #' }
 exclude_pregnancy <- function(
-  excluded_pcos,
-  pregnancy_dates,
-  included_hba1c
-) {
+    excluded_pcos,
+    pregnancy_dates,
+    included_hba1c) {
   criteria <- get_algorithm_logic("is_not_within_pregnancy_interval") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
@@ -107,8 +106,6 @@ exclude_pregnancy <- function(
     dplyr::select(
       "pnr",
       "date",
-      "has_gld_purchases",
-      "has_elevated_hba1c",
       "has_two_thirds_insulin",
       "has_only_insulin_purchases",
       "has_insulin_purchases_within_180_days"

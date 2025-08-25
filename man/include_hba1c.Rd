@@ -15,9 +15,6 @@ with three columns:
 \itemize{
 \item \code{pnr}: Personal identification variable.
 \item \code{dates}: The dates of all elevated HbA1c test results.
-\item \code{has_elevated_hba1c}: A logical variable indicating that the HbA1c test
-was included. Used as an indicator and reminder in other internal
-functions.
 }
 }
 \description{
