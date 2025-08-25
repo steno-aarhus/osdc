@@ -17,8 +17,8 @@
 #'    cohort to individuals with inclusion dates after this cutoff date.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
-#'   along with the `pnr` and `date` columns along with the columns from
-#'   [exclude_pregnancy()] and [include_diabetes_diagnoses()].
+#'   with the `pnr` and `date` columns along with the columns from the input
+#'   that's needed to classify T1D.
 #'   It also creates two new columns:
 #'
 #'   - `raw_inclusion_date`: Date of raw inclusion, the second earliest recorded
@@ -31,8 +31,8 @@ create_inclusion_dates <- function(
   inclusions,
   stable_inclusion_start_date = "1998-01-01"
 ) {
-inclusions |>
-    # take the second date per person (or drop)
+  inclusions |>
+    # Take the second date per person (or drop if < 2 events).
     dplyr::filter(dplyr::row_number(.data$date) == 2, .by = "pnr") |>
     dplyr::mutate(
       raw_inclusion_date = date,
