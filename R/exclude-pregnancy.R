@@ -107,9 +107,7 @@ exclude_pregnancy <- function(
     dplyr::select(
       "pnr",
       "date",
-      "has_two_thirds_insulin",
-      "has_only_insulin_purchases",
-      "has_insulin_purchases_within_180_days"
+      "contained_doses"
     ) |>
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a
