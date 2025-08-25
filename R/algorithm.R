@@ -19,8 +19,8 @@
 #' @seealso See the `vignette("algorithm")` for the logic used to filter these
 #'   patients.
 #' @examples
-#' algorithm()$hba1c
-#' algorithm()$gld$logic
+#' algorithm()$is_hba1c_over_threshold
+#' algorithm()$is_gld_code$logic
 algorithm <- function() {
   list(
     is_hba1c_over_threshold = list(
@@ -34,6 +34,18 @@ algorithm <- function() {
       title = "ATC codes for glucose-lowering drugs (GLDs)",
       logic = "atc =~ '^A10' AND NOT (atc =~ '^(A10BJ|A10BK01|A10BK03)')",
       comments = "GLP-RAs or dapagliflozin/empagliflozin drugs are not kept."
+    ),
+    is_non_insulin_gld_code = list(
+      register = "lmdb",
+      title = "Non-insulin glucose-lowering drugs",
+      logic = "atc =~ '^A10B' OR atc =~ '^A10AE56'",
+      comments = "This is used during the classification of type 1 diabetes to identify persons who only purchase insulin or mostly purchase insulin."
+    ),
+    is_insulin_gld_code = list(
+      register = "lmdb",
+      title = "Only insulin glucose-lowering drugs",
+      logic = "atc =~ '^A10A' AND NOT (atc =~ '^A10AE56')",
+      comments = "This is used during the classification of type 1 diabetes to identify persons who only purchase insulin or mostly purchase insulin."
     ),
     lpr2_is_needed_code = list(
       register = "lpr_diag",

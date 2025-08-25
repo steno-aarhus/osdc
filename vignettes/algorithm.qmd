@@ -1,25 +1,20 @@
 ---
 title: "Algorithm"
-output: rmarkdown::html_vignette
 bibliography: references.bib
 csl: vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Algorithm}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
+execute: 
+  echo: false
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  echo = FALSE
-)
+```{r setup}
+#| include: false
 library(osdc)
 library(dplyr)
-```
 
-```{r, include=FALSE}
 algorithm_df <- tibble(name = names(algorithm()), value = algorithm()) |>
   tidyr::unnest_wider(value) |>
   dplyr::select(register, name, title, logic, comments)
