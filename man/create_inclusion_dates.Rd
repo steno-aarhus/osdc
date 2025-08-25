@@ -32,9 +32,12 @@ the raw inclusion date is before the stable inclusion start date.
 This function takes the output from
 \code{\link[=join_inclusions]{join_inclusions()}} and defines the final inclusion dates, raw and stable
 based on all inclusion event types. Since inclusion requires at least two
-events (of any type), this function keeps only those with 2 or more events.
-E.g., an individual with two elevated HbA1c tests followed by a
-glucose-lowering drug purchase is included with the latest elevated HbA1c
-test and the purchase of glucose-lowering drugs.
+events (can be multiple events of the same type or any combination of
+different types), this function keeps only those with 2 or more events. E.g.,
+an individual with two elevated HbA1c tests followed by a glucose-lowering
+drug purchase is included at the latest elevated HbA1c test. Had the second
+HbA1c test not been performed (or had it returned a result below the
+diagnostic threshold), this person would instead have been included at the
+date of the first purchase of glucose-lowering drugs.
 }
 \keyword{internal}
