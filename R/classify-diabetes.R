@@ -45,16 +45,15 @@
 #' )
 #' }
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
-  sysi,
-  sssy,
-  lab_forsker,
-  bef,
-  lmdb
-) {
+    kontakter,
+    diagnoser,
+    lpr_diag,
+    lpr_adm,
+    sysi,
+    sssy,
+    lab_forsker,
+    bef,
+    lmdb) {
   # Verification step -----
   check_required_variables(kontakter, "kontakter")
   check_required_variables(diagnoser, "diagnoser")
@@ -138,9 +137,18 @@ classify_diabetes <- function(
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
-  # inclusions |>
-  #   create_inclusion_dates() |>
-  #   classify_t1d()
+  inclusions |>
+    # create_inclusion_dates() |>
+    classify_t1d() |>
+    # If t1d is NA, t2d will also be NA
+    dplyr::mutate(t2d = !.data$t1d) |>
+    dplyr::select(
+      "pnr",
+      "stable_inclusion_date",
+      "raw_inclusion_date",
+      "t1d",
+      "t2d"
+    )
 }
 
 #' After inclusion and exclusion, classify those with type 1 diabetes.
@@ -152,10 +160,21 @@ classify_diabetes <- function(
 #' @keywords internal
 #'
 classify_t1d <- function(data) {
-  # data |>
-  #   get_has_t1d_primary_diagnosis() |>
-  #   get_only_insulin_purchases() |>
-  #   get_majority_of_t1d_primary_diagnosis() |>
-  #   get_insulin_purchases_within_180_days() |>
-  #   get_insulin_is_two_thirds_of_gld_purchases()
+  logic <- c(
+    "is_any_t1d_primary_diagnosis",
+    "t1d"
+  ) |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
+    # To convert the string into an R expression
+    purrr::map(rlang::parse_expr)
+
+  data |>
+    dplyr::mutate(
+      is_any_t1d_primary_diagnosis = !!logic$is_any_t1d_primary_diagnosis,
+      t1d = !!logic$t1d
+    ) |>
+    dplyr::select(
+      -"is_any_t1d_primary_diagnosis"
+    )
 }
