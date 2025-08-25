@@ -1,4 +1,3 @@
-
 # Moved from `include-diabetes-diagnosis` ---------------------------------
 
 # test_input_from_lpr2 <- tibble::tribble(

@@ -1,4 +1,7 @@
-register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"), n = 1000)
+register_data <- simulate_registers(
+  c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"),
+  n = 1000
+)
 
 lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag) |>
   # At least one true case
