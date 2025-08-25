@@ -34,8 +34,7 @@ expected <- tibble::tribble(
   dplyr::bind_cols(constants) |>
   dplyr::rename(date = eksd, indication_code = indo) |>
   dplyr::mutate(
-    contained_doses = volume * apk,
-    has_gld_purchases = TRUE,
+    contained_doses = volume * apk
   ) |>
   dplyr::select(-volume, -apk) |>
   dplyr::relocate(
@@ -43,7 +42,6 @@ expected <- tibble::tribble(
     date,
     atc,
     contained_doses,
-    has_gld_purchases,
     indication_code,
     is_insulin_gld_code,
     is_non_insulin_gld_code
