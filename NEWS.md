@@ -1,3 +1,9 @@
+## 0.3.1 (2025-08-25)
+
+### Refactor
+
+- :fire: no longer need `atc` after excluding pregnancy cases (#320)
+
 ## 0.3.0 (2025-08-22)
 
 ### Feat
