@@ -27,11 +27,11 @@
 #'   -   `indication_code`: The indication code of the prescription (renamed
 #'        from `indo`).
 #'   -   `has_two_thirds_insulin`: A logical variable used in classifying type 1
-#'       diabetes. See [algorithm()] for more detail.
+#'       diabetes. See [algorithm()] for more details.
 #'   -   `has_only_insulin_purchases`: A logical variable used in classifying type 1
-#'       diabetes. See [algorithm()] for more detail.
+#'       diabetes. See [algorithm()] for more details.
 #'   -   `has_insulin_purchases_within_180_days`: A logical variable used in classifying type 1
-#'       diabetes. See [algorithm()] for more detail.
+#'       diabetes. See [algorithm()] for more details.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -59,7 +59,7 @@ include_gld_purchases <- function(lmdb) {
       contained_doses = .data$volume * .data$apk,
       is_insulin_gld_code = !!logic$is_insulin_gld_code,
     ) |>
-    # Rename columns for clarity
+    # Rename columns for clarity.
     dplyr::rename(
       date = "eksd",
       indication_code = "indo"
@@ -102,7 +102,7 @@ add_insulin_purchases_cols <- function(data) {
       # within 180 day of the first purchase.
       first_gld_date = min(date, na.rm = TRUE),
       has_insulin_purchases_within_180_days = !!logic$has_insulin_purchases_within_180_days,
-      # Sum up total doses of insulin and of all GLD:
+      # Sum up total doses of insulin and of all GLD.
       n_insulin_doses = sum(
         .data$contained_doses[.data$is_insulin_gld_code],
         na.rm = TRUE
@@ -111,9 +111,9 @@ add_insulin_purchases_cols <- function(data) {
       .by = "pnr"
     ) |>
     dplyr::mutate(
-      # When at least two-thirds of the doses are insulin doses:
+      # When at least two-thirds of the doses are insulin doses.
       has_two_thirds_insulin = !!logic$has_two_thirds_insulin,
-      # When all doses are insulin:
+      # When all doses are insulin.
       has_only_insulin_purchases = !!logic$has_only_insulin_purchases,
       .by = "pnr"
     ) |>

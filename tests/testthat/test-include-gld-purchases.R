@@ -5,7 +5,7 @@ test_that("dataset needs expected variables", {
   expect_error(include_gld_purchases(actual))
 })
 
-test_that("has at least some 'cases' from simulated data", {
+test_that("there's at least some 'cases' in the simulated data", {
   actual <- include_gld_purchases(lmdb)
   expect_equal(nrow(dplyr::count(actual, has_two_thirds_insulin)), 2)
   expect_equal(nrow(dplyr::count(actual, has_only_insulin_purchases)), 2)

@@ -8,7 +8,8 @@ gld_purchases <- simulate_registers("lmdb", 1000)[[1]] |>
   dplyr::add_row(
     date = "20200101",
     atc = "A10BA02",
-    # Not the indication code
+    # Not an indication code from the logic, so it doesn't 
+    # trigger the `OR` part.
     indication_code = "0000091",
   )
 
@@ -17,8 +18,8 @@ test_that("bef needs expected variables", {
   expect_error(exclude_potential_pcos(gld_purchases, bef))
 })
 
-test_that("at least there are some (random) 'cases'", {
+test_that("at least 1 'case' is removed using the simulated data", {
   actual <- exclude_potential_pcos(gld_purchases, bef)
-  # Should be at least one row less after exclusion
+  # Should be at least one row less after exclusion.
   expect_true(nrow(actual) <= nrow(gld_purchases) - 1)
 })
