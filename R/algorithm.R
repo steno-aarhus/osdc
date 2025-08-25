@@ -162,7 +162,7 @@ algorithm <- function() {
       logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
     ),
-    is_any_t1d_primary_diagnosis = list(
+    has_any_t1d_primary_diagnosis = list(
       register = NA,
       title = "Any primary diagnosis for type 1 diabetes",
       logic = "(n_t1d_endocrinology + n_t1d_medical) >= 1",
