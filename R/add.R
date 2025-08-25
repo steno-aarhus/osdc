@@ -32,7 +32,6 @@ add_insulin_purchases_cols <- function(data, gld_purchases) {
       "date",
       "contained_doses",
       "is_insulin_gld_code",
-      "is_non_insulin_gld_code"
     ) |>
     # Calculate first date of a GLD purchase and if a purchase of insulin occurs within 180 day:
     dplyr::summarise(
