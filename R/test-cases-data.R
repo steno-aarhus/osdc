@@ -13,6 +13,7 @@
 # F suffix indicates a criterion not fulfilled
 # T suffix indicates a criterion fulfilled.
 
+# Dictionary for cases 1-11:
 # oip: only_insulin_purchases
 # any_t1d: any_t1d_primary_diagnoses
 # endo: Has any type-specific diagnoses from endocrine dept.
@@ -22,13 +23,27 @@
 # itwo3: insulin_is_two_thirds_of_gld_doses
 
 
-# Notes on cases 1 - 11:
-# Case 3: has primary T1D diagnosis from non-medical specialty, and has secondary T1D diagnosis from endocrinological dept
+# Notes on diabetes type classification cases (1 - 11):
+# Case 1: has a primary T1D diagnosis from medical dept, and a primary T2D diagnosis from endocrinological dept, but doesn't need a majority due to only having purchased insulin GLDs.
+# Case 2: has a primary T1D diagnosis from a non-medical dept, and a secondary T1D diagnosis from an endocrinological department. Neither are valid for T1D classification.
+# Case 3: has primary T1D diagnosis from non-medical specialty, and has secondary T1D diagnosis from endocrinological dept. Neither are valid for T1D-classification
 
-# Inclusion criteria dictionary (cases 12 - 16):
-# Case 12: Tests exclusion of non-GLD medication, non-diabetes diagnoses (and retracted diagnoses), non-HbA1c lab tests & non-diabetes-specific podiatrist services
-# Case 14: Tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests
-# Censoring criteria dictionary (cases 17 - 21):
+# Notes on inclusion criteria cases (12 - 16):
+# Case 12: tests that filtering works for all inclusion criteria and data sources: exclusion of non-GLD medication, non-diabetes diagnoses (and retracted diagnoses), non-HbA1c lab tests & non-diabetes-specific podiatrist services
+# Case 13: tests that inclusion from both data sources (sysi and sssy) works (has exactly one diabetes-specific podiatrist service in each, so is only included if both events are registered)
+# Case 14: tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests
+# Case 15: tests that inclusion on works from both lpr2 and lpr3 (has one primary and one secondary diabetes diagnosis)
+# Case 16: tests that inclusion works from lmdb.
+
+# Notes on censoring criteria cases (17-21):
+# Case 17: Tests censoring of GLD for other indications (GLP1RA, dapa/empagliflozin)
+# Case 18: Tests that metformin purchases are NOT censored among males under age 40.
+# Case 19: Tests that metformin purchases are censored among females under age 40.
+# Case 20: Tests that metformin purchases with indication codes for PCOS are censored in females over age 40.
+# Case 21: Tests that GLD purchases and elevated HbA1c tests before & after a pregnancy ending are censored.
+
+# TODO: Inclusion criteria cases dictionary (case 12-16):
+# TODO: Censoring criteria dictionary (cases 17 - 21):
 
 
 create_test_cases <- function() {
@@ -126,7 +141,7 @@ lpr_adm_tbl <- tibble::tribble(
 
 lpr_diag_tbl <- tibble::tribble(
   ~recnum,       ~c_diag, ~c_diagtype,
-  "pnr01_rec01", "DE111",    "B",
+  "pnr01_rec01", "DE111",    "A",
   "pnr02_rec01", "DE110",    "A",
   "pnr03_rec01", "DE101",    "A",
   "pnr04_rec01", "250",    "A",
