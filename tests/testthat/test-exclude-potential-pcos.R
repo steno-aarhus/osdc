@@ -5,6 +5,7 @@ bef <- simulate_registers("bef", 1000)[[1]] |>
   )
 gld_purchases <- simulate_registers("lmdb", 1000)[[1]] |>
   include_gld_purchases() |>
+  add_insulin_purchases_cols() |>
   dplyr::add_row(
     date = "20200101",
     atc = "A10BA02",

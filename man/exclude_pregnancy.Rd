@@ -66,6 +66,7 @@ lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
 # Exclude pregnancy dates
 register_data$lmdb |>
   include_gld_purchases() |>
+  add_insulin_purchases_cols() |>
   exclude_potential_pcos(register_data$bef) |>
   exclude_pregnancy(
     get_pregnancy_dates(lpr2, lpr3),
