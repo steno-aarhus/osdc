@@ -41,9 +41,9 @@
 # Notes on inclusion criteria cases (12 - 16):
 # Case 12: tests that filtering works for all inclusion criteria and data sources: exclusion of non-GLD medication, non-diabetes diagnoses (and retracted diagnoses), non-HbA1c lab tests & non-diabetes-specific podiatrist services
 # Case 13: tests that inclusion from both data sources (sysi and sssy) works (has exactly one diabetes-specific podiatrist service in each, so is only included if both events are registered)
-# Case 14: tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests.  Also tests if pregnancy events are censored correctly (contains pregnancy records that should not censor gld events).
+# Case 14: tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests.  Also tests if pregnancy events are censored correctly (contains earlier and later pregnancy records that should not censor future HbA1c events).
 # Case 15: tests that inclusion on works from both lpr2 and lpr3 (has one primary and one secondary diabetes diagnosis)
-# Case 16: tests that inclusion works from lmdb. Also tests if pregnancy events are censored correctly (contains pregnancy records that should not censor gld events).
+# Case 16: tests that inclusion works from lmdb. Also tests if pregnancy events are censored correctly (contains earlier and later pregnancy records that should not censor previous GLD events).
 
 # Notes on censoring criteria cases (17-21):
 # Case 17: Tests censoring of GLD for other indications (GLP1RA, dapa/empagliflozin)
@@ -52,8 +52,9 @@
 # Case 20: Tests that metformin purchases with indication codes for PCOS are censored in females over age 40.
 # Case 21: Tests that GLD purchases and elevated HbA1c tests before & after a pregnancy ending are censored.
 
-# Notes on
-# Case 22: Tests
+# Notes on blank cases (22-?):
+# Case 22: Tests if individuals without any health care records are handled correctly.
+
 # TODO: Inclusion criteria cases dictionary (case 12-16):
 # TODO: Censoring criteria dictionary (cases 17 - 21):
 
@@ -77,14 +78,15 @@ bef_tbl <- tibble::tribble(
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  2, "19561010",
   "12_nodm_gldF_diagF_hba1cF_podF",         1, "19800101",
   "13_t2d_gldF_diagF_hba1cF_podT",          1, "19810101",
-  "14_t2d_gldF_diagF_hba1cT_podF",          2, "19820101",
+  "14_t2d_gldF_diagF_hba1cT_podF",          2, "19720101",
   "15_t2d_gldF_diagT_hba1cF_podF",          1, "19830101",
-  "16_t2d_gldT_diagF_hba1cF_podF",          2, "19800101",
+  "16_t2d_gldT_diagF_hba1cF_podF",          2, "19720101",
   "17_nodm_glp1a_dapa_empa",                1, "19700101",
   "18_t2d_male_pcosF",                       1, "20000101",
   "19_nodm_female_u40_pcosT",               2, "20000101",
   "20_nodm_female_o40_pcosT",               2, "19750101",
-  "21_nodm_female_pregnancyT",              2, "19950101"
+  "21_nodm_female_pregnancyT",              2, "19950101",
+  "22_nodm_female_blank",                   2, "19960101"
 )
 
 # 2. lmdb: Drug purchases table -------------------------------------------------------------------------
@@ -114,8 +116,8 @@ lmdb_tbl <- tibble::tribble(
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",    10, "20220901", "A10AB01",    8, "6789013",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",    10, "20220101", "A10BA02",    2, "7890123",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",    10, "20220201", "A10AE02",    8, "7890123",
-  "16_t2d_gldT_diagF_hba1cF_podF",           10, "20230101", "A10BA02",    5, "1600001",
-  "16_t2d_gldT_diagF_hba1cF_podF",           10, "20230401", "A10AB01",    5, "1600002",
+  "16_t2d_gldT_diagF_hba1cF_podF",           10, "20130101", "A10BA02",    5, "1600001",
+  "16_t2d_gldT_diagF_hba1cF_podF",           10, "20130401", "A10AB01",    5, "1600002",
   "17_nodm_glp1a_dapa_empa",                10, "20220101", "A10BJ01",    5, "1700002",
   "17_nodm_glp1a_dapa_empa",                10, "20220201", "A10BK01",    5, "1700001",
   "17_nodm_glp1a_dapa_empa",                10, "20220401", "A10BK03",    5, "1700002",
@@ -132,6 +134,8 @@ lmdb_tbl <- tibble::tribble(
   "20_nodm_female_o40_pcosT",               10, "20230101", "A10BA02",    5, "0000092",
   "20_nodm_female_o40_pcosT",               10, "20230401", "A10BA02",    5, "0000276",
   "20_nodm_female_o40_pcosT",               10, "20230501", "A10BA02",    5, "0000781",
+  "21_nodm_female_pregnancyT",              10, "19980901", "A10AB01",    5, "2100001",
+  "21_nodm_female_pregnancyT",              10, "19990102", "A10AB01",    5, "2100001",
   "21_nodm_female_pregnancyT",              10, "20230901", "A10AB01",    5, "2100001",
   "21_nodm_female_pregnancyT",              10, "20240102", "A10AB01",    5, "2100001"
 )
@@ -156,7 +160,10 @@ lpr_adm_tbl <- tibble::tribble(
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "02", "pnr11_rec01", "20000423",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "99", "pnr11_rec02", "20010423",
   "12_nodm_gldF_diagF_hba1cF_podF",         "01", "pnr12_rec01", "20220423",
-  "15_t2d_gldF_diagT_hba1cF_podF",          "08", "pnr15_rec01", "20100101"
+  "14_t2d_gldF_diagF_hba1cT_podF",          "38", "pnr14_rec01", "19990101",
+  "15_t2d_gldF_diagT_hba1cF_podF",          "08", "pnr15_rec01", "20100101",
+  "16_t2d_gldT_diagF_hba1cF_podF",          "38", "pnr16_rec01", "19990101",
+  "21_nodm_female_pregnancyT",              "38", "pnr21_rec01", "19990101",
 )
 
 # 4. lpr_diag: Hospital diagnoses (LPR2) -------------------------------------------------------------------------
@@ -169,7 +176,7 @@ lpr_diag_tbl <- tibble::tribble(
   "pnr04_rec01", "24901",    "A",
   "pnr04_rec02", "DE105",    "A",
   "pnr04_rec02", "DE114",    "B",
-  "pnr05_rec01", "250",    "A",
+  "pnr05_rec01", "250",      "A",
   "pnr06_rec01", "DE103",    "A",
   "pnr07_rec01", "DE115",    "A",
   "pnr07_rec01", "DE105",    "B",
@@ -186,8 +193,11 @@ lpr_diag_tbl <- tibble::tribble(
   "pnr11_rec02", "DE106",    "B",
   "pnr12_rec01", "DI211",    "A",
   "pnr12_rec01", "DI11",    "B",
+  "pnr14_rec01", "DZ331",    "A",
   "pnr15_rec01", "DE110",    "A",
-  "pnr15_rec01", "DI250",    "B"
+  "pnr15_rec01", "DI250",    "B",
+  "pnr16_rec01", "DZ371",    "A",
+  "pnr21_rec01", "DZ371",    "A"
 )
 
 # 5. kontakter: Hospital contacts (LPR3) -------------------------------------------------------------------------
@@ -209,8 +219,10 @@ kontakter_tbl <- tibble::tribble(
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw01", "kardiologi",              "20230423",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw02", "medicinsk endokrinologi", "20240423",
   "12_nodm_gldF_diagF_hba1cF_podF",         "pnr12_dw01", "kardiologi",              "20210423",
-  "15_t2d_gldF_diagT_hba1cF_podF",       "pnr15_dw01", "almen medicin",           "20230101",
-  "21_nodm_female_pregnancyT",           "pnr21_dw01", "gynækologi og obstetrik", "20240101"
+  "14_t2d_gldF_diagF_hba1cT_podF",       "pnr14_dw01", "gynækologi og obstetrik",    "20240101",
+  "15_t2d_gldF_diagT_hba1cF_podF",       "pnr15_dw01", "almen medicin",              "20230101",
+  "16_t2d_gldT_diagF_hba1cF_podF",       "pnr16_dw01", "gynækologi og obstetrik",    "20240101",
+  "21_nodm_female_pregnancyT",           "pnr21_dw01", "gynækologi og obstetrik",    "20240101"
 )
 
 # 6. diagnoser: Hospital diagnoses (LPR3) -------------------------------------------------------------------------
@@ -240,8 +252,10 @@ diagnoser_tbl <- tibble::tribble(
   "pnr11_dw02",   "DI739",        "B",           "Nej",
   "pnr12_dw01",   "DI25",        "A",           "Nej",
   "pnr12_dw01",   "DE110",        "A",           "Ja",
+  "pnr14_dw01",   "DO041",        "A",           "Nej",
   "pnr15_dw01",   "DI25",        "A",           "Nej",
   "pnr15_dw01",   "DE110",        "B",           "Nej",
+  "pnr16_dw01",   "DO822",        "A",           "Nej",
   "pnr21_dw01",   "DO806",        "A",           "Nej"
 )
 
@@ -321,8 +335,10 @@ lab_forsker_tbl <- tibble::tribble(
   "12_nodm_gldF_diagF_hba1cF_podF",      "20210101",    "NPU27300",    50,
   "12_nodm_gldF_diagF_hba1cF_podF",      "20220101",    "DNK35302",    90,
   "12_nodm_gldF_diagF_hba1cF_podF",      "20230101",    "DNK35302",    90,
-  "14_t2d_gldF_diagF_hba1cT_podF",       "20090101",    "NPU03835",    6.9,
-  "14_t2d_gldF_diagF_hba1cT_podF",       "20230401",    "NPU27300",    56,
+  "14_t2d_gldF_diagF_hba1cT_podF",       "20100101",    "NPU03835",    6.9,
+  "14_t2d_gldF_diagF_hba1cT_podF",       "20130401",    "NPU27300",    56,
+  "21_nodm_female_pregnancyT",           "19980801",    "NPU27300",    55,
+  "21_nodm_female_pregnancyT",           "19990201",    "NPU27300",    55,
   "21_nodm_female_pregnancyT",           "20230801",    "NPU27300",    55,
   "21_nodm_female_pregnancyT",           "20240201",    "NPU27300",    55
 )
