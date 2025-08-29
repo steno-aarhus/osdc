@@ -1,69 +1,7 @@
-# 0. Pseudo-pnr dictionary (to-do: move to website documentation) -----------------------------------------------------------
-
-# Edge cases have pseudo-pnr values to support easier debugging
-
-# Consisting of:
-
-# a) Index number
-
-# b) Expected diabetes classification
-
-# c) Abbreviations of classification criteria and their expected evaluation
-
-# F suffix indicates a criterion not fulfilled
-# T suffix indicates a criterion fulfilled.
-
-# Dictionary for cases 1-11:
-# oip: only_insulin_purchases
-# any_t1d: any_t1d_primary_diagnoses
-# endo: Has any type-specific diagnoses from endocrine dept.
-# med: Has any type-specific diagnoses from (non-endocrine) medical dept.
-# maj_t1d: majority_t1d_diagnoses
-# i180: insulin_purchases_within_180_days
-# itwo3: insulin_is_two_thirds_of_gld_doses
-
-
-# Notes on diabetes type classification cases (1 - 11):
-# Case 1: has a primary T1D diagnosis from medical dept, and a primary T2D diagnosis from endocrinological dept, but doesn't need a majority due to only having purchased insulin GLDs.
-# Case 2: has a primary T1D diagnosis from a non-medical dept, and a secondary T1D diagnosis from an endocrinological department. Neither are valid for T1D classification.
-# Case 3: has primary T1D diagnosis from non-medical specialty, and has secondary T1D diagnosis from endocrinological dept. Neither are valid for T1D-classification
-
-# Case 4: Has a majority of T1D primary diagnoses from endo (across lpr2 & lpr3), and a majority of T2D secondary diagnoses from endo. Only has two-thirds insulin GLD doses and insulin within 180 days if proper PCOS filtering is applied to the first purchase of metformin (A10BA02)
-# Case 5: Has equal amounts of insulin vs. non-insulin GLD doses, unless metformin purchases are erroneously censored as potential PCOS due to age (would lead to misclassification as T1D)
-# Case 6: Has insulin purchases, but not within 180 days of first GLD purchase.
-# Case 7: Equal number of primary T1D and T2D diagnoses from endo, which determines classification as T2D, despite the majority of T1D among secondary diagnoses from endo and among primary diagnoses from non-endo medical depts.
-
-# Case 8: Has only secondary type-specific diagnoses from endo dept, so evaluates majority among medical dept., where there is a majority of T1D primary diagnoses. Purchased insulin as first GLD.
-# Case 9: Has equal amounts of insulin vs. non-insulin GLD doses, unless metformin purchases are erroneously censored as potential PCOS due to sex (would lead to misclassification as T1D)
-# Case 10: Has insulin purchases, but not within 180 days of first GLD purchase.
-# Case 11: Only primary T2D diagnoses from medical, which determines classification, despite the majority of T1D among secondary diagnoses from endo and secondary diagnoses from non-endo medical depts. Also has majority T1D diagnoses from non-medical departments, which is not used for classification.
-
-# Notes on inclusion criteria cases (12 - 16):
-# Case 12: tests that filtering works for all inclusion criteria and data sources: exclusion of non-GLD medication, non-diabetes diagnoses (and retracted diagnoses), non-HbA1c lab tests & non-diabetes-specific podiatrist services
-# Case 13: tests that inclusion from both data sources (sysi and sssy) works (has exactly one diabetes-specific podiatrist service in each, so is only included if both events are registered)
-# Case 14: tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests.  Also tests if pregnancy events are censored correctly (contains earlier and later pregnancy records that should not censor future HbA1c events).
-# Case 15: tests that inclusion on works from both lpr2 and lpr3 (has one primary and one secondary diabetes diagnosis)
-# Case 16: tests that inclusion works from lmdb. Also tests if pregnancy events are censored correctly (contains earlier and later pregnancy records that should not censor previous GLD events).
-
-# Notes on censoring criteria cases (17-21):
-# Case 17: Tests censoring of GLD for other indications (GLP1RA, dapa/empagliflozin)
-# Case 18: Tests that metformin purchases are NOT censored among males under age 40.
-# Case 19: Tests that metformin purchases are censored among females under age 40.
-# Case 20: Tests that metformin purchases with indication codes for PCOS are censored in females over age 40.
-# Case 21: Tests that GLD purchases and elevated HbA1c tests before & after a pregnancy ending are censored.
-
-# Notes on blank cases (22-?):
-# Case 22: Tests if individuals without any health care records are handled correctly.
-
-# TODO: Inclusion criteria cases dictionary (case 12-16):
-# TODO: Censoring criteria dictionary (cases 17 - 21):
-
-
 create_test_cases <- function() {
+  # 1. bef: Demographics table -------------------------------------------------------------------------
 
-# 1. bef: Demographics table -------------------------------------------------------------------------
-
-bef_tbl <- tibble::tribble(
+  bef_tbl <- tibble::tribble(
   ~pnr,                               ~koen, ~foed_dato,
   "01_t1d_oipT_anyt1dT",                   1, "19800101",
   "02_t2d_oipT_anyt1dF",                   2, "19810203",
@@ -89,9 +27,9 @@ bef_tbl <- tibble::tribble(
   "22_nodm_female_blank",                   2, "19960101"
 )
 
-# 2. lmdb: Drug purchases table -------------------------------------------------------------------------
+  # 2. lmdb: Drug purchases table -------------------------------------------------------------------------
 
-lmdb_tbl <- tibble::tribble(
+  lmdb_tbl <- tibble::tribble(
   ~pnr,                                ~volume, ~eksd,     ~atc,      ~apk, ~indo,
   "01_t1d_oipT_anyt1dT",                      10, "20200110", "A10AB01",    5, "1234567",
   "01_t1d_oipT_anyt1dT",                      10, "20200410", "A10AE01",    5, "1234568",
@@ -140,9 +78,9 @@ lmdb_tbl <- tibble::tribble(
   "21_nodm_female_pregnancyT",              10, "20240102", "A10AB01",    5, "2100001"
 )
 
-# 3. lpr_adm: Hospital admissions (LPR2) -------------------------------------------------------------------------
+  # 3. lpr_adm: Hospital admissions (LPR2) -------------------------------------------------------------------------
 
-lpr_adm_tbl <- tibble::tribble(
+  lpr_adm_tbl <- tibble::tribble(
   ~pnr,                                ~c_spec, ~recnum,      ~d_inddto,
   "01_t1d_oipT_anyt1dT",                   "08", "pnr01_rec01", "20110515",
   "02_t2d_oipT_anyt1dF",                   "08", "pnr02_rec01", "20220616",
@@ -166,9 +104,9 @@ lpr_adm_tbl <- tibble::tribble(
   "21_nodm_female_pregnancyT",              "38", "pnr21_rec01", "19990101",
 )
 
-# 4. lpr_diag: Hospital diagnoses (LPR2) -------------------------------------------------------------------------
+  # 4. lpr_diag: Hospital diagnoses (LPR2) -------------------------------------------------------------------------
 
-lpr_diag_tbl <- tibble::tribble(
+  lpr_diag_tbl <- tibble::tribble(
   ~recnum,       ~c_diag, ~c_diagtype,
   "pnr01_rec01", "DE111",    "A",
   "pnr02_rec01", "DE110",    "A",
@@ -200,9 +138,9 @@ lpr_diag_tbl <- tibble::tribble(
   "pnr21_rec01", "DZ371",    "A"
 )
 
-# 5. kontakter: Hospital contacts (LPR3) -------------------------------------------------------------------------
+  # 5. kontakter: Hospital contacts (LPR3) -------------------------------------------------------------------------
 
-kontakter_tbl <- tibble::tribble(
+  kontakter_tbl <- tibble::tribble(
   ~cpr,                                ~dw_ek_kontakt, ~hovedspeciale_ans,        ~dato_start,
   "01_t1d_oipT_anyt1dT",                 "pnr01_dw01", "medicinsk endokrinologi", "20210515",
   "02_t2d_oipT_anyt1dF",                 "pnr02_dw01", "thoraxkirurgi",           "20220616",
@@ -225,9 +163,9 @@ kontakter_tbl <- tibble::tribble(
   "21_nodm_female_pregnancyT",           "pnr21_dw01", "gynækologi og obstetrik",    "20240101"
 )
 
-# 6. diagnoser: Hospital diagnoses (LPR3) -------------------------------------------------------------------------
+  # 6. diagnoser: Hospital diagnoses (LPR3) -------------------------------------------------------------------------
 
-diagnoser_tbl <- tibble::tribble(
+  diagnoser_tbl <- tibble::tribble(
   ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
   "pnr01_dw01",   "DE101",        "A",           "Nej",
   "pnr02_dw01",   "DE102",        "A",           "Nej",
@@ -259,9 +197,9 @@ diagnoser_tbl <- tibble::tribble(
   "pnr21_dw01",   "DO806",        "A",           "Nej"
 )
 
-# 7. sysi: Health services table -------------------------------------------------------------------------
+  # 7. sysi: Health services table -------------------------------------------------------------------------
 
-sysi_tbl <- tibble::tribble(
+  sysi_tbl <- tibble::tribble(
   ~pnr,                                ~barnmak, ~speciale, ~honuge,
   "01_t1d_oipT_anyt1dT",                      0, "54022",    "9329",
   "02_t2d_oipT_anyt1dF",                      0, "54475",    "0442",
@@ -289,9 +227,9 @@ sysi_tbl <- tibble::tribble(
   "21_nodm_female_pregnancyT",             0, "10010",    "1010"
 )
 
-# 8. sssy: Health services table-------------------------------------------------------------------------
+  # 8. sssy: Health services table-------------------------------------------------------------------------
 
-sssy_tbl <- tibble::tribble(
+  sssy_tbl <- tibble::tribble(
   ~pnr,                                ~barnmak, ~speciale, ~honuge,
   "01_t1d_oipT_anyt1dT",                      0, "54100",    "0830",
   "02_t2d_oipT_anyt1dF",                      0, "54475",    "1942",
@@ -316,9 +254,9 @@ sssy_tbl <- tibble::tribble(
   "21_nodm_female_pregnancyT",             0, "20009",    "2011"
 )
 
-# 9. lab_forsker: Lab results table -------------------------------------------------------------------------
+  # 9. lab_forsker: Lab results table -------------------------------------------------------------------------
 
-lab_forsker_tbl <- tibble::tribble(
+  lab_forsker_tbl <- tibble::tribble(
   ~patient_cpr,                        ~samplingdate, ~analysiscode, ~value,
   "01_t1d_oipT_anyt1dT",                 "20190101",    "NPU27300",    50,
   "02_t2d_oipT_anyt1dF",                 "20190101",    "NPU27300",    51,
@@ -343,19 +281,19 @@ lab_forsker_tbl <- tibble::tribble(
   "21_nodm_female_pregnancyT",           "20240201",    "NPU27300",    55
 )
 
-# Combine all tibbles into a named list -------------------------------------------------------------------------
+  # Combine all tibbles into a named list -------------------------------------------------------------------------
 
-osdc_test_data <- list(
-  bef = bef_tbl,
-  lmdb = lmdb_tbl,
-  lpr_adm = lpr_adm_tbl,
-  lpr_diag = lpr_diag_tbl,
-  kontakter = kontakter_tbl,
-  diagnoser = diagnoser_tbl,
-  sysi = sysi_tbl,
-  sssy = sssy_tbl,
-  lab_forsker = lab_forsker_tbl
-)
+  osdc_test_data <- list(
+    bef = bef_tbl,
+    lmdb = lmdb_tbl,
+    lpr_adm = lpr_adm_tbl,
+    lpr_diag = lpr_diag_tbl,
+    kontakter = kontakter_tbl,
+    diagnoser = diagnoser_tbl,
+    sysi = sysi_tbl,
+    sssy = sssy_tbl,
+    lab_forsker = lab_forsker_tbl
+  )
 
-return(osdc_test_data)
+  return(osdc_test_data)
 }
