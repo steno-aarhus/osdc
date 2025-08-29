@@ -157,10 +157,10 @@ create_test_cases <- function() {
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw01", "kardiologi",              "20230423",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw02", "medicinsk endokrinologi", "20240423",
   "12_nodm_gldF_diagF_hba1cF_podF",         "pnr12_dw01", "kardiologi",              "20210423",
-  "14_t2d_gldF_diagF_hba1cT_podF",       "pnr14_dw01", "gynækologi og obstetrik",    "20240101",
+  "14_t2d_gldF_diagF_hba1cT_podF",       "pnr14_dw01", "gynaekologi og obstetrik",    "20240101",
   "15_t2d_gldF_diagT_hba1cF_podF",       "pnr15_dw01", "almen medicin",              "20230101",
-  "16_t2d_gldT_diagF_hba1cF_podF",       "pnr16_dw01", "gynækologi og obstetrik",    "20240101",
-  "21_nodm_female_pregnancyT",           "pnr21_dw01", "gynækologi og obstetrik",    "20240101"
+  "16_t2d_gldT_diagF_hba1cF_podF",       "pnr16_dw01", "gynaekologi og obstetrik",    "20240101",
+  "21_nodm_female_pregnancyT",           "pnr21_dw01", "gynaekologi og obstetrik",    "20240101"
 )
 
   # 6. diagnoser: Hospital diagnoses (LPR3) -------------------------------------------------------------------------
