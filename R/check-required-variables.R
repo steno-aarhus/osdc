@@ -1,4 +1,4 @@
-#' Verify that the dataset has the required variables for the algorithm.
+#' Check that the dataset has the required variables for the algorithm.
 #'
 #' Use this function inside another function within an `if` condition to provide an
 #' informative error message within the function used. This is done to make the
@@ -16,10 +16,10 @@
 #' @examples
 #' \dontrun{
 #' # TODO: Replace with simulated data.
-#' verify_required_variables(simulate_registers("bef")[[1]], "bef")
-#' verify_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
+#' check_required_variables(simulate_registers("bef")[[1]], "bef")
+#' check_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
 #' }
-verify_required_variables <- function(
+check_required_variables <- function(
   data,
   register,
   call = rlang::caller_env()
@@ -43,5 +43,5 @@ verify_required_variables <- function(
       call = call
     )
   }
-  return(invisible(TRUE))
+  invisible(TRUE)
 }

@@ -35,6 +35,12 @@ algorithm <- function() {
       logic = "atc =~ '^A10' AND NOT (atc =~ '^(A10BJ|A10BK01|A10BK03)')",
       comments = "GLP-RAs or dapagliflozin/empagliflozin drugs are not kept."
     ),
+    is_insulin_gld_code = list(
+      register = "lmdb",
+      title = "Only insulin glucose-lowering drugs",
+      logic = "atc =~ '^A10A' AND NOT (atc =~ '^A10AE56')",
+      comments = "This is used during the classification of type 1 diabetes to identify persons who only purchase insulin or mostly purchase insulin."
+    ),
     lpr2_is_needed_code = list(
       register = "lpr_diag",
       title = "LPR2 codes used throughout the algorithm",
@@ -77,7 +83,7 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
-    lpr2_is_primary_dx = list(
+    lpr2_is_primary_diagnosis = list(
       register = "lpr_diag",
       title = "LPR2 primary diagnosis",
       logic = "c_diagtype == 'A'",
@@ -102,7 +108,7 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
     ),
-    lpr3_is_primary_dx = list(
+    lpr3_is_primary_diagnosis = list(
       register = "diagnoser",
       title = "LPR3 primary diagnosis",
       logic = "diagnosetype == 'A'",

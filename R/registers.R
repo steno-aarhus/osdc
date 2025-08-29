@@ -25,8 +25,7 @@ registers <- function() {
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         "koen", "Koen", "Gender/sex", "integer",
-        # Either a date or a character, we can format it to Date from character.
-        "foed_dato", "Foedselsdato", "Date of birth", "Date"
+        "foed_dato", "Foedselsdato", "Date of birth", c("Date", "character")
       )
     ),
     lmdb = list(
