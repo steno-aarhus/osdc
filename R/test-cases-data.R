@@ -36,14 +36,14 @@
 # Case 8: Has only secondary type-specific diagnoses from endo dept, so evaluates majority among medical dept., where there is a majority of T1D primary diagnoses. Purchased insulin as first GLD.
 # Case 9: Has equal amounts of insulin vs. non-insulin GLD doses, unless metformin purchases are erroneously censored as potential PCOS due to sex (would lead to misclassification as T1D)
 # Case 10: Has insulin purchases, but not within 180 days of first GLD purchase.
-# Case 11: Only primary T2D diagnoses from medical, which determines classification, despite the majority of T1D among secondary diagnoses from endo and secondary diagnoses from non-endo medical depts.
+# Case 11: Only primary T2D diagnoses from medical, which determines classification, despite the majority of T1D among secondary diagnoses from endo and secondary diagnoses from non-endo medical depts. Also has majority T1D diagnoses from non-medical departments, which is not used for classification.
 
 # Notes on inclusion criteria cases (12 - 16):
 # Case 12: tests that filtering works for all inclusion criteria and data sources: exclusion of non-GLD medication, non-diabetes diagnoses (and retracted diagnoses), non-HbA1c lab tests & non-diabetes-specific podiatrist services
 # Case 13: tests that inclusion from both data sources (sysi and sssy) works (has exactly one diabetes-specific podiatrist service in each, so is only included if both events are registered)
-# Case 14: tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests
+# Case 14: tests both old code (NPU03835) and new code (NPU27300) for HbA1c tests.  Also tests if pregnancy events are censored correctly (contains pregnancy records that should not censor gld events).
 # Case 15: tests that inclusion on works from both lpr2 and lpr3 (has one primary and one secondary diabetes diagnosis)
-# Case 16: tests that inclusion works from lmdb.
+# Case 16: tests that inclusion works from lmdb. Also tests if pregnancy events are censored correctly (contains pregnancy records that should not censor gld events).
 
 # Notes on censoring criteria cases (17-21):
 # Case 17: Tests censoring of GLD for other indications (GLP1RA, dapa/empagliflozin)
@@ -52,6 +52,8 @@
 # Case 20: Tests that metformin purchases with indication codes for PCOS are censored in females over age 40.
 # Case 21: Tests that GLD purchases and elevated HbA1c tests before & after a pregnancy ending are censored.
 
+# Notes on
+# Case 22: Tests
 # TODO: Inclusion criteria cases dictionary (case 12-16):
 # TODO: Censoring criteria dictionary (cases 17 - 21):
 
@@ -145,12 +147,14 @@ lpr_adm_tbl <- tibble::tribble(
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "08", "pnr04_rec02", "20230120",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "08", "pnr05_rec01", "20230221",
   "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "08", "pnr06_rec01", "20230322",
-  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "08", "pnr07_rec01", "20230423",
+  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "08", "pnr07_rec01", "20220423",
+  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "02", "pnr07_rec02", "20230423",
   "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "01", "pnr08_rec01", "19920120",
   "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "08", "pnr08_rec02", "20240120",
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "01", "pnr09_rec01", "20240221",
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "01", "pnr10_rec01", "20240322",
-  "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "01", "pnr11_rec01", "20240423",
+  "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "02", "pnr11_rec01", "20000423",
+  "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "99", "pnr11_rec02", "20010423",
   "12_nodm_gldF_diagF_hba1cF_podF",         "01", "pnr12_rec01", "20220423",
   "15_t2d_gldF_diagT_hba1cF_podF",          "08", "pnr15_rec01", "20100101"
 )
@@ -167,13 +171,19 @@ lpr_diag_tbl <- tibble::tribble(
   "pnr04_rec02", "DE114",    "B",
   "pnr05_rec01", "250",    "A",
   "pnr06_rec01", "DE103",    "A",
-  "pnr07_rec01", "DE105",    "A",
+  "pnr07_rec01", "DE115",    "A",
+  "pnr07_rec01", "DE105",    "B",
+  "pnr07_rec02", "DE106",    "A",
+  "pnr07_rec02", "DE105",    "B",
   "pnr08_rec01", "25001",    "A",
   "pnr08_rec02", "DE115",    "B",
   "pnr08_rec02", "DE114",    "B",
   "pnr09_rec01", "250",    "A",
   "pnr10_rec01", "DE103",    "A",
-  "pnr11_rec01", "DE105",    "A",
+  "pnr11_rec01", "DE115",    "A",
+  "pnr11_rec01", "DE105",    "B",
+  "pnr11_rec02", "DE105",    "A",
+  "pnr11_rec02", "DE106",    "B",
   "pnr12_rec01", "DI211",    "A",
   "pnr12_rec01", "DI11",    "B",
   "pnr15_rec01", "DE110",    "A",
@@ -190,12 +200,14 @@ kontakter_tbl <- tibble::tribble(
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "pnr04_dw01", "medicinsk endokrinologi", "20230120",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "pnr05_dw01", "medicinsk endokrinologi", "20230221",
   "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "pnr06_dw01", "medicinsk endokrinologi", "20230322",
-  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw01", "medicinsk endokrinologi", "20230423",
+  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw01", "medicinsk endokrinologi", "20220423",
+  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw02", "geriatri",                "20230423",
   "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "pnr08_dw01", "kardiologi",              "20230120",
   "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "pnr08_dw02", "kardiologi",              "20240120",
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "pnr09_dw01", "kardiologi",              "20240221",
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "pnr10_dw01", "kardiologi",              "20240322",
-  "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw01", "kardiologi",              "20240423",
+  "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw01", "kardiologi",              "20230423",
+  "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw02", "medicinsk endokrinologi", "20240423",
   "12_nodm_gldF_diagF_hba1cF_podF",         "pnr12_dw01", "kardiologi",              "20210423",
   "15_t2d_gldF_diagT_hba1cF_podF",       "pnr15_dw01", "almen medicin",           "20230101",
   "21_nodm_female_pregnancyT",           "pnr21_dw01", "gynækologi og obstetrik", "20240101"
@@ -213,14 +225,19 @@ diagnoser_tbl <- tibble::tribble(
   "pnr04_dw02",   "DE119",        "B",           "Nej",
   "pnr05_dw01",   "DE101",        "A",           "Nej",
   "pnr06_dw01",   "DE102",        "A",           "Nej",
-  "pnr07_dw01",   "DE113",        "A",           "Nej",
-  "pnr07_dw01",   "DE104",        "B",           "Nej",
+  "pnr07_dw01",   "DE103",        "A",           "Nej",
+  "pnr07_dw01",   "DE109",        "B",           "Nej",
+  "pnr07_dw02",   "DE104",        "A",           "Nej",
+  "pnr07_dw02",   "DE108",        "B",           "Nej",
   "pnr08_dw01",   "DE114",        "A",           "Nej",
   "pnr08_dw02",   "DE105",        "A",           "Nej",
   "pnr08_dw02",   "DE119",        "B",           "Nej",
   "pnr09_dw01",   "DE10",        "A",           "Nej",
   "pnr10_dw01",   "DE101",        "A",           "Nej",
   "pnr11_dw01",   "DE112",        "A",           "Nej",
+  "pnr11_dw01",   "DE102",        "B",           "Nej",
+  "pnr11_dw02",   "DE109",        "B",           "Nej",
+  "pnr11_dw02",   "DI739",        "B",           "Nej",
   "pnr12_dw01",   "DI25",        "A",           "Nej",
   "pnr12_dw01",   "DE110",        "A",           "Ja",
   "pnr15_dw01",   "DI25",        "A",           "Nej",
