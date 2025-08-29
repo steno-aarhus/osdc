@@ -21,8 +21,8 @@ variables:
 daily doses (DDD).
 \item \code{indication_code}: The indication code of the prescription (renamed
 from \code{indo}).
-\item \code{has_gld_purchases}: A logical variable to use as a helper indicator
-for later functions.
+\item \code{is_insulin_gld_code}: A logical variable to use as a helper indicator
+for later functions, used for classifying type 1 diabetes.
 }
 }
 \description{
@@ -39,7 +39,7 @@ These events are then passed to a chain of exclusion functions:
 }
 \examples{
 \dontrun{
-simulate_registers("lmdb", 100)[[1]] |> include_gld_purchases()
+simulate_registers("lmdb", 10000)[[1]] |> include_gld_purchases()
 }
 }
 \seealso{

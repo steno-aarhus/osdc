@@ -1,19 +1,13 @@
 ---
 title: "Design"
-output: rmarkdown::html_vignette
-bibliography: ../references.bib
-csl: ../vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Design}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+```{r setup}
+#| include: false
 library(dplyr)
 library(osdc)
 ```
@@ -145,10 +139,13 @@ exclusion details are described in the `vignette("algorithm")`.
 There is one argument in `classify_diabetes()` for each required
 register, so the argument is:
 
-```{r, results='asis'}
+```{r}
+#| output: asis
+#| echo: false
 registers() |>
-  purrr::imap_chr(~ glue::glue("- `{.y}`: The register that is called '{.x$name}' in Danish.")) |>
-  unname()
+  purrr::imap_chr(~ glue::glue("- `{.y}`: The register called '{.x$name}' in Danish.")) |>
+  unname() |> 
+  cat(sep = "\n")
 ```
 
 ### Output

@@ -1,0 +1,4 @@
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"

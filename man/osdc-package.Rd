@@ -4,7 +4,7 @@
 \name{osdc-package}
 \alias{osdc}
 \alias{osdc-package}
-\title{osdc: Open Source Diabetes Classifier (OSDC) for Danish Registers}
+\title{osdc: Open Source Diabetes Classifier for Danish Registers}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 

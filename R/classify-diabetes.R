@@ -56,15 +56,15 @@ classify_diabetes <- function(
   lmdb
 ) {
   # Verification step -----
-  verify_required_variables(kontakter, "kontakter")
-  verify_required_variables(diagnoser, "diagnoser")
-  verify_required_variables(lpr_diag, "lpr_diag")
-  verify_required_variables(lpr_adm, "lpr_adm")
-  verify_required_variables(sysi, "sysi")
-  verify_required_variables(sssy, "sssy")
-  verify_required_variables(lab_forsker, "lab_forsker")
-  verify_required_variables(bef, "bef")
-  verify_required_variables(lmdb, "lmdb")
+  check_required_variables(kontakter, "kontakter")
+  check_required_variables(diagnoser, "diagnoser")
+  check_required_variables(lpr_diag, "lpr_diag")
+  check_required_variables(lpr_adm, "lpr_adm")
+  check_required_variables(sysi, "sysi")
+  check_required_variables(sssy, "sssy")
+  check_required_variables(lab_forsker, "lab_forsker")
+  check_required_variables(bef, "bef")
+  check_required_variables(lmdb, "lmdb")
 
   # Lowercase column names -----
   kontakter <- column_names_to_lower(kontakter)
@@ -76,6 +76,17 @@ classify_diabetes <- function(
   lab_forsker <- column_names_to_lower(lab_forsker)
   bef <- column_names_to_lower(bef)
   lmdb <- column_names_to_lower(lmdb)
+
+  # Check that data types are as expected -----
+  check_data_types(kontakter, "kontakter")
+  check_data_types(diagnoser, "diagnoser")
+  check_data_types(lpr_diag, "lpr_diag")
+  check_data_types(lpr_adm, "lpr_adm")
+  check_data_types(sysi, "sysi")
+  check_data_types(sssy, "sssy")
+  check_data_types(lab_forsker, "lab_forsker")
+  check_data_types(bef, "bef")
+  check_data_types(lmdb, "lmdb")
 
   # Initially processing -----
   lpr2 <- prepare_lpr2(
@@ -94,7 +105,7 @@ classify_diabetes <- function(
   )
 
   # Inclusion steps -----
-  included_diabetes_diagnoses <- include_diabetes_diagnoses(
+  diabetes_diagnoses <- include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
   )
@@ -121,11 +132,11 @@ classify_diabetes <- function(
     )
 
   # Joining into an initial dataset -----
-  # inclusions <- join_inclusions(
-  #   included_diabetes_diagnoses,
-  #   included_podiatrist_services,
-  #   gld_hba1c_after_exclusions
-  # )
+  inclusions <- join_inclusions(
+    diabetes_diagnoses = diabetes_diagnoses,
+    podiatrist_services = podiatrist_services,
+    gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
+  )
 
   # inclusions |>
   #   create_inclusion_dates() |>

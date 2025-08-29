@@ -31,8 +31,6 @@
 #'      diagnosis codes from medical departments.
 #'  -  `n_t2d_medical`: The number of type 2 diabetes-specific primary
 #'      diagnosis codes from medical departments.
-#'  -  `has_lpr_diabetes_diagnosis`: A logical variable that acts as a helper
-#'      indicator for use in later functions.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -50,36 +48,40 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
   lpr2 |>
     dplyr::bind_rows(lpr3) |>
     dplyr::filter(.data$is_diabetes_code) |>
-    dplyr::group_by(.data$pnr) |>
     dplyr::mutate(
       n_t1d_endocrinology = sum(
-        .data$is_t1d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
+        .data$is_t1d_code &
+          .data$is_primary_diagnosis &
+          .data$is_endocrinology_dept,
         na.rm = TRUE
       ),
       n_t2d_endocrinology = sum(
-        .data$is_t2d_code & .data$is_primary_dx & .data$is_endocrinology_dept,
+        .data$is_t2d_code &
+          .data$is_primary_diagnosis &
+          .data$is_endocrinology_dept,
         na.rm = TRUE
       ),
       n_t1d_medical = sum(
-        .data$is_t1d_code & .data$is_primary_dx & .data$is_medical_dept,
+        .data$is_t1d_code & .data$is_primary_diagnosis & .data$is_medical_dept,
         na.rm = TRUE
       ),
       n_t2d_medical = sum(
-        .data$is_t2d_code & .data$is_primary_dx & .data$is_medical_dept,
+        .data$is_t2d_code & .data$is_primary_diagnosis & .data$is_medical_dept,
         na.rm = TRUE
       ),
-      .keep = "all"
+      .keep = "all",
+      .by = "pnr"
     ) |>
     # Coalesce NA values to 0
     dplyr::mutate(
       n_t1d_endocrinology = dplyr::coalesce(.data$n_t1d_endocrinology, 0),
       n_t2d_endocrinology = dplyr::coalesce(.data$n_t2d_endocrinology, 0),
       n_t1d_medical = dplyr::coalesce(.data$n_t1d_medical, 0),
-      n_t2d_medical = dplyr::coalesce(.data$n_t2d_medical, 0)
+      n_t2d_medical = dplyr::coalesce(.data$n_t2d_medical, 0),
+      .by = "pnr"
     ) |>
     # Keep earliest two dates per individual.
-    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2) |>
-    dplyr::ungroup() |>
+    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr") |>
     dplyr::select(
       "pnr",
       "date",
@@ -87,7 +89,5 @@ include_diabetes_diagnoses <- function(lpr2, lpr3) {
       "n_t2d_endocrinology",
       "n_t1d_medical",
       "n_t2d_medical"
-    ) |>
-    # Create an indicator variable for later use.
-    dplyr::mutate(has_lpr_diabetes_diagnosis = TRUE)
+    )
 }

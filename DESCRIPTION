@@ -1,14 +1,14 @@
 Type: Package
 Package: osdc
-Title: Open Source Diabetes Classifier (OSDC) for Danish Registers
-Version: 0.0.1.9000
+Title: Open Source Diabetes Classifier for Danish Registers
+Version: 0.3.4
 Authors@R: c(
-    person(c("Luke", "William"), "Johnston", , "lwjohnst@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0003-4169-2616")),
     person(c("Signe", "Kirk"), "Brødbæk", , "signekb@clin.au.dk", role = "aut",
            comment = c(ORCID = "0009-0000-2208-7088")),
     person(c("Anders", "Aasted"), "Isaksen", , "andaas@rm.dk", role = "aut",
            comment = c(ORCID = "0000-0001-8457-5466")),
+    person(c("Luke", "William"), "Johnston", , "lwjohnst@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-4169-2616")),
     person("Steno Diabetes Center Aarhus", role = "cph"),
     person("Aarhus University", role = "cph")
   )
@@ -45,13 +45,14 @@ Suggests:
     duckplyr,
     glue,
     knitr,
+    quarto,
     rmarkdown,
     spelling,
     stringr,
     testthat (>= 3.0.0),
     tibble
 VignetteBuilder: 
-    knitr
+    quarto
 Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
