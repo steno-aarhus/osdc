@@ -1,0 +1,419 @@
+---
+title: "Edge Case Test Dataset Documentation"
+output: rmarkdown::html_vignette
+bibliography: ../references.bib
+csl: ../vancouver.csl
+vignette: >
+  %\VignetteIndexEntry{Edge Case Test Dataset Documentation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# OSDC Test Dataset Documentation
+
+This document provides a detailed overview of the 22 edge cases in the
+dataset output by the `create_test_cases()` function. This synthetic
+dataset is designed to rigorously test every logical branch of the
+diabetes classification algorithm, from initial data inclusion and
+censoring to the final type classification.
+
+Each case is represented by a unique individual with a pseudo-`pnr`
+(patient ID) that serves as a debugging key.
+
+## Case Naming Convention & Dictionaries
+
+The `pnr` for each case consists of three parts: 1. **Index Number**: A
+unique number from 1 to 22. 2. **Expected Outcome**: The expected
+diabetes classification (`t1d`, `t2d`, or `nodm`). 3. **Logical Flags**:
+A series of abbreviations indicating which criteria were met (`T` for
+True/Fulfilled) or not met (`F` for False/Not Fulfilled) to arrive at
+the outcome.
+
+------------------------------------------------------------------------
+
+### **Dictionary 1: Diabetes Type Classification (Cases 1-11)**
+
+These flags test the logic for classifying a patient as Type 1 or Type 2
+diabetes after they have already been included in the cohort.
+
+-   `oip`: **O**nly **I**nsulin **P**urchases.
+-   `any_t1d`: Has **any T1D** primary diagnoses from a medical or
+    endocrinology department.
+-   `endo`: Has **any** type-specific diagnoses from an
+    **endo**crinology department.
+-   `med`: Has **any** type-specific diagnoses from a (non-endocrine)
+    **med**ical department.
+-   `maj_t1d`: Has a **maj**ority of **T1D** diagnoses.
+-   `i180`: Purchased **i**nsulin within **180** days of the first
+    glucose-lowering drug (GLD) purchase.
+-   `itwo3`: **I**nsulin makes up at least **two-thirds** of total GLD
+    doses.
+
+------------------------------------------------------------------------
+
+### **Dictionary 2: Inclusion Criteria (Cases 12-16)**
+
+These flags test the initial inclusion logic, which requires an
+individual to have **at least two** qualifying events. The pseudo-`pnr`
+for these cases indicate which types of events are present.
+
+-   `gld`: Inclusion event from a **G**lucose-**L**owering **D**rug
+    purchase.
+-   `diag`: Inclusion event from a diabetes **diag**nosis.
+-   `hba1c`: Inclusion event from a high **HbA1c** measurement.
+-   `pod`: Inclusion event from a diabetes-specific **pod**iatrist
+    service.
+
+------------------------------------------------------------------------
+
+### **Dictionary 3: Censoring Criteria (Cases 17-21)**
+
+These flags describe the specific data censoring scenarios being tested.
+
+-   `glp1a_dapa_empa`: Patient's only GLD purchases are for drugs that
+    should be censored (e.g., GLP-1 RAs, dapa/empagliflozin potentially
+    for other indications).
+-   `male_pcosF`: A **male** patient whose metformin purchases should
+    **not** be censored for **PCOS**.
+-   `female_u40_pcosT`: A **female** patient **u**nder **40** whose
+    metformin purchases **should** be censored for potential **PCOS**.
+-   `female_o40_pcosT`: A **female** patient **o**ver **40** whose
+    metformin purchases **should** be censored due to **PCOS**
+    indication codes.
+-   `female_pregnancyT`: A **female** patient whose health events
+    **should** be censored due to **pregnancy**.
+
+------------------------------------------------------------------------
+
+## Detailed Case Descriptions
+
+### **Diabetes Type Classification Cases (1 - 11)**
+
+These cases all meet the criteria for inclusion in the diabetes cohort,
+and test the subsequent classification into T1D or T2D.
+
+#### Case 1: `01_t1d_oipT_anyt1dT`
+
+-   **Objective**: To test the primary path to T1D classification:
+    insulin monotherapy plus a valid T1D diagnosis.
+-   **Logic Tested**: The algorithm first checks `oip`. Since this is
+    `T` (the patient has only purchased insulin), it proceeds to check
+    `any_t1d`. This is also `T` (the patient has a primary T1D diagnosis
+    from a valid department). The combination leads directly to a T1D
+    classification.
+-   **Key Data Points**:
+    -   All GLD purchases in `lmdb` have insulin ATC codes (`A10A...`).
+    -   The primary (`diagnosetype = 'A'`) T1D diagnosis
+        (`diagnosekode = 'DE10...'`) in `diagnoser` from a medical
+        department (`c_spec` == '01') is sufficient for classification
+        as T1D, despite this case also having a T2D-specific primary
+        diagnosis from an endocrinology department.
+
+#### Case 2: `02_t2d_oipT_anyt1dF`
+
+-   **Objective**: To test the failure condition of the insulin
+    monotherapy path, leading to a T2D classification.
+-   **Logic Tested**: `oip` is `T`, but `any_t1d` is `F`. The patient
+    has only purchased insulin but lacks a valid *primary* T1D diagnosis
+    from a relevant department. This fails the T1D criteria and defaults
+    to T2D.
+-   **Key Data Points**:
+    -   All GLD purchases in `lmdb` are for insulin.
+    -   The only T1D diagnosis in `diagnoser` is either not primary
+        (`diagnosetype = 'B'`) or is from an irrelevant department
+        (e.g., surgery).
+
+#### Case 3: `03_t2d_oipF_anyt1dF`
+
+-   **Objective**: To test the first exit condition in the mixed-therapy
+    branch, where a lack of type-specific diagnoses defaults to T2D.
+-   **Logic Tested**: `oip` is `F` (patient has purchased non-insulin
+    GLDs). The algorithm then checks for type-specific diagnoses from
+    endocrinology (`endo`) or other medical (`med`) departments. Both
+    are `F`. Without any valid diagnoses to evaluate, the patient is
+    classified as T2D.
+-   **Key Data Points**:
+    -   `lmdb` contains at least one non-insulin GLD purchase
+        (`A10B...`).
+    -   The primary type-specific diabetes diagnoses for this case are
+        all from non-medical departments, and the type-specific T1D
+        diagnosis from an endocrinology department is a secondary
+        diagnosis, which is not relevant for type-classification.
+
+#### Case 4: `04_t1d_oipF_endoT_majt1dT_i180T_itwo3T`
+
+-   **Objective**: To test the one logic path for T1D classification in
+    mixed-therapy patients with type-specific diabetes diagnoses from
+    endocrinology departments.
+-   **Logic Tested**: This case tests multiple conditions: `oipF` -\>
+    `endoT` -\> `maj_t1dT` -\> `i180T` -\> `itwo3T`, leading to a T1D
+    classification. The `i180T` and `itwo3T` conditions are only met
+    because an early metformin purchase is correctly censored as a
+    potential PCOS treatment.
+-   **Key Data Points**:
+    -   Has a metformin (`A10BA02`) purchase in `lmdb` with a date
+        (`eksd`) that makes the patient \< 40 years old based on
+        `bef$foed_dato`.
+        -   This purchase must be correctly censored as a potential PCOS
+            treatment (the patient was female and under 40 at the time
+            of purchase) for correct classification as T1D.
+    -   Subsequent insulin and non-insulin purchases that satisfy the
+        180-day and two-thirds dose rules.
+    -   A majority of primary T1D diagnoses (`DE10`) from an
+        endocrinology department, which overrules the majority of
+        secondary T2D diagnoses (`DE11`).
+
+#### Case 5: `05_t2d_oipF_endoT_majt1dT_i180T_itwo3F`
+
+-   **Objective**: To test the failure of the "two-thirds insulin dose"
+    rule (`itwo3F`).
+-   **Logic Tested**: The patient meets all criteria down the T1D path
+    until the final check. The proportion of insulin doses relative to
+    all GLD doses is less than two-thirds, causing the classification to
+    fall through to T2D.
+-   **Key Data Points**:
+    -   `lmdb` records where the `volume` (DDD) of insulin purchases is
+        less than twice the `volume` of non-insulin purchases.
+
+#### Case 6: `06_t2d_oipF_endoT_majt1dT_i180F_itwo3T`
+
+-   **Objective**: To test the failure of the "insulin within 180 days"
+    rule (`i180F`).
+-   **Logic Tested**: The patient has a majority of T1D diagnoses and a
+    high proportion of insulin, but the first insulin purchase occurred
+    more than 180 days after the first-ever GLD purchase. This fails an
+    intermediate check, leading to a T2D classification.
+-   **Key Data Points**:
+    -   `lmdb` records where the `eksd` of the first insulin purchase is
+        \>180 days after the `eksd` of the first non-insulin GLD
+        purchase.
+
+#### Case 7: `07_t2d_oipF_endoT_majt1dF_i180T_itwo3T`
+
+-   **Objective**: To test the failure of the "majority T1D diagnoses"
+    rule (`maj_t1dF`).
+-   **Logic Tested**: The patient has qualifying diagnoses from an
+    endocrinology department, but the number of primary T1D diagnoses is
+    not strictly greater than the number of primary T2D diagnoses. This
+    fails the majority rule, resulting in a T2D classification.
+-   **Key Data Points**:
+    -   An equal or lesser number of primary `DE10` diagnoses compared
+        to primary `DE11` diagnoses in `diagnoser` linked to an
+        endocrinology contact.
+
+#### Case 8: `08_t1d_oipF_medT_majt1dT_i180T_itwo3T`
+
+-   **Objective**: To test the T1D classification path for patients with
+    diagnoses from non-endocrine medical departments.
+-   **Logic Tested**: This case mirrors Case 4, but the qualifying
+    diagnoses come from a valid medical department (e.g., `kardiologi`)
+    instead of endocrinology. It confirms the logic `oipF` -\> `endoF`
+    -\> `medT` -\> `maj_t1dT` -\> `i180T` -\> `itwo3T` works correctly.
+-   **Key Data Points**:
+    -   `kontakter` `hovedspeciale_ans` is a value from the valid
+        medical department list.
+    -   A majority of primary T1D diagnoses are linked to this contact.
+    -   GLD purchase history in `lmdb` satisfies the `i180T` and
+        `itwo3T` rules.
+
+#### Case 9: `09_t2d_oipF_medT_majt1dT_i180T_itwo3F`
+
+-   **Objective**: To test the failure of the `itwo3F` rule within the
+    non-endocrine medical department branch.
+-   **Logic Tested**: Mirrors Case 5. The patient's qualifying diagnoses
+    are from a medical department, but they are classified as T2D
+    because their insulin dose proportion is too low.
+-   **Key Data Points**:
+    -   Insulin `volume` in `lmdb` is not at least double the
+        non-insulin `volume`.
+
+#### Case 10: `10_t2d_oipF_medT_majt1dT_i180F_itwo3T`
+
+-   **Objective**: To test the failure of the `i180F` rule within the
+    non-endocrine medical department branch.
+-   **Logic Tested**: Mirrors Case 6. The patient's qualifying diagnoses
+    are from a medical department, but they are classified as T2D
+    because their first insulin purchase was too late.
+-   **Key Data Points**:
+    -   The `eksd` dates in `lmdb` for the first GLD and first insulin
+        purchase are more than 180 days apart.
+
+#### Case 11: `11_t2d_oipF_medT_majt1dF_i180T_itwo3T`
+
+-   **Objective**: To test the failure of the `maj_t1dF` rule within the
+    non-endocrine medical department branch.
+-   **Logic Tested**: Mirrors Case 7. The patient does not have a strict
+    majority of primary T1D diagnoses from relevant medical departments,
+    leading to a T2D classification.
+-   **Key Data Points**:
+    -   An equal or lesser number of primary `DE10` diagnoses compared
+        to primary `DE11` diagnoses in `diagnoser` linked to a medical
+        department contact.
+
+------------------------------------------------------------------------
+
+### **Inclusion Criteria Cases (12 - 16)**
+
+These cases test the very first step of the algorithm: identifying
+individuals with at least **two** diabetes-indicating events.
+
+#### Case 12: `12_nodm_gldF_diagF_hba1cF_podF`
+
+-   **Objective**: To test that various non-qualifying records are
+    correctly **filtered out** and do not count as inclusion events.
+-   **Logic Tested**: This patient has several records that look like
+    inclusion events but should be ignored: a retracted diagnosis
+    (`senere_afkraeftet = "Ja"`), a non-diabetes diagnosis code, a lab
+    test that isn't for HbA1c, and a podiatrist service where the
+    patient is the child of the service recipient (`barnmak = 1`).
+    Despite having two valid HbA1c measurements, the `pnr` indicates
+    this case is designed to test the filtering of invalid data from all
+    sources.
+-   **Key Data Points**:
+    -   `diagnoser` record with `senere_afkraeftet = "Ja"`.
+    -   `lab_forsker` record with a non-HbA1c `analysiscode`
+        (`DNK35302`).
+    -   `sysi` record with `barnmak = 1`.
+
+#### Case 13: `13_t2d_gldF_diagF_hba1cF_podT`
+
+-   **Objective**: To confirm that podiatrist services from both `sssy`
+    and `sysi` registers count as inclusion events.
+-   **Logic Tested**: The patient has exactly one qualifying podiatrist
+    service in `sssy` and one in `sysi`. They have no other events. The
+    algorithm should find both, sum them to two, and include the
+    patient.
+-   **Key Data Points**:
+    -   One record in `sssy` with `speciale` starting with `54` and
+        `barnmak = 0`.
+    -   One record in `sysi` with `speciale` starting with `54` and
+        `barnmak = 0`.
+
+#### Case 14: `14_t2d_gldF_diagF_hba1cT_podF`
+
+-   **Objective**: To test that both old (`NPU03835`) and new
+    (`NPU27300`) HbA1c codes are recognized as inclusion events.
+-   **Logic Tested**: The patient has one high HbA1c result using the
+    old code and one using the new code. The algorithm must recognize
+    both to reach the two-event threshold for inclusion. This case also
+    includes pregnancy records that should not censor these events.
+-   **Key Data Points**:
+    -   One `lab_forsker` record with `analysiscode = 'NPU03835'` and
+        `value >= 6.5`.
+    -   One `lab_forsker` record with `analysiscode = 'NPU27300'` and
+        `value >= 48`.
+
+#### Case 15: `15_t2d_gldF_diagT_hba1cF_podF`
+
+-   **Objective**: To test that diabetes diagnoses from both old
+    (`lpr_diag`) and new (`diagnoser`) hospital registers are counted.
+-   **Logic Tested**: The patient has exactly one qualifying diabetes
+    diagnosis in the LPR2 data and one in the LPR3 data. Both must be
+    counted for inclusion.
+-   **Key Data Points**:
+    -   One record in `lpr_diag` with `c_diag` indicating diabetes.
+    -   One record in `diagnoser` with a `diagnosekode` for diabetes
+        (`DE1...`).
+
+#### Case 16: `16_t2d_gldT_diagF_hba1cF_podF`
+
+-   **Objective**: To confirm that GLD purchases from `lmdb` serve as
+    valid inclusion events.
+-   **Logic Tested**: The patient's only qualifying events are two
+    separate purchases of glucose-lowering drugs. This confirms the
+    baseline inclusion logic for the medication register. This case also
+    includes pregnancy records that should not censor these events.
+-   **Key Data Points**:
+    -   Two records in `lmdb` with valid (`A10...`) ATC codes.
+
+------------------------------------------------------------------------
+
+### **Censoring Criteria Cases (17 - 21)**
+
+These cases test the logic for correctly ignoring or "censoring" events
+that occur under specific circumstances (e.g., during pregnancy). These
+individuals should be classified as `nodm` because their only potential
+inclusion events are censored.
+
+#### Case 17: `17_nodm_glp1a_dapa_empa`
+
+-   **Objective**: To test the censoring of specific GLDs (GLP-1 RAs,
+    SGLT2i) that may be used for indications other than diabetes.
+-   **Logic Tested**: The patient has multiple drug purchases with ATC
+    codes starting in `A10BJ` or `A10BK`. The algorithm should identify
+    and ignore these, leaving the patient with zero inclusion events.
+-   **Key Data Points**:
+    -   All `lmdb` records have ATC codes matching the exclusion list
+        (e.g., `A10BJ01`, `A10BK01`, `A10BK03`).
+
+#### Case 18: `18_t2d_male_pcosF`
+
+-   **Objective**: To ensure PCOS censoring logic is **not** incorrectly
+    applied to males.
+-   **Logic Tested**: This is a control case. The patient is a male
+    under 40 who has two metformin purchases. These events should
+    **not** be censored. He should be correctly included with two events
+    and classified as T2D.
+-   **Key Data Points**:
+    -   `bef` record with `koen = 1` (male) and a `foed_dato` making him
+        \< 40.
+    -   Two metformin (`A10BA02`) purchases in `lmdb`.
+
+#### Case 19: `19_nodm_female_u40_pcosT`
+
+-   **Objective**: To test that metformin purchases for females under 40
+    are correctly censored as potential PCOS treatment.
+-   **Logic Tested**: The patient is a female under 40, and her only
+    potential inclusion events are two metformin purchases. The
+    algorithm should censor both events, leaving her with zero and
+    classifying her as `nodm`.
+-   **Key Data Points**:
+    -   `bef` record with `koen = 2` (female) and a `foed_dato` making
+        her \< 40.
+    -   Two metformin (`A10BA02`) purchases in `lmdb`.
+
+#### Case 20: `20_nodm_female_o40_pcosT`
+
+-   **Objective**: To test that metformin purchases are censored if they
+    have a PCOS-specific indication code, even if the patient is over
+    40. 
+-   **Logic Tested**: The patient is a female over 40, but her metformin
+    purchases have `indo` codes that are on the PCOS indication list.
+    These events should be censored, resulting in a `nodm`
+    classification.
+-   **Key Data Points**:
+    -   `bef` record for a female \> 40 years old.
+    -   `lmdb` records for metformin (`A10BA02`) with `indo` values from
+        the PCOS list (e.g., `'0000092'`).
+
+#### Case 21: `21_nodm_female_pregnancyT`
+
+-   **Objective**: To test the censoring of events (both HbA1c and GLD
+    purchases) that occur within a pregnancy window.
+-   **Logic Tested**: The patient has a recorded pregnancy-ending event.
+    Her only high HbA1c and GLD purchase occur within the window of 40
+    weeks before to 12 weeks after this event. Both should be censored,
+    leaving her with zero inclusion events.
+-   **Key Data Points**:
+    -   A pregnancy-related diagnosis in `diagnoser` (e.g., `DO806`) on
+        a specific date.
+    -   `lab_forsker` and `lmdb` records with `samplingdate` and `eksd`
+        falling within the calculated pregnancy window around that
+        diagnosis date.
+
+------------------------------------------------------------------------
+
+### **Blank Data Case (22)**
+
+#### Case 22: `22_nodm_female_blank`
+
+-   **Objective**: To ensure the algorithm handles individuals with no
+    health records gracefully.
+-   **Logic Tested**: This patient exists in the base population (`bef`)
+    but has zero records in any other data source. The algorithm should
+    process this individual without error and correctly determine they
+    have zero inclusion events, resulting in a `nodm` classification.
+-   **Key Data Points**:
+    -   A record in `bef`.
+    -   No corresponding records for this `pnr` in any other table.
+
