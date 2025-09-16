@@ -326,8 +326,7 @@ individuals with at least **two** diabetes-indicating events.
     and `sysi` registers count as inclusion events.
 -   **Logic Tested**: The patient has exactly one qualifying podiatrist
     service in `sssy` and one in `sysi`. They have no other events. The
-    algorithm should find both, sum them to two, and include the
-    patient.
+    algorithm should find both events and include the patient.
 -   **Key Data Points**:
     -   One record in `sssy` with `speciale` starting with `54` and
         `barnmak = 0`.
@@ -336,12 +335,12 @@ individuals with at least **two** diabetes-indicating events.
 
 #### Case 14: `14_t2d_gldF_diagF_hba1cT_podF`
 
--   **Objective**: To test that both old (`NPU03835`) and new
+-   **Objective**: To test that both DCCT (`NPU03835`) and IFCC
     (`NPU27300`) HbA1c codes are recognized as inclusion events.
 -   **Logic Tested**: The patient has one high HbA1c result using the
     old code and one using the new code. The algorithm must recognize
-    both to reach the two-event threshold for inclusion. This case also
-    includes pregnancy records that should not censor these events.
+    both to correctly include the case. This case also includes
+    pregnancy records that should not censor these events.
 -   **Key Data Points**:
     -   One `lab_forsker` record with `analysiscode = 'NPU03835'` and
         `value >= 6.5`.
@@ -350,26 +349,29 @@ individuals with at least **two** diabetes-indicating events.
 
 #### Case 15: `15_t2d_gldF_diagT_hba1cF_podF`
 
--   **Objective**: To test that diabetes diagnoses from both old
-    (`lpr_diag`) and new (`diagnoser`) hospital registers are counted.
+-   **Objective**: To test that diabetes diagnoses from both lpr2
+    (`lpr_diag`) and lpr3 (`diagnoser`) hospital registers are handled
+    correctly.
 -   **Logic Tested**: The patient has exactly one qualifying diabetes
     diagnosis in the LPR2 data and one in the LPR3 data. Both must be
-    counted for inclusion.
+    identified for correct inclusion.
 -   **Key Data Points**:
     -   One record in `lpr_diag` with `c_diag` indicating diabetes.
     -   One record in `diagnoser` with a `diagnosekode` for diabetes
-        (`DE1...`).
 
 #### Case 16: `16_t2d_gldT_diagF_hba1cF_podF`
 
 -   **Objective**: To confirm that GLD purchases from `lmdb` serve as
     valid inclusion events.
 -   **Logic Tested**: The patient's only qualifying events are two
-    separate purchases of glucose-lowering drugs. This confirms the
-    baseline inclusion logic for the medication register. This case also
-    includes pregnancy records that should not censor these events.
+    separate purchases of GLD. This tests the inclusion logic for the
+    medication register. This case also includes pregnancy records
+    before and after these GLD purchases to test that pregnancies far
+    removed from inclusion events should not censor these events.
 -   **Key Data Points**:
     -   Two records in `lmdb` with valid (`A10...`) ATC codes.
+    -   Pregnancy endings recorded in `lpr_diag` (`c_diag` == `'DZ371'`)
+        and `diagnoser` (`diagnosekode == 'DO822'`)
 
 ------------------------------------------------------------------------
 
@@ -461,4 +463,3 @@ inclusion events are censored.
 -   **Key Data Points**:
     -   A record in `bef`.
     -   No corresponding records for this `pnr` in any other table.
-
