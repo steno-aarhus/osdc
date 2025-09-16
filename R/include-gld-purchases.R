@@ -1,4 +1,4 @@
-#' Include only glucose lowering drugs (GLD).
+#' Include only purchases of glucose lowering drugs (GLD)
 #'
 #' But don't include glucose-lowering drugs that may be used for other
 #' conditions than diabetes like GLP-RAs or dapagliflozin/empagliflozin drugs.
@@ -10,7 +10,7 @@
 #' @param lmdb The `lmdb` register.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()].
-#'   Only glucose lowering drugs are kept, plus some columns are renamed.
+#'   Only rows with glucose lowering drug purchases are kept, plus some columns are renamed.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
