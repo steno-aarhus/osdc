@@ -116,7 +116,8 @@ classify_diabetes <- function(
 
   gld_purchases <- include_gld_purchases(
     lmdb = lmdb
-  )
+  ) |>
+    add_insulin_purchases_cols()
 
   hba1c_over_threshold <- include_hba1c(
     lab_forsker = lab_forsker

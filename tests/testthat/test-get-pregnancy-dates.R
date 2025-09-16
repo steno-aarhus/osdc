@@ -1,5 +1,5 @@
 lpr2 <- tibble::tribble(
-  ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
+  ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
   # No pregnancy diagnosis (drop).
   1, "1990-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
   # Pregnancy diagnosis (keep).
@@ -14,7 +14,7 @@ lpr2 <- tibble::tribble(
 
 
 lpr3 <- tibble::tribble(
-  ~pnr, ~date, ~is_primary_dx, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
+  ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code, ~is_endocrinology_dept, ~is_medical_dept, ~is_pregnancy_code,
   # No pregnancy diagnosis (drop).
   4, "2020-01-01", TRUE, TRUE, TRUE, FALSE, TRUE, FALSE, FALSE,
   # Pregnancy diagnosis (keep).
