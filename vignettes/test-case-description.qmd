@@ -188,8 +188,8 @@ and test the subsequent classification into T1D or T2D.
     rule (`i180F`).
 -   **Logic Tested**: The patient has a majority of T1D diagnoses and a
     high proportion of insulin, but the first insulin purchase occurred
-    more than 180 days after the first-ever GLD purchase. This fails an
-    intermediate check, leading to a T2D classification.
+    more than 180 days after the first-ever GLD purchase. This fails the
+    logic check, leading to a T2D classification.
 -   **Key Data Points**:
     -   `lmdb` records where the `eksd` of the first insulin purchase is
         \>180 days after the `eksd` of the first non-insulin GLD
@@ -199,29 +199,46 @@ and test the subsequent classification into T1D or T2D.
 
 -   **Objective**: To test the failure of the "majority T1D diagnoses"
     rule (`maj_t1dF`).
--   **Logic Tested**: The patient has qualifying diagnoses from an
+-   **Logic Tested**: The patient has primary diagnoses from an
     endocrinology department, but the number of primary T1D diagnoses is
-    not strictly greater than the number of primary T2D diagnoses. This
-    fails the majority rule, resulting in a T2D classification.
+    not greater than the number of primary T2D diagnoses from
+    endocrinology departments (they're equal). This fails the majority
+    rule, resulting in a T2D classification.
 -   **Key Data Points**:
-    -   An equal or lesser number of primary `DE10` diagnoses compared
-        to primary `DE11` diagnoses in `diagnoser` linked to an
-        endocrinology contact.
+    -   Has an equal number of T1D-specific primary `DE10` diagnoses
+        compared to primary `DE11` diagnoses in `lpr_diag` and
+        `diagnoser` records linked to an endocrinology department
+        contact.
+    -   Has a majority of T1D-specific *secondary* diagnoses from
+        endocrinology departments and a majority of T1D-specific primary
+        diagnoses from *non-endocrinology* departments, which are both
+        overruled by the presence of type-specific primary diagnoses
+        from endocrinology departments.
 
 #### Case 8: `08_t1d_oipF_medT_majt1dT_i180T_itwo3T`
 
 -   **Objective**: To test the T1D classification path for patients with
-    diagnoses from non-endocrine medical departments.
--   **Logic Tested**: This case mirrors Case 4, but the qualifying
-    diagnoses come from a valid medical department (e.g., `kardiologi`)
-    instead of endocrinology. It confirms the logic `oipF` -\> `endoF`
-    -\> `medT` -\> `maj_t1dT` -\> `i180T` -\> `itwo3T` works correctly.
+    type-specific diabetes primary diagnoses from non-endocrine medical
+    departments (and none from endocrinology departments).
+-   **Logic Tested**: This case mirrors *Case 4*, but since there are no
+    type-specific diabetes primary diagnoses from endocrinology
+    departments, the diagnoses from other medical departments are
+    evaluated in this case instead. It confirms the logic `oipF` -\>
+    `endoF` -\> `medT` -\> `maj_t1dT` -\> `i180T` -\> `itwo3T` works
+    correctly.
 -   **Key Data Points**:
-    -   `kontakter` `hovedspeciale_ans` is a value from the valid
-        medical department list.
-    -   A majority of primary T1D diagnoses are linked to this contact.
-    -   GLD purchase history in `lmdb` satisfies the `i180T` and
-        `itwo3T` rules.
+    -   Has type-specific diabetes **secondary** diagnoses from
+        endocrinology departments, but these are discarded as secondary
+        diagnoses are not considered by the classification logic. If
+        these secondary diagnoses from endocrinology are not handled
+        correctly, this case will not have a majority of T1D-specific
+        diagnoses and will be incorrectly classified as T2D.
+    -   Can only achieve a majority of T1D-specific primary diagnoses
+        from medical departments if records from lpr2 (`lpr_diag`) and
+        lpr3 (`diagnoser`) are all correctly processed. Otherwise, this
+        case will be incorrectly classified as T2D.
+    -   The earliest GLD purchase in `lmdb` satisfies the `i180T` and
+        `itwo3T` checks.
 
 #### Case 9: `09_t2d_oipF_medT_majt1dT_i180T_itwo3F`
 
@@ -423,4 +440,3 @@ inclusion events are censored.
 -   **Key Data Points**:
     -   A record in `bef`.
     -   No corresponding records for this `pnr` in any other table.
-
