@@ -378,20 +378,23 @@ individuals with at least **two** diabetes-indicating events.
 ### **Censoring Criteria Cases (17 - 21)**
 
 These cases test the logic for correctly ignoring or "censoring" events
-that occur under specific circumstances (e.g., during pregnancy). These
-individuals should be classified as `nodm` because their only potential
-inclusion events are censored.
+that occur under specific circumstances (e.g., during pregnancy). With
+the exception of *Case 18* (which tests that censoring is not applied
+too broadly) these cases should not be included because all their
+potential inclusion events are censored.
 
 #### Case 17: `17_nodm_glp1a_dapa_empa`
 
--   **Objective**: To test the censoring of specific GLDs (GLP-1 RAs,
-    SGLT2i) that may be used for indications other than diabetes.
--   **Logic Tested**: The patient has multiple drug purchases with ATC
-    codes starting in `A10BJ` or `A10BK`. The algorithm should identify
-    and ignore these, leaving the patient with zero inclusion events.
+-   **Objective**: To test the censoring of specific GLDs (all GLP-1RAs,
+    two types of SGLT2i) that may be used for indications other than
+    diabetes.
+-   **Logic Tested**: This case has multiple drug purchases with ATC
+    codes corresponding to GLP-1RAs and dapagliflozin or empagliflozin.
+    The algorithm should ignore these, leaving the patient with zero
+    inclusion events.
 -   **Key Data Points**:
-    -   All `lmdb` records have ATC codes matching the exclusion list
-        (e.g., `A10BJ01`, `A10BK01`, `A10BK03`).
+    -   All `lmdb` records have ATC codes that should be dropped (e.g.,
+        `A10BJ01`, `A10BK01`, `A10BK03`).
 
 #### Case 18: `18_t2d_male_pcosF`
 
@@ -410,7 +413,7 @@ inclusion events are censored.
 
 -   **Objective**: To test that metformin purchases for females under 40
     are correctly censored as potential PCOS treatment.
--   **Logic Tested**: The patient is a female under 40, and her only
+-   **Logic Tested**: The case is a female under 40, and her only
     potential inclusion events are two metformin purchases. The
     algorithm should censor both events, leaving her with zero and
     classifying her as `nodm`.
@@ -424,29 +427,34 @@ inclusion events are censored.
 -   **Objective**: To test that metformin purchases are censored if they
     have a PCOS-specific indication code, even if the patient is over
     40. 
--   **Logic Tested**: The patient is a female over 40, but her metformin
+-   **Logic Tested**: This case is a female over 40, but her metformin
     purchases have `indo` codes that are on the PCOS indication list.
-    These events should be censored, resulting in a `nodm`
-    classification.
+    These events should be censored, resulting in the case not being
+    included as a diabetes case.
 -   **Key Data Points**:
-    -   `bef` record for a female \> 40 years old.
+    -   `bef` record with `koen = 2` (female) and a `foed_dato` making
+        her \> 40 at the time of metformin purchases.
     -   `lmdb` records for metformin (`A10BA02`) with `indo` values from
-        the PCOS list (e.g., `'0000092'`).
+        the PCOS indication list (e.g. `'0000092'`, `'0000276'` and
+        `'0000781'`).
 
 #### Case 21: `21_nodm_female_pregnancyT`
 
 -   **Objective**: To test the censoring of events (both HbA1c and GLD
     purchases) that occur within a pregnancy window.
--   **Logic Tested**: The patient has a recorded pregnancy-ending event.
-    Her only high HbA1c and GLD purchase occur within the window of 40
-    weeks before to 12 weeks after this event. Both should be censored,
-    leaving her with zero inclusion events.
+-   **Logic Tested**: This case has two recorded pregnancy-ending
+    events, and all inclusion events are elevated HbA1c and GLD
+    purchases occuring within the window of 40 weeks before to 12 weeks
+    after the pregnancy endings. Both should be censored, leaving this
+    case with zero inclusion events and not being included as a diabetes
+    case.
 -   **Key Data Points**:
-    -   A pregnancy-related diagnosis in `diagnoser` (e.g., `DO806`) on
-        a specific date.
-    -   `lab_forsker` and `lmdb` records with `samplingdate` and `eksd`
-        falling within the calculated pregnancy window around that
-        diagnosis date.
+    -   Two diagnoses related to pregnancy-endings in `lpr_diag`
+        (`'DZ371'`) and `diagnoser` (`'DO806'`).
+    -   HbA1c tests and GLD purchases in `lab_forsker` and `lmdb`
+        records with `samplingdate` and `eksd` falling within the
+        calculated pregnancy windows around the dates of the two
+        diagnoses.
 
 ------------------------------------------------------------------------
 
@@ -455,11 +463,11 @@ inclusion events are censored.
 #### Case 22: `22_nodm_female_blank`
 
 -   **Objective**: To ensure the algorithm handles individuals with no
-    health records gracefully.
+    health records.
 -   **Logic Tested**: This patient exists in the base population (`bef`)
     but has zero records in any other data source. The algorithm should
-    process this individual without error and correctly determine they
-    have zero inclusion events, resulting in a `nodm` classification.
+    process this case without error and not include it in the diabetes
+    population.
 -   **Key Data Points**:
     -   A record in `bef`.
     -   No corresponding records for this `pnr` in any other table.
