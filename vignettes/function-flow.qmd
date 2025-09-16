@@ -25,8 +25,9 @@ purposes only to help with positioning of the nodes.
 %%| fig-cap: "Flow of functions in, as well as their required input registers, in the `classify_diabetes()` function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively)."
 
 flowchart TD
+
   subgraph classify_diabetes["classify_diabetes()"]
-  %% direction LR
+
     lpr_diag[("lpr_diag")] --> prepare_lpr2["prepare_lpr2()"]
     lpr_adm[("lpr_adm")] --> prepare_lpr2
     
@@ -67,13 +68,12 @@ flowchart TD
     join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --> classify_t1d["classify_t1d()"]
 
-
-
   end
+
+  %% Styling
   classDef default fill:#EEEEEE,color:#000000
   classDef include fill:lightblue
   classDef exclude fill:orange
-
   style classify_diabetes fill:#FFFFFF,color:#000000
 ```
 
