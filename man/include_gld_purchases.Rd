@@ -2,7 +2,7 @@
 % Please edit documentation in R/include-gld-purchases.R
 \name{include_gld_purchases}
 \alias{include_gld_purchases}
-\title{Include only glucose lowering drugs (GLD).}
+\title{Include only purchases of glucose lowering drugs (GLD)}
 \usage{
 include_gld_purchases(lmdb)
 }
@@ -11,7 +11,7 @@ include_gld_purchases(lmdb)
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
-Only glucose lowering drugs are kept, plus some columns are renamed.
+Only rows with glucose lowering drug purchases are kept, plus some columns are renamed.
 }
 \description{
 But don't include glucose-lowering drugs that may be used for other
