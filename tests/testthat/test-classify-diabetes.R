@@ -1,254 +1,342 @@
-# Moved from `include_diabetes_diagnoses()` -------------------------------
+# Create test dataset of edge cases:
 
-# test_input_from_lpr2 <- tibble::tribble(
-#   ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
-#   ~is_pregnancy_code, ~is_endocrinology_dept, ~is_medical_dept,
+create_test_cases <- function() {
+  # 1. bef: Demographics table -------------------------------------------------------------------------
 
-#   # 00001 - clear T1D case onset in 2015: lpr2: 2x T1D from endo (+ 1 from lpr3)
-#   "00001", "2015-01-01", TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE,
-#   "00001", "2015-02-01", TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE,
+  bef_tbl <- tibble::tribble(
+    ~pnr,                               ~koen, ~foed_dato,
+    "01_t1d_oipT_anyt1dT",                   1, "19800101",
+    "02_t2d_oipT_anyt1dF",                   2, "19810203",
+    "03_t2d_oipF_anyt1dF",                   1, "19750510",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", 2, "19601115",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", 2, "19510101",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", 1, "19880404",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", 2, "19530606",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  1, "19920808",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  1, "19930909",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  1, "19850707",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  2, "19561010",
+    "12_nodm_gldF_diagF_hba1cF_podF",         1, "19800101",
+    "13_t2d_gldF_diagF_hba1cF_podT",          1, "19810101",
+    "14_t2d_gldF_diagF_hba1cT_podF",          2, "19720101",
+    "15_t2d_gldF_diagT_hba1cF_podF",          1, "19830101",
+    "16_t2d_gldT_diagF_hba1cF_podF",          2, "19720101",
+    "17_nodm_glp1a_dapa_empa",                1, "19700101",
+    "18_t2d_male_pcosF",                       1, "20000101",
+    "19_nodm_female_u40_pcosT",               2, "20000101",
+    "20_nodm_female_o40_pcosT",               2, "19750101",
+    "21_nodm_female_pregnancyT",              2, "19950101",
+    "22_nodm_female_blank",                   2, "19960101"
+  )
 
-#   # 00002 - T2D case onset in 2021: 2x non-DM from lpr2, mix of medical dept/other, mostly non-primary
-#   "00002", "2015-01-10", TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE,
-#   "00002", "2015-01-20", FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-#   "00002", "2015-01-30", FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+  # 2. lmdb: Drug purchases table -------------------------------------------------------------------------
 
-#   # 00003 - Non-case: Only a pregnancy record in LPR2, nothing in LPR3
-#   "00003", "2015-06-15", TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, TRUE,
+  lmdb_tbl <- tibble::tribble(
+    ~pnr,                                ~volume, ~eksd,     ~atc,      ~apk, ~indo,
+    "01_t1d_oipT_anyt1dT",                      10, "20200110", "A10AB01",    5, "1234567",
+    "01_t1d_oipT_anyt1dT",                      10, "20200410", "A10AE01",    5, "1234568",
+    "02_t2d_oipT_anyt1dF",                      10, "20210220", "A10AB01",    5, "2345678",
+    "02_t2d_oipT_anyt1dF",                      10, "20210520", "A10AE01",    5, "2345679",
+    "03_t2d_oipF_anyt1dF",                      10, "20190101", "A10BA02",    3, "3456789",
+    "03_t2d_oipF_anyt1dF",                      10, "20190301", "A10AB01",    3, "3456780",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",    10, "19980101", "A10BA02",    8, "4567890",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",    10, "20220101", "A10BA02",    2, "4567890",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",    10, "20220301", "A10AB01",    8, "4567891",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",    10, "20220101", "A10BA02",    5, "5678901",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",    10, "20220301", "A10AB01",    5, "5678902",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",    10, "20220101", "A10BA02",    2, "6789012",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",    10, "20220901", "A10AB01",    8, "6789013",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",    10, "20220101", "A10BA02",    2, "7890123",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",    10, "20220201", "A10AE02",    8, "7890123",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",     10, "20230301", "A10BA02",    2, "8901234",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",     10, "20230101", "A10AB01",    8, "8901235",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",     10, "20230101", "A10AE02",    5, "9012345",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",     10, "20230101", "A10BA02",    5, "9012345",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",    10, "20220101", "A10BA02",    2, "6789012",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",    10, "20220901", "A10AB01",    8, "6789013",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",    10, "20220101", "A10BA02",    2, "7890123",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",    10, "20220201", "A10AE02",    8, "7890123",
+    "12_nodm_gldF_diagF_hba1cF_podF",           10, "20210101", "A02BC02",    2, "7890123",
+    "12_nodm_gldF_diagF_hba1cF_podF",           10, "20220201", "C10AA01",    8, "7890123",
+    "16_t2d_gldT_diagF_hba1cF_podF",           10, "20130101", "A10BA02",    5, "1600001",
+    "16_t2d_gldT_diagF_hba1cF_podF",           10, "20130401", "A10AB01",    5, "1600002",
+    "17_nodm_glp1a_dapa_empa",                10, "20220101", "A10BJ01",    5, "1700002",
+    "17_nodm_glp1a_dapa_empa",                10, "20220201", "A10BK01",    5, "1700001",
+    "17_nodm_glp1a_dapa_empa",                10, "20220401", "A10BK03",    5, "1700002",
+    "17_nodm_glp1a_dapa_empa",                10, "20230101", "A10BJ01",    5, "1700002",
+    "17_nodm_glp1a_dapa_empa",                10, "20230201", "A10BK01",    5, "1700001",
+    "17_nodm_glp1a_dapa_empa",                10, "20230401", "A10BK03",    5, "1700002",
+    "18_t2d_male_pcosF",                      10, "20230101", "A10BA02",    5, "1800001",
+    "18_t2d_male_pcosF",                      10, "20230401", "A10BA02",    5, "1800002",
+    "19_nodm_female_u40_pcosT",               10, "20230101", "A10BA02",    5, "1900001",
+    "19_nodm_female_u40_pcosT",               10, "20230401", "A10BA02",    5, "1900002",
+    "20_nodm_female_o40_pcosT",               10, "20220101", "A10BA02",    5, "0000092",
+    "20_nodm_female_o40_pcosT",               10, "20220401", "A10BA02",    5, "0000276",
+    "20_nodm_female_o40_pcosT",               10, "20220501", "A10BA02",    5, "0000781",
+    "20_nodm_female_o40_pcosT",               10, "20230101", "A10BA02",    5, "0000092",
+    "20_nodm_female_o40_pcosT",               10, "20230401", "A10BA02",    5, "0000276",
+    "20_nodm_female_o40_pcosT",               10, "20230501", "A10BA02",    5, "0000781",
+    "21_nodm_female_pregnancyT",              10, "19980901", "A10AB01",    5, "2100001",
+    "21_nodm_female_pregnancyT",              10, "19990102", "A10AB01",    5, "2100001",
+    "21_nodm_female_pregnancyT",              10, "20230901", "A10AB01",    5, "2100001",
+    "21_nodm_female_pregnancyT",              10, "20240102", "A10AB01",    5, "2100001"
+  )
 
-#   # 00004 - T2D case in 2021: Nothing from LPR2, mixed T1D/T2D diags from LPR3, but no primary T1D/T2D diags
+  # 3. lpr_adm: Hospital admissions (LPR2) -------------------------------------------------------------------------
 
-#   # 00005 - A non-included case (of likely T1D in LPR3, only non-DM in LPR2)
-#   "00005", "2015-01-01", FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+  lpr_adm_tbl <- tibble::tribble(
+    ~pnr,                                ~c_spec, ~recnum,      ~d_inddto,
+    "01_t1d_oipT_anyt1dT",                   "08", "pnr01_rec01", "20110515",
+    "02_t2d_oipT_anyt1dF",                   "08", "pnr02_rec01", "20220616",
+    "03_t2d_oipF_anyt1dF",                   "34", "pnr03_rec01", "20200717",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "08", "pnr04_rec01", "19920120",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "08", "pnr04_rec02", "20230120",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "08", "pnr05_rec01", "20230221",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "08", "pnr06_rec01", "20230322",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "08", "pnr07_rec01", "20220423",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "02", "pnr07_rec02", "20230423",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "01", "pnr08_rec01", "19920120",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "08", "pnr08_rec02", "20240120",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "01", "pnr09_rec01", "20240221",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "01", "pnr10_rec01", "20240322",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "32", "pnr11_rec01", "19920423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "02", "pnr11_rec02", "20000423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "99", "pnr11_rec03", "20010423",
+    "12_nodm_gldF_diagF_hba1cF_podF",         "01", "pnr12_rec01", "20220423",
+    "14_t2d_gldF_diagF_hba1cT_podF",          "38", "pnr14_rec01", "19990101",
+    "15_t2d_gldF_diagT_hba1cF_podF",          "08", "pnr15_rec01", "20100101",
+    "16_t2d_gldT_diagF_hba1cF_podF",          "38", "pnr16_rec01", "19990101",
+    "21_nodm_female_pregnancyT",              "38", "pnr21_rec01", "19990101",
+  )
 
-#   # 00006 - Equal counts case: 1 x T2D + 1 x T1D from endo from LPR2, same from medical in LPR3
-#   "00006", "2015-02-01", TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE,
-#   "00006", "2015-03-01", TRUE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE
-# ) |>
-#   dplyr::mutate(date = as.Date(date))
+  # 4. lpr_diag: Hospital diagnoses (LPR2) -------------------------------------------------------------------------
 
-# test_input_from_lpr3 <- tibble::tribble(
-#   ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
-#   ~is_pregnancy_code, ~is_endocrinology_dept, ~is_medical_dept,
+  lpr_diag_tbl <- tibble::tribble(
+    ~recnum,       ~c_diag, ~c_diagtype,
+    "pnr01_rec01", "DE111",    "A",
+    "pnr02_rec01", "DE110",    "A",
+    "pnr03_rec01", "DE101",    "A",
+    "pnr04_rec01", "24901",    "A",
+    "pnr04_rec02", "DE105",    "A",
+    "pnr04_rec02", "DE114",    "B",
+    "pnr05_rec01", "250",      "A",
+    "pnr06_rec01", "DE103",    "A",
+    "pnr07_rec01", "DE115",    "A",
+    "pnr07_rec01", "DE105",    "B",
+    "pnr07_rec02", "DE106",    "A",
+    "pnr07_rec02", "DE105",    "B",
+    "pnr08_rec01", "25001",    "A",
+    "pnr08_rec02", "DE115",    "B",
+    "pnr08_rec02", "DE114",    "B",
+    "pnr09_rec01", "250",    "A",
+    "pnr10_rec01", "DE103",    "A",
+    "pnr11_rec01", "24901",    "A",
+    "pnr11_rec02", "DE115",    "A",
+    "pnr11_rec02", "DE105",    "B",
+    "pnr11_rec03", "DE105",    "A",
+    "pnr11_rec03", "DE106",    "B",
+    "pnr12_rec01", "DI211",    "A",
+    "pnr12_rec01", "DI11",    "B",
+    "pnr14_rec01", "DZ331",    "A",
+    "pnr15_rec01", "DE110",    "A",
+    "pnr15_rec01", "DI250",    "B",
+    "pnr16_rec01", "DZ371",    "A",
+    "pnr21_rec01", "DZ371",    "A"
+  )
 
-#   # 00001 - clear T1D case: lpr2: 2x T1D from endo (+ 1 from lpr3)
-#   "00001", "2020-01-01", TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE,
+  # 5. kontakter: Hospital contacts (LPR3) -------------------------------------------------------------------------
 
-#   # 00002 - T2D case onset in 2021: 2x non-DM from lpr2, mix of medical dept/other, mostly non-primary
-#   "00002", "2021-01-10", FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE,
-#   "00002", "2021-01-20", FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-#   "00002", "2021-01-30", FALSE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE,
+  kontakter_tbl <- tibble::tribble(
+    ~cpr,                                ~dw_ek_kontakt, ~hovedspeciale_ans,        ~dato_start,
+    "01_t1d_oipT_anyt1dT",                    "pnr01_dw01", "medicinsk endokrinologi",  "20210515",
+    "02_t2d_oipT_anyt1dF",                    "pnr02_dw01", "thoraxkirurgi",            "20220616",
+    "03_t2d_oipF_anyt1dF",                    "pnr03_dw01", "kardiologi",               "20200717",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "pnr04_dw01", "medicinsk endokrinologi",  "20230120",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "pnr05_dw01", "medicinsk endokrinologi",  "20230221",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "pnr06_dw01", "medicinsk endokrinologi",  "20230322",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw01", "medicinsk endokrinologi",  "20220423",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw02", "geriatri",                 "20230423",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "pnr08_dw01", "kardiologi",               "20230120",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "pnr08_dw02", "kardiologi",               "20240120",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "pnr09_dw01", "kardiologi",               "20240221",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "pnr10_dw01", "kardiologi",               "20240322",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw01", "kardiologi",               "20230423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw02", "medicinsk endokrinologi",  "20240423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "pnr11_dw03", "thoraxkirurgi",            "20240616",
+    "12_nodm_gldF_diagF_hba1cF_podF",         "pnr12_dw01", "kardiologi",               "20210423",
+    "14_t2d_gldF_diagF_hba1cT_podF",          "pnr14_dw01", "gynaekologi og obstetrik", "20240101",
+    "15_t2d_gldF_diagT_hba1cF_podF",          "pnr15_dw01", "urologi",                  "20230101",
+    "16_t2d_gldT_diagF_hba1cF_podF",          "pnr16_dw01", "gynaekologi og obstetrik", "20240101",
+    "21_nodm_female_pregnancyT",              "pnr21_dw01", "gynaekologi og obstetrik", "20240101"
+  )
 
-#   # 00003 - Non-case: Only a pregnancy record in LPR2, nothing in LPR3
+  # 6. diagnoser: Hospital diagnoses (LPR3) -------------------------------------------------------------------------
 
-#   # 00004 - T2D case in 2021: Nothing from LPR2, mixed T1D/T2D diags from LPR3, but no primary T1D/T2D diags
-#   "00004", "2021-07-01", FALSE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE,
-#   "00004", "2021-07-15", FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE,
-#   "00004", "2021-08-01", TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE,
-#   "00004", "2021-08-15", TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, TRUE,
+  diagnoser_tbl <- tibble::tribble(
+    ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
+    "pnr01_dw01",   "DE101",        "A",           "Nej",
+    "pnr02_dw01",   "DE102",        "A",           "Nej",
+    "pnr03_dw01",   "DE103",        "A",           "Nej",
+    "pnr04_dw01",   "DE104",        "A",           "Nej",
+    "pnr04_dw02",   "DE115",        "B",           "Nej",
+    "pnr04_dw02",   "DE119",        "B",           "Nej",
+    "pnr05_dw01",   "DE101",        "A",           "Nej",
+    "pnr06_dw01",   "DE102",        "A",           "Nej",
+    "pnr07_dw01",   "DE103",        "A",           "Nej",
+    "pnr07_dw01",   "DE109",        "B",           "Nej",
+    "pnr07_dw02",   "DE104",        "A",           "Nej",
+    "pnr07_dw02",   "DE108",        "B",           "Nej",
+    "pnr08_dw01",   "DE114",        "A",           "Nej",
+    "pnr08_dw02",   "DE105",        "A",           "Nej",
+    "pnr08_dw02",   "DE119",        "B",           "Nej",
+    "pnr09_dw01",   "DE10",         "A",           "Nej",
+    "pnr10_dw01",   "DE101",        "A",           "Nej",
+    "pnr11_dw01",   "DE112",        "A",           "Nej",
+    "pnr11_dw01",   "DE102",        "B",           "Nej",
+    "pnr11_dw02",   "DE109",        "B",           "Nej",
+    "pnr11_dw02",   "DI739",        "B",           "Nej",
+    "pnr11_dw03",   "DE102",        "A",           "Nej",
+    "pnr12_dw01",   "DI25",         "A",           "Nej",
+    "pnr12_dw01",   "DE110",        "A",           "Ja",
+    "pnr14_dw01",   "DO041",        "A",           "Nej",
+    "pnr15_dw01",   "DI25",        "A",           "Nej",
+    "pnr15_dw01",   "DE110",        "B",           "Nej",
+    "pnr16_dw01",   "DO822",        "A",           "Nej",
+    "pnr21_dw01",   "DO806",        "A",           "Nej"
+  )
 
-#   # 00005 - A non-included case (of likely T1D in LPR3, only non-DM diags in LPR2)
-#   "00005", "2022-01-01", TRUE, TRUE, TRUE, FALSE, FALSE, TRUE, FALSE,
+  # 7. sysi: Health services table -------------------------------------------------------------------------
 
-#   # 00006 - Equal counts case: 1 x T2D + 1 x T1D from endo from LPR2, same from medical in LPR3
-#   "00006", "2022-02-01", TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, TRUE,
-#   "00006", "2022-03-01", TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE
-# ) |>
-#   dplyr::mutate(date = as.Date(date))
+  sysi_tbl <- tibble::tribble(
+    ~pnr,                                ~barnmak, ~speciale, ~honuge,
+    "01_t1d_oipT_anyt1dT",                      0, "54022",    "9329",
+    "02_t2d_oipT_anyt1dF",                      0, "54475",    "0442",
+    "03_t2d_oipF_anyt1dF",                      0, "83575",    "9549",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "86409",    "9603",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",      0, "42818",    "9215",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",      0, "67148",    "9924",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",      0, "62545",    "9727",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",       0, "20866",    "9632",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",       0, "27002",    "0213",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",       0, "53825",    "9419",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",       0, "12345",    "1234",
+    "12_nodm_gldF_diagF_hba1cF_podF",          0, "10001",    "1001",
+    "12_nodm_gldF_diagF_hba1cF_podF",          1, "54002",    "1001",
+    "12_nodm_gldF_diagF_hba1cF_podF",          0, "10001",    "1002",
+    "12_nodm_gldF_diagF_hba1cF_podF",          1, "54002",    "1002",
+    "13_t2d_gldF_diagF_hba1cF_podT",           0, "54002",    "0002",
+    "14_t2d_gldF_diagF_hba1cT_podF",           0, "10003",    "1003",
+    "15_t2d_gldF_diagT_hba1cF_podF",           0, "10004",    "1004",
+    "16_t2d_gldT_diagF_hba1cF_podF",           0, "10005",    "1005",
+    "17_nodm_glp1a_dapa_empa",                 0, "10006",    "1006",
+    "18_t2d_male_pcosF",                     0, "10007",    "1007",
+    "19_nodm_female_u40_pcosT",              0, "10008",    "1008",
+    "20_nodm_female_o40_pcosT",              0, "10009",    "1009",
+    "21_nodm_female_pregnancyT",             0, "10010",    "1010"
+  )
 
-# expected <- tibble::tribble(
-#   ~pnr, ~date, ~n_t1d_endocrinology, ~n_t2d_endocrinology, ~n_t1d_medical, ~n_t2d_medical,
-#   "00001", "2015-01-01", 3, 0, 0, 0,
-#   "00001", "2015-02-01", 3, 0, 0, 0,
-#   "00002", "2015-01-10", 0, 0, 0, 1,
-#   "00002", "2021-01-10", 0, 0, 0, 1,
-#   "00004", "2021-07-01", 0, 0, 0, 0,
-#   "00004", "2021-08-01", 0, 0, 0, 0,
-#   "00005", "2022-01-01", 1, 0, 0, 0,
-#   "00006", "2015-02-01", 1, 1, 1, 1,
-#   "00006", "2015-03-01", 1, 1, 1, 1
-# ) |>
-#   dplyr::mutate(date = as.Date(date))
+  # 8. sssy: Health services table-------------------------------------------------------------------------
 
-# Moved from `exclude-potential-pcos` -------------------------------------
+  sssy_tbl <- tibble::tribble(
+    ~pnr,                                ~barnmak, ~speciale, ~honuge,
+    "01_t1d_oipT_anyt1dT",                      0, "54100",    "0830",
+    "02_t2d_oipT_anyt1dF",                      0, "54475",    "1942",
+    "03_t2d_oipF_anyt1dF",                      0, "83575",    "1049",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "86409",    "2421",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",      0, "42818",    "1103",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",      0, "67148",    "0714",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",      0, "62545",    "2221",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",       0, "20866",    "1425",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",       0, "27002",    "2237",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",       0, "53825",    "1227",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",       0, "12345",    "1234",
+    "12_nodm_gldF_diagF_hba1cF_podF",          0, "20001",    "2001",
+    "13_t2d_gldF_diagF_hba1cF_podT",           0, "54001",    "1002",
+    "14_t2d_gldF_diagF_hba1cT_podF",           0, "20002",    "2004",
+    "15_t2d_gldF_diagT_hba1cF_podF",           0, "20003",    "2005",
+    "16_t2d_gldT_diagF_hba1cF_podF",           0, "20004",    "2006",
+    "17_nodm_glp1a_dapa_empa",                 0, "20005",    "2007",
+    "18_t2d_male_pcosF",                     0, "20006",    "2008",
+    "19_nodm_female_u40_pcosT",              0, "20007",    "2009",
+    "20_nodm_female_o40_pcosT",              0, "20008",    "2010",
+    "21_nodm_female_pregnancyT",             0, "20009",    "2011"
+  )
 
-# bef <- tibble::tribble(
-#   ~koen, ~pnr, ~foed_dato,
-#   # Men (as defined by PNR)
-#   1, 1000000001, "1980-01-01",
-#   # Women (as defined by PNR)
-#   2, 2000000000, "1980-01-01",
-#   # No GLD purchases (excluded)
-#   1, 3000000001, "1980-01-01",
-#   2, 4000000000, "1980-01-01",
-# ) |>
-#   dplyr::mutate(
-#     pnr = as.character(pnr),
-#     foed_dato = lubridate::as_date(foed_dato)
-#   )
+  # 9. lab_forsker: Lab results table -------------------------------------------------------------------------
 
-# gld_purchases <- tibble::tribble(
-#   ~pnr, ~date, ~atc, ~has_gld_purchases, ~indication_code,
-#   # Men (as defined by PNR)
-#   ## ATC matches criteria
-#   ### Age at purchase matches criteria (< 40)
-#   1000000001, "2010-02-02", "A10BA02", TRUE, "324314324",
-#   1000000001, "2010-02-02", "A10BA02", TRUE, "0000092", # indication_code matches
-#   ### Age at purchase doesn't match (= 40)
-#   1000000001, "2020-02-02", "A10BA02", TRUE, "324314324",
-#   1000000001, "2020-02-02", "A10BA02", TRUE, "0000781", # indication_code matches
-#   ### Age at purchase doesn't match (> 40)
-#   1000000001, "2025-02-02", "A10BA02", TRUE, "324314324",
-#   1000000001, "2025-02-02", "A10BA02", TRUE, "0000276", # indication_code matches
-#   ## ATC doesn't match criteria
-#   ### Age at purchase matches criteria (< 40)
-#   1000000001, "2010-02-02", "A10", TRUE, "324314324",
-#   1000000001, "2010-02-02", "A10", TRUE, "0000092", # indication_code matches
-#   ### Age at purchase doesn't match (= 40)
-#   1000000001, "2020-02-02", "A10", TRUE, "324314324",
-#   1000000001, "2020-02-02", "A10", TRUE, "0000781", # indication_code matches
-#   ### Age at purchase doesn't match (> 40)
-#   1000000001, "2025-02-02", "A10", TRUE, "324314324",
-#   1000000001, "2025-02-02", "A10", TRUE, "0000276", # indication_code matches
+  lab_forsker_tbl <- tibble::tribble(
+    ~patient_cpr,                        ~samplingdate, ~analysiscode, ~value,
+    "01_t1d_oipT_anyt1dT",                 "20190101",    "NPU27300",    50,
+    "02_t2d_oipT_anyt1dF",                 "20190101",    "NPU27300",    51,
+    "03_t2d_oipF_anyt1dF",                 "20190101",    "NPU27300",    52,
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "20190101",    "NPU27300",    53,
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "20190101",    "NPU27300",    54,
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "20190101",    "NPU27300",    55,
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "20190101",    "NPU27300",    56,
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",  "20190101",    "NPU27300",    57,
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",  "20190101",    "NPU27300",    58,
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",  "20190101",    "NPU27300",    59,
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",  "20190101",    "NPU27300",    60,
+    "12_nodm_gldF_diagF_hba1cF_podF",      "20100101",    "NPU03835",    4.3,
+    "12_nodm_gldF_diagF_hba1cF_podF",      "20110101",    "NPU03835",    4.5,
+    "12_nodm_gldF_diagF_hba1cF_podF",      "20200101",    "NPU27300",    43,
+    "12_nodm_gldF_diagF_hba1cF_podF",      "20210101",    "NPU27300",    45,
+    "12_nodm_gldF_diagF_hba1cF_podF",      "20220101",    "NPU27300",    49,
+    "12_nodm_gldF_diagF_hba1cF_podF",      "20220101",    "DNK35302",    90,
+    "12_nodm_gldF_diagF_hba1cF_podF",      "20230101",    "DNK35302",    90,
+    "14_t2d_gldF_diagF_hba1cT_podF",       "20100101",    "NPU03835",    6.9,
+    "14_t2d_gldF_diagF_hba1cT_podF",       "20130401",    "NPU27300",    56,
+    "21_nodm_female_pregnancyT",           "19980801",    "NPU27300",    55,
+    "21_nodm_female_pregnancyT",           "19990201",    "NPU27300",    55,
+    "21_nodm_female_pregnancyT",           "20230801",    "NPU27300",    55,
+    "21_nodm_female_pregnancyT",           "20240201",    "NPU27300",    55
+  )
 
-#   # Women (as defined by PNR)
-#   ## ATC matches criteria
-#   ### Age at purchase matches criteria (< 40)
-#   2000000000, "2010-02-02", "A10BA02", TRUE, "324314324", # excluded
-#   2000000000, "2010-02-02", "A10BA02", TRUE, "0000092", # indication_code matches, excluded
-#   ### Age at purchase doesn't match (= 40)
-#   2000000000, "2020-02-02", "A10BA02", TRUE, "324314324",
-#   2000000000, "2020-02-02", "A10BA02", TRUE, "0000781", # indication_code matches, excluded
-#   ### Age at purchase doesn't match (> 40)
-#   2000000000, "2025-02-02", "A10BA02", TRUE, "324314324",
-#   2000000000, "2025-02-02", "A10BA02", TRUE, "0000276", # indication_code matches, excluded
-#   ## ATC doesn't match criteria
-#   ### Age at purchase matches criteria (< 40)
-#   2000000000, "2010-02-02", "A10", TRUE, "324314324",
-#   2000000000, "2010-02-02", "A10", TRUE, "0000092", # indication_code matches
-#   ### Age at purchase doesn't match (= 40)
-#   2000000000, "2020-02-02", "A10", TRUE, "324314324",
-#   2000000000, "2020-02-02", "A10", TRUE, "0000781", # indication_code matches
-#   ### Age at purchase doesn't match (> 40)
-#   2000000000, "2025-02-02", "A10", TRUE, "324314324",
-#   2000000000, "2025-02-02", "A10", TRUE, "0000276", # indication_code matches
-#   # Not in BEF (excluded)
-#   5000000000, "2010-01-01", "A10", TRUE, "0000276",
-# ) |>
-#   dplyr::mutate(pnr = as.character(pnr), date = lubridate::as_date(date))
+  # Combine all tibbles into a named list -------------------------------------------------------------------------
 
-# expected <- tibble::tribble(
-#   ~pnr, ~date, ~atc, ~has_gld_purchases, ~indication_code, ~no_pcos,
-#   # Men (as defined by PNR)
-#   ## ATC matches criteria
-#   ### Age at purchase matches criteria (< 40)
-#   1000000001, "2010-02-02", "A10BA02", TRUE, "324314324", TRUE,
-#   1000000001, "2010-02-02", "A10BA02", TRUE, "0000092", TRUE, # indication_code matches
-#   ### Age at purchase doesn't match (= 40)
-#   1000000001, "2020-02-02", "A10BA02", TRUE, "324314324", TRUE,
-#   1000000001, "2020-02-02", "A10BA02", TRUE, "0000781", TRUE, # indication_code matches
-#   ### Age at purchase doesn't match (> 40)
-#   1000000001, "2025-02-02", "A10BA02", TRUE, "324314324", TRUE,
-#   1000000001, "2025-02-02", "A10BA02", TRUE, "0000276", TRUE, # indication_code matches
-#   ## ATC doesn't match criteria
-#   ### Age at purchase matches criteria (< 40)
-#   1000000001, "2010-02-02", "A10", TRUE, "324314324", TRUE,
-#   1000000001, "2010-02-02", "A10", TRUE, "0000092", TRUE, # indication_code matches
-#   ### Age at purchase doesn't match (= 40)
-#   1000000001, "2020-02-02", "A10", TRUE, "324314324", TRUE,
-#   1000000001, "2020-02-02", "A10", TRUE, "0000781", TRUE, # indication_code matches
-#   ### Age at purchase doesn't match (> 40)
-#   1000000001, "2025-02-02", "A10", TRUE, "324314324", TRUE,
-#   1000000001, "2025-02-02", "A10", TRUE, "0000276", TRUE, # indication_code matches
+  osdc_test_data <- list(
+    bef = bef_tbl,
+    lmdb = lmdb_tbl,
+    lpr_adm = lpr_adm_tbl,
+    lpr_diag = lpr_diag_tbl,
+    kontakter = kontakter_tbl,
+    diagnoser = diagnoser_tbl,
+    sysi = sysi_tbl,
+    sssy = sssy_tbl,
+    lab_forsker = lab_forsker_tbl
+  )
 
-#   # Women (as defined by PNR)
-#   ## ATC matches criteria
-#   ### Age at purchase matches criteria (< 40)
-#   ### Age at purchase doesn't match (= 40)
-#   2000000000, "2020-02-02", "A10BA02", TRUE, "324314324", TRUE,
-#   ### Age at purchase doesn't match (> 40)
-#   2000000000, "2025-02-02", "A10BA02", TRUE, "324314324", TRUE,
-#   ## ATC doesn't match criteria
-#   ### Age at purchase matches criteria (< 40)
-#   2000000000, "2010-02-02", "A10", TRUE, "324314324", TRUE,
-#   2000000000, "2010-02-02", "A10", TRUE, "0000092", TRUE, # indication_code matches
-#   ### Age at purchase doesn't match (= 40)
-#   2000000000, "2020-02-02", "A10", TRUE, "324314324", TRUE,
-#   2000000000, "2020-02-02", "A10", TRUE, "0000781", TRUE, # indication_code matches
-#   ### Age at purchase doesn't match (> 40)
-#   2000000000, "2025-02-02", "A10", TRUE, "324314324", TRUE,
-#   2000000000, "2025-02-02", "A10", TRUE, "0000276", TRUE, # indication_code matches
-# ) |>
-#   dplyr::mutate(pnr = as.character(pnr), date = lubridate::as_date(date))
+  return(osdc_test_data)
+}
 
-# Moved from `exclude-pregnancy` ------------------------------------------
+# Test pipeline on edge cases:
 
-# excluded_pcos <- tibble::tribble(
-#   ~pnr, ~date, ~atc, ~has_gld_purchases, ~indication_code, ~no_pcos,
-#   # More than 40 weeks before pregnancy event (keep).
-#   1, "2000-01-01", "A10BA02", TRUE, "324314324", TRUE,
-#   1, "2019-01-01", "A10BA02", TRUE, "324314324", TRUE,
-#   # Exactly 40 weeks before pregnancy event (drop).
-#   1, "2009-04-28", "A10BA02", TRUE, "324314324", TRUE,
-#   1, "2019-04-28", "A10BA02", TRUE, "324314324", TRUE,
-#   # Within pregnancy interval (drop).
-#   1, "2010-02-02", "A10BA02", TRUE, "324314324", TRUE,
-#   1, "2020-02-02", "A10BA02", TRUE, "324314324", TRUE,
-#   # Exactly 12 weeks after pregnancy event (drop).
-#   1, "2010-04-27", "A10BA02", TRUE, "324314324", TRUE,
-#   1, "2020-04-26", "A10BA02", TRUE, "324314324", TRUE, # Not the date same as row above bc 2020 is a gap year.
-#   # More than 12 weeks after pregnancy event (keep).
-#   1, "2015-01-01", "A10BA02", TRUE, "324314324", TRUE,
-#   1, "2025-01-01", "A10BA02", TRUE, "324314324", TRUE,
-#   # No pregnancy event (keep).
-#   2, "2010-02-02", "A10BA02", TRUE, "324314324", TRUE,
-# ) |>
-#   dplyr::mutate(date = lubridate::as_date(date))
-#
-# included_hba1c <- tibble::tribble(
-#   ~pnr, ~date,
-#   # More than 40 weeks before pregnancy event (keep).
-#   1, "2000-01-01",
-#   1, "2000-01-02",
-#   # Exactly 40 weeks before pregnancy event (drop).
-#   1, "2009-04-28",
-#   # Within pregnancy interval (drop).
-#   1, "2010-02-02",
-#   # Exactly 12 weeks after pregnancy event (drop).
-#   1, "2010-04-27",
-#   # More than 12 weeks after pregnancy event (keep).
-#   1, "2015-01-02",
-#   # No pregnancy event (keep).
-#   3, "2010-02-02"
-# ) |>
-#   dplyr::mutate(date = lubridate::as_date(date))
-#
-# pregnancy_dates <- tibble::tribble(
-#   ~pnr, ~pregnancy_event_date, ~has_pregnancy_event,
-#   # Two pregnancy events for the same pnr to ensure that all events within both
-#   # pregnancy intervals are excluded.
-#   1, "2010-02-02", TRUE,
-#   1, "2020-02-02", TRUE,
-#   # Pregnancy event for pnr not in gld_purchases and included_hba1c (drop).
-#   4, "2010-01-01", TRUE,
-# ) |>
-#   dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
-#
-# expected <- tibble::tribble(
-#   ~pnr, ~date, ~has_gld_purchases, ~has_elevated_hba1c, ~no_pregnancy,
-#   # From excluded_pcos.
-#   1, "2000-01-01", TRUE, NA, TRUE, # Same pnr and date as row from hba1c, both kept.
-#   1, "2019-01-01", TRUE, NA, TRUE,
-#   1, "2015-01-01", TRUE, NA, TRUE,
-#   1, "2025-01-01", TRUE, NA, TRUE,
-#   2, "2010-02-02", TRUE, NA, TRUE,
-#   # From included_hba1c.
-#   1, "2000-01-01", NA, NA, TRUE, TRUE, # Same pnr and date as row from excluded_pcos, both kept.
-#   1, "2000-01-02", NA, NA, TRUE, TRUE,
-#   1, "2015-01-02", NA, NA, TRUE, TRUE,
-#   3, "2010-02-02", NA, NA, TRUE, TRUE
-# ) |>
-#   dplyr::mutate(date = lubridate::as_date(date))
+test_that("Classifying edge cases produces unexpected outcomes", {
+  edge_case_data <- create_test_cases()
+
+  actual <- classify_diabetes(
+    kontakter = edge_case_data$kontakter,
+    diagnoser = edge_case_data$diagnoser,
+    lpr_diag = edge_case_data$lpr_diag,
+    lpr_adm = edge_case_data$lpr_adm,
+    sysi = edge_case_data$sysi,
+    sssy = edge_case_data$sssy,
+    lab_forsker = edge_case_data$lab_forsker,
+    bef = edge_case_data$bef,
+    lmdb = edge_case_data$lmdb
+  )
+
+  # TODO: input the expected output here:
+  # expected <- tibble::tribble()
+
+  expect_equal(actual, expected)
+})
+
+
+
+
+
+# Create a larger synthetic dataset to test backends
 
 register_data <- simulate_registers(
   c(
@@ -264,10 +352,6 @@ register_data <- simulate_registers(
   ),
   n = 10000
 )
-
-# TODO: eventually add code here that tests that specific "people" who we
-# set as having diabetes in the input data actually get correctly classified
-# in the output data.
 
 test_that("classifying works with DuckDB Database", {
   skip_on_cran()
