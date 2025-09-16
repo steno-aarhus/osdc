@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.4.0 (2025-09-16)
+
+### Feat
+
+- :sparkles: `add_insulin_purchases_cols()` (#296)
+
 ## 0.3.4 (2025-08-27)
 
 ### Refactor
