@@ -14,10 +14,67 @@ the data sources and how they enter or are used in the function as well as how
 the different internal functions and logic are connected to each other.  A
 high-level overview of the flow is shown in the diagram below.
 
-![Flow of functions, as well as their required input registers, for
-classifying diabetes status using the osdc package. Light blue and
-orange boxes represent filtering functions (inclusion and exclusion
-events, respectively).](function-flow.svg)
+::: content-hidden
+In the mermaid diagram below, invisible edges `~~~` are used for layout
+purposes only to help with positioning of the nodes.
+:::
+
+```{mermaid}
+%%| eval: true
+%%| fig-cap: "Flow of functions in, as well as their required input registers, in the `classify_diabetes()` function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively)."
+
+flowchart TD
+  subgraph classify_diabetes["classify_diabetes()"]
+  %% direction LR
+    lpr_diag[("lpr_diag")] --> prepare_lpr2["prepare_lpr2()"]
+    lpr_adm[("lpr_adm")] --> prepare_lpr2
+    
+    kontakter[("kontakter")] --> prepare_lpr3["prepare_lpr3()"]
+    diagnoser[("diagnoser")] --> prepare_lpr3
+
+    prepare_lpr2 --> get_pregnancy_dates["get_pregnancy_dates()"]
+    prepare_lpr3 --> get_pregnancy_dates
+
+    %% Inclusion steps
+    sysi[("sysi")] -->include_podiatrist_services["include_podiatrist_services()"]:::include
+    sssy[("sssy")] --> include_podiatrist_services
+    lpr_diag ~~~ sysi
+    lpr_diag ~~~ sssy
+
+    prepare_lpr2 --> include_diabetes_diagnoses["include_diabetes_diagnoses()"]:::include
+    prepare_lpr3 --> include_diabetes_diagnoses
+
+    lmdb[("lmdb")] --> include_gld_purchases["include_gld_purchases()"]:::include
+
+    lab_forsker[("lab_forsker")] --> include_hba1c["include_hba1c()"]:::include
+    
+    %% Exclusion steps
+    include_gld_purchases --> exclude_potential_pcos["exclude_potential_pcos()"]:::exclude
+    bef[("bef")] --> exclude_potential_pcos
+    
+    exclude_potential_pcos --> exclude_pregnancy["exclude_pregnancy()"]:::exclude
+    get_pregnancy_dates --> exclude_pregnancy
+    include_hba1c --> exclude_pregnancy
+    exclude_pregnancy --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+    get_pregnancy_dates ~~~ lmdb
+
+    %% Joining
+    include_diabetes_diagnoses --> join_inclusions["join_inclusions()"]
+    include_podiatrist_services --> join_inclusions
+    add_insulin_purchases_cols --> join_inclusions
+
+    join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
+    create_inclusion_dates --> classify_t1d["classify_t1d()"]
+
+
+
+  end
+  classDef default fill:#EEEEEE,color:#000000
+  classDef include fill:lightblue
+  classDef exclude fill:orange
+
+  style classify_diabetes fill:#FFFFFF,color:#000000
+```
 
 The sections below are split into functions for inclusion and exclusion as well as
 functions for determining the final diagnosis date and eventual classification
