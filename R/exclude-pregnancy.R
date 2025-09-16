@@ -83,7 +83,7 @@ exclude_pregnancy <- function(
       date = lubridate::as_date(.data$date)
     )
 
-  excluded_pcos |>
+  data <- excluded_pcos |>
     # Row bind to keep rows from excluded_pcos and included_hba1c separate.
     dplyr::bind_rows(included_hba1c) |>
     dplyr::left_join(
@@ -94,7 +94,9 @@ exclude_pregnancy <- function(
     # Apply the criteria to flag rows that are within the pregnancy interval.
     dplyr::mutate(
       is_not_within_pregnancy_interval = !!criteria
-    ) |>
+    )
+
+  data |>
     # Group by pnr and date to ensure the row is dropped if it falls within
     # *any* pregnancy interval. This prevents mistakenly keeping a row just
     # because it falls outside one pregnancy window, when it may still fall
@@ -113,6 +115,5 @@ exclude_pregnancy <- function(
     # Duplicates are created when a pnr has multiple pregnancy events and a
     # row that falls outside all of them.
     dplyr::distinct() |>
-    # Add logical helper variable.
-    dplyr::mutate(no_pregnancy = TRUE)
+    dplyr::left_join(data, by = dplyr::join_by("pnr", "date"))
 }
