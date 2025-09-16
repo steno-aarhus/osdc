@@ -186,9 +186,10 @@ and test the subsequent classification into T1D or T2D.
 
 -   **Objective**: To test the failure of the "insulin within 180 days"
     rule (`i180F`).
--   **Logic Tested**: The patient has a majority of T1D diagnoses and a
-    high proportion of insulin, but the first insulin purchase occurred
-    more than 180 days after the first-ever GLD purchase. This fails the
+-   **Logic Tested**: The patient has a majority of T1D-specific
+    diabetes diagnoses from endocrinology departments and a high
+    proportion of insulin, but the first insulin purchase occurred more
+    than 180 days after the first-ever GLD purchase. This fails the
     logic check, leading to a T2D classification.
 -   **Key Data Points**:
     -   `lmdb` records where the `eksd` of the first insulin purchase is
@@ -210,10 +211,11 @@ and test the subsequent classification into T1D or T2D.
         `diagnoser` records linked to an endocrinology department
         contact.
     -   Has a majority of T1D-specific *secondary* diagnoses from
-        endocrinology departments and a majority of T1D-specific primary
-        diagnoses from *non-endocrinology* departments, which are both
+        endocrinology departments (which are not used by the
+        classification logic) and a majority of T1D-specific primary
+        diagnoses from *non-endocrinology* departments (which are
         overruled by the presence of type-specific primary diagnoses
-        from endocrinology departments.
+        from endocrinology departments).
 
 #### Case 8: `08_t1d_oipF_medT_majt1dT_i180T_itwo3T`
 
@@ -244,35 +246,53 @@ and test the subsequent classification into T1D or T2D.
 
 -   **Objective**: To test the failure of the `itwo3F` rule within the
     non-endocrine medical department branch.
--   **Logic Tested**: Mirrors Case 5. The patient's qualifying diagnoses
-    are from a medical department, but they are classified as T2D
-    because their insulin dose proportion is too low.
+-   **Logic Tested**: Mirrors *Case 5*. The patient's qualifying
+    diagnoses are from a medical department, but they are classified as
+    T2D because their insulin dose proportion is too low.
 -   **Key Data Points**:
     -   Insulin `volume` in `lmdb` is not at least double the
         non-insulin `volume`.
+    -   Has a metformin (`A10BA02`) purchase in `lmdb` with a date
+        (`eksd`) that makes the patient \< 40 years old based on
+        `bef$foed_dato`.
+        -   This case is male, so the purchase should NOT be censored as
+            a potential PCOS treatment. If this purchase is censored,
+            the patient only has insulin purchases and falls into the
+            insulin monotherapy logic path and is incorrectly classified
+            as T1D.
 
 #### Case 10: `10_t2d_oipF_medT_majt1dT_i180F_itwo3T`
 
 -   **Objective**: To test the failure of the `i180F` rule within the
     non-endocrine medical department branch.
--   **Logic Tested**: Mirrors Case 6. The patient's qualifying diagnoses
-    are from a medical department, but they are classified as T2D
-    because their first insulin purchase was too late.
+-   **Logic Tested**: Mirrors *Case 6*, but the patient's qualifying
+    type-specific diabetes diagnoses are from medical departments. This
+    case is classified as T2D because their first insulin purchase came
+    too late after the first GLD purchase.
 -   **Key Data Points**:
-    -   The `eksd` dates in `lmdb` for the first GLD and first insulin
-        purchase are more than 180 days apart.
+    -   The `eksd` dates in `lmdb` for the first GLD purchase (a
+        non-insulin GLD, `A10B`) and the second GLD purchase (an
+        insulin, `A10A`) are more than 180 days apart.
 
 #### Case 11: `11_t2d_oipF_medT_majt1dF_i180T_itwo3T`
 
 -   **Objective**: To test the failure of the `maj_t1dF` rule within the
     non-endocrine medical department branch.
--   **Logic Tested**: Mirrors Case 7. The patient does not have a strict
-    majority of primary T1D diagnoses from relevant medical departments,
-    leading to a T2D classification.
+-   **Logic Tested**: Mirrors *Case 7*, but does not have any
+    type-specific diabetes primary diagnoses from endocrinology
+    departments. Thus, the logic evaluates the type-specific primary
+    diagnoses from medical departments, among which the patient does not
+    have a majority of T1D diagnoses, leading to a T2D classification.
 -   **Key Data Points**:
-    -   An equal or lesser number of primary `DE10` diagnoses compared
-        to primary `DE11` diagnoses in `diagnoser` linked to a medical
-        department contact.
+    -   Among type-specific records in `lpr_diag` and `diagnoser` linked
+        to a medical department contact, there are no T1D-specific
+        `DE10` primary diagnoses vs. the two T2D-specific `DE11` primary
+        diagnoses present.
+    -   Has a majority of T1D-specific *secondary* diagnoses from
+        endocrinology departments (which are not used by the
+        classification logic) and a majority of T1D-specific primary
+        diagnoses from *non-medical* departments (which are also not
+        used by the classification logic).
 
 ------------------------------------------------------------------------
 
