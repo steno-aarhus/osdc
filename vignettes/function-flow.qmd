@@ -8,11 +8,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document describes the flow of functions and objects within the package,
-specifically within the main exposed function `classify_diabetes()`.  It shows
-the data sources and how they enter or are used in the function as well as how
-the different internal functions and logic are connected to each other.  A
-high-level overview of the flow is shown in the diagram below.
+This document describes the flow of functions and objects within the
+package, specifically within the main exposed function
+`classify_diabetes()`. It shows the data sources and how they enter or
+are used in the function as well as how the different internal functions
+and logic are connected to each other. A high-level overview of the flow
+is shown in the diagram below.
 
 ::: content-hidden
 In the mermaid diagram below, invisible edges `~~~` are used for layout
@@ -76,9 +77,9 @@ flowchart TD
   style classify_diabetes fill:#FFFFFF,color:#000000
 ```
 
-The sections below are split into functions for inclusion and exclusion as well as
-functions for determining the final diagnosis date and eventual classification
-of type 1 and type 2 diabetes.
+The sections below are split into functions for inclusion and exclusion
+as well as functions for determining the final diagnosis date and
+eventual classification of type 1 and type 2 diabetes.
 
 ## Inclusion events
 
