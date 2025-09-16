@@ -13,7 +13,7 @@ lpr2 <- prepare_lpr2(
     date = as.Date("2020-01-01"),
     is_t1d_code = TRUE,
     is_t2d_code = FALSE,
-    is_primary_dx = TRUE,
+    is_primary_diagnosis = TRUE,
     is_medical_dept = FALSE,
     is_diabetes_code = TRUE,
     is_endocrinology_dept = TRUE
@@ -27,7 +27,8 @@ lpr3 <- prepare_lpr3(
 actual <- include_diabetes_diagnoses(
   lpr2 = lpr2,
   lpr3 = lpr3
-)
+) |>
+  add_majority_t1d_diagnosis_col()
 
 test_that("creates a data.frame output", {
   expect_contains(class(actual), "data.frame")

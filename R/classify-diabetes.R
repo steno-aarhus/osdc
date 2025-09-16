@@ -108,7 +108,8 @@ classify_diabetes <- function(
   diabetes_diagnoses <- include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
-  )
+  ) |>
+    add_majority_t1d_diagnosis_col()
 
   podiatrist_services <- include_podiatrist_services(
     sysi = sysi,
