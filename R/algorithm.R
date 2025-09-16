@@ -83,7 +83,7 @@ algorithm <- function() {
       logic = "c_diag =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
-    lpr2_is_primary_dx = list(
+    lpr2_is_primary_diagnosis = list(
       register = "lpr_diag",
       title = "LPR2 primary diagnosis",
       logic = "c_diagtype == 'A'",
@@ -108,7 +108,7 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
     ),
-    lpr3_is_primary_dx = list(
+    lpr3_is_primary_diagnosis = list(
       register = "diagnoser",
       title = "LPR3 primary diagnosis",
       logic = "diagnosetype == 'A'",
@@ -161,6 +161,24 @@ algorithm <- function() {
       title = "Determine if the majority of diagnoses are for type 1 diabetes",
       logic = "if_else(n_t1d_endocrinology + n_t2d_endocrinology > 0, n_t1d_endocrinology > n_t2d_endocrinology, n_t1d_medical > n_t2d_medical)",
       comments = "Used to classify diabetes status. On it's own, it isn't enough to classify people. Prioritize endocrinology diagnoses if available, otherwise use other medical department diagnoses."
+    ),
+    has_two_thirds_insulin = list(
+      register = NA,
+      title = "Whether two-thirds of GLD doses are insulin doses",
+      logic = "(n_insulin_doses / n_gld_doses) >= 2/3",
+      comments = "This is used to classify type 1 diabetes. If multiple types of GLD are purchased, this indicates if at least two-thirds are insulin, which is important to determine type 1 diabetes status."
+    ),
+    has_only_insulin_purchases = list(
+      register = NA,
+      title = "Whether only insulin was purchased as a GLD",
+      logic = "n_insulin_doses >= 1 & n_insulin_doses == n_gld_doses",
+      comments = "This is used to classify type 1 diabetes. If only insulin is purchased, this is a strong reason to suspect type 1 diabetes."
+    ),
+    has_insulin_purchases_within_180_days = list(
+      register = NA,
+      title = "Any insulin purchases within 180 days of the first purchase of GLD",
+      logic = "is_insulin_gld_code & date <= (first_gld_date + days(180))",
+      comments = "This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
     )
   )
 }
