@@ -2,7 +2,7 @@
 % Please edit documentation in R/include-diabetes-diagnoses.R
 \name{include_diabetes_diagnoses}
 \alias{include_diabetes_diagnoses}
-\title{Determine if majority of diagnoses are for type 1 diabetes}
+\title{Determine if majority of diagnoses are type 1 diabetes}
 \usage{
 include_diabetes_diagnoses(lpr2, lpr3)
 }
@@ -13,32 +13,13 @@ include_diabetes_diagnoses(lpr2, lpr3)
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
-with the following columns and up to two rows per individual:
-\itemize{
-\item \code{pnr}: The personal identification variable.
-\item \code{dates}: The dates of the first and second hospital diabetes diagnosis.
-\item \code{has_majority_t1d_diagnosis}: A logical vector indicating whether the
-majority of primary diagnoses are related to type 1 diabetes.
-}
+with less rows after filtering.
 }
 \description{
 Uses the hospital contacts from LPR2 and LPR3 to include all
 dates of diabetes diagnoses to use for inclusion, as well as
 additional information needed to classify diabetes type.
 Diabetes diagnoses from both ICD-8 and ICD-10 are included.
-}
-\details{
-This function evaluates whether an individual has a majority of type 1
-diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
-primary diagnoses (DE10 & DE11) from medical departments. If an individual
-has any type-specific diabetes diagnoses from endocrinology departments,
-the majority is determined only among these contacts.
-
-This output is passed to the \code{join_inclusions()} function, where the
-\code{dates} variable is used for the final step of the inclusion process.
-The variables for whether the majority of diagnoses are for type 1 diabetes
-is used for later classification of type 1 diabetes from various other
-registers.
 }
 \examples{
 \dontrun{
