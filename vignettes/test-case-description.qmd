@@ -298,26 +298,27 @@ and test the subsequent classification into T1D or T2D.
 
 ### **Inclusion Criteria Cases (12 - 16)**
 
-These cases test the very first step of the algorithm: identifying
+These cases test the first step of the algorithm: identifying
 individuals with at least **two** diabetes-indicating events.
 
 #### Case 12: `12_nodm_gldF_diagF_hba1cF_podF`
 
 -   **Objective**: To test that various non-qualifying records are
     correctly **filtered out** and do not count as inclusion events.
--   **Logic Tested**: This patient has several records that look like
-    inclusion events but should be ignored: a retracted diagnosis
-    (`senere_afkraeftet = "Ja"`), a non-diabetes diagnosis code, a lab
-    test that isn't for HbA1c, and a podiatrist service where the
-    patient is the child of the service recipient (`barnmak = 1`).
-    Despite having two valid HbA1c measurements, the `pnr` indicates
-    this case is designed to test the filtering of invalid data from all
-    sources.
+-   **Logic Tested**: In addition to diabetes-unrelated diagnoses,
+    medication purchases, health services and laboratory tests, this
+    patient has several records that look like inclusion events but
+    should be ignored: a retracted diabetes diagnosis
+    (`senere_afkraeftet = "Ja"`), a podiatrist service where the patient
+    is the child of the service recipient (`barnmak = 1`), and HbA1c
+    measurements below the diagnostic value.
 -   **Key Data Points**:
     -   `diagnoser` record with `senere_afkraeftet = "Ja"`.
-    -   `lab_forsker` record with a non-HbA1c `analysiscode`
-        (`DNK35302`).
     -   `sysi` record with `barnmak = 1`.
+    -   `lab_forsker` HbA1c records below diagnostic threshold in both
+        IFCC and DCCT `analysiscode` units (`NPU03835` and `NPU27300`).
+    -   Contains a single valid inclusion criteria (an elevated HbA1c
+        record), which is insufficient for inclusion.
 
 #### Case 13: `13_t2d_gldF_diagF_hba1cF_podT`
 
@@ -460,3 +461,4 @@ inclusion events are censored.
 -   **Key Data Points**:
     -   A record in `bef`.
     -   No corresponding records for this `pnr` in any other table.
+
