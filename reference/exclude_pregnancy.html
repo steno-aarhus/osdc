@@ -143,6 +143,7 @@ patients.</p></div>
 <span class="r-in"><span><span class="co"># Exclude pregnancy dates</span></span></span>
 <span class="r-in"><span><span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="include_gld_purchases.html">include_gld_purchases</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="add_insulin_purchases_cols.html">add_insulin_purchases_cols</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="exclude_potential_pcos.html">exclude_potential_pcos</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">bef</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">exclude_pregnancy</span><span class="op">(</span></span></span>
 <span class="r-in"><span>    <span class="fu"><a href="get_pregnancy_dates.html">get_pregnancy_dates</a></span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3</span><span class="op">)</span>,</span></span>

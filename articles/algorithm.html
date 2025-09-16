@@ -377,9 +377,9 @@
 <table class="table caption-top">
 <colgroup>
 <col style="width: 8%">
-<col style="width: 17%">
-<col style="width: 38%">
-<col style="width: 35%">
+<col style="width: 15%">
+<col style="width: 33%">
+<col style="width: 42%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
@@ -405,6 +405,24 @@
 <td style="text-align: left;">Metformin purchases that aren’t potentially for the treatment of PCOS</td>
 <td style="text-align: left;">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date - foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’, ‘0000276’, ‘0000781’)))</td>
 <td style="text-align: left;">Woman is defined as 2 in <code>koen</code>.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">has_two_thirds_insulin</td>
+<td style="text-align: left;">Whether two-thirds of GLD doses are insulin doses</td>
+<td style="text-align: left;">(n_insulin_doses / n_gld_doses) &gt;= 2/3</td>
+<td style="text-align: left;">This is used to classify type 1 diabetes. If multiple types of GLD are purchased, this indicates if at least two-thirds are insulin, which is important to determine type 1 diabetes status.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">has_only_insulin_purchases</td>
+<td style="text-align: left;">Whether only insulin was purchased as a GLD</td>
+<td style="text-align: left;">n_insulin_doses &gt;= 1 &amp; n_insulin_doses == n_gld_doses</td>
+<td style="text-align: left;">This is used to classify type 1 diabetes. If only insulin is purchased, this is a strong reason to suspect type 1 diabetes.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">has_insulin_purchases_within_180_days</td>
+<td style="text-align: left;">Any insulin purchases within 180 days of the first purchase of GLD</td>
+<td style="text-align: left;">is_insulin_gld_code &amp; date &lt;= (first_gld_date + days(180))</td>
+<td style="text-align: left;">This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes.</td>
 </tr>
 </tbody>
 </table>
