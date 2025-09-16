@@ -129,6 +129,14 @@ classify_diabetes <- function(
     exclude_pregnancy(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
+    ) |>
+    dplyr::select(
+      -"pregnancy_event_date",
+      -"atc",
+      -"indication_code",
+      -"no_pcos",
+      -"has_pregnancy_event",
+      -"is_not_within_pregnancy_interval"
     )
 
   # Joining into an initial dataset -----
@@ -141,14 +149,14 @@ classify_diabetes <- function(
   inclusions |>
     # create_inclusion_dates() |>
     classify_t1d() |>
-    # If t1d is NA, t2d will also be NA
-    dplyr::mutate(t2d = !.data$t1d) |>
+    # If has_t1d is NA, t2d will also be NA
+    dplyr::mutate(has_t2d = !.data$has_t1d) |>
     dplyr::select(
       "pnr",
       "stable_inclusion_date",
       "raw_inclusion_date",
-      "t1d",
-      "t2d"
+      "has_t1d",
+      "has_t2d"
     )
 }
 
@@ -162,8 +170,8 @@ classify_diabetes <- function(
 #'
 classify_t1d <- function(data) {
   logic <- c(
-    "is_any_t1d_primary_diagnosis",
-    "t1d"
+    "has_any_t1d_primary_diagnosis",
+    "has_t1d"
   ) |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>
@@ -172,10 +180,10 @@ classify_t1d <- function(data) {
 
   data |>
     dplyr::mutate(
-      is_any_t1d_primary_diagnosis = !!logic$is_any_t1d_primary_diagnosis,
-      t1d = !!logic$t1d
+      has_any_t1d_primary_diagnosis = !!logic$has_any_t1d_primary_diagnosis,
+      has_t1d = !!logic$has_t1d
     ) |>
     dplyr::select(
-      -"is_any_t1d_primary_diagnosis"
+      -"has_any_t1d_primary_diagnosis"
     )
 }
