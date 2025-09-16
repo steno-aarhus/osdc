@@ -142,7 +142,7 @@ and test the subsequent classification into T1D or T2D.
 
 #### Case 4: `04_t1d_oipF_endoT_majt1dT_i180T_itwo3T`
 
--   **Objective**: To test the one logic path for T1D classification in
+-   **Objective**: To test the logic path for T1D classification in
     mixed-therapy patients with type-specific diabetes diagnoses from
     endocrinology departments.
 -   **Logic Tested**: This case tests multiple conditions: `oipF` -\>
@@ -166,14 +166,21 @@ and test the subsequent classification into T1D or T2D.
 #### Case 5: `05_t2d_oipF_endoT_majt1dT_i180T_itwo3F`
 
 -   **Objective**: To test the failure of the "two-thirds insulin dose"
-    rule (`itwo3F`).
+    rule (`itwo3F`) among mixed-therapy patients.
 -   **Logic Tested**: The patient meets all criteria down the T1D path
     until the final check. The proportion of insulin doses relative to
-    all GLD doses is less than two-thirds, causing the classification to
-    fall through to T2D.
+    all GLD doses is less than two-thirds (they are equal), causing the
+    classification to fall through to T2D. The logic for PCOS is also
+    tested (see key data points below).
 -   **Key Data Points**:
-    -   `lmdb` records where the `volume` (DDD) of insulin purchases is
-        less than twice the `volume` of non-insulin purchases.
+    -   THis female case has a metformin (`A10BA02`) purchase in `lmdb`
+        with a date (`eksd`) that makes the patient \> 40 years old
+        based on `bef$foed_dato`.
+        -   This purchase should NOT be censored as a potential PCOS
+            treatment (the patient is older than the age-threshold). If
+            this purchase is censored, the patient only has insulin
+            purchases and falls into the insulin monotherapy logic path
+            and is incorrectly classified as T1D.
 
 #### Case 6: `06_t2d_oipF_endoT_majt1dT_i180F_itwo3T`
 
