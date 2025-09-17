@@ -62,7 +62,7 @@ flowchart TD
     get_pregnancy_dates ~~~ lmdb
 
     %% Joining
-    include_diabetes_diagnoses --> join_inclusions["join_inclusions()"]
+    add_majority_t1d_diagnosis_col --> join_inclusions["join_inclusions()"]
     include_podiatrist_services --> join_inclusions
     add_insulin_purchases_cols --> join_inclusions
 
