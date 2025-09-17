@@ -45,8 +45,8 @@ flowchart TD
     kontakter --> prepare_lpr3["prepare_lpr3()"]
     diagnoser --> prepare_lpr3
 
-    prepare_lpr2 --> get_pregnancy_dates["get_pregnancy_dates()"]
-    prepare_lpr3 --> get_pregnancy_dates
+    prepare_lpr2 --> keep_pregnancy_dates["keep_pregnancy_dates()"]
+    prepare_lpr3 --> keep_pregnancy_dates
 
     %% Inclusion steps
     sysi --> include_podiatrist_services["include_podiatrist_services()"]:::include
@@ -65,7 +65,7 @@ flowchart TD
     bef --> exclude_potential_pcos
 
     exclude_potential_pcos --> exclude_pregnancy["exclude_pregnancy()"]:::exclude
-    get_pregnancy_dates --> exclude_pregnancy
+    keep_pregnancy_dates --> exclude_pregnancy
     include_hba1c --> exclude_pregnancy
     exclude_pregnancy --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
@@ -77,7 +77,7 @@ flowchart TD
     join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --> classify_t1d["classify_t1d()"]
 
-    get_pregnancy_dates ~~~ exclude_potential_pcos
+    keep_pregnancy_dates ~~~ exclude_potential_pcos
 
   end
 

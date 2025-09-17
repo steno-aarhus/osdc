@@ -42,7 +42,7 @@ expected_pregnancy_dates <- tibble::tribble(
 ) |>
   dplyr::mutate(pregnancy_event_date = lubridate::as_date(pregnancy_event_date))
 
-test_that("get_pregnancy_dates() returns expected", {
-  actual <- get_pregnancy_dates(lpr2, lpr3)
+test_that("keep_pregnancy_dates() returns expected", {
+  actual <- keep_pregnancy_dates(lpr2, lpr3)
   expect_equal(actual, expected_pregnancy_dates)
 })
