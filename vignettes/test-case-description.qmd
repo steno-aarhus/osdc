@@ -471,3 +471,21 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   A record in `bef`.
     -   No corresponding records for this `pnr` in any other table.
+
+------------------------------------------------------------------------
+
+### **Stable inclusion cut-off date case (23)**
+
+#### Case 23: `23_t2d_gldT_1995_1999`
+
+-   **Objective**: To ensure the algorithm correctly identifies the
+    `stable_inclusion_date` of cases included prior to the cut-off date
+    (default: 1998-01-01)
+-   **Logic Tested**: This case has two annual metformin purchases from
+    1995 through 1998, and should therefore be included with a
+    `raw_inclusion_date` prior to 1998-01-01 and a
+    `stable_inclusion_date` that is `NA` (using the default threshold
+    date).
+-   **Key Data Points**:
+    -   GLD purchases in `lmdb` on 1995-06-15 & 1995-06-16 (sets the
+        `raw_inclusion_date`).

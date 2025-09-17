@@ -26,7 +26,8 @@ create_test_cases <- function() {
     "19_nodm_female_u40_pcosT",               2, "20000101",
     "20_nodm_female_o40_pcosT",               2, "19750101",
     "21_nodm_female_pregnancyT",              2, "19950101",
-    "22_nodm_female_blank",                   2, "19960101"
+    "22_nodm_female_blank",                   2, "19960101",
+    "23_t2d_gldT_1995_1999",                  1, "19500101"
   )
 
   # 2. lmdb: Drug purchases table -------------------------------------------------------------------------
@@ -79,7 +80,15 @@ create_test_cases <- function() {
     "21_nodm_female_pregnancyT",              10, "19980901", "A10AB01",    5, "2100001",
     "21_nodm_female_pregnancyT",              10, "19990102", "A10AB01",    5, "2100001",
     "21_nodm_female_pregnancyT",              10, "20230901", "A10AB01",    5, "2100001",
-    "21_nodm_female_pregnancyT",              10, "20240102", "A10AB01",    5, "2100001"
+    "21_nodm_female_pregnancyT",              10, "20240102", "A10AB01",    5, "2100001",
+    "23_t2d_gldT_1995_1999",                    10,      "19950615", "A10BA02",   1,    "2300001",
+    "23_t2d_gldT_1995_1999",                    10,      "19950616", "A10BA02",   2,    "2300001",
+    "23_t2d_gldT_1995_1999",                    10,      "19960615", "A10BA02",   3,    "2300002",
+    "23_t2d_gldT_1995_1999",                    10,      "19960616", "A10BA02",   4,    "2300002",
+    "23_t2d_gldT_1995_1999",                    10,      "19970615", "A10BA02",   1,    "2300003",
+    "23_t2d_gldT_1995_1999",                    10,      "19970616", "A10BA02",   2,    "2300003",
+    "23_t2d_gldT_1995_1999",                    10,      "19980615", "A10BA02",   3,    "2300003",
+    "23_t2d_gldT_1995_1999",                    10,      "19980616", "A10BA02",   4,    "2300003",
   )
 
   # 3. lpr_adm: Hospital admissions (LPR2) -------------------------------------------------------------------------
@@ -327,7 +336,28 @@ test_that("Classifying edge cases produces unexpected outcomes", {
   )
 
   # TODO: input the expected output here:
-  # expected <- tibble::tribble()
+  expected <- tibble::tribble(
+    # Column headers
+    ~pnr,                                     ~stable_inclusion_date, ~raw_inclusion_date, ~diabetes_type,
+    "01_t1d_oipT_anyt1dT",                      "2020-04-10",           "2020-04-10",          "T1D",
+    "02_t2d_oipT_anyt1dF",                      "2021-05-20",           "2021-05-20",          "T2D",
+    "03_t2d_oipF_anyt1dF",                      "2019-03-01",           "2019-03-01",          "T2D",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",    "1998-01-01",           "1998-01-01",          "T1D",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",    "2022-03-01",           "2022-03-01",          "T2D",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",    "2022-09-01",           "2022-09-01",          "T2D",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",    "2022-02-01",           "2022-02-01",          "T2D",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",     "2023-01-01",           "2023-01-01",          "T1D",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",     "2023-01-01",           "2023-01-01",          "T2D",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",     "2022-09-01",           "2022-09-01",          "T2D",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",     "2000-04-23",           "2000-04-23",          "T2D",
+    "13_t2d_gldF_diagF_hba1cF_podT",            "2000-01-10",           "2000-01-10",          "T2D",
+    "14_t2d_gldF_diagF_hba1cT_podF",            "2013-04-01",           "2013-04-01",          "T2D",
+    "15_t2d_gldF_diagT_hba1cF_podF",            "2023-01-01",           "2023-01-01",          "T2D",
+    "16_t2d_gldT_diagF_hba1cF_podF",            "2013-04-01",           "2013-04-01",          "T2D",
+    "18_t2d_male_pcosF",                        "2023-04-01",           "2023-04-01",          "T2D",
+    "23_t2d_gldT_1995_1999",                    NA,                     "1995-06-16",          "T2D"
+
+  )
 
   expect_equal(actual, expected)
 })
