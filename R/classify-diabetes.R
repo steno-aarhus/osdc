@@ -171,7 +171,6 @@ classify_diabetes <- function(
 #'
 classify_t1d <- function(data) {
   logic <- c(
-    "has_any_t1d_primary_diagnosis",
     "has_t1d"
   ) |>
     rlang::set_names() |>
@@ -181,10 +180,6 @@ classify_t1d <- function(data) {
 
   data |>
     dplyr::mutate(
-      has_any_t1d_primary_diagnosis = !!logic$has_any_t1d_primary_diagnosis,
       has_t1d = !!logic$has_t1d
-    ) |>
-    dplyr::select(
-      -"has_any_t1d_primary_diagnosis"
     )
 }
