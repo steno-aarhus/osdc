@@ -78,7 +78,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
     dplyr::left_join(insulin_cols, by = dplyr::join_by("pnr"))
 }
 
-#' Add columns related to details about type 1 diabetes diagnoses
+#' Add columns related to type 1 diabetes diagnoses
 #'
 #' This function evaluates whether an individual has a majority of type 1
 #' diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
