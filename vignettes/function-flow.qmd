@@ -45,6 +45,7 @@ flowchart TD
 
     prepare_lpr2 --> include_diabetes_diagnoses["include_diabetes_diagnoses()"]:::include
     prepare_lpr3 --> include_diabetes_diagnoses
+    include_diabetes_diagnoses --> add_majority_t1d_diagnosis_col["add_majority_t1d_diagnosis_col()"]
 
     lmdb[("lmdb")] --> include_gld_purchases["include_gld_purchases()"]:::include
 
