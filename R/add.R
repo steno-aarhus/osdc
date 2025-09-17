@@ -78,13 +78,16 @@ add_insulin_purchases_cols <- function(gld_purchases) {
     dplyr::left_join(insulin_cols, by = dplyr::join_by("pnr"))
 }
 
-#' Add a column for whether the majority of diabetes diagnoses are for type 1 diabetes
+#' Add columns related to details about type 1 diabetes diagnoses
 #'
 #' This function evaluates whether an individual has a majority of type 1
 #' diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
 #' primary diagnoses (DE10 & DE11) from endocrinology departments. If an individual
 #' doesn't have any type-specific diabetes diagnoses from endocrinology departments,
 #' the majority is determined by diagnoses from medical departments.
+#'
+#' It also adds a column indicating whether an individual has at least one
+#' primary diagnosis related to type 1 diabetes.
 #'
 #' This output is passed to the `join_inclusions()` function, where the
 #' `dates` variable is used for the final step of the inclusion process.
@@ -94,19 +97,24 @@ add_insulin_purchases_cols <- function(gld_purchases) {
 #' @param data Data from [include_diabetes_diagnoses()] function.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
-#'  with the following columns and up to two rows per individual:
+#'  with the following added columns and up to two rows per individual:
 #'
-#'  -   `pnr`: The personal identification variable.
-#'  -   `dates`: The dates of the first and second hospital diabetes diagnosis.
 #'  -   `has_majority_t1d_diagnosis`: A logical vector indicating whether the
 #'      majority of primary diagnoses are related to type 1 diabetes.
+#'  -   `has_any_t1d_primary_diagnosis`: A logical vector indicating whether
+#'      there is at least one primary diagnosis related to type 1 diabetes.
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-add_majority_t1d_diagnoses_col <- function(data) {
-  logic <- get_algorithm_logic("has_majority_t1d_diagnosis") |>
+add_t1d_diagnoses_col <- function(data) {
+  logic <- c(
+    "has_majority_t1d_diagnosis",
+    "has_any_t1d_primary_diagnosis"
+  ) |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
     # To convert the string into an R expression.
-    rlang::parse_expr()
+    purrr::map(rlang::parse_expr)
 
   data |>
     # Number of primary diagnoses for either type 1 or 2 diabetes in either
@@ -145,10 +153,9 @@ add_majority_t1d_diagnoses_col <- function(data) {
     ) |>
     # Keep earliest two dates per individual.
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr") |>
-    dplyr::mutate(has_majority_t1d_diagnosis = !!logic) |>
-    dplyr::select(
-      "pnr",
-      "date",
-      "has_majority_t1d_diagnosis"
-    )
+    dplyr::mutate(
+      has_majority_t1d_diagnosis = !!logic$has_majority_t1d_diagnosis,
+      has_any_t1d_primary_diagnosis = !!logic$has_any_t1d_primary_diagnosis
+    ) |>
+    dplyr::select(-dplyr::starts_with("n_t"))
 }
