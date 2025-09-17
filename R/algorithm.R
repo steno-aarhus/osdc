@@ -171,7 +171,7 @@ algorithm <- function() {
     has_t1d = list(
       register = NA,
       title = "Classifying type 1 diabetes status",
-      logic = "(has_only_insulin_purchases & has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases & has_any_t1d_primary_diagnosis & is_majority_t1d_diagnosis & is_two_thirds_insulin & is_insulin_purchases_within_180_days)",
+      logic = "(has_only_insulin_purchases & has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases & is_majority_t1d_diagnosis & is_two_thirds_insulin & is_insulin_purchases_within_180_days)",
       comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     ),
     has_two_thirds_insulin = list(
