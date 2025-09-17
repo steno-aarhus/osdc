@@ -28,7 +28,7 @@ actual <- include_diabetes_diagnoses(
   lpr2 = lpr2,
   lpr3 = lpr3
 ) |>
-  add_majority_t1d_diagnosis_col()
+  add_t1d_diagnoses_col()
 
 test_that("creates a data.frame output", {
   expect_contains(class(actual), "data.frame")
