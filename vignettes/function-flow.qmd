@@ -54,7 +54,7 @@ flowchart TD
 
     prepare_lpr2 --> include_diabetes_diagnoses["include_diabetes_diagnoses()"]:::include
     prepare_lpr3 --> include_diabetes_diagnoses
-    include_diabetes_diagnoses --> add_t1d_diagnoses_col["add_t1d_diagnoses_col()"]
+    include_diabetes_diagnoses --> add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
 
     lmdb --> include_gld_purchases["include_gld_purchases()"]:::include
 
@@ -70,7 +70,7 @@ flowchart TD
     exclude_pregnancy --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
     %% Joining
-    add_t1d_diagnoses_col --> join_inclusions["join_inclusions()"]
+    add_t1d_diagnoses_cols --> join_inclusions["join_inclusions()"]
     include_podiatrist_services --> join_inclusions
     add_insulin_purchases_cols --> join_inclusions
 

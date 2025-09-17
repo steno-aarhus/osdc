@@ -109,7 +109,7 @@ classify_diabetes <- function(
     lpr2 = lpr2,
     lpr3 = lpr3
   ) |>
-    add_t1d_diagnoses_col()
+    add_t1d_diagnoses_cols()
 
   podiatrist_services <- include_podiatrist_services(
     sysi = sysi,

@@ -106,7 +106,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-add_t1d_diagnoses_col <- function(data) {
+add_t1d_diagnoses_cols <- function(data) {
   logic <- c(
     "has_majority_t1d_diagnosis",
     "has_any_t1d_primary_diagnosis"
