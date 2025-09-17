@@ -170,7 +170,7 @@ algorithm <- function() {
     ),
     has_insulin_purchases_within_180_days = list(
       register = NA,
-      title = "Any insulin purchases within 180 days of the first purchase of GLD",
+      title = "Whether insulin was purchased within 180 days of the first purchase of GLD",
       logic = "is_insulin_gld_code & date <= (first_gld_date + days(180))",
       comments = "This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
     )

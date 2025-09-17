@@ -49,7 +49,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
     ) |>
     dplyr::summarise(
       # Get first date of a GLD purchase and if a purchase of insulin occurs
-      # within 180 day of the first purchase.
+      # within 180 days of the first purchase.
       first_gld_date = min(date, na.rm = TRUE),
       has_insulin_purchases_within_180_days = any(
         !!logic$has_insulin_purchases_within_180_days
