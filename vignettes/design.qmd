@@ -17,8 +17,8 @@ library(osdc)
 These are the guiding principles for this package:
 
 1.  Functionality is as agnostic to data format as possible (e.g. can be
-    used with SQL or Arrow connections, in a `data.table` format, or as a
-    `data.frame`).
+    used with SQL or Arrow connections, in a `data.table` format, or as
+    a `data.frame`).
 2.  Functions have consistent inputs and outputs (e.g. inputs and
     outputs are the same, regardless of specific conditions).
 3.  Functions have predictable outputs based on inputs (e.g. if an input
@@ -47,32 +47,33 @@ this package aims to fulfill.
 
 "As a researcher, ..."
 
--   "... I want to easily get an overview of which Danish registers and variables I need to
-    request from Denmark Statistics and the Danish Health Data
-    Authority, so that I am able to classify
-    the diabetes status of individuals in the registers using the osdc package."
--   "... I want to easily and simply create a dataset that contains
-    data on diabetes status in my population, so that I can begin
-    conducting my research that involves persons with diabetes
-    without having to tinker with coding the correct algorithm to
-    classify them."
--   "... I want to be informed early and in a clear way whether my
-    data fits with the required data types, so that I can
-    fix and correct these issues without having to do extensive
-    debugging of the code and/or data."
+-   "... I want to easily get an overview of which Danish registers and
+    variables I need to request from Denmark Statistics and the Danish
+    Health Data Authority, so that I am able to classify the diabetes
+    status of individuals in the registers using the osdc package."
+-   "... I want to easily and simply create a dataset that contains data
+    on diabetes status in my population, so that I can begin conducting
+    my research that involves persons with diabetes without having to
+    tinker with coding the correct algorithm to classify them."
+-   "... I want to be informed early and in a clear way whether my data
+    fits with the required data types, so that I can fix and correct
+    these issues without having to do extensive debugging of the code
+    and/or data."
 
 ## Core functionality
 
 This is the list of the core functionality of the osdc package:
 
 1.  Classifies individuals' diabetes type (type 1 or 2)
-2.  Outputs a single data frame including individuals with diabetes, their type (type 1 or 2), and date of onset as classified by the algorithm.
-3.  Internally checks individual registers
-    for the variables required by the algorithm.
+2.  Outputs a single data frame including individuals with diabetes,
+    their type (type 1 or 2), and date of onset as classified by the
+    algorithm.
+3.  Internally checks individual registers for the variables required by
+    the algorithm.
 4.  Provides a list of required variables and registers in order to
     calculate diabetes status.
-5.  Provides internal checks of whether variables match
-    the expected data types.
+5.  Provides internal checks of whether variables match the expected
+    data types.
 6.  Provides a common and easily accessible standard for determining
     diabetes status within the context of research using Danish
     registers.
@@ -80,10 +81,10 @@ This is the list of the core functionality of the osdc package:
 ## Function conventions
 
 To effectively develop both the user-facing and internal functions, we
-follow some conventions and design patterns for building
-these functions. There are a few conventions we describe here: naming
-patterns for functions and arguments, their argument input requirements,
-and their output data structure.
+follow some conventions and design patterns for building these
+functions. There are a few conventions we describe here: naming patterns
+for functions and arguments, their argument input requirements, and
+their output data structure.
 
 The below conventions are *ideals* only, to be used as a guidelines to
 help with development and understanding of the code; they are not hard
@@ -94,7 +95,8 @@ rules.
 -   First word is an action verb, later words are objects or conditions.
 -   Exclusion criteria are prefixed with `exclude_`.
 -   Inclusion criteria are prefixed with `include_`.
--   Helpers that get or extract a condition (e.g., "pregnancy") are prefixed with `get_`.
+-   Helpers that get or extract a condition (e.g., "pregnancy") are
+    prefixed with `get_`.
 -   Helpers that join the output of other functions are prefixed with
     `join_`.
 -   Functions that prepare and process register data are prefixed with
@@ -128,9 +130,10 @@ The osdc package contains one main function that classifies individuals
 into those with either type 1 or type 2 diabetes using the Danish
 registers: `classify_diabetes()`. This function classifies those with
 diabetes (type 1 or 2) based on the Danish registers described in the
-`vignette("design")` and `vignette("data-sources")`. All data sources needed by osdc
-are used as input for this function. The specific inclusion and
-exclusion details are described in the `vignette("algorithm")`.
+`vignette("design")` and `vignette("data-sources")`. All data sources
+needed by osdc are used as input for this function. The specific
+inclusion and exclusion details are described in the
+`vignette("algorithm")`.
 
 ### Input
 
@@ -158,7 +161,8 @@ The output is a `data.frame` type object which includes four columns:
     reliable)[^1].
     <!-- TODO: Specify this time-period: e.g., later than 1997 -->
 -   **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
-    the second inclusion event as described in the `vignette("algorithm")`).
+    the second inclusion event as described in the
+    `vignette("algorithm")`).
 -   **diabetes_type**: The classified diabetes type.
 
 [^1]: For more information on the "raw" versus "stable" inclusion date,
@@ -166,23 +170,23 @@ The output is a `data.frame` type object which includes four columns:
 
 For an example, see below.
 
-| pnr        | stable_inclusion_date | raw_inclusion_date | diabetes_type |
-|------------|-----------------------|--------------------|---------------|
-| 1 | 2020-01-01            | 2020-01-01         | T1D           |
-| 4 | NULL                  | 1995-04-19         | T2D           |
+| pnr | stable_inclusion_date | raw_inclusion_date | diabetes_type |
+|-----|-----------------------|--------------------|---------------|
+| 1   | 2020-01-01            | 2020-01-01         | T1D           |
+| 4   | NULL                  | 1995-04-19         | T2D           |
 
 : Example rows of the `data.frame` output of the osdc package.
 
-The individuals `1` and `4` have been classified as
-having diabetes (`T1D` and `T2D`, respectively). `1` is
-classified as having type 1 diabetes (T1D) with an inclusion date of
-`2020-01-01`. Since this date is within a time-period of sufficient data
-coverage, the column `stable_inclusion_date` is populated with the same
-date as `raw_inclusion_date`.
+The individuals `1` and `4` have been classified as having diabetes
+(`T1D` and `T2D`, respectively). `1` is classified as having type 1
+diabetes (T1D) with an inclusion date of `2020-01-01`. Since this date
+is within a time-period of sufficient data coverage, the column
+`stable_inclusion_date` is populated with the same date as
+`raw_inclusion_date`.
 
-The individual in the second row, `4` is classified as having
-type 2 diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995
-is within a time-period of insufficient data coverage,
+The individual in the second row, `4` is classified as having type 2
+diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995 is
+within a time-period of insufficient data coverage,
 `stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
 contains the inclusion date of this individual.
 
