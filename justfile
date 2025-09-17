@@ -47,7 +47,6 @@ url-check:
 
 # Style all R code in the package
 style:
-  # Need to install air first.
   air format .
 
 # Build the pkgdown website
