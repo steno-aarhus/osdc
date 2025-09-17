@@ -117,8 +117,7 @@ classify_diabetes <- function(
 
   gld_purchases <- include_gld_purchases(
     lmdb = lmdb
-  ) |>
-    add_insulin_purchases_cols()
+  )
 
   hba1c_over_threshold <- include_hba1c(
     lab_forsker = lab_forsker
@@ -130,7 +129,8 @@ classify_diabetes <- function(
     exclude_pregnancy(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
-    )
+    ) |>
+    add_insulin_purchases_cols()
 
   # Joining into an initial dataset -----
   inclusions <- join_inclusions(

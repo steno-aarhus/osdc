@@ -21,7 +21,7 @@
 #'   include_gld_purchases() |>
 #'   add_insulin_purchases_cols()
 #' }
-add_insulin_purchases_cols <- function(gld_purchases) {
+add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
   logic <- c(
     "is_insulin_gld_code",
     "has_two_thirds_insulin",
@@ -33,7 +33,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
     # To convert the string into an R expression.
     purrr::map(rlang::parse_expr)
 
-  insulin_cols <- gld_purchases |>
+  insulin_cols <- gld_hba1c_after_exclusions |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
@@ -74,6 +74,6 @@ add_insulin_purchases_cols <- function(gld_purchases) {
       "has_insulin_purchases_within_180_days"
     )
 
-  gld_purchases |>
+  gld_hba1c_after_exclusions |>
     dplyr::left_join(insulin_cols, by = dplyr::join_by("pnr"))
 }
