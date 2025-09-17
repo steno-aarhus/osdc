@@ -7,7 +7,7 @@
 add_insulin_purchases_cols(gld_hba1c_after_exclusions)
 }
 \arguments{
-\item{gld_hba1c_after_exclusions}{The gld and hba1c data after exclusions}
+\item{gld_hba1c_after_exclusions}{The GLD and HbA1c data after exclusions}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
