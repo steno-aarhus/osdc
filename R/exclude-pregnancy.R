@@ -115,7 +115,5 @@ exclude_pregnancy <- function(
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a
     # row that falls outside all of them.
-    dplyr::distinct() |>
-    # Add logical helper variable.
-    dplyr::mutate(no_pregnancy = TRUE)
+    dplyr::distinct()
 }

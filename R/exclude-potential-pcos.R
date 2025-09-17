@@ -42,7 +42,5 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
     dplyr::select(
       -"koen",
       -"foed_dato"
-    ) |>
-    # Add logical helper variable
-    dplyr::mutate(no_pcos = TRUE)
+    )
 }
