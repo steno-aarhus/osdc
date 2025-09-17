@@ -156,22 +156,10 @@ algorithm <- function() {
       logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
     ),
-    has_any_t1d_primary_diagnosis = list(
-      register = NA,
-      title = "Any primary diagnosis for type 1 diabetes",
-      logic = "(n_t1d_endocrinology + n_t1d_medical) >= 1",
-      comments = "This is used to classify type 1 diabetes."
-    ),
-    is_endocrinology_dx = list(
-      register = NA,
-      title = "Diagnosis of diabetes from an endocrinology department",
-      logic = "n_t1d_is_endocrinology_dept AND (is_t1d_code OR is_t2d_code)",
-      comments = "This is used to classify type 1 diabetes."
-    ),
     has_t1d = list(
       register = NA,
       title = "Classifying type 1 diabetes status",
-      logic = "(has_only_insulin_purchases & has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases & is_majority_t1d_diagnosis & is_two_thirds_insulin & is_insulin_purchases_within_180_days)",
+      logic = "(has_only_insulin_purchases & has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases & has_majority_t1d_diagnosis & has_two_thirds_insulin & has_insulin_purchases_within_180_days)",
       comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     ),
     has_two_thirds_insulin = list(
