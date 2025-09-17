@@ -82,9 +82,9 @@ add_insulin_purchases_cols <- function(gld_purchases) {
 #'
 #' This function evaluates whether an individual has a majority of type 1
 #' diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
-#' primary diagnoses (DE10 & DE11) from medical departments. If an individual
-#' has any type-specific diabetes diagnoses from endocrinology departments,
-#' the majority is determined only among these contacts.
+#' primary diagnoses (DE10 & DE11) from endocrinology departments. If an individual
+#' doesn't have any type-specific diabetes diagnoses from endocrinology departments,
+#' the majority is determined by diagnoses from medical departments.
 #'
 #' This output is passed to the `join_inclusions()` function, where the
 #' `dates` variable is used for the final step of the inclusion process.
@@ -103,7 +103,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-add_majority_t1d_diagnosis_col <- function(data) {
+add_majority_t1d_diagnoses_col <- function(data) {
   logic <- get_algorithm_logic("has_majority_t1d_diagnosis") |>
     # To convert the string into an R expression.
     rlang::parse_expr()
