@@ -16,7 +16,7 @@ and logic are connected to each other. A high-level overview of the flow
 is shown in the diagram below.
 
 ::: content-hidden
-In the mermaid diagram below, invisible edges (\~\~\~) are used solely
+In the mermaid diagram below, invisible edges (~~~) are used solely
 for layout purposes to help position the nodes.
 :::
 
