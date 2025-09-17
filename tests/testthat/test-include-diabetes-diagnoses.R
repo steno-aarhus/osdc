@@ -34,6 +34,6 @@ test_that("creates a data.frame output", {
   expect_contains(class(actual), "data.frame")
 })
 
-test_that("at least one 'case' is classified", {
+test_that("at least one 'case' is included", {
   expect_equal(nrow(dplyr::count(actual, has_majority_t1d_diagnosis)), 2)
 })

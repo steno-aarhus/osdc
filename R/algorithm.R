@@ -160,7 +160,7 @@ algorithm <- function() {
       register = NA,
       title = "Determine if the majority of diagnoses are for type 1 diabetes",
       logic = "if_else(n_t1d_endocrinology + n_t2d_endocrinology > 0, n_t1d_endocrinology > n_t2d_endocrinology, n_t1d_medical > n_t2d_medical)",
-      comments = "Used to classify diabetes status. On it's own, it isn't enough to classify people. Prioritize endocrinology diagnoses if available, otherwise use other medical department diagnoses."
+      comments = "This is used to classify type 1 diabetes. Endocrinology diagnoses are prioritised if available, otherwise other medical department diagnoses are used. If no diabetes type-specific primary diagnoses are available from an endocrinology or other medical departments, this variable is returned as `FALSE`".
     ),
     has_two_thirds_insulin = list(
       register = NA,
