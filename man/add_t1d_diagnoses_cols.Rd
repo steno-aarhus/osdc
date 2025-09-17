@@ -2,7 +2,7 @@
 % Please edit documentation in R/add.R
 \name{add_t1d_diagnoses_cols}
 \alias{add_t1d_diagnoses_cols}
-\title{Add columns related to details about type 1 diabetes diagnoses}
+\title{Add columns related to type 1 diabetes diagnoses}
 \usage{
 add_t1d_diagnoses_cols(data)
 }
@@ -13,7 +13,7 @@ add_t1d_diagnoses_cols(data)
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
 with the following added columns and up to two rows per individual:
 \itemize{
-\item \code{has_majority_t1d_diagnosis}: A logical vector indicating whether the
+\item \code{has_majority_t1d_diagnoses}: A logical vector indicating whether the
 majority of primary diagnoses are related to type 1 diabetes.
 \item \code{has_any_t1d_primary_diagnosis}: A logical vector indicating whether
 there is at least one primary diagnosis related to type 1 diabetes.

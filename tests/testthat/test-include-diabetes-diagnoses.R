@@ -35,5 +35,5 @@ test_that("creates a data.frame output", {
 })
 
 test_that("at least one 'case' is included", {
-  expect_equal(nrow(dplyr::count(actual, has_majority_t1d_diagnosis)), 2)
+  expect_equal(nrow(dplyr::count(actual, has_majority_t1d_diagnoses)), 2)
 })

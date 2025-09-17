@@ -162,7 +162,7 @@ algorithm <- function() {
       logic = "(n_t1d_endocrinology + n_t1d_medical) >= 1",
       comments = "This is used to classify type 1 diabetes. Naturally, having any type 1 diabetes diagnosis is indicative of type 1 diabetes."
     ),
-    has_majority_t1d_diagnosis = list(
+    has_majority_t1d_diagnoses = list(
       register = NA,
       title = "Determine if the majority of diagnoses are for type 1 diabetes",
       logic = "if_else(n_t1d_endocrinology + n_t2d_endocrinology > 0, n_t1d_endocrinology > n_t2d_endocrinology, n_t1d_medical > n_t2d_medical)",

@@ -99,7 +99,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'  with the following added columns and up to two rows per individual:
 #'
-#'  -   `has_majority_t1d_diagnosis`: A logical vector indicating whether the
+#'  -   `has_majority_t1d_diagnoses`: A logical vector indicating whether the
 #'      majority of primary diagnoses are related to type 1 diabetes.
 #'  -   `has_any_t1d_primary_diagnosis`: A logical vector indicating whether
 #'      there is at least one primary diagnosis related to type 1 diabetes.
@@ -108,7 +108,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
 #' @inherit algorithm seealso
 add_t1d_diagnoses_cols <- function(data) {
   logic <- c(
-    "has_majority_t1d_diagnosis",
+    "has_majority_t1d_diagnoses",
     "has_any_t1d_primary_diagnosis"
   ) |>
     rlang::set_names() |>
@@ -154,7 +154,7 @@ add_t1d_diagnoses_cols <- function(data) {
     # Keep earliest two dates per individual.
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr") |>
     dplyr::mutate(
-      has_majority_t1d_diagnosis = !!logic$has_majority_t1d_diagnosis,
+      has_majority_t1d_diagnoses = !!logic$has_majority_t1d_diagnoses,
       has_any_t1d_primary_diagnosis = !!logic$has_any_t1d_primary_diagnosis
     ) |>
     dplyr::select(-dplyr::starts_with("n_t"))
