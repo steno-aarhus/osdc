@@ -108,6 +108,8 @@ and test the subsequent classification into T1D or T2D.
         department (`c_spec` == '01') is sufficient for classification
         as T1D, despite this case also having a T2D-specific primary
         diagnosis from an endocrinology department.
+    -   Inclusion date is defined by records in `lpr_adm` and
+        `lab_forsker`.
 
 #### Case 2: `02_t2d_oipT_anyt1dF`
 
@@ -122,6 +124,7 @@ and test the subsequent classification into T1D or T2D.
     -   The only T1D diagnosis in `diagnoser` is either not primary
         (`diagnosetype = 'B'`) or is from an irrelevant department
         (e.g., surgery).
+    -   Inclusion date is defined by records in `lmdb` and `lpr_adm`.
 
 #### Case 3: `03_t2d_oipF_anyt1dF`
 
