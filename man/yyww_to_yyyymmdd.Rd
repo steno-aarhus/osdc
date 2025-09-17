@@ -22,11 +22,7 @@ be found when using Arrow to process the data.
 \examples{
 \dontrun{
 yyww_to_yyyymmdd("0101")
-yyww_to_yyyymmdd("2402")
-yyww_to_yyyymmdd("2453")
 yyww_to_yyyymmdd(c("0102", "0304"))
-yyww_to_yyyymmdd(c("0100", "0353"))
-yyww_to_yyyymmdd(c("0953", "0701"))
 yyww_to_yyyymmdd(953)
 }
 }
