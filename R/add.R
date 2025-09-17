@@ -1,6 +1,6 @@
 #' Add columns for information about insulin drug purchases
 #'
-#' @param gld_purchases The data from [include_gld_purchases()] function.
+#' @param gld_hba1c_after_exclusions The GLD and HbA1c data after exclusions
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()].
 #'   Three new columns are added:
