@@ -12,6 +12,7 @@
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="function-flow_files/libs/quarto-html/popper.min.js"></script><script src="function-flow_files/libs/quarto-html/tippy.umd.min.js"></script><link href="function-flow_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="function-flow_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<script src="function-flow_files/libs/quarto-diagram/mermaid.min.js"></script><script src="function-flow_files/libs/quarto-diagram/mermaid-init.js"></script><link href="function-flow_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Internal function flow">
 <meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
@@ -75,9 +76,81 @@
 
 
     <p>This document describes the flow of functions and objects within the package, specifically within the main exposed function <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. It shows the data sources and how they enter or are used in the function as well as how the different internal functions and logic are connected to each other. A high-level overview of the flow is shown in the diagram below.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure><p><img src="function-flow.svg"></p>
-<figcaption>Flow of functions, as well as their required input registers, for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively).</figcaption></figure>
+<div class="cell" data-eval="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p>
+<figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  subgraph data_sources["Data sources"]
+    lpr_diag[("lpr_diag")]
+    lpr_adm[("lpr_adm")]
+    kontakter[("kontakter")]
+    diagnoser[("diagnoser")]
+    sysi[("sysi")]
+    sssy[("sssy")]
+    lmdb[("lmdb")]
+    lab_forsker[("lab_forsker")]
+    bef[("bef")]
+  end
+
+  subgraph classify_diabetes["classify_diabetes()"]
+
+    lpr_diag --&gt; prepare_lpr2["prepare_lpr2()"]
+    lpr_adm --&gt; prepare_lpr2
+
+    kontakter --&gt; prepare_lpr3["prepare_lpr3()"]
+    diagnoser --&gt; prepare_lpr3
+
+    prepare_lpr2 --&gt; get_pregnancy_dates["get_pregnancy_dates()"]
+    prepare_lpr3 --&gt; get_pregnancy_dates
+
+    %% Inclusion steps
+    sysi --&gt; include_podiatrist_services["include_podiatrist_services()"]:::include
+    sssy --&gt; include_podiatrist_services
+
+    prepare_lpr2 --&gt; include_diabetes_diagnoses["include_diabetes_diagnoses()"]:::include
+    prepare_lpr3 --&gt; include_diabetes_diagnoses
+    include_diabetes_diagnoses --&gt; add_majority_t1d_diagnosis_col["add_majority_t1d_diagnosis_col()"]
+
+    lmdb --&gt; include_gld_purchases["include_gld_purchases()"]:::include
+
+    lab_forsker --&gt; include_hba1c["include_hba1c()"]:::include
+
+    %% Exclusion steps
+    include_gld_purchases --&gt; exclude_potential_pcos["exclude_potential_pcos()"]:::exclude
+    bef --&gt; exclude_potential_pcos
+
+    exclude_potential_pcos --&gt; exclude_pregnancy["exclude_pregnancy()"]:::exclude
+    get_pregnancy_dates --&gt; exclude_pregnancy
+    include_hba1c --&gt; exclude_pregnancy
+    exclude_pregnancy --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+
+    %% Joining
+    add_majority_t1d_diagnosis_col --&gt; join_inclusions["join_inclusions()"]
+    include_podiatrist_services --&gt; join_inclusions
+    add_insulin_purchases_cols --&gt; join_inclusions
+
+    join_inclusions --&gt; create_inclusion_dates["create_inclusion_dates()"]
+    create_inclusion_dates --&gt; classify_t1d["classify_t1d()"]
+
+    get_pregnancy_dates ~~~ exclude_potential_pcos
+
+  end
+
+  %% Styling
+  classDef default fill:#EEEEEE,color:#000000
+  classDef include fill:lightblue
+  classDef exclude fill:orange
+  style classify_diabetes fill:#FFFFFF,color:#000000
+  style data_sources fill:#FFFFFF,color:#000000,stroke-width:0px
+</pre>
+</div>
+<p></p>
+<figcaption> Flow of functions in, as well as their required input registers, in the <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively).</figcaption></figure><p></p>
+</div>
+</div>
 </div>
 <p>The sections below are split into functions for inclusion and exclusion as well as functions for determining the final diagnosis date and eventual classification of type 1 and type 2 diabetes.</p>
 <section class="level2"><h2 id="inclusion-events">Inclusion events<a class="anchor" aria-label="anchor" href="#inclusion-events"></a>
