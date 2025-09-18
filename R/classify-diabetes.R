@@ -45,16 +45,15 @@
 #' )
 #' }
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
-  sysi,
-  sssy,
-  lab_forsker,
-  bef,
-  lmdb
-) {
+    kontakter,
+    diagnoser,
+    lpr_diag,
+    lpr_adm,
+    sysi,
+    sssy,
+    lab_forsker,
+    bef,
+    lmdb) {
   # Verification step -----
   kontakter <- select_required_variables(kontakter, "kontakter")
   diagnoser <- select_required_variables(diagnoser, "diagnoser")
@@ -105,7 +104,7 @@ classify_diabetes <- function(
   # Exclusion steps -----
   gld_hba1c_after_exclusions <- gld_purchases |>
     exclude_potential_pcos(bef = bef) |>
-    exclude_pregnancy(
+    exclude_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
     ) |>

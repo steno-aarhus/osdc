@@ -64,10 +64,10 @@ flowchart TD
     include_gld_purchases --> exclude_potential_pcos["exclude_potential_pcos()"]:::exclude
     bef --> exclude_potential_pcos
 
-    exclude_potential_pcos --> exclude_pregnancy["exclude_pregnancy()"]:::exclude
-    keep_pregnancy_dates --> exclude_pregnancy
-    include_hba1c --> exclude_pregnancy
-    exclude_pregnancy --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+    exclude_potential_pcos --> exclude_pregnancies["exclude_pregnancies()"]:::exclude
+    keep_pregnancy_dates --> exclude_pregnancies
+    include_hba1c --> exclude_pregnancies
+    exclude_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
     %% Joining
     add_t1d_diagnoses_cols --> join_inclusions["join_inclusions()"]
@@ -120,9 +120,9 @@ See `?include_gld_purchases` for more information.
 
 See `?exclude_potential_pcos` for more information.
 
-### `exclude_pregnancy()`
+### `exclude_pregnancies()`
 
-See `?exclude_pregnancy` for more information.
+See `?exclude_pregnancies` for more information.
 
 ## Joining inclusions and exclusions
 
@@ -150,7 +150,7 @@ See `?join_inclusions` for more information.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'   along with the `purchase_date`, and `atc` columns from
-#'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,
+#'   `exclude_pregnancies()`, and the `n_t1d_endocrinology`,
 #'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from
 #'   `include_diabetes_diagnoses()`. It also creates two new columns:
 #'
@@ -184,7 +184,7 @@ create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "19
       "raw_inclusion_date",
       "stable_inclusion_date",
 
-      # From `exclude_pregnancy()` via the GLD purchases
+      # From `exclude_pregnancies()` via the GLD purchases
       # TODO: this might need to be renamed in a previous step, rather than here.
       "purchase_date" = "date",
       "atc",

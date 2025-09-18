@@ -29,7 +29,7 @@ preg_dates <- keep_pregnancy_dates(lpr2, lpr3)
 hba1c <- include_hba1c(register_data$lab_forsker)
 
 test_that("pregnancy events are excluded as expected", {
-  actual <- exclude_pregnancy(
+  actual <- exclude_pregnancies(
     excluded_pcos = no_pcos,
     pregnancy_dates = preg_dates,
     included_hba1c = hba1c

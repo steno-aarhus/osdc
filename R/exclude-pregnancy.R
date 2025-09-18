@@ -58,16 +58,15 @@
 #'   include_gld_purchases() |>
 #'   add_insulin_purchases_cols() |>
 #'   exclude_potential_pcos(register_data$bef) |>
-#'   exclude_pregnancy(
+#'   exclude_pregnancies(
 #'     keep_pregnancy_dates(lpr2, lpr3),
 #'     include_hba1c(register_data$lab_forsker)
 #'   )
 #' }
-exclude_pregnancy <- function(
-  excluded_pcos,
-  pregnancy_dates,
-  included_hba1c
-) {
+exclude_pregnancies <- function(
+    excluded_pcos,
+    pregnancy_dates,
+    included_hba1c) {
   criteria <- get_algorithm_logic("is_not_within_pregnancy_interval") |>
     # To convert the string into an R expression.
     rlang::parse_expr()

@@ -17,20 +17,19 @@
 #'
 #' @param diabetes_diagnoses Output from [include_diabetes_diagnoses()].
 #' @param podiatrist_services Output from [include_podiatrist_services()].
-#' @param gld_hba1c_after_exclusions Output from [exclude_pregnancy()] and
+#' @param gld_hba1c_after_exclusions Output from [exclude_pregnancies()] and
 #'    [exclude_potential_pcos()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'   with the joined columns from the output of [include_diabetes_diagnoses()],
 #'   [include_podiatrist_services()], [exclude_potential_pcos()], and
-#'   [exclude_pregnancy()]. There will be 1-8 rows per `pnr`.
+#'   [exclude_pregnancies()]. There will be 1-8 rows per `pnr`.
 #' @keywords internal
 #' @inherit algorithm seealso
 join_inclusions <- function(
-  diabetes_diagnoses,
-  podiatrist_services,
-  gld_hba1c_after_exclusions
-) {
+    diabetes_diagnoses,
+    podiatrist_services,
+    gld_hba1c_after_exclusions) {
   # This joins *only* by pnr and dates. If datasets have the same column
   # names, they will be renamed to differentiate them.
   # TODO: We may need to ensure that no two datasets have the same columns.
