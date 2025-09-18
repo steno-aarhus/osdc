@@ -24,7 +24,7 @@ same day within each individual are deduplicated, to account for the same
 test result often being reported twice (one for IFCC, one for DCCT units).
 }
 \details{
-The output is passed to the \code{exclude_pregnancy()} function for
+The output is passed to the \code{exclude_pregnancies()} function for
 filtering of elevated results due to potential gestational diabetes (see
 below).
 }

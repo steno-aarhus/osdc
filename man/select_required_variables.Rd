@@ -7,7 +7,7 @@
 select_required_variables(data, register, call = rlang::caller_env())
 }
 \arguments{
-\item{data}{The dataset to check.}
+\item{data}{The register to select columns from.}
 
 \item{register}{The abbreviation of the register name. See list of
 abbreviations in \code{\link[=get_register_abbrev]{get_register_abbrev()}}.}
@@ -20,7 +20,7 @@ Outputs the register with only the required variables, and
 with column names in lower case.
 }
 \description{
-Use this function to select only the required variables, convert to lower case,
+This function selects only the required variables, convert to lower case,
 and then check that the data types are as expected.
 }
 \examples{
