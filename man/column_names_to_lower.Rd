@@ -2,7 +2,7 @@
 % Please edit documentation in R/select.R
 \name{column_names_to_lower}
 \alias{column_names_to_lower}
-\title{Convert column names to lower case.}
+\title{Convert column names to lower case}
 \usage{
 column_names_to_lower(data)
 }
@@ -13,7 +13,7 @@ column_names_to_lower(data)
 The same object type given.
 }
 \description{
-Convert column names to lower case.
+Convert column names to lower case
 }
 \examples{
 \dontrun{

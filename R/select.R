@@ -1,16 +1,15 @@
-#' Check that the dataset has the required variables for the algorithm.
+#' Select the required variables from the register
 #'
-#' Use this function inside another function within an `if` condition to provide an
-#' informative error message within the function used. This is done to make the
-#' error message more informative to the location that the error actually
-#' occurs, rather than within this function.
+#' Use this function to select only the required variables, convert to lower case,
+#' and then check that the data types are as expected.
 #'
 #' @param data The dataset to check.
 #' @param call The environment where the function is called, so that the error
 #'   traceback gives a more meaningful location.
 #' @inheritParams get_required_variables
 #'
-#' @return Either TRUE if the verification passes, or an error.
+#' @return Outputs the register with only the required variables, and
+#'   with column names in lower case.
 #' @keywords internal
 #'
 #' @examples

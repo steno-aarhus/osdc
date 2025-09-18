@@ -2,7 +2,7 @@
 % Please edit documentation in R/select.R
 \name{select_required_variables}
 \alias{select_required_variables}
-\title{Check that the dataset has the required variables for the algorithm.}
+\title{Select the required variables from the register}
 \usage{
 select_required_variables(data, register, call = rlang::caller_env())
 }
@@ -16,17 +16,15 @@ abbreviations in \code{\link[=get_register_abbrev]{get_register_abbrev()}}.}
 traceback gives a more meaningful location.}
 }
 \value{
-Either TRUE if the verification passes, or an error.
+Outputs the register with only the required variables, and
+with column names in lower case.
 }
 \description{
-Use this function inside another function within an \code{if} condition to provide an
-informative error message within the function used. This is done to make the
-error message more informative to the location that the error actually
-occurs, rather than within this function.
+Use this function to select only the required variables, convert to lower case,
+and then check that the data types are as expected.
 }
 \examples{
 \dontrun{
-# TODO: Replace with simulated data.
 select_required_variables(simulate_registers("bef")[[1]], "bef")
 select_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
 }

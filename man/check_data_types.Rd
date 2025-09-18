@@ -7,7 +7,8 @@
 check_data_types(data, register, call = rlang::caller_env())
 }
 \value{
-Either TRUE if the verification passes, or an error.
+Outputs the register with only the required variables, and
+with column names in lower case.
 }
 \description{
 Check data types of the register variables
