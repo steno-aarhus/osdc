@@ -105,7 +105,7 @@ classify_diabetes <- function(
   # Exclusion steps -----
   gld_hba1c_after_exclusions <- gld_purchases |>
     exclude_potential_pcos(bef = bef) |>
-    exclude_pregnancy(
+    exclude_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
     ) |>
