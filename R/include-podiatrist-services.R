@@ -26,7 +26,7 @@
 #' include_podiatrist_services(register_data$sysi, register_data$sssy)
 #' }
 include_podiatrist_services <- function(sysi, sssy) {
-  logic <- logic_as_expr("is_podiatrist_services")[[1]]
+  logic <- logic_as_expression("is_podiatrist_services")[[1]]
 
   sysi |>
     dplyr::full_join(

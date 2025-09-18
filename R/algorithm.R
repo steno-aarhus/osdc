@@ -229,7 +229,7 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
 #' @return An R expression.
 #' @keywords internal
 #'
-logic_as_expr <- function(logic) {
+logic_as_expression <- function(logic) {
   logic |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>

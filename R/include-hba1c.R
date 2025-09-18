@@ -24,7 +24,7 @@
 #' simulate_registers("lab_forsker", 100)[[1]] |> include_hba1c()
 #' }
 include_hba1c <- function(lab_forsker) {
-  logic <- logic_as_expr("is_hba1c_over_threshold")[[1]]
+  logic <- logic_as_expression("is_hba1c_over_threshold")[[1]]
 
   lab_forsker |>
     # Use !! to inject the expression into filter.

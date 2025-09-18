@@ -23,7 +23,7 @@ include_gld_purchases <- function(lmdb) {
   logic <- c(
     "is_gld_code"
   ) |>
-    logic_as_expr()
+    logic_as_expression()
 
   lmdb |>
     # Use !! to inject the expression into filter.

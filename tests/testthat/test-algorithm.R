@@ -41,7 +41,7 @@ test_that("`and` logic and regex within parentheses are converted to R logic", {
 })
 
 test_that("logic is converted to expression/call", {
-  logic <- logic_as_expr("is_gld_code")
+  logic <- logic_as_expression("is_gld_code")
   expect_identical(class(logic), "list")
   expect_true(is.call(logic[[1]]))
 })

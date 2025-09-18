@@ -25,7 +25,7 @@
 #' )
 #' }
 exclude_potential_pcos <- function(gld_purchases, bef) {
-  logic <- logic_as_expr("is_not_metformin_for_pcos")[[1]]
+  logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
 
   # Use the algorithm logic to exclude potential PCOS
   gld_purchases |>

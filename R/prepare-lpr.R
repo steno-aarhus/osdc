@@ -45,7 +45,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     "lpr2_is_medical_dept",
     "lpr2_is_primary_diagnosis"
   ) |>
-    logic_as_expr()
+    logic_as_expression()
 
   lpr_diag |>
     dplyr::filter(!!logic$lpr2_is_needed_code) |>
@@ -108,7 +108,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
     "lpr3_is_medical_dept",
     "lpr3_is_primary_diagnosis"
   ) |>
-    logic_as_expr()
+    logic_as_expression()
 
   diagnoser |>
     # Only keep relevant diagnoses
