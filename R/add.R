@@ -28,10 +28,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
     "has_only_insulin_purchases",
     "has_insulin_purchases_within_180_days"
   ) |>
-    rlang::set_names() |>
-    purrr::map(get_algorithm_logic) |>
-    # To convert the string into an R expression.
-    purrr::map(rlang::parse_expr)
+    logic_as_expression()
 
   insulin_cols <- gld_hba1c_after_exclusions |>
     # `volume` is the doses contained in the purchased package and `apk` is the
@@ -111,10 +108,7 @@ add_t1d_diagnoses_cols <- function(data) {
     "has_majority_t1d_diagnoses",
     "has_any_t1d_primary_diagnosis"
   ) |>
-    rlang::set_names() |>
-    purrr::map(get_algorithm_logic) |>
-    # To convert the string into an R expression.
-    purrr::map(rlang::parse_expr)
+    logic_as_expression()
 
   data |>
     # Number of primary diagnoses for either type 1 or 2 diabetes in either

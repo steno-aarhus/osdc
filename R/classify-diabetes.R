@@ -148,10 +148,7 @@ classify_t1d <- function(data) {
   logic <- c(
     "has_t1d"
   ) |>
-    rlang::set_names() |>
-    purrr::map(get_algorithm_logic) |>
-    # To convert the string into an R expression
-    purrr::map(rlang::parse_expr)
+    logic_as_expression()
 
   data |>
     dplyr::mutate(
