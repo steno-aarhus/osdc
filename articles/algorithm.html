@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -377,9 +377,9 @@
 <table class="table caption-top">
 <colgroup>
 <col style="width: 6%">
-<col style="width: 13%">
-<col style="width: 26%">
-<col style="width: 52%">
+<col style="width: 12%">
+<col style="width: 31%">
+<col style="width: 49%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
@@ -407,30 +407,36 @@
 <td style="text-align: left;">Woman is defined as 2 in <code>koen</code>.</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">has_t1d</td>
+<td style="text-align: left;">Classifying type 1 diabetes status</td>
+<td style="text-align: left;">(has_only_insulin_purchases &amp; has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases &amp; has_majority_t1d_diagnoses &amp; has_two_thirds_insulin &amp; has_insulin_purchases_within_180_days)</td>
+<td style="text-align: left;">The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables.</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">has_any_t1d_primary_diagnosis</td>
 <td style="text-align: left;">Any primary diagnosis for type 1 diabetes</td>
 <td style="text-align: left;">(n_t1d_endocrinology + n_t1d_medical) &gt;= 1</td>
 <td style="text-align: left;">This is used to classify type 1 diabetes. Naturally, having any type 1 diabetes diagnosis is indicative of type 1 diabetes.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">has_majority_t1d_diagnoses</td>
 <td style="text-align: left;">Determine if the majority of diagnoses are for type 1 diabetes</td>
 <td style="text-align: left;">if_else(n_t1d_endocrinology + n_t2d_endocrinology &gt; 0, n_t1d_endocrinology &gt; n_t2d_endocrinology, n_t1d_medical &gt; n_t2d_medical)</td>
 <td style="text-align: left;">This is used to classify type 1 diabetes. Endocrinology diagnoses are prioritised if available, otherwise other medical department diagnoses are used. If no diabetes type-specific primary diagnoses are available from an endocrinology or other medical departments, this variable is returned as <code>FALSE</code>.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">has_two_thirds_insulin</td>
 <td style="text-align: left;">Whether two-thirds of GLD doses are insulin doses</td>
 <td style="text-align: left;">(n_insulin_doses / n_gld_doses) &gt;= 2/3</td>
 <td style="text-align: left;">This is used to classify type 1 diabetes. If multiple types of GLD are purchased, this indicates if at least two-thirds are insulin, which is important to determine type 1 diabetes status.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">has_only_insulin_purchases</td>
 <td style="text-align: left;">Whether only insulin was purchased as a GLD</td>
 <td style="text-align: left;">n_insulin_doses &gt;= 1 &amp; n_insulin_doses == n_gld_doses</td>
 <td style="text-align: left;">This is used to classify type 1 diabetes. If only insulin is purchased, this is a strong reason to suspect type 1 diabetes.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">has_insulin_purchases_within_180_days</td>
 <td style="text-align: left;">Whether any insulin was purchased within 180 days of the first purchase of GLD</td>
 <td style="text-align: left;">any(is_insulin_gld_code &amp; date &lt;= (first_gld_date + days(180)))</td>
