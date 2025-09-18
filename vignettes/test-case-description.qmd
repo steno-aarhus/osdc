@@ -235,9 +235,7 @@ and test the subsequent classification into T1D or T2D.
 -   **Logic Tested**: This case mirrors *Case 4*, but since there are no
     type-specific diabetes primary diagnoses from endocrinology
     departments, the diagnoses from other medical departments are
-    evaluated in this case instead. It confirms the logic `oipF` -\>
-    `endoF` -\> `medT` -\> `maj_t1dT` -\> `i180T` -\> `itwo3T` works
-    correctly.
+    evaluated in this case instead.
 -   **Key Data Points**:
     -   Has type-specific diabetes **secondary** diagnoses from
         endocrinology departments, but these are discarded as secondary
@@ -251,6 +249,8 @@ and test the subsequent classification into T1D or T2D.
         case will be incorrectly classified as T2D.
     -   The earliest GLD purchase in `lmdb` satisfies the `i180T` and
         `itwo3T` checks.
+    -   Inclusion date is defined by `pnr08_rec01` in `lpr_adm` (linked
+        to two diabetes diagnosis records in `lpr_diag`)
 
 #### Case 9: `09_t2d_oipF_medT_majt1dT_i180T_itwo3F`
 
@@ -270,6 +270,8 @@ and test the subsequent classification into T1D or T2D.
             the patient only has insulin purchases and falls into the
             insulin monotherapy logic path and is incorrectly classified
             as T1D.
+    -   Inclusion date is defined by records in `lpr_adm` and
+        `lab_forsker`.
 
 #### Case 10: `10_t2d_oipF_medT_majt1dT_i180F_itwo3T`
 
@@ -283,6 +285,8 @@ and test the subsequent classification into T1D or T2D.
     -   The `eksd` dates in `lmdb` for the first GLD purchase (a
         non-insulin GLD, `A10B`) and the second GLD purchase (an
         insulin, `A10A`) are more than 180 days apart.
+    -   Inclusion date is defined by records in `lpr_adm` and
+        `lab_forsker`.
 
 #### Case 11: `11_t2d_oipF_medT_majt1dF_i180T_itwo3T`
 
@@ -303,6 +307,7 @@ and test the subsequent classification into T1D or T2D.
         classification logic) and a majority of T1D-specific primary
         diagnoses from *non-medical* departments (which are also not
         used by the classification logic).
+    -   Inclusion date is defined by records in `lpr_adm`.
 
 ------------------------------------------------------------------------
 
