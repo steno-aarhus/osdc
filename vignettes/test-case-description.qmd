@@ -142,6 +142,7 @@ and test the subsequent classification into T1D or T2D.
         all from non-medical departments, and the type-specific T1D
         diagnosis from an endocrinology department is a secondary
         diagnosis, which is not relevant for type-classification.
+    -   Inclusion date is defined by records in `lpr_adm` and `lmdb`.
 
 #### Case 4: `04_t1d_oipF_endoT_majt1dT_i180T_itwo3T`
 
@@ -165,16 +166,17 @@ and test the subsequent classification into T1D or T2D.
     -   A majority of primary T1D diagnoses (`DE10`) from an
         endocrinology department, which overrules the majority of
         secondary T2D diagnoses (`DE11`).
+    -   Inclusion date is defined by records in `lpr_adm` and `sysi`.
 
 #### Case 5: `05_t2d_oipF_endoT_majt1dT_i180T_itwo3F`
 
 -   **Objective**: To test the failure of the "two-thirds insulin dose"
     rule (`itwo3F`) among mixed-therapy patients.
--   **Logic Tested**: The patient meets all criteria down the T1D path
-    until the final check. The proportion of insulin doses relative to
-    all GLD doses is less than two-thirds (they are equal), causing the
-    classification to fall through to T2D. The logic for PCOS is also
-    tested (see key data points below).
+-   **Logic Tested**: The patient fulfills all other checks for
+    classification as T1D. However, the proportion of insulin doses
+    relative to all GLD doses is less than two-thirds (they are equal),
+    causing the classification to fall through to T2D. The logic for
+    PCOS is also tested (see key data points below).
 -   **Key Data Points**:
     -   THis female case has a metformin (`A10BA02`) purchase in `lmdb`
         with a date (`eksd`) that makes the patient \> 40 years old
@@ -184,6 +186,7 @@ and test the subsequent classification into T1D or T2D.
             this purchase is censored, the patient only has insulin
             purchases and falls into the insulin monotherapy logic path
             and is incorrectly classified as T1D.
+    -   Inclusion date is defined by records in `sssy` and `lpr_adm`.
 
 #### Case 6: `06_t2d_oipF_endoT_majt1dT_i180F_itwo3T`
 
@@ -198,6 +201,8 @@ and test the subsequent classification into T1D or T2D.
     -   `lmdb` records where the `eksd` of the first insulin purchase is
         \>180 days after the `eksd` of the first non-insulin GLD
         purchase.
+    -   Inclusion date is defined by records in `lpr_adm` and
+        `lab_forsker`.
 
 #### Case 7: `07_t2d_oipF_endoT_majt1dF_i180T_itwo3T`
 
@@ -492,3 +497,4 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   GLD purchases in `lmdb` on 1995-06-15 & 1995-06-16 (sets the
         `raw_inclusion_date`).
+
