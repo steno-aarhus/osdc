@@ -1,7 +1,7 @@
 #' Prepare and join the two LPR2 registers to extract diabetes and pregnancy diagnoses.
 #'
 #' The output is used as inputs to `include_diabetes_diagnoses()` and to
-#' `get_pregnancy_dates()` (see exclusion events).
+#' `keep_pregnancy_dates()` (see exclusion events).
 #'
 #' @param lpr_diag The LPR2 register containing diabetes diagnoses.
 #' @param lpr_adm The LPR2 register containing hospital admissions.
@@ -12,7 +12,7 @@
 #'  -   `pnr`: The personal identification variable.
 #'  -   `date`: The date of all the recorded diagnosis (renamed from
 #'      `d_inddto` or `dato_start`).
-#'  -   `is_primary_dx`: Whether the diagnosis was a primary diagnosis.
+#'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary diagnosis.
 #'  -   `is_diabetes_code`: Whether the diagnosis was any type of diabetes.
 #'  -   `is_t1d_code`: Whether the diagnosis was T1D-specific.
 #'  -   `is_t2d_code`: Whether the diagnosis was T2D-specific.
@@ -43,7 +43,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     "lpr2_is_diabetes_code",
     "lpr2_is_endocrinology_dept",
     "lpr2_is_medical_dept",
-    "lpr2_is_primary_dx"
+    "lpr2_is_primary_diagnosis"
   ) |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>
@@ -60,7 +60,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
       # Algorithm needs c_spec to be an integer to work correctly.
       c_spec = as.integer(.data$c_spec),
       date = lubridate::as_date(.data$d_inddto),
-      is_primary_dx = !!logic$lpr2_is_primary_dx,
+      is_primary_diagnosis = !!logic$lpr2_is_primary_diagnosis,
       is_diabetes_code = !!logic$lpr2_is_diabetes_code,
       is_t1d_code = !!logic$lpr2_is_t1d_code,
       is_t2d_code = !!logic$lpr2_is_t2d_code,
@@ -71,7 +71,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     dplyr::select(
       "pnr",
       "date",
-      "is_primary_dx",
+      "is_primary_diagnosis",
       "is_diabetes_code",
       "is_t1d_code",
       "is_t2d_code",
@@ -109,7 +109,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
     "lpr3_is_diabetes_code",
     "lpr3_is_endocrinology_dept",
     "lpr3_is_medical_dept",
-    "lpr3_is_primary_dx"
+    "lpr3_is_primary_diagnosis"
   ) |>
     rlang::set_names() |>
     purrr::map(get_algorithm_logic) |>
@@ -128,7 +128,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
       # Algorithm needs "hovedspeciale_ans" values to be lowercase
       hovedspeciale_ans = tolower(.data$hovedspeciale_ans),
       date = lubridate::as_date(.data$dato_start),
-      is_primary_dx = !!logic$lpr3_is_primary_dx,
+      is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
       is_t1d_code = !!logic$lpr3_is_t1d_code,
       is_t2d_code = !!logic$lpr3_is_t2d_code,
       is_diabetes_code = !!logic$lpr3_is_diabetes_code,
@@ -140,7 +140,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
       # Rename pnr to cpr for consistency with o
       "pnr" = "cpr",
       "date",
-      "is_primary_dx",
+      "is_primary_diagnosis",
       "is_diabetes_code",
       "is_t1d_code",
       "is_t2d_code",

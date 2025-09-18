@@ -47,7 +47,6 @@ url-check:
 
 # Style all R code in the package
 style:
-  # Need to install air first.
   air format .
 
 # Build the pkgdown website
@@ -64,14 +63,6 @@ check:
 install-package:
   #!/usr/bin/env Rscript
   devtools::install()
-
-# Generate svg images from all PlantUML files
-generate-puml-all:
-  docker run --rm -v $(pwd):/puml -w /puml ghcr.io/plantuml/plantuml:1.2024.3 -tsvg "**/*.puml"
-
-# Generate svg image from specific PlantUML file
-generate-puml name:
-  docker run --rm -v  $(pwd):/puml -w /puml ghcr.io/plantuml/plantuml:1.2024.3 -tsvg "**/{{name}}.puml"
 
 # Clean up generated HTML and R files from vignettes
 cleanup-vignettes:

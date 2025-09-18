@@ -99,7 +99,7 @@ classify_diabetes <- function(
     diagnoser = diagnoser
   )
 
-  pregnancy_dates <- get_pregnancy_dates(
+  pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
     lpr3 = lpr3
   )
@@ -108,7 +108,8 @@ classify_diabetes <- function(
   diabetes_diagnoses <- include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
-  )
+  ) |>
+    add_t1d_diagnoses_cols()
 
   podiatrist_services <- include_podiatrist_services(
     sysi = sysi,
@@ -129,7 +130,8 @@ classify_diabetes <- function(
     exclude_pregnancy(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
-    )
+    ) |>
+    add_insulin_purchases_cols()
 
   # Joining into an initial dataset -----
   inclusions <- join_inclusions(
@@ -155,7 +157,7 @@ classify_t1d <- function(data) {
   # data |>
   #   get_has_t1d_primary_diagnosis() |>
   #   get_only_insulin_purchases() |>
-  #   get_majority_of_t1d_primary_diagnosis() |>
+  #   get_majority_of_t1d() |>
   #   get_insulin_purchases_within_180_days() |>
   #   get_insulin_is_two_thirds_of_gld_purchases()
 }

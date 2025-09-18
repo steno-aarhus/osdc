@@ -5,8 +5,10 @@
 #' @importFrom fabricatr draw_binary draw_categorical
 #' @importFrom lifecycle deprecated
 #' @importFrom dplyr na_if
+#' @importFrom dplyr if_else
 #' @importFrom lubridate weeks
 #' @importFrom lubridate years
+#' @importFrom lubridate days
 ## usethis namespace: end
 NULL
 
