@@ -168,7 +168,7 @@ keep_hba1c <- function(lab_forsker) {
 #' register_data <- simulate_registers(c("sysi", "sssy"), 100)
 #' keep_(register_data$sysi, register_data$sssy)
 #' }
-keep_ <- function(sysi, sssy) {
+keep_podiatrist_services <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
 
   sysi |>
