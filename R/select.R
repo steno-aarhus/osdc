@@ -1,8 +1,59 @@
+#' Select the required variables from the register
+#'
+#' This function selects only the required variables, convert to lower case,
+#' and then check that the data types are as expected.
+#'
+#' @param data The register to select columns from.
+#' @param call The environment where the function is called, so that the error
+#'   traceback gives a more meaningful location.
+#' @inheritParams get_required_variables
+#'
+#' @return Outputs the register with only the required variables, and
+#'   with column names in lower case.
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' select_required_variables(simulate_registers("bef")[[1]], "bef")
+#' select_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
+#' }
+select_required_variables <- function(
+  data,
+  register,
+  call = rlang::caller_env()
+) {
+  checkmate::assert_choice(register, get_register_abbrev())
+  expected_variables <- get_required_variables(register)
+
+  data <- data |>
+    column_names_to_lower() |>
+    dplyr::select(tidyselect::all_of(expected_variables))
+
+  check_data_types(data, register, call = call)
+}
+
+#' Convert column names to lower case
+#'
+#' @param data An data frame type object.
+#'
+#' @return The same object type given.
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' tibble::tibble(A = 1:3, B = 4:6) |>
+#'   osdc:::column_names_to_lower()
+#' }
+column_names_to_lower <- function(data) {
+  data |>
+    dplyr::rename_with(tolower)
+}
+
 #' Check data types of the register variables
 #'
 #' @inheritParams get_register_abbrev
 #'
-#' @inherit check_required_variables return
+#' @inherit select_required_variables return
 #' @keywords internal
 #'
 #' @examples
@@ -56,5 +107,5 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
       call = call
     )
   }
-  invisible(TRUE)
+  data
 }

@@ -56,37 +56,15 @@ classify_diabetes <- function(
   lmdb
 ) {
   # Verification step -----
-  check_required_variables(kontakter, "kontakter")
-  check_required_variables(diagnoser, "diagnoser")
-  check_required_variables(lpr_diag, "lpr_diag")
-  check_required_variables(lpr_adm, "lpr_adm")
-  check_required_variables(sysi, "sysi")
-  check_required_variables(sssy, "sssy")
-  check_required_variables(lab_forsker, "lab_forsker")
-  check_required_variables(bef, "bef")
-  check_required_variables(lmdb, "lmdb")
-
-  # Lowercase column names -----
-  kontakter <- column_names_to_lower(kontakter)
-  diagnoser <- column_names_to_lower(diagnoser)
-  lpr_diag <- column_names_to_lower(lpr_diag)
-  lpr_adm <- column_names_to_lower(lpr_adm)
-  sysi <- column_names_to_lower(sysi)
-  sssy <- column_names_to_lower(sssy)
-  lab_forsker <- column_names_to_lower(lab_forsker)
-  bef <- column_names_to_lower(bef)
-  lmdb <- column_names_to_lower(lmdb)
-
-  # Check that data types are as expected -----
-  check_data_types(kontakter, "kontakter")
-  check_data_types(diagnoser, "diagnoser")
-  check_data_types(lpr_diag, "lpr_diag")
-  check_data_types(lpr_adm, "lpr_adm")
-  check_data_types(sysi, "sysi")
-  check_data_types(sssy, "sssy")
-  check_data_types(lab_forsker, "lab_forsker")
-  check_data_types(bef, "bef")
-  check_data_types(lmdb, "lmdb")
+  kontakter <- select_required_variables(kontakter, "kontakter")
+  diagnoser <- select_required_variables(diagnoser, "diagnoser")
+  lpr_diag <- select_required_variables(lpr_diag, "lpr_diag")
+  lpr_adm <- select_required_variables(lpr_adm, "lpr_adm")
+  sysi <- select_required_variables(sysi, "sysi")
+  sssy <- select_required_variables(sssy, "sssy")
+  lab_forsker <- select_required_variables(lab_forsker, "lab_forsker")
+  bef <- select_required_variables(bef, "bef")
+  lmdb <- select_required_variables(lmdb, "lmdb")
 
   # Initially processing -----
   lpr2 <- prepare_lpr2(
@@ -127,7 +105,7 @@ classify_diabetes <- function(
   # Exclusion steps -----
   gld_hba1c_after_exclusions <- gld_purchases |>
     exclude_potential_pcos(bef = bef) |>
-    exclude_pregnancy(
+    exclude_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
     ) |>

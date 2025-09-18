@@ -7,6 +7,24 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.6.2 (2025-09-18)
+
+### Refactor
+
+- 🚚 rename to `exclude_pregnancies()` (#351)
+
+## 0.6.1 (2025-09-18)
+
+### Refactor
+
+- :recycle: "parse, don't verify", select correct columns at start (#345)
+
+## 0.6.0 (2025-09-18)
+
+### Feat
+
+- :sparkles: `classify_t1d()` (#309)
+
 ## 0.5.0 (2025-09-18)
 
 ### Feat

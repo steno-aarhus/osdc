@@ -15,14 +15,14 @@ join_inclusions(
 
 \item{podiatrist_services}{Output from \code{\link[=include_podiatrist_services]{include_podiatrist_services()}}.}
 
-\item{gld_hba1c_after_exclusions}{Output from \code{\link[=exclude_pregnancy]{exclude_pregnancy()}} and
+\item{gld_hba1c_after_exclusions}{Output from \code{\link[=exclude_pregnancies]{exclude_pregnancies()}} and
 \code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}}.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
 with the joined columns from the output of \code{\link[=include_diabetes_diagnoses]{include_diabetes_diagnoses()}},
 \code{\link[=include_podiatrist_services]{include_podiatrist_services()}}, \code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}}, and
-\code{\link[=exclude_pregnancy]{exclude_pregnancy()}}. There will be 1-8 rows per \code{pnr}.
+\code{\link[=exclude_pregnancies]{exclude_pregnancies()}}. There will be 1-8 rows per \code{pnr}.
 }
 \description{
 This function joins the outputs from all the inclusion and exclusion
