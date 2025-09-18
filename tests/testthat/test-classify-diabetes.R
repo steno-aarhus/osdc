@@ -314,12 +314,41 @@ create_test_cases <- function() {
   return(osdc_test_data)
 }
 
-# Test pipeline on edge cases:
+create_expected_inclusions <- function() {
+  tibble::tribble(
+  # Column headers
+  ~pnr,                                     ~stable_inclusion_date, ~raw_inclusion_date, ~diabetes_type,
+  "01_t1d_oipT_anyt1dT",                      "2019-01-01",           "2019-01-01",          "T1D",
+  "02_t2d_oipT_anyt1dF",                      "2012-06-16",           "2012-06-16",          "T2D",
+  "03_t2d_oipF_anyt1dF",                      "2019-03-01",           "2019-03-01",          "T2D",
+  "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",    "1998-01-01",           "1998-01-01",          "T1D",
+  "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",    "2022-03-01",           "2022-03-01",          "T2D",
+  "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",    "2022-09-01",           "2022-09-01",          "T2D",
+  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",    "2022-02-01",           "2022-02-01",          "T2D",
+  "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",     "2023-01-01",           "2023-01-01",          "T1D",
+  "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",     "2023-01-01",           "2023-01-01",          "T2D",
+  "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",     "2022-09-01",           "2022-09-01",          "T2D",
+  "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",     "2000-04-23",           "2000-04-23",          "T2D",
+  "13_t2d_gldF_diagF_hba1cF_podT",            "2000-01-10",           "2000-01-10",          "T2D",
+  "14_t2d_gldF_diagF_hba1cT_podF",            "2013-04-01",           "2013-04-01",          "T2D",
+  "15_t2d_gldF_diagT_hba1cF_podF",            "2023-01-01",           "2023-01-01",          "T2D",
+  "16_t2d_gldT_diagF_hba1cF_podF",            "2013-04-01",           "2013-04-01",          "T2D",
+  "18_t2d_male_pcosF",                        "2023-04-01",           "2023-04-01",          "T2D",
+  "23_t2d_gldT_1995_1999",                    NA,                     "1995-06-16",          "T2D"
 
-test_that("Classifying edge cases produces unexpected outcomes", {
+)
+}
+
+
+# Generate inputs and actual/expected outputs
+# Loop through each pnr value from the input to test each case and provide accurate feedback.
+
+edge_case_tests <- function() {
+  # Create test inputs:
   edge_case_data <- create_test_cases()
 
-  actual <- classify_diabetes(
+  # Generate outputs:
+  actual_included <- classify_diabetes(
     kontakter = edge_case_data$kontakter,
     diagnoser = edge_case_data$diagnoser,
     lpr_diag = edge_case_data$lpr_diag,
@@ -331,33 +360,41 @@ test_that("Classifying edge cases produces unexpected outcomes", {
     lmdb = edge_case_data$lmdb
   )
 
-  # TODO: input the expected output here:
-  expected <- tibble::tribble(
-    # Column headers
-    ~pnr,                                     ~stable_inclusion_date, ~raw_inclusion_date, ~diabetes_type,
-    "01_t1d_oipT_anyt1dT",                      "2019-01-01",           "2019-01-01",          "T1D",
-    "02_t2d_oipT_anyt1dF",                      "2012-06-16",           "2012-06-16",          "T2D",
-    "03_t2d_oipF_anyt1dF",                      "2019-03-01",           "2019-03-01",          "T2D",
-    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",    "1998-01-01",           "1998-01-01",          "T1D",
-    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",    "2022-03-01",           "2022-03-01",          "T2D",
-    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",    "2022-09-01",           "2022-09-01",          "T2D",
-    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",    "2022-02-01",           "2022-02-01",          "T2D",
-    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",     "2023-01-01",           "2023-01-01",          "T1D",
-    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",     "2023-01-01",           "2023-01-01",          "T2D",
-    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",     "2022-09-01",           "2022-09-01",          "T2D",
-    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",     "2000-04-23",           "2000-04-23",          "T2D",
-    "13_t2d_gldF_diagF_hba1cF_podT",            "2000-01-10",           "2000-01-10",          "T2D",
-    "14_t2d_gldF_diagF_hba1cT_podF",            "2013-04-01",           "2013-04-01",          "T2D",
-    "15_t2d_gldF_diagT_hba1cF_podF",            "2023-01-01",           "2023-01-01",          "T2D",
-    "16_t2d_gldT_diagF_hba1cF_podF",            "2013-04-01",           "2013-04-01",          "T2D",
-    "18_t2d_male_pcosF",                        "2023-04-01",           "2023-04-01",          "T2D",
-    "23_t2d_gldT_1995_1999",                    NA,                     "1995-06-16",          "T2D"
+  # Specify expected outputs (included cases):
+  expected_included <- create_expected_inclusions()
 
-  )
 
-  expect_equal(actual, expected)
-})
 
+  # Iterate over the full list of pnr values from the input data
+  for (current_pnr in edge_case_data$bef$pnr) {
+    # Dynamically create a test for each case
+    test_that(paste("Edge case", current_pnr, "is handled incorrectly"), {
+      # Check if the current pnr is one that we expect to be INCLUDED
+      if (current_pnr %in% expected_included$pnr) {
+        # Test 1: Confirm the pnr is actually present in the output
+        expect_true(current_pnr %in% actual_included$pnr, label = "Case should have been included, but was missing from the output.")
+
+        # Filter to get the specific rows to compare
+        actual_case <- actual_included[actual_full$pnr == current_pnr, ]
+        expected_case <- expected_included[expected_included$pnr == current_pnr, ]
+
+        # Test 2: Compare the data for this specific case
+        expect_equal(actual_case, expected_case, label = paste)
+
+      } else {
+        # This block handles cases that should be EXCLUDED
+
+        # Test: Confirm the pnr is absent from the output
+        expect_false(current_pnr %in% actual_full$pnr, label = "Case should have been excluded, but was found in the output.")
+      }
+    })
+  }
+
+}
+
+
+# Run the tests:
+edge_case_tests()
 
 
 
