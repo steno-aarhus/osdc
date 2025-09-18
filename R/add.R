@@ -1,6 +1,6 @@
 #' Add columns for information about insulin drug purchases
 #'
-#' @param gld_purchases The data from [include_gld_purchases()] function.
+#' @param gld_hba1c_after_exclusions The GLD and HbA1c data after exclusions
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()].
 #'   Three new columns are added:
@@ -21,7 +21,7 @@
 #'   include_gld_purchases() |>
 #'   add_insulin_purchases_cols()
 #' }
-add_insulin_purchases_cols <- function(gld_purchases) {
+add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
   logic <- c(
     "is_insulin_gld_code",
     "has_two_thirds_insulin",
@@ -33,7 +33,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
     # To convert the string into an R expression.
     purrr::map(rlang::parse_expr)
 
-  insulin_cols <- gld_purchases |>
+  insulin_cols <- gld_hba1c_after_exclusions |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
@@ -49,7 +49,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
     ) |>
     dplyr::summarise(
       # Get first date of a GLD purchase and if a purchase of insulin occurs
-      # within 180 day of the first purchase.
+      # within 180 days of the first purchase.
       first_gld_date = min(date, na.rm = TRUE),
       has_insulin_purchases_within_180_days = !!logic$has_insulin_purchases_within_180_days,
       # Sum up total doses of insulin and of all GLD.
@@ -74,6 +74,6 @@ add_insulin_purchases_cols <- function(gld_purchases) {
       "has_insulin_purchases_within_180_days"
     )
 
-  gld_purchases |>
+  gld_hba1c_after_exclusions |>
     dplyr::left_join(insulin_cols, by = dplyr::join_by("pnr"))
 }
