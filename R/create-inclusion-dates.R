@@ -52,12 +52,11 @@ create_inclusion_dates <- function(
       "pnr",
       "date",
       # Columns used for classifying T1D.
-      "is_only_insulin_purchases",
-      "is_two_thirds_insulin",
-      "is_insulin_purchases_within_180_days",
-      "is_majority_t1d_dx",
-      "is_any_t1d_primary_dx",
-      "is_primary_dx",
+      "has_only_insulin_purchases",
+      "has_two_thirds_insulin",
+      "has_insulin_purchases_within_180_days",
+      "has_majority_t1d_diagnoses",
+      "has_any_t1d_primary_diagnosis",
       # Inclusion date columns.
       "raw_inclusion_date",
       "stable_inclusion_date",
