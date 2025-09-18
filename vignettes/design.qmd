@@ -95,8 +95,8 @@ rules.
 -   First word is an action verb, later words are objects or conditions.
 -   Exclusion criteria are prefixed with `exclude_`.
 -   Inclusion criteria are prefixed with `include_`.
--   Helpers that get or extract a condition (e.g., "pregnancy") are
-    prefixed with `get_`.
+-   Helpers that add columns needed for classification are
+    prefixed with `add_`.
 -   Helpers that join the output of other functions are prefixed with
     `join_`.
 -   Functions that prepare and process register data are prefixed with
