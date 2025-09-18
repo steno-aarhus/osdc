@@ -170,15 +170,15 @@ The output is a `data.frame` type object which includes four columns:
 
 For an example, see below.
 
-| pnr | stable_inclusion_date | raw_inclusion_date | diabetes_type |
-|-----|-----------------------|--------------------|---------------|
-| 1   | 2020-01-01            | 2020-01-01         | T1D           |
-| 4   | NULL                  | 1995-04-19         | T2D           |
+| pnr | stable_inclusion_date | raw_inclusion_date | has_t1d | has_t1d |
+|-----|-----------------------|--------------------|---------------|--|
+| 1   | 2020-01-01            | 2020-01-01         | FALSE           | TRUE
+| 4   | NA                  | 1995-04-19         | TRUE           | FALSE |
 
 : Example rows of the `data.frame` output of the osdc package.
 
 The individuals `1` and `4` have been classified as having diabetes
-(`T1D` and `T2D`, respectively). `1` is classified as having type 1
+(either `has_t1d` or `has_t2d`, respectively). `1` is classified as having type 1
 diabetes (T1D) with an inclusion date of `2020-01-01`. Since this date
 is within a time-period of sufficient data coverage, the column
 `stable_inclusion_date` is populated with the same date as
