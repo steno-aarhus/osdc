@@ -1,6 +1,6 @@
 #' Add columns for information about insulin drug purchases
 #'
-#' @param gld_purchases The data from [include_gld_purchases()] function.
+#' @param gld_hba1c_after_exclusions The GLD and HbA1c data after exclusions
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()].
 #'   Three new columns are added:
@@ -21,7 +21,7 @@
 #'   include_gld_purchases() |>
 #'   add_insulin_purchases_cols()
 #' }
-add_insulin_purchases_cols <- function(gld_purchases) {
+add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
   logic <- c(
     "is_insulin_gld_code",
     "has_two_thirds_insulin",
@@ -33,7 +33,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
     # To convert the string into an R expression.
     purrr::map(rlang::parse_expr)
 
-  insulin_cols <- gld_purchases |>
+  insulin_cols <- gld_hba1c_after_exclusions |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
@@ -49,7 +49,7 @@ add_insulin_purchases_cols <- function(gld_purchases) {
     ) |>
     dplyr::summarise(
       # Get first date of a GLD purchase and if a purchase of insulin occurs
-      # within 180 day of the first purchase.
+      # within 180 days of the first purchase.
       first_gld_date = min(date, na.rm = TRUE),
       has_insulin_purchases_within_180_days = !!logic$has_insulin_purchases_within_180_days,
       # Sum up total doses of insulin and of all GLD.
@@ -74,6 +74,88 @@ add_insulin_purchases_cols <- function(gld_purchases) {
       "has_insulin_purchases_within_180_days"
     )
 
-  gld_purchases |>
+  gld_hba1c_after_exclusions |>
     dplyr::left_join(insulin_cols, by = dplyr::join_by("pnr"))
+}
+
+#' Add columns related to type 1 diabetes diagnoses
+#'
+#' This function evaluates whether an individual has a majority of type 1
+#' diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
+#' primary diagnoses (DE10 & DE11) from endocrinology departments. If an individual
+#' doesn't have any type-specific diabetes diagnoses from endocrinology departments,
+#' the majority is determined by diagnoses from medical departments.
+#'
+#' It also adds a column indicating whether an individual has at least one
+#' primary diagnosis related to type 1 diabetes.
+#'
+#' This output is passed to the `join_inclusions()` function, where the
+#' `dates` variable is used for the final step of the inclusion process.
+#' The variables for whether the majority of diagnoses are for type 1 diabetes
+#' is used for later classification of type 1 diabetes.
+#'
+#' @param data Data from [include_diabetes_diagnoses()] function.
+#'
+#' @returns The same type as the input data, default as a [tibble::tibble()],
+#'  with the following added columns and up to two rows per individual:
+#'
+#'  -   `has_majority_t1d_diagnoses`: A logical vector indicating whether the
+#'      majority of primary diagnoses are related to type 1 diabetes.
+#'  -   `has_any_t1d_primary_diagnosis`: A logical vector indicating whether
+#'      there is at least one primary diagnosis related to type 1 diabetes.
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+add_t1d_diagnoses_cols <- function(data) {
+  logic <- c(
+    "has_majority_t1d_diagnoses",
+    "has_any_t1d_primary_diagnosis"
+  ) |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
+    # To convert the string into an R expression.
+    purrr::map(rlang::parse_expr)
+
+  data |>
+    # Number of primary diagnoses for either type 1 or 2 diabetes in either
+    # endocrinology or other medical departments, across a person's whole
+    # history.
+    dplyr::mutate(
+      n_t1d_endocrinology = sum(
+        .data$is_t1d_code &
+          .data$is_primary_diagnosis &
+          .data$is_endocrinology_dept,
+        na.rm = TRUE
+      ),
+      n_t2d_endocrinology = sum(
+        .data$is_t2d_code &
+          .data$is_primary_diagnosis &
+          .data$is_endocrinology_dept,
+        na.rm = TRUE
+      ),
+      n_t1d_medical = sum(
+        .data$is_t1d_code & .data$is_primary_diagnosis & .data$is_medical_dept,
+        na.rm = TRUE
+      ),
+      n_t2d_medical = sum(
+        .data$is_t2d_code & .data$is_primary_diagnosis & .data$is_medical_dept,
+        na.rm = TRUE
+      ),
+      .keep = "all",
+      .by = "pnr"
+    ) |>
+    # Convert NA values to 0.
+    dplyr::mutate(
+      dplyr::across(
+        tidyselect::matches("^n_t[12]d_"),
+        \(x) dplyr::coalesce(x, 0)
+      )
+    ) |>
+    # Keep earliest two dates per individual.
+    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr") |>
+    dplyr::mutate(
+      has_majority_t1d_diagnoses = !!logic$has_majority_t1d_diagnoses,
+      has_any_t1d_primary_diagnosis = !!logic$has_any_t1d_primary_diagnosis
+    ) |>
+    dplyr::select(-dplyr::starts_with("n_t"))
 }

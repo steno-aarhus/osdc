@@ -4,10 +4,10 @@
 \alias{add_insulin_purchases_cols}
 \title{Add columns for information about insulin drug purchases}
 \usage{
-add_insulin_purchases_cols(gld_purchases)
+add_insulin_purchases_cols(gld_hba1c_after_exclusions)
 }
 \arguments{
-\item{gld_purchases}{The data from \code{\link[=include_gld_purchases]{include_gld_purchases()}} function.}
+\item{gld_hba1c_after_exclusions}{The GLD and HbA1c data after exclusions}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.

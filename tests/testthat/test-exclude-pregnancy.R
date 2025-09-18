@@ -24,7 +24,7 @@ no_pcos <- register_data$lmdb |>
   add_insulin_purchases_cols() |>
   exclude_potential_pcos(register_data$bef)
 
-preg_dates <- get_pregnancy_dates(lpr2, lpr3)
+preg_dates <- keep_pregnancy_dates(lpr2, lpr3)
 
 hba1c <- include_hba1c(register_data$lab_forsker)
 

@@ -9,7 +9,7 @@ exclude_pregnancy(excluded_pcos, pregnancy_dates, included_hba1c)
 \arguments{
 \item{excluded_pcos}{Output from \code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}}.}
 
-\item{pregnancy_dates}{Output from \code{\link[=get_pregnancy_dates]{get_pregnancy_dates()}}.}
+\item{pregnancy_dates}{Output from \code{\link[=keep_pregnancy_dates]{keep_pregnancy_dates()}}.}
 
 \item{included_hba1c}{Output from \code{\link[=include_hba1c]{include_hba1c()}}.}
 }
@@ -21,7 +21,7 @@ functions.
 }
 \description{
 This function takes the combined outputs from
-\code{\link[=get_pregnancy_dates]{get_pregnancy_dates()}}, \code{\link[=include_hba1c]{include_hba1c()}}, and
+\code{\link[=keep_pregnancy_dates]{keep_pregnancy_dates()}}, \code{\link[=include_hba1c]{include_hba1c()}}, and
 \code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}} and uses diagnoses from LPR2 or LPR3 to
 exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
 these may be due to gestational diabetes, rather than type 1 or type 2
@@ -70,7 +70,7 @@ register_data$lmdb |>
   add_insulin_purchases_cols() |>
   exclude_potential_pcos(register_data$bef) |>
   exclude_pregnancy(
-    get_pregnancy_dates(lpr2, lpr3),
+    keep_pregnancy_dates(lpr2, lpr3),
     include_hba1c(register_data$lab_forsker)
   )
 }
