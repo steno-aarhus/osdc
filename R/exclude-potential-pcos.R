@@ -5,7 +5,7 @@
 #' This function only performs a filtering operation so outputs the same structure and
 #' variables as the input from [include_gld_purchases()], except the addition of a logical
 #' helper variable `no_pcos` that is used in later functions.
-#' After these exclusions are made, the output is used by `exclude_pregnancy()`.
+#' After these exclusions are made, the output is used by `exclude_pregnancies()`.
 #'
 #' @param gld_purchases The output from [include_gld_purchases()].
 #' @param bef The `bef` register.
@@ -25,9 +25,7 @@
 #' )
 #' }
 exclude_potential_pcos <- function(gld_purchases, bef) {
-  logic <- get_algorithm_logic("is_not_metformin_for_pcos") |>
-    # To convert the string into an R expression
-    rlang::parse_expr()
+  logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
 
   # Use the algorithm logic to exclude potential PCOS
   gld_purchases |>
@@ -40,12 +38,7 @@ exclude_potential_pcos <- function(gld_purchases, bef) {
     dplyr::filter(!!logic) |>
     # Keep only the columns we need
     dplyr::select(
-      "pnr",
-      "date",
-      "atc",
-      "contained_doses",
-      "indication_code"
-    ) |>
-    # Add logical helper variable
-    dplyr::mutate(no_pcos = TRUE)
+      -"koen",
+      -"foed_dato"
+    )
 }

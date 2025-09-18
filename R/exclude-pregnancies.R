@@ -1,7 +1,7 @@
 #' Exclude any pregnancy events that could be gestational diabetes.
 #'
 #' This function takes the combined outputs from
-#' [get_pregnancy_dates()], [include_hba1c()], and
+#' [keep_pregnancy_dates()], [include_hba1c()], and
 #' [exclude_potential_pcos()] and uses diagnoses from LPR2 or LPR3 to
 #' exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
@@ -20,7 +20,7 @@
 #'     process.
 #'
 #' @param excluded_pcos Output from [exclude_potential_pcos()].
-#' @param pregnancy_dates Output from [get_pregnancy_dates()].
+#' @param pregnancy_dates Output from [keep_pregnancy_dates()].
 #' @param included_hba1c Output from [include_hba1c()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
@@ -56,20 +56,19 @@
 #' # Exclude pregnancy dates
 #' register_data$lmdb |>
 #'   include_gld_purchases() |>
+#'   add_insulin_purchases_cols() |>
 #'   exclude_potential_pcos(register_data$bef) |>
-#'   exclude_pregnancy(
-#'     get_pregnancy_dates(lpr2, lpr3),
+#'   exclude_pregnancies(
+#'     keep_pregnancy_dates(lpr2, lpr3),
 #'     include_hba1c(register_data$lab_forsker)
 #'   )
 #' }
-exclude_pregnancy <- function(
+exclude_pregnancies <- function(
   excluded_pcos,
   pregnancy_dates,
   included_hba1c
 ) {
-  criteria <- get_algorithm_logic("is_not_within_pregnancy_interval") |>
-    # To convert the string into an R expression.
-    rlang::parse_expr()
+  criteria <- logic_as_expression("is_not_within_pregnancy_interval")[[1]]
 
   # TODO: This should be done at an earlier stage.
   # Ensure both date columns are of type Date.
@@ -84,7 +83,7 @@ exclude_pregnancy <- function(
 
   excluded_pcos |>
     # Row bind to keep rows from excluded_pcos and included_hba1c separate.
-    dplyr::bind_rows(included_hba1c) |>
+    dplyr::left_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
     dplyr::left_join(
       pregnancy_dates,
       by = dplyr::join_by("pnr"),
@@ -103,16 +102,14 @@ exclude_pregnancy <- function(
       all(.data$is_not_within_pregnancy_interval),
       .by = c("pnr", "date")
     ) |>
-    # Select relevant columns.
+    # Drop columns that were only used here.
     dplyr::select(
-      "pnr",
-      "date",
-      "contained_doses"
+      -"pregnancy_event_date",
+      -"has_pregnancy_event",
+      -"is_not_within_pregnancy_interval"
     ) |>
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a
     # row that falls outside all of them.
-    dplyr::distinct() |>
-    # Add logical helper variable.
-    dplyr::mutate(no_pregnancy = TRUE)
+    dplyr::distinct()
 }

@@ -7,6 +7,54 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.6.3 (2025-09-18)
+
+### Refactor
+
+- :recycle: convert logic parsing code into its own function (#350)
+
+## 0.6.2 (2025-09-18)
+
+### Refactor
+
+- 🚚 rename to `exclude_pregnancies()` (#351)
+
+## 0.6.1 (2025-09-18)
+
+### Refactor
+
+- :recycle: "parse, don't verify", select correct columns at start (#345)
+
+## 0.6.0 (2025-09-18)
+
+### Feat
+
+- :sparkles: `classify_t1d()` (#309)
+
+## 0.5.0 (2025-09-18)
+
+### Feat
+
+- ✨ `add_t1d_diagnoses_cols()` (#288)
+
+## 0.4.2 (2025-09-18)
+
+### Refactor
+
+- :truck: rename to `keep_`, not `get_` for pregnancy dates (#346)
+
+## 0.4.1 (2025-09-18)
+
+### Refactor
+
+- ♻️ move `add_insulin_purchases_cols()` down to after exclusions (#338)
+
+## 0.4.0 (2025-09-16)
+
+### Feat
+
+- :sparkles: `add_insulin_purchases_cols()` (#296)
+
 ## 0.3.4 (2025-08-27)
 
 ### Refactor

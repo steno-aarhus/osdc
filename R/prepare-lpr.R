@@ -1,7 +1,7 @@
 #' Prepare and join the two LPR2 registers to extract diabetes and pregnancy diagnoses.
 #'
 #' The output is used as inputs to `include_diabetes_diagnoses()` and to
-#' `get_pregnancy_dates()` (see exclusion events).
+#' `keep_pregnancy_dates()` (see exclusion events).
 #'
 #' @param lpr_diag The LPR2 register containing diabetes diagnoses.
 #' @param lpr_adm The LPR2 register containing hospital admissions.
@@ -45,10 +45,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     "lpr2_is_medical_dept",
     "lpr2_is_primary_diagnosis"
   ) |>
-    rlang::set_names() |>
-    purrr::map(get_algorithm_logic) |>
-    # To convert the string into an R expression
-    purrr::map(rlang::parse_expr)
+    logic_as_expression()
 
   lpr_diag |>
     dplyr::filter(!!logic$lpr2_is_needed_code) |>
@@ -111,10 +108,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
     "lpr3_is_medical_dept",
     "lpr3_is_primary_diagnosis"
   ) |>
-    rlang::set_names() |>
-    purrr::map(get_algorithm_logic) |>
-    # To convert the string into an R expression
-    purrr::map(rlang::parse_expr)
+    logic_as_expression()
 
   diagnoser |>
     # Only keep relevant diagnoses

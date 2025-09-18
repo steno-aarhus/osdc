@@ -56,37 +56,15 @@ classify_diabetes <- function(
   lmdb
 ) {
   # Verification step -----
-  check_required_variables(kontakter, "kontakter")
-  check_required_variables(diagnoser, "diagnoser")
-  check_required_variables(lpr_diag, "lpr_diag")
-  check_required_variables(lpr_adm, "lpr_adm")
-  check_required_variables(sysi, "sysi")
-  check_required_variables(sssy, "sssy")
-  check_required_variables(lab_forsker, "lab_forsker")
-  check_required_variables(bef, "bef")
-  check_required_variables(lmdb, "lmdb")
-
-  # Lowercase column names -----
-  kontakter <- column_names_to_lower(kontakter)
-  diagnoser <- column_names_to_lower(diagnoser)
-  lpr_diag <- column_names_to_lower(lpr_diag)
-  lpr_adm <- column_names_to_lower(lpr_adm)
-  sysi <- column_names_to_lower(sysi)
-  sssy <- column_names_to_lower(sssy)
-  lab_forsker <- column_names_to_lower(lab_forsker)
-  bef <- column_names_to_lower(bef)
-  lmdb <- column_names_to_lower(lmdb)
-
-  # Check that data types are as expected -----
-  check_data_types(kontakter, "kontakter")
-  check_data_types(diagnoser, "diagnoser")
-  check_data_types(lpr_diag, "lpr_diag")
-  check_data_types(lpr_adm, "lpr_adm")
-  check_data_types(sysi, "sysi")
-  check_data_types(sssy, "sssy")
-  check_data_types(lab_forsker, "lab_forsker")
-  check_data_types(bef, "bef")
-  check_data_types(lmdb, "lmdb")
+  kontakter <- select_required_variables(kontakter, "kontakter")
+  diagnoser <- select_required_variables(diagnoser, "diagnoser")
+  lpr_diag <- select_required_variables(lpr_diag, "lpr_diag")
+  lpr_adm <- select_required_variables(lpr_adm, "lpr_adm")
+  sysi <- select_required_variables(sysi, "sysi")
+  sssy <- select_required_variables(sssy, "sssy")
+  lab_forsker <- select_required_variables(lab_forsker, "lab_forsker")
+  bef <- select_required_variables(bef, "bef")
+  lmdb <- select_required_variables(lmdb, "lmdb")
 
   # Initially processing -----
   lpr2 <- prepare_lpr2(
@@ -99,7 +77,7 @@ classify_diabetes <- function(
     diagnoser = diagnoser
   )
 
-  pregnancy_dates <- get_pregnancy_dates(
+  pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
     lpr3 = lpr3
   )
@@ -108,7 +86,8 @@ classify_diabetes <- function(
   diabetes_diagnoses <- include_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
-  )
+  ) |>
+    add_t1d_diagnoses_cols()
 
   podiatrist_services <- include_podiatrist_services(
     sysi = sysi,
@@ -126,9 +105,14 @@ classify_diabetes <- function(
   # Exclusion steps -----
   gld_hba1c_after_exclusions <- gld_purchases |>
     exclude_potential_pcos(bef = bef) |>
-    exclude_pregnancy(
+    exclude_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
+    ) |>
+    add_insulin_purchases_cols() |>
+    dplyr::select(
+      -"atc",
+      -"indication_code",
     )
 
   # Joining into an initial dataset -----
@@ -138,9 +122,18 @@ classify_diabetes <- function(
     gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
   )
 
-  # inclusions |>
-  #   create_inclusion_dates() |>
-  #   classify_t1d()
+  inclusions |>
+    # create_inclusion_dates() |>
+    classify_t1d() |>
+    # If has_t1d is NA, t2d will also be NA
+    dplyr::mutate(has_t2d = !.data$has_t1d) |>
+    dplyr::select(
+      "pnr",
+      # "stable_inclusion_date",
+      # "raw_inclusion_date",
+      "has_t1d",
+      "has_t2d"
+    )
 }
 
 #' After inclusion and exclusion, classify those with type 1 diabetes.
@@ -152,10 +145,13 @@ classify_diabetes <- function(
 #' @keywords internal
 #'
 classify_t1d <- function(data) {
-  # data |>
-  #   get_has_t1d_primary_diagnosis() |>
-  #   get_only_insulin_purchases() |>
-  #   get_majority_of_t1d_primary_diagnosis() |>
-  #   get_insulin_purchases_within_180_days() |>
-  #   get_insulin_is_two_thirds_of_gld_purchases()
+  logic <- c(
+    "has_t1d"
+  ) |>
+    logic_as_expression()
+
+  data |>
+    dplyr::mutate(
+      has_t1d = !!logic$has_t1d
+    )
 }

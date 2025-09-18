@@ -32,7 +32,7 @@ non-endocrinology medical department.
 }
 \description{
 The output is used as inputs to \code{include_diabetes_diagnoses()} and to
-\code{get_pregnancy_dates()} (see exclusion events).
+\code{keep_pregnancy_dates()} (see exclusion events).
 }
 \examples{
 \dontrun{
