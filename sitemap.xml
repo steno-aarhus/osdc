@@ -35,7 +35,6 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/exclude_pregnancy.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/fct_to_chr.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_algorithm_logic.html</loc></url>
-<url><loc>https://steno-aarhus.github.io/osdc/reference/get_pregnancy_dates.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_register_abbrev.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_required_variables.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/include_diabetes_diagnoses.html</loc></url>
@@ -48,6 +47,7 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/insert_specific_atc.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/insertion_rate.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/join_inclusions.html</loc></url>
+<url><loc>https://steno-aarhus.github.io/osdc/reference/keep_pregnancy_dates.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/osdc-package.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/pad_integers.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/prepare_lpr2.html</loc></url>

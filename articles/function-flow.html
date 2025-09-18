@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -103,8 +103,8 @@
     kontakter --&gt; prepare_lpr3["prepare_lpr3()"]
     diagnoser --&gt; prepare_lpr3
 
-    prepare_lpr2 --&gt; get_pregnancy_dates["get_pregnancy_dates()"]
-    prepare_lpr3 --&gt; get_pregnancy_dates
+    prepare_lpr2 --&gt; keep_pregnancy_dates["keep_pregnancy_dates()"]
+    prepare_lpr3 --&gt; keep_pregnancy_dates
 
     %% Inclusion steps
     sysi --&gt; include_podiatrist_services["include_podiatrist_services()"]:::include
@@ -123,7 +123,7 @@
     bef --&gt; exclude_potential_pcos
 
     exclude_potential_pcos --&gt; exclude_pregnancy["exclude_pregnancy()"]:::exclude
-    get_pregnancy_dates --&gt; exclude_pregnancy
+    keep_pregnancy_dates --&gt; exclude_pregnancy
     include_hba1c --&gt; exclude_pregnancy
     exclude_pregnancy --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
@@ -135,7 +135,7 @@
     join_inclusions --&gt; create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --&gt; classify_t1d["classify_t1d()"]
 
-    get_pregnancy_dates ~~~ exclude_potential_pcos
+    keep_pregnancy_dates ~~~ exclude_potential_pcos
 
   end
 
