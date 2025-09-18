@@ -15,7 +15,6 @@
 #'
 #' @examples
 #' \dontrun{
-#' # TODO: Replace with simulated data.
 #' select_required_variables(simulate_registers("bef")[[1]], "bef")
 #' select_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
 #' }
@@ -34,7 +33,7 @@ select_required_variables <- function(
   check_data_types(data, register, call = call)
 }
 
-#' Convert column names to lower case.
+#' Convert column names to lower case
 #'
 #' @param data An data frame type object.
 #'
