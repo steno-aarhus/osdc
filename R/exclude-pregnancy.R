@@ -94,9 +94,7 @@ exclude_pregnancy <- function(
     # Apply the criteria to flag rows that are within the pregnancy interval.
     dplyr::mutate(
       is_not_within_pregnancy_interval = !!criteria
-    )
-
-  data |>
+    ) |>
     # Group by pnr and date to ensure the row is dropped if it falls within
     # *any* pregnancy interval. This prevents mistakenly keeping a row just
     # because it falls outside one pregnancy window, when it may still fall
@@ -115,6 +113,5 @@ exclude_pregnancy <- function(
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a
     # row that falls outside all of them.
-    dplyr::distinct() |>
-    dplyr::left_join(data, by = dplyr::join_by("pnr", "date"))
+    dplyr::distinct()
 }
