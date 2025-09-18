@@ -131,7 +131,11 @@ classify_diabetes <- function(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
     ) |>
-    add_insulin_purchases_cols()
+    add_insulin_purchases_cols() |>
+    dplyr::select(
+      -"atc",
+      -"indication_code",
+    )
 
   # Joining into an initial dataset -----
   inclusions <- join_inclusions(
@@ -142,7 +146,16 @@ classify_diabetes <- function(
 
   inclusions |>
     create_inclusion_dates() # |>
-  #   classify_t1d()
+    classify_t1d() |>
+    # If has_t1d is NA, t2d will also be NA
+    dplyr::mutate(has_t2d = !.data$has_t1d) |>
+    dplyr::select(
+      "pnr",
+      # "stable_inclusion_date",
+      # "raw_inclusion_date",
+      "has_t1d",
+      "has_t2d"
+    )
 }
 
 #' After inclusion and exclusion, classify those with type 1 diabetes.
@@ -154,10 +167,16 @@ classify_diabetes <- function(
 #' @keywords internal
 #'
 classify_t1d <- function(data) {
-  # data |>
-  #   get_has_t1d_primary_diagnosis() |>
-  #   get_only_insulin_purchases() |>
-  #   get_majority_of_t1d() |>
-  #   get_insulin_purchases_within_180_days() |>
-  #   get_insulin_is_two_thirds_of_gld_purchases()
+  logic <- c(
+    "has_t1d"
+  ) |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
+    # To convert the string into an R expression
+    purrr::map(rlang::parse_expr)
+
+  data |>
+    dplyr::mutate(
+      has_t1d = !!logic$has_t1d
+    )
 }

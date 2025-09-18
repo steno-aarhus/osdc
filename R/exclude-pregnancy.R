@@ -85,7 +85,7 @@ exclude_pregnancy <- function(
 
   excluded_pcos |>
     # Row bind to keep rows from excluded_pcos and included_hba1c separate.
-    dplyr::bind_rows(included_hba1c) |>
+    dplyr::left_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
     dplyr::left_join(
       pregnancy_dates,
       by = dplyr::join_by("pnr"),
@@ -104,13 +104,11 @@ exclude_pregnancy <- function(
       all(.data$is_not_within_pregnancy_interval),
       .by = c("pnr", "date")
     ) |>
-    # Select relevant columns.
+    # Drop columns that were only used here.
     dplyr::select(
-      "pnr",
-      "date",
-      "volume",
-      "atc",
-      "apk"
+      -"pregnancy_event_date",
+      -"has_pregnancy_event",
+      -"is_not_within_pregnancy_interval"
     ) |>
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a
