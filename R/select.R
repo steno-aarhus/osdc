@@ -1,9 +1,9 @@
 #' Select the required variables from the register
 #'
-#' Use this function to select only the required variables, convert to lower case,
+#' This function selects only the required variables, convert to lower case,
 #' and then check that the data types are as expected.
 #'
-#' @param data The dataset to check.
+#' @param data The register to select columns from.
 #' @param call The environment where the function is called, so that the error
 #'   traceback gives a more meaningful location.
 #' @inheritParams get_required_variables
