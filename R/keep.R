@@ -15,9 +15,9 @@
 #' )
 #' lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag)
 #' lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
-#' get_pregnancy_dates(lpr2, lpr3)
+#' keep_pregnancy_dates(lpr2, lpr3)
 #' }
-get_pregnancy_dates <- function(lpr2, lpr3) {
+keep_pregnancy_dates <- function(lpr2, lpr3) {
   lpr2 |>
     dplyr::bind_rows(lpr3) |>
     dplyr::filter(.data$is_pregnancy_code) |>

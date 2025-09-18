@@ -99,7 +99,7 @@ classify_diabetes <- function(
     diagnoser = diagnoser
   )
 
-  pregnancy_dates <- get_pregnancy_dates(
+  pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
     lpr3 = lpr3
   )
