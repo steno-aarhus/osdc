@@ -83,9 +83,9 @@ exclude_pregnancy <- function(
       date = lubridate::as_date(.data$date)
     )
 
-  data <- excluded_pcos |>
+  excluded_pcos |>
     # Row bind to keep rows from excluded_pcos and included_hba1c separate.
-    dplyr::bind_rows(included_hba1c) |>
+    dplyr::left_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
     dplyr::left_join(
       pregnancy_dates,
       by = dplyr::join_by("pnr"),
