@@ -82,7 +82,7 @@ flowchart TD
   end
 
   %% Styling
-  classDef default fill:#EEEEEE,color:#000000
+  classDef default fill:#EEEEEE,color:#000000,stroke:#000000
   classDef include fill:lightblue
   classDef exclude fill:orange
   style classify_diabetes fill:#FFFFFF,color:#000000
