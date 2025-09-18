@@ -376,10 +376,10 @@
 <div class="cell-output-display">
 <table class="table caption-top">
 <colgroup>
-<col style="width: 8%">
-<col style="width: 17%">
-<col style="width: 33%">
-<col style="width: 41%">
+<col style="width: 6%">
+<col style="width: 13%">
+<col style="width: 26%">
+<col style="width: 52%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
@@ -405,6 +405,18 @@
 <td style="text-align: left;">Metformin purchases that aren’t potentially for the treatment of PCOS</td>
 <td style="text-align: left;">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date - foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’, ‘0000276’, ‘0000781’)))</td>
 <td style="text-align: left;">Woman is defined as 2 in <code>koen</code>.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">has_any_t1d_primary_diagnosis</td>
+<td style="text-align: left;">Any primary diagnosis for type 1 diabetes</td>
+<td style="text-align: left;">(n_t1d_endocrinology + n_t1d_medical) &gt;= 1</td>
+<td style="text-align: left;">This is used to classify type 1 diabetes. Naturally, having any type 1 diabetes diagnosis is indicative of type 1 diabetes.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">has_majority_t1d_diagnoses</td>
+<td style="text-align: left;">Determine if the majority of diagnoses are for type 1 diabetes</td>
+<td style="text-align: left;">if_else(n_t1d_endocrinology + n_t2d_endocrinology &gt; 0, n_t1d_endocrinology &gt; n_t2d_endocrinology, n_t1d_medical &gt; n_t2d_medical)</td>
+<td style="text-align: left;">This is used to classify type 1 diabetes. Endocrinology diagnoses are prioritised if available, otherwise other medical department diagnoses are used. If no diabetes type-specific primary diagnoses are available from an endocrinology or other medical departments, this variable is returned as <code>FALSE</code>.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">has_two_thirds_insulin</td>

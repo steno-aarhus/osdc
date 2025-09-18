@@ -112,7 +112,7 @@
 
     prepare_lpr2 --&gt; include_diabetes_diagnoses["include_diabetes_diagnoses()"]:::include
     prepare_lpr3 --&gt; include_diabetes_diagnoses
-    include_diabetes_diagnoses --&gt; add_majority_t1d_diagnosis_col["add_majority_t1d_diagnosis_col()"]
+    include_diabetes_diagnoses --&gt; add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
 
     lmdb --&gt; include_gld_purchases["include_gld_purchases()"]:::include
 
@@ -128,7 +128,7 @@
     exclude_pregnancy --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
     %% Joining
-    add_majority_t1d_diagnosis_col --&gt; join_inclusions["join_inclusions()"]
+    add_t1d_diagnoses_cols --&gt; join_inclusions["join_inclusions()"]
     include_podiatrist_services --&gt; join_inclusions
     add_insulin_purchases_cols --&gt; join_inclusions
 
