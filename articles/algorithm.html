@@ -377,9 +377,9 @@
 <table class="table caption-top">
 <colgroup>
 <col style="width: 8%">
-<col style="width: 15%">
+<col style="width: 17%">
 <col style="width: 33%">
-<col style="width: 42%">
+<col style="width: 41%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
@@ -420,9 +420,9 @@
 </tr>
 <tr class="even">
 <td style="text-align: left;">has_insulin_purchases_within_180_days</td>
-<td style="text-align: left;">Any insulin purchases within 180 days of the first purchase of GLD</td>
-<td style="text-align: left;">is_insulin_gld_code &amp; date &lt;= (first_gld_date + days(180))</td>
-<td style="text-align: left;">This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes.</td>
+<td style="text-align: left;">Whether any insulin was purchased within 180 days of the first purchase of GLD</td>
+<td style="text-align: left;">any(is_insulin_gld_code &amp; date &lt;= (first_gld_date + days(180)))</td>
+<td style="text-align: left;">This is used to classify type 1 diabetes. It determines if any insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes.</td>
 </tr>
 </tbody>
 </table>
