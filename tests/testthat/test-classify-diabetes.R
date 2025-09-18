@@ -321,7 +321,7 @@ create_expected_inclusions <- function() {
   "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",    NA,                    "1996-01-15",          "T1D",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",    "2013-02-21",           "2013-02-21",          "T2D",
   "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",    "2019-01-01",           "2019-01-01",          "T2D",
-  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",    "2022-02-01",           "2022-02-01",          "T2D",
+  "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",    "2012-04-23",           "2012-04-23",          "T2D",
   "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",     "2023-01-01",           "2023-01-01",          "T1D",
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",     "2023-01-01",           "2023-01-01",          "T2D",
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",     "2022-09-01",           "2022-09-01",          "T2D",

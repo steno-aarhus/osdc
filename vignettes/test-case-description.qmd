@@ -224,6 +224,8 @@ and test the subsequent classification into T1D or T2D.
         diagnoses from *non-endocrinology* departments (which are
         overruled by the presence of type-specific primary diagnoses
         from endocrinology departments).
+    -   Inclusion date is defined by `pnr07_rec01` in `lpr_adm` (linked
+        to two diabetes diagnosis records in `lpr_diag`)
 
 #### Case 8: `08_t1d_oipF_medT_majt1dT_i180T_itwo3T`
 
@@ -497,4 +499,3 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   GLD purchases in `lmdb` on 1995-06-15 & 1995-06-16 (sets the
         `raw_inclusion_date`).
-
