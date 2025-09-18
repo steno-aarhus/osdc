@@ -171,7 +171,7 @@ algorithm <- function() {
     has_insulin_purchases_within_180_days = list(
       register = NA,
       title = "Whether any insulin was purchased within 180 days of the first purchase of GLD",
-      logic = "ANY (is_insulin_gld_code & date <= (first_gld_date + days(180)))",
+      logic = "any(is_insulin_gld_code & date <= (first_gld_date + days(180)))",
       comments = "This is used to classify type 1 diabetes. It determines if any insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
     )
   )
@@ -202,7 +202,6 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
     stringr::str_replace_all("AND", "&") |>
     stringr::str_replace_all("OR", "|") |>
     stringr::str_replace_all("NOT", "!") |>
-    stringr::str_replace_all("ANY", "any") |>
     # regex are defined with '=~', so convert them into a stringr function.
     stringr::str_replace_all(
       "([a-zA-Z0-9_]+) \\=\\~ '(.*?)'",
