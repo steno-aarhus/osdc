@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.5.0 (2025-09-18)
+
+### Feat
+
+- ✨ `add_t1d_diagnoses_cols()` (#288)
+
 ## 0.4.2 (2025-09-18)
 
 ### Refactor
