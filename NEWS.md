@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.4.2 (2025-09-18)
+
+### Refactor
+
+- :truck: rename to `keep_`, not `get_` for pregnancy dates (#346)
+
 ## 0.4.1 (2025-09-18)
 
 ### Refactor
