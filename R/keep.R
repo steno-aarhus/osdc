@@ -106,7 +106,7 @@ keep_gld_purchases <- function(lmdb) {
 #' same day within each individual are deduplicated, to account for the same
 #' test result often being reported twice (one for IFCC, one for DCCT units).
 #'
-#' The output is passed to the `exclude_pregnancies()` function for
+#' The output is passed to the `drop_pregnancies()` function for
 #' filtering of elevated results due to potential gestational diabetes (see
 #' below).
 #'

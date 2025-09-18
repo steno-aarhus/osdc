@@ -16,11 +16,11 @@ gld_purchases <- simulate_registers("lmdb", 1000)[[1]] |>
 
 test_that("bef needs expected variables", {
   bef <- bef[-2]
-  expect_error(exclude_potential_pcos(gld_purchases, bef))
+  expect_error(drop_potential_pcos(gld_purchases, bef))
 })
 
 test_that("at least 1 'case' is removed using the simulated data", {
-  actual <- exclude_potential_pcos(gld_purchases, bef)
-  # Should be at least one row less after exclusion.
+  actual <- drop_potential_pcos(gld_purchases, bef)
+  # Should be at least one row less after dropping rows.
   expect_true(nrow(actual) <= nrow(gld_purchases) - 1)
 })

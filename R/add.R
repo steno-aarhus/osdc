@@ -1,6 +1,6 @@
 #' Add columns for information about insulin drug purchases
 #'
-#' @param gld_hba1c_after_exclusions The GLD and HbA1c data after exclusions
+#' @param gld_hba1c_after_drop_steps The GLD and HbA1c data after drop steps
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()].
 #'   Three new columns are added:
@@ -21,7 +21,7 @@
 #'   keep_gld_purchases() |>
 #'   add_insulin_purchases_cols()
 #' }
-add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
+add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
   logic <- c(
     "is_insulin_gld_code",
     "has_two_thirds_insulin",
@@ -30,7 +30,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
   ) |>
     logic_as_expression()
 
-  insulin_cols <- gld_hba1c_after_exclusions |>
+  insulin_cols <- gld_hba1c_after_drop_steps |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
@@ -71,7 +71,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
       "has_insulin_purchases_within_180_days"
     )
 
-  gld_hba1c_after_exclusions |>
+  gld_hba1c_after_drop_steps |>
     dplyr::left_join(insulin_cols, by = dplyr::join_by("pnr"))
 }
 

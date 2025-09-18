@@ -1,11 +1,11 @@
-#' Exclude metformin purchases potentially for the treatment of polycystic ovary syndrome.
+#' Drop rows with metformin purchases that are potentially for the treatment of polycystic ovary syndrome.
 #'
 #' Takes the output from [keep_gld_purchases()] and `bef` (information on sex and date
 #' of birth) to do the exclusions.
 #' This function only performs a filtering operation so outputs the same structure and
 #' variables as the input from [keep_gld_purchases()], except the addition of a logical
 #' helper variable `no_pcos` that is used in later functions.
-#' After these exclusions are made, the output is used by `exclude_pregnancies()`.
+#' After these exclusions are made, the output is used by `drop_pregnancies()`.
 #'
 #' @param gld_purchases The output from [keep_gld_purchases()].
 #' @param bef The `bef` register.
@@ -19,15 +19,15 @@
 #' @examples
 #' \dontrun{
 #' register_data <- simulate_registers(c("lmdb", "bef"), 100)
-#' exclude_potential_pcos(
+#' drop_potential_pcos(
 #'   gld_purchases = keep_gld_purchases(register_data$lmdb),
 #'   bef = register_data$bef
 #' )
 #' }
-exclude_potential_pcos <- function(gld_purchases, bef) {
+drop_potential_pcos <- function(gld_purchases, bef) {
   logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
 
-  # Use the algorithm logic to exclude potential PCOS
+  # Use the algorithm logic to drop potential PCOS
   gld_purchases |>
     dplyr::inner_join(bef, by = dplyr::join_by("pnr")) |>
     dplyr::mutate(

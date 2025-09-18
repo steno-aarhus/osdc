@@ -22,7 +22,7 @@ for layout purposes to help position the nodes.
 
 ```{mermaid}
 %%| eval: true
-%%| fig-cap: "Flow of functions in, as well as their required input registers, in the `classify_diabetes()` function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively)."
+%%| fig-cap: "Flow of functions in, as well as their required input registers, in the `classify_diabetes()` function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (`keep_*` and `drop_*`, respectively)."
 
 flowchart TD
   subgraph data_sources["Data sources"]
@@ -48,7 +48,7 @@ flowchart TD
     prepare_lpr2 --> keep_pregnancy_dates["keep_pregnancy_dates()"]
     prepare_lpr3 --> keep_pregnancy_dates
 
-    %% Inclusion steps
+    %% Keep
     sysi --> keep_podiatrist_services["keep_podiatrist_services()"]:::include
     sssy --> keep_podiatrist_services
 
@@ -60,16 +60,16 @@ flowchart TD
 
     lab_forsker --> keep_hba1c["keep_hba1c()"]:::include
 
-    %% Exclusion steps
-    keep_gld_purchases --> exclude_potential_pcos["exclude_potential_pcos()"]:::exclude
-    bef --> exclude_potential_pcos
+    %% Drop
+    keep_gld_purchases --> drop_potential_pcos["drop_potential_pcos()"]:::drop
+    bef --> drop_potential_pcos
 
-    exclude_potential_pcos --> exclude_pregnancies["exclude_pregnancies()"]:::exclude
-    keep_pregnancy_dates --> exclude_pregnancies
-    keep_hba1c --> exclude_pregnancies
-    exclude_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+    drop_potential_pcos --> drop_pregnancies["drop_pregnancies()"]:::drop
+    keep_pregnancy_dates --> drop_pregnancies
+    keep_hba1c --> drop_pregnancies
+    drop_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
-    %% Joining
+    %% Join and classify
     add_t1d_diagnoses_cols --> join_inclusions["join_inclusions()"]
     keep_podiatrist_services --> join_inclusions
     add_insulin_purchases_cols --> join_inclusions
@@ -77,23 +77,23 @@ flowchart TD
     join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --> classify_t1d["classify_t1d()"]
 
-    keep_pregnancy_dates ~~~ exclude_potential_pcos
+    keep_pregnancy_dates ~~~ drop_potential_pcos
 
   end
 
   %% Styling
   classDef default fill:#EEEEEE, color:#000000, stroke:#000000
   classDef include fill:lightblue
-  classDef exclude fill:orange
+  classDef drop fill:orange
   style classify_diabetes fill:#FFFFFF, color:#000000
   style data_sources fill:#FFFFFF, color:#000000, stroke-width:0px
 ```
 
-The sections below are split into functions for inclusion and exclusion
+The sections below are split into functions for keeping and dropping events
 as well as functions for determining the final diagnosis date and
 eventual classification of type 1 and type 2 diabetes.
 
-## Inclusion events
+## Keep events
 
 -   `prepare_lpr2()`: See `?prepare_lpr2` for more information.
 -   `prepare_lpr3()`: See `?prepare_lpr3` for more information.
@@ -114,17 +114,17 @@ See `?keep_hba1c` for more information.
 
 See `?keep_gld_purchases` for more information.
 
-## Exclusion events
+## Drop events
 
-### `exclude_potential_pcos()`
+### `drop_potential_pcos()`
 
-See `?exclude_potential_pcos` for more information.
+See `?drop_potential_pcos` for more information.
 
-### `exclude_pregnancies()`
+### `drop_pregnancies()`
 
-See `?exclude_pregnancies` for more information.
+See `?drop_pregnancies` for more information.
 
-## Joining inclusions and exclusions
+## Joining events and classifying diabetes
 
 ### `join_inclusions()`
 
@@ -150,7 +150,7 @@ See `?join_inclusions` for more information.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'   along with the `purchase_date`, and `atc` columns from
-#'   `exclude_pregnancies()`, and the `n_t1d_endocrinology`,
+#'   `drop_pregnancies()`, and the `n_t1d_endocrinology`,
 #'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from
 #'   `keep_diabetes_diagnoses()`. It also creates two new columns:
 #'
@@ -184,7 +184,7 @@ create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "19
       "raw_inclusion_date",
       "stable_inclusion_date",
 
-      # From `exclude_pregnancies()` via the GLD purchases
+      # From `drop_pregnancies()` via the GLD purchases
       # TODO: this might need to be renamed in a previous step, rather than here.
       "purchase_date" = "date",
       "atc",

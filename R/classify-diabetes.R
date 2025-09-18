@@ -81,7 +81,7 @@ classify_diabetes <- function(
     lpr3 = lpr3
   )
 
-  # Inclusion steps -----
+  # Keep steps -----
   diabetes_diagnoses <- keep_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
@@ -101,10 +101,10 @@ classify_diabetes <- function(
     lab_forsker = lab_forsker
   )
 
-  # Exclusion steps -----
-  gld_hba1c_after_exclusions <- gld_purchases |>
-    exclude_potential_pcos(bef = bef) |>
-    exclude_pregnancies(
+  # Drop steps -----
+  gld_hba1c_after_drop_steps <- gld_purchases |>
+    drop_potential_pcos(bef = bef) |>
+    drop_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
     ) |>
@@ -118,7 +118,7 @@ classify_diabetes <- function(
   inclusions <- join_inclusions(
     diabetes_diagnoses = diabetes_diagnoses,
     podiatrist_services = podiatrist_services,
-    gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
+    gld_hba1c_after_drop_steps = gld_hba1c_after_drop_steps
   )
 
   inclusions |>
@@ -135,9 +135,9 @@ classify_diabetes <- function(
     )
 }
 
-#' After inclusion and exclusion, classify those with type 1 diabetes.
+#' After filtering, classify those with type 1 diabetes.
 #'
-#' @param data Joined data output from the inclusion and exclusion steps.
+#' @param data Joined data output from the filtering steps.
 #'
 #' @return The same object type as the input data, which would be a
 #'   [tibble::tibble()] type object.
