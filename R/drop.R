@@ -110,9 +110,10 @@ drop_potential_pcos <- function(gld_purchases, bef) {
 #'   )
 #' }
 drop_pregnancies <- function(
-    dropped_pcos,
-    pregnancy_dates,
-    included_hba1c) {
+  dropped_pcos,
+  pregnancy_dates,
+  included_hba1c
+) {
   criteria <- logic_as_expression("is_not_within_pregnancy_interval")[[1]]
 
   # TODO: This should be done at an earlier stage.
