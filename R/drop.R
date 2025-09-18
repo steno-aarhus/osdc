@@ -99,7 +99,7 @@ drop_potential_pcos <- function(gld_purchases, bef) {
 #'   diagnoser = register_data$diagnoser
 #' )
 #'
-#' # Drop rows with pregnancy dates
+#' # Drop pregnancy dates
 #' register_data$lmdb |>
 #'   keep_gld_purchases() |>
 #'   add_insulin_purchases_cols() |>
