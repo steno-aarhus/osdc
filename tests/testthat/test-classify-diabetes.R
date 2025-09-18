@@ -28,7 +28,8 @@ create_test_cases <- function() {
     "21_nodm_female_pregnancyT",              2, "19950101",
     "22_nodm_female_blank",                   2, "19960101",
     "23_t2d_gldT_1995_1999",                  1, "19500101"
-  )
+  ) |>
+    dplyr::mutate(koen = as.integer(.data$koen))
 
   # 2. lmdb: Drug purchases table -------------------------------------------------------------------------
 
@@ -218,7 +219,7 @@ create_test_cases <- function() {
 
   sysi_tbl <- tibble::tribble(
     ~pnr,                                ~barnmak, ~speciale, ~honuge,
-    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "54002",    "9603",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "54002",    "0453",
     "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",      0, "67148",    "9924",
     "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",      0, "62545",    "9727",
     "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",       0, "20866",    "9632",
@@ -229,7 +230,7 @@ create_test_cases <- function() {
     "12_nodm_gldF_diagF_hba1cF_podF",          1, "54002",    "1001",
     "12_nodm_gldF_diagF_hba1cF_podF",          0, "10001",    "1002",
     "12_nodm_gldF_diagF_hba1cF_podF",          1, "54002",    "1002",
-    "13_t2d_gldF_diagF_hba1cF_podT",           0, "54002",    "0002",
+    "13_t2d_gldF_diagF_hba1cF_podT",           0, "54002",    "0452",
     "14_t2d_gldF_diagF_hba1cT_podF",           0, "10003",    "1003",
     "15_t2d_gldF_diagT_hba1cF_podF",           0, "10004",    "1004",
     "16_t2d_gldT_diagF_hba1cF_podF",           0, "10005",    "1005",
@@ -238,7 +239,8 @@ create_test_cases <- function() {
     "19_nodm_female_u40_pcosT",              0, "10008",    "1008",
     "20_nodm_female_o40_pcosT",              0, "10009",    "1009",
     "21_nodm_female_pregnancyT",             0, "10010",    "1010"
-  )
+  ) |>
+    dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   # 8. sssy: Health services table-------------------------------------------------------------------------
 
@@ -253,7 +255,7 @@ create_test_cases <- function() {
     "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",       0, "53825",    "1227",
     "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",       0, "12345",    "1234",
     "12_nodm_gldF_diagF_hba1cF_podF",          0, "20001",    "2001",
-    "13_t2d_gldF_diagF_hba1cF_podT",           0, "54001",    "1002",
+    "13_t2d_gldF_diagF_hba1cF_podT",           0, "54001",    "0801",
     "14_t2d_gldF_diagF_hba1cT_podF",           0, "20002",    "2004",
     "15_t2d_gldF_diagT_hba1cF_podF",           0, "20003",    "2005",
     "16_t2d_gldT_diagF_hba1cF_podF",           0, "20004",    "2006",
@@ -262,7 +264,8 @@ create_test_cases <- function() {
     "19_nodm_female_u40_pcosT",              0, "20007",    "2009",
     "20_nodm_female_o40_pcosT",              0, "20008",    "2010",
     "21_nodm_female_pregnancyT",             0, "20009",    "2011"
-  )
+  ) |>
+    dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   # 9. lab_forsker: Lab results table -------------------------------------------------------------------------
 
@@ -313,12 +316,11 @@ create_test_cases <- function() {
 
 create_expected_inclusions <- function() {
   tibble::tribble(
-  # Column headers
   ~pnr,                                     ~stable_inclusion_date, ~raw_inclusion_date, ~diabetes_type,
   "01_t1d_oipT_anyt1dT",                      "2019-01-01",           "2019-01-01",          "T1D",
   "02_t2d_oipT_anyt1dF",                      "2012-06-16",           "2012-06-16",          "T2D",
   "03_t2d_oipF_anyt1dF",                      "2018-01-01",           "2018-01-01",          "T2D",
-  "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",   NA,                     "1996-01-15",          "T1D",
+  "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",   "2004-12-27",           "2004-12-27",          "T1D",
   "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",   "2013-02-21",           "2013-02-21",          "T2D",
   "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",   "2019-01-01",           "2019-01-01",          "T2D",
   "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",   "2012-04-23",           "2012-04-23",          "T2D",
@@ -326,19 +328,24 @@ create_expected_inclusions <- function() {
   "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",    "2019-01-01",           "2019-01-01",          "T2D",
   "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",    "2019-01-01",           "2019-01-01",          "T2D",
   "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",    "2000-04-23",           "2000-04-23",          "T2D",
-  "13_t2d_gldF_diagF_hba1cF_podT",            "2000-01-10",           "2000-01-10",          "T2D",
+  "13_t2d_gldF_diagF_hba1cF_podT",            "2007-12-31",           "2007-12-31",          "T2D",
   "14_t2d_gldF_diagF_hba1cT_podF",            "2013-04-01",           "2013-04-01",          "T2D",
   "15_t2d_gldF_diagT_hba1cF_podF",            "2023-01-01",           "2023-01-01",          "T2D",
   "16_t2d_gldT_diagF_hba1cF_podF",            "2013-04-01",           "2013-04-01",          "T2D",
   "18_t2d_male_pcosF",                        "2023-04-01",           "2023-04-01",          "T2D",
   "23_t2d_gldT_1995_1999",                    NA,                     "1995-06-16",          "T2D"
 
-)
+) |>
+    dplyr::mutate(stable_inclusion_date = lubridate::as_date(.data$stable_inclusion_date),
+                  raw_inclusion_date = lubridate::as_date(.data$raw_inclusion_date)
+    )
 }
 
 
 # Generate inputs and actual/expected outputs
 # Loop through each pnr value from the input to test each case and provide accurate feedback.
+
+
 
 edge_case_tests <- function() {
   # Create test inputs:
@@ -360,35 +367,38 @@ edge_case_tests <- function() {
   # Specify expected outputs (included cases):
   expected_included <- create_expected_inclusions()
 
-
+  # First: ensure that there is exactly one row per pnr in the actual output:
+  test_that("Output should contain exactly one row per pnr", {
+    expect_true(length(unique(actual_included$pnr)) == nrow(actual_included))
+  })
 
   # Iterate over the full list of pnr values from the input data
   for (current_pnr in edge_case_data$bef$pnr) {
-    # Dynamically create a test for each case
-    test_that(paste("Edge case", current_pnr, "is handled incorrectly"), {
-      # Check if the current pnr is one that we expect to be INCLUDED
+    test_that(paste("Edge case", current_pnr, "fails: "), {
       if (current_pnr %in% expected_included$pnr) {
-        # Test 1: Confirm the pnr is actually present in the output
-        expect_true(current_pnr %in% actual_included$pnr, label = "Case should have been included, but was missing from the output.")
+        # Inclusion Test A: check presence
+        pnr_was_included <- current_pnr %in% actual_included$pnr
+        expect_true(pnr_was_included, label = "Case should have been included:")
 
-        # Filter to get the specific rows to compare
-        actual_case <- actual_included[actual_full$pnr == current_pnr, ]
-        expected_case <- expected_included[expected_included$pnr == current_pnr, ]
+        # Skip Test B if Test A fails
+        skip_if(
+          !pnr_was_included,
+          "Skipping comparison because case not present in actual_included"
+        )
 
-        # Test 2: Compare the data for this specific case
-        expect_equal(actual_case, expected_case, label = paste)
+        # Inclusion Test B: compare the output for this specific case
+        actual_case <- actual_included |> dplyr::filter(pnr == current_pnr)
+        expected_case <- expected_included |> dplyr::filter(pnr == current_pnr)
+
+        expect_equal(actual_case, expected_case, label = "Case was included, but with incorrect data:")
 
       } else {
-        # This block handles cases that should be EXCLUDED
-
-        # Test: Confirm the pnr is absent from the output
-        expect_false(current_pnr %in% actual_full$pnr, label = "Case should have been excluded, but was found in the output.")
+        # Exclusion Test C: Confirm the pnr is absent from the output tibble:
+        expect_false(current_pnr %in% actual_included$pnr, label = "Case was included, but should not have been:")
       }
     })
   }
-
 }
-
 
 # Run the tests:
 edge_case_tests()

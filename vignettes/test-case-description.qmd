@@ -167,6 +167,8 @@ and test the subsequent classification into T1D or T2D.
         endocrinology department, which overrules the majority of
         secondary T2D diagnoses (`DE11`).
     -   Inclusion date is defined by records in `lpr_adm` and `sysi`.
+        The date of the `sysi`record is a particular edge case: week 53
+        in 2004 extends into the beginning of 2005.
 
 #### Case 5: `05_t2d_oipF_endoT_majt1dT_i180T_itwo3F`
 
@@ -343,10 +345,9 @@ individuals with at least **two** diabetes-indicating events.
     service in `sssy` and one in `sysi`. They have no other events. The
     algorithm should find both events and include the patient.
 -   **Key Data Points**:
-    -   One record in `sssy` with `speciale` starting with `54` and
-        `barnmak = 0`.
-    -   One record in `sysi` with `speciale` starting with `54` and
-        `barnmak = 0`.
+    -   One record in `sysi` with `speciale` starting with `54`.
+    -   One record in `sssy` with `speciale` starting with `54`. This
+        date is an edge case, as week 1 in 2008 started on Dec 31 2007.
 
 #### Case 14: `14_t2d_gldF_diagF_hba1cT_podF`
 
@@ -386,7 +387,8 @@ individuals with at least **two** diabetes-indicating events.
 -   **Key Data Points**:
     -   Two records in `lmdb` with valid (`A10...`) ATC codes.
     -   Pregnancy endings recorded in `lpr_diag` (`c_diag` == `'DZ371'`)
-        and `diagnoser` (`diagnosekode == 'DO822'`)
+        and `diagnoser` (`diagnosekode == 'DO822'`) far removed from
+        `eksd` dates in `lmdb`.
 
 ------------------------------------------------------------------------
 
@@ -504,3 +506,4 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   GLD purchases in `lmdb` on 1995-06-15 & 1995-06-16 (sets the
         `raw_inclusion_date`).
+
