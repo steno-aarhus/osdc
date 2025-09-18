@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,50 +78,48 @@
 </h2>
 <p>These are the guiding principles for this package:</p>
 <ol type="1">
-<li>Functionality is as agnostic to data format as possible (e.g. can be used with SQL or Arrow connections, in a data.table format, or as a data.frame).</li>
+<li>Functionality is as agnostic to data format as possible (e.g. can be used with SQL or Arrow connections, in a <code>data.table</code> format, or as a <code>data.frame</code>).</li>
 <li>Functions have consistent inputs and outputs (e.g. inputs and outputs are the same, regardless of specific conditions).</li>
-<li>Functions have predictable outputs based on inputs (e.g. if an input is a data frame, the output is a data frame).</li>
+<li>Functions have predictable outputs based on inputs (e.g. if an input is a <code>data.frame</code>, the output is a <code>data.frame</code>).</li>
 <li>Functions have consistent naming based on their action.</li>
 <li>Functions have limited additional arguments.</li>
-<li>Casing of input variables (upper or lower case) is agnostic, all internal variables are lower case, and output variables are lower case.</li>
+<li>Casing of input variables (upper or lower case) is agnostic, but all internal variables are lower case, and output variables are lower case.</li>
 </ol></section><section class="level2"><h2 id="use-cases">Use cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
 </h2>
 <p>We make these assumptions on how this package will be used, based on our experiences and expectations for use cases:</p>
+<p>We expect the package will be:</p>
 <ul>
 <li>Entirely used within the Denmark Statistics or the Danish Health Authority’s servers, since that is where their data are kept.</li>
 <li>Used by researchers within or affiliated with Danish research institutions.</li>
 <li>Used specifically within a Danish register-based context.</li>
 </ul>
-<p>Below is a set of “narratives” or “personas” with associated needs that this package aims to fulfill:</p>
+<p>Below is a set of “narratives” or “personas” with associated needs that this package aims to fulfill.</p>
+<p>“As a researcher, …”</p>
 <ul>
-<li>“As a researcher, …”
-<ul>
-<li>“… I want to determine which registers and variables to request from Denmark Statistics and Danish Health Data Authority, so that I am certain I will be able to classify diabetes status of individuals in the registers.”</li>
+<li>“… I want to easily get an overview of which Danish registers and variables I need to request from Denmark Statistics and the Danish Health Data Authority, so that I am able to classify the diabetes status of individuals in the registers using the osdc package.”</li>
 <li>“… I want to easily and simply create a dataset that contains data on diabetes status in my population, so that I can begin conducting my research that involves persons with diabetes without having to tinker with coding the correct algorithm to classify them.”</li>
-<li>“… I want to be informed early and in a clear way whether my data fits with the required data type and values, so that I can fix and correct these issues without having to do extensive debugging of the code and/or data.”</li>
-</ul>
-</li>
+<li>“… I want to be informed early and in a clear way whether my data fits with the required data types, so that I can fix and correct these issues without having to do extensive debugging of the code and/or data.”</li>
 </ul></section><section class="level2"><h2 id="core-functionality">Core functionality<a class="anchor" aria-label="anchor" href="#core-functionality"></a>
 </h2>
-<p>This is the list of functionality we aim to have in the osdc package</p>
+<p>This is the list of the core functionality of the osdc package:</p>
 <ol type="1">
-<li>Classify individuals type 1 and type 2 diabetes status and create a data frame with that information and the date of onset of diabetes.</li>
-<li>Provide helper functions to check and process individual registers for the variables required to enter into the classifier.</li>
-<li>Provide a list of required variables and registers in order to calculate diabetes status.</li>
-<li>Provide validation helper functions to check that variables match what is expected of the algorithm.</li>
-<li>Provide a common and easily accessible standard for determining diabetes status within the context of research using Danish registers.</li>
+<li>Classifies individuals’ diabetes type (type 1 or 2)</li>
+<li>Outputs a single data frame including individuals with diabetes, their type (type 1 or 2), and date of onset as classified by the algorithm.</li>
+<li>Internally checks individual registers for the variables required by the algorithm.</li>
+<li>Provides a list of required variables and registers in order to calculate diabetes status.</li>
+<li>Provides internal checks of whether variables match the expected data types.</li>
+<li>Provides a common and easily accessible standard for determining diabetes status within the context of research using Danish registers.</li>
 </ol></section><section class="level2"><h2 id="function-conventions">Function conventions<a class="anchor" aria-label="anchor" href="#function-conventions"></a>
 </h2>
-<p>Effectively developing both the main user-exposed and internal functions requires following some conventions and design patterns for building these functions. There are a few conventions we describe here: naming patterns for functions and arguments, their argument input requirements, and their output data structure.</p>
-<p>The below conventions are <em>ideals</em> only, to be used as a guidelines to help with development and understanding of the code. They are not hard rules.</p>
+<p>To effectively develop both the user-facing and internal functions, we follow some conventions and design patterns for building these functions. There are a few conventions we describe here: naming patterns for functions and arguments, their argument input requirements, and their output data structure.</p>
+<p>The below conventions are <em>ideals</em> only, to be used as a guidelines to help with development and understanding of the code; they are not hard rules.</p>
 <section class="level3"><h3 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a>
 </h3>
 <ul>
 <li>First word is an action verb, later words are objects or conditions.</li>
 <li>Exclusion criteria are prefixed with <code>exclude_</code>.</li>
 <li>Inclusion criteria are prefixed with <code>include_</code>.</li>
-<li>Helpers that get or extract a condition (e.g., “pregnancy” or “date of visit”) are prefixed with <code>get_</code>.</li>
-<li>Helpers that drop or keep a specific condition are prefixed with <code>drop_</code> or <code>keep_</code> (e.g., “first visit date to maternal care for pregnancy after 40 weeks”). These types of helpers likely are contained in the <code>get_</code> functions.</li>
+<li>Helpers that add columns needed for classification are prefixed with <code>add_</code>.</li>
 <li>Helpers that join the output of other functions are prefixed with <code>join_</code>.</li>
 <li>Functions that prepare and process register data are prefixed with <code>prepare_</code>.</li>
 </ul></section><section class="level3"><h3 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
@@ -138,17 +136,17 @@
 <code>exclude_</code> functions can take a register as the first argument or take the output from an <code>include_</code> function.</li>
 <li>All functions take a <code>data.frame</code> type object as input. This input object doesn’t need to be strictly a <code>data.frame</code> as long as it acts like a <code>data.frame</code>. For instance, it could be a <code>data.table</code>, a <code>tibble</code>, or a <code>duckdb</code> object.</li>
 <li>The first argument will always take a data frame type object.</li>
-<li>The second argument could be an output data frame object from another function (usually <code>include_</code>).</li>
+<li>The second argument could be an output data frame object from another function.</li>
 </ul></section><section class="level3"><h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h3>
 <ul>
 <li>All functions output the same type of object as the input object (a <code>data.frame</code> type object). For instance, if the input is a <code>data.table</code> object, the output will also be a <code>data.table</code>.</li>
 </ul></section></section><section class="level2"><h2 id="interface">Interface<a class="anchor" aria-label="anchor" href="#interface"></a>
 </h2>
-<p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in the <code><a href="../articles/design.html">vignette("design")</a></code> and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources are used as input for this function. The specific inclusion and exclusion details are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
+<p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in the <code><a href="../articles/design.html">vignette("design")</a></code> and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources needed by osdc are used as input for this function. The specific inclusion and exclusion details are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
 <section class="level3"><h3 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
 </h3>
-<p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each required register, so the argument is:</p>
+<p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each required register. The names and descriptions of these arguments are as follows:</p>
 <ul>
 <li>
 <code>bef</code>: The register called ‘CPR-registerets befolkningstabel’ in Danish.</li>
@@ -175,45 +173,42 @@
 <li>
 <strong>pnr</strong>: The pseudonymised social security number of individuals in the diabetes population (one row per individual).</li>
 <li>
-<strong>stable_inclusion_date</strong>: The <em>stable</em> inclusion date (i.e., the raw date mutated so only individuals included in the time-period where data coverage is sufficient to make incident cases reliable)<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;For more information on the “raw” versus “stable” inclusion date, see &lt;code&gt;&lt;a href="../articles/algorithm.html"&gt;vignette("algorithm")&lt;/a&gt;&lt;/code&gt;.&lt;/p&gt;'><sup>1</sup></a> <!-- TODO: Specify this time-period: e.g., later than 1997 -->
+<strong>stable_inclusion_date</strong>: The <em>stable</em> inclusion date (i.e., the raw date mutated so only individuals included in the time-period where data coverage is sufficient to make incident cases reliable)<a class="footnote-ref" role="doc-noteref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;For more information on the “raw” versus “stable” inclusion date, see &lt;code&gt;&lt;a href="../articles/algorithm.html"&gt;vignette("algorithm")&lt;/a&gt;&lt;/code&gt;.&lt;/p&gt;'><sup>1</sup></a>. <!-- TODO: Specify this time-period: e.g., later than 1997 -->
 </li>
 <li>
-<strong>raw_inclusion_date</strong>: The <em>raw</em> inclusion date (i.e., the date of the second inclusion event as described in the <a href="#extracting-diabetes-population">Extracting the diabetes population</a> section above)</li>
+<strong>raw_inclusion_date</strong>: The <em>raw</em> inclusion date (i.e., the date of the second inclusion event as described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>).</li>
 <li>
-<strong>diabetes_type</strong> The classified diabetes type</li>
+<strong>diabetes_type</strong>: The classified diabetes type.</li>
 </ul>
 <p>For an example, see below.</p>
 <table class="table caption-top">
 <caption>Example rows of the <code>data.frame</code> output of the osdc package.</caption>
-<colgroup>
-<col style="width: 17%">
-<col style="width: 32%">
-<col style="width: 28%">
-<col style="width: 21%">
-</colgroup>
 <thead><tr class="header">
 <th>pnr</th>
 <th>stable_inclusion_date</th>
 <th>raw_inclusion_date</th>
-<th>diabetes_type</th>
+<th>has_t1d</th>
+<th>has_t1d</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>0000000001</td>
+<td>1</td>
 <td>2020-01-01</td>
 <td>2020-01-01</td>
-<td>T1D</td>
+<td>FALSE</td>
+<td>TRUE</td>
 </tr>
 <tr class="even">
-<td>0000000004</td>
-<td>NULL</td>
+<td>4</td>
+<td>NA</td>
 <td>1995-04-19</td>
-<td>T2D</td>
+<td>TRUE</td>
+<td>FALSE</td>
 </tr>
 </tbody>
 </table>
-<p>The individuals <code>0000000001</code> and <code>0000000004</code> have been classified as having diabetes (<code>T1D</code> and <code>T2D</code>, respectively). <code>0000000001</code> is classified as having type 1 diabetes (T1D) with an inclusion date of <code>2020-01-01</code>. Since this date is within a time-period of sufficient data coverage, the column <code>stable_inclusion_date</code> is populated with the same date as <code>raw_inclusion_date</code>.</p>
-<p>The individual in the second row, <code>0000000004</code> is classified as having type 2 diabetes <code>T2D</code> with an inclusion date of <code>1995-19-04</code>. Since 1995 is within a time-period of insufficient data coverage, <code>stable_inclusion_date</code> is <code>NULL</code>. However, <code>raw_inclusion_date</code> still contains the inclusion date of this individual.</p>
+<p>The individuals <code>1</code> and <code>4</code> have been classified as having diabetes (either <code>has_t1d</code> or <code>has_t2d</code>, respectively). <code>1</code> is classified as having type 1 diabetes (T1D) with an inclusion date of <code>2020-01-01</code>. Since this date is within a time-period of sufficient data coverage, the column <code>stable_inclusion_date</code> is populated with the same date as <code>raw_inclusion_date</code>.</p>
+<p>The individual in the second row, <code>4</code> is classified as having type 2 diabetes <code>T2D</code> with an inclusion date of <code>1995-19-04</code>. Since 1995 is within a time-period of insufficient data coverage, <code>stable_inclusion_date</code> is <code>NULL</code>. However, <code>raw_inclusion_date</code> still contains the inclusion date of this individual.</p>
 <!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
 </section></section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

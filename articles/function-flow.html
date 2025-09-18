@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,10 +122,10 @@
     include_gld_purchases --&gt; exclude_potential_pcos["exclude_potential_pcos()"]:::exclude
     bef --&gt; exclude_potential_pcos
 
-    exclude_potential_pcos --&gt; exclude_pregnancy["exclude_pregnancy()"]:::exclude
-    keep_pregnancy_dates --&gt; exclude_pregnancy
-    include_hba1c --&gt; exclude_pregnancy
-    exclude_pregnancy --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+    exclude_potential_pcos --&gt; exclude_pregnancies["exclude_pregnancies()"]:::exclude
+    keep_pregnancy_dates --&gt; exclude_pregnancies
+    include_hba1c --&gt; exclude_pregnancies
+    exclude_pregnancies --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
     %% Joining
     add_t1d_diagnoses_cols --&gt; join_inclusions["join_inclusions()"]
@@ -183,10 +183,10 @@
 <code>exclude_potential_pcos()</code><a class="anchor" aria-label="anchor" href="#exclude_potential_pcos"></a>
 </h3>
 <p>See <code><a href="../reference/exclude_potential_pcos.html">?exclude_potential_pcos</a></code> for more information.</p>
-</section><section class="level3"><h3 id="exclude_pregnancy">
-<code>exclude_pregnancy()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancy"></a>
+</section><section class="level3"><h3 id="exclude_pregnancies">
+<code>exclude_pregnancies()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancies"></a>
 </h3>
-<p>See <code><a href="../reference/exclude_pregnancy.html">?exclude_pregnancy</a></code> for more information.</p>
+<p>See <code><a href="../reference/exclude_pregnancies.html">?exclude_pregnancies</a></code> for more information.</p>
 </section></section><section class="level2"><h2 id="joining-inclusions-and-exclusions">Joining inclusions and exclusions<a class="anchor" aria-label="anchor" href="#joining-inclusions-and-exclusions"></a>
 </h2>
 <section class="level3"><h3 id="join_inclusions">
@@ -214,7 +214,7 @@
 <span><span class="co">#'</span></span>
 <span><span class="co">#' @returns The same type as the input data, default as a [tibble::tibble()],</span></span>
 <span><span class="co">#'   along with the `purchase_date`, and `atc` columns from</span></span>
-<span><span class="co">#'   `exclude_pregnancy()`, and the `n_t1d_endocrinology`,</span></span>
+<span><span class="co">#'   `exclude_pregnancies()`, and the `n_t1d_endocrinology`,</span></span>
 <span><span class="co">#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from</span></span>
 <span><span class="co">#'   `include_diabetes_diagnoses()`. It also creates two new columns:</span></span>
 <span><span class="co">#'</span></span>
@@ -248,7 +248,7 @@
 <span>      <span class="st">"raw_inclusion_date"</span>,</span>
 <span>      <span class="st">"stable_inclusion_date"</span>,</span>
 <span></span>
-<span>      <span class="co"># From `exclude_pregnancy()` via the GLD purchases</span></span>
+<span>      <span class="co"># From `exclude_pregnancies()` via the GLD purchases</span></span>
 <span>      <span class="co"># TODO: this might need to be renamed in a previous step, rather than here.</span></span>
 <span>      <span class="st">"purchase_date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
 <span>      <span class="st">"atc"</span>,</span>
