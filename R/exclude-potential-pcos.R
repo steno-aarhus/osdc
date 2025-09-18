@@ -1,17 +1,17 @@
 #' Exclude metformin purchases potentially for the treatment of polycystic ovary syndrome.
 #'
-#' Takes the output from [include_gld_purchases()] and `bef` (information on sex and date
+#' Takes the output from [keep_gld_purchases()] and `bef` (information on sex and date
 #' of birth) to do the exclusions.
 #' This function only performs a filtering operation so outputs the same structure and
-#' variables as the input from [include_gld_purchases()], except the addition of a logical
+#' variables as the input from [keep_gld_purchases()], except the addition of a logical
 #' helper variable `no_pcos` that is used in later functions.
 #' After these exclusions are made, the output is used by `exclude_pregnancies()`.
 #'
-#' @param gld_purchases The output from [include_gld_purchases()].
+#' @param gld_purchases The output from [keep_gld_purchases()].
 #' @param bef The `bef` register.
 #'
 #' @return The same type as the input data, default as a [tibble::tibble()].
-#'    It also has the same columns as [include_gld_purchases()], except for a logical
+#'    It also has the same columns as [keep_gld_purchases()], except for a logical
 #'    helper variable `no_pcos` that is used in later functions.
 #' @keywords internal
 #' @inherit algorithm seealso
@@ -20,7 +20,7 @@
 #' \dontrun{
 #' register_data <- simulate_registers(c("lmdb", "bef"), 100)
 #' exclude_potential_pcos(
-#'   gld_purchases = include_gld_purchases(register_data$lmdb),
+#'   gld_purchases = keep_gld_purchases(register_data$lmdb),
 #'   bef = register_data$bef
 #' )
 #' }

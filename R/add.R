@@ -18,7 +18,7 @@
 #' @examples
 #' \dontrun{
 #' simulate_registers("lmdb", 10000)[[1]] |>
-#'   include_gld_purchases() |>
+#'   keep_gld_purchases() |>
 #'   add_insulin_purchases_cols()
 #' }
 add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
@@ -91,7 +91,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_exclusions) {
 #' The variables for whether the majority of diagnoses are for type 1 diabetes
 #' is used for later classification of type 1 diabetes.
 #'
-#' @param data Data from [include_diabetes_diagnoses()] function.
+#' @param data Data from [keep_diabetes_diagnoses()] function.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'  with the following added columns and up to two rows per individual:

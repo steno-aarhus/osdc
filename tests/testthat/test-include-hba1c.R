@@ -43,10 +43,10 @@ expected <- tibble::tribble(
 
 test_that("dataset needs expected variables", {
   actual <- lab_forsker[-2]
-  expect_error(include_hba1c(actual))
+  expect_error(keep_hba1c(actual))
 })
 
 test_that("those with inclusion are kept", {
-  actual <- include_hba1c(lab_forsker)
+  actual <- keep_hba1c(lab_forsker)
   expect_equal(actual, expected)
 })

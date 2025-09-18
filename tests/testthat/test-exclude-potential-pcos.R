@@ -4,7 +4,7 @@ bef <- simulate_registers("bef", 1000)[[1]] |>
     foed_dato = "20000101"
   )
 gld_purchases <- simulate_registers("lmdb", 1000)[[1]] |>
-  include_gld_purchases() |>
+  keep_gld_purchases() |>
   add_insulin_purchases_cols() |>
   dplyr::add_row(
     date = "20200101",

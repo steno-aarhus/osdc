@@ -1,4 +1,4 @@
-#' Join included events.
+#' Join kept events.
 #'
 #' @description
 #' This function joins the outputs from all the inclusion and exclusion
@@ -15,22 +15,21 @@
 #' first and second purchase of a glucose-lowering drug (after censoring
 #' potential polycystic ovary syndrome and gestational diabetes).
 #'
-#' @param diabetes_diagnoses Output from [include_diabetes_diagnoses()].
-#' @param podiatrist_services Output from [include_podiatrist_services()].
+#' @param diabetes_diagnoses Output from [keep_diabetes_diagnoses()].
+#' @param podiatrist_services Output from [keep_podiatrist_services()].
 #' @param gld_hba1c_after_exclusions Output from [exclude_pregnancies()] and
 #'    [exclude_potential_pcos()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
-#'   with the joined columns from the output of [include_diabetes_diagnoses()],
-#'   [include_podiatrist_services()], [exclude_potential_pcos()], and
+#'   with the joined columns from the output of [keep_diabetes_diagnoses()],
+#'   [keep_podiatrist_services()], [exclude_potential_pcos()], and
 #'   [exclude_pregnancies()]. There will be 1-8 rows per `pnr`.
 #' @keywords internal
 #' @inherit algorithm seealso
 join_inclusions <- function(
-  diabetes_diagnoses,
-  podiatrist_services,
-  gld_hba1c_after_exclusions
-) {
+    diabetes_diagnoses,
+    podiatrist_services,
+    gld_hba1c_after_exclusions) {
   # This joins *only* by pnr and dates. If datasets have the same column
   # names, they will be renamed to differentiate them.
   # TODO: We may need to ensure that no two datasets have the same columns.

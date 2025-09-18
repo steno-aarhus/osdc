@@ -45,16 +45,15 @@
 #' )
 #' }
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
-  sysi,
-  sssy,
-  lab_forsker,
-  bef,
-  lmdb
-) {
+    kontakter,
+    diagnoser,
+    lpr_diag,
+    lpr_adm,
+    sysi,
+    sssy,
+    lab_forsker,
+    bef,
+    lmdb) {
   # Verification step -----
   kontakter <- select_required_variables(kontakter, "kontakter")
   diagnoser <- select_required_variables(diagnoser, "diagnoser")
@@ -83,22 +82,22 @@ classify_diabetes <- function(
   )
 
   # Inclusion steps -----
-  diabetes_diagnoses <- include_diabetes_diagnoses(
+  diabetes_diagnoses <- keep_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
   ) |>
     add_t1d_diagnoses_cols()
 
-  podiatrist_services <- include_podiatrist_services(
+  podiatrist_services <- keep_podiatrist_services(
     sysi = sysi,
     sssy = sssy
   )
 
-  gld_purchases <- include_gld_purchases(
+  gld_purchases <- keep_gld_purchases(
     lmdb = lmdb
   )
 
-  hba1c_over_threshold <- include_hba1c(
+  hba1c_over_threshold <- keep_hba1c(
     lab_forsker = lab_forsker
   )
 

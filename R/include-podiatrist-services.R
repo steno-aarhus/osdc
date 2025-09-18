@@ -1,8 +1,9 @@
-#' Include diabetes-specific podiatrist services.
+#' Keep rows with diabetes-specific podiatrist services.
 #'
-#' Uses the `sysi` or `sssy` registers as input to extract the dates of all
-#' diabetes-specific podiatrist services. Removes duplicate services on the
-#' same date. Only the two earliest dates per individual are kept.
+#' This function uses the `sysi` or `sssy` registers as input to extract the
+#' dates of all diabetes-specific podiatrist services. Removes duplicate
+#' services on the same date. Only the two earliest dates per individual are
+#' kept.
 #'
 #' The output is passed to the `join_inclusions()` function for the final
 #' step of the inclusion process.
@@ -23,9 +24,9 @@
 #' @examples
 #' \dontrun{
 #' register_data <- simulate_registers(c("sysi", "sssy"), 100)
-#' include_podiatrist_services(register_data$sysi, register_data$sssy)
+#' keep_(register_data$sysi, register_data$sssy)
 #' }
-include_podiatrist_services <- function(sysi, sssy) {
+keep_ <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
 
   sysi |>

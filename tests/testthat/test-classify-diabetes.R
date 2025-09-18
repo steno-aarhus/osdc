@@ -1,4 +1,4 @@
-# Moved from `include_diabetes_diagnoses()` -------------------------------
+# Moved from `keep_diabetes_diagnoses()` -------------------------------
 
 # test_input_from_lpr2 <- tibble::tribble(
 #   ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,

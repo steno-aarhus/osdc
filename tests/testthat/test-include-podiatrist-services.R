@@ -25,16 +25,16 @@ expected <- tibble::tribble(
 
 test_that("sysi needs expected variables", {
   sysi <- sysi[-2]
-  expect_error(include_podiatrist_services(sysi, sssy))
+  expect_error(keep_podiatrist_services(sysi, sssy))
 })
 
 test_that("ssy needs expected variables", {
   sssy <- sssy[-2]
-  expect_error(include_podiatrist_services(sysi, sssy))
+  expect_error(keep_podiatrist_services(sysi, sssy))
 })
 
 
 test_that("those with inclusion are kept", {
-  actual <- include_podiatrist_services(sysi, sssy)
+  actual <- keep_podiatrist_services(sysi, sssy)
   expect_equal(actual, expected)
 })

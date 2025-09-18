@@ -94,7 +94,7 @@ rules.
 
 -   First word is an action verb, later words are objects or conditions.
 -   Exclusion criteria are prefixed with `exclude_`.
--   Inclusion criteria are prefixed with `include_`.
+-   Functions that filter (i.e., keep) rows based on specific criteria are prefixed with `keep_`.
 -   Helpers that add columns needed for classification are prefixed with
     `add_`.
 -   Helpers that join the output of other functions are prefixed with
@@ -106,10 +106,10 @@ rules.
 
 -   As few arguments as is possible, with as few core required arguments
     as possible (ideally one or two).
--   `include_` functions take a register as the first argument.
+-   `keep_` functions take a register as the first argument.
     -   One input register database at a time.
 -   `exclude_` functions can take a register as the first argument or
-    take the output from an `include_` function.
+    take the output from a `keep_` function.
 -   All functions take a `data.frame` type object as input. This input
     object doesn't need to be strictly a `data.frame` as long as it acts
     like a `data.frame`. For instance, it could be a `data.table`, a

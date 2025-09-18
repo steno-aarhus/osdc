@@ -1,7 +1,7 @@
 #' Exclude any pregnancy events that could be gestational diabetes.
 #'
 #' This function takes the combined outputs from
-#' [keep_pregnancy_dates()], [include_hba1c()], and
+#' [keep_pregnancy_dates()], [keep_hba1c()], and
 #' [exclude_potential_pcos()] and uses diagnoses from LPR2 or LPR3 to
 #' exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
@@ -21,7 +21,7 @@
 #'
 #' @param excluded_pcos Output from [exclude_potential_pcos()].
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].
-#' @param included_hba1c Output from [include_hba1c()].
+#' @param included_hba1c Output from [keep_hba1c()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
 #'    Has the same output data as the input [exclude_potential_pcos()], except
@@ -55,19 +55,18 @@
 #'
 #' # Exclude pregnancy dates
 #' register_data$lmdb |>
-#'   include_gld_purchases() |>
+#'   keep_gld_purchases() |>
 #'   add_insulin_purchases_cols() |>
 #'   exclude_potential_pcos(register_data$bef) |>
 #'   exclude_pregnancies(
 #'     keep_pregnancy_dates(lpr2, lpr3),
-#'     include_hba1c(register_data$lab_forsker)
+#'     keep_hba1c(register_data$lab_forsker)
 #'   )
 #' }
 exclude_pregnancies <- function(
-  excluded_pcos,
-  pregnancy_dates,
-  included_hba1c
-) {
+    excluded_pcos,
+    pregnancy_dates,
+    included_hba1c) {
   criteria <- logic_as_expression("is_not_within_pregnancy_interval")[[1]]
 
   # TODO: This should be done at an earlier stage.

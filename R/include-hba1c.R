@@ -1,4 +1,4 @@
-#' Include only those with HbA1c above the required threshold.
+#' Keep rows with HbA1c above the required threshold.
 #'
 #' In the `lab_forsker` register, NPU27300 is HbA1c in the modern units (IFCC)
 #' while NPU03835 is HbA1c in old units (DCCT). Multiple elevated results on the
@@ -21,9 +21,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' simulate_registers("lab_forsker", 100)[[1]] |> include_hba1c()
+#' simulate_registers("lab_forsker", 100)[[1]] |> keep_hba1c()
 #' }
-include_hba1c <- function(lab_forsker) {
+keep_hba1c <- function(lab_forsker) {
   logic <- logic_as_expression("is_hba1c_over_threshold")[[1]]
 
   lab_forsker |>

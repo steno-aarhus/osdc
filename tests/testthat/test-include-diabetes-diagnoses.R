@@ -24,7 +24,7 @@ lpr3 <- prepare_lpr3(
   diagnoser = register_data$diagnoser
 )
 
-actual <- include_diabetes_diagnoses(
+actual <- keep_diabetes_diagnoses(
   lpr2 = lpr2,
   lpr3 = lpr3
 ) |>
@@ -34,6 +34,6 @@ test_that("creates a data.frame output", {
   expect_contains(class(actual), "data.frame")
 })
 
-test_that("at least one 'case' is included", {
+test_that("at least one 'case' is kept", {
   expect_equal(nrow(dplyr::count(actual, has_majority_t1d_diagnoses)), 2)
 })
