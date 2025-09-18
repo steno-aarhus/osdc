@@ -299,7 +299,7 @@ create_test_cases <- function() {
 
   # Combine all tibbles into a named list -------------------------------------------------------------------------
 
-  osdc_test_data <- list(
+  list(
     bef = bef_tbl,
     lmdb = lmdb_tbl,
     lpr_adm = lpr_adm_tbl,
@@ -310,8 +310,6 @@ create_test_cases <- function() {
     sssy = sssy_tbl,
     lab_forsker = lab_forsker_tbl
   )
-
-  return(osdc_test_data)
 }
 
 create_expected_inclusions <- function() {
