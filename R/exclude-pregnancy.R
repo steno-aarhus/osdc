@@ -68,9 +68,7 @@ exclude_pregnancy <- function(
   pregnancy_dates,
   included_hba1c
 ) {
-  criteria <- get_algorithm_logic("is_not_within_pregnancy_interval") |>
-    # To convert the string into an R expression.
-    rlang::parse_expr()
+  criteria <- logic_as_expr("is_not_within_pregnancy_interval")[[1]]
 
   # TODO: This should be done at an earlier stage.
   # Ensure both date columns are of type Date.

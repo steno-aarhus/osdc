@@ -203,11 +203,6 @@ algorithm <- function() {
 #' @return A character string.
 #' @keywords internal
 #'
-#' @examples
-#' \dontrun{
-#' get_algorithm_logic("hba1c")
-#' get_algorithm_logic("gld")
-#' }
 get_algorithm_logic <- function(logic_name, algorithm = NULL) {
   checkmate::assert_character(logic_name)
   if (!is.null(algorithm)) {
@@ -225,4 +220,20 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
       "([a-zA-Z0-9_]+) \\=\\~ '(.*?)'",
       "stringr::str_detect(\\1, '\\2')"
     )
+}
+
+#' Get the algorithmic logic and convert to an R logic condition.
+#'
+#' @param logic_name The name of the logic to use.
+#' @param algorithm The list of algorithmic logic, one list for each.
+#'
+#' @return An R expression.
+#' @keywords internal
+#'
+logic_as_expr <- function(logic) {
+  logic |>
+    rlang::set_names() |>
+    purrr::map(get_algorithm_logic) |>
+    # To convert the string into an R expression
+    purrr::map(rlang::parse_expr)
 }
