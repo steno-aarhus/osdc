@@ -64,9 +64,10 @@
 #'   )
 #' }
 exclude_pregnancy <- function(
-    excluded_pcos,
-    pregnancy_dates,
-    included_hba1c) {
+  excluded_pcos,
+  pregnancy_dates,
+  included_hba1c
+) {
   criteria <- logic_as_expression("is_not_within_pregnancy_interval")[[1]]
 
   # TODO: This should be done at an earlier stage.
