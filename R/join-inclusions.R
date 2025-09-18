@@ -27,9 +27,10 @@
 #' @keywords internal
 #' @inherit algorithm seealso
 join_inclusions <- function(
-    diabetes_diagnoses,
-    podiatrist_services,
-    gld_hba1c_after_exclusions) {
+  diabetes_diagnoses,
+  podiatrist_services,
+  gld_hba1c_after_exclusions
+) {
   # This joins *only* by pnr and dates. If datasets have the same column
   # names, they will be renamed to differentiate them.
   # TODO: We may need to ensure that no two datasets have the same columns.
