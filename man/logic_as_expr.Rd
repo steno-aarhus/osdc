@@ -2,19 +2,17 @@
 % Please edit documentation in R/algorithm.R
 \name{logic_as_expr}
 \alias{logic_as_expr}
-\title{Get the algorithmic logic and convert to an R logic condition.}
+\title{Parse the logic strings into R expressions.}
 \usage{
 logic_as_expr(logic)
 }
 \arguments{
-\item{logic_name}{The name of the logic to use.}
-
-\item{algorithm}{The list of algorithmic logic, one list for each.}
+\item{logic}{The name of the logic to use.}
 }
 \value{
 An R expression.
 }
 \description{
-Get the algorithmic logic and convert to an R logic condition.
+Parse the logic strings into R expressions.
 }
 \keyword{internal}

@@ -222,10 +222,9 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
     )
 }
 
-#' Get the algorithmic logic and convert to an R logic condition.
+#' Parse the logic strings into R expressions.
 #'
-#' @param logic_name The name of the logic to use.
-#' @param algorithm The list of algorithmic logic, one list for each.
+#' @param logic The name of the logic to use.
 #'
 #' @return An R expression.
 #' @keywords internal
