@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.4.1 (2025-09-18)
+
+### Refactor
+
+- ♻️ move `add_insulin_purchases_cols()` down to after exclusions (#338)
+
 ## 0.4.0 (2025-09-16)
 
 ### Feat
