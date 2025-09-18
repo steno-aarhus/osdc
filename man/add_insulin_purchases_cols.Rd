@@ -4,10 +4,10 @@
 \alias{add_insulin_purchases_cols}
 \title{Add columns for information about insulin drug purchases}
 \usage{
-add_insulin_purchases_cols(gld_hba1c_after_exclusions)
+add_insulin_purchases_cols(gld_hba1c_after_drop_steps)
 }
 \arguments{
-\item{gld_hba1c_after_exclusions}{The GLD and HbA1c data after exclusions}
+\item{gld_hba1c_after_drop_steps}{The GLD and HbA1c data after drop steps}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
@@ -27,7 +27,7 @@ Add columns for information about insulin drug purchases
 \examples{
 \dontrun{
 simulate_registers("lmdb", 10000)[[1]] |>
-  include_gld_purchases() |>
+  keep_gld_purchases() |>
   add_insulin_purchases_cols()
 }
 }
