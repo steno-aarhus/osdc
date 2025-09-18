@@ -133,12 +133,8 @@ classify_diabetes <- function(
     ) |>
     add_insulin_purchases_cols() |>
     dplyr::select(
-      -"pregnancy_event_date",
       -"atc",
       -"indication_code",
-      -"no_pcos",
-      -"has_pregnancy_event",
-      -"is_not_within_pregnancy_interval"
     )
 
   # Joining into an initial dataset -----
