@@ -162,6 +162,18 @@ algorithm <- function() {
       logic = "(has_only_insulin_purchases & has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases & has_majority_t1d_diagnoses & has_two_thirds_insulin & has_insulin_purchases_within_180_days)",
       comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     ),
+    has_any_t1d_primary_diagnosis = list(
+      register = NA,
+      title = "Any primary diagnosis for type 1 diabetes",
+      logic = "(n_t1d_endocrinology + n_t1d_medical) >= 1",
+      comments = "This is used to classify type 1 diabetes. Naturally, having any type 1 diabetes diagnosis is indicative of type 1 diabetes."
+    ),
+    has_majority_t1d_diagnoses = list(
+      register = NA,
+      title = "Determine if the majority of diagnoses are for type 1 diabetes",
+      logic = "if_else(n_t1d_endocrinology + n_t2d_endocrinology > 0, n_t1d_endocrinology > n_t2d_endocrinology, n_t1d_medical > n_t2d_medical)",
+      comments = "This is used to classify type 1 diabetes. Endocrinology diagnoses are prioritised if available, otherwise other medical department diagnoses are used. If no diabetes type-specific primary diagnoses are available from an endocrinology or other medical departments, this variable is returned as `FALSE`."
+    ),
     has_two_thirds_insulin = list(
       register = NA,
       title = "Whether two-thirds of GLD doses are insulin doses",
@@ -176,9 +188,9 @@ algorithm <- function() {
     ),
     has_insulin_purchases_within_180_days = list(
       register = NA,
-      title = "Any insulin purchases within 180 days of the first purchase of GLD",
-      logic = "is_insulin_gld_code & date <= (first_gld_date + days(180))",
-      comments = "This is used to classify type 1 diabetes. It determines if insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
+      title = "Whether any insulin was purchased within 180 days of the first purchase of GLD",
+      logic = "any(is_insulin_gld_code & date <= (first_gld_date + days(180)))",
+      comments = "This is used to classify type 1 diabetes. It determines if any insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
     )
   )
 }
