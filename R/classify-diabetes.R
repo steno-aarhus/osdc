@@ -9,6 +9,12 @@
 #' @param lab_forsker The lab forsker register
 #' @param bef The BEF register
 #' @param lmdb The LMDB register
+#' @param stable_inclusion_start_date Cutoff date after which inclusion events
+#'    are considered reliable (e.g., after changes in drug labeling or data
+#'    entry practices). Defaults to "1998-01-01" which is one year after
+#'    obstetric codes are reliable in the GLD data (since we use LPR data to
+#'    drop rows related to gestational diabetes). This limits the included
+#'    cohort to individuals with inclusion dates after this cutoff date.
 #'
 #' @returns The same object type as the input data, which would be a
 #'   [tibble::tibble()] type object.
@@ -53,7 +59,8 @@ classify_diabetes <- function(
   sssy,
   lab_forsker,
   bef,
-  lmdb
+  lmdb,
+  stable_inclusion_start_date = "1998-01-01"
 ) {
   # Verification step -----
   kontakter <- select_required_variables(kontakter, "kontakter")
@@ -123,7 +130,7 @@ classify_diabetes <- function(
   )
 
   inclusions |>
-    create_inclusion_dates() |>
+    create_inclusion_dates(stable_inclusion_start_date = ) |>
     classify_t1d() |>
     # If has_t1d is NA, t2d will also be NA
     dplyr::mutate(has_t2d = !.data$has_t1d) |>
