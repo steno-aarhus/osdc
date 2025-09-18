@@ -156,6 +156,18 @@ algorithm <- function() {
       logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
       comments = "Woman is defined as 2 in `koen`."
     ),
+    has_any_t1d_primary_diagnosis = list(
+      register = NA,
+      title = "Any primary diagnosis for type 1 diabetes",
+      logic = "(n_t1d_endocrinology + n_t1d_medical) >= 1",
+      comments = "This is used to classify type 1 diabetes. Naturally, having any type 1 diabetes diagnosis is indicative of type 1 diabetes."
+    ),
+    has_majority_t1d_diagnoses = list(
+      register = NA,
+      title = "Determine if the majority of diagnoses are for type 1 diabetes",
+      logic = "if_else(n_t1d_endocrinology + n_t2d_endocrinology > 0, n_t1d_endocrinology > n_t2d_endocrinology, n_t1d_medical > n_t2d_medical)",
+      comments = "This is used to classify type 1 diabetes. Endocrinology diagnoses are prioritised if available, otherwise other medical department diagnoses are used. If no diabetes type-specific primary diagnoses are available from an endocrinology or other medical departments, this variable is returned as `FALSE`."
+    ),
     has_two_thirds_insulin = list(
       register = NA,
       title = "Whether two-thirds of GLD doses are insulin doses",
