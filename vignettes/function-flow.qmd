@@ -49,16 +49,16 @@ flowchart TD
     prepare_lpr3 --> keep_pregnancy_dates
 
     %% Keep
-    sysi --> keep_podiatrist_services["keep_podiatrist_services()"]:::include
+    sysi --> keep_podiatrist_services["keep_podiatrist_services()"]:::keep
     sssy --> keep_podiatrist_services
 
-    prepare_lpr2 --> keep_diabetes_diagnoses["keep_diabetes_diagnoses()"]:::include
+    prepare_lpr2 --> keep_diabetes_diagnoses["keep_diabetes_diagnoses()"]:::keep
     prepare_lpr3 --> keep_diabetes_diagnoses
     keep_diabetes_diagnoses --> add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
 
-    lmdb --> keep_gld_purchases["keep_gld_purchases()"]:::include
+    lmdb --> keep_gld_purchases["keep_gld_purchases()"]:::keep
 
-    lab_forsker --> keep_hba1c["keep_hba1c()"]:::include
+    lab_forsker --> keep_hba1c["keep_hba1c()"]:::keep
 
     %% Drop
     keep_gld_purchases --> drop_potential_pcos["drop_potential_pcos()"]:::drop
@@ -83,7 +83,7 @@ flowchart TD
 
   %% Styling
   classDef default fill:#EEEEEE, color:#000000, stroke:#000000
-  classDef include fill:lightblue
+  classDef keep fill:lightblue
   classDef drop fill:orange
   style classify_diabetes fill:#FFFFFF, color:#000000
   style data_sources fill:#FFFFFF, color:#000000, stroke-width:0px
