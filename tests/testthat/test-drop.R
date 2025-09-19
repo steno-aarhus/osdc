@@ -1,4 +1,4 @@
-# drop_potential_pcos()
+# drop_pcos()
 
 bef <- simulate_registers("bef", 1000)[[1]] |>
   dplyr::add_row(
@@ -18,11 +18,11 @@ gld_purchases <- simulate_registers("lmdb", 1000)[[1]] |>
 
 test_that("bef needs expected variables", {
   bef <- bef[-2]
-  expect_error(drop_potential_pcos(gld_purchases, bef))
+  expect_error(drop_pcos(gld_purchases, bef))
 })
 
 test_that("at least 1 'case' is removed using the simulated data", {
-  actual <- drop_potential_pcos(gld_purchases, bef)
+  actual <- drop_pcos(gld_purchases, bef)
   # Should be at least one row less after dropping rows.
   expect_true(nrow(actual) <= nrow(gld_purchases) - 1)
 })
@@ -53,7 +53,7 @@ lpr3 <- prepare_lpr3(
 no_pcos <- register_data$lmdb |>
   keep_gld_purchases() |>
   add_insulin_purchases_cols() |>
-  drop_potential_pcos(register_data$bef)
+  drop_pcos(register_data$bef)
 
 preg_dates <- keep_pregnancy_dates(lpr2, lpr3)
 

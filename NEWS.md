@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.7.1 (2025-09-19)
+
+### Refactor
+
+- :truck: `drop_potential_pcos()` -> `drop_pcos()`  (#359)
+
 ## 0.7.0 (2025-09-19)
 
 ### Feat

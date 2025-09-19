@@ -7,7 +7,7 @@
 drop_pregnancies(dropped_pcos, pregnancy_dates, included_hba1c)
 }
 \arguments{
-\item{dropped_pcos}{Output from \code{\link[=drop_potential_pcos]{drop_potential_pcos()}}.}
+\item{dropped_pcos}{Output from \code{\link[=drop_pcos]{drop_pcos()}}.}
 
 \item{pregnancy_dates}{Output from \code{\link[=keep_pregnancy_dates]{keep_pregnancy_dates()}}.}
 
@@ -15,14 +15,14 @@ drop_pregnancies(dropped_pcos, pregnancy_dates, included_hba1c)
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
-Has the same output data as the input \code{\link[=drop_potential_pcos]{drop_potential_pcos()}}, except
+Has the same output data as the input \code{\link[=drop_pcos]{drop_pcos()}}, except
 for a helper logical variable \code{no_pregnancy} that is used in later
 functions.
 }
 \description{
 This function takes the combined outputs from
 \code{\link[=keep_pregnancy_dates]{keep_pregnancy_dates()}}, \code{\link[=keep_hba1c]{keep_hba1c()}}, and
-\code{\link[=drop_potential_pcos]{drop_potential_pcos()}} and uses diagnoses from LPR2 or LPR3 to
+\code{\link[=drop_pcos]{drop_pcos()}} and uses diagnoses from LPR2 or LPR3 to
 drop both elevated HbA1c tests and GLD purchases during pregnancy, as
 these may be due to gestational diabetes, rather than type 1 or type 2
 diabetes. The aim is to identify pregnancies based on diagnosis codes
@@ -68,7 +68,7 @@ lpr3 <- prepare_lpr3(
 register_data$lmdb |>
   keep_gld_purchases() |>
   add_insulin_purchases_cols() |>
-  drop_potential_pcos(register_data$bef) |>
+  drop_pcos(register_data$bef) |>
   drop_pregnancies(
     keep_pregnancy_dates(lpr2, lpr3),
     keep_hba1c(register_data$lab_forsker)

@@ -111,7 +111,7 @@ classify_diabetes <- function(
 
   # Drop steps -----
   gld_hba1c_after_drop_steps <- gld_purchases |>
-    drop_potential_pcos(bef = bef) |>
+    drop_pcos(bef = bef) |>
     drop_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold

@@ -18,11 +18,11 @@
 #' @param diabetes_diagnoses Output from [keep_diabetes_diagnoses()].
 #' @param podiatrist_services Output from [keep_podiatrist_services()].
 #' @param gld_hba1c_after_drop_steps Output from [drop_pregnancies()] and
-#'    [drop_potential_pcos()].
+#'    [drop_pcos()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()],
 #'   with the joined columns from the output of [keep_diabetes_diagnoses()],
-#'   [keep_podiatrist_services()], [drop_potential_pcos()], and
+#'   [keep_podiatrist_services()], [drop_pcos()], and
 #'   [drop_pregnancies()]. There will be 1-8 rows per `pnr`.
 #' @keywords internal
 #' @inherit algorithm seealso
