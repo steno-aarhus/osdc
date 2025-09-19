@@ -153,115 +153,24 @@
 </div>
 </div>
 <p>The sections below are split into functions for inclusion and exclusion as well as functions for determining the final diagnosis date and eventual classification of type 1 and type 2 diabetes.</p>
-<section class="level2"><h2 id="inclusion-events">Inclusion events<a class="anchor" aria-label="anchor" href="#inclusion-events"></a>
-</h2>
+<p>For more details and descriptions about the individual steps within the algorithm, see the documentation on the internal functions:</p>
 <ul>
-<li>
-<code><a href="../reference/prepare_lpr2.html">prepare_lpr2()</a></code>: See <code><a href="../reference/prepare_lpr2.html">?prepare_lpr2</a></code> for more information.</li>
-<li>
-<code><a href="../reference/prepare_lpr3.html">prepare_lpr3()</a></code>: See <code><a href="../reference/prepare_lpr3.html">?prepare_lpr3</a></code> for more information.</li>
+<li><code><a href="../reference/prepare_lpr2.html">prepare_lpr2()</a></code></li>
+<li><code><a href="../reference/prepare_lpr3.html">prepare_lpr3()</a></code></li>
+<li><code><a href="../reference/keep_pregnancy_dates.html">keep_pregnancy_dates()</a></code></li>
+<li><code><a href="../reference/include_diabetes_diagnoses.html">include_diabetes_diagnoses()</a></code></li>
+<li><code><a href="../reference/add_t1d_diagnoses_cols.html">add_t1d_diagnoses_cols()</a></code></li>
+<li><code><a href="../reference/include_podiatrist_services.html">include_podiatrist_services()</a></code></li>
+<li><code><a href="../reference/include_hba1c.html">include_hba1c()</a></code></li>
+<li><code><a href="../reference/include_gld_purchases.html">include_gld_purchases()</a></code></li>
+<li><code><a href="../reference/exclude_potential_pcos.html">exclude_potential_pcos()</a></code></li>
+<li><code><a href="../reference/exclude_pregnancies.html">exclude_pregnancies()</a></code></li>
+<li><code><a href="../reference/add_insulin_purchases_cols.html">add_insulin_purchases_cols()</a></code></li>
+<li><code><a href="../reference/join_inclusions.html">join_inclusions()</a></code></li>
+<li><code>create_inclusion_dates()</code></li>
+<li><code><a href="../reference/classify_t1d.html">classify_t1d()</a></code></li>
 </ul>
-<section class="level3"><h3 id="include_diabetes_diagnoses">
-<code>include_diabetes_diagnoses()</code><a class="anchor" aria-label="anchor" href="#include_diabetes_diagnoses"></a>
-</h3>
-<p>See <code><a href="../reference/include_diabetes_diagnoses.html">?include_diabetes_diagnoses</a></code> for more information.</p>
-</section><section class="level3"><h3 id="include_podiatrist_services">
-<code>include_podiatrist_services()</code><a class="anchor" aria-label="anchor" href="#include_podiatrist_services"></a>
-</h3>
-<p>See <code><a href="../reference/include_podiatrist_services.html">?include_podiatrist_services</a></code> for more information.</p>
-</section><section class="level3"><h3 id="include_hba1c">
-<code>include_hba1c()</code><a class="anchor" aria-label="anchor" href="#include_hba1c"></a>
-</h3>
-<p>See <code><a href="../reference/include_hba1c.html">?include_hba1c</a></code> for more information.</p>
-</section><section class="level3"><h3 id="include_gld_purchases">
-<code>include_gld_purchases()</code><a class="anchor" aria-label="anchor" href="#include_gld_purchases"></a>
-</h3>
-<p>See <code><a href="../reference/include_gld_purchases.html">?include_gld_purchases</a></code> for more information.</p>
-</section></section><section class="level2"><h2 id="exclusion-events">Exclusion events<a class="anchor" aria-label="anchor" href="#exclusion-events"></a>
-</h2>
-<section class="level3"><h3 id="exclude_potential_pcos">
-<code>exclude_potential_pcos()</code><a class="anchor" aria-label="anchor" href="#exclude_potential_pcos"></a>
-</h3>
-<p>See <code><a href="../reference/exclude_potential_pcos.html">?exclude_potential_pcos</a></code> for more information.</p>
-</section><section class="level3"><h3 id="exclude_pregnancies">
-<code>exclude_pregnancies()</code><a class="anchor" aria-label="anchor" href="#exclude_pregnancies"></a>
-</h3>
-<p>See <code><a href="../reference/exclude_pregnancies.html">?exclude_pregnancies</a></code> for more information.</p>
-</section></section><section class="level2"><h2 id="joining-inclusions-and-exclusions">Joining inclusions and exclusions<a class="anchor" aria-label="anchor" href="#joining-inclusions-and-exclusions"></a>
-</h2>
-<section class="level3"><h3 id="join_inclusions">
-<code>join_inclusions()</code><a class="anchor" aria-label="anchor" href="#join_inclusions"></a>
-</h3>
-<p>See <code><a href="../reference/join_inclusions.html">?join_inclusions</a></code> for more information.</p>
-</section><section class="level3"><h3 id="create-inclusion-dates">Create inclusion dates<a class="anchor" aria-label="anchor" href="#create-inclusion-dates"></a>
-</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">#' Create the final diagnosis date based on all the inclusion event types.</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' The function `create_inclusion_dates()` takes the output from `join_inclusions()`</span></span>
-<span><span class="co">#' and defines the final diagnosis date based on all the inclusion event types.</span></span>
-<span><span class="co">#' Keeps only those with 2 or more recorded inclusion events, regardless of the</span></span>
-<span><span class="co">#' type of these events (e.g. two elevated HbA1c tests will lead to inclusion as</span></span>
-<span><span class="co">#' well as one elevated HbA1c test followed by a purchase of glucose-lowering</span></span>
-<span><span class="co">#' drugs).</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @param inclusions Output from [join_inclusions()].</span></span>
-<span><span class="co">#' @param stable_inclusion_start_date The date from when the inclusion events</span></span>
-<span><span class="co">#'    from all sources are considered more 'stable' (e.g. time after the change</span></span>
-<span><span class="co">#'    in how medication drugs are labeled and how doctors actually regularly</span></span>
-<span><span class="co">#'    input the new change into the database).</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @returns The same type as the input data, default as a [tibble::tibble()],</span></span>
-<span><span class="co">#'   along with the `purchase_date`, and `atc` columns from</span></span>
-<span><span class="co">#'   `exclude_pregnancies()`, and the `n_t1d_endocrinology`,</span></span>
-<span><span class="co">#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from</span></span>
-<span><span class="co">#'   `include_diabetes_diagnoses()`. It also creates two new columns:</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#'   - `raw_inclusion_date`: Date of inclusion, which is the second</span></span>
-<span><span class="co">#'      earliest recorded event.</span></span>
-<span><span class="co">#'   - `stable_inclusion_date`: Date of inclusion of individuals included</span></span>
-<span><span class="co">#'      at least one year after the incorporation of inclusions based on</span></span>
-<span><span class="co">#'      glucose-lowering drug data (1998 onwards when using National Patient</span></span>
-<span><span class="co">#'      Register data for censoring of gestational diabetes). Limits the</span></span>
-<span><span class="co">#'      included cohort to only individuals with a valid date of inclusion</span></span>
-<span><span class="co">#'      (and thereby valid age at inclusion &amp; duration of diabetes).</span></span>
-<span><span class="co">#'</span></span>
-<span><span class="co">#' @keywords internal</span></span>
-<span><span class="co">#' @inherit algorithm seealso</span></span>
-<span><span class="va">create_inclusion_dates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">inclusions</span>, <span class="va">stable_inclusion_start_date</span> <span class="op">=</span> <span class="st">"1998-01-01"</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">inclusions</span> <span class="op">|&gt;</span></span>
-<span>    <span class="co"># Drop earliest date so only those with two or more events are included.</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, .by <span class="op">=</span> <span class="st">"pnr"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>      <span class="co"># Earliest date in the rows for each individual.</span></span>
-<span>      raw_inclusion_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">dates</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span>      stable_inclusion_date <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
-<span>        <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span> <span class="op">&lt;</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/as_date.html" class="external-link">as_date</a></span><span class="op">(</span><span class="va">stable_inclusion_start_date</span><span class="op">)</span>,</span>
-<span>        <span class="cn">NA</span>,</span>
-<span>        <span class="va">.data</span><span class="op">$</span><span class="va">raw_inclusion_date</span></span>
-<span>      <span class="op">)</span>,</span>
-<span>      .by <span class="op">=</span> <span class="st">"pnr"</span></span>
-<span>    <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span></span>
-<span>      <span class="st">"pnr"</span>,</span>
-<span>      <span class="st">"raw_inclusion_date"</span>,</span>
-<span>      <span class="st">"stable_inclusion_date"</span>,</span>
-<span></span>
-<span>      <span class="co"># From `exclude_pregnancies()` via the GLD purchases</span></span>
-<span>      <span class="co"># TODO: this might need to be renamed in a previous step, rather than here.</span></span>
-<span>      <span class="st">"purchase_date"</span> <span class="op">=</span> <span class="st">"date"</span>,</span>
-<span>      <span class="st">"atc"</span>,</span>
-<span></span>
-<span>      <span class="co"># From `include_diabetes_diagnoses()`</span></span>
-<span>      <span class="st">"n_t1d_endocrinology"</span>,</span>
-<span>      <span class="st">"n_t2d_endocrinology"</span>,</span>
-<span>      <span class="st">"n_t1d_medical"</span>,</span>
-<span>      <span class="st">"n_t2d_medical"</span></span>
-<span>    <span class="op">)</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-</section></section><script id="quarto-html-after-body" type="application/javascript">
+<script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -344,8 +253,7 @@
       }
     }
   });
-  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside>
+  </script></main>
 </div>
 
 
