@@ -119,10 +119,10 @@
     lab_forsker --&gt; keep_hba1c["keep_hba1c()"]:::keep
 
     %% Drop
-    keep_gld_purchases --&gt; drop_potential_pcos["drop_potential_pcos()"]:::drop
-    bef --&gt; drop_potential_pcos
+    keep_gld_purchases --&gt; drop_pcos["drop_pcos()"]:::drop
+    bef --&gt; drop_pcos
 
-    drop_potential_pcos --&gt; drop_pregnancies["drop_pregnancies()"]:::drop
+    drop_pcos --&gt; drop_pregnancies["drop_pregnancies()"]:::drop
     keep_pregnancy_dates --&gt; drop_pregnancies
     keep_hba1c --&gt; drop_pregnancies
     drop_pregnancies --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
@@ -135,7 +135,7 @@
     join_inclusions --&gt; create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --&gt; classify_t1d["classify_t1d()"]
 
-    keep_pregnancy_dates ~~~ drop_potential_pcos
+    keep_pregnancy_dates ~~~ drop_pcos
 
   end
 
@@ -163,7 +163,7 @@
 <li><code><a href="../reference/keep_podiatrist_services.html">keep_podiatrist_services()</a></code></li>
 <li><code><a href="../reference/keep_hba1c.html">keep_hba1c()</a></code></li>
 <li><code><a href="../reference/keep_gld_purchases.html">keep_gld_purchases()</a></code></li>
-<li><code><a href="../reference/drop_potential_pcos.html">drop_potential_pcos()</a></code></li>
+<li><code><a href="../reference/drop_pcos.html">drop_pcos()</a></code></li>
 <li><code><a href="../reference/drop_pregnancies.html">drop_pregnancies()</a></code></li>
 <li><code><a href="../reference/add_insulin_purchases_cols.html">add_insulin_purchases_cols()</a></code></li>
 <li><code><a href="../reference/join_inclusions.html">join_inclusions()</a></code></li>
