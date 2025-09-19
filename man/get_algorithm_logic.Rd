@@ -17,10 +17,4 @@ A character string.
 \description{
 Get the algorithmic logic and convert to an R logic condition.
 }
-\examples{
-\dontrun{
-get_algorithm_logic("hba1c")
-get_algorithm_logic("gld")
-}
-}
 \keyword{internal}

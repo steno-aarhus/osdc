@@ -23,10 +23,7 @@ include_gld_purchases <- function(lmdb) {
   logic <- c(
     "is_gld_code"
   ) |>
-    rlang::set_names() |>
-    purrr::map(get_algorithm_logic) |>
-    # To convert the string into an R expression
-    purrr::map(rlang::parse_expr)
+    logic_as_expression()
 
   lmdb |>
     # Use !! to inject the expression into filter.

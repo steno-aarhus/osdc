@@ -93,43 +93,20 @@ The sections below are split into functions for inclusion and exclusion
 as well as functions for determining the final diagnosis date and
 eventual classification of type 1 and type 2 diabetes.
 
-## Inclusion events
+For more details and descriptions about the individual steps within
+the algorithm, see the documentation on the internal functions:
 
--   `prepare_lpr2()`: See `?prepare_lpr2` for more information.
--   `prepare_lpr3()`: See `?prepare_lpr3` for more information.
-
-### `include_diabetes_diagnoses()`
-
-See `?include_diabetes_diagnoses` for more information.
-
-### `include_podiatrist_services()`
-
-See `?include_podiatrist_services` for more information.
-
-### `include_hba1c()`
-
-See `?include_hba1c` for more information.
-
-### `include_gld_purchases()`
-
-See `?include_gld_purchases` for more information.
-
-## Exclusion events
-
-### `exclude_potential_pcos()`
-
-See `?exclude_potential_pcos` for more information.
-
-### `exclude_pregnancies()`
-
-See `?exclude_pregnancies` for more information.
-
-## Joining inclusions and exclusions
-
-### `join_inclusions()`
-
-See `?join_inclusions` for more information.
-
-### Create inclusion dates
-
-See `?create_inclusion_dates` for more information.
+-   `prepare_lpr2()`
+-   `prepare_lpr3()`
+-   `keep_pregnancy_dates()`
+-   `keep_diabetes_diagnoses()`
+-   `add_t1d_diagnoses_cols()`
+-   `keep_podiatrist_services()`
+-   `keep_hba1c()`
+-   `keep_gld_purchases()`
+-   `drop_potential_pcos()`
+-   `drop_pregnancies()`
+-   `add_insulin_purchases_cols()`
+-   `join_inclusions()`
+-   `create_inclusion_dates()`
+-   `classify_t1d()`
