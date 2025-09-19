@@ -1,15 +1,12 @@
 ---
-title: "Edge Case Test Dataset Documentation"
-output: rmarkdown::html_vignette
-bibliography: ../references.bib
-csl: ../vancouver.csl
+title: "Edge case test dataset documentation"
+bibliography: references.bib
+csl: vancouver.csl
 vignette: >
-  %\VignetteIndexEntry{Edge Case Test Dataset Documentation}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Edge case test dataset documentation}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
-
-# OSDC Test Dataset Documentation
 
 This document provides a detailed overview of the 22 edge cases in the
 dataset output by the `create_test_cases()` function. This synthetic
@@ -20,7 +17,7 @@ censoring to the final type classification.
 Each case is represented by a unique individual with a pseudo-`pnr`
 (patient ID) that serves as a debugging key.
 
-## Case Naming Convention & Dictionaries
+## Case naming convention & dictionaries
 
 The `pnr` for each case consists of three parts: 1. **Index Number**: A
 unique number from 1 to 22. 2. **Expected Outcome**: The expected
@@ -29,9 +26,7 @@ A series of abbreviations indicating which criteria were met (`T` for
 True/Fulfilled) or not met (`F` for False/Not Fulfilled) to arrive at
 the outcome.
 
-------------------------------------------------------------------------
-
-### **Dictionary 1: Diabetes Type Classification (Cases 1-11)**
+### Cases 1-11: diabetes type classification
 
 These flags test the logic for classifying a patient as Type 1 or Type 2
 diabetes after they have already been included in the cohort.
@@ -49,9 +44,7 @@ diabetes after they have already been included in the cohort.
 -   `itwo3`: **I**nsulin makes up at least **two-thirds** of total GLD
     doses.
 
-------------------------------------------------------------------------
-
-### **Dictionary 2: Inclusion Criteria (Cases 12-16)**
+### Cases 12-16: inclusion criteria
 
 These flags test the initial inclusion logic, which requires an
 individual to have **at least two** qualifying events. The pseudo-`pnr`
@@ -64,9 +57,7 @@ for these cases indicate which types of events are present.
 -   `pod`: Inclusion event from a diabetes-specific **pod**iatrist
     service.
 
-------------------------------------------------------------------------
-
-### **Dictionary 3: Censoring Criteria (Cases 17-21)**
+### Cases 17-21: censoring criteria
 
 These flags describe the specific data censoring scenarios being tested.
 
@@ -83,11 +74,9 @@ These flags describe the specific data censoring scenarios being tested.
 -   `female_pregnancyT`: A **female** patient whose health events
     **should** be censored due to **pregnancy**.
 
-------------------------------------------------------------------------
+## Detailed case descriptions
 
-## Detailed Case Descriptions
-
-### **Diabetes Type Classification Cases (1 - 11)**
+### Cases 1-11: diabetes type classification testing
 
 These cases all meet the criteria for inclusion in the diabetes cohort,
 and test the subsequent classification into T1D or T2D.
@@ -311,9 +300,7 @@ and test the subsequent classification into T1D or T2D.
         used by the classification logic).
     -   Inclusion date is defined by records in `lpr_adm`.
 
-------------------------------------------------------------------------
-
-### **Inclusion Criteria Cases (12 - 16)**
+### Cases 12-16: inclusion criteria testing
 
 These cases test the first step of the algorithm: identifying
 individuals with at least **two** diabetes-indicating events.
@@ -390,9 +377,7 @@ individuals with at least **two** diabetes-indicating events.
         and `diagnoser` (`diagnosekode == 'DO822'`) far removed from
         `eksd` dates in `lmdb`.
 
-------------------------------------------------------------------------
-
-### **Censoring Criteria Cases (17 - 21)**
+### Cases 17-21: censoring criteria testing
 
 These cases test the logic for correctly ignoring or "censoring" events
 that occur under specific circumstances (e.g., during pregnancy). With
@@ -473,9 +458,7 @@ potential inclusion events are censored.
         calculated pregnancy windows around the dates of the two
         diagnoses.
 
-------------------------------------------------------------------------
-
-### **Blank Data Case (22)**
+### Cases 22-23: Various testing
 
 #### Case 22: `22_nodm_female_blank`
 
@@ -488,10 +471,6 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   A record in `bef`.
     -   No corresponding records for this `pnr` in any other table.
-
-------------------------------------------------------------------------
-
-### **Stable inclusion cut-off date case (23)**
 
 #### Case 23: `23_t2d_gldT_1995_1999`
 
@@ -506,4 +485,3 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   GLD purchases in `lmdb` on 1995-06-15 & 1995-06-16 (sets the
         `raw_inclusion_date`).
-
