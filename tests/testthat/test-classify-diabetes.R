@@ -11,7 +11,7 @@ test_that("Algorithm produced unexpected outputs", {
     lab_forsker = edge_case_data$lab_forsker,
     bef = edge_case_data$bef,
     lmdb = edge_case_data$lmdb
-  )
+  ) |> dplyr::arrange(pnr)
 
   expected_included <- create_expected_inclusions()
 
