@@ -29,8 +29,6 @@ A series of abbreviations indicating which criteria were met (`T` for
 True/Fulfilled) or not met (`F` for False/Not Fulfilled) to arrive at
 the outcome.
 
-------------------------------------------------------------------------
-
 ### **Dictionary 1: Diabetes Type Classification (Cases 1-11)**
 
 These flags test the logic for classifying a patient as Type 1 or Type 2
@@ -49,8 +47,6 @@ diabetes after they have already been included in the cohort.
 -   `itwo3`: **I**nsulin makes up at least **two-thirds** of total GLD
     doses.
 
-------------------------------------------------------------------------
-
 ### **Dictionary 2: Inclusion Criteria (Cases 12-16)**
 
 These flags test the initial inclusion logic, which requires an
@@ -63,8 +59,6 @@ for these cases indicate which types of events are present.
 -   `hba1c`: Inclusion event from a high **HbA1c** measurement.
 -   `pod`: Inclusion event from a diabetes-specific **pod**iatrist
     service.
-
-------------------------------------------------------------------------
 
 ### **Dictionary 3: Censoring Criteria (Cases 17-21)**
 
@@ -82,8 +76,6 @@ These flags describe the specific data censoring scenarios being tested.
     indication codes.
 -   `female_pregnancyT`: A **female** patient whose health events
     **should** be censored due to **pregnancy**.
-
-------------------------------------------------------------------------
 
 ## Detailed Case Descriptions
 
@@ -311,8 +303,6 @@ and test the subsequent classification into T1D or T2D.
         used by the classification logic).
     -   Inclusion date is defined by records in `lpr_adm`.
 
-------------------------------------------------------------------------
-
 ### **Inclusion Criteria Cases (12 - 16)**
 
 These cases test the first step of the algorithm: identifying
@@ -389,8 +379,6 @@ individuals with at least **two** diabetes-indicating events.
     -   Pregnancy endings recorded in `lpr_diag` (`c_diag` == `'DZ371'`)
         and `diagnoser` (`diagnosekode == 'DO822'`) far removed from
         `eksd` dates in `lmdb`.
-
-------------------------------------------------------------------------
 
 ### **Censoring Criteria Cases (17 - 21)**
 
@@ -473,8 +461,6 @@ potential inclusion events are censored.
         calculated pregnancy windows around the dates of the two
         diagnoses.
 
-------------------------------------------------------------------------
-
 ### **Blank Data Case (22)**
 
 #### Case 22: `22_nodm_female_blank`
@@ -488,8 +474,6 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   A record in `bef`.
     -   No corresponding records for this `pnr` in any other table.
-
-------------------------------------------------------------------------
 
 ### **Stable inclusion cut-off date case (23)**
 
