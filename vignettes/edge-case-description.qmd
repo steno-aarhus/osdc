@@ -506,3 +506,4 @@ potential inclusion events are censored.
 -   **Key Data Points**:
     -   GLD purchases in `lmdb` on 1995-06-15 & 1995-06-16 (sets the
         `raw_inclusion_date`).
+
