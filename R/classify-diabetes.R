@@ -9,6 +9,12 @@
 #' @param lab_forsker The lab forsker register
 #' @param bef The BEF register
 #' @param lmdb The LMDB register
+#' @param stable_inclusion_start_date Cutoff date after which inclusion events
+#'    are considered reliable (e.g., after changes in drug labeling or data
+#'    entry practices). Defaults to "1998-01-01" which is one year after
+#'    obstetric codes are reliable in the GLD data (since we use LPR data to
+#'    drop rows related to gestational diabetes). This limits the included
+#'    cohort to individuals with inclusion dates after this cutoff date.
 #'
 #' @returns The same object type as the input data, which would be a
 #'   [tibble::tibble()] type object.
@@ -53,7 +59,8 @@ classify_diabetes <- function(
   sssy,
   lab_forsker,
   bef,
-  lmdb
+  lmdb,
+  stable_inclusion_start_date = "1998-01-01"
 ) {
   # Verification step -----
   kontakter <- select_required_variables(kontakter, "kontakter")
@@ -82,30 +89,30 @@ classify_diabetes <- function(
     lpr3 = lpr3
   )
 
-  # Inclusion steps -----
-  diabetes_diagnoses <- include_diabetes_diagnoses(
+  # Keep steps -----
+  diabetes_diagnoses <- keep_diabetes_diagnoses(
     lpr2 = lpr2,
     lpr3 = lpr3
   ) |>
     add_t1d_diagnoses_cols()
 
-  podiatrist_services <- include_podiatrist_services(
+  podiatrist_services <- keep_podiatrist_services(
     sysi = sysi,
     sssy = sssy
   )
 
-  gld_purchases <- include_gld_purchases(
+  gld_purchases <- keep_gld_purchases(
     lmdb = lmdb
   )
 
-  hba1c_over_threshold <- include_hba1c(
+  hba1c_over_threshold <- keep_hba1c(
     lab_forsker = lab_forsker
   )
 
-  # Exclusion steps -----
-  gld_hba1c_after_exclusions <- gld_purchases |>
-    exclude_potential_pcos(bef = bef) |>
-    exclude_pregnancies(
+  # Drop steps -----
+  gld_hba1c_after_drop_steps <- gld_purchases |>
+    drop_potential_pcos(bef = bef) |>
+    drop_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
     ) |>
@@ -119,11 +126,11 @@ classify_diabetes <- function(
   inclusions <- join_inclusions(
     diabetes_diagnoses = diabetes_diagnoses,
     podiatrist_services = podiatrist_services,
-    gld_hba1c_after_exclusions = gld_hba1c_after_exclusions
+    gld_hba1c_after_drop_steps = gld_hba1c_after_drop_steps
   )
 
   inclusions |>
-    # create_inclusion_dates() |>
+    create_inclusion_dates(stable_inclusion_start_date) |>
     classify_t1d() |>
     # If has_t1d is NA, t2d will also be NA
     dplyr::mutate(has_t2d = !.data$has_t1d) |>
@@ -136,9 +143,9 @@ classify_diabetes <- function(
     )
 }
 
-#' After inclusion and exclusion, classify those with type 1 diabetes.
+#' After filtering, classify those with type 1 diabetes.
 #'
-#' @param data Joined data output from the inclusion and exclusion steps.
+#' @param data Joined data output from the filtering steps.
 #'
 #' @return The same object type as the input data, which would be a
 #'   [tibble::tibble()] type object.

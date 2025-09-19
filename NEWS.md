@@ -7,6 +7,16 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.7.0 (2025-09-19)
+
+### Feat
+
+- ✨ `create_inclusion_dates()` (#316)
+
+### Refactor
+
+- :truck: rename `inclusion_` and `exclusion_` to `keep_` and `drop_` (#356)
+
 ## 0.6.3 (2025-09-18)
 
 ### Refactor

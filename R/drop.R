@@ -1,9 +1,55 @@
-#' Exclude any pregnancy events that could be gestational diabetes.
+#' Drop rows with metformin purchases that are potentially for the treatment of polycystic ovary syndrome.
+#'
+#' Takes the output from [keep_gld_purchases()] and `bef` (information on sex and date
+#' of birth) to drop rows with metformin purchases that are potentially for the treatment
+#' of polycystic ovary syndrome.
+#' This function only performs a filtering operation so outputs the same structure and
+#' variables as the input from [keep_gld_purchases()], except the addition of a logical
+#' helper variable `no_pcos` that is used in later functions.
+#' After these rows have been dropped, the output is used by `drop_pregnancies()`.
+#'
+#' @param gld_purchases The output from [keep_gld_purchases()].
+#' @param bef The `bef` register.
+#'
+#' @return The same type as the input data, default as a [tibble::tibble()].
+#'    It also has the same columns as [keep_gld_purchases()], except for a logical
+#'    helper variable `no_pcos` that is used in later functions.
+#' @keywords internal
+#' @inherit algorithm seealso
+#'
+#' @examples
+#' \dontrun{
+#' register_data <- simulate_registers(c("lmdb", "bef"), 100)
+#' drop_potential_pcos(
+#'   gld_purchases = keep_gld_purchases(register_data$lmdb),
+#'   bef = register_data$bef
+#' )
+#' }
+drop_potential_pcos <- function(gld_purchases, bef) {
+  logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
+
+  # Use the algorithm logic to drop potential PCOS
+  gld_purchases |>
+    dplyr::inner_join(bef, by = dplyr::join_by("pnr")) |>
+    dplyr::mutate(
+      date = lubridate::as_date(.data$date),
+      foed_dato = lubridate::as_date(.data$foed_dato)
+    ) |>
+    # Use !! to inject the expression into filter
+    dplyr::filter(!!logic) |>
+    # Keep only the columns we need
+    dplyr::select(
+      -"koen",
+      -"foed_dato"
+    )
+}
+
+#' Drop pregnancy events that could be gestational diabetes.
 #'
 #' This function takes the combined outputs from
-#' [keep_pregnancy_dates()], [include_hba1c()], and
-#' [exclude_potential_pcos()] and uses diagnoses from LPR2 or LPR3 to
-#' exclude both elevated HbA1c tests and GLD purchases during pregnancy, as
+#' [keep_pregnancy_dates()], [keep_hba1c()], and
+#' [drop_potential_pcos()] and uses diagnoses from LPR2 or LPR3 to
+#' drop both elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
 #' diabetes. The aim is to identify pregnancies based on diagnosis codes
 #' specific to pregnancy-ending events (e.g. live births or miscarriages),
@@ -12,19 +58,19 @@
 #' elevated HbA1c tests or purchases of glucose-lowering drugs during
 #' pregnancy).
 #'
-#' After these exclusion functions have been applied, the output serves as
+#' After these drop functions have been applied, the output serves as
 #' inputs to:
 #'
 #' 1.  The censored HbA1c and GLD data are passed to the
 #'     [join_inclusions()] function for the final step of the inclusion
 #'     process.
 #'
-#' @param excluded_pcos Output from [exclude_potential_pcos()].
+#' @param dropped_pcos Output from [drop_potential_pcos()].
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].
-#' @param included_hba1c Output from [include_hba1c()].
+#' @param included_hba1c Output from [keep_hba1c()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
-#'    Has the same output data as the input [exclude_potential_pcos()], except
+#'    Has the same output data as the input [drop_potential_pcos()], except
 #'    for a helper logical variable `no_pregnancy` that is used in later
 #'    functions.
 #' @keywords internal
@@ -53,18 +99,18 @@
 #'   diagnoser = register_data$diagnoser
 #' )
 #'
-#' # Exclude pregnancy dates
+#' # Drop pregnancy dates
 #' register_data$lmdb |>
-#'   include_gld_purchases() |>
+#'   keep_gld_purchases() |>
 #'   add_insulin_purchases_cols() |>
-#'   exclude_potential_pcos(register_data$bef) |>
-#'   exclude_pregnancies(
+#'   drop_potential_pcos(register_data$bef) |>
+#'   drop_pregnancies(
 #'     keep_pregnancy_dates(lpr2, lpr3),
-#'     include_hba1c(register_data$lab_forsker)
+#'     keep_hba1c(register_data$lab_forsker)
 #'   )
 #' }
-exclude_pregnancies <- function(
-  excluded_pcos,
+drop_pregnancies <- function(
+  dropped_pcos,
   pregnancy_dates,
   included_hba1c
 ) {
@@ -72,7 +118,7 @@ exclude_pregnancies <- function(
 
   # TODO: This should be done at an earlier stage.
   # Ensure both date columns are of type Date.
-  excluded_pcos <- excluded_pcos |>
+  dropped_pcos <- dropped_pcos |>
     dplyr::mutate(
       date = lubridate::as_date(.data$date)
     )
@@ -81,8 +127,8 @@ exclude_pregnancies <- function(
       date = lubridate::as_date(.data$date)
     )
 
-  excluded_pcos |>
-    # Row bind to keep rows from excluded_pcos and included_hba1c separate.
+  dropped_pcos |>
+    # Row bind to keep rows from dropped_pcos and included_hba1c separate.
     dplyr::left_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
     dplyr::left_join(
       pregnancy_dates,

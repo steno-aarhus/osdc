@@ -16,13 +16,13 @@ and logic are connected to each other. A high-level overview of the flow
 is shown in the diagram below.
 
 ::: content-hidden
-In the mermaid diagram below, invisible edges (~~~) are used solely
+In the mermaid diagram below, invisible edges (`~~~`) are used solely
 for layout purposes to help position the nodes.
 :::
 
 ```{mermaid}
 %%| eval: true
-%%| fig-cap: "Flow of functions in, as well as their required input registers, in the `classify_diabetes()` function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively)."
+%%| fig-cap: "Flow of functions in, as well as their required input registers, in the `classify_diabetes()` function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (`keep_*` and `drop_*`, respectively)."
 
 flowchart TD
   subgraph data_sources["Data sources"]
@@ -48,152 +48,65 @@ flowchart TD
     prepare_lpr2 --> keep_pregnancy_dates["keep_pregnancy_dates()"]
     prepare_lpr3 --> keep_pregnancy_dates
 
-    %% Inclusion steps
-    sysi --> include_podiatrist_services["include_podiatrist_services()"]:::include
-    sssy --> include_podiatrist_services
+    %% Keep
+    sysi --> keep_podiatrist_services["keep_podiatrist_services()"]:::keep
+    sssy --> keep_podiatrist_services
 
-    prepare_lpr2 --> include_diabetes_diagnoses["include_diabetes_diagnoses()"]:::include
-    prepare_lpr3 --> include_diabetes_diagnoses
-    include_diabetes_diagnoses --> add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
+    prepare_lpr2 --> keep_diabetes_diagnoses["keep_diabetes_diagnoses()"]:::keep
+    prepare_lpr3 --> keep_diabetes_diagnoses
+    keep_diabetes_diagnoses --> add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
 
-    lmdb --> include_gld_purchases["include_gld_purchases()"]:::include
+    lmdb --> keep_gld_purchases["keep_gld_purchases()"]:::keep
 
-    lab_forsker --> include_hba1c["include_hba1c()"]:::include
+    lab_forsker --> keep_hba1c["keep_hba1c()"]:::keep
 
-    %% Exclusion steps
-    include_gld_purchases --> exclude_potential_pcos["exclude_potential_pcos()"]:::exclude
-    bef --> exclude_potential_pcos
+    %% Drop
+    keep_gld_purchases --> drop_potential_pcos["drop_potential_pcos()"]:::drop
+    bef --> drop_potential_pcos
 
-    exclude_potential_pcos --> exclude_pregnancies["exclude_pregnancies()"]:::exclude
-    keep_pregnancy_dates --> exclude_pregnancies
-    include_hba1c --> exclude_pregnancies
-    exclude_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+    drop_potential_pcos --> drop_pregnancies["drop_pregnancies()"]:::drop
+    keep_pregnancy_dates --> drop_pregnancies
+    keep_hba1c --> drop_pregnancies
+    drop_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
-    %% Joining
+    %% Join and classify
     add_t1d_diagnoses_cols --> join_inclusions["join_inclusions()"]
-    include_podiatrist_services --> join_inclusions
+    keep_podiatrist_services --> join_inclusions
     add_insulin_purchases_cols --> join_inclusions
 
     join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --> classify_t1d["classify_t1d()"]
 
-    keep_pregnancy_dates ~~~ exclude_potential_pcos
+    keep_pregnancy_dates ~~~ drop_potential_pcos
 
   end
 
   %% Styling
   classDef default fill:#EEEEEE, color:#000000, stroke:#000000
-  classDef include fill:lightblue
-  classDef exclude fill:orange
+  classDef keep fill:lightblue
+  classDef drop fill:orange
   style classify_diabetes fill:#FFFFFF, color:#000000
   style data_sources fill:#FFFFFF, color:#000000, stroke-width:0px
 ```
 
-The sections below are split into functions for inclusion and exclusion
+The sections below are split into functions for keeping and dropping events
 as well as functions for determining the final diagnosis date and
 eventual classification of type 1 and type 2 diabetes.
 
-## Inclusion events
+For more details and descriptions about the individual steps within
+the algorithm, see the documentation on the internal functions:
 
--   `prepare_lpr2()`: See `?prepare_lpr2` for more information.
--   `prepare_lpr3()`: See `?prepare_lpr3` for more information.
-
-### `include_diabetes_diagnoses()`
-
-See `?include_diabetes_diagnoses` for more information.
-
-### `include_podiatrist_services()`
-
-See `?include_podiatrist_services` for more information.
-
-### `include_hba1c()`
-
-See `?include_hba1c` for more information.
-
-### `include_gld_purchases()`
-
-See `?include_gld_purchases` for more information.
-
-## Exclusion events
-
-### `exclude_potential_pcos()`
-
-See `?exclude_potential_pcos` for more information.
-
-### `exclude_pregnancies()`
-
-See `?exclude_pregnancies` for more information.
-
-## Joining inclusions and exclusions
-
-### `join_inclusions()`
-
-See `?join_inclusions` for more information.
-
-### Create inclusion dates
-
-```{r}
-#' Create the final diagnosis date based on all the inclusion event types.
-#'
-#' The function `create_inclusion_dates()` takes the output from `join_inclusions()`
-#' and defines the final diagnosis date based on all the inclusion event types.
-#' Keeps only those with 2 or more recorded inclusion events, regardless of the
-#' type of these events (e.g. two elevated HbA1c tests will lead to inclusion as
-#' well as one elevated HbA1c test followed by a purchase of glucose-lowering
-#' drugs).
-#'
-#' @param inclusions Output from [join_inclusions()].
-#' @param stable_inclusion_start_date The date from when the inclusion events
-#'    from all sources are considered more 'stable' (e.g. time after the change
-#'    in how medication drugs are labeled and how doctors actually regularly
-#'    input the new change into the database).
-#'
-#' @returns The same type as the input data, default as a [tibble::tibble()],
-#'   along with the `purchase_date`, and `atc` columns from
-#'   `exclude_pregnancies()`, and the `n_t1d_endocrinology`,
-#'   `n_t2d_endocrinology`, `n_t1d_medical`, and `n_t2d_medical` columns from
-#'   `include_diabetes_diagnoses()`. It also creates two new columns:
-#'
-#'   - `raw_inclusion_date`: Date of inclusion, which is the second
-#'      earliest recorded event.
-#'   - `stable_inclusion_date`: Date of inclusion of individuals included
-#'      at least one year after the incorporation of inclusions based on
-#'      glucose-lowering drug data (1998 onwards when using National Patient
-#'      Register data for censoring of gestational diabetes). Limits the
-#'      included cohort to only individuals with a valid date of inclusion
-#'      (and thereby valid age at inclusion & duration of diabetes).
-#'
-#' @keywords internal
-#' @inherit algorithm seealso
-create_inclusion_dates <- function(inclusions, stable_inclusion_start_date = "1998-01-01") {
-  inclusions |>
-    # Drop earliest date so only those with two or more events are included.
-    dplyr::filter(.data$dates != min(.data$dates, na.rm = TRUE), .by = "pnr") |>
-    dplyr::mutate(
-      # Earliest date in the rows for each individual.
-      raw_inclusion_date = min(.data$dates, na.rm = TRUE),
-      stable_inclusion_date = dplyr::if_else(
-        .data$raw_inclusion_date < lubridate::as_date(stable_inclusion_start_date),
-        NA,
-        .data$raw_inclusion_date
-      ),
-      .by = "pnr"
-    ) |>
-    dplyr::select(
-      "pnr",
-      "raw_inclusion_date",
-      "stable_inclusion_date",
-
-      # From `exclude_pregnancies()` via the GLD purchases
-      # TODO: this might need to be renamed in a previous step, rather than here.
-      "purchase_date" = "date",
-      "atc",
-
-      # From `include_diabetes_diagnoses()`
-      "n_t1d_endocrinology",
-      "n_t2d_endocrinology",
-      "n_t1d_medical",
-      "n_t2d_medical"
-    )
-}
-```
+-   `prepare_lpr2()`
+-   `prepare_lpr3()`
+-   `keep_pregnancy_dates()`
+-   `keep_diabetes_diagnoses()`
+-   `add_t1d_diagnoses_cols()`
+-   `keep_podiatrist_services()`
+-   `keep_hba1c()`
+-   `keep_gld_purchases()`
+-   `drop_potential_pcos()`
+-   `drop_pregnancies()`
+-   `add_insulin_purchases_cols()`
+-   `join_inclusions()`
+-   `create_inclusion_dates()`
+-   `classify_t1d()`

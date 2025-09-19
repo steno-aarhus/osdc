@@ -13,7 +13,8 @@ classify_diabetes(
   sssy,
   lab_forsker,
   bef,
-  lmdb
+  lmdb,
+  stable_inclusion_start_date = "1998-01-01"
 )
 }
 \arguments{
@@ -34,6 +35,13 @@ classify_diabetes(
 \item{bef}{The BEF register}
 
 \item{lmdb}{The LMDB register}
+
+\item{stable_inclusion_start_date}{Cutoff date after which inclusion events
+are considered reliable (e.g., after changes in drug labeling or data
+entry practices). Defaults to "1998-01-01" which is one year after
+obstetric codes are reliable in the GLD data (since we use LPR data to
+drop rows related to gestational diabetes). This limits the included
+cohort to individuals with inclusion dates after this cutoff date.}
 }
 \value{
 The same object type as the input data, which would be a

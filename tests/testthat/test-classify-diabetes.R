@@ -47,7 +47,6 @@ edge_case_tester <- function() {
         expected_case <- expected_included |> dplyr::filter(pnr == current_pnr)
 
         expect_equal(actual_case, expected_case, label = "Case was included, but with incorrect data:")
-
       } else {
         # Exclusion Test C: Confirm the pnr is absent from the output tibble:
         expect_false(current_pnr %in% actual_included$pnr, label = "Case was included, but should not have been:")
@@ -116,7 +115,7 @@ test_that("classifying works for Arrow Tables (from Parquet)", {
   # TODO: Currently, Arrow fails bc it can't handle doing a comparison (<)
   # between two different types (date - foed_dato is a duration; years(40) is
   # a period) in the logic.
-  # This issue happens in the `exclude_potential_pcos()` function.
+  # This issue happens in the `drop_potential_pcos()` function.
   # I've also tried converting date, foed_dato, and 40 years to
   # numbers before the comparison, but it still fails bc arrow can't cast date32
   # to a double directly.
