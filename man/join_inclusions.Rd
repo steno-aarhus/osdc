@@ -2,37 +2,37 @@
 % Please edit documentation in R/join-inclusions.R
 \name{join_inclusions}
 \alias{join_inclusions}
-\title{Join included events.}
+\title{Join kept events.}
 \usage{
 join_inclusions(
   diabetes_diagnoses,
   podiatrist_services,
-  gld_hba1c_after_exclusions
+  gld_hba1c_after_drop_steps
 )
 }
 \arguments{
-\item{diabetes_diagnoses}{Output from \code{\link[=include_diabetes_diagnoses]{include_diabetes_diagnoses()}}.}
+\item{diabetes_diagnoses}{Output from \code{\link[=keep_diabetes_diagnoses]{keep_diabetes_diagnoses()}}.}
 
-\item{podiatrist_services}{Output from \code{\link[=include_podiatrist_services]{include_podiatrist_services()}}.}
+\item{podiatrist_services}{Output from \code{\link[=keep_podiatrist_services]{keep_podiatrist_services()}}.}
 
-\item{gld_hba1c_after_exclusions}{Output from \code{\link[=exclude_pregnancies]{exclude_pregnancies()}} and
-\code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}}.}
+\item{gld_hba1c_after_drop_steps}{Output from \code{\link[=drop_pregnancies]{drop_pregnancies()}} and
+\code{\link[=drop_potential_pcos]{drop_potential_pcos()}}.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
-with the joined columns from the output of \code{\link[=include_diabetes_diagnoses]{include_diabetes_diagnoses()}},
-\code{\link[=include_podiatrist_services]{include_podiatrist_services()}}, \code{\link[=exclude_potential_pcos]{exclude_potential_pcos()}}, and
-\code{\link[=exclude_pregnancies]{exclude_pregnancies()}}. There will be 1-8 rows per \code{pnr}.
+with the joined columns from the output of \code{\link[=keep_diabetes_diagnoses]{keep_diabetes_diagnoses()}},
+\code{\link[=keep_podiatrist_services]{keep_podiatrist_services()}}, \code{\link[=drop_potential_pcos]{drop_potential_pcos()}}, and
+\code{\link[=drop_pregnancies]{drop_pregnancies()}}. There will be 1-8 rows per \code{pnr}.
 }
 \description{
-This function joins the outputs from all the inclusion and exclusion
+This function joins the outputs from all the filtering
 functions, by \code{pnr} and \code{dates}. Input datasets:
 \itemize{
 \item \code{diabetes_diagnoses}: Dates are the first and second hospital
 diabetes diagnosis.
 \item \code{podiatrist_services}: Dates are the first and second
 diabetes-specific podiatrist record.
-\item \code{gld_hba1c_after_exclusions}: Dates are the first and second elevated HbA1c
+\item \code{gld_hba1c_after_drop_steps}: Dates are the first and second elevated HbA1c
 test results (after censoring potential gestational diabetes) and are the
 first and second purchase of a glucose-lowering drug (after censoring
 potential polycystic ovary syndrome and gestational diabetes).

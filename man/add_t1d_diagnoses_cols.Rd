@@ -7,7 +7,7 @@
 add_t1d_diagnoses_cols(data)
 }
 \arguments{
-\item{data}{Data from \code{\link[=include_diabetes_diagnoses]{include_diabetes_diagnoses()}} function.}
+\item{data}{Data from \code{\link[=keep_diabetes_diagnoses]{keep_diabetes_diagnoses()}} function.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},

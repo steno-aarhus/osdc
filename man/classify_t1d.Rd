@@ -2,18 +2,18 @@
 % Please edit documentation in R/classify-diabetes.R
 \name{classify_t1d}
 \alias{classify_t1d}
-\title{After inclusion and exclusion, classify those with type 1 diabetes.}
+\title{After filtering, classify those with type 1 diabetes.}
 \usage{
 classify_t1d(data)
 }
 \arguments{
-\item{data}{Joined data output from the inclusion and exclusion steps.}
+\item{data}{Joined data output from the filtering steps.}
 }
 \value{
 The same object type as the input data, which would be a
 \code{\link[tibble:tibble]{tibble::tibble()}} type object.
 }
 \description{
-After inclusion and exclusion, classify those with type 1 diabetes.
+After filtering, classify those with type 1 diabetes.
 }
 \keyword{internal}

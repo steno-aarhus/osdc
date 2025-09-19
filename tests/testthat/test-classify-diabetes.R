@@ -1,4 +1,4 @@
-# Moved from `include_diabetes_diagnoses()` -------------------------------
+# Moved from `keep_diabetes_diagnoses()` -------------------------------
 
 # test_input_from_lpr2 <- tibble::tribble(
 #   ~pnr, ~date, ~is_primary_diagnosis, ~is_diabetes_code, ~is_t1d_code, ~is_t2d_code,
@@ -306,7 +306,7 @@ test_that("classifying works for Arrow Tables (from Parquet)", {
   # TODO: Currently, Arrow fails bc it can't handle doing a comparison (<)
   # between two different types (date - foed_dato is a duration; years(40) is
   # a period) in the logic.
-  # This issue happens in the `exclude_potential_pcos()` function.
+  # This issue happens in the `drop_potential_pcos()` function.
   # I've also tried converting date, foed_dato, and 40 years to
   # numbers before the comparison, but it still fails bc arrow can't cast date32
   # to a double directly.
