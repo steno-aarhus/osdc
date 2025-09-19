@@ -330,7 +330,8 @@ create_test_cases <- function() {
 #'   - `stable_inclusion_date`: The expected stable inclusion date.
 #'   - `raw_inclusion_date`: The expected raw inclusion date (date of the
 #'     second-ever inclusion event).
-#'   - `diabetes_type`: The expected diabetes type ("T1D" or "T2D").
+#'   - `has_t1d`: The expected diabetes type
+#'   - `has_t2d`: The expected diabetes type
 #'
 #' @export
 #' @seealso See the [edge-case-description] vignette for a detailed description of these cases.
