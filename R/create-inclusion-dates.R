@@ -59,6 +59,6 @@ create_inclusion_dates <- function(
       "has_any_t1d_primary_diagnosis",
       # Inclusion date columns.
       "raw_inclusion_date",
-      "stable_inclusion_date",
+      "stable_inclusion_date"
     )
 }
