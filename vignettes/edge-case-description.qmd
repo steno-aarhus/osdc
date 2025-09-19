@@ -1,11 +1,10 @@
 ---
 title: "Edge Case Test Dataset Documentation"
-output: rmarkdown::html_vignette
-bibliography: ../references.bib
-csl: ../vancouver.csl
+bibliography: references.bib
+csl: vancouver.csl
 vignette: >
   %\VignetteIndexEntry{Edge Case Test Dataset Documentation}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
