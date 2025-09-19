@@ -16,12 +16,12 @@ join_inclusions(
 \item{podiatrist_services}{Output from \code{\link[=keep_podiatrist_services]{keep_podiatrist_services()}}.}
 
 \item{gld_hba1c_after_drop_steps}{Output from \code{\link[=drop_pregnancies]{drop_pregnancies()}} and
-\code{\link[=drop_potential_pcos]{drop_potential_pcos()}}.}
+\code{\link[=drop_pcos]{drop_pcos()}}.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
 with the joined columns from the output of \code{\link[=keep_diabetes_diagnoses]{keep_diabetes_diagnoses()}},
-\code{\link[=keep_podiatrist_services]{keep_podiatrist_services()}}, \code{\link[=drop_potential_pcos]{drop_potential_pcos()}}, and
+\code{\link[=keep_podiatrist_services]{keep_podiatrist_services()}}, \code{\link[=drop_pcos]{drop_pcos()}}, and
 \code{\link[=drop_pregnancies]{drop_pregnancies()}}. There will be 1-8 rows per \code{pnr}.
 }
 \description{
