@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,8 +117,8 @@
 </h3>
 <ul>
 <li>First word is an action verb, later words are objects or conditions.</li>
-<li>Exclusion criteria are prefixed with <code>exclude_</code>.</li>
-<li>Inclusion criteria are prefixed with <code>include_</code>.</li>
+<li>Functions that filter by dropping rows based on specific criteria are prefixed with <code>drop_</code>.</li>
+<li>Functions that filter by keeping rows based on specific criteria are prefixed with <code>keep_</code>.</li>
 <li>Helpers that add columns needed for classification are prefixed with <code>add_</code>.</li>
 <li>Helpers that join the output of other functions are prefixed with <code>join_</code>.</li>
 <li>Functions that prepare and process register data are prefixed with <code>prepare_</code>.</li>
@@ -127,13 +127,13 @@
 <ul>
 <li>As few arguments as is possible, with as few core required arguments as possible (ideally one or two).</li>
 <li>
-<code>include_</code> functions take a register as the first argument.
+<code>keep_</code> functions take a register as the first argument.
 <ul>
 <li>One input register database at a time.</li>
 </ul>
 </li>
 <li>
-<code>exclude_</code> functions can take a register as the first argument or take the output from an <code>include_</code> function.</li>
+<code>drop_</code> functions can take a register as the first argument or take the output from a <code>keep_</code> function.</li>
 <li>All functions take a <code>data.frame</code> type object as input. This input object doesn’t need to be strictly a <code>data.frame</code> as long as it acts like a <code>data.frame</code>. For instance, it could be a <code>data.table</code>, a <code>tibble</code>, or a <code>duckdb</code> object.</li>
 <li>The first argument will always take a data frame type object.</li>
 <li>The second argument could be an output data frame object from another function.</li>
@@ -143,7 +143,7 @@
 <li>All functions output the same type of object as the input object (a <code>data.frame</code> type object). For instance, if the input is a <code>data.table</code> object, the output will also be a <code>data.table</code>.</li>
 </ul></section></section><section class="level2"><h2 id="interface">Interface<a class="anchor" aria-label="anchor" href="#interface"></a>
 </h2>
-<p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in the <code><a href="../articles/design.html">vignette("design")</a></code> and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources needed by osdc are used as input for this function. The specific inclusion and exclusion details are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
+<p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in the <code><a href="../articles/design.html">vignette("design")</a></code> and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources needed by osdc are used as input for this function. The specific details of the classification algorithm are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
 <section class="level3"><h3 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
 </h3>
 <p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each required register. The names and descriptions of these arguments are as follows:</p>

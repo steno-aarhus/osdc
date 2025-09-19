@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -106,65 +106,65 @@
     prepare_lpr2 --&gt; keep_pregnancy_dates["keep_pregnancy_dates()"]
     prepare_lpr3 --&gt; keep_pregnancy_dates
 
-    %% Inclusion steps
-    sysi --&gt; include_podiatrist_services["include_podiatrist_services()"]:::include
-    sssy --&gt; include_podiatrist_services
+    %% Keep
+    sysi --&gt; keep_podiatrist_services["keep_podiatrist_services()"]:::keep
+    sssy --&gt; keep_podiatrist_services
 
-    prepare_lpr2 --&gt; include_diabetes_diagnoses["include_diabetes_diagnoses()"]:::include
-    prepare_lpr3 --&gt; include_diabetes_diagnoses
-    include_diabetes_diagnoses --&gt; add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
+    prepare_lpr2 --&gt; keep_diabetes_diagnoses["keep_diabetes_diagnoses()"]:::keep
+    prepare_lpr3 --&gt; keep_diabetes_diagnoses
+    keep_diabetes_diagnoses --&gt; add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
 
-    lmdb --&gt; include_gld_purchases["include_gld_purchases()"]:::include
+    lmdb --&gt; keep_gld_purchases["keep_gld_purchases()"]:::keep
 
-    lab_forsker --&gt; include_hba1c["include_hba1c()"]:::include
+    lab_forsker --&gt; keep_hba1c["keep_hba1c()"]:::keep
 
-    %% Exclusion steps
-    include_gld_purchases --&gt; exclude_potential_pcos["exclude_potential_pcos()"]:::exclude
-    bef --&gt; exclude_potential_pcos
+    %% Drop
+    keep_gld_purchases --&gt; drop_potential_pcos["drop_potential_pcos()"]:::drop
+    bef --&gt; drop_potential_pcos
 
-    exclude_potential_pcos --&gt; exclude_pregnancies["exclude_pregnancies()"]:::exclude
-    keep_pregnancy_dates --&gt; exclude_pregnancies
-    include_hba1c --&gt; exclude_pregnancies
-    exclude_pregnancies --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+    drop_potential_pcos --&gt; drop_pregnancies["drop_pregnancies()"]:::drop
+    keep_pregnancy_dates --&gt; drop_pregnancies
+    keep_hba1c --&gt; drop_pregnancies
+    drop_pregnancies --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
-    %% Joining
+    %% Join and classify
     add_t1d_diagnoses_cols --&gt; join_inclusions["join_inclusions()"]
-    include_podiatrist_services --&gt; join_inclusions
+    keep_podiatrist_services --&gt; join_inclusions
     add_insulin_purchases_cols --&gt; join_inclusions
 
     join_inclusions --&gt; create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --&gt; classify_t1d["classify_t1d()"]
 
-    keep_pregnancy_dates ~~~ exclude_potential_pcos
+    keep_pregnancy_dates ~~~ drop_potential_pcos
 
   end
 
   %% Styling
   classDef default fill:#EEEEEE, color:#000000, stroke:#000000
-  classDef include fill:lightblue
-  classDef exclude fill:orange
+  classDef keep fill:lightblue
+  classDef drop fill:orange
   style classify_diabetes fill:#FFFFFF, color:#000000
   style data_sources fill:#FFFFFF, color:#000000, stroke-width:0px
 </pre>
 </div>
 <p></p>
-<figcaption> Flow of functions in, as well as their required input registers, in the <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (inclusion and exclusion events, respectively).</figcaption></figure><p></p>
+<figcaption> Flow of functions in, as well as their required input registers, in the <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function used for classifying diabetes status using the osdc package. Light blue and orange boxes represent filtering functions (<code>keep_*</code> and <code>drop_*</code>, respectively).</figcaption></figure><p></p>
 </div>
 </div>
 </div>
-<p>The sections below are split into functions for inclusion and exclusion as well as functions for determining the final diagnosis date and eventual classification of type 1 and type 2 diabetes.</p>
+<p>The sections below are split into functions for keeping and dropping events as well as functions for determining the final diagnosis date and eventual classification of type 1 and type 2 diabetes.</p>
 <p>For more details and descriptions about the individual steps within the algorithm, see the documentation on the internal functions:</p>
 <ul>
 <li><code><a href="../reference/prepare_lpr2.html">prepare_lpr2()</a></code></li>
 <li><code><a href="../reference/prepare_lpr3.html">prepare_lpr3()</a></code></li>
 <li><code><a href="../reference/keep_pregnancy_dates.html">keep_pregnancy_dates()</a></code></li>
-<li><code>keep_diabetes_diagnoses()</code></li>
+<li><code><a href="../reference/keep_diabetes_diagnoses.html">keep_diabetes_diagnoses()</a></code></li>
 <li><code><a href="../reference/add_t1d_diagnoses_cols.html">add_t1d_diagnoses_cols()</a></code></li>
-<li><code>keep_podiatrist_services()</code></li>
-<li><code>keep_hba1c()</code></li>
-<li><code>keep_gld_purchases()</code></li>
-<li><code>drop_potential_pcos()</code></li>
-<li><code>drop_pregnancies()</code></li>
+<li><code><a href="../reference/keep_podiatrist_services.html">keep_podiatrist_services()</a></code></li>
+<li><code><a href="../reference/keep_hba1c.html">keep_hba1c()</a></code></li>
+<li><code><a href="../reference/keep_gld_purchases.html">keep_gld_purchases()</a></code></li>
+<li><code><a href="../reference/drop_potential_pcos.html">drop_potential_pcos()</a></code></li>
+<li><code><a href="../reference/drop_pregnancies.html">drop_pregnancies()</a></code></li>
 <li><code><a href="../reference/add_insulin_purchases_cols.html">add_insulin_purchases_cols()</a></code></li>
 <li><code><a href="../reference/join_inclusions.html">join_inclusions()</a></code></li>
 <li><code><a href="../reference/create_inclusion_dates.html">create_inclusion_dates()</a></code></li>
