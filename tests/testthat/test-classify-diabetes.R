@@ -1,8 +1,6 @@
 test_that("Algorithm produced unexpected outputs", {
-  # Test inputs:
   edge_case_data <- create_test_cases()
 
-  # Generate actual outputs:
   actual_included <- classify_diabetes(
     kontakter = edge_case_data$kontakter,
     diagnoser = edge_case_data$diagnoser,
@@ -15,7 +13,6 @@ test_that("Algorithm produced unexpected outputs", {
     lmdb = edge_case_data$lmdb
   )
 
-  # Specify expected outputs (included cases):
   expected_included <- create_expected_inclusions()
 
 

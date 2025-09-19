@@ -2,7 +2,7 @@
 #'
 #' This function generates a list of tibbles representing the
 #' Danish health registers and the data necessary to run the algorithm. The dataset contains 23 individual cases
-#' (`pnr`), each designed to test a specific logical branch of the diabetes
+#' (`pnr`s), each designed to test a specific logical branch of the diabetes
 #' classification algorithm, including inclusion, exclusion, censoring, and
 #' type classification rules.
 #'
