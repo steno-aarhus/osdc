@@ -20,12 +20,12 @@
 #' @examples
 #' \dontrun{
 #' register_data <- simulate_registers(c("lmdb", "bef"), 100)
-#' drop_potential_pcos(
+#' drop_pcos(
 #'   gld_purchases = keep_gld_purchases(register_data$lmdb),
 #'   bef = register_data$bef
 #' )
 #' }
-drop_potential_pcos <- function(gld_purchases, bef) {
+drop_pcos <- function(gld_purchases, bef) {
   logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
 
   # Use the algorithm logic to drop potential PCOS
@@ -48,7 +48,7 @@ drop_potential_pcos <- function(gld_purchases, bef) {
 #'
 #' This function takes the combined outputs from
 #' [keep_pregnancy_dates()], [keep_hba1c()], and
-#' [drop_potential_pcos()] and uses diagnoses from LPR2 or LPR3 to
+#' [drop_pcos()] and uses diagnoses from LPR2 or LPR3 to
 #' drop both elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
 #' diabetes. The aim is to identify pregnancies based on diagnosis codes
@@ -65,12 +65,12 @@ drop_potential_pcos <- function(gld_purchases, bef) {
 #'     [join_inclusions()] function for the final step of the inclusion
 #'     process.
 #'
-#' @param dropped_pcos Output from [drop_potential_pcos()].
+#' @param dropped_pcos Output from [drop_pcos()].
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].
 #' @param included_hba1c Output from [keep_hba1c()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
-#'    Has the same output data as the input [drop_potential_pcos()], except
+#'    Has the same output data as the input [drop_pcos()], except
 #'    for a helper logical variable `no_pregnancy` that is used in later
 #'    functions.
 #' @keywords internal
@@ -103,7 +103,7 @@ drop_potential_pcos <- function(gld_purchases, bef) {
 #' register_data$lmdb |>
 #'   keep_gld_purchases() |>
 #'   add_insulin_purchases_cols() |>
-#'   drop_potential_pcos(register_data$bef) |>
+#'   drop_pcos(register_data$bef) |>
 #'   drop_pregnancies(
 #'     keep_pregnancy_dates(lpr2, lpr3),
 #'     keep_hba1c(register_data$lab_forsker)
