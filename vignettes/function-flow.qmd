@@ -61,10 +61,10 @@ flowchart TD
     lab_forsker --> keep_hba1c["keep_hba1c()"]:::keep
 
     %% Drop
-    keep_gld_purchases --> drop_potential_pcos["drop_potential_pcos()"]:::drop
-    bef --> drop_potential_pcos
+    keep_gld_purchases --> drop_pcos["drop_pcos()"]:::drop
+    bef --> drop_pcos
 
-    drop_potential_pcos --> drop_pregnancies["drop_pregnancies()"]:::drop
+    drop_pcos --> drop_pregnancies["drop_pregnancies()"]:::drop
     keep_pregnancy_dates --> drop_pregnancies
     keep_hba1c --> drop_pregnancies
     drop_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
@@ -77,7 +77,7 @@ flowchart TD
     join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --> classify_t1d["classify_t1d()"]
 
-    keep_pregnancy_dates ~~~ drop_potential_pcos
+    keep_pregnancy_dates ~~~ drop_pcos
 
   end
 
@@ -104,7 +104,7 @@ the algorithm, see the documentation on the internal functions:
 -   `keep_podiatrist_services()`
 -   `keep_hba1c()`
 -   `keep_gld_purchases()`
--   `drop_potential_pcos()`
+-   `drop_pcos()`
 -   `drop_pregnancies()`
 -   `add_insulin_purchases_cols()`
 -   `join_inclusions()`
