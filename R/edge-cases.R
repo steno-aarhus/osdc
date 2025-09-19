@@ -20,9 +20,8 @@
 #' edge_case_input_data <- create_test_cases()
 #' }
 create_test_cases <- function() {
-  # 1. bef: Demographics table -------------------------------------------------------------------------
 
-  bef_tbl <- tibble::tribble(
+  bef <- tibble::tribble(
     ~pnr,                               ~koen, ~foed_dato,
     "01_t1d_oipT_anyt1dT",                   1, "19800101",
     "02_t2d_oipT_anyt1dF",                   2, "19810203",
@@ -50,9 +49,7 @@ create_test_cases <- function() {
   ) |>
     dplyr::mutate(koen = as.integer(.data$koen))
 
-  # 2. lmdb: Drug purchases table -------------------------------------------------------------------------
-
-  lmdb_tbl <- tibble::tribble(
+  lmdb <- tibble::tribble(
     ~pnr,                                ~volume, ~eksd,     ~atc,      ~apk, ~indo,
     "01_t1d_oipT_anyt1dT",                      10, "20200110", "A10AB01",    5, "1234567",
     "01_t1d_oipT_anyt1dT",                      10, "20200410", "A10AE01",    5, "1234568",
@@ -111,9 +108,7 @@ create_test_cases <- function() {
     "23_t2d_gldT_1995_1999",                    10,      "19980616", "A10BA02",   4,    "2300003",
   )
 
-  # 3. lpr_adm: Hospital admissions (LPR2) -------------------------------------------------------------------------
-
-  lpr_adm_tbl <- tibble::tribble(
+  lpr_adm <- tibble::tribble(
     ~pnr,                                ~c_spec, ~recnum,      ~d_inddto,
     "01_t1d_oipT_anyt1dT",                   "08", "pnr01_rec01", "20110515",
     "02_t2d_oipT_anyt1dF",                   "08", "pnr02_rec01", "20120616",
@@ -138,9 +133,7 @@ create_test_cases <- function() {
     "21_nodm_female_pregnancyT",              "38", "pnr21_rec01", "19990101",
   )
 
-  # 4. lpr_diag: Hospital diagnoses (LPR2) -------------------------------------------------------------------------
-
-  lpr_diag_tbl <- tibble::tribble(
+  lpr_diag <- tibble::tribble(
     ~recnum,       ~c_diag, ~c_diagtype,
     "pnr01_rec01", "DE111",    "A",
     "pnr02_rec01", "DE110",    "A",
@@ -173,9 +166,7 @@ create_test_cases <- function() {
     "pnr21_rec01", "DZ371",    "A"
   )
 
-  # 5. kontakter: Hospital contacts (LPR3) -------------------------------------------------------------------------
-
-  kontakter_tbl <- tibble::tribble(
+  kontakter <- tibble::tribble(
     ~cpr,                                ~dw_ek_kontakt, ~hovedspeciale_ans,        ~dato_start,
     "01_t1d_oipT_anyt1dT",                    "pnr01_dw01", "medicinsk endokrinologi",  "20210515",
     "02_t2d_oipT_anyt1dF",                    "pnr02_dw01", "thoraxkirurgi",            "20220616",
@@ -199,9 +190,7 @@ create_test_cases <- function() {
     "21_nodm_female_pregnancyT",              "pnr21_dw01", "gynaekologi og obstetrik", "20240101"
   )
 
-  # 6. diagnoser: Hospital diagnoses (LPR3) -------------------------------------------------------------------------
-
-  diagnoser_tbl <- tibble::tribble(
+  diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
     "pnr01_dw01",   "DE101",        "A",           "Nej",
     "pnr02_dw01",   "DE102",        "A",           "Nej",
@@ -234,9 +223,7 @@ create_test_cases <- function() {
     "pnr21_dw01",   "DO806",        "A",           "Nej"
   )
 
-  # 7. sysi: Health services table -------------------------------------------------------------------------
-
-  sysi_tbl <- tibble::tribble(
+  sysi <- tibble::tribble(
     ~pnr,                                ~barnmak, ~speciale, ~honuge,
     "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "54002",    "0453",
     "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",      0, "67148",    "9924",
@@ -261,9 +248,7 @@ create_test_cases <- function() {
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
-  # 8. sssy: Health services table-------------------------------------------------------------------------
-
-  sssy_tbl <- tibble::tribble(
+  sssy <- tibble::tribble(
     ~pnr,                                ~barnmak, ~speciale, ~honuge,
     "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",      0, "86409",    "2421",
     "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",      0, "54003",    "1103",
@@ -286,9 +271,7 @@ create_test_cases <- function() {
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
-  # 9. lab_forsker: Lab results table -------------------------------------------------------------------------
-
-  lab_forsker_tbl <- tibble::tribble(
+  lab_forsker <- tibble::tribble(
     ~patient_cpr,                        ~samplingdate, ~analysiscode, ~value,
     "01_t1d_oipT_anyt1dT",                 "20190101",    "NPU27300",    50,
     "02_t2d_oipT_anyt1dF",                 "20190102",    "NPU27300",    51,
@@ -319,15 +302,15 @@ create_test_cases <- function() {
   # Combine all tibbles into a named list -------------------------------------------------------------------------
 
   list(
-    bef = bef_tbl,
-    lmdb = lmdb_tbl,
-    lpr_adm = lpr_adm_tbl,
-    lpr_diag = lpr_diag_tbl,
-    kontakter = kontakter_tbl,
-    diagnoser = diagnoser_tbl,
-    sysi = sysi_tbl,
-    sssy = sssy_tbl,
-    lab_forsker = lab_forsker_tbl
+    bef = bef,
+    lmdb = lmdb,
+    lpr_adm = lpr_adm,
+    lpr_diag = lpr_diag,
+    kontakter = kontakter,
+    diagnoser = diagnoser,
+    sysi = sysi,
+    sssy = sssy,
+    lab_forsker = lab_forsker
   )
 }
 
@@ -358,24 +341,24 @@ create_test_cases <- function() {
 #' }
 create_expected_inclusions <- function() {
   tibble::tribble(
-    ~pnr,                                     ~stable_inclusion_date, ~raw_inclusion_date, ~diabetes_type,
-    "01_t1d_oipT_anyt1dT",                      "2019-01-01",           "2019-01-01",          "T1D",
-    "02_t2d_oipT_anyt1dF",                      "2012-06-16",           "2012-06-16",          "T2D",
-    "03_t2d_oipF_anyt1dF",                      "2018-01-01",           "2018-01-01",          "T2D",
-    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",   "2004-12-27",           "2004-12-27",          "T1D",
-    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",   "2013-02-21",           "2013-02-21",          "T2D",
-    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",   "2019-01-01",           "2019-01-01",          "T2D",
-    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",   "2012-04-23",           "2012-04-23",          "T2D",
-    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",    "2014-01-20",           "2014-01-20",          "T1D",
-    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",    "2019-01-01",           "2019-01-01",          "T2D",
-    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",    "2019-01-01",           "2019-01-01",          "T2D",
-    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",    "2000-04-23",           "2000-04-23",          "T2D",
-    "13_t2d_gldF_diagF_hba1cF_podT",            "2007-12-31",           "2007-12-31",          "T2D",
-    "14_t2d_gldF_diagF_hba1cT_podF",            "2013-04-01",           "2013-04-01",          "T2D",
-    "15_t2d_gldF_diagT_hba1cF_podF",            "2023-01-01",           "2023-01-01",          "T2D",
-    "16_t2d_gldT_diagF_hba1cF_podF",            "2013-04-01",           "2013-04-01",          "T2D",
-    "18_t2d_male_pcosF",                        "2023-04-01",           "2023-04-01",          "T2D",
-    "23_t2d_gldT_1995_1999",                    NA,                     "1995-06-16",          "T2D"
+    ~pnr,                                     ~stable_inclusion_date, ~raw_inclusion_date, ~has_t1d, ~has_t2d,
+    "01_t1d_oipT_anyt1dT",                      "2019-01-01",           "2019-01-01",          TRUE,  FALSE,
+    "02_t2d_oipT_anyt1dF",                      "2012-06-16",           "2012-06-16",          FALSE, TRUE,
+    "03_t2d_oipF_anyt1dF",                      "2018-01-01",           "2018-01-01",          FALSE, TRUE,
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T",   "2004-12-27",           "2004-12-27",          TRUE,  FALSE,
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F",   "2013-02-21",           "2013-02-21",          FALSE, TRUE,
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T",   "2019-01-01",           "2019-01-01",          FALSE, TRUE,
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T",   "2012-04-23",           "2012-04-23",          FALSE, TRUE,
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T",    "2014-01-20",           "2014-01-20",          TRUE,  FALSE,
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F",    "2019-01-01",           "2019-01-01",          FALSE, TRUE,
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T",    "2019-01-01",           "2019-01-01",          FALSE, TRUE,
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T",    "2000-04-23",           "2000-04-23",          FALSE, TRUE,
+    "13_t2d_gldF_diagF_hba1cF_podT",            "2007-12-31",           "2007-12-31",          FALSE, TRUE,
+    "14_t2d_gldF_diagF_hba1cT_podF",            "2013-04-01",           "2013-04-01",          FALSE, TRUE,
+    "15_t2d_gldF_diagT_hba1cF_podF",            "2023-01-01",           "2023-01-01",          FALSE, TRUE,
+    "16_t2d_gldT_diagF_hba1cF_podF",            "2013-04-01",           "2013-04-01",          FALSE, TRUE,
+    "18_t2d_male_pcosF",                        "2023-04-01",           "2023-04-01",          FALSE, TRUE,
+    "23_t2d_gldT_1995_1999",                    NA,                     "1995-06-16",          FALSE, TRUE
 
   ) |>
     dplyr::mutate(stable_inclusion_date = lubridate::as_date(.data$stable_inclusion_date),
