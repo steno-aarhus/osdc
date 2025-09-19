@@ -3,7 +3,7 @@
 #' Takes the output from [keep_gld_purchases()] and `bef` (information on sex and date
 #' of birth) to drop rows with metformin purchases that are potentially for the treatment
 #' of polycystic ovary syndrome.
-#' This function only performs a filtering operation so outputs the same structure and
+#' This function only performs a filtering operation so it outputs the same structure and
 #' variables as the input from [keep_gld_purchases()], except the addition of a logical
 #' helper variable `no_pcos` that is used in later functions.
 #' After these rows have been dropped, the output is used by `drop_pregnancies()`.
