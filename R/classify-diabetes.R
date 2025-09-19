@@ -130,7 +130,7 @@ classify_diabetes <- function(
   )
 
   inclusions |>
-    create_inclusion_dates(stable_inclusion_start_date = ) |>
+    create_inclusion_dates(stable_inclusion_start_date) |>
     classify_t1d() |>
     # If has_t1d is NA, t2d will also be NA
     dplyr::mutate(has_t2d = !.data$has_t1d) |>
