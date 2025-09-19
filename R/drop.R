@@ -1,4 +1,4 @@
-#' Drop rows with metformin purchases that are potentially for the treatment of polycystic ovary syndrome.
+#' Drop rows with metformin purchases that are potentially for the treatment of polycystic ovary syndrome
 #'
 #' Takes the output from [keep_gld_purchases()] and `bef` (information on sex and date
 #' of birth) to drop rows with metformin purchases that are potentially for the treatment
