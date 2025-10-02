@@ -31,3 +31,6 @@ reference:
 - contents:
   - registers
   - simulate_registers
+  - cases
+  - non_cases
+  - non_cases_metadata

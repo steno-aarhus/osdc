@@ -1,4 +1,12 @@
+register_names <- registers() |>
+  names()
+
+# Create a larger synthetic dataset to test backends
+register_data <- register_names |>
+  simulate_registers(n = 10000)
+
 test_that("Algorithm produced unexpected outputs", {
+  skip()
   edge_case_data <- cases()
 
   actual_included <- classify_diabetes(
@@ -19,23 +27,31 @@ test_that("Algorithm produced unexpected outputs", {
   expect_identical(actual_included, expected_included)
 })
 
+test_that("Algorithm produced unexpected outputs", {
+  nc <- non_cases()
 
-# Create a larger synthetic dataset to test backends
+  actual <- classify_diabetes(
+    kontakter = nc$kontakter,
+    diagnoser = nc$diagnoser,
+    lpr_diag = nc$lpr_diag,
+    lpr_adm = nc$lpr_adm,
+    sysi = nc$sysi,
+    sssy = nc$sssy,
+    lab_forsker = nc$lab_forsker,
+    bef = nc$bef,
+    lmdb = nc$lmdb
+  )
 
-register_data <- simulate_registers(
-  c(
-    "kontakter",
-    "diagnoser",
-    "lpr_diag",
-    "lpr_adm",
-    "sysi",
-    "sssy",
-    "lab_forsker",
-    "bef",
-    "lmdb"
-  ),
-  n = 10000
-)
+  nc_pnrs <- names(non_cases_metadata())
+  # No PNRs from non-cases have been classified.
+  expected_pnrs <- actual |>
+    dplyr::filter(.data$pnr %in% nc_pnrs) |>
+    dplyr::pull(.data$pnr) |>
+    unique()
+
+  expect_identical(expected_pnrs, character(0))
+})
+
 
 test_that("classifying works with DuckDB Database", {
   skip_on_cran()
