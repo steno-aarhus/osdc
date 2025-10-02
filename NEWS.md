@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.8.3 (2025-10-02)
+
+### Refactor
+
+- :truck: rename `cases()` to `edge_cases()` to match file name (#368)
+
 ## 0.8.2 (2025-10-02)
 
 ### Fix
