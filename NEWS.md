@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.8.1 (2025-10-02)
+
+### Fix
+
+- :bug: remove rows with NA in both T1 and T2D (#363)
+
 ## 0.8.0 (2025-10-02)
 
 ### Feat
