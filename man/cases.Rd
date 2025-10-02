@@ -28,6 +28,3 @@ to be explored by users to better understand how the algorithm logic works.
 cases()
 }
 }
-\seealso{
-See the \link{edge-case-description}  vignette for a detailed description of these cases.
-}
