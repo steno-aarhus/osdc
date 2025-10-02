@@ -18,7 +18,6 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/add_insulin_purchases_cols.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/add_t1d_diagnoses_cols.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/algorithm.html</loc></url>
-<url><loc>https://steno-aarhus.github.io/osdc/reference/cases.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/check_data_types.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/classify_diabetes.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/classify_t1d.html</loc></url>
@@ -35,6 +34,7 @@
 <url><loc>https://steno-aarhus.github.io/osdc/reference/create_simulated_data.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/drop_pcos.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/drop_pregnancies.html</loc></url>
+<url><loc>https://steno-aarhus.github.io/osdc/reference/edge_cases.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/fct_to_chr.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_algorithm_logic.html</loc></url>
 <url><loc>https://steno-aarhus.github.io/osdc/reference/get_register_abbrev.html</loc></url>
