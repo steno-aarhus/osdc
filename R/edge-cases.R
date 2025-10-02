@@ -14,7 +14,6 @@
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
 #'   `kontakter`, `diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 #' @export
-#' @seealso See the [edge-case-description]  vignette for a detailed description of these cases.
 #'
 #' @examples
 #' \dontrun{
