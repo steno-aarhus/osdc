@@ -122,11 +122,13 @@ classify_diabetes <- function(
       -"indication_code",
     )
 
-  # Joining into an initial dataset -----
+  # Join events, keeping only two earliest dates per "stream" -----
   inclusions <- join_inclusions(
-    diabetes_diagnoses = diabetes_diagnoses,
-    podiatrist_services = podiatrist_services,
-    gld_hba1c_after_drop_steps = gld_hba1c_after_drop_steps
+    diabetes_diagnoses = keep_two_earliest_events(diabetes_diagnoses),
+    podiatrist_services = keep_two_earliest_events(podiatrist_services),
+    gld_hba1c_after_drop_steps = keep_two_earliest_events(
+      gld_hba1c_after_drop_steps
+    )
   )
 
   inclusions |>
