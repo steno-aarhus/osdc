@@ -136,8 +136,8 @@ classify_diabetes <- function(
     dplyr::mutate(has_t2d = !.data$has_t1d) |>
     dplyr::select(
       "pnr",
-      # "stable_inclusion_date",
-      # "raw_inclusion_date",
+      "stable_inclusion_date",
+      "raw_inclusion_date",
       "has_t1d",
       "has_t2d"
     )
