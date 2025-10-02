@@ -134,6 +134,8 @@ classify_diabetes <- function(
     classify_t1d() |>
     # If has_t1d is NA, t2d will also be NA
     dplyr::mutate(has_t2d = !.data$has_t1d) |>
+    # Drop those who don't have either type of diabetes
+    dplyr::filter(!(is.na(.data$has_t1d) & is.na(.data$has_t2d))) |>
     dplyr::select(
       "pnr",
       "stable_inclusion_date",
