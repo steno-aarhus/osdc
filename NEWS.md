@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.8.0 (2025-10-02)
+
+### Feat
+
+- :sparkles: add non-case of someone with PCOS (#362)
+
 ## 0.7.1 (2025-09-19)
 
 ### Refactor
