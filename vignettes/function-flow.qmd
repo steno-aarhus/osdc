@@ -70,10 +70,11 @@ flowchart TD
     drop_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
     %% Join and classify
-    add_t1d_diagnoses_cols --> join_inclusions["join_inclusions()"]
-    keep_podiatrist_services --> join_inclusions
-    add_insulin_purchases_cols --> join_inclusions
+    add_t1d_diagnoses_cols --> keep_two_earliest_events["keep_two_earliest_events()"]
+    keep_podiatrist_services --> keep_two_earliest_events
+    add_insulin_purchases_cols --> keep_two_earliest_events
 
+    keep_two_earliest_events --> join_inclusions["join_inclusions()"]
     join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --> classify_t1d["classify_t1d()"]
 
@@ -107,6 +108,7 @@ the algorithm, see the documentation on the internal functions:
 -   `drop_pcos()`
 -   `drop_pregnancies()`
 -   `add_insulin_purchases_cols()`
+-   `keep_two_earliest_events()`
 -   `join_inclusions()`
 -   `create_inclusion_dates()`
 -   `classify_t1d()`
