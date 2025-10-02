@@ -17,9 +17,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' cases()
+#' edge_cases()
 #' }
-cases <- function() {
+edge_cases <- function() {
   bef <- tibble::tribble(
     ~pnr, ~koen, ~foed_dato,
     "01_t1d_oipT_anyt1dT", 1, "19800101",

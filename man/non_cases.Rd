@@ -23,5 +23,5 @@ to be explored by users to better understand how the algorithm logic works
 and to be shown in the documentation.
 }
 \examples{
-cases()
+non_cases()
 }
