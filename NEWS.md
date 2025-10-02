@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.8.2 (2025-10-02)
+
+### Fix
+
+- :bug: use `full_join()` instead of `left_join()` (#365)
+
 ## 0.8.1 (2025-10-02)
 
 ### Fix
