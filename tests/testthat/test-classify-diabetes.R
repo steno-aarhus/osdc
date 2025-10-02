@@ -1,5 +1,5 @@
 test_that("Algorithm produced unexpected outputs", {
-  edge_case_data <- create_test_cases()
+  edge_case_data <- cases()
 
   actual_included <- classify_diabetes(
     kontakter = edge_case_data$kontakter,
@@ -11,14 +11,13 @@ test_that("Algorithm produced unexpected outputs", {
     lab_forsker = edge_case_data$lab_forsker,
     bef = edge_case_data$bef,
     lmdb = edge_case_data$lmdb
-  ) |> dplyr::arrange(pnr)
+  ) |>
+    dplyr::arrange(pnr)
 
-  expected_included <- create_expected_inclusions()
-
+  expected_included <- edge_case_data$classified
 
   expect_identical(actual_included, expected_included)
 })
-
 
 
 # Create a larger synthetic dataset to test backends
