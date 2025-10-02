@@ -7,7 +7,7 @@ register_data <- register_names |>
 
 test_that("Algorithm produced unexpected outputs", {
   skip()
-  edge_case_data <- cases()
+  edge_case_data <- edge_cases()
 
   actual_included <- classify_diabetes(
     kontakter = edge_case_data$kontakter,
