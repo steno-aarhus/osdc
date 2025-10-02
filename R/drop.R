@@ -128,8 +128,8 @@ drop_pregnancies <- function(
     )
 
   dropped_pcos |>
-    # Row bind to keep rows from dropped_pcos and included_hba1c separate.
-    dplyr::left_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
+    # Full join to keep rows from both dropped_pcos and included_hba1c.
+    dplyr::full_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
     dplyr::left_join(
       pregnancy_dates,
       by = dplyr::join_by("pnr"),
