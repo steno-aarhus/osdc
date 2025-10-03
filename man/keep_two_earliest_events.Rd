@@ -14,7 +14,14 @@ The same type as the input data, default as a \code{\link[tibble:tibble]{tibble:
 }
 \description{
 Since the classification date is based on the second instance of
-an inclusion criteria, we only need to keep the earliest two events per PNR.
+an inclusion criteria, we only need to keep the earliest two events per PNR
+per inclusion "stream".
+}
+\details{
+This function is applied to each "stream", \code{diabetes_diagnoses},
+\code{podiatrist_services}, and \code{gld_hba1c_after_drop_steps}, in  the
+\code{classify_diabetes()} function after the keep and drop steps, right before
+they are joined.
 }
 \examples{
 \dontrun{
