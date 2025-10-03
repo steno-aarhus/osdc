@@ -128,10 +128,11 @@
     drop_pregnancies --&gt; add_insulin_purchases_cols["add_insulin_purchases_cols()"]
 
     %% Join and classify
-    add_t1d_diagnoses_cols --&gt; join_inclusions["join_inclusions()"]
-    keep_podiatrist_services --&gt; join_inclusions
-    add_insulin_purchases_cols --&gt; join_inclusions
+    add_t1d_diagnoses_cols --&gt; keep_two_earliest_events["keep_two_earliest_events()"]
+    keep_podiatrist_services --&gt; keep_two_earliest_events
+    add_insulin_purchases_cols --&gt; keep_two_earliest_events
 
+    keep_two_earliest_events --&gt; join_inclusions["join_inclusions()"]
     join_inclusions --&gt; create_inclusion_dates["create_inclusion_dates()"]
     create_inclusion_dates --&gt; classify_t1d["classify_t1d()"]
 
@@ -166,6 +167,7 @@
 <li><code><a href="../reference/drop_pcos.html">drop_pcos()</a></code></li>
 <li><code><a href="../reference/drop_pregnancies.html">drop_pregnancies()</a></code></li>
 <li><code><a href="../reference/add_insulin_purchases_cols.html">add_insulin_purchases_cols()</a></code></li>
+<li><code><a href="../reference/keep_two_earliest_events.html">keep_two_earliest_events()</a></code></li>
 <li><code><a href="../reference/join_inclusions.html">join_inclusions()</a></code></li>
 <li><code><a href="../reference/create_inclusion_dates.html">create_inclusion_dates()</a></code></li>
 <li><code><a href="../reference/classify_t1d.html">classify_t1d()</a></code></li>
