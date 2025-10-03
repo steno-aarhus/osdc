@@ -12,8 +12,7 @@ keep_podiatrist_services(sysi, sssy)
 \item{sssy}{The SSSY register.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
-with two columns and up to two rows for each individual:
+The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
 \itemize{
 \item \code{pnr}: Identifier variable
 \item \code{date}: The dates of the first and second diabetes-specific
@@ -23,8 +22,7 @@ podiatrist record
 \description{
 This function uses the \code{sysi} or \code{sssy} registers as input to extract the
 dates of all diabetes-specific podiatrist services. Removes duplicate
-services on the same date. Only the two earliest dates per individual are
-kept.
+services on the same date.
 }
 \details{
 The output is passed to the \code{join_inclusions()} function for the final

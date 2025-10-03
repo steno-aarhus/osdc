@@ -127,6 +127,7 @@ expected <- tibble::tribble(
   ~pnr, ~date,
   2000000000, lubridate::ymd("1992-02-10"),
   3000000000, lubridate::ymd("2007-12-24"),
+  3000000000, lubridate::ymd("2024-07-22"),
   3000000000, lubridate::ymd("2008-07-21")
 )
 

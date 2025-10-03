@@ -144,8 +144,7 @@ keep_hba1c <- function(lab_forsker) {
 #'
 #' This function uses the `sysi` or `sssy` registers as input to extract the
 #' dates of all diabetes-specific podiatrist services. Removes duplicate
-#' services on the same date. Only the two earliest dates per individual are
-#' kept.
+#' services on the same date.
 #'
 #' The output is passed to the `join_inclusions()` function for the final
 #' step of the inclusion process.
@@ -153,8 +152,7 @@ keep_hba1c <- function(lab_forsker) {
 #' @param sysi The SYSI register.
 #' @param sssy The SSSY register.
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()],
-#'   with two columns and up to two rows for each individual:
+#' @return The same type as the input data, default as a [tibble::tibble()].
 #'
 #'   -  `pnr`: Identifier variable
 #'   -  `date`: The dates of the first and second diabetes-specific
@@ -191,9 +189,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
       pnr = .data$pnr,
       date = yyww_to_yyyymmdd(.data$honuge),
       .keep = "none"
-    ) |>
-    # Keep earliest two dates per individual.
-    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr")
+    )
 }
 
 #' Convert date format YYWW to YYYY-MM-DD
@@ -239,4 +235,36 @@ yyww_to_yyyymmdd <- function(yyww) {
   # Adjust the date to be Monday in that week. Need to add 1 since there is
   # no zero weekday (week starts on 1, the Monday).
   date - first_weekday + 1
+}
+
+#' Keep two earliest events per PNR
+#'
+#' Since the classification date is based on the second instance of
+#' an inclusion criteria, we only need to keep the earliest two events per PNR
+#' per inclusion "stream".
+#'
+#' This function is applied to each "stream", `diabetes_diagnoses`,
+#' `podiatrist_services`, and `gld_hba1c_after_drop_steps`, in  the
+#' `classify_diabetes()` function after the keep and drop steps, right before
+#'  they are joined.
+#'
+#' @param data Data including at least a date and pnr column.
+#'
+#' @returns The same type as the input data, default as a [tibble::tibble()].
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' data <- tibble::tribble(
+#'  ~pnr, ~date,
+#'  1, "20200101",
+#'  1, "20200102"
+#'  1, "20200103",
+#'  2, "20200101"
+#' )
+#' keep_two_earliest_events(data)
+#' }
+keep_two_earliest_events <- function(data) {
+  data |>
+    dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr")
 }
