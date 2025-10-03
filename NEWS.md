@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.8.6 (2025-10-03)
+
+### Fix
+
+- :bug: use `.data$` instead of quotes around `is_hba1c` (#376)
+
 ## 0.8.5 (2025-10-03)
 
 ### Fix
