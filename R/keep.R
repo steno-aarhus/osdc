@@ -261,7 +261,7 @@ yyww_to_yyyymmdd <- function(yyww) {
 #' data <- tibble::tribble(
 #'  ~pnr, ~date,
 #'  1, "20200101",
-#'  1, "20200102"
+#'  1, "20200102",
 #'  1, "20200103",
 #'  2, "20200101"
 #' )
