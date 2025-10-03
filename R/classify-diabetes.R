@@ -128,12 +128,14 @@ classify_diabetes <- function(
       included_hba1c = hba1c_over_threshold
     ) |>
     add_insulin_purchases_cols() |>
-    dplyr::select-c(
+    dplyr::select(
+      -c(
         "atc",
         "indication_code",
         "volume",
         "apk",
         "is_hba1c"
+      )
     )
 
   # Join events, keeping only two earliest dates per "stream" -----
