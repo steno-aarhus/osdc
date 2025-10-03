@@ -31,6 +31,8 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
     logic_as_expression()
 
   insulin_cols <- gld_hba1c_after_drop_steps |>
+    # Remove hba1c rows so dates from HbA1c measurements aren't included.
+    dplyr::filter(is.na(is_hba1c)) |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
