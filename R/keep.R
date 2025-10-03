@@ -137,7 +137,10 @@ keep_hba1c <- function(lab_forsker) {
       .keep = "none"
     ) |>
     # Remove any duplicates
-    dplyr::distinct()
+    dplyr::distinct() |>
+    # Add logical helper value used to remove HbA1c rows insulin purchases
+    # columns are added later.
+    dplyr::mutate(is_hba1c = TRUE)
 }
 
 #' Keep rows with diabetes-specific podiatrist services.
