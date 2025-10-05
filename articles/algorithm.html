@@ -446,8 +446,8 @@
 <tr class="odd">
 <td style="text-align: left;">is_not_within_pregnancy_interval</td>
 <td style="text-align: left;">Events that are not within a potential pregnancy interval</td>
-<td style="text-align: left;">NOT (has_pregnancy_event AND date &gt;= (pregnancy_event_date - weeks(40)) AND date &lt;= (pregnancy_event_date + weeks(12))) OR is.na(pregnancy_event_date)</td>
-<td style="text-align: left;">The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date.</td>
+<td style="text-align: left;">NOT (has_pregnancy_event AND date &gt;= (pregnancy_event_date - weeks(40)) AND date &lt;= (pregnancy_event_date + weeks(12)))</td>
+<td style="text-align: left;">The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date (birth or miscarriage).</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">is_podiatrist_services</td>
