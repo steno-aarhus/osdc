@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.8.8 (2025-10-05)
+
+### Fix
+
+- :bug: logic around `is.na()` in pregnancy event isn't needed (#367)
+
 ## 0.8.7 (2025-10-03)
 
 ### Refactor
