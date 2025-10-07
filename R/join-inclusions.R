@@ -34,8 +34,7 @@ join_inclusions <- function(
   # This joins *only* by pnr and dates. If datasets have the same column
   # names, they will be renamed to differentiate them.
   # TODO: We may need to ensure that no two datasets have the same columns.
-  joined_inclusions <- 
-  diabetes_diagnoses |>
+  joined_inclusions <- diabetes_diagnoses |>
     dplyr::full_join(podiatrist_services, by = c("pnr", "date")) |>
     dplyr::full_join(gld_hba1c_after_drop_steps, by = c("pnr", "date"))
   # |>
@@ -45,7 +44,7 @@ join_inclusions <- function(
   joined_inclusions |>
     dplyr::group_by(pnr) |>
     tidyr::fill(tidyr::starts_with("has_"), .direction = "downup") |>
-    dplyr::ungroup() 
+    dplyr::ungroup()
   #|>
   # dplyr::mutate(
   #   dplyr::across(everything(), ~ tidyr::replace_na(.x, FALSE))
