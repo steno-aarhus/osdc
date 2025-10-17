@@ -36,5 +36,13 @@ join_inclusions <- function(
   # TODO: We may need to ensure that no two datasets have the same columns.
   diabetes_diagnoses |>
     dplyr::full_join(podiatrist_services, by = c("pnr", "date")) |>
-    dplyr::full_join(gld_hba1c_after_drop_steps, by = c("pnr", "date"))
+    dplyr::full_join(gld_hba1c_after_drop_steps, by = c("pnr", "date")) |>
+    # Propagate computed "has_" values to all rows per PNR and convert NAs (individuals with either no GLD purchases or no type-specific diabetes diagnoses) to FALSE.
+    dplyr::mutate(
+      dplyr::across(
+        dplyr::starts_with("has_"),
+        ~ sum(.x, na.rm = TRUE) > 0
+      ),
+      .by = pnr
+    )
 }
