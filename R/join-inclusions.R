@@ -43,6 +43,6 @@ join_inclusions <- function(
         dplyr::starts_with("has_"),
         ~ sum(.x, na.rm = TRUE) > 0
       ),
-      .by = pnr
+      .by = "pnr"
     )
 }
