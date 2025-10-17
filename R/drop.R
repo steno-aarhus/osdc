@@ -147,5 +147,12 @@ drop_pregnancies <- function(
     ) |>
     # Drop columns that were only used here and remove duplicates from the many-to-many joining of the pregnancy dates
     # row that falls outside all of them.
-    dplyr::distinct(.data$pnr, .data$volume, .data$date, .data$atc, .data$apk, .data$is_hba1c)
+    dplyr::distinct(
+      .data$pnr,
+      .data$volume,
+      .data$date,
+      .data$atc,
+      .data$apk,
+      .data$is_hba1c
+    )
 }
