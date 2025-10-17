@@ -139,23 +139,13 @@ drop_pregnancies <- function(
     dplyr::mutate(
       is_not_within_pregnancy_interval = !!criteria
     ) |>
-    # Group by pnr and date to ensure the row is dropped if it falls within
-    # *any* pregnancy interval. This prevents mistakenly keeping a row just
-    # because it falls outside one pregnancy window, when it may still fall
-    # inside another for the same pnr.
-    # Only keep rows that don't fall within any pregnancy interval.
+    # Remove all rows with a within each combination of (pnr, date) if any of them contain a row where is_not_within_pregnancy_interval is TRUE:
     dplyr::filter(
-      all(.data$is_not_within_pregnancy_interval),
-      .by = c("pnr", "date")
-    ) |>
-    # Drop columns that were only used here.
-    dplyr::select(
-      -"pregnancy_event_date",
-      -"has_pregnancy_event",
-      -"is_not_within_pregnancy_interval"
-    ) |>
-    # Remove duplicates after pregnancy date column has been removed.
-    # Duplicates are created when a pnr has multiple pregnancy events and a
+      # Keeps TRUE values and NAs (they should be kept, they're just individuals without any pregnancy events)
+        !any(FALSE %in% .data$is_not_within_pregnancy_interval),
+        .by = c(pnr, date)
+      ) |>
+    # Drop columns that were only used here and remove duplicates from the many-to-many joining of the pregnancy dates
     # row that falls outside all of them.
-    dplyr::distinct()
+    dplyr::distinct(pnr, volume, date, atc, apk, is_hba1c)
 }
