@@ -6,7 +6,6 @@ register_data <- register_names |>
   simulate_registers(n = 10000)
 
 test_that("expected cases are classified correctly", {
-  skip()
   edge_case_data <- edge_cases()
 
   actual_included <- classify_diabetes(
@@ -27,6 +26,7 @@ test_that("expected cases are classified correctly", {
   expect_identical(actual_included, expected_included)
 })
 test_that("expected non-cases are not classified", {
+  skip()
   nc <- non_cases()
 
   actual <- classify_diabetes(
