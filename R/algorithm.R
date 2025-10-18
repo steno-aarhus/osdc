@@ -153,7 +153,7 @@ algorithm <- function() {
     is_not_metformin_for_pcos = list(
       register = NA,
       title = "Metformin purchases that aren't potentially for the treatment of PCOS",
-      logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < years(40) OR indication_code %in% c('0000092', '0000276', '0000781')))",
+      logic = "NOT (koen == 2 AND atc =~ '^A10BA02$' AND ((date - foed_dato) < 14610) OR indication_code %in% c('0000092', '0000276', '0000781'))",
       comments = "Woman is defined as 2 in `koen`."
     ),
     has_t1d = list(

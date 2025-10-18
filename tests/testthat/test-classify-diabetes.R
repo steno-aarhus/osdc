@@ -93,7 +93,7 @@ test_that("classifying works for Arrow Tables (from Parquet)", {
   # I've also tried converting date, foed_dato, and 40 years to
   # numbers before the comparison, but it still fails bc arrow can't cast date32
   # to a double directly.
-  skip()
+  #skip()
   skip_on_cran()
   skip_if_not_installed("arrow")
   registers_as_arrow <- register_data |>
