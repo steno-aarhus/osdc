@@ -19,7 +19,7 @@
 #' }
 keep_pregnancy_dates <- function(lpr2, lpr3) {
   lpr2 |>
-    dplyr::bind_rows(lpr3) |>
+    dplyr::union_all(lpr3) |>
     dplyr::filter(.data$is_pregnancy_code) |>
     dplyr::select(
       "pnr",
@@ -58,7 +58,7 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 keep_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
   lpr2 |>
-    dplyr::bind_rows(lpr3) |>
+    dplyr::union_all(lpr3) |>
     dplyr::filter(.data$is_diabetes_code)
 }
 
