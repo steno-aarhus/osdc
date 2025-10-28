@@ -188,9 +188,39 @@ column `stable_inclusion_date` is populated with the same date as
 
 The individual in the second row, `4` is classified as having type 2
 diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995 is
-within a time-period of insufficient data coverage,
-`stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
-contains the inclusion date of this individual.
+within a time-period of insufficient data coverage, the validity of this
+inclusion date is uncertain and `stable_inclusion_date` is `NULL`.
+However, `raw_inclusion_date` still contains the inclusion date of this
+individual.
 
-<!-- TODO: Specify the "stable" time-period: e.g., later than 1997 -->
+In the context of generating a diabetes population with valid inclusion
+dates (e.g. true incident cases), three aspects of the register records
+were considered when determining which periods of time had sufficient
+data available:
+
+-   **Sufficient data on inclusion events:** while HbA1c test results
+    are the diagnostic standard, these records are the newest addition
+    to the register data ecosystem and have limited historical coverage
+    nationwide: from Q4 2015 onward, according to [this
+    analysis](https://ndownloader.figstatic.com/files/42763726).
+    However, as the vast majority of diabetes patients are treated with
+    glucose-lowering drugs at some point, we considered the availability
+    of data on purchases of prescription drugs sufficient. These are
+    available from 1995 onward.
+-   **Sufficient data on exclusion events:** in order to correctly
+    identify pregnancies and discard inclusion events that may occur due
+    to gestational diabetes, rather than manifest diabetes, register
+    information on pregnancy occurances is necessary. In the patient
+    register, this information is available from 1994 onward, but is not
+    valid until 1997, according to [this
+    analysis](https://aastedet.github.io/dissertation/5-discussion-methods.html#fig-births).
+-   **Sufficient wash-out period:** In order to "wash out" prevalent
+    cases from true incident cases, a period of time with valid data is
+    necessary to capture prevalent cases, before new inclusions can be
+    considered true incident cases and the incidence stabilizes. We
+    considered a full year to be enough. Thus, only inclusion dates
+    occuring from 1998 onward are considered true incident cases, and
+    have a `stable_inclusion_date` value.
+
+<!-- TODO: Specify that using the maternal pregnancy register, you can (probably) create a stable population a few years earlier -->
 
