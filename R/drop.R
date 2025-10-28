@@ -49,9 +49,9 @@ drop_pcos <- function(gld_purchases, bef) {
 #' This function takes the combined outputs from
 #' [keep_pregnancy_dates()], [keep_hba1c()], and
 #' [drop_pcos()] and uses diagnoses from LPR2 or LPR3 to
-#' drop both elevated HbA1c tests and GLD purchases during pregnancy, as
+#' drop all elevated HbA1c tests and GLD purchases during pregnancy, as
 #' these may be due to gestational diabetes, rather than type 1 or type 2
-#' diabetes. The aim is to identify pregnancies based on diagnosis codes
+#' diabetes. Pregnancies are defined based on diagnosis codes
 #' specific to pregnancy-ending events (e.g. live births or miscarriages),
 #' and then use the dates of these events to remove inclusion events in the
 #' preceding months that may be related to gestational diabetes (e.g.
@@ -59,11 +59,9 @@ drop_pcos <- function(gld_purchases, bef) {
 #' pregnancy).
 #'
 #' After these drop functions have been applied, the output serves as
-#' inputs to:
+#' input to:
 #'
-#' 1.  The censored HbA1c and GLD data are passed to the
-#'     [join_inclusions()] function for the final step of the inclusion
-#'     process.
+#' 1.  The censored HbA1c and GLD data are passed to the [add_insulin_purchases_cols()] function.
 #'
 #' @param dropped_pcos Output from [drop_pcos()].
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].
@@ -102,7 +100,6 @@ drop_pcos <- function(gld_purchases, bef) {
 #' # Drop pregnancy dates
 #' register_data$lmdb |>
 #'   keep_gld_purchases() |>
-#'   add_insulin_purchases_cols() |>
 #'   drop_pcos(register_data$bef) |>
 #'   drop_pregnancies(
 #'     keep_pregnancy_dates(lpr2, lpr3),

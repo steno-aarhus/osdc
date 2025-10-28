@@ -1,12 +1,12 @@
 #' Classify diabetes status using Danish registers.
 #'
-#' @param kontakter The contacts register for lpr3
-#' @param diagnoser The diagnoses register for lpr3
-#' @param lpr_diag The diagnoses register for lpr2
-#' @param lpr_adm The admissions register for lpr2
+#' @param kontakter The contacts information register for lpr3
+#' @param diagnoser The diagnoses information register for lpr3
+#' @param lpr_diag The diagnoses information register for lpr2
+#' @param lpr_adm The administrative information register for lpr2
 #' @param sysi The SYSI register
 #' @param sssy The SSSY register
-#' @param lab_forsker The lab forsker register
+#' @param lab_forsker The laboratory results for research register
 #' @param bef The BEF register
 #' @param lmdb The LMDB register
 #' @param stable_inclusion_start_date Cutoff date after which inclusion events
