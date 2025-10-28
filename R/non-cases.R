@@ -25,7 +25,11 @@ non_cases <- function() {
     ~pnr, ~koen, ~foed_dato,
     "nc_pcos_1", 2, "19800101",
     "nc_pcos_2", 2, "19800101",
-    "nc_pcos_3", 2, "19800101"
+    "nc_pcos_3", 2, "19800101",
+    "nc_preg_1", 2, "19800101",
+    "nc_preg_2", 2, "19800101",
+    "nc_preg_3", 2, "19800101",
+    "nc_preg_4", 2, "19800101",
   ) |>
     dplyr::mutate(koen = as.integer(.data$koen)) |>
     dplyr::bind_rows(sim_data$bef)
@@ -35,14 +39,23 @@ non_cases <- function() {
     "nc_pcos_1", 10, "20210101", "A10BA02", 5, "0000276",
     "nc_pcos_2", 10, "20190101", "A10BA02", 5, "0000276",
     "nc_pcos_3", 10, "20190101", "A10BA02", 5, "0000276",
+    "nc_preg_1", 10, "20180101", "A10", 5, "0000000",
+    "nc_preg_2", 10, "20180101", "A10", 5, "0000000",
+    "nc_preg_3", 10, "20200101", "A10", 5, "0000000",
+    "nc_preg_4", 10, "20200101", "A10", 5, "0000000",
   ) |>
     dplyr::bind_rows(sim_data$lmdb)
 
+  # LPR2 is before 2019
   lpr_adm <- tibble::tribble(
     ~pnr, ~c_spec, ~recnum, ~d_inddto,
     "nc_pcos_1", "08", "1", "20180101",
     "nc_pcos_2", "08", "1", "20170101",
     "nc_pcos_3", "08", "1", "20170101",
+    "nc_preg_1", "08", "1", "20180101",
+    "nc_preg_2", "08", "1", "20180101",
+    "nc_preg_1", "08", "2", "20180101",
+    "nc_preg_2", "08", "3", "20180101",
   ) |>
     dplyr::bind_rows(sim_data$lpr_adm)
 
@@ -50,14 +63,22 @@ non_cases <- function() {
     ~recnum, ~c_diag, ~c_diagtype,
     # T1D primary
     "1", "249", "A",
+    # Pregnancy
+    "2", "DO00", "A",
+    "3", "DZ33", "A",
   ) |>
     dplyr::bind_rows(sim_data$lpr_diag)
 
+  # LPR3 is from 2019 onwards
   kontakter <- tibble::tribble(
     ~cpr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "nc_pcos_1", "1", "medicinsk endokrinologi", "20210101",
     "nc_pcos_2", "1", "medicinsk endokrinologi", "20190101",
     "nc_pcos_3", "1", "medicinsk endokrinologi", "20190101",
+    "nc_preg_3", "1", "abc", "20200101",
+    "nc_preg_4", "1", "abc", "20200101",
+    "nc_preg_3", "2", "abc", "20200101",
+    "nc_preg_4", "3", "abc", "20200101",
   ) |>
     dplyr::bind_rows(sim_data$kontakter)
 
@@ -65,6 +86,9 @@ non_cases <- function() {
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
     # T1D primary
     "1", "DE10", "A", "Nej",
+    # Pregnancy
+    "2", "DO00", "A", "Nej",
+    "3", "DZ33", "A", "Nej",
   ) |>
     dplyr::bind_rows(sim_data$diagnoser)
 
@@ -73,6 +97,10 @@ non_cases <- function() {
     "nc_pcos_1", 0, "54", "2101",
     "nc_pcos_2", 0, "54", "1901",
     "nc_pcos_3", 0, "54", "1901",
+    "nc_preg_1", 0, "54", "2001",
+    "nc_pcos_2", 0, "54", "2001",
+    "nc_pcos_3", 0, "54", "2001",
+    "nc_pcos_4", 0, "54", "2001",
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
     dplyr::bind_rows(sim_data$sysi)
@@ -82,6 +110,10 @@ non_cases <- function() {
     "nc_pcos_1", 0, "54", "2101",
     "nc_pcos_2", 0, "54", "1901",
     "nc_pcos_3", 0, "54", "1901",
+    "nc_preg_1", 0, "54", "2001",
+    "nc_pcos_2", 0, "54", "2001",
+    "nc_pcos_3", 0, "54", "2001",
+    "nc_pcos_4", 0, "54", "2001",
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
     dplyr::bind_rows(sim_data$sssy)
@@ -91,6 +123,10 @@ non_cases <- function() {
     "nc_pcos_1", "20210101", "NPU27300", 48,
     "nc_pcos_2", "20190101", "NPU03835", 6.5,
     "nc_pcos_3", "20190101", "NPU03835", 6.5,
+    "nc_pcos_1", "20170301", "NPU27300", 48,
+    "nc_pcos_2", "20180301", "NPU03835", 6.5,
+    "nc_pcos_3", "20190301", "NPU03835", 6.5,
+    "nc_pcos_4", "20200301", "NPU27300", 48,
   ) |>
     dplyr::bind_rows(sim_data$lab_forsker)
 
@@ -125,6 +161,10 @@ non_cases_metadata <- function() {
   list(
     nc_pcos_1 = "Woman taking metformin, older than 40, and has an indication code. No other purchases of metformin.",
     nc_pcos_2 = "Woman taking metformin, younger than 40, and doesn't have the indication code. No other purchases of metformin.",
-    nc_pcos_3 = "Woman taking metformin, younger than 40, and has an indication code. No other purchases of metformin."
+    nc_pcos_3 = "Woman taking metformin, younger than 40, and has an indication code. No other purchases of metformin.",
+    nc_preg_1 = "Woman with high HbA1c measured <40 weeks before giving birth or having a miscarriage (from LPR2).",
+    nc_preg_2 = "Woman with high HbA1c measured <12 weeks after giving birth or having a miscarriage (from LPR2).",
+    nc_preg_3 = "Woman with high HbA1c measured <40 weeks before giving birth or having a miscarriage (from LPR3).",
+    nc_preg_4 = "Woman with high HbA1c measured <12 weeks after giving birth or having a miscarriage (from LPR3)."
   )
 }
