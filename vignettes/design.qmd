@@ -210,7 +210,7 @@ data available:
 -   **Sufficient data on exclusion events:** in order to correctly
     identify pregnancies and discard inclusion events that may occur due
     to gestational diabetes, rather than manifest diabetes, register
-    information on pregnancy occurances is necessary. In the patient
+    information on pregnancy occurrences is necessary. In the patient
     register, this information is available from 1994 onward, but is not
     valid until 1997, according to [this
     analysis](https://aastedet.github.io/dissertation/5-discussion-methods.html#fig-births).
@@ -219,5 +219,5 @@ data available:
     necessary to capture prevalent cases, before new inclusions can be
     considered true incident cases and the incidence stabilizes. We
     considered a full year to be enough. Thus, only inclusion dates
-    occuring from 1998 onward are considered true incident cases, and
+    occurring from 1998 onward are considered true incident cases, and
     have a `stable_inclusion_date` value.

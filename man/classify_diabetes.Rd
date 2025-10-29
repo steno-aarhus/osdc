@@ -18,19 +18,19 @@ classify_diabetes(
 )
 }
 \arguments{
-\item{kontakter}{The contacts register for lpr3}
+\item{kontakter}{The contacts information register for lpr3}
 
-\item{diagnoser}{The diagnoses register for lpr3}
+\item{diagnoser}{The diagnoses information register for lpr3}
 
-\item{lpr_diag}{The diagnoses register for lpr2}
+\item{lpr_diag}{The diagnoses information register for lpr2}
 
-\item{lpr_adm}{The admissions register for lpr2}
+\item{lpr_adm}{The administrative information register for lpr2}
 
 \item{sysi}{The SYSI register}
 
 \item{sssy}{The SSSY register}
 
-\item{lab_forsker}{The lab forsker register}
+\item{lab_forsker}{The laboratory results for research register}
 
 \item{bef}{The BEF register}
 
@@ -48,7 +48,13 @@ The same object type as the input data, which would be a
 \code{\link[tibble:tibble]{tibble::tibble()}} type object.
 }
 \description{
-Classify diabetes status using Danish registers.
+This function assumes that each source of raw data is represented as a single
+object in R, e.g. a DuckDB connection to the parquet file(s) has been set up
+or the data has already been read into memory.
+}
+\details{
+This section should probably describe the expected structure of each data
+source (e.g. a list of tables or a single table)
 }
 \examples{
 \dontrun{

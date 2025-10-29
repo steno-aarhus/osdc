@@ -7,9 +7,9 @@
 keep_pregnancy_dates(lpr2, lpr3)
 }
 \arguments{
-\item{lpr2}{Output from \code{join_lpr2()}.}
+\item{lpr2}{Output from \code{prepare_lpr2()}.}
 
-\item{lpr3}{Output from \code{join_lpr3()}.}
+\item{lpr3}{Output from \code{prepare_lpr3()}.}
 }
 \value{
 The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
