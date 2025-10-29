@@ -221,6 +221,3 @@ data available:
     considered a full year to be enough. Thus, only inclusion dates
     occuring from 1998 onward are considered true incident cases, and
     have a `stable_inclusion_date` value.
-
-<!-- TODO: Specify that using the maternal pregnancy register, you can (probably) create a stable population a few years earlier -->
-
