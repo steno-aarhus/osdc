@@ -16,7 +16,7 @@ The same type as the input data, default as a \code{\link[tibble:tibble]{tibble:
 with the following columns:
 \itemize{
 \item \code{pnr}: The personal identification variable.
-\item \code{date}: The date of all the recorded diagnosis (renamed from
+\item \code{date}: The date of each recorded diagnosis (renamed from
 \code{d_inddto} or \code{dato_start}).
 \item \code{is_primary_diagnosis}: Whether the diagnosis was a primary diagnosis.
 \item \code{is_diabetes_code}: Whether the diagnosis was any type of diabetes.
