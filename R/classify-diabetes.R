@@ -94,7 +94,18 @@ classify_diabetes <- function(
     lpr2 = lpr2,
     lpr3 = lpr3
   ) |>
-    add_t1d_diagnoses_cols()
+    add_t1d_diagnoses_cols() |>
+    dplyr::select(
+      -c(
+        "is_primary_diagnosis",
+        "is_diabetes_code",
+        "is_t1d_code",
+        "is_t2d_code",
+        "is_endocrinology_dept",
+        "is_medical_dept",
+        "is_pregnancy_code"
+      )
+    )
 
   podiatrist_services <- keep_podiatrist_services(
     sysi = sysi,
@@ -118,15 +129,22 @@ classify_diabetes <- function(
     ) |>
     add_insulin_purchases_cols() |>
     dplyr::select(
-      -"atc",
-      -"indication_code",
+      -c(
+        "atc",
+        "indication_code",
+        "volume",
+        "apk",
+        "is_hba1c"
+      )
     )
 
-  # Joining into an initial dataset -----
+  # Join events, keeping only two earliest dates per "stream" -----
   inclusions <- join_inclusions(
-    diabetes_diagnoses = diabetes_diagnoses,
-    podiatrist_services = podiatrist_services,
-    gld_hba1c_after_drop_steps = gld_hba1c_after_drop_steps
+    diabetes_diagnoses = keep_two_earliest_events(diabetes_diagnoses),
+    podiatrist_services = keep_two_earliest_events(podiatrist_services),
+    gld_hba1c_after_drop_steps = keep_two_earliest_events(
+      gld_hba1c_after_drop_steps
+    )
   )
 
   inclusions |>

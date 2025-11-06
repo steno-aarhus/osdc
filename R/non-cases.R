@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-#' cases()
+#' non_cases()
 non_cases <- function() {
   sim_data <- registers() |>
     names() |>

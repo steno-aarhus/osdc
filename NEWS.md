@@ -7,6 +7,42 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.8.8 (2025-10-05)
+
+### Fix
+
+- :bug: logic around `is.na()` in pregnancy event isn't needed (#367)
+
+## 0.8.7 (2025-10-03)
+
+### Refactor
+
+- :recycle: deselect columns we don't need later (#377)
+
+## 0.8.6 (2025-10-03)
+
+### Fix
+
+- :bug: use `.data$` instead of quotes around `is_hba1c` (#376)
+
+## 0.8.5 (2025-10-03)
+
+### Fix
+
+- :bug: remove HbA1c rows when calculating insulin columns (#371)
+
+## 0.8.4 (2025-10-03)
+
+### Refactor
+
+- ♻️ add separate `keep_two_earliest_events()` function (#369)
+
+## 0.8.3 (2025-10-02)
+
+### Refactor
+
+- :truck: rename `cases()` to `edge_cases()` to match file name (#368)
+
 ## 0.8.2 (2025-10-02)
 
 ### Fix
