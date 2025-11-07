@@ -428,7 +428,7 @@ create_simulated_data <- function(data, n) {
 #' @param registers The name of the register you want to simulate.
 #' @param n The number of rows to simulate for the resulting register.
 #'
-#' @returns A list with simulated register data.
+#' @returns A list with simulated register data (as DuckDB objects).
 #' @export
 #'
 #' @examples
@@ -469,5 +469,6 @@ simulate_registers <- function(registers, n = 1000) {
         simulation_definitions_list,
         \(data) unique(data$register_abbrev)
       )
-    )
+    ) |>
+    purrr::map(duckplyr::as_duckdb_tibble)
 }
