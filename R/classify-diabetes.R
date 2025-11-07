@@ -62,6 +62,17 @@ classify_diabetes <- function(
   lmdb,
   stable_inclusion_start_date = "1998-01-01"
 ) {
+  # Input checks -----
+  check_is_duckdb(kontakter)
+  check_is_duckdb(diagnoser)
+  check_is_duckdb(lpr_diag)
+  check_is_duckdb(lpr_adm)
+  check_is_duckdb(sysi)
+  check_is_duckdb(sssy)
+  check_is_duckdb(lab_forsker)
+  check_is_duckdb(bef)
+  check_is_duckdb(lmdb)
+
   # Verification step -----
   kontakter <- select_required_variables(kontakter, "kontakter")
   diagnoser <- select_required_variables(diagnoser, "diagnoser")
@@ -160,7 +171,26 @@ classify_diabetes <- function(
       "raw_inclusion_date",
       "has_t1d",
       "has_t2d"
+    ) |>
+    dplyr::compute()
+}
+
+check_is_duckdb <- function(data, call = rlang::caller_env()) {
+  check <- checkmate::check_multi_class(
+    data,
+    classes = c(
+      "tbl_duckdb_connection",
+      "duckplyr_df",
+      "duckplyr_tbl",
+      "duckdb_connection"
     )
+  )
+  if (!check) {
+    rlang::abort(
+      message = "The data needs to be a DuckDB, because of the amount of processing we do to the data.",
+      call = call
+    )
+  }
 }
 
 #' After filtering, classify those with type 1 diabetes.
