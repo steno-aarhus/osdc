@@ -149,6 +149,7 @@ classify_diabetes <- function(
 
   inclusions |>
     create_inclusion_dates(stable_inclusion_start_date) |>
+    keep_core_rows_with_no_na() |>
     classify_t1d() |>
     # If has_t1d is NA, t2d will also be NA
     dplyr::mutate(has_t2d = !.data$has_t1d) |>
@@ -161,6 +162,32 @@ classify_diabetes <- function(
       "has_t1d",
       "has_t2d"
     )
+}
+
+#' Keep rows that have no missing values for the core variables.
+#'
+#' @param data The joined inclusion data.
+#'
+#' @returns A [tibble::tibble()] with rows with missing core variables removed.
+#' @keywords internal
+#'
+keep_core_rows_with_no_na <- function(data) {
+  data |>
+    dplyr::filter(
+      all(
+        not_na(.data$has_only_insulin_purchases),
+        not_na(.data$has_any_t1d_primary_diagnosis)
+      ) |
+        all(
+          not_na(.data$has_majority_t1d_diagnoses),
+          not_na(.data$has_two_thirds_insulin),
+          not_na(.data$has_insulin_purchases_within_180_days)
+        )
+    )
+}
+
+not_na <- function(x) {
+  !is.na(x)
 }
 
 #' After filtering, classify those with type 1 diabetes.
