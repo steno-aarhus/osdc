@@ -26,8 +26,18 @@ test_that("expected cases are classified correctly", {
 
   expect_identical(actual_included, expected_included)
 })
+
 test_that("expected non-cases are not classified", {
-  nc <- non_cases()
+  nc_base <- non_cases()
+
+  nc <- register_names |>
+    purrr::map(\(name) {
+      out <- list(
+        dplyr::bind_rows(nc_base[[name]], register_data[[name]])
+      )
+      out <- rlang::set_names(out, name)
+    }) |>
+    purrr::flatten()
 
   actual <- classify_diabetes(
     kontakter = nc$kontakter,
