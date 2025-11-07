@@ -23,11 +23,13 @@ for this package and algorithm, see `vignette("data-sources")`.
 
 ## Usage
 
-First, let's load up the package, as well as dplyr.
+First, let's load up the package, as well as duckplyr since we require
+the data to be in the [DuckDB](https://duckdb.org/) format. See the
+`vignette("design")` for some reasons why.
 
 ```{r setup}
 #| message: false
-library(dplyr)
+library(duckplyr)
 library(osdc)
 ```
 
