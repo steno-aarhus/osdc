@@ -98,9 +98,9 @@ non_cases <- function() {
     "nc_pcos_2", 0, "54", "1901",
     "nc_pcos_3", 0, "54", "1901",
     "nc_preg_1", 0, "54", "2001",
-    "nc_pcos_2", 0, "54", "2001",
-    "nc_pcos_3", 0, "54", "2001",
-    "nc_pcos_4", 0, "54", "2001",
+    "nc_preg_2", 0, "54", "2001",
+    "nc_preg_3", 0, "54", "2001",
+    "nc_preg_4", 0, "54", "2001",
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
     dplyr::bind_rows(sim_data$sysi)
@@ -111,9 +111,9 @@ non_cases <- function() {
     "nc_pcos_2", 0, "54", "1901",
     "nc_pcos_3", 0, "54", "1901",
     "nc_preg_1", 0, "54", "2001",
-    "nc_pcos_2", 0, "54", "2001",
-    "nc_pcos_3", 0, "54", "2001",
-    "nc_pcos_4", 0, "54", "2001",
+    "nc_preg_2", 0, "54", "2001",
+    "nc_preg_3", 0, "54", "2001",
+    "nc_preg_4", 0, "54", "2001",
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
     dplyr::bind_rows(sim_data$sssy)
@@ -123,10 +123,10 @@ non_cases <- function() {
     "nc_pcos_1", "20210101", "NPU27300", 48,
     "nc_pcos_2", "20190101", "NPU03835", 6.5,
     "nc_pcos_3", "20190101", "NPU03835", 6.5,
-    "nc_pcos_1", "20170301", "NPU27300", 48,
-    "nc_pcos_2", "20180301", "NPU03835", 6.5,
-    "nc_pcos_3", "20190301", "NPU03835", 6.5,
-    "nc_pcos_4", "20200301", "NPU27300", 48,
+    "nc_preg_1", "20170301", "NPU27300", 48,
+    "nc_preg_2", "20180301", "NPU03835", 6.5,
+    "nc_preg_3", "20190301", "NPU03835", 6.5,
+    "nc_preg_4", "20200301", "NPU27300", 48,
   ) |>
     dplyr::bind_rows(sim_data$lab_forsker)
 
