@@ -1,0 +1,196 @@
+# Design
+
+## Principles
+
+These are the guiding principles for this package:
+
+1.  Functionality is as agnostic to data format as possible (e.g. can be
+    used with SQL or Arrow connections, in a `data.table` format, or as
+    a `data.frame`).
+2.  Functions have consistent inputs and outputs (e.g. inputs and
+    outputs are the same, regardless of specific conditions).
+3.  Functions have predictable outputs based on inputs (e.g. if an input
+    is a `data.frame`, the output is a `data.frame`).
+4.  Functions have consistent naming based on their action.
+5.  Functions have limited additional arguments.
+6.  Casing of input variables (upper or lower case) is agnostic, but all
+    internal variables are lower case, and output variables are lower
+    case.
+
+## Use cases
+
+We make these assumptions on how this package will be used, based on our
+experiences and expectations for use cases:
+
+We expect the package will be:
+
+- Entirely used within the Denmark Statistics or the Danish Health
+  Authority’s servers, since that is where their data are kept.
+- Used by researchers within or affiliated with Danish research
+  institutions.
+- Used specifically within a Danish register-based context.
+
+Below is a set of “narratives” or “personas” with associated needs that
+this package aims to fulfill.
+
+“As a researcher, …”
+
+- “… I want to easily get an overview of which Danish registers and
+  variables I need to request from Denmark Statistics and the Danish
+  Health Data Authority, so that I am able to classify the diabetes
+  status of individuals in the registers using the osdc package.”
+- “… I want to easily and simply create a dataset that contains data on
+  diabetes status in my population, so that I can begin conducting my
+  research that involves persons with diabetes without having to tinker
+  with coding the correct algorithm to classify them.”
+- “… I want to be informed early and in a clear way whether my data fits
+  with the required data types, so that I can fix and correct these
+  issues without having to do extensive debugging of the code and/or
+  data.”
+
+## Core functionality
+
+This is the list of the core functionality of the osdc package:
+
+1.  Classifies individuals’ diabetes type (type 1 or 2)
+2.  Outputs a single data frame including individuals with diabetes,
+    their type (type 1 or 2), and date of onset as classified by the
+    algorithm.
+3.  Internally checks individual registers for the variables required by
+    the algorithm.
+4.  Provides a list of required variables and registers in order to
+    calculate diabetes status.
+5.  Provides internal checks of whether variables match the expected
+    data types.
+6.  Provides a common and easily accessible standard for determining
+    diabetes status within the context of research using Danish
+    registers.
+
+## Function conventions
+
+To effectively develop both the user-facing and internal functions, we
+follow some conventions and design patterns for building these
+functions. There are a few conventions we describe here: naming patterns
+for functions and arguments, their argument input requirements, and
+their output data structure.
+
+The below conventions are *ideals* only, to be used as a guidelines to
+help with development and understanding of the code; they are not hard
+rules.
+
+### Naming
+
+- First word is an action verb, later words are objects or conditions.
+- Functions that filter by dropping rows based on specific criteria are
+  prefixed with `drop_`.
+- Functions that filter by keeping rows based on specific criteria are
+  prefixed with `keep_`.
+- Helpers that add columns needed for classification are prefixed with
+  `add_`.
+- Helpers that join the output of other functions are prefixed with
+  `join_`.
+- Functions that prepare and process register data are prefixed with
+  `prepare_`.
+
+### Input
+
+- As few arguments as is possible, with as few core required arguments
+  as possible (ideally one or two).
+- `keep_` functions take a register as the first argument.
+  - One input register database at a time.
+- `drop_` functions can take a register as the first argument or take
+  the output from a `keep_` function.
+- All functions take a `data.frame` type object as input. This input
+  object doesn’t need to be strictly a `data.frame` as long as it acts
+  like a `data.frame`. For instance, it could be a `data.table`, a
+  `tibble`, or a `duckdb` object.
+- The first argument will always take a data frame type object.
+- The second argument could be an output data frame object from another
+  function.
+
+### Output
+
+- All functions output the same type of object as the input object (a
+  `data.frame` type object). For instance, if the input is a
+  `data.table` object, the output will also be a `data.table`.
+
+## Interface
+
+The osdc package contains one main function that classifies individuals
+into those with either type 1 or type 2 diabetes using the Danish
+registers:
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md).
+This function classifies those with diabetes (type 1 or 2) based on the
+Danish registers described in the
+[`vignette("design")`](https://steno-aarhus.github.io/osdc/articles/design.md)
+and
+[`vignette("data-sources")`](https://steno-aarhus.github.io/osdc/articles/data-sources.md).
+All data sources needed by osdc are used as input for this function. The
+specific details of the classification algorithm are described in the
+[`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md).
+
+### Input
+
+There is one argument in
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
+for each required register. The names and descriptions of these
+arguments are as follows:
+
+- `bef`: The register called ‘CPR-registerets befolkningstabel’ in
+  Danish.
+- `lmdb`: The register called ‘Laegemiddelstatistikregisteret’ in
+  Danish.
+- `lpr_adm`: The register called ‘Landspatientregisterets
+  administrationstabel (LPR2)’ in Danish.
+- `lpr_diag`: The register called ‘Landspatientregisterets diagnosetabel
+  (LPR2)’ in Danish.
+- `kontakter`: The register called ‘Landspatientregisterets kontakttabel
+  (LPR3)’ in Danish.
+- `diagnoser`: The register called ‘Landspatientregisterets
+  diagnosetabel (LPR3)’ in Danish.
+- `sysi`: The register called ‘Sygesikringsregisteret’ in Danish.
+- `sssy`: The register called ‘Sygesikringsregisteret’ in Danish.
+- `lab_forsker`: The register called ‘Laboratoriedatabasens
+  forskertabel’ in Danish.
+
+### Output
+
+The output is a `data.frame` type object which includes four columns:
+
+- **pnr**: The pseudonymised social security number of individuals in
+  the diabetes population (one row per individual).
+- **stable_inclusion_date**: The *stable* inclusion date (i.e., the raw
+  date mutated so only individuals included in the time-period where
+  data coverage is sufficient to make incident cases reliable)[¹](#fn1).
+- **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
+  the second inclusion event as described in the
+  [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)).
+- **diabetes_type**: The classified diabetes type.
+
+For an example, see below.
+
+| pnr | stable_inclusion_date | raw_inclusion_date | has_t1d | has_t2d |
+|-----|-----------------------|--------------------|---------|---------|
+| 1   | 2020-01-01            | 2020-01-01         | TRUE    | FALSE   |
+| 4   | NA                    | 1995-04-19         | FALSE   | TRUE    |
+
+Example rows of the `data.frame` output of the osdc package.
+
+The individuals `1` and `4` have been classified as having diabetes
+(either `has_t1d` or `has_t2d`, respectively). `1` is classified as
+having type 1 diabetes (T1D) with an inclusion date of `2020-01-01`.
+Since this date is within a time-period of sufficient data coverage, the
+column `stable_inclusion_date` is populated with the same date as
+`raw_inclusion_date`.
+
+The individual in the second row, `4` is classified as having type 2
+diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995 is
+within a time-period of insufficient data coverage,
+`stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
+contains the inclusion date of this individual.
+
+------------------------------------------------------------------------
+
+1.  For more information on the “raw” versus “stable” inclusion date,
+    see
+    [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md).

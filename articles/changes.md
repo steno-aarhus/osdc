@@ -1,0 +1,83 @@
+# Changes from original
+
+In this vignette, you’ll find a description of the changes that have
+been made to the OSDC algorithm since its [original
+validation](https://doi.org/10.2147/CLEP.S407019). The osdc package uses
+the latest changes to the algorithm. Potential changes to the algorithm,
+rather than the specific implementation and code details, that we might
+in the future will also be described in this vignette. We will also
+provide validation metrics here whenever we make a change, and track
+these validations over the different versions.
+
+## Specific changes since the original validation (version from the paper)
+
+### Version 1.1
+
+1.  We don’t use purchases of semaglutid, dapagliflozin or
+    empagliflozin, neither for inclusion events nor classification of
+    diabetes type (due to increasing use in treatment of non-diabetes).
+2.  We no longer use diabetes type reclassification based on insulin
+    purchases in the previous year.
+3.  The logic defining pregnancy index dates has been simplified to only
+    use diagnoses of pregnancy endings (no longer uses data on maternal
+    care visits).
+4.  De-duplicates subsequent HbA1c samples taken on the same date
+    (originally, if a sampling time was available in the lab data, only
+    samples taken at the same time were de-duplicated)
+
+### Version 1.2
+
+1.  No longer uses any GLP1-RAs for inclusion or type-specification.
+2.  For diabetes type-classification, the window of 180 days when a T1D
+    case must make a purchase of an insulin is now evaluated from the
+    date of the first purchase of a glucose-lowering drug, rather than
+    from the inclusion date.
+
+## Validity
+
+Algorithm validity across versions. Reports `PPV` (*positive predictive
+value*) and `sensitivity` for typical cases and cases with atypical age
+at onset of T1D (after age 40) and T2D (before age 40), respectively.
+
+### On pre-2019 data (as in the paper)
+
+**Overall and age at onset-stratified (paper table 1 & 2):**
+
+| Version | Diabetes type | PPV   | Sensitivity |
+|---------|---------------|-------|-------------|
+| Paper   | T1D           | 0.943 | 0.773       |
+| Paper   | T1D \>40 yrs  | 0.708 | 0.378       |
+| Paper   | T2D           | 0.875 | 0.944       |
+| Paper   | T2D \<40 yrs  | 0.471 | 0.863       |
+
+| Version | Diabetes type | PPV   | Sensitivity |
+|---------|---------------|-------|-------------|
+| 1.2     | T1D           | 0.944 | 0.783       |
+| 1.2     | T1D \>40 yrs  | 0.708 | 0.378       |
+| 1.2     | T2D           | 0.879 | 0.944       |
+| 1.2     | T2D \<40 yrs  | 0.480 | 0.863       |
+
+**Bootstrapped metrics (paper S3):**
+
+| Version | Diabetes type | Sensitivity | Specificity | PPV   | NPV   |
+|---------|---------------|-------------|-------------|-------|-------|
+| Paper   | T1D           | 0.774       | 0.999       | 0.951 | 0.997 |
+| Paper   | T2D           | 0.943       | 0.989       | 0.878 | 0.995 |
+
+| Version | Diabetes type | Sensitivity | Specificity | PPV   | NPV   |
+|---------|---------------|-------------|-------------|-------|-------|
+| 1.2     | T1D           | 0.788       | 0.999       | 0.947 | 0.997 |
+| 1.2     | T2D           | 0.940       | 0.990       | 0.881 | 0.995 |
+
+## Potential future changes
+
+1.  Add support for using medical birth register to define pregnancies
+    to censor gestational diabetes (GDM). This will allow for the
+    censoring of glucose-lowering drug (GLD) purchases all the way back
+    to 1995 (rather than 1997 onward, as the obstetric codes are limited
+    to), and enable the extension of the window of valid dates of
+    diagnosis to 1996 onward.
+2.  Limit the historic scope of primary diagnoses used to evaluate
+    majority of diabetes-specific diagnoses in type classification (e.g.
+    only evaluate majority among the last five type-specific diabetes
+    diagnoses).
