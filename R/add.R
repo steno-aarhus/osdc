@@ -144,7 +144,7 @@ add_t1d_diagnoses_cols <- function(data) {
     dplyr::mutate(
       dplyr::across(
         tidyselect::matches("^n_t[12]d_"),
-        \(x) dplyr::coalesce(x, 0)
+        ~dplyr::coalesce(.x, 0)
       )
     ) |>
     # Add two columns for type 1 diabetes diagnoses logic.

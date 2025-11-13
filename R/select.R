@@ -73,10 +73,15 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
     ) |>
     dplyr::select("name", "expected_data_type")
 
+  # Handle Arrow data structures by loading first row into memory (converting the complex Arrow structures into their simpler R forms):
+  data_sample <- data |>
+    head(5) |>
+    dplyr::collect()
+
   # Get actual variables and their data types.
   actual <- tibble::tibble(
-    name = colnames(data),
-    actual_data_type = purrr::map_chr(data, class)
+    name = colnames(data_sample),
+    actual_data_type = purrr::map_chr(data_sample, class)
   )
 
   # Get mismatched data types.
