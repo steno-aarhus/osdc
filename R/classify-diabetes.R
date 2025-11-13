@@ -131,7 +131,6 @@ classify_diabetes <- function(
     dplyr::select(
       -c(
         "atc",
-        "indication_code",
         "volume",
         "apk",
         "is_hba1c"
