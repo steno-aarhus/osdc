@@ -1,7 +1,7 @@
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from `join_lpr2()`.
-#' @param lpr3 Output from `join_lpr3()`.
+#' @param lpr2 Output from `prepare_lpr2()`.
+#' @param lpr3 Output from `prepare_lpr3()`.
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
 #' @keywords internal
@@ -243,7 +243,7 @@ yyww_to_yyyymmdd <- function(yyww) {
 #' Keep two earliest events per PNR
 #'
 #' Since the classification date is based on the second instance of
-#' an inclusion criteria, we only need to keep the earliest two events per PNR
+#' an inclusion criteria, we need to keep the earliest two events per PNR
 #' per inclusion "stream".
 #'
 #' This function is applied to each "stream", `diabetes_diagnoses`,
