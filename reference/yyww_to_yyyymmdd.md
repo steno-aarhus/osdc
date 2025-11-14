@@ -3,8 +3,7 @@
 Since the exact date isn't given in the input, this function will set
 the date to Monday of the week. As a precaution, a leading zero is added
 if it has been removed. This can e.g., happen if the input was "0107"
-and has been converted to a numeric 107. We need to export this function
-so that it can be found when using Arrow to process the data.
+and has been converted to a numeric 107.
 
 ## Usage
 

@@ -78,7 +78,7 @@
 </h2>
 <p>These are the guiding principles for this package:</p>
 <ol type="1">
-<li>Functionality is as agnostic to data format as possible (e.g. can be used with SQL or Arrow connections, in a <code>data.table</code> format, or as a <code>data.frame</code>).</li>
+<li>Because of the amount of data in the registers and the extensive processing that osdc does to classify diabetes status, the data must be in the <a href="https://duckdb.org/" class="external-link">DuckDB</a> format. DuckDB is an extremely powerful data analytic engine, so this is quite essential for osdc to keep performance high.</li>
 <li>Functions have consistent inputs and outputs (e.g. inputs and outputs are the same, regardless of specific conditions).</li>
 <li>Functions have predictable outputs based on inputs (e.g. if an input is a <code>data.frame</code>, the output is a <code>data.frame</code>).</li>
 <li>Functions have consistent naming based on their action.</li>
@@ -104,7 +104,7 @@
 <p>This is the list of the core functionality of the osdc package:</p>
 <ol type="1">
 <li>Classifies individuals’ diabetes type (type 1 or 2)</li>
-<li>Outputs a single data frame including individuals with diabetes, their type (type 1 or 2), and date of onset as classified by the algorithm.</li>
+<li>Outputs a single data frame-type object (as a DuckDB object) including individuals with diabetes, their type (type 1 or 2), and date of onset as classified by the algorithm.</li>
 <li>Internally checks individual registers for the variables required by the algorithm.</li>
 <li>Provides a list of required variables and registers in order to calculate diabetes status.</li>
 <li>Provides internal checks of whether variables match the expected data types.</li>
@@ -134,13 +134,13 @@
 </li>
 <li>
 <code>drop_</code> functions can take a register as the first argument or take the output from a <code>keep_</code> function.</li>
-<li>All functions take a <code>data.frame</code> type object as input. This input object doesn’t need to be strictly a <code>data.frame</code> as long as it acts like a <code>data.frame</code>. For instance, it could be a <code>data.table</code>, a <code>tibble</code>, or a <code>duckdb</code> object.</li>
+<li>All functions take a DuckDB type object as input (e.g. <code>duckplyr_df</code>).</li>
 <li>The first argument will always take a data frame type object.</li>
 <li>The second argument could be an output data frame object from another function.</li>
 </ul></section><section class="level3"><h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
 </h3>
 <ul>
-<li>All functions output the same type of object as the input object (a <code>data.frame</code> type object). For instance, if the input is a <code>data.table</code> object, the output will also be a <code>data.table</code>.</li>
+<li>All functions output the same type of object as the input object (a <code>duckplyr_df</code> type object).</li>
 </ul></section></section><section class="level2"><h2 id="interface">Interface<a class="anchor" aria-label="anchor" href="#interface"></a>
 </h2>
 <p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in the <code><a href="../articles/design.html">vignette("design")</a></code> and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources needed by osdc are used as input for this function. The specific details of the classification algorithm are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>

@@ -20,10 +20,13 @@ To see the specific data needed for this package and algorithm, see
 
 ## Usage
 
-First, let’s load up the package, as well as dplyr.
+First, let’s load the package, as well as duckplyr since we require the
+data to be in the [DuckDB](https://duckdb.org/) format. See the
+[`vignette("design")`](https://steno-aarhus.github.io/osdc/articles/design.md)
+for some reasons why.
 
 ``` r
-library(dplyr)
+library(duckplyr)
 library(osdc)
 ```
 

@@ -20,14 +20,14 @@ simulate_registers(registers, n = 1000)
 
 ## Value
 
-A list with simulated register data.
+A list with simulated register data (as DuckDB objects).
 
 ## Examples
 
 ``` r
 simulate_registers(c("bef", "sysi"))
 #> $bef
-#> # A tibble: 1,000 × 3
+#> # A duckplyr data frame: 3 variables
 #>     koen pnr          foed_dato
 #>    <int> <chr>        <chr>    
 #>  1     2 108684730664 19320112 
@@ -40,10 +40,10 @@ simulate_registers(c("bef", "sysi"))
 #>  8     1 167007504860 20010318 
 #>  9     1 132473802596 19530901 
 #> 10     2 876820784981 19310817 
-#> # ℹ 990 more rows
+#> # ℹ more rows
 #> 
 #> $sysi
-#> # A tibble: 1,000 × 4
+#> # A duckplyr data frame: 4 variables
 #>    pnr          barnmak speciale honuge
 #>    <chr>          <int> <chr>    <chr> 
 #>  1 108684730664       0 10022    9329  
@@ -56,11 +56,11 @@ simulate_registers(c("bef", "sysi"))
 #>  8 167007504860       1 20866    9632  
 #>  9 132473802596       0 27002    0213  
 #> 10 876820784981       0 53825    9419  
-#> # ℹ 990 more rows
+#> # ℹ more rows
 #> 
 simulate_registers("bef")
 #> $bef
-#> # A tibble: 1,000 × 3
+#> # A duckplyr data frame: 3 variables
 #>     koen pnr          foed_dato
 #>    <int> <chr>        <chr>    
 #>  1     1 108684730664 19320112 
@@ -73,11 +73,11 @@ simulate_registers("bef")
 #>  8     1 167007504860 20010318 
 #>  9     1 132473802596 19530901 
 #> 10     1 876820784981 19310817 
-#> # ℹ 990 more rows
+#> # ℹ more rows
 #> 
 simulate_registers("diagnoser")
 #> $diagnoser
-#> # A tibble: 1,000 × 4
+#> # A duckplyr data frame: 4 variables
 #>    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet
 #>    <chr>              <chr>        <chr>        <chr>            
 #>  1 920166254345774467 DX7621       B            Nej              
@@ -90,6 +90,6 @@ simulate_registers("diagnoser")
 #>  8 814175436846538799 DQ666D       B            Nej              
 #>  9 508133593881487375 DK660C       A            Nej              
 #> 10 325077063891132755 DT559B       B            Nej              
-#> # ℹ 990 more rows
+#> # ℹ more rows
 #> 
 ```

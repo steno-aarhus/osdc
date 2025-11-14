@@ -4,9 +4,11 @@
 
 These are the guiding principles for this package:
 
-1.  Functionality is as agnostic to data format as possible (e.g. can be
-    used with SQL or Arrow connections, in a `data.table` format, or as
-    a `data.frame`).
+1.  Because of the amount of data in the registers and the extensive
+    processing that osdc does to classify diabetes status, the data must
+    be in the [DuckDB](https://duckdb.org/) format. DuckDB is an
+    extremely powerful data analytic engine, so this is quite essential
+    for osdc to keep performance high.
 2.  Functions have consistent inputs and outputs (e.g. inputs and
     outputs are the same, regardless of specific conditions).
 3.  Functions have predictable outputs based on inputs (e.g. if an input
@@ -53,9 +55,9 @@ this package aims to fulfill.
 This is the list of the core functionality of the osdc package:
 
 1.  Classifies individuals’ diabetes type (type 1 or 2)
-2.  Outputs a single data frame including individuals with diabetes,
-    their type (type 1 or 2), and date of onset as classified by the
-    algorithm.
+2.  Outputs a single data frame-type object (as a DuckDB object)
+    including individuals with diabetes, their type (type 1 or 2), and
+    date of onset as classified by the algorithm.
 3.  Internally checks individual registers for the variables required by
     the algorithm.
 4.  Provides a list of required variables and registers in order to
@@ -100,10 +102,7 @@ rules.
   - One input register database at a time.
 - `drop_` functions can take a register as the first argument or take
   the output from a `keep_` function.
-- All functions take a `data.frame` type object as input. This input
-  object doesn’t need to be strictly a `data.frame` as long as it acts
-  like a `data.frame`. For instance, it could be a `data.table`, a
-  `tibble`, or a `duckdb` object.
+- All functions take a DuckDB type object as input (e.g. `duckplyr_df`).
 - The first argument will always take a data frame type object.
 - The second argument could be an output data frame object from another
   function.
@@ -111,8 +110,7 @@ rules.
 ### Output
 
 - All functions output the same type of object as the input object (a
-  `data.frame` type object). For instance, if the input is a
-  `data.table` object, the output will also be a `data.table`.
+  `duckplyr_df` type object).
 
 ## Interface
 

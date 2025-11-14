@@ -33,11 +33,11 @@ function after the keep and drop steps, right before they are joined.
 ``` r
 if (FALSE) { # \dontrun{
 data <- tibble::tribble(
- ~pnr, ~date,
- 1, "20200101",
- 1, "20200102",
- 1, "20200103",
- 2, "20200101"
+  ~pnr, ~date,
+  1, "20200101",
+  1, "20200102",
+  1, "20200103",
+  2, "20200101"
 )
 keep_two_earliest_events(data)
 } # }

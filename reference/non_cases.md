@@ -31,7 +31,7 @@ logic works and to be shown in the documentation.
 ``` r
 non_cases()
 #> $bef
-#> # A tibble: 1,003 × 3
+#> # A duckplyr data frame: 3 variables
 #>    pnr           koen foed_dato
 #>    <chr>        <int> <chr>    
 #>  1 nc_pcos_1        2 19800101 
@@ -44,10 +44,10 @@ non_cases()
 #>  8 489714666740     1 20170225 
 #>  9 155331797020     2 19730330 
 #> 10 777951655096     1 19341022 
-#> # ℹ 993 more rows
+#> # ℹ more rows
 #> 
 #> $lmdb
-#> # A tibble: 1,003 × 6
+#> # A duckplyr data frame: 6 variables
 #>    pnr          volume eksd     atc       apk indo   
 #>    <chr>         <dbl> <chr>    <chr>   <dbl> <chr>  
 #>  1 nc_pcos_1     10    20210101 A10BA02  5    0000276
@@ -60,10 +60,10 @@ non_cases()
 #>  8 489714666740   6.40 20240528 C08CA01  9.99 9269216
 #>  9 155331797020   9.53 20050827 N06AA12  4.14 5353152
 #> 10 777951655096   5.41 20141010 N02AX03  1.61 7558017
-#> # ℹ 993 more rows
+#> # ℹ more rows
 #> 
 #> $lpr_adm
-#> # A tibble: 1,003 × 4
+#> # A duckplyr data frame: 4 variables
 #>    pnr          c_spec recnum             d_inddto
 #>    <chr>        <chr>  <chr>              <chr>   
 #>  1 nc_pcos_1    08     1                  20180101
@@ -76,10 +76,10 @@ non_cases()
 #>  8 489714666740 06     814210282344580857 20160613
 #>  9 155331797020 06     393885735973313484 20001231
 #> 10 777951655096 88     836179506546686729 20250325
-#> # ℹ 993 more rows
+#> # ℹ more rows
 #> 
 #> $lpr_diag
-#> # A tibble: 1,001 × 3
+#> # A duckplyr data frame: 3 variables
 #>    recnum             c_diag c_diagtype
 #>    <chr>              <chr>  <chr>     
 #>  1 1                  249    A         
@@ -92,10 +92,10 @@ non_cases()
 #>  8 836179506546686729 E8127  A         
 #>  9 814175436846538799 23999  B         
 #> 10 508133593881487375 76643  B         
-#> # ℹ 991 more rows
+#> # ℹ more rows
 #> 
 #> $kontakter
-#> # A tibble: 1,003 × 4
+#> # A duckplyr data frame: 4 variables
 #>    cpr          dw_ek_kontakt      hovedspeciale_ans          dato_start
 #>    <chr>        <chr>              <chr>                      <chr>     
 #>  1 nc_pcos_1    1                  medicinsk endokrinologi    20210101  
@@ -108,10 +108,10 @@ non_cases()
 #>  8 489714666740 814210282344580857 Medicinsk gastroenterologi 20160613  
 #>  9 155331797020 393885735973313484 Miljømedicin               20001231  
 #> 10 777951655096 836179506546686729 Arbejdsmedicin             20250325  
-#> # ℹ 993 more rows
+#> # ℹ more rows
 #> 
 #> $diagnoser
-#> # A tibble: 1,001 × 4
+#> # A duckplyr data frame: 4 variables
 #>    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet
 #>    <chr>              <chr>        <chr>        <chr>            
 #>  1 1                  DE10         A            Nej              
@@ -124,10 +124,10 @@ non_cases()
 #>  8 836179506546686729 DZ52         B            Ja               
 #>  9 814175436846538799 DQ666D       B            Nej              
 #> 10 508133593881487375 DK660C       A            Nej              
-#> # ℹ 991 more rows
+#> # ℹ more rows
 #> 
 #> $sysi
-#> # A tibble: 1,003 × 4
+#> # A duckplyr data frame: 4 variables
 #>    pnr          barnmak speciale honuge
 #>    <chr>          <int> <chr>    <chr> 
 #>  1 nc_pcos_1          0 54       2101  
@@ -140,10 +140,10 @@ non_cases()
 #>  8 489714666740       0 42818    9215  
 #>  9 155331797020       0 67148    9924  
 #> 10 777951655096       0 62545    9727  
-#> # ℹ 993 more rows
+#> # ℹ more rows
 #> 
 #> $sssy
-#> # A tibble: 1,003 × 4
+#> # A duckplyr data frame: 4 variables
 #>    pnr          barnmak speciale honuge
 #>    <chr>          <int> <chr>    <chr> 
 #>  1 nc_pcos_1          0 54       2101  
@@ -156,10 +156,10 @@ non_cases()
 #>  8 489714666740       0 42818    1103  
 #>  9 155331797020       0 67148    0714  
 #> 10 777951655096       0 62545    2221  
-#> # ℹ 993 more rows
+#> # ℹ more rows
 #> 
 #> $lab_forsker
-#> # A tibble: 1,003 × 4
+#> # A duckplyr data frame: 4 variables
 #>    patient_cpr  samplingdate analysiscode value
 #>    <chr>        <chr>        <chr>        <dbl>
 #>  1 nc_pcos_1    20210101     NPU27300      48  
@@ -172,6 +172,6 @@ non_cases()
 #>  8 489714666740 20250124     NPU42818     164. 
 #>  9 155331797020 20240422     NPU67148      70.4
 #> 10 777951655096 20210827     NPU62545      18.4
-#> # ℹ 993 more rows
+#> # ℹ more rows
 #> 
 ```

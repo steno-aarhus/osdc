@@ -81,11 +81,11 @@ they are joined.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span> <span class="op">~</span><span class="va">pnr</span>, <span class="op">~</span><span class="va">date</span>,</span></span>
-<span class="r-in"><span> <span class="fl">1</span>, <span class="st">"20200101"</span>,</span></span>
-<span class="r-in"><span> <span class="fl">1</span>, <span class="st">"20200102"</span>,</span></span>
-<span class="r-in"><span> <span class="fl">1</span>, <span class="st">"20200103"</span>,</span></span>
-<span class="r-in"><span> <span class="fl">2</span>, <span class="st">"20200101"</span></span></span>
+<span class="r-in"><span>  <span class="op">~</span><span class="va">pnr</span>, <span class="op">~</span><span class="va">date</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">1</span>, <span class="st">"20200101"</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">1</span>, <span class="st">"20200102"</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">1</span>, <span class="st">"20200103"</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">2</span>, <span class="st">"20200101"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">keep_two_earliest_events</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
