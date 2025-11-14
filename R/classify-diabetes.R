@@ -176,7 +176,7 @@ classify_diabetes <- function(
 }
 
 check_is_duckdb <- function(data, call = rlang::caller_env()) {
-  check <- checkmate::check_multi_class(
+  check <- checkmate::test_multi_class(
     data,
     classes = c(
       "tbl_duckdb_connection",
@@ -186,11 +186,16 @@ check_is_duckdb <- function(data, call = rlang::caller_env()) {
     )
   )
   if (!check) {
-    rlang::abort(
-      message = "The data needs to be a DuckDB, because of the amount of processing we do to the data.",
+    cli::cli_abort(
+      message = c(
+        "The data needs to be a DuckDB object because we heavily process the data.",
+        "i" = "The data has the class{?es}: {.code {class(data)}}"
+      ),
       call = call
     )
   }
+
+  invisible(NULL)
 }
 
 #' After filtering, classify those with type 1 diabetes.
