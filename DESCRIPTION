@@ -27,6 +27,7 @@ Imports:
     cli,
     codeCollection,
     dplyr,
+    duckplyr,
     fabricatr,
     fs,
     lifecycle,
@@ -39,10 +40,6 @@ Imports:
     tidyr,
     tidyselect
 Suggests:
-    arrow,
-    data.table,
-    dbplyr,
-    duckplyr,
     glue,
     knitr,
     quarto,

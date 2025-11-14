@@ -26,11 +26,11 @@ they are joined.
 \examples{
 \dontrun{
 data <- tibble::tribble(
- ~pnr, ~date,
- 1, "20200101",
- 1, "20200102",
- 1, "20200103",
- 2, "20200101"
+  ~pnr, ~date,
+  1, "20200101",
+  1, "20200102",
+  1, "20200103",
+  2, "20200101"
 )
 keep_two_earliest_events(data)
 }

@@ -106,7 +106,8 @@ non_cases <- function() {
     sysi = sysi,
     sssy = sssy,
     lab_forsker = lab_forsker
-  )
+  ) |>
+    purrr::map(duckplyr::as_duckdb_tibble)
 }
 
 #' Description of the different non-cases included in `non_cases()`
