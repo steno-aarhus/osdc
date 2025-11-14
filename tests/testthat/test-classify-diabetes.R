@@ -91,3 +91,20 @@ test_that("casing of input variables doesn't matter", {
 
   expect_gte(nrow(actual), 0)
 })
+
+test_that("data must be a DuckDB object", {
+  registers_as_df <- register_data |>
+    purrr::map(as.data.frame)
+
+  expect_error(classify_diabetes(
+    kontakter = registers_as_df$kontakter,
+    diagnoser = registers_as_df$diagnoser,
+    lpr_diag = registers_as_df$lpr_diag,
+    lpr_adm = registers_as_df$lpr_adm,
+    sysi = registers_as_df$sysi,
+    sssy = registers_as_df$sssy,
+    lab_forsker = registers_as_df$lab_forsker,
+    bef = registers_as_df$bef,
+    lmdb = registers_as_df$lmdb
+  ))
+})
