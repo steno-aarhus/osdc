@@ -1,7 +1,7 @@
 Type: Package
 Package: osdc
 Title: Open Source Diabetes Classifier for Danish Registers
-Version: 0.9.0
+Version: 0.9.1
 Authors@R: c(
     person(c("Signe", "Kirk"), "Brødbæk", , "signekb@clin.au.dk", role = "aut",
            comment = c(ORCID = "0009-0000-2208-7088")),

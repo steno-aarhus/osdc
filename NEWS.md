@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.1 (2025-11-17)
+
+### Refactor
+
+- :recycle: enhance (non-)case data with sim data and convert to duckdb tibble (#396)
+
 ## 0.9.0 (2025-11-14)
 
 ### Feat
