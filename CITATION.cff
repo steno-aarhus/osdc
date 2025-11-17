@@ -13,9 +13,6 @@ authors:
     given-names: Luke William
     orcid: "https://orcid.org/0000-0003-4169-2616"
     affiliation: "Steno Diabetes Center Aarhus"
-  - family-names: Vago
-    given-names: Marton
-    affiliation: "Steno Diabetes Center Aarhus"
 cff-version: 1.2.0
 date-released: "2025"
 # doi: 

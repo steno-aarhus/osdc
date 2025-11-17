@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2022-2023 Steno Diabetes Center Aarhus and Aarhus
+Copyright (c) 2022-2025 Steno Diabetes Center Aarhus and Aarhus
 University
 
 Permission is hereby granted, free of charge, to any person obtaining a
