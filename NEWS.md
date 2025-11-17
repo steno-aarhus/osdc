@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.2 (2025-11-17)
+
+### Fix
+
+- :bug: wrong value in the `c_diag` of the cases data (#394)
+
 ## 0.9.1 (2025-11-17)
 
 ### Refactor
