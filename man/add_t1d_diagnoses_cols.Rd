@@ -10,7 +10,7 @@ add_t1d_diagnoses_cols(data)
 \item{data}{Data from \code{\link[=keep_diabetes_diagnoses]{keep_diabetes_diagnoses()}} function.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},
 with the following added columns and up to two rows per individual:
 \itemize{
 \item \code{has_majority_t1d_diagnoses}: A logical vector indicating whether the

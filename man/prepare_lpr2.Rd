@@ -12,7 +12,7 @@ prepare_lpr2(lpr_adm, lpr_diag)
 \item{lpr_diag}{The LPR2 register containing diabetes diagnoses.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},
 with the following columns:
 \itemize{
 \item \code{pnr}: The personal identification variable.

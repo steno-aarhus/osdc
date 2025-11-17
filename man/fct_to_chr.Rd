@@ -10,7 +10,7 @@ fct_to_chr(data)
 \item{data}{A tibble or data frame.}
 }
 \value{
-A \code{\link[tibble:tibble]{tibble::tibble()}}.
+A  \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.
 }
 \description{
 Convert all factor variables to character variables.

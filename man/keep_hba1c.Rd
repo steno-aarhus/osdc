@@ -10,7 +10,7 @@ keep_hba1c(lab_forsker)
 \item{lab_forsker}{The \code{lab_forsker} register.}
 }
 \value{
-An object of the same input type, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+An object of the same input type, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},
 with three columns:
 \itemize{
 \item \code{pnr}: Personal identification variable.

@@ -19,7 +19,7 @@
 #'    drop rows related to gestational diabetes). This limits the included
 #'    cohort to individuals with inclusion dates after this cutoff date.
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()],
+#' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'   with the `pnr` and `date` columns along with the columns from the input
 #'   that's needed to classify T1D.
 #'   It also creates two new columns:

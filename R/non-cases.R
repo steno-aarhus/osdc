@@ -1,6 +1,6 @@
 #' List of non-cases to test the diabetes classification algorithm
 #'
-#' This function generates a list of tibbles representing the Danish health
+#' This function generates a list of DuckDB tibbles representing the Danish health
 #' registers and the data necessary to run the algorithm. The dataset contains
 #' individuals who should *not* be included in the final classified cohort.
 #'
@@ -9,7 +9,7 @@
 #' to be explored by users to better understand how the algorithm logic works
 #' and to be shown in the documentation.
 #'
-#' @return A named list of 9 [tibble::tibble()] objects, each representing a
+#' @return A named list of 9  [duckplyr::duckdb_tibble()] objects, each representing a
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
 #'   `kontakter`, `diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 #' @export
