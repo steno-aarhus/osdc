@@ -146,7 +146,7 @@ edge_cases <- function() {
     "pnr07_rec01", "DE105", "B",
     "pnr07_rec02", "DE106", "A",
     "pnr07_rec02", "DE105", "B",
-    "pnr08_rec01", "25001", "A",
+    "pnr08_rec01", "24901", "A",
     "pnr08_rec02", "DE115", "B",
     "pnr08_rec02", "DE114", "B",
     "pnr09_rec01", "250", "A",
