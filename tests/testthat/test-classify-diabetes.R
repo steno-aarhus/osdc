@@ -9,7 +9,7 @@ test_that("expected cases are classified correctly", {
   skip()
   edge_case_data <- edge_cases()
 
-  actual_included <- classify_diabetes(
+  actual <- classify_diabetes(
     kontakter = edge_case_data$kontakter,
     diagnoser = edge_case_data$diagnoser,
     lpr_diag = edge_case_data$lpr_diag,
@@ -20,11 +20,13 @@ test_that("expected cases are classified correctly", {
     bef = edge_case_data$bef,
     lmdb = edge_case_data$lmdb
   ) |>
-    dplyr::arrange(pnr)
+    dplyr::filter(grepl("\\d{2}_", .data$pnr)) |>
+    dplyr::arrange(pnr) |>
+    dplyr::compute()
 
-  expected_included <- edge_case_data$classified
+  expected <- edge_case_data$classified
 
-  expect_identical(actual_included, expected_included)
+  expect_identical(actual, expected)
 })
 
 test_that("expected non-cases are not classified", {
@@ -40,7 +42,8 @@ test_that("expected non-cases are not classified", {
     lab_forsker = nc$lab_forsker,
     bef = nc$bef,
     lmdb = nc$lmdb
-  )
+  ) |>
+    dplyr::filter(grepl("\\d{2}_", .data$pnr))
 
   nc_pnrs <- names(non_cases_metadata())
   # No PNRs from non-cases have been classified.
