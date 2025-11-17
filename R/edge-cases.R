@@ -337,7 +337,7 @@ edge_cases <- function() {
     lab_forsker = lab_forsker
   )
 
-  # Make the data bigger with simulated data to resolve issues of size
+  # Make the data bigger with simulated data to resolve issues of size.
   sim_data <- registers() |>
     names() |>
     simulate_registers(n = 10000)
