@@ -8,7 +8,7 @@ test_that("one register can be simulated", {
   # Only one register
   fake_register <- simulate_registers("bef")
   expect_type(fake_register, "list")
-  expect_contains(class(fake_register[[1]]), "tbl_df")
+  expect_contains(class(fake_register[[1]]), "duckplyr_df")
   expect_length(fake_register, 1)
 
   # Different length
@@ -18,8 +18,8 @@ test_that("one register can be simulated", {
 test_that("two registers can be simulated", {
   simulated_registers <- simulate_registers(c("bef", "lmdb"))
   expect_type(simulated_registers, "list")
-  expect_contains(class(simulated_registers[[1]]), "tbl_df")
-  expect_contains(class(simulated_registers[[2]]), "tbl_df")
+  expect_contains(class(simulated_registers[[1]]), "duckplyr_df")
+  expect_contains(class(simulated_registers[[2]]), "duckplyr_df")
   expect_length(simulated_registers, 2)
 
   # Different length

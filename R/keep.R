@@ -177,8 +177,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
       sssy,
       by = dplyr::join_by("pnr", "barnmak", "speciale", "honuge")
     ) |>
-    # Both of these need to be converted to correct format in order for
-    # Arrow to correctly filter them later.
+    # Both of these need to be converted to correct format.
     dplyr::mutate(
       speciale = as.character(.data$speciale),
       barnmak = as.integer(.data$barnmak)
@@ -200,8 +199,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #' Since the exact date isn't given in the input, this function will set the
 #' date to Monday of the week. As a precaution, a leading zero is added if it
 #' has been removed. This can e.g., happen if the input was "0107" and has been
-#' converted to a numeric 107. We need to export this function so that it can
-#' be found when using Arrow to process the data.
+#' converted to a numeric 107.
 #'
 #' @param yyww Character(s) of the format YYWW.
 #'
@@ -259,11 +257,11 @@ yyww_to_yyyymmdd <- function(yyww) {
 #' @examples
 #' \dontrun{
 #' data <- tibble::tribble(
-#'  ~pnr, ~date,
-#'  1, "20200101",
-#'  1, "20200102",
-#'  1, "20200103",
-#'  2, "20200101"
+#'   ~pnr, ~date,
+#'   1, "20200101",
+#'   1, "20200102",
+#'   1, "20200103",
+#'   2, "20200101"
 #' )
 #' keep_two_earliest_events(data)
 #' }

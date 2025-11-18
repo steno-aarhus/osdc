@@ -17,10 +17,6 @@
 #' @examples
 #' non_cases()
 non_cases <- function() {
-  sim_data <- registers() |>
-    names() |>
-    simulate_registers(n = 1000)
-
   bef <- tibble::tribble(
     ~pnr, ~koen, ~foed_dato,
     "nc_pcos_1", 2, "19800101",
@@ -31,8 +27,7 @@ non_cases <- function() {
     "nc_preg_3", 2, "19800101",
     "nc_preg_4", 2, "19800101",
   ) |>
-    dplyr::mutate(koen = as.integer(.data$koen)) |>
-    dplyr::bind_rows(sim_data$bef)
+    dplyr::mutate(koen = as.integer(.data$koen))
 
   lmdb <- tibble::tribble(
     ~pnr, ~volume, ~eksd, ~atc, ~apk, ~indo,
@@ -43,8 +38,7 @@ non_cases <- function() {
     "nc_preg_2", 10, "20180101", "A10", 5, "0000000",
     "nc_preg_3", 10, "20200101", "A10", 5, "0000000",
     "nc_preg_4", 10, "20200101", "A10", 5, "0000000",
-  ) |>
-    dplyr::bind_rows(sim_data$lmdb)
+  )
 
   # LPR2 is before 2019
   lpr_adm <- tibble::tribble(
@@ -56,8 +50,7 @@ non_cases <- function() {
     "nc_preg_2", "08", "1", "20180101",
     "nc_preg_1", "08", "2", "20180101",
     "nc_preg_2", "08", "3", "20180101",
-  ) |>
-    dplyr::bind_rows(sim_data$lpr_adm)
+  )
 
   lpr_diag <- tibble::tribble(
     ~recnum, ~c_diag, ~c_diagtype,
@@ -66,8 +59,7 @@ non_cases <- function() {
     # Pregnancy
     "2", "DO00", "A",
     "3", "DZ33", "A",
-  ) |>
-    dplyr::bind_rows(sim_data$lpr_diag)
+  )
 
   # LPR3 is from 2019 onwards
   kontakter <- tibble::tribble(
@@ -79,8 +71,7 @@ non_cases <- function() {
     "nc_preg_4", "1", "abc", "20200101",
     "nc_preg_3", "2", "abc", "20200101",
     "nc_preg_4", "3", "abc", "20200101",
-  ) |>
-    dplyr::bind_rows(sim_data$kontakter)
+  )
 
   diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
@@ -89,8 +80,7 @@ non_cases <- function() {
     # Pregnancy
     "2", "DO00", "A", "Nej",
     "3", "DZ33", "A", "Nej",
-  ) |>
-    dplyr::bind_rows(sim_data$diagnoser)
+  )
 
   sysi <- tibble::tribble(
     ~pnr, ~barnmak, ~speciale, ~honuge,
@@ -102,8 +92,7 @@ non_cases <- function() {
     "nc_preg_3", 0, "54", "2001",
     "nc_preg_4", 0, "54", "2001",
   ) |>
-    dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
-    dplyr::bind_rows(sim_data$sysi)
+    dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   sssy <- tibble::tribble(
     ~pnr, ~barnmak, ~speciale, ~honuge,
@@ -115,8 +104,7 @@ non_cases <- function() {
     "nc_preg_3", 0, "54", "2001",
     "nc_preg_4", 0, "54", "2001",
   ) |>
-    dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
-    dplyr::bind_rows(sim_data$sssy)
+    dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   lab_forsker <- tibble::tribble(
     ~patient_cpr, ~samplingdate, ~analysiscode, ~value,
@@ -127,12 +115,11 @@ non_cases <- function() {
     "nc_preg_2", "20180301", "NPU03835", 6.5,
     "nc_preg_3", "20190301", "NPU03835", 6.5,
     "nc_preg_4", "20200301", "NPU27300", 48,
-  ) |>
-    dplyr::bind_rows(sim_data$lab_forsker)
+  )
 
   # Combine all tibbles into a named list -----
 
-  list(
+  nc <- list(
     bef = bef,
     lmdb = lmdb,
     lpr_adm = lpr_adm,
@@ -143,6 +130,22 @@ non_cases <- function() {
     sssy = sssy,
     lab_forsker = lab_forsker
   )
+
+  # Make the data bigger with simulated data to resolve issues of size
+  sim_data <- registers() |>
+    names() |>
+    simulate_registers(n = 10000)
+
+  sim_data |>
+    names() |>
+    purrr::map(\(name) {
+      out <- list(
+        dplyr::bind_rows(nc[[name]], sim_data[[name]])
+      )
+      out <- rlang::set_names(out, name)
+    }) |>
+    purrr::flatten() |>
+    purrr::map(duckplyr::as_duckdb_tibble)
 }
 
 #' Description of the different non-cases included in `non_cases()`

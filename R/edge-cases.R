@@ -146,7 +146,7 @@ edge_cases <- function() {
     "pnr07_rec01", "DE105", "B",
     "pnr07_rec02", "DE106", "A",
     "pnr07_rec02", "DE105", "B",
-    "pnr08_rec01", "25001", "A",
+    "pnr08_rec01", "24901", "A",
     "pnr08_rec02", "DE115", "B",
     "pnr08_rec02", "DE114", "B",
     "pnr09_rec01", "250", "A",
@@ -325,7 +325,7 @@ edge_cases <- function() {
 
   # Combine all tibbles into a named list -------------------------------------------------------------------------
 
-  list(
+  cases <- list(
     bef = bef,
     lmdb = lmdb,
     lpr_adm = lpr_adm,
@@ -334,7 +334,23 @@ edge_cases <- function() {
     diagnoser = diagnoser,
     sysi = sysi,
     sssy = sssy,
-    lab_forsker = lab_forsker,
-    classified = classified
+    lab_forsker = lab_forsker
   )
+
+  # Make the data bigger with simulated data to resolve issues of size.
+  sim_data <- registers() |>
+    names() |>
+    simulate_registers(n = 10000)
+
+  sim_data |>
+    names() |>
+    purrr::map(\(name) {
+      out <- list(
+        dplyr::bind_rows(cases[[name]], sim_data[[name]])
+      )
+      out <- rlang::set_names(out, name)
+    }) |>
+    purrr::flatten() |>
+    purrr::map(duckplyr::as_duckdb_tibble) |>
+    append(list(classified = duckplyr::as_duckdb_tibble(classified)))
 }
