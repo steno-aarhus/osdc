@@ -81,7 +81,7 @@ lab_forsker <- tibble::tribble(
 )
 
 expected <- tibble::tribble(
-  ~pnr, ~date, ~is_hba1c,
+  ~pnr, ~date, ~has_hba1c_over_threshold,
   "498718589800", "20230101", TRUE,
   "498718589800", "20210101", TRUE,
   "498718589800", "20220101", TRUE,
