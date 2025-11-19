@@ -42,7 +42,8 @@ join_inclusions <- function(
     dplyr::mutate(
       dplyr::across(
         dplyr::starts_with("has_"),
-        ~ dplyr::coalesce(any(.x), FALSE)),
+        ~ dplyr::coalesce(any(.x), FALSE)
+      ),
       .by = "pnr"
     )
 }
