@@ -11,7 +11,7 @@
 #' @param gld_purchases The output from [keep_gld_purchases()].
 #' @param bef The `bef` register.
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()].
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'    It also has the same columns as [keep_gld_purchases()], except for a logical
 #'    helper variable `no_pcos` that is used in later functions.
 #' @keywords internal
@@ -69,7 +69,7 @@ drop_pcos <- function(gld_purchases, bef) {
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].
 #' @param included_hba1c Output from [keep_hba1c()].
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()].
+#' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'    Has the same output data as the input [drop_pcos()], except
 #'    for a helper logical variable `no_pregnancy` that is used in later
 #'    functions.
@@ -114,7 +114,7 @@ drop_pregnancies <- function(
   pregnancy_dates,
   included_hba1c
 ) {
-  criteria <- logic_as_expression("is_not_within_pregnancy_interval")[[1]]
+  criteria <- logic_as_expression("is_within_pregnancy_interval")[[1]]
 
   # TODO: This should be done at an earlier stage.
   # Ensure both date columns are of type Date.
@@ -137,7 +137,8 @@ drop_pregnancies <- function(
     ) |>
     # Apply the criteria to flag rows that are within the pregnancy interval.
     dplyr::mutate(
-      is_not_within_pregnancy_interval = !!criteria
+      # Force NA pregnancy event dates to FALSE for the criteria.
+      is_within_pregnancy_interval = dplyr::coalesce(!!criteria, FALSE)
     ) |>
     # Group by pnr and date to ensure the row is dropped if it falls within
     # *any* pregnancy interval. This prevents mistakenly keeping a row just
@@ -145,17 +146,25 @@ drop_pregnancies <- function(
     # inside another for the same pnr.
     # Only keep rows that don't fall within any pregnancy interval.
     dplyr::filter(
-      all(.data$is_not_within_pregnancy_interval),
+      !any(.data$is_within_pregnancy_interval),
       .by = c("pnr", "date")
     ) |>
     # Drop columns that were only used here.
     dplyr::select(
       -"pregnancy_event_date",
       -"has_pregnancy_event",
-      -"is_not_within_pregnancy_interval"
+      -"is_within_pregnancy_interval"
     ) |>
-    # Remove duplicates after pregnancy date column has been removed.
-    # Duplicates are created when a pnr has multiple pregnancy events and a
-    # row that falls outside all of them.
-    dplyr::distinct()
+    # Drop columns that were only used here and remove duplicates from the
+    # many-to-many joining of the pregnancy dates row that falls outside all
+    # of them.
+    dplyr::distinct(
+      .data$pnr,
+      .data$volume,
+      .data$date,
+      .data$atc,
+      .data$apk,
+      .data$has_hba1c_over_threshold,
+      .data$has_gld_purchase
+    )
 }

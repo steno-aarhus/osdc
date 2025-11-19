@@ -2,7 +2,7 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: clean install-package-dependencies document spell-check style test build-website check install-package
+run-all: clean install-deps document spell-check style test build-website check install-package
 
 # Clean up auto-generated files
 clean:
@@ -11,7 +11,7 @@ clean:
   pkgdown::clean_site()
 
 # Install package dependencies
-install-package-dependencies:
+install-deps:
   #!/usr/bin/env Rscript
   pak::pak(
     dependencies = c(

@@ -7,6 +7,53 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.6 (2025-11-19)
+
+### Fix
+
+- 🐛 convert NAs to FALSE at end in prep for classifying (#379)
+
+## 0.9.5 (2025-11-19)
+
+### Fix
+
+- 🐛 changes to `drop_pregnancies()` to support the new refactored logic (#405)
+
+## 0.9.4 (2025-11-19)
+
+### Fix
+
+- :bug: don't use `collect()` or `compute()` inside code, only outside (#403)
+- :bug: convert NAs to FALSE and drop any if TRUE for pregnancy (#398)
+
+## 0.9.3 (2025-11-19)
+
+### Fix
+
+- :bug: don't need to drop indication code after exclusion (#395)
+
+### Refactor
+
+- ♻️ add logical helper variables for inclusion events (#400)
+
+## 0.9.2 (2025-11-17)
+
+### Fix
+
+- :bug: wrong value in the `c_diag` of the cases data (#394)
+
+## 0.9.1 (2025-11-17)
+
+### Refactor
+
+- :recycle: enhance (non-)case data with sim data and convert to duckdb tibble (#396)
+
+## 0.9.0 (2025-11-14)
+
+### Feat
+
+- :sparkles: require using DuckDB in `classify_diabetes()` (#391)
+
 ## 0.8.8 (2025-10-05)
 
 ### Fix

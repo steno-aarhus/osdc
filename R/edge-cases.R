@@ -1,6 +1,6 @@
 #' Create a synthetic dataset of edge case inputs
 #'
-#' This function generates a list of tibbles representing the Danish health
+#' This function generates a list of DuckDB tibbles representing the Danish health
 #' registers and the data necessary to run the algorithm. The dataset contains
 #' 23 individual cases (`pnr`s), each designed to test a specific logical branch
 #' of the diabetes classification algorithm, including inclusion, exclusion,
@@ -10,7 +10,7 @@
 #' behaves as expected under a wide range of conditions, but it is also intended
 #' to be explored by users to better understand how the algorithm logic works.
 #'
-#' @return A named list of 9 [tibble::tibble()] objects, each representing a
+#' @return A named list of 9  [duckplyr::duckdb_tibble()] objects, each representing a
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
 #'   `kontakter`, `diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 #' @export
@@ -146,7 +146,7 @@ edge_cases <- function() {
     "pnr07_rec01", "DE105", "B",
     "pnr07_rec02", "DE106", "A",
     "pnr07_rec02", "DE105", "B",
-    "pnr08_rec01", "25001", "A",
+    "pnr08_rec01", "24901", "A",
     "pnr08_rec02", "DE115", "B",
     "pnr08_rec02", "DE114", "B",
     "pnr09_rec01", "250", "A",
@@ -325,7 +325,7 @@ edge_cases <- function() {
 
   # Combine all tibbles into a named list -------------------------------------------------------------------------
 
-  list(
+  cases <- list(
     bef = bef,
     lmdb = lmdb,
     lpr_adm = lpr_adm,
@@ -334,7 +334,23 @@ edge_cases <- function() {
     diagnoser = diagnoser,
     sysi = sysi,
     sssy = sssy,
-    lab_forsker = lab_forsker,
-    classified = classified
+    lab_forsker = lab_forsker
   )
+
+  # Make the data bigger with simulated data to resolve issues of size.
+  sim_data <- registers() |>
+    names() |>
+    simulate_registers(n = 10000)
+
+  sim_data |>
+    names() |>
+    purrr::map(\(name) {
+      out <- list(
+        dplyr::bind_rows(cases[[name]], sim_data[[name]])
+      )
+      out <- rlang::set_names(out, name)
+    }) |>
+    purrr::flatten() |>
+    purrr::map(duckplyr::as_duckdb_tibble) |>
+    append(list(classified = duckplyr::as_duckdb_tibble(classified)))
 }

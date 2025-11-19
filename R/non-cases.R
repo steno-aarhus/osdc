@@ -1,6 +1,6 @@
 #' List of non-cases to test the diabetes classification algorithm
 #'
-#' This function generates a list of tibbles representing the Danish health
+#' This function generates a list of DuckDB tibbles representing the Danish health
 #' registers and the data necessary to run the algorithm. The dataset contains
 #' individuals who should *not* be included in the final classified cohort.
 #'
@@ -9,7 +9,7 @@
 #' to be explored by users to better understand how the algorithm logic works
 #' and to be shown in the documentation.
 #'
-#' @return A named list of 9 [tibble::tibble()] objects, each representing a
+#' @return A named list of 9  [duckplyr::duckdb_tibble()] objects, each representing a
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
 #'   `kontakter`, `diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 #' @export
@@ -17,56 +17,46 @@
 #' @examples
 #' non_cases()
 non_cases <- function() {
-  sim_data <- registers() |>
-    names() |>
-    simulate_registers(n = 1000)
-
   bef <- tibble::tribble(
     ~pnr, ~koen, ~foed_dato,
     "nc_pcos_1", 2, "19800101",
     "nc_pcos_2", 2, "19800101",
     "nc_pcos_3", 2, "19800101"
   ) |>
-    dplyr::mutate(koen = as.integer(.data$koen)) |>
-    dplyr::bind_rows(sim_data$bef)
+    dplyr::mutate(koen = as.integer(.data$koen))
 
   lmdb <- tibble::tribble(
     ~pnr, ~volume, ~eksd, ~atc, ~apk, ~indo,
     "nc_pcos_1", 10, "20210101", "A10BA02", 5, "0000276",
     "nc_pcos_2", 10, "20190101", "A10BA02", 5, "0000276",
     "nc_pcos_3", 10, "20190101", "A10BA02", 5, "0000276",
-  ) |>
-    dplyr::bind_rows(sim_data$lmdb)
+  )
 
   lpr_adm <- tibble::tribble(
     ~pnr, ~c_spec, ~recnum, ~d_inddto,
     "nc_pcos_1", "08", "1", "20180101",
     "nc_pcos_2", "08", "1", "20170101",
     "nc_pcos_3", "08", "1", "20170101",
-  ) |>
-    dplyr::bind_rows(sim_data$lpr_adm)
+  )
 
   lpr_diag <- tibble::tribble(
     ~recnum, ~c_diag, ~c_diagtype,
     # T1D primary
     "1", "249", "A",
-  ) |>
-    dplyr::bind_rows(sim_data$lpr_diag)
+  )
 
   kontakter <- tibble::tribble(
     ~cpr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "nc_pcos_1", "1", "medicinsk endokrinologi", "20210101",
     "nc_pcos_2", "1", "medicinsk endokrinologi", "20190101",
     "nc_pcos_3", "1", "medicinsk endokrinologi", "20190101",
-  ) |>
-    dplyr::bind_rows(sim_data$kontakter)
+  )
 
   diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
     # T1D primary
     "1", "DE10", "A", "Nej",
-  ) |>
-    dplyr::bind_rows(sim_data$diagnoser)
+  )
 
   sysi <- tibble::tribble(
     ~pnr, ~barnmak, ~speciale, ~honuge,
@@ -74,8 +64,7 @@ non_cases <- function() {
     "nc_pcos_2", 0, "54", "1901",
     "nc_pcos_3", 0, "54", "1901",
   ) |>
-    dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
-    dplyr::bind_rows(sim_data$sysi)
+    dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   sssy <- tibble::tribble(
     ~pnr, ~barnmak, ~speciale, ~honuge,
@@ -83,20 +72,18 @@ non_cases <- function() {
     "nc_pcos_2", 0, "54", "1901",
     "nc_pcos_3", 0, "54", "1901",
   ) |>
-    dplyr::mutate(barnmak = as.integer(.data$barnmak)) |>
-    dplyr::bind_rows(sim_data$sssy)
+    dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   lab_forsker <- tibble::tribble(
     ~patient_cpr, ~samplingdate, ~analysiscode, ~value,
     "nc_pcos_1", "20210101", "NPU27300", 48,
     "nc_pcos_2", "20190101", "NPU03835", 6.5,
     "nc_pcos_3", "20190101", "NPU03835", 6.5,
-  ) |>
-    dplyr::bind_rows(sim_data$lab_forsker)
+  )
 
   # Combine all tibbles into a named list -----
 
-  list(
+  nc <- list(
     bef = bef,
     lmdb = lmdb,
     lpr_adm = lpr_adm,
@@ -107,6 +94,22 @@ non_cases <- function() {
     sssy = sssy,
     lab_forsker = lab_forsker
   )
+
+  # Make the data bigger with simulated data to resolve issues of size
+  sim_data <- registers() |>
+    names() |>
+    simulate_registers(n = 10000)
+
+  sim_data |>
+    names() |>
+    purrr::map(\(name) {
+      out <- list(
+        dplyr::bind_rows(nc[[name]], sim_data[[name]])
+      )
+      out <- rlang::set_names(out, name)
+    }) |>
+    purrr::flatten() |>
+    purrr::map(duckplyr::as_duckdb_tibble)
 }
 
 #' Description of the different non-cases included in `non_cases()`
