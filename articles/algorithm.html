@@ -24,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -444,9 +444,9 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">is_not_within_pregnancy_interval</td>
-<td style="text-align: left;">Events that are not within a potential pregnancy interval</td>
-<td style="text-align: left;">NOT (has_pregnancy_event AND date &gt;= (pregnancy_event_date - weeks(40)) AND date &lt;= (pregnancy_event_date + weeks(12)))</td>
+<td style="text-align: left;">is_within_pregnancy_interval</td>
+<td style="text-align: left;">Events that are within a potential pregnancy interval</td>
+<td style="text-align: left;">has_pregnancy_event AND date &gt;= (pregnancy_event_date - weeks(40)) AND date &lt;= (pregnancy_event_date + weeks(12))</td>
 <td style="text-align: left;">The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date (birth or miscarriage).</td>
 </tr>
 <tr class="even">
