@@ -159,7 +159,8 @@ classify_diabetes <- function(
   inclusions |>
     create_inclusion_dates(stable_inclusion_start_date) |>
     classify_t1d() |>
-    classify_t2d() |>
+    # If has_t1d is NA, t2d will also be NA
+    dplyr::mutate(has_t2d = !.data$has_t1d) |>
     # Drop those who don't have either type of diabetes
     dplyr::filter(!(is.na(.data$has_t1d) & is.na(.data$has_t2d))) |>
     dplyr::select(
@@ -211,25 +212,5 @@ classify_t1d <- function(data) {
   data |>
     dplyr::mutate(
       has_t1d = !!logic$has_t1d
-    )
-}
-
-#' Classify those with type 2 diabetes.
-#'
-#' @param data Joined data output from the filtering steps.
-#'
-#' @return The same object type as the input data, which would be a
-#'    [duckplyr::duckdb_tibble()] type object.
-#' @keywords internal
-#'
-classify_t2d <- function(data) {
-  logic <- c(
-    "has_t2d"
-  ) |>
-    logic_as_expression()
-
-  data |>
-    dplyr::mutate(
-      has_t2d = !!logic$has_t2d
     )
 }
