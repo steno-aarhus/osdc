@@ -12,7 +12,7 @@ keep_diabetes_diagnoses(lpr2, lpr3)
 \item{lpr3}{The output from \code{\link[=prepare_lpr3]{prepare_lpr3()}}.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},
 with less rows after filtering.
 }
 \description{

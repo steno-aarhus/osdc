@@ -2,7 +2,7 @@
 #'
 #' @param gld_hba1c_after_drop_steps The GLD and HbA1c data after drop steps
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()].
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'   Three new columns are added:
 #'
 #'   -   `has_two_thirds_insulin`: A logical variable used in classifying type 1
@@ -95,7 +95,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 #'
 #' @param data Data from [keep_diabetes_diagnoses()] function.
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()],
+#' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with the following added columns and up to two rows per individual:
 #'
 #'  -   `has_majority_t1d_diagnoses`: A logical vector indicating whether the

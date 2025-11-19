@@ -11,7 +11,7 @@
 #' @param gld_purchases The output from [keep_gld_purchases()].
 #' @param bef The `bef` register.
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()].
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'    It also has the same columns as [keep_gld_purchases()], except for a logical
 #'    helper variable `no_pcos` that is used in later functions.
 #' @keywords internal
@@ -69,7 +69,7 @@ drop_pcos <- function(gld_purchases, bef) {
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].
 #' @param included_hba1c Output from [keep_hba1c()].
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()].
+#' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'    Has the same output data as the input [drop_pcos()], except
 #'    for a helper logical variable `no_pregnancy` that is used in later
 #'    functions.

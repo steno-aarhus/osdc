@@ -10,7 +10,7 @@ add_insulin_purchases_cols(gld_hba1c_after_drop_steps)
 \item{gld_hba1c_after_drop_steps}{The GLD and HbA1c data after drop steps}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.
 Three new columns are added:
 \itemize{
 \item \code{has_two_thirds_insulin}: A logical variable used in classifying type 1

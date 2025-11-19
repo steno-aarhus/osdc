@@ -17,7 +17,7 @@
 #'    cohort to individuals with inclusion dates after this cutoff date.
 #'
 #' @returns The same object type as the input data, which would be a
-#'   [tibble::tibble()] type object.
+#'    [duckplyr::duckdb_tibble()] type object.
 #' @export
 #' @seealso See the [osdc] vignette for a detailed
 #'   description of the internal implementation of this classification function.
@@ -200,7 +200,7 @@ check_is_duckdb <- function(data, call = rlang::caller_env()) {
 #' @param data Joined data output from the filtering steps.
 #'
 #' @return The same object type as the input data, which would be a
-#'   [tibble::tibble()] type object.
+#'    [duckplyr::duckdb_tibble()] type object.
 #' @keywords internal
 #'
 classify_t1d <- function(data) {
