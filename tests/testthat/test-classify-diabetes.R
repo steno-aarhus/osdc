@@ -43,7 +43,7 @@ test_that("expected non-cases are not classified", {
     bef = nc$bef,
     lmdb = nc$lmdb
   ) |>
-    dplyr::filter(grepl("\\d{2}_", .data$pnr)) |>
+    dplyr::filter(grepl("^.._", .data$pnr)) |>
     dplyr::collect()
 
   nc_pnrs <- names(non_cases_metadata())
