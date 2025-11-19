@@ -155,9 +155,9 @@ drop_pregnancies <- function(
       -"has_pregnancy_event",
       -"is_within_pregnancy_interval"
     ) |>
-    # Remove duplicates after pregnancy date column has been removed.
-    # Duplicates are created when a pnr has multiple pregnancy events and a
-    # row that falls outside all of them.
+    # Drop columns that were only used here and remove duplicates from the
+    # many-to-many joining of the pregnancy dates row that falls outside all
+    # of them.
     dplyr::distinct(
       .data$pnr,
       .data$volume,
