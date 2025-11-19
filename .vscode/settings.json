@@ -17,6 +17,8 @@
     "style", // Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
     "test", // Adding missing tests or correcting existing tests
     "chore", // Misc things, like renaming or deleting files
+    "perf", // A code change that improves performance
+    "revert" // Reverts a previous commit or PR
   ],
   "conventional-branch.format": "{Type}/{Branch}",
   "r.session.levelOfObjectDetail": "Detailed",
