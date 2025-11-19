@@ -169,8 +169,7 @@ classify_diabetes <- function(
       "raw_inclusion_date",
       "has_t1d",
       "has_t2d"
-    ) |>
-    dplyr::compute()
+    )
 }
 
 check_is_duckdb <- function(data, call = rlang::caller_env()) {
