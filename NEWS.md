@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.6 (2025-11-19)
+
+### Fix
+
+- 🐛 convert NAs to FALSE at end in prep for classifying (#379)
+
 ## 0.9.5 (2025-11-19)
 
 ### Fix
