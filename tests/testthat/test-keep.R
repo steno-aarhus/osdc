@@ -81,7 +81,7 @@ lab_forsker <- tibble::tribble(
 )
 
 expected <- tibble::tribble(
-  ~pnr, ~date, ~is_hba1c,
+  ~pnr, ~date, ~has_hba1c_over_threshold,
   "498718589800", "20230101", TRUE,
   "498718589800", "20210101", TRUE,
   "498718589800", "20220101", TRUE,
@@ -124,11 +124,11 @@ sssy <- tibble::tribble(
 )
 
 expected <- tibble::tribble(
-  ~pnr, ~date,
-  2000000000, lubridate::ymd("1992-02-10"),
-  3000000000, lubridate::ymd("2007-12-24"),
-  3000000000, lubridate::ymd("2024-07-22"),
-  3000000000, lubridate::ymd("2008-07-21")
+  ~pnr, ~date, ~has_podiatrist_service,
+  2000000000, lubridate::ymd("1992-02-10"), TRUE,
+  3000000000, lubridate::ymd("2007-12-24"), TRUE,
+  3000000000, lubridate::ymd("2024-07-22"), TRUE,
+  3000000000, lubridate::ymd("2008-07-21"), TRUE
 )
 
 test_that("sysi needs expected variables", {
