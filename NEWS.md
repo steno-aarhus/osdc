@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.5 (2025-11-19)
+
+### Fix
+
+- 🐛 changes to `drop_pregnancies()` to support the new refactored logic (#405)
+
 ## 0.9.4 (2025-11-19)
 
 ### Fix
