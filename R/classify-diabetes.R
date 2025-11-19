@@ -63,15 +63,15 @@ classify_diabetes <- function(
   stable_inclusion_start_date = "1998-01-01"
 ) {
   # Input checks -----
-  check_is_duckdb(kontakter)
-  check_is_duckdb(diagnoser)
-  check_is_duckdb(lpr_diag)
-  check_is_duckdb(lpr_adm)
-  check_is_duckdb(sysi)
-  check_is_duckdb(sssy)
-  check_is_duckdb(lab_forsker)
-  check_is_duckdb(bef)
-  check_is_duckdb(lmdb)
+  kontakter <- as_stingy_duckdb(kontakter)
+  diagnoser <- as_stingy_duckdb(diagnoser)
+  lpr_diag <- as_stingy_duckdb(lpr_diag)
+  lpr_adm <- as_stingy_duckdb(lpr_adm)
+  sysi <- as_stingy_duckdb(sysi)
+  sssy <- as_stingy_duckdb(sssy)
+  lab_forsker <- as_stingy_duckdb(lab_forsker)
+  bef <- as_stingy_duckdb(bef)
+  lmdb <- as_stingy_duckdb(lmdb)
 
   # Verification step -----
   kontakter <- select_required_variables(kontakter, "kontakter")
@@ -172,7 +172,7 @@ classify_diabetes <- function(
     )
 }
 
-check_is_duckdb <- function(data, call = rlang::caller_env()) {
+as_stingy_duckdb <- function(data, call = rlang::caller_env()) {
   check <- checkmate::test_multi_class(
     data,
     classes = c(
@@ -192,7 +192,9 @@ check_is_duckdb <- function(data, call = rlang::caller_env()) {
     )
   }
 
-  invisible(NULL)
+  # Prevent conversion to R object.
+  data |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
 }
 
 #' After filtering, classify those with type 1 diabetes.
