@@ -279,7 +279,7 @@ to_yyyymmdd <- function(x) {
 #'
 #' @param data A tibble or data frame.
 #'
-#' @returns A [tibble::tibble()].
+#' @returns A  [duckplyr::duckdb_tibble()].
 #' @keywords internal
 #'
 fct_to_chr <- function(data) {

@@ -12,7 +12,7 @@ keep_pregnancy_dates(lpr2, lpr3)
 \item{lpr3}{Output from \code{join_lpr3()}.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.
 }
 \description{
 Simple function to get only the pregnancy event dates.

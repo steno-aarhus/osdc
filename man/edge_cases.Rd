@@ -7,12 +7,12 @@
 edge_cases()
 }
 \value{
-A named list of 9 \code{\link[tibble:tibble]{tibble::tibble()}} objects, each representing a
+A named list of 9  \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}} objects, each representing a
 different health register: \code{bef}, \code{lmdb}, \code{lpr_adm}, \code{lpr_diag},
 \code{kontakter}, \code{diagnoser}, \code{sysi}, \code{sssy}, and \code{lab_forsker}.
 }
 \description{
-This function generates a list of tibbles representing the Danish health
+This function generates a list of DuckDB tibbles representing the Danish health
 registers and the data necessary to run the algorithm. The dataset contains
 23 individual cases (\code{pnr}s), each designed to test a specific logical branch
 of the diabetes classification algorithm, including inclusion, exclusion,

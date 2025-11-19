@@ -10,7 +10,7 @@ keep_gld_purchases(lmdb)
 \item{lmdb}{The \code{lmdb} register.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.
 Only rows with glucose lowering drug purchases are kept, plus some columns are renamed.
 }
 \description{

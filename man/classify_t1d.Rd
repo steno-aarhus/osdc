@@ -11,7 +11,7 @@ classify_t1d(data)
 }
 \value{
 The same object type as the input data, which would be a
-\code{\link[tibble:tibble]{tibble::tibble()}} type object.
+\code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}} type object.
 }
 \description{
 After filtering, classify those with type 1 diabetes.
