@@ -7,6 +7,16 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.3 (2025-11-19)
+
+### Fix
+
+- :bug: don't need to drop indication code after exclusion (#395)
+
+### Refactor
+
+- ♻️ add logical helper variables for inclusion events (#400)
+
 ## 0.9.2 (2025-11-17)
 
 ### Fix
