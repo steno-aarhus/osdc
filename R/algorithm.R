@@ -163,7 +163,7 @@ algorithm <- function() {
       comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     ),
     has_t2d = list(
-      register = NA, 
+      register = NA,
       title = "Classifying type 2 diabetes status",
       logic = "(has_diabetes_diagnosis OR has_podiatrist_service OR has_gld_purchase OR has_hba1c_over_threshold)>=2 AND NOT has_t1d",
       comments = "The final classification for type 2 diabetes. If the person has keep events and are not classified with type 1 diabetes, they are classified as having type 2 diabetes. If has_t1d is `NA`, has_t2d will also be `NA`."
