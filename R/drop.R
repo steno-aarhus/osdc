@@ -138,7 +138,7 @@ drop_pregnancies <- function(
     # Apply the criteria to flag rows that are within the pregnancy interval.
     dplyr::mutate(
       # Force NA pregnancy event dates to FALSE for the criteria.
-      is_within_pregnancy_interval = isTRUE(!!criteria)
+      is_within_pregnancy_interval = dplyr::coalesce(!!criteria, FALSE)
     ) |>
     # Remove all rows with a within each combination of (pnr, date) if any of them
     # contain a row where is_not_within_pregnancy_interval is TRUE:
@@ -161,6 +161,7 @@ drop_pregnancies <- function(
       .data$date,
       .data$atc,
       .data$apk,
-      .data$has_hba1c_over_threshold
+      .data$has_hba1c_over_threshold,
+      .data$has_gld_purchase
     )
 }
