@@ -140,8 +140,11 @@ drop_pregnancies <- function(
       # Force NA pregnancy event dates to FALSE for the criteria.
       is_within_pregnancy_interval = dplyr::coalesce(!!criteria, FALSE)
     ) |>
-    # Remove all rows with a within each combination of (pnr, date) if any of them
-    # contain a row where is_not_within_pregnancy_interval is TRUE:
+    # Group by pnr and date to ensure the row is dropped if it falls within
+    # *any* pregnancy interval. This prevents mistakenly keeping a row just
+    # because it falls outside one pregnancy window, when it may still fall
+    # inside another for the same pnr.
+    # Only keep rows that don't fall within any pregnancy interval.
     dplyr::filter(
       !any(.data$is_within_pregnancy_interval),
       .by = c("pnr", "date")
