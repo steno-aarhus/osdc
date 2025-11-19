@@ -138,7 +138,7 @@ drop_pregnancies <- function(
     # Apply the criteria to flag rows that are within the pregnancy interval.
     dplyr::mutate(
       # Force NA pregnancy event dates to FALSE for the criteria.
-      is_within_pregnancy_interval = isTRUE(!!criteria)
+      is_within_pregnancy_interval = dplyr::coalesce(!!criteria, FALSE)
     ) |>
     # Group by pnr and date to ensure the row is dropped if it falls within
     # *any* pregnancy interval. This prevents mistakenly keeping a row just
@@ -158,5 +158,13 @@ drop_pregnancies <- function(
     # Remove duplicates after pregnancy date column has been removed.
     # Duplicates are created when a pnr has multiple pregnancy events and a
     # row that falls outside all of them.
-    dplyr::distinct()
+    dplyr::distinct(
+      .data$pnr,
+      .data$volume,
+      .data$date,
+      .data$atc,
+      .data$apk,
+      .data$has_hba1c_over_threshold,
+      .data$has_gld_purchase
+    )
 }
