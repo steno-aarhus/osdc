@@ -43,7 +43,7 @@ create_inclusion_dates <- function(
       # stable_inclusion_start_date.
       stable_inclusion_date = dplyr::if_else(
         .data$raw_inclusion_date <
-          lubridate::as_date(stable_inclusion_start_date),
+          as_date(stable_inclusion_start_date),
         NA,
         .data$raw_inclusion_date
       )

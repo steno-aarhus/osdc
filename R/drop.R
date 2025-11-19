@@ -32,8 +32,8 @@ drop_pcos <- function(gld_purchases, bef) {
   gld_purchases |>
     dplyr::inner_join(bef, by = dplyr::join_by("pnr")) |>
     dplyr::mutate(
-      date = lubridate::as_date(.data$date),
-      foed_dato = lubridate::as_date(.data$foed_dato)
+      date = as_date(.data$date),
+      foed_dato = as_date(.data$foed_dato)
     ) |>
     # Use !! to inject the expression into filter
     dplyr::filter(!!logic) |>
@@ -120,11 +120,11 @@ drop_pregnancies <- function(
   # Ensure both date columns are of type Date.
   dropped_pcos <- dropped_pcos |>
     dplyr::mutate(
-      date = lubridate::as_date(.data$date)
+      date = as_date(.data$date)
     )
   included_hba1c <- included_hba1c |>
     dplyr::mutate(
-      date = lubridate::as_date(.data$date)
+      date = as_date(.data$date)
     )
 
   dropped_pcos |>
