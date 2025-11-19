@@ -163,6 +163,8 @@ drop_pregnancies <- function(
       .data$volume,
       .data$date,
       .data$atc,
-      .data$apk
+      .data$apk,
+      .data$has_hba1c_over_threshold,
+      .data$has_gld_purchase
     )
 }
