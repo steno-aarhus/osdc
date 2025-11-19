@@ -6,7 +6,6 @@ register_data <- register_names |>
   simulate_registers(n = 10000)
 
 test_that("expected cases are classified correctly", {
-  skip()
   edge_case_data <- edge_cases()
 
   actual <- classify_diabetes(
