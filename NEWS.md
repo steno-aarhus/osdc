@@ -7,6 +7,13 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.4 (2025-11-19)
+
+### Fix
+
+- :bug: don't use `collect()` or `compute()` inside code, only outside (#403)
+- :bug: convert NAs to FALSE and drop any if TRUE for pregnancy (#398)
+
 ## 0.9.3 (2025-11-19)
 
 ### Fix

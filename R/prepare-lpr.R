@@ -6,7 +6,7 @@
 #' @param lpr_diag The LPR2 register containing diabetes diagnoses.
 #' @param lpr_adm The LPR2 register containing hospital admissions.
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()],
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with the following columns:
 #'
 #'  -   `pnr`: The personal identification variable.

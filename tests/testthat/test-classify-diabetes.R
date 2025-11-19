@@ -21,9 +21,10 @@ test_that("expected cases are classified correctly", {
   ) |>
     dplyr::filter(grepl("\\d{2}_", .data$pnr)) |>
     dplyr::arrange(pnr) |>
-    dplyr::compute()
+    dplyr::collect()
 
-  expected <- edge_case_data$classified
+  expected <- edge_case_data$classified |>
+    dplyr::collect()
 
   expect_identical(actual, expected)
 })
@@ -42,7 +43,8 @@ test_that("expected non-cases are not classified", {
     bef = nc$bef,
     lmdb = nc$lmdb
   ) |>
-    dplyr::filter(grepl("\\d{2}_", .data$pnr))
+    dplyr::filter(grepl("\\d{2}_", .data$pnr)) |>
+    dplyr::collect()
 
   nc_pnrs <- names(non_cases_metadata())
   # No PNRs from non-cases have been classified.
@@ -70,7 +72,8 @@ test_that("casing of input variables doesn't matter", {
     lab_forsker = registers$lab_forsker,
     bef = registers$bef,
     lmdb = registers$lmdb
-  )
+  ) |>
+    dplyr::collect()
 
   # TODO: Need to update this when we have the expected output
   # expected_columns <- c(
