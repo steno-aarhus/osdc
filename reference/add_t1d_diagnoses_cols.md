@@ -23,8 +23,8 @@ add_t1d_diagnoses_cols(data)
 
 ## Value
 
-The same type as the input data, default as a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html),
+The same type as the input data, as a
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html),
 with the following added columns and up to two rows per individual:
 
 - `has_majority_t1d_diagnoses`: A logical vector indicating whether the

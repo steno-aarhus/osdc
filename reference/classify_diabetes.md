@@ -69,7 +69,7 @@ classify_diabetes(
 ## Value
 
 The same object type as the input data, which would be a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html)
 type object.
 
 ## See also

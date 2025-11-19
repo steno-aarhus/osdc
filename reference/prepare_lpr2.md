@@ -23,8 +23,8 @@ prepare_lpr2(lpr_adm, lpr_diag)
 
 ## Value
 
-The same type as the input data, default as a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html),
+The same type as the input data, as a
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html),
 with the following columns:
 
 - `pnr`: The personal identification variable.

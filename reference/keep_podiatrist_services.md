@@ -22,8 +22,8 @@ keep_podiatrist_services(sysi, sssy)
 
 ## Value
 
-The same type as the input data, default as a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html).
+The same type as the input data, as a
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html).
 
 - `pnr`: Identifier variable
 

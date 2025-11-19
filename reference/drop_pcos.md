@@ -31,8 +31,8 @@ drop_pcos(gld_purchases, bef)
 
 ## Value
 
-The same type as the input data, default as a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html).
+The same type as the input data, as a
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html).
 It also has the same columns as
 [`keep_gld_purchases()`](https://steno-aarhus.github.io/osdc/reference/keep_gld_purchases.md),
 except for a logical helper variable `no_pcos` that is used in later

@@ -39,8 +39,8 @@ drop_pregnancies(dropped_pcos, pregnancy_dates, included_hba1c)
 
 ## Value
 
-The same type as the input data, default as a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html).
+The same type as the input data, as a
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html).
 Has the same output data as the input
 [`drop_pcos()`](https://steno-aarhus.github.io/osdc/reference/drop_pcos.md),
 except for a helper logical variable `no_pregnancy` that is used in

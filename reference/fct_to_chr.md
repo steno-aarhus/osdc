@@ -17,4 +17,4 @@ fct_to_chr(data)
 ## Value
 
 A
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html).
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html).

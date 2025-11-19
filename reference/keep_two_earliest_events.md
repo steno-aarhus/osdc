@@ -18,8 +18,7 @@ keep_two_earliest_events(data)
 
 ## Value
 
-The same type as the input data, default as a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html).
+The same type as the input data.
 
 ## Details
 

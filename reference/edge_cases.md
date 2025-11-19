@@ -1,10 +1,11 @@
 # Create a synthetic dataset of edge case inputs
 
-This function generates a list of tibbles representing the Danish health
-registers and the data necessary to run the algorithm. The dataset
-contains 23 individual cases (`pnr`s), each designed to test a specific
-logical branch of the diabetes classification algorithm, including
-inclusion, exclusion, censoring, and type classification rules.
+This function generates a list of DuckDB tibbles representing the Danish
+health registers and the data necessary to run the algorithm. The
+dataset contains 23 individual cases (`pnr`s), each designed to test a
+specific logical branch of the diabetes classification algorithm,
+including inclusion, exclusion, censoring, and type classification
+rules.
 
 ## Usage
 
@@ -15,7 +16,7 @@ edge_cases()
 ## Value
 
 A named list of 9
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html)
 objects, each representing a different health register: `bef`, `lmdb`,
 `lpr_adm`, `lpr_diag`, `kontakter`, `diagnoser`, `sysi`, `sssy`, and
 `lab_forsker`.

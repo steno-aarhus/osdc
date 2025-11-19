@@ -16,8 +16,8 @@ add_insulin_purchases_cols(gld_hba1c_after_drop_steps)
 
 ## Value
 
-The same type as the input data, default as a
-[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html).
+The same type as the input data, as a
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html).
 Three new columns are added:
 
 - `has_two_thirds_insulin`: A logical variable used in classifying type
