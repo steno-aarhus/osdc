@@ -143,8 +143,7 @@ classify_diabetes <- function(
       -c(
         "atc",
         "volume",
-        "apk",
-        "is_hba1c"
+        "apk"
       )
     )
 

@@ -114,7 +114,7 @@ drop_pregnancies <- function(
   pregnancy_dates,
   included_hba1c
 ) {
-  criteria <- logic_as_expression("is_not_within_pregnancy_interval")[[1]]
+  criteria <- logic_as_expression("is_within_pregnancy_interval")[[1]]
 
   # TODO: This should be done at an earlier stage.
   # Ensure both date columns are of type Date.
@@ -137,16 +137,24 @@ drop_pregnancies <- function(
     ) |>
     # Apply the criteria to flag rows that are within the pregnancy interval.
     dplyr::mutate(
-      is_not_within_pregnancy_interval = !!criteria
+      # Force NA pregnancy event dates to FALSE for the criteria.
+      is_within_pregnancy_interval = isTRUE(!!criteria)
     ) |>
-    # Remove all rows with a within each combination of (pnr, date) if any of them contain a row where is_not_within_pregnancy_interval is TRUE:
+    # Remove all rows with a within each combination of (pnr, date) if any of them 
+    # contain a row where is_not_within_pregnancy_interval is TRUE:
     dplyr::filter(
-      # Keeps TRUE values and NAs (they should be kept, they're just individuals without any pregnancy events)
-      !any(FALSE %in% .data$is_not_within_pregnancy_interval),
+      !any(.data$is_within_pregnancy_interval),
       .by = c("pnr", "date")
     ) |>
-    # Drop columns that were only used here and remove duplicates from the many-to-many joining of the pregnancy dates
-    # row that falls outside all of them.
+    # Drop columns that were only used here.
+    dplyr::select(
+      -"pregnancy_event_date",
+      -"has_pregnancy_event",
+      -"is_within_pregnancy_interval"
+    ) |>
+    # Drop columns that were only used here and remove duplicates from the 
+    # many-to-many joining of the pregnancy dates row that falls outside all 
+    # of them.
     dplyr::distinct(
       .data$pnr,
       .data$volume,
