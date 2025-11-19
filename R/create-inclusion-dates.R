@@ -52,6 +52,10 @@ create_inclusion_dates <- function(
       "pnr",
       "date",
       # Columns used for classifying T1D.
+      "has_diabetes_diagnosis",
+      "has_podiatrist_service",
+      "has_gld_purchase",
+      "has_hba1c_over_threshold",
       "has_only_insulin_purchases",
       "has_two_thirds_insulin",
       "has_insulin_purchases_within_180_days",
