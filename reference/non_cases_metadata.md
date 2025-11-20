@@ -29,4 +29,16 @@ non_cases_metadata()
 #> $nc_pcos_3
 #> [1] "Woman taking metformin, younger than 40, and has an indication code. No other purchases of metformin."
 #> 
+#> $nc_preg_1
+#> [1] "Woman with high HbA1c measured <40 weeks before giving birth or having a miscarriage (from LPR2)."
+#> 
+#> $nc_preg_2
+#> [1] "Woman with high HbA1c measured <12 weeks after giving birth or having a miscarriage (from LPR2)."
+#> 
+#> $nc_preg_3
+#> [1] "Woman with high HbA1c measured <40 weeks before giving birth or having a miscarriage (from LPR3)."
+#> 
+#> $nc_preg_4
+#> [1] "Woman with high HbA1c measured <12 weeks after giving birth or having a miscarriage (from LPR3)."
+#> 
 ```
