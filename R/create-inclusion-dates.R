@@ -42,8 +42,7 @@ create_inclusion_dates <- function(
       # Set the stable inclusion date to NA if the raw inclusion date is before
       # stable_inclusion_start_date.
       stable_inclusion_date = dplyr::if_else(
-        .data$raw_inclusion_date <
-          lubridate::as_date(stable_inclusion_start_date),
+        .data$raw_inclusion_date < as_date(stable_inclusion_start_date),
         NA,
         .data$raw_inclusion_date
       )

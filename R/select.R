@@ -39,14 +39,14 @@ select_required_variables <- function(
 #' @return The same object type given.
 #' @keywords internal
 #'
-#' @examples
-#' \dontrun{
-#' tibble::tibble(A = 1:3, B = 4:6) |>
-#'   osdc:::column_names_to_lower()
-#' }
 column_names_to_lower <- function(data) {
+  # Needs to be a named vector for renaming.
+  lower_column_names <- names(data) |>
+    # This sets the names "attribute" of the vector.
+    rlang::set_names(tolower(names(data)))
   data |>
-    dplyr::rename_with(tolower)
+    # Inject the lowercase names into rename.
+    dplyr::rename(!!!lower_column_names)
 }
 
 #' Check data types of the register variables
