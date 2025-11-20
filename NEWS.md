@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.11 (2025-11-20)
+
+### Refactor
+
+- :truck: use `from_*()` prefix for logical inclusion helper variables (#415)
+
 ## 0.9.10 (2025-11-20)
 
 ### Refactor
