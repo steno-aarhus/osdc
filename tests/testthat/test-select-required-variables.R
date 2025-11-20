@@ -73,3 +73,30 @@ test_that("fails with unknown or incorrect register", {
   )
   expect_error(select_required_variables(unknown_register, "unknown_register"))
 })
+
+test_that("column names are converted to lower case", {
+  bef_mixed_case <- tibble::tibble(
+    PnR = "1",
+    KoEn = 1L,
+    FoEd_DaTo = "1"
+  )
+
+  expect_identical(
+    select_required_variables(bef_mixed_case, "bef"),
+    bef_complete
+  )
+
+  # And when converted to strict duckplyr
+  bef_as_duckdb <- tibble::tibble(
+    PnR = "1",
+    KoEn = 1L,
+    FoEd_DaTo = "1"
+  ) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy")
+
+  expect_identical(
+    select_required_variables(bef_as_duckdb, "bef") |>
+      dplyr::collect(),
+    bef_complete
+  )
+})

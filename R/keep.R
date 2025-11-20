@@ -231,7 +231,7 @@ yyww_to_yyyymmdd <- function(yyww) {
   # Calculate the first day of the ISO year, which is when the first week
   # has most of the week days in it (4th of January, or the first Thursday).
   # See: https://en.wikipedia.org/wiki/ISO_week_date
-  year_start <- lubridate::ymd(paste(year, "-01-04"))
+  year_start <- as.Date(paste0(year, "-01-04"), tryFormats = "%y-%m-%d")
   first_weekday <- lubridate::wday(year_start, week_start = 1)
 
   # Create the date, using the start of year, but setting the week from the

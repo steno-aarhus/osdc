@@ -7,6 +7,30 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.9 (2025-11-20)
+
+### Perf
+
+- :zap: duckplyr doesn't support `lubridate::as_date()`, use `as.Date()` (#408)
+
+## 0.9.8 (2025-11-20)
+
+### Perf
+
+- :zap: DuckDB can't use `rename_with()`, switch to `rename()` (#409)
+
+## 0.9.7 (2025-11-19)
+
+### Fix
+
+- :bug: Non-cases test filter  (#412)
+
+## 0.9.6 (2025-11-19)
+
+### Fix
+
+- 🐛 convert NAs to FALSE at end in prep for classifying (#379)
+
 ## 0.9.5 (2025-11-19)
 
 ### Fix
