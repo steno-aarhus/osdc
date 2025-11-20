@@ -212,12 +212,12 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
   }
 
   algorithm[[logic_name]]$logic |>
-  # Use \\b to ensure we only replace whole words, substitute the logic syntax:
-  gsub("\\bAND\\b", "&", x = _) |>
-  gsub("\\bOR\\b", "|", x = _) |>
-  gsub("\\bNOT\\b", "!", x = _) |>
-  # Convert regex'es to the '=~'-form
-  gsub("([a-zA-Z0-9_]+) \\=\\~ '(.*?)'", "grepl('\\2', \\1)", x = _)
+    # Use \\b to ensure we only replace whole words, substitute the logic syntax:
+    gsub("\\bAND\\b", "&", x = _) |>
+    gsub("\\bOR\\b", "|", x = _) |>
+    gsub("\\bNOT\\b", "!", x = _) |>
+    # Convert regex'es to the '=~'-form
+    gsub("([a-zA-Z0-9_]+) \\=\\~ '(.*?)'", "grepl('\\2', \\1)", x = _)
 }
 
 #' Parse the logic strings into R expressions
