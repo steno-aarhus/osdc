@@ -218,7 +218,7 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
     # regex are defined with '=~', so convert them into a stringr function.
     stringr::str_replace_all(
       "([a-zA-Z0-9_]+) \\=\\~ '(.*?)'",
-      "stringr::str_detect(\\1, '\\2')"
+      "grepl('\\2', \\1)"
     )
 }
 
