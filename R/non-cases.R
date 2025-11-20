@@ -54,8 +54,8 @@ non_cases <- function() {
 
   lpr_diag <- tibble::tribble(
     ~recnum, ~c_diag, ~c_diagtype,
-    # T1D primary
-    "1", "249", "A",
+    # diagnosis noise (not diabetes)
+    "1", "149", "A",
     # Pregnancy
     "2", "DO00", "A",
     "3", "DZ33", "A",
@@ -75,8 +75,8 @@ non_cases <- function() {
 
   diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
-    # T1D primary
-    "1", "DE10", "A", "Nej",
+    # diagnosis noise (not diabetes)
+    "1", "DI10", "A", "Nej",
     # Pregnancy
     "2", "DO00", "A", "Nej",
     "3", "DZ33", "A", "Nej",
@@ -84,25 +84,27 @@ non_cases <- function() {
 
   sysi <- tibble::tribble(
     ~pnr, ~barnmak, ~speciale, ~honuge,
-    "nc_pcos_1", 0, "54", "2101",
-    "nc_pcos_2", 0, "54", "1901",
-    "nc_pcos_3", 0, "54", "1901",
-    "nc_preg_1", 0, "54", "2001",
-    "nc_preg_2", 0, "54", "2001",
-    "nc_preg_3", 0, "54", "2001",
-    "nc_preg_4", 0, "54", "2001",
+    # health service noise data (not diabetes-related)
+    "nc_pcos_1", 0, "53", "2101",
+    "nc_pcos_2", 0, "53", "1901",
+    "nc_pcos_3", 0, "53", "1901",
+    "nc_preg_1", 0, "53", "2001",
+    "nc_preg_2", 0, "53", "2001",
+    "nc_preg_3", 0, "53", "2001",
+    "nc_preg_4", 0, "53", "2001",
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   sssy <- tibble::tribble(
     ~pnr, ~barnmak, ~speciale, ~honuge,
-    "nc_pcos_1", 0, "54", "2101",
-    "nc_pcos_2", 0, "54", "1901",
-    "nc_pcos_3", 0, "54", "1901",
-    "nc_preg_1", 0, "54", "2001",
-    "nc_preg_2", 0, "54", "2001",
-    "nc_preg_3", 0, "54", "2001",
-    "nc_preg_4", 0, "54", "2001",
+# health service noise data (not diabetes-related)
+    "nc_pcos_1", 0, "53", "2101",
+    "nc_pcos_2", 0, "53", "1901",
+    "nc_pcos_3", 0, "53", "1901",
+    "nc_preg_1", 0, "53", "2001",
+    "nc_preg_2", 0, "53", "2001",
+    "nc_preg_3", 0, "53", "2001",
+    "nc_preg_4", 0, "53", "2001",
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
