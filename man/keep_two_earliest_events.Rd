@@ -10,7 +10,7 @@ keep_two_earliest_events(data)
 \item{data}{Data including at least a date and pnr column.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data.
 }
 \description{
 Since the classification date is based on the second instance of
@@ -26,11 +26,11 @@ they are joined.
 \examples{
 \dontrun{
 data <- tibble::tribble(
- ~pnr, ~date,
- 1, "20200101",
- 1, "20200102",
- 1, "20200103",
- 2, "20200101"
+  ~pnr, ~date,
+  1, "20200101",
+  1, "20200102",
+  1, "20200103",
+  2, "20200101"
 )
 keep_two_earliest_events(data)
 }

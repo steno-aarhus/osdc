@@ -12,7 +12,7 @@ drop_pcos(gld_purchases, bef)
 \item{bef}{The \code{bef} register.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.
 It also has the same columns as \code{\link[=keep_gld_purchases]{keep_gld_purchases()}}, except for a logical
 helper variable \code{no_pcos} that is used in later functions.
 }

@@ -19,7 +19,7 @@ join_inclusions(
 \code{\link[=drop_pcos]{drop_pcos()}}.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},
 with the joined columns from the output of \code{\link[=keep_diabetes_diagnoses]{keep_diabetes_diagnoses()}},
 \code{\link[=keep_podiatrist_services]{keep_podiatrist_services()}}, \code{\link[=drop_pcos]{drop_pcos()}}, and
 \code{\link[=drop_pregnancies]{drop_pregnancies()}}. There will be 1-8 rows per \code{pnr}.

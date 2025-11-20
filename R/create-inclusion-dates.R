@@ -19,7 +19,7 @@
 #'    drop rows related to gestational diabetes). This limits the included
 #'    cohort to individuals with inclusion dates after this cutoff date.
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()],
+#' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'   with the `pnr` and `date` columns along with the columns from the input
 #'   that's needed to classify T1D.
 #'   It also creates two new columns:
@@ -42,8 +42,7 @@ create_inclusion_dates <- function(
       # Set the stable inclusion date to NA if the raw inclusion date is before
       # stable_inclusion_start_date.
       stable_inclusion_date = dplyr::if_else(
-        .data$raw_inclusion_date <
-          lubridate::as_date(stable_inclusion_start_date),
+        .data$raw_inclusion_date < as_date(stable_inclusion_start_date),
         NA,
         .data$raw_inclusion_date
       )
@@ -52,6 +51,10 @@ create_inclusion_dates <- function(
       "pnr",
       "date",
       # Columns used for classifying T1D.
+      "has_diabetes_diagnosis",
+      "has_podiatrist_service",
+      "has_gld_purchase",
+      "has_hba1c_over_threshold",
       "has_only_insulin_purchases",
       "has_two_thirds_insulin",
       "has_insulin_purchases_within_180_days",

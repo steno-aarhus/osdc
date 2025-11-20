@@ -24,7 +24,7 @@
 #'    cohort to individuals with inclusion dates after this cutoff date.
 #'
 #' @returns The same object type as the input data, which would be a
-#'   [tibble::tibble()] type object.
+#'    [duckplyr::duckdb_tibble()] type object.
 #' @export
 #' @seealso See the [osdc] vignette for a detailed
 #'   description of the internal implementation of this classification function.
@@ -69,6 +69,17 @@ classify_diabetes <- function(
   lmdb,
   stable_inclusion_start_date = "1998-01-01"
 ) {
+  # Input checks -----
+  check_is_duckdb(kontakter)
+  check_is_duckdb(diagnoser)
+  check_is_duckdb(lpr_diag)
+  check_is_duckdb(lpr_adm)
+  check_is_duckdb(sysi)
+  check_is_duckdb(sssy)
+  check_is_duckdb(lab_forsker)
+  check_is_duckdb(bef)
+  check_is_duckdb(lmdb)
+
   # Verification step -----
   kontakter <- select_required_variables(kontakter, "kontakter")
   diagnoser <- select_required_variables(diagnoser, "diagnoser")
@@ -138,10 +149,8 @@ classify_diabetes <- function(
     dplyr::select(
       -c(
         "atc",
-        "indication_code",
         "volume",
-        "apk",
-        "is_hba1c"
+        "apk"
       )
     )
 
@@ -170,12 +179,35 @@ classify_diabetes <- function(
     )
 }
 
+check_is_duckdb <- function(data, call = rlang::caller_env()) {
+  check <- checkmate::test_multi_class(
+    data,
+    classes = c(
+      "tbl_duckdb_connection",
+      "duckplyr_df",
+      "duckplyr_tbl",
+      "duckdb_connection"
+    )
+  )
+  if (!check) {
+    cli::cli_abort(
+      message = c(
+        "The data needs to be a DuckDB object because we heavily process the data.",
+        "i" = "The data has the class{?es}: {.code {class(data)}}"
+      ),
+      call = call
+    )
+  }
+
+  invisible(NULL)
+}
+
 #' After filtering, classify those with type 1 diabetes.
 #'
 #' @param data Joined data output from the filtering steps.
 #'
 #' @return The same object type as the input data, which would be a
-#'   [tibble::tibble()] type object.
+#'    [duckplyr::duckdb_tibble()] type object.
 #' @keywords internal
 #'
 classify_t1d <- function(data) {

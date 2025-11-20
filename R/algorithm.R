@@ -138,10 +138,10 @@ algorithm <- function() {
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
-    is_not_within_pregnancy_interval = list(
+    is_within_pregnancy_interval = list(
       register = NA,
-      title = "Events that are not within a potential pregnancy interval",
-      logic = "NOT (has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12)))",
+      title = "Events that are within a potential pregnancy interval",
+      logic = "has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12))",
       comments = "The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date (birth or miscarriage)."
     ),
     is_podiatrist_services = list(
@@ -159,7 +159,7 @@ algorithm <- function() {
     has_t1d = list(
       register = NA,
       title = "Classifying type 1 diabetes status",
-      logic = "(has_only_insulin_purchases & has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases & has_majority_t1d_diagnoses & has_two_thirds_insulin & has_insulin_purchases_within_180_days)",
+      logic = "(has_diabetes_diagnosis OR has_podiatrist_service OR has_gld_purchase OR has_hba1c_over_threshold) AND (has_only_insulin_purchases & has_any_t1d_primary_diagnosis) OR (!has_only_insulin_purchases & has_majority_t1d_diagnoses & has_two_thirds_insulin & has_insulin_purchases_within_180_days)",
       comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     ),
     has_any_t1d_primary_diagnosis = list(

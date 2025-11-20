@@ -2,7 +2,7 @@
 #'
 #' @param gld_hba1c_after_drop_steps The GLD and HbA1c data after drop steps
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()].
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'   Three new columns are added:
 #'
 #'   -   `has_two_thirds_insulin`: A logical variable used in classifying type 1
@@ -32,13 +32,13 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 
   insulin_cols <- gld_hba1c_after_drop_steps |>
     # Remove hba1c rows so dates from HbA1c measurements aren't included.
-    dplyr::filter(is.na(.data$is_hba1c)) |>
+    dplyr::filter(is.na(.data$has_hba1c_over_threshold)) |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
       contained_doses = .data$volume * .data$apk,
       is_insulin_gld_code = !!logic$is_insulin_gld_code,
-      date = lubridate::ymd(date)
+      date = as_date(date)
     ) |>
     dplyr::select(
       "pnr",
@@ -95,7 +95,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 #'
 #' @param data Data from [keep_diabetes_diagnoses()] function.
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()],
+#' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with the following added columns and up to two rows per individual:
 #'
 #'  -   `has_majority_t1d_diagnoses`: A logical vector indicating whether the

@@ -14,7 +14,7 @@ drop_pregnancies(dropped_pcos, pregnancy_dates, included_hba1c)
 \item{included_hba1c}{Output from \code{\link[=keep_hba1c]{keep_hba1c()}}.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}}.
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.
 Has the same output data as the input \code{\link[=drop_pcos]{drop_pcos()}}, except
 for a helper logical variable \code{no_pregnancy} that is used in later
 functions.

@@ -17,7 +17,7 @@ drop rows related to gestational diabetes). This limits the included
 cohort to individuals with inclusion dates after this cutoff date.}
 }
 \value{
-The same type as the input data, default as a \code{\link[tibble:tibble]{tibble::tibble()}},
+The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},
 with the \code{pnr} and \code{date} columns along with the columns from the input
 that's needed to classify T1D.
 It also creates two new columns:

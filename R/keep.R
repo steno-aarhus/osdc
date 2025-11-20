@@ -3,7 +3,7 @@
 #' @param lpr2 Output from [prepare_lpr2()].
 #' @param lpr3 Output from [prepare_lpr3()].
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()].
+#' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #' @keywords internal
 #' @inherit algorithm seealso
 #'
@@ -41,7 +41,7 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' @param lpr2 The output from [prepare_lpr2()].
 #' @param lpr3 The output from [prepare_lpr3()].
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()],
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.
 #'
 #' @keywords internal
@@ -59,7 +59,9 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
   lpr2 |>
     dplyr::bind_rows(lpr3) |>
-    dplyr::filter(.data$is_diabetes_code)
+    dplyr::filter(.data$is_diabetes_code) |>
+    # Add logical helper variable to indicate a diabetes diagnosis.
+    dplyr::mutate(has_diabetes_diagnosis = TRUE)
 }
 
 #' Keep rows with purchases of glucose lowering drugs (GLD)
@@ -73,7 +75,7 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
 #'
 #' @param lmdb The `lmdb` register.
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()].
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'   Only rows with glucose lowering drug purchases are kept, plus some columns are renamed.
 #'
 #' @keywords internal
@@ -96,7 +98,9 @@ keep_gld_purchases <- function(lmdb) {
     dplyr::rename(
       date = "eksd",
       indication_code = "indo"
-    )
+    ) |>
+    # Add logical helper variable to indicate a gld purchase.
+    dplyr::mutate(has_gld_purchase = TRUE)
 }
 
 #' Keep rows with HbA1c above the required threshold.
@@ -112,7 +116,7 @@ keep_gld_purchases <- function(lmdb) {
 #'
 #' @param lab_forsker The `lab_forsker` register.
 #'
-#' @return An object of the same input type, default as a [tibble::tibble()],
+#' @return An object of the same input type, as a [duckplyr::duckdb_tibble()],
 #'   with three columns:
 #'
 #'   - `pnr`: Personal identification variable.
@@ -138,9 +142,9 @@ keep_hba1c <- function(lab_forsker) {
     ) |>
     # Remove any duplicates
     dplyr::distinct() |>
-    # Add logical helper value used to remove HbA1c rows insulin purchases
-    # columns are added later.
-    dplyr::mutate(is_hba1c = TRUE)
+    # Add logical helper value to indicate elevated HbA1c. Also used to remove
+    # HbA1c rows when insulin purchases columns are added later.
+    dplyr::mutate(has_hba1c_over_threshold = TRUE)
 }
 
 #' Keep rows with diabetes-specific podiatrist services.
@@ -155,7 +159,7 @@ keep_hba1c <- function(lab_forsker) {
 #' @param sysi The SYSI register.
 #' @param sssy The SSSY register.
 #'
-#' @return The same type as the input data, default as a [tibble::tibble()].
+#' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'
 #'   -  `pnr`: Identifier variable
 #'   -  `date`: The dates of the first and second diabetes-specific
@@ -177,8 +181,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
       sssy,
       by = dplyr::join_by("pnr", "barnmak", "speciale", "honuge")
     ) |>
-    # Both of these need to be converted to correct format in order for
-    # Arrow to correctly filter them later.
+    # Both of these need to be converted to correct format.
     dplyr::mutate(
       speciale = as.character(.data$speciale),
       barnmak = as.integer(.data$barnmak)
@@ -192,7 +195,9 @@ keep_podiatrist_services <- function(sysi, sssy) {
       pnr = .data$pnr,
       date = yyww_to_yyyymmdd(.data$honuge),
       .keep = "none"
-    )
+    ) |>
+    # Add logical helper variable to indicate diabetes-related podiatrist service.
+    dplyr::mutate(has_podiatrist_service = TRUE)
 }
 
 #' Convert date format YYWW to YYYY-MM-DD
@@ -200,8 +205,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #' Since the exact date isn't given in the input, this function will set the
 #' date to Monday of the week. As a precaution, a leading zero is added if it
 #' has been removed. This can e.g., happen if the input was "0107" and has been
-#' converted to a numeric 107. We need to export this function so that it can
-#' be found when using Arrow to process the data.
+#' converted to a numeric 107.
 #'
 #' @param yyww Character(s) of the format YYWW.
 #'
@@ -227,7 +231,7 @@ yyww_to_yyyymmdd <- function(yyww) {
   # Calculate the first day of the ISO year, which is when the first week
   # has most of the week days in it (4th of January, or the first Thursday).
   # See: https://en.wikipedia.org/wiki/ISO_week_date
-  year_start <- lubridate::ymd(paste(year, "-01-04"))
+  year_start <- as.Date(paste0(year, "-01-04"), tryFormats = "%y-%m-%d")
   first_weekday <- lubridate::wday(year_start, week_start = 1)
 
   # Create the date, using the start of year, but setting the week from the
@@ -253,17 +257,17 @@ yyww_to_yyyymmdd <- function(yyww) {
 #'
 #' @param data Data including at least a date and pnr column.
 #'
-#' @returns The same type as the input data, default as a [tibble::tibble()].
+#' @returns The same type as the input data.
 #' @keywords internal
 #'
 #' @examples
 #' \dontrun{
 #' data <- tibble::tribble(
-#'  ~pnr, ~date,
-#'  1, "20200101",
-#'  1, "20200102",
-#'  1, "20200103",
-#'  2, "20200101"
+#'   ~pnr, ~date,
+#'   1, "20200101",
+#'   1, "20200102",
+#'   1, "20200103",
+#'   2, "20200101"
 #' )
 #' keep_two_earliest_events(data)
 #' }

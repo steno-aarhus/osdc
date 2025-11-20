@@ -45,7 +45,7 @@ cohort to individuals with inclusion dates after this cutoff date.}
 }
 \value{
 The same object type as the input data, which would be a
-\code{\link[tibble:tibble]{tibble::tibble()}} type object.
+\code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}} type object.
 }
 \description{
 This function assumes that each source of raw data is represented as a single
