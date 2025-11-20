@@ -38,7 +38,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
     dplyr::mutate(
       contained_doses = .data$volume * .data$apk,
       is_insulin_gld_code = !!logic$is_insulin_gld_code,
-      date = lubridate::ymd(date)
+      date = as_date(date)
     ) |>
     dplyr::select(
       "pnr",
