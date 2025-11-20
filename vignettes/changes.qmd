@@ -36,9 +36,9 @@ these validations over the different versions.
 
 ## Validity
 
-Algorithm validity against self-reported diabetes type in the Health in
-Central Denmark survey. Reported as overall `PPV` (*positive predictive
-value*) and `sensitivity` for each version of the algorithm, and within
+The validity of the OSDC algorithm is tested against self-reported diabetes type in the Health in
+Central Denmark survey. The results are reported as overall PPV (positive predictive
+value) and sensitivity for each version of the algorithm and within
 subsets of the diabetes population reporting onset of diabetes before or
 after age 40, respectively, similar to tables 1 & 2 of the original
 validation paper.[@Isaksen2023]
@@ -48,7 +48,7 @@ validation paper.[@Isaksen2023]
 This uses the same data as the paper and provides a direct comparison to
 the original implementation.
 
-**Overall and age at onset-stratified:**
+#### Stratified by diabetes type and age at onset
 
 | Version | Diabetes type | PPV   | Sensitivity |
 |---------|---------------|-------|-------------|
@@ -64,7 +64,7 @@ the original implementation.
 | 1.0     | T2D           | 0.879 | 0.944       |
 | 1.0     | T2D \<40 yrs  | 0.480 | 0.863       |
 
-**Bootstrapped metrics:**
+#### Bootstrapped metrics
 
 Corresponds to supplementary table S3 of the validation paper.
 
@@ -78,7 +78,7 @@ Corresponds to supplementary table S3 of the validation paper.
 | 1.0     | T1D           | 0.788       | 0.999       | 0.947 | 0.997 |
 | 1.0     | T2D           | 0.940       | 0.990       | 0.881 | 0.995 |
 
-### Validity in 2023
+### Validity in 2025
 
 This section will contain metrics from validation performed in
 subsequent survey waves of Health in Central Denmark, as this data

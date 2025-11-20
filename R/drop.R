@@ -59,9 +59,7 @@ drop_pcos <- function(gld_purchases, bef) {
 #' pregnancy).
 #'
 #' After these drop functions have been applied, the output serves as
-#' input to:
-#'
-#' 1.  The censored HbA1c and GLD data are passed to the [add_insulin_purchases_cols()] function.
+#' input to the [add_insulin_purchases_cols()] function.
 #'
 #' @param dropped_pcos Output from [drop_pcos()].
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].

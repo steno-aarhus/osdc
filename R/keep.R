@@ -1,7 +1,7 @@
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from `prepare_lpr2()`.
-#' @param lpr3 Output from `prepare_lpr3()`.
+#' @param lpr2 Output from [prepare_lpr2()].
+#' @param lpr3 Output from [prepare_lpr3()].
 #'
 #' @returns The same type as the input data, default as a [tibble::tibble()].
 #' @keywords internal

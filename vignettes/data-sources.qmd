@@ -128,7 +128,7 @@ variable names in lower case, but case may vary between data sources
 the package should be robust to inconsistent casing, as we internally
 convert all variable names to lower case.
 
-A small note about the National Patient Register. It contains several
+A small note about the National Patient Register: It contains several
 tables and types of data. The algorithm uses only hospital diagnosis
 data contained in four registers, which are pairs of two related
 registers used before 2019 (LPR2) and from 2019 onward (LPR3). So the

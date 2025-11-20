@@ -17,7 +17,7 @@ Steno Diabetes Center Aarhus is flexible and convenient to use, and
 validated in terms of accuracy. While there are a few algorithms used
 throughout Denmark for Danish register research, they are usually
 textual descriptions of how to do it, rather than code-based
-descriptions (e.g. the Register of Selected Chronic Diseases.
+descriptions (e.g. the Register of Selected Chronic Diseases).
 
 In this project, we aim to make it easier and more explicit to classify
 type 1 and type 2 diabetes within a Danish register context. The

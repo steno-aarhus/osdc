@@ -1,8 +1,7 @@
 #' Classify diabetes status using Danish registers.
 #'
-#' This function assumes that each source of raw data is represented as a single
-#' object in R, e.g. a DuckDB connection to the parquet file(s) has been set up
-#' or the data has already been read into memory.
+#' This function requires that each source of raw data is represented as a single
+#' object in R and is a DuckDB connection (to e.g. Parquet files).
 #'
 #' This section should probably describe the expected structure of each data
 #' source (e.g. a list of tables or a single table)
@@ -14,7 +13,7 @@
 #' @param lpr_adm The administrative information register for lpr2
 #' @param sysi The SYSI register
 #' @param sssy The SSSY register
-#' @param lab_forsker The laboratory results for research register
+#' @param lab_forsker The register for laboratory results for research
 #' @param bef The BEF register
 #' @param lmdb The LMDB register
 #' @param stable_inclusion_start_date Cutoff date after which inclusion events
