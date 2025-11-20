@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.9 (2025-11-20)
+
+### Perf
+
+- :zap: duckplyr doesn't support `lubridate::as_date()`, use `as.Date()` (#408)
+
 ## 0.9.8 (2025-11-20)
 
 ### Perf
