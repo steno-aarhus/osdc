@@ -43,7 +43,7 @@ Central Denmark survey. The results are reported as overall PPV (positive predic
 value) and sensitivity for each version of the algorithm and within
 subsets of the diabetes population reporting onset of diabetes before or
 after age 40, respectively, similar to tables 1 & 2 of the original
-validation paper.[@Isaksen2023]
+validation paper [@Isaksen2023].
 
 ### Validity in 2019
 
