@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.12 (2025-11-21)
+
+### Refactor
+
+- :recycle: replace `str_detect()` with `grepl` in algorithm (#416)
+
 ## 0.9.11 (2025-11-20)
 
 ### Refactor
