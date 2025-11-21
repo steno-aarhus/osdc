@@ -35,18 +35,6 @@ patterns in glucose-lowering drug purchases and recorded
 type-specific diabetes diagnoses. Individuals who do not meet the criteria for T1D
 are subsequently classified as having type 2 diabetes (T2D).
 
-The diabetes classification date is defined at the date of the
-second occurrence of any of the inclusion events listed below. For
-example, an individual with two elevated HbA1c tests followed by a
-glucose-lowering drug purchase is included at the latest elevated HbA1c
-test. Had the second HbA1c test not been performed (or had it returned a
-result below the diagnostic threshold), this person would instead have
-been included at the date of the first purchase of glucose-lowering
-drugs. Wherever possible, all available data for each event is used,
-except for the purchases of glucose-lowering drugs, since the patient
-register data on obstetric diagnoses necessary to censor
-glucose-lowering drug purchases is only complete from 1997 onwards.
-
 Inclusion events are:
 
 1.  HbA1c measurements of ≥48 mmol/mol.
@@ -77,6 +65,18 @@ events apply:
     -   If the purchased drug is metformin and is made by women below age 40, as these may be
         treatment for polycystic ovary syndrome (PCOS).
     -   If the purchased drug is metformin with a PCOS-related indication code.
+
+The diabetes classification date is defined at the date of the
+second occurrence of any of the inclusion events listed above. For
+example, an individual with two elevated HbA1c tests followed by a
+glucose-lowering drug purchase is included at the latest elevated HbA1c
+test. Had the second HbA1c test not been performed (or had it returned a
+result below the diagnostic threshold), this person would instead have
+been included at the date of the first purchase of glucose-lowering
+drugs. Wherever possible, all available data for each event is used,
+except for the purchases of glucose-lowering drugs, since the patient
+register data on obstetric diagnoses necessary to censor
+glucose-lowering drug purchases is only complete from 1997 onwards.
 
 ## High-level flowchart
 
