@@ -1,7 +1,7 @@
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from `join_lpr2()`.
-#' @param lpr3 Output from `join_lpr3()`.
+#' @param lpr2 Output from [prepare_lpr2()].
+#' @param lpr3 Output from [prepare_lpr3()].
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #' @keywords internal
@@ -61,7 +61,7 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
     dplyr::bind_rows(lpr3) |>
     dplyr::filter(.data$is_diabetes_code) |>
     # Add logical helper variable to indicate a diabetes diagnosis.
-    dplyr::mutate(from_diabetes_diagnosis = TRUE)
+    dplyr::mutate(has_diabetes_diagnosis = TRUE)
 }
 
 #' Keep rows with purchases of glucose lowering drugs (GLD)
@@ -100,7 +100,7 @@ keep_gld_purchases <- function(lmdb) {
       indication_code = "indo"
     ) |>
     # Add logical helper variable to indicate a gld purchase.
-    dplyr::mutate(from_gld_purchase = TRUE)
+    dplyr::mutate(has_gld_purchase = TRUE)
 }
 
 #' Keep rows with HbA1c above the required threshold.
@@ -144,7 +144,7 @@ keep_hba1c <- function(lab_forsker) {
     dplyr::distinct() |>
     # Add logical helper value to indicate elevated HbA1c. Also used to remove
     # HbA1c rows when insulin purchases columns are added later.
-    dplyr::mutate(from_hba1c_over_threshold = TRUE)
+    dplyr::mutate(has_hba1c_over_threshold = TRUE)
 }
 
 #' Keep rows with diabetes-specific podiatrist services.
@@ -197,7 +197,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
       .keep = "none"
     ) |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
-    dplyr::mutate(from_podiatrist_service = TRUE)
+    dplyr::mutate(has_podiatrist_service = TRUE)
 }
 
 #' Convert date format YYWW to YYYY-MM-DD
@@ -247,7 +247,7 @@ yyww_to_yyyymmdd <- function(yyww) {
 #' Keep two earliest events per PNR
 #'
 #' Since the classification date is based on the second instance of
-#' an inclusion criteria, we only need to keep the earliest two events per PNR
+#' an inclusion criteria, we need to keep the earliest two events per PNR
 #' per inclusion "stream".
 #'
 #' This function is applied to each "stream", `diabetes_diagnoses`,
