@@ -23,9 +23,12 @@ jobs:
 
       - name: Install
         uses: posit-dev/setup-air@v1
-
+  
       - name: Check
         run: air format . --check
+
+      - name: Lint
+        uses: etiennebacher/setup-jarl@v0.1.0
 
   cran-checks:
     runs-on: ${{ matrix.config.os }}

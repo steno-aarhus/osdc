@@ -49,6 +49,11 @@ url-check:
 style:
   air format .
 
+# From https://jarl.etiennebacher.com/#installation
+# Lint R code for any potential issues
+lint:
+  jarl check .
+
 # Build the pkgdown website
 build-website:
   #!/usr/bin/env Rscript
