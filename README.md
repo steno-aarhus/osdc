@@ -16,7 +16,9 @@ be accessible as an R package. The algorithm that has been developed at
 Steno Diabetes Center Aarhus is flexible and convenient to use, and
 validated in terms of accuracy. While there are a few algorithms used
 throughout Denmark for Danish register research, they are usually
-textual descriptions of how to do it (e.g. the [Register of Selected Chronic Diseases](https://sundhedsdatabank.dk/sygdomme/kroniske-sygdomme-og-svaere-psykiske-lidelser)), rather than source code-based
+textual descriptions of how to do it (e.g. the [Register of Selected 
+Chronic Diseases](https://sundhedsdatabank.dk/sygdomme/kroniske-sygdomme-og-svaere-psykiske-lidelser)), 
+rather than source code-based
 descriptions.
 
 In this project, we aim to make it easier and more explicit to classify
