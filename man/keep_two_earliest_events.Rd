@@ -14,7 +14,7 @@ The same type as the input data.
 }
 \description{
 Since the classification date is based on the second instance of
-an inclusion criteria, we only need to keep the earliest two events per PNR
+an inclusion criteria, we need to keep the earliest two events per PNR
 per inclusion "stream".
 }
 \details{

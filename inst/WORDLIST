@@ -5,7 +5,7 @@ CMD
 Changelog
 Commitizen
 DCCT
-De
+Dapagliflozin
 DuckDB
 duckdb
 duckplyr
@@ -19,7 +19,6 @@ Isaksen's
 LMDB
 LPR
 Lifecycle
-Metformin
 NPU
 NPUs
 NPV
@@ -30,9 +29,9 @@ PPV
 RAs
 RSCD
 SDS's
+SGLT
 SSSY
 SYSI
-Saxenda
 YYWW
 YYYY
 atc
@@ -42,9 +41,7 @@ deduplicated
 dk
 dplyr
 empagliflozin
-endocrinological
 formatters
-forsker
 honuge
 indo
 joinable
@@ -59,11 +56,8 @@ mol
 onwards
 pnr
 polycystic
-pre
 pseudonymised
 puml
-reproducibility
-semaglutid
 simstudy
 th
 tibble

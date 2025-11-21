@@ -10,7 +10,7 @@
 #'  with the following columns:
 #'
 #'  -   `pnr`: The personal identification variable.
-#'  -   `date`: The date of all the recorded diagnosis (renamed from
+#'  -   `date`: The date of each recorded diagnosis (renamed from
 #'      `d_inddto` or `dato_start`).
 #'  -   `is_primary_diagnosis`: Whether the diagnosis was a primary diagnosis.
 #'  -   `is_diabetes_code`: Whether the diagnosis was any type of diabetes.
@@ -131,7 +131,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
       is_medical_dept = !!logic$lpr3_is_medical_dept,
     ) |>
     dplyr::select(
-      # Rename pnr to cpr for consistency with o
+      # Rename cpr to pnr for consistency with lpr2
       "pnr" = "cpr",
       "date",
       "is_primary_diagnosis",
