@@ -25,6 +25,7 @@ these validations over the different versions.
 2.  For T1D classification, the window of 180 days to make a purchase of
     an insulin is now evaluated from the date of the first purchase of a
     glucose-lowering drug, rather than the date of inclusion.
+    - To simplify computations and increase robustness to noise and atypical cases. 
 3.  Purchases of insulin in the previous year is no longer required for
     T1D classification.
     - Because we found that the vast majority of individuals classified as T2D due to this criteria, reported that they had T1D in the data from Health in Central Denmark.
