@@ -6,17 +6,6 @@
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' register_data <- simulate_registers(
-#'   c("lpr_adm", "lpr_diag", "kontakter", "diagnoser"),
-#'   n = 1000
-#' )
-#' lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag)
-#' lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
-#' keep_pregnancy_dates(lpr2, lpr3)
-#' }
 keep_pregnancy_dates <- function(lpr2, lpr3) {
   lpr2 |>
     dplyr::bind_rows(lpr3) |>
@@ -46,15 +35,6 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))
-#' keep_diabetes_diagnoses(
-#'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-#'   lpr3 = prepare_lpr3(register_data$kontakter, register_data$diagnoser)
-#' )
-#' }
 keep_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
   lpr2 |>
@@ -80,11 +60,6 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' simulate_registers("lmdb", 1000)[[1]] |> keep_gld_purchases()
-#' }
 keep_gld_purchases <- function(lmdb) {
   logic <- c(
     "is_gld_code"
@@ -123,11 +98,6 @@ keep_gld_purchases <- function(lmdb) {
 #'   - `dates`: The dates of all elevated HbA1c test results.
 #'
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' simulate_registers("lab_forsker", 100)[[1]] |> keep_hba1c()
-#' }
 keep_hba1c <- function(lab_forsker) {
   logic <- logic_as_expression("is_hba1c_over_threshold")[[1]]
 
@@ -167,12 +137,6 @@ keep_hba1c <- function(lab_forsker) {
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' register_data <- simulate_registers(c("sysi", "sssy"), 100)
-#' keep_(register_data$sysi, register_data$sssy)
-#' }
 keep_podiatrist_services <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
 
@@ -211,13 +175,6 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #'
 #' @returns Date(s) in the format YYYY-MM-DD.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' yyww_to_yyyymmdd("0101")
-#' yyww_to_yyyymmdd(c("0102", "0304"))
-#' yyww_to_yyyymmdd(953)
-#' }
 yyww_to_yyyymmdd <- function(yyww) {
   if (is.numeric(yyww)) {
     # Ensure input is zero-padded to length 4.
@@ -259,18 +216,6 @@ yyww_to_yyyymmdd <- function(yyww) {
 #'
 #' @returns The same type as the input data.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' data <- tibble::tribble(
-#'   ~pnr, ~date,
-#'   1, "20200101",
-#'   1, "20200102",
-#'   1, "20200103",
-#'   2, "20200101"
-#' )
-#' keep_two_earliest_events(data)
-#' }
 keep_two_earliest_events <- function(data) {
   data |>
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr")
