@@ -12,9 +12,4 @@ A character string.
 \description{
 Get a list of the registers' abbreviations.
 }
-\examples{
-\dontrun{
-get_register_abbrev()
-}
-}
 \keyword{internal}

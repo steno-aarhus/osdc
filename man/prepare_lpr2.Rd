@@ -34,15 +34,6 @@ non-endocrinology medical department.
 The output is used as inputs to \code{keep_diabetes_diagnoses()} and to
 \code{keep_pregnancy_dates()}.
 }
-\examples{
-\dontrun{
-register_data <- simulate_registers(c("lpr_diag", "lpr_adm"), 100000)
-lpr2 <- prepare_lpr2(
-  lpr_diag = register_data$lpr_diag,
-  lpr_adm = register_data$lpr_adm
-)
-}
-}
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
 patients.
