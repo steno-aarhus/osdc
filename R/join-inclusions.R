@@ -1,4 +1,4 @@
-#' Join kept events.
+#' Join kept inclusion events.
 #'
 #' @description
 #' This function joins the outputs from all the filtering
@@ -11,9 +11,9 @@
 #' diabetes-specific podiatrist record.
 #'
 #' - `gld_hba1c_after_drop_steps`: Dates are the first and second elevated HbA1c
-#' test results (after censoring potential gestational diabetes) and are the
-#' first and second purchase of a glucose-lowering drug (after censoring
-#' potential polycystic ovary syndrome and gestational diabetes).
+#' test results (after excluding results potentially influenced by gestational diabetes), and the
+#' first and second purchase of a glucose-lowering drug (after excluding
+#' purchases potentially related to polycystic ovary syndrome or gestational diabetes).
 #'
 #' @param diabetes_diagnoses Output from [keep_diabetes_diagnoses()].
 #' @param podiatrist_services Output from [keep_podiatrist_services()].
