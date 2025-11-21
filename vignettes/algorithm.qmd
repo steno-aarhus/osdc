@@ -133,8 +133,8 @@ Diabetes type is classified as either T1D or T2D based on patterns of
 purchases of insulin drugs (including analogues) and hospital primary
 diagnoses of T1D and T2D.
 
-For an individual to be classified as having T1D, the available data needs to fulfil either of the
-following combinations of criteria:
+For an individual to be classified as having T1D, the available data needs to fulfil the criteria in either of the
+following branches of logic:
 
 a.  Must only have recorded purchases of insulin drugs and never any other type of
     glucose-lowering drugs, and have at least one primary diagnosis of
