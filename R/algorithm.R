@@ -159,7 +159,7 @@ algorithm <- function() {
     has_t1d = list(
       register = NA,
       title = "Classifying type 1 diabetes status",
-      logic = "(has_only_insulin_purchases & has_any_t1d_primary_diagnosis) | (!has_only_insulin_purchases & has_majority_t1d_diagnoses & has_two_thirds_insulin & has_insulin_purchases_within_180_days)",
+      logic = "(from_diabetes_diagnosis OR from_podiatrist_service OR from_gld_purchase OR from_hba1c_over_threshold) AND (has_only_insulin_purchases & has_any_t1d_primary_diagnosis) OR (!has_only_insulin_purchases & has_majority_t1d_diagnoses & has_two_thirds_insulin & has_insulin_purchases_within_180_days)",
       comments = "The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables."
     ),
     has_any_t1d_primary_diagnosis = list(
@@ -212,14 +212,12 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
   }
 
   algorithm[[logic_name]]$logic |>
-    stringr::str_replace_all("AND", "&") |>
-    stringr::str_replace_all("OR", "|") |>
-    stringr::str_replace_all("NOT", "!") |>
-    # regex are defined with '=~', so convert them into a stringr function.
-    stringr::str_replace_all(
-      "([a-zA-Z0-9_]+) \\=\\~ '(.*?)'",
-      "stringr::str_detect(\\1, '\\2')"
-    )
+    # Use \\b to ensure we only replace whole words, substitute the logic syntax:
+    gsub("\\bAND\\b", "&", x = _) |>
+    gsub("\\bOR\\b", "|", x = _) |>
+    gsub("\\bNOT\\b", "!", x = _) |>
+    # Convert regex'es to the '=~'-form
+    gsub("([a-zA-Z0-9_]+) \\=\\~ '(.*?)'", "grepl('\\2', \\1)", x = _)
 }
 
 #' Parse the logic strings into R expressions

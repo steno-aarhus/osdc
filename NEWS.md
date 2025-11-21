@@ -7,6 +7,48 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.13 (2025-11-21)
+
+### Refactor
+
+- ♻️ replace stringr functions with base alternatives in algorithm  (#419)
+
+## 0.9.12 (2025-11-21)
+
+### Refactor
+
+- :recycle: replace `str_detect()` with `grepl` in algorithm (#416)
+
+## 0.9.11 (2025-11-20)
+
+### Refactor
+
+- :truck: use `from_*()` prefix for logical inclusion helper variables (#415)
+
+## 0.9.10 (2025-11-20)
+
+### Refactor
+
+- ♻️ add logical inclusion variables to classification logic (#404)
+
+## 0.9.9 (2025-11-20)
+
+### Perf
+
+- :zap: duckplyr doesn't support `lubridate::as_date()`, use `as.Date()` (#408)
+
+## 0.9.8 (2025-11-20)
+
+### Perf
+
+- :zap: DuckDB can't use `rename_with()`, switch to `rename()` (#409)
+
+## 0.9.7 (2025-11-19)
+
+### Fix
+
+- :bug: Non-cases test filter  (#412)
+
 ## 0.9.6 (2025-11-19)
 
 ### Fix

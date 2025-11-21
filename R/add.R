@@ -32,13 +32,13 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 
   insulin_cols <- gld_hba1c_after_drop_steps |>
     # Remove hba1c rows so dates from HbA1c measurements aren't included.
-    dplyr::filter(is.na(.data$has_hba1c_over_threshold)) |>
+    dplyr::filter(is.na(.data$from_hba1c_over_threshold)) |>
     # `volume` is the doses contained in the purchased package and `apk` is the
     # number of packages purchased
     dplyr::mutate(
       contained_doses = .data$volume * .data$apk,
       is_insulin_gld_code = !!logic$is_insulin_gld_code,
-      date = lubridate::ymd(date)
+      date = as_date(date)
     ) |>
     dplyr::select(
       "pnr",
