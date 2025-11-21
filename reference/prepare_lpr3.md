@@ -54,15 +54,3 @@ with the following columns:
 See the
 [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)
 for the logic used to filter these patients.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
-prepare_lpr3(
-  kontakter = register_data$kontakter,
-  diagnoser = register_data$diagnoser
-)
-} # }
-```

@@ -20,13 +20,3 @@ yyww_to_yyyymmdd(yyww)
 ## Value
 
 Date(s) in the format YYYY-MM-DD.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-yyww_to_yyyymmdd("0101")
-yyww_to_yyyymmdd(c("0102", "0304"))
-yyww_to_yyyymmdd(953)
-} # }
-```

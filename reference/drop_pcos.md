@@ -43,15 +43,3 @@ functions.
 See the
 [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)
 for the logic used to filter these patients.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-register_data <- simulate_registers(c("lmdb", "bef"), 100)
-drop_pcos(
-  gld_purchases = keep_gld_purchases(register_data$lmdb),
-  bef = register_data$bef
-)
-} # }
-```

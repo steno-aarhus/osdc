@@ -29,12 +29,3 @@ select_required_variables(data, register, call = rlang::caller_env())
 
 Outputs the register with only the required variables, and with column
 names in lower case.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-select_required_variables(simulate_registers("bef")[[1]], "bef")
-select_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
-} # }
-```

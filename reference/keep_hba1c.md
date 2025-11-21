@@ -34,11 +34,3 @@ The output is passed to the
 [`drop_pregnancies()`](https://steno-aarhus.github.io/osdc/reference/drop_pregnancies.md)
 function for filtering of elevated results due to potential gestational
 diabetes (see below).
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-simulate_registers("lab_forsker", 100)[[1]] |> keep_hba1c()
-} # }
-```

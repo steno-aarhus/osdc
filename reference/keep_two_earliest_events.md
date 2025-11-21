@@ -26,18 +26,3 @@ This function is applied to each "stream", `diabetes_diagnoses`,
 `podiatrist_services`, and `gld_hba1c_after_drop_steps`, in the
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
 function after the keep and drop steps, right before they are joined.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-data <- tibble::tribble(
-  ~pnr, ~date,
-  1, "20200101",
-  1, "20200102",
-  1, "20200103",
-  2, "20200101"
-)
-keep_two_earliest_events(data)
-} # }
-```

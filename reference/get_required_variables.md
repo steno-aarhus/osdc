@@ -18,11 +18,3 @@ get_required_variables(register)
 ## Value
 
 A character vector of variable names.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-get_required_variables("bef")
-} # }
-```

@@ -32,11 +32,3 @@ columns are renamed.
 See the
 [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)
 for the logic used to filter these patients.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-simulate_registers("lmdb", 1000)[[1]] |> keep_gld_purchases()
-} # }
-```

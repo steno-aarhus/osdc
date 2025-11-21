@@ -41,12 +41,3 @@ function for the final step of the inclusion process.
 See the
 [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)
 for the logic used to filter these patients.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-register_data <- simulate_registers(c("sysi", "sssy"), 100)
-keep_(register_data$sysi, register_data$sssy)
-} # }
-```

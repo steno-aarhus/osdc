@@ -11,11 +11,3 @@ get_register_abbrev()
 ## Value
 
 A character string.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-get_register_abbrev()
-} # }
-```

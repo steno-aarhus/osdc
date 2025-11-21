@@ -34,15 +34,3 @@ with less rows after filtering.
 See the
 [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)
 for the logic used to filter these patients.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))
-keep_diabetes_diagnoses(
-  lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-  lpr3 = prepare_lpr3(register_data$kontakter, register_data$diagnoser)
-)
-} # }
-```

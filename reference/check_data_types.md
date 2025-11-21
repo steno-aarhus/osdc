@@ -12,11 +12,3 @@ check_data_types(data, register, call = rlang::caller_env())
 
 Outputs the register with only the required variables, and with column
 names in lower case.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-check_data_types(simulate_registers("kontakter")[[1]], "kontakter")
-} # }
-```

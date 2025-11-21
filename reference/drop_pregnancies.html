@@ -117,42 +117,6 @@ process.</p></li>
 patients.</p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">register_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_registers.html">simulate_registers</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="st">"lpr_adm"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"lpr_diag"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"kontakter"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"diagnoser"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"lmdb"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"bef"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"lab_forsker"</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span>,</span></span>
-<span class="r-in"><span>  n <span class="op">=</span> <span class="fl">1000</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">lpr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  lpr_adm <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>,</span></span>
-<span class="r-in"><span>  lpr_diag <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">lpr3</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_lpr3.html">prepare_lpr3</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  kontakter <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">kontakter</span>,</span></span>
-<span class="r-in"><span>  diagnoser <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">diagnoser</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Drop pregnancy dates</span></span></span>
-<span class="r-in"><span><span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="keep_gld_purchases.html">keep_gld_purchases</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="add_insulin_purchases_cols.html">add_insulin_purchases_cols</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="drop_pcos.html">drop_pcos</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">bef</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">drop_pregnancies</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="keep_pregnancy_dates.html">keep_pregnancy_dates</a></span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    <span class="fu"><a href="keep_hba1c.html">keep_hba1c</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">lab_forsker</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
