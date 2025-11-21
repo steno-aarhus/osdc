@@ -23,10 +23,4 @@ with column names in lower case.
 This function selects only the required variables, convert to lower case,
 and then check that the data types are as expected.
 }
-\examples{
-\dontrun{
-select_required_variables(simulate_registers("bef")[[1]], "bef")
-select_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
-}
-}
 \keyword{internal}

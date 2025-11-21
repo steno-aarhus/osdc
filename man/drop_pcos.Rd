@@ -25,15 +25,6 @@ variables as the input from \code{\link[=keep_gld_purchases]{keep_gld_purchases(
 helper variable \code{no_pcos} that is used in later functions.
 After these rows have been dropped, the output is used by \code{drop_pregnancies()}.
 }
-\examples{
-\dontrun{
-register_data <- simulate_registers(c("lmdb", "bef"), 100)
-drop_pcos(
-  gld_purchases = keep_gld_purchases(register_data$lmdb),
-  bef = register_data$bef
-)
-}
-}
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
 patients.

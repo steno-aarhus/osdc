@@ -23,16 +23,4 @@ This function is applied to each "stream", \code{diabetes_diagnoses},
 \code{classify_diabetes()} function after the keep and drop steps, right before
 they are joined.
 }
-\examples{
-\dontrun{
-data <- tibble::tribble(
-  ~pnr, ~date,
-  1, "20200101",
-  1, "20200102",
-  1, "20200103",
-  2, "20200101"
-)
-keep_two_earliest_events(data)
-}
-}
 \keyword{internal}

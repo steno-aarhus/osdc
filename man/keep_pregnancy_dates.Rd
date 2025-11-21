@@ -17,17 +17,6 @@ The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckpl
 \description{
 Simple function to get only the pregnancy event dates.
 }
-\examples{
-\dontrun{
-register_data <- simulate_registers(
-  c("lpr_adm", "lpr_diag", "kontakter", "diagnoser"),
-  n = 1000
-)
-lpr2 <- prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag)
-lpr3 <- prepare_lpr3(register_data$diagnoser, register_data$kontakter)
-keep_pregnancy_dates(lpr2, lpr3)
-}
-}
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
 patients.
