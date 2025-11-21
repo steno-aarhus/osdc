@@ -1,10 +1,7 @@
 #' Classify diabetes status using Danish registers.
 #'
-#' This function requires that each source of raw data is represented as a single
-#' object in R and is a DuckDB connection (to e.g. Parquet files).
-#'
-#' This section should probably describe the expected structure of each data
-#' source (e.g. a list of tables or a single table)
+#' This function requires that each source of raw data is represented as a single DuckDB object
+#' in R (e.g. a connection to Parquet files). Each DuckDB object must contain a single table covering all years of that data source.
 #'
 #'
 #' @param kontakter The contacts information register for lpr3
@@ -17,11 +14,10 @@
 #' @param bef The BEF register
 #' @param lmdb The LMDB register
 #' @param stable_inclusion_start_date Cutoff date after which inclusion events
-#'    are considered reliable (e.g., after changes in drug labeling or data
-#'    entry practices). Defaults to "1998-01-01" which is one year after
-#'    obstetric codes are reliable in the GLD data (since we use LPR data to
-#'    drop rows related to gestational diabetes). This limits the included
-#'    cohort to individuals with inclusion dates after this cutoff date.
+#'    are considered true incident diabetes cases. Defaults to "1998-01-01", as
+#'    we presume the user is using data on pregnancy events from the the Patient Register
+#'    and on purchases of glucose-lowering drugs from the Prescription Register
+#'    from Jan 1 1997 onward (or earlier).
 #'
 #' @returns The same object type as the input data, which would be a
 #'    [duckplyr::duckdb_tibble()] type object.
