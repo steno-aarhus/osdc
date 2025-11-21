@@ -4,15 +4,15 @@
 #' in R (e.g. a connection to Parquet files). Each DuckDB object must contain a single table covering all years of that data source.
 #'
 #'
-#' @param kontakter The contacts information register for lpr3
-#' @param diagnoser The diagnoses information register for lpr3
-#' @param lpr_diag The diagnoses information register for lpr2
-#' @param lpr_adm The administrative information register for lpr2
-#' @param sysi The SYSI register
-#' @param sssy The SSSY register
+#' @param kontakter The contacts information table from the lpr3 patient register
+#' @param diagnoser The diagnoses information table from the lpr3 patient register
+#' @param lpr_diag The diagnoses information table from the lpr2 patient register
+#' @param lpr_adm The administrative information table from the lpr2 patient register
+#' @param sysi The SYSI table from the health service register
+#' @param sssy The SSSY table from the health service register
 #' @param lab_forsker The register for laboratory results for research
-#' @param bef The BEF register
-#' @param lmdb The LMDB register
+#' @param bef The BEF table from the civil register
+#' @param lmdb The LMDB table from the prescription register
 #' @param stable_inclusion_start_date Cutoff date after which inclusion events
 #'    are considered true incident diabetes cases. Defaults to "1998-01-01", as
 #'    we presume the user is using data on pregnancy events from the the Patient Register
