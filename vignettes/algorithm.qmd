@@ -54,30 +54,29 @@ Inclusion events are:
 3.  Diabetes-specific services received at podiatrist.
 4.  Purchase of glucose-lowering drugs.
 
-Some of these events are ignored if any of the following exclusion
-criteria apply:
+Some inclusion events are ignored if any of the following exclusion
+events apply:
 
-1.  HbA1c samples:
-    -   Samples taken during pregnancies, as these may be
+1.  Elevated HbA1c samples are dropped if:
+    -   The sample was taken during pregnancies, as these may be
         related to gestational diabetes mellitus rather than
         T1D or T2D.
-2.  Glucose-lowering drugs:
-    -   Purchases of GLP-1 receptor agonists, as this drug class is used
+2.  Purchases of glucose-lowering drugs are dropped if:
+    -   The purchased drug is a GLP-1 receptor agonist, as this drug class is used
         extensively for weight loss among [individuals without
         diabetes](https://doi.org/10.2147/clep.s456170).
-    -   Purchases of some types of SGLT-2 inhibitors recommended in
+    -   The purchased drug is dapagliflozin or empagliflozin, two types of SGLT-2 inhibitors recommended in
         Danish guidelines for treatment of [heart
         failure](https://www.cardio.dk/chf#551-farmakologisk-behandling-af-hfref)
         or [kidney
         failure](https://nephrology.dk/vejledninger/ckd-mbd/kronisk-nyresygdom/sglt2i_ckd_uden_dm/)
         among individuals without diabetes.
-        -   Dapagliflozin & empagliflozin
-    -   Purchases made during pregnancies, as these may be
+    -   The drug purchase is made during pregnancies, as these may be
         related to gestational diabetes mellitus, rather than
         T1D or T2D.
-    -   Purchases of metformin by women below age 40, as these may be
+    -   If the purchased drug is metformin and is made by women below age 40, as these may be
         treatment for polycystic ovary syndrome (PCOS).
-    -   Purchases of metformin with a PCOS-related indication code.
+    -   If the purchased drug is metformin with a PCOS-related indication code.
 
 ## High-level flowchart
 
