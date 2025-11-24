@@ -213,4 +213,9 @@ data available:
     considered true incident cases and the incidence stabilizes. We
     considered a full year to be enough. 
 
-To accommodate the above requirements - complete nationwide data on inclusion and exclusion events, as well as a sufficient wash-out period to establish valid incident cases - the algorithm was designed to restrict valid inclusion dates to periods where all criteria are met. Consequently, only inclusion dates occurring from 1998 onward are considered true incident cases and assigned a `stable_inclusion_date` value.
+Given the above requirements of complete nationwide data on 
+inclusion and exclusion events, as well as a sufficient wash-out 
+period to establish valid incident cases, the algorithm was designed 
+to restrict valid inclusion dates to periods where all criteria are met. 
+Consequently, only inclusion dates occurring from 1998 onward are 
+considered true incident cases and assigned a `stable_inclusion_date` value.
