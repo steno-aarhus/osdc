@@ -32,7 +32,6 @@ select_required_variables <- function(
 #'
 #' @return The same object type given.
 #' @keywords internal
-#'
 column_names_to_lower <- function(data) {
   # Needs to be a named vector for renaming.
   lower_column_names <- names(data) |>

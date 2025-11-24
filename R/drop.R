@@ -1,19 +1,20 @@
-#' Drop rows with metformin purchases that are potentially for the treatment of polycystic ovary syndrome
+#' Drop rows with metformin purchases for the treatment of PCOS
 #'
-#' Takes the output from [keep_gld_purchases()] and `bef` (information on sex and date
-#' of birth) to drop rows with metformin purchases that are potentially for the treatment
-#' of polycystic ovary syndrome.
-#' This function only performs a filtering operation so it outputs the same structure and
-#' variables as the input from [keep_gld_purchases()], except the addition of a logical
-#' helper variable `no_pcos` that is used in later functions.
-#' After these rows have been dropped, the output is used by `drop_pregnancies()`.
+#' Takes the output from [keep_gld_purchases()] and `bef` (information on
+#' sex and date of birth) to drop rows with metformin purchases that are
+#' potentially for the treatment of polycystic ovary syndrome. This function
+#' only performs a filtering operation so it outputs the same structure and
+#' variables as the input from [keep_gld_purchases()], except the
+#' addition of a logical helper variable `no_pcos` that is used in later
+#' functions. After these rows have been dropped, the output is used by
+#' [drop_pregnancies()].
 #'
 #' @param gld_purchases The output from [keep_gld_purchases()].
 #' @param bef The `bef` register.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
-#'    It also has the same columns as [keep_gld_purchases()], except for a logical
-#'    helper variable `no_pcos` that is used in later functions.
+#'    It also has the same columns as [osdc::keep_gld_purchases()], except for a
+#'    logical helper variable `no_pcos` that is used in later functions.
 #' @keywords internal
 #' @inherit algorithm seealso
 drop_pcos <- function(gld_purchases, bef) {
@@ -35,19 +36,19 @@ drop_pcos <- function(gld_purchases, bef) {
     )
 }
 
-#' Drop pregnancy events that could be gestational diabetes.
+#' Drop pregnancy events that could be gestational diabetes
 #'
+#' @description
 #' This function takes the combined outputs from
 #' [keep_pregnancy_dates()], [keep_hba1c()], and
-#' [drop_pcos()] and uses diagnoses from LPR2 or LPR3 to
-#' drop both elevated HbA1c tests and GLD purchases during pregnancy, as
-#' these may be due to gestational diabetes, rather than type 1 or type 2
-#' diabetes. The aim is to identify pregnancies based on diagnosis codes
-#' specific to pregnancy-ending events (e.g. live births or miscarriages),
-#' and then use the dates of these events to remove inclusion events in the
-#' preceding months that may be related to gestational diabetes (e.g.
-#' elevated HbA1c tests or purchases of glucose-lowering drugs during
-#' pregnancy).
+#' [drop_pcos()] and uses diagnoses from LPR2 or LPR3 to drop both
+#' elevated HbA1c tests and GLD purchases during pregnancy, as these may be due
+#' to gestational diabetes, rather than type 1 or type 2 diabetes. The aim is to
+#' identify pregnancies based on diagnosis codes specific to pregnancy-ending
+#' events (e.g. live births or miscarriages), and then use the dates of these
+#' events to remove inclusion events in the preceding months that may be related
+#' to gestational diabetes (e.g. elevated HbA1c tests or purchases of
+#' glucose-lowering drugs during pregnancy).
 #'
 #' After these drop functions have been applied, the output serves as
 #' inputs to:

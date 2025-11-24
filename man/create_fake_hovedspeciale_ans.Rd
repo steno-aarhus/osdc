@@ -15,9 +15,4 @@ A character vector.
 \description{
 Create a vector of random department specialties
 }
-\examples{
-\dontrun{
-create_fake_hovedspeciale_ans(1000)
-}
-}
 \keyword{internal}

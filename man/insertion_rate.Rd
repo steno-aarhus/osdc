@@ -16,9 +16,4 @@ proportion, otherwise FALSE.
 \description{
 Generate logic based on a probability
 }
-\examples{
-\dontrun{
-insertion_rate(0.3)
-}
-}
 \keyword{internal}
