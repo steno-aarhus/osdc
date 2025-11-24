@@ -2,7 +2,7 @@
 % Please edit documentation in R/drop.R
 \name{drop_pcos}
 \alias{drop_pcos}
-\title{Drop rows with metformin purchases that are potentially for the treatment of polycystic ovary syndrome}
+\title{Drop rows with metformin purchases for the treatment of PCOS}
 \usage{
 drop_pcos(gld_purchases, bef)
 }
@@ -13,17 +13,18 @@ drop_pcos(gld_purchases, bef)
 }
 \value{
 The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.
-It also has the same columns as \code{\link[=keep_gld_purchases]{keep_gld_purchases()}}, except for a logical
-helper variable \code{no_pcos} that is used in later functions.
+It also has the same columns as \code{\link[=keep_gld_purchases]{keep_gld_purchases()}}, except for a
+logical helper variable \code{no_pcos} that is used in later functions.
 }
 \description{
-Takes the output from \code{\link[=keep_gld_purchases]{keep_gld_purchases()}} and \code{bef} (information on sex and date
-of birth) to drop rows with metformin purchases that are potentially for the treatment
-of polycystic ovary syndrome.
-This function only performs a filtering operation so it outputs the same structure and
-variables as the input from \code{\link[=keep_gld_purchases]{keep_gld_purchases()}}, except the addition of a logical
-helper variable \code{no_pcos} that is used in later functions.
-After these rows have been dropped, the output is used by \code{drop_pregnancies()}.
+Takes the output from \code{\link[=keep_gld_purchases]{keep_gld_purchases()}} and \code{bef} (information on
+sex and date of birth) to drop rows with metformin purchases that are
+potentially for the treatment of polycystic ovary syndrome. This function
+only performs a filtering operation so it outputs the same structure and
+variables as the input from \code{\link[=keep_gld_purchases]{keep_gld_purchases()}}, except the
+addition of a logical helper variable \code{no_pcos} that is used in later
+functions. After these rows have been dropped, the output is used by
+\code{\link[=drop_pregnancies]{drop_pregnancies()}}.
 }
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these

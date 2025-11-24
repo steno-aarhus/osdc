@@ -28,7 +28,6 @@
 #'   description of the internal implementation of this classification function.
 #'
 #' @examples
-#' \dontrun{
 #' register_data <- simulate_registers(
 #'   c(
 #'     "kontakter",
@@ -54,7 +53,6 @@
 #'   bef = register_data$bef,
 #'   lmdb = register_data$lmdb
 #' )
-#' }
 classify_diabetes <- function(
   kontakter,
   diagnoser,
@@ -207,7 +205,6 @@ check_is_duckdb <- function(data, call = rlang::caller_env()) {
 #' @return The same object type as the input data, which would be a
 #'    [duckplyr::duckdb_tibble()] type object.
 #' @keywords internal
-#'
 classify_t1d <- function(data) {
   logic <- c(
     "has_t1d"

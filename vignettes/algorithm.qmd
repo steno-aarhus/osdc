@@ -22,38 +22,66 @@ algorithm_df <- tibble(name = names(algorithm()), value = algorithm()) |>
 
 ## General description
 
-A more complete description of the classifier is found in Anders Aasted
-Isaksen's [PhD Thesis](https://aastedet.github.io/dissertation/) as well
-as the validation paper [@Isaksen2023]. The description of the algorithm
-below is a brief and concise version of those documents.
+The current implementation of the algorithm is concisely described
+below. A more complete description of the original implementation of the
+classifier is found in Anders Aasted Isaksen's [PhD
+Thesis](https://aastedet.github.io/dissertation/) as well as the
+validation paper.[@Isaksen2023]
 
-The overall output of this algorithm is first to classify those with
-diabetes, then to further classify and check if the individuals might
-have type 1 diabetes, otherwise classify as type 2 diabetes.
+In brief, the algorithm first identifies a diabetes
+population---regardless of diabetes type--- based on four types of
+inclusion events. It then classifies individuals within this population
+as having type 1 diabetes (T1D) based on patterns in glucose-lowering
+drug purchases and recorded type-specific diabetes diagnoses.
+Individuals who do not meet the criteria for T1D are subsequently
+classified as having type 2 diabetes (T2D).
 
-The initial **diabetes** classification is defined as the second
-occurrence of any of the listed inclusion events. Wherever possible, all
-available data for each event is used, except for the purchases of
-glucose-lowering drugs, since the data on obstetric diagnoses necessary
-to censor glucose-lowering drug purchases is only complete from 1997
-onwards. Inclusion criteria are:
+Inclusion events are:
 
 1.  HbA1c measurements of ≥48 mmol/mol.
 2.  Hospital diagnoses of diabetes.
 3.  Diabetes-specific services received at podiatrist.
 4.  Purchase of glucose-lowering drugs.
 
-Exclusions are:
+Some inclusion events are ignored if any of the following exclusion
+events apply:
 
-1.  HbA1c samples:
-    -   Samples taken during pregnancies, as that could be a potential
-        gestational diabetes mellitus.
-2.  Glucose-lowering drugs:
-    -   Brand drugs for weight loss, e.g. *Saxenda*.
-    -   Purchases during pregnancies, as that is a potential treatment
-        for gestational diabetes mellitus.
-    -   Metformin for women below age 40, as that could be a treatment
-        for polycystic ovary syndrome.
+1.  Elevated HbA1c samples are dropped if:
+    -   The sample was taken during pregnancies, as these may be related
+        to gestational diabetes mellitus rather than T1D or T2D.
+2.  Purchases of glucose-lowering drugs are dropped if:
+    -   The purchased drug is a GLP-1 receptor agonist, as this drug
+        class is used extensively for weight loss among [individuals
+        without diabetes](https://doi.org/10.2147/clep.s456170).
+    -   The purchased drug is dapagliflozin or empagliflozin, two types
+        of SGLT-2 inhibitors recommended in Danish guidelines for
+        treatment of [heart
+        failure](https://www.cardio.dk/chf#551-farmakologisk-behandling-af-hfref)
+        or [kidney
+        failure](https://nephrology.dk/vejledninger/ckd-mbd/kronisk-nyresygdom/sglt2i_ckd_uden_dm/)
+        among individuals without diabetes.
+    -   The drug purchase is made during pregnancies, as these may be
+        related to gestational diabetes mellitus, rather than T1D or
+        T2D.
+    -   If the purchased drug is metformin and is made by women below
+        age 40, as these may be treatment for polycystic ovary syndrome
+        (PCOS).
+    -   If the purchased drug is metformin with a PCOS-related
+        indication code.
+
+The diabetes classification date is defined at the date of the second
+occurrence of any of the inclusion events listed above. For example, an
+individual with two elevated HbA1c tests followed by a glucose-lowering
+drug purchase is included at the latest elevated HbA1c test. Had the
+second HbA1c test not been performed (or had it returned a result below
+the diagnostic threshold), this person would instead have been included
+at the date of the first purchase of glucose-lowering drugs. Wherever
+possible, all available data for each event is used, except for the
+purchases of glucose-lowering drugs, since the patient register data on
+obstetric diagnoses necessary to censor glucose-lowering drug purchases
+is only complete from 1997 onwards.
+
+## High-level flowchart
 
 ```{mermaid}
 %%| eval: true
@@ -75,11 +103,11 @@ flowchart TD
     background_population --> diabetes_diagnoses["Include:<br>Hospital diagnoses of diabetes"]:::include
     background_population --> hba1c["Include:<br>HbA1c measurements of ≥48 mmol/mol"]:::include
 
-    hba1c --> drop_pregnancies_hba1c["Exclude:<br>HbA1c measurements during pregnancies, potentially as treatment for gestational diabetes mellitus"]:::exclude
+    hba1c --> drop_pregnancies_hba1c["Exclude:<br>HbA1c measurements during pregnancies"]:::exclude
 
-    background_population --> gld["Include:<br>Purchase(s) of glucose-lowering drugs"]:::include
-    gld --> drop_pcos["Exclude:<br>Metformin for women below age 40, as that could be a treatment for PCOS"]:::exclude
-    drop_pcos --> drop_pregnancies_gld["Exclude:<br>GLD purchases during pregnancies, potentially as treatment for gestational diabetes mellitus"]:::exclude
+    background_population --> gld["Include:<br>Purchase(s) of glucose-lowering drugs used exclusively for treatment of diabetes"]:::include
+    gld --> drop_pcos["Exclude:<br>Metformin purchases by women younger than 40 or with a PCOS-related indication code"]:::exclude
+    drop_pcos --> drop_pregnancies_gld["Exclude:<br>GLD purchases during pregnancies"]:::exclude
     
     background_population --> podiatrist_services["Include:<br>Diabetes-specific podiatrist services"]:::include
 
@@ -108,22 +136,19 @@ Diabetes type is classified as either T1D or T2D based on patterns of
 purchases of insulin drugs (including analogues) and hospital primary
 diagnoses of T1D and T2D.
 
-Classification as T1D requires an individual to fulfill either of the
-following criteria:
+For an individual to be classified as having T1D, the available data
+needs to fulfill the criteria in either of the following branches of
+logic:
 
-a.  Must have purchased only insulin drugs and never any other type of
-    glucose-lowering drugs, and have at least one diagnosis of T1D
-b.  Must have a majority of T1D diagnoses from endocrinological
-    departments (or from other medical departments, in the absence of
-    contacts to endocrinological departments), and a purchase of insulin
-    within 180 days after onset of diabetes, with insulin contributing
-    at least two thirds of all defined daily doses of glucose-lowering
-    drugs purchased.
-
-In populations generated on a fixed index date (such as the
-cross-sectional studies associated with this dissertation), individuals
-classified as T1D cases must have purchased insulin drugs in the last
-year prior to the index date.
+a.  Must only have recorded purchases of insulin drugs and never any
+    other type of glucose-lowering drugs, and have at least one primary
+    diagnosis of T1D from a medical specialty hospital department.
+b.  Must have a majority of T1D diagnoses from endocrinology departments
+    (or from other medical specialty departments, in the absence of
+    contacts to endocrinology departments), and a purchase of insulin
+    within 180 days of their initial glucose-lowering drug purchase,
+    with insulin contributing at least two thirds of all defined daily
+    doses of glucose-lowering drugs purchased.
 
 ### Classifying type 2 diabetes
 

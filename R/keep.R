@@ -85,7 +85,7 @@ keep_gld_purchases <- function(lmdb) {
 #' same day within each individual are deduplicated, to account for the same
 #' test result often being reported twice (one for IFCC, one for DCCT units).
 #'
-#' The output is passed to the `drop_pregnancies()` function for
+#' The output is passed to the [drop_pregnancies()] function for
 #' filtering of elevated results due to potential gestational diabetes (see
 #' below).
 #'
@@ -119,11 +119,12 @@ keep_hba1c <- function(lab_forsker) {
 
 #' Keep rows with diabetes-specific podiatrist services.
 #'
+#' @description
 #' This function uses the `sysi` or `sssy` registers as input to extract the
 #' dates of all diabetes-specific podiatrist services. Removes duplicate
 #' services on the same date.
 #'
-#' The output is passed to the `join_inclusions()` function for the final
+#' The output is passed to the [join_inclusions()] function for the final
 #' step of the inclusion process.
 #'
 #' @param sysi The SYSI register.
@@ -203,13 +204,14 @@ yyww_to_yyyymmdd <- function(yyww) {
 
 #' Keep two earliest events per PNR
 #'
+#' @description
 #' Since the classification date is based on the second instance of
 #' an inclusion criteria, we need to keep the earliest two events per PNR
 #' per inclusion "stream".
 #'
 #' This function is applied to each "stream", `diabetes_diagnoses`,
 #' `podiatrist_services`, and `gld_hba1c_after_drop_steps`, in  the
-#' `classify_diabetes()` function after the keep and drop steps, right before
+#' [classify_diabetes()] function after the keep and drop steps, right before
 #'  they are joined.
 #'
 #' @param data Data including at least a date and pnr column.

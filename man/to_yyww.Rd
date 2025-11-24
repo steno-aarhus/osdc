@@ -15,11 +15,4 @@ A vector of dates in the format \code{yyww}.
 \description{
 Transform date(s) to the format \code{yyww}
 }
-\examples{
-\dontrun{
-to_yyww("2020-12-01")
-to_yyww("2001-01-01")
-to_yyww(c("2020-01-12", "1995-04-19"))
-}
-}
 \keyword{internal}

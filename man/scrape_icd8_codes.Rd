@@ -13,9 +13,4 @@ file.
 \description{
 Scrape SDS's website for their ICD-8 codes and saves to a file.
 }
-\examples{
-\dontrun{
-scrape_icd8_codes()
-}
-}
 \keyword{internal}
