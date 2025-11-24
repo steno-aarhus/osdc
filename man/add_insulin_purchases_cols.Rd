@@ -24,13 +24,6 @@ classifying type 1 diabetes. See \code{\link[=algorithm]{algorithm()}} for more 
 \description{
 Add columns for information about insulin drug purchases
 }
-\examples{
-\dontrun{
-simulate_registers("lmdb", 10000)[[1]] |>
-  keep_gld_purchases() |>
-  add_insulin_purchases_cols()
-}
-}
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
 patients.

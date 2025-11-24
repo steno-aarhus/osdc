@@ -11,12 +11,6 @@
 #' @return Outputs the register with only the required variables, and
 #'   with column names in lower case.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' select_required_variables(simulate_registers("bef")[[1]], "bef")
-#' select_required_variables(simulate_registers("lpr_adm")[[1]], "lpr_adm")
-#' }
 select_required_variables <- function(
   data,
   register,
@@ -38,7 +32,6 @@ select_required_variables <- function(
 #'
 #' @return The same object type given.
 #' @keywords internal
-#'
 column_names_to_lower <- function(data) {
   # Needs to be a named vector for renaming.
   lower_column_names <- names(data) |>
@@ -55,11 +48,6 @@ column_names_to_lower <- function(data) {
 #'
 #' @inherit select_required_variables return
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' check_data_types(simulate_registers("kontakter")[[1]], "kontakter")
-#' }
 check_data_types <- function(data, register, call = rlang::caller_env()) {
   checkmate::assert_choice(register, get_register_abbrev())
 

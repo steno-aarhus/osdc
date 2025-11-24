@@ -17,14 +17,11 @@ registers and the data necessary to run the algorithm. The dataset contains
 23 individual cases (\code{pnr}s), each designed to test a specific logical branch
 of the diabetes classification algorithm, including inclusion, exclusion,
 censoring, and type classification rules.
-}
-\details{
+
 The generated data is used in \code{testthat} tests to ensure the algorithm
 behaves as expected under a wide range of conditions, but it is also intended
 to be explored by users to better understand how the algorithm logic works.
 }
 \examples{
-\dontrun{
 edge_cases()
-}
 }

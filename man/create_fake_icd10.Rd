@@ -19,9 +19,4 @@ A character vector of ICD-10 diagnoses.
 \description{
 ICD-10 is the 10th revision of the International Classification of Diseases.
 }
-\examples{
-\dontrun{
-create_fake_icd10(3)
-}
-}
 \keyword{internal}

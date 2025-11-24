@@ -15,10 +15,4 @@ A vector of dates in the format \code{yyyymmdd.}
 \description{
 Transform date(s) to the format \code{yyyymmdd}
 }
-\examples{
-\dontrun{
-to_yyyymmdd("2020-12-01")
-to_yyyymmdd(c("2020-01-12", "1995-04-19"))
-}
-}
 \keyword{internal}

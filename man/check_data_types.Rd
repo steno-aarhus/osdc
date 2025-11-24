@@ -13,9 +13,4 @@ with column names in lower case.
 \description{
 Check data types of the register variables
 }
-\examples{
-\dontrun{
-check_data_types(simulate_registers("kontakter")[[1]], "kontakter")
-}
-}
 \keyword{internal}
