@@ -122,17 +122,18 @@ register_variables_as_md_table()
 This section describes how the data sources listed from the above table
 are expected to look like when they are input into the OSDC algorithm.
 This should mimic the structure of the raw data as it appears within the
-virtual machines of Statistics Denmark. The package does not support inputs in their raw `.sas7bdat` format,
-and these must be converted to `.parquet` files first, which can then be 
-loaded in as DuckDB objects. The [`registers2parquet` 
-package](https://dp-next.github.io/registers2parquet/) provides functions to
-conveniently handle this.
+virtual machines of Statistics Denmark. The package does not support
+inputs in their raw `.sas7bdat` format, and these must be converted to
+`.parquet` files first, which can then be loaded in as DuckDB objects.
+The [`registers2parquet`
+package](https://dp-next.github.io/registers2parquet/) provides
+functions to conveniently handle this.
 
-In this document, we present the
-variable names in lower case, but case may vary between data sources
-(and even between years in the same data source) in real data. However,
-the package should be robust to inconsistent casing, as we internally
-convert all variable names to lower case.
+In this document, we present the variable names in lower case, but case
+may vary between data sources (and even between years in the same data
+source) in real data. However, the package should be robust to
+inconsistent casing, as we internally convert all variable names to
+lower case.
 
 A small note about the National Patient Register: It contains several
 tables and types of data. The algorithm uses only hospital diagnosis
@@ -169,4 +170,3 @@ Health Data Authority. Researchers must be affiliated with an approved
 research institute in Denmark and fees apply. Information on how to gain
 access to data can be found at
 <https://www.dst.dk/en/TilSalg/Forskningsservice>.
-
