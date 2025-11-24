@@ -13,10 +13,11 @@ Authors@R: c(
     person("Aarhus University", role = "cph")
   )
 Description: The algorithm first identifies a population of individuals from 
-   Danish register data with any type of diabetes mellitus as individuals with two or more inclusion events. Then, it splits 
-    this population into individuals with either type 1 diabetes or type 2 diabetes by identifying
-    individuals with type 1 diabetes and classifying the remainder of the diabetes
-    population as having type 2 diabetes.
+    Danish register data with any type of diabetes mellitus as individuals 
+    with two or more inclusion events. Then, it splits this population into
+    individuals with either type 1 diabetes or type 2 diabetes by identifying
+    individuals with type 1 diabetes and classifying the remainder of the
+    diabetes population as having type 2 diabetes.
 License: MIT + file LICENSE
 URL: https://github.com/steno-aarhus/osdc,
     https://steno-aarhus.github.io/osdc/
