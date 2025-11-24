@@ -1,15 +1,15 @@
 #' Classify diabetes status using Danish registers.
 #'
-#' This function requires that each source of raw data is represented
+#' This function requires that each source of register data is represented
 #' as a single DuckDB object in R (e.g. a connection to Parquet files).
 #' Each DuckDB object must contain a single table covering all years of
 #' that data source, or at least the years you have and are interested
 #' in.
 #'
-#' @param kontakter The contacts information table from the lpr3 patient register
-#' @param diagnoser The diagnoses information table from the lpr3 patient register
-#' @param lpr_diag The diagnoses information table from the lpr2 patient register
-#' @param lpr_adm The administrative information table from the lpr2 patient register
+#' @param kontakter The contacts information table from the LPR3 patient register
+#' @param diagnoser The diagnoses information table from the LPR3 patient register
+#' @param lpr_diag The diagnoses information table from the LPR2 patient register
+#' @param lpr_adm The administrative information table from the LPR2 patient register
 #' @param sysi The SYSI table from the health service register
 #' @param sssy The SSSY table from the health service register
 #' @param lab_forsker The register for laboratory results for research
