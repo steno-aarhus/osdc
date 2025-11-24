@@ -20,9 +20,4 @@ always be identical. This makes it easier to do joining by
 values that represent people, e.g. in \code{pnr}, \code{cpr}, \code{recnum} and
 \code{dw_ek_kontakt}.
 }
-\examples{
-\dontrun{
-create_padded_integer(n = 10, length = 13)
-}
-}
 \keyword{internal}
