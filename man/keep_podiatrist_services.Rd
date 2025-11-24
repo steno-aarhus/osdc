@@ -28,12 +28,6 @@ services on the same date.
 The output is passed to the \code{join_inclusions()} function for the final
 step of the inclusion process.
 }
-\examples{
-\dontrun{
-register_data <- simulate_registers(c("sysi", "sssy"), 100)
-keep_(register_data$sysi, register_data$sssy)
-}
-}
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
 patients.

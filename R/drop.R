@@ -16,15 +16,6 @@
 #'    helper variable `no_pcos` that is used in later functions.
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' register_data <- simulate_registers(c("lmdb", "bef"), 100)
-#' drop_pcos(
-#'   gld_purchases = keep_gld_purchases(register_data$lmdb),
-#'   bef = register_data$bef
-#' )
-#' }
 drop_pcos <- function(gld_purchases, bef) {
   logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
 
@@ -71,39 +62,6 @@ drop_pcos <- function(gld_purchases, bef) {
 #'    functions.
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' register_data <- simulate_registers(
-#'   c(
-#'     "lpr_adm",
-#'     "lpr_diag",
-#'     "kontakter",
-#'     "diagnoser",
-#'     "lmdb",
-#'     "bef",
-#'     "lab_forsker"
-#'   ),
-#'   n = 1000
-#' )
-#' lpr2 <- prepare_lpr2(
-#'   lpr_adm = register_data$lpr_adm,
-#'   lpr_diag = register_data$lpr_diag
-#' )
-#' lpr3 <- prepare_lpr3(
-#'   kontakter = register_data$kontakter,
-#'   diagnoser = register_data$diagnoser
-#' )
-#'
-#' # Drop pregnancy dates
-#' register_data$lmdb |>
-#'   keep_gld_purchases() |>
-#'   drop_pcos(register_data$bef) |>
-#'   drop_pregnancies(
-#'     keep_pregnancy_dates(lpr2, lpr3),
-#'     keep_hba1c(register_data$lab_forsker)
-#'   )
-#' }
 drop_pregnancies <- function(
   dropped_pcos,
   pregnancy_dates,
@@ -159,7 +117,7 @@ drop_pregnancies <- function(
       .data$date,
       .data$atc,
       .data$apk,
-      .data$has_hba1c_over_threshold,
-      .data$has_gld_purchase
+      .data$from_hba1c_over_threshold,
+      .data$from_gld_purchase
     )
 }

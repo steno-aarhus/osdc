@@ -18,11 +18,4 @@ date to Monday of the week. As a precaution, a leading zero is added if it
 has been removed. This can e.g., happen if the input was "0107" and has been
 converted to a numeric 107.
 }
-\examples{
-\dontrun{
-yyww_to_yyyymmdd("0101")
-yyww_to_yyyymmdd(c("0102", "0304"))
-yyww_to_yyyymmdd(953)
-}
-}
 \keyword{internal}
