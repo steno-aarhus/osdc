@@ -21,11 +21,6 @@ perform censoring prior to 1997, \code{\link[=keep_gld_purchases]{keep_gld_purch
 dates from 1997 onward by default (if Medical Birth Register data is
 available to use for censoring, the extraction window can be extended).
 }
-\examples{
-\dontrun{
-simulate_registers("lmdb", 1000)[[1]] |> keep_gld_purchases()
-}
-}
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
 patients.

@@ -16,9 +16,4 @@ A character vector of variable names.
 \description{
 Get a list of required variables from a specific register.
 }
-\examples{
-\dontrun{
-get_required_variables("bef")
-}
-}
 \keyword{internal}

@@ -2,11 +2,6 @@
 #'
 #' @return A character string.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_register_abbrev()
-#' }
 get_register_abbrev <- function() {
   names(registers())
 }
@@ -18,11 +13,6 @@ get_register_abbrev <- function() {
 #'
 #' @return A character vector of variable names.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_required_variables("bef")
-#' }
 get_required_variables <- function(register) {
   if (!checkmate::test_scalar(register)) {
     cli::cli_abort("You are giving too many registers, please give only one.")

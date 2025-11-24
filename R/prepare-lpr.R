@@ -1,7 +1,7 @@
 #' Prepare and join the two LPR2 registers to extract diabetes and pregnancy diagnoses.
 #'
-#' The output is used as inputs to `keep_diabetes_diagnoses()` and to
-#' `keep_pregnancy_dates()`.
+#' The output is used as inputs to [keep_diabetes_diagnoses()] and to
+#' [keep_pregnancy_dates()].
 #'
 #' @param lpr_diag The LPR2 register containing diabetes diagnoses.
 #' @param lpr_adm The LPR2 register containing hospital admissions.
@@ -25,15 +25,6 @@
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' register_data <- simulate_registers(c("lpr_diag", "lpr_adm"), 100000)
-#' lpr2 <- prepare_lpr2(
-#'   lpr_diag = register_data$lpr_diag,
-#'   lpr_adm = register_data$lpr_adm
-#' )
-#' }
 prepare_lpr2 <- function(lpr_adm, lpr_diag) {
   logic <- c(
     "lpr2_is_needed_code",
@@ -88,15 +79,6 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' register_data <- simulate_registers(c("diagnoser", "kontakter"), 100000)
-#' prepare_lpr3(
-#'   kontakter = register_data$kontakter,
-#'   diagnoser = register_data$diagnoser
-#' )
-#' }
 prepare_lpr3 <- function(kontakter, diagnoser) {
   logic <- c(
     "lpr3_is_needed_code",

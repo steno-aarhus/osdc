@@ -16,9 +16,4 @@ A character vector of ATC codes.
 Anatomical Therapeutic Chemical (ATC) codes are unique medicine codes
 based on on what organ or system it works on and how it works.
 }
-\examples{
-\dontrun{
-create_fake_atc(10)
-}
-}
 \keyword{internal}
