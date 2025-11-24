@@ -1,4 +1,4 @@
-# Drop rows with metformin purchases that are potentially for the treatment of polycystic ovary syndrome
+# Drop rows with metformin purchases for the treatment of PCOS
 
 Takes the output from
 [`keep_gld_purchases()`](https://steno-aarhus.github.io/osdc/reference/keep_gld_purchases.md)

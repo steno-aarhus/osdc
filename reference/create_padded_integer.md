@@ -24,11 +24,3 @@ create_padded_integer(n, length)
 ## Value
 
 A character vector of integers.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-create_padded_integer(n = 10, length = 13)
-} # }
-```

@@ -24,12 +24,3 @@ create_fake_icd(n, date = NULL)
 ## Value
 
 A character vector of ICD-10 diagnoses.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-create_fake_icd(10)
-create_fake_icd(5, "1995-04-19")
-} # }
-```

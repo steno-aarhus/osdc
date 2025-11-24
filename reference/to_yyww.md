@@ -17,13 +17,3 @@ to_yyww(x)
 ## Value
 
 A vector of dates in the format `yyww`.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-to_yyww("2020-12-01")
-to_yyww("2001-01-01")
-to_yyww(c("2020-01-12", "1995-04-19"))
-} # }
-```

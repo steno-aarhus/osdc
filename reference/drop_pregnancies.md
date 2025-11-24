@@ -1,4 +1,4 @@
-# Drop pregnancy events that could be gestational diabetes.
+# Drop pregnancy events that could be gestational diabetes
 
 This function takes the combined outputs from
 [`keep_pregnancy_dates()`](https://steno-aarhus.github.io/osdc/reference/keep_pregnancy_dates.md),
@@ -13,6 +13,13 @@ pregnancies based on diagnosis codes specific to pregnancy-ending events
 events to remove inclusion events in the preceding months that may be
 related to gestational diabetes (e.g. elevated HbA1c tests or purchases
 of glucose-lowering drugs during pregnancy).
+
+After these drop functions have been applied, the output serves as
+inputs to:
+
+1.  The censored HbA1c and GLD data are passed to the
+    [`join_inclusions()`](https://steno-aarhus.github.io/osdc/reference/join_inclusions.md)
+    function for the final step of the inclusion process.
 
 ## Usage
 
@@ -45,15 +52,6 @@ Has the same output data as the input
 [`drop_pcos()`](https://steno-aarhus.github.io/osdc/reference/drop_pcos.md),
 except for a helper logical variable `no_pregnancy` that is used in
 later functions.
-
-## Details
-
-After these drop functions have been applied, the output serves as
-inputs to:
-
-1.  The censored HbA1c and GLD data are passed to the
-    [`join_inclusions()`](https://steno-aarhus.github.io/osdc/reference/join_inclusions.md)
-    function for the final step of the inclusion process.
 
 ## See also
 

@@ -3,11 +3,23 @@
 diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
 primary diagnoses (DE10 &amp;amp; DE11) from endocrinology departments. If an individual
 doesn't have any type-specific diabetes diagnoses from endocrinology departments,
-the majority is determined by diagnoses from medical departments."><meta property="og:description" content="This function evaluates whether an individual has a majority of type 1
+the majority is determined by diagnoses from medical departments.
+It also adds a column indicating whether an individual has at least one
+primary diagnosis related to type 1 diabetes.
+This output is passed to the join_inclusions() function, where the
+dates variable is used for the final step of the inclusion process.
+The variables for whether the majority of diagnoses are for type 1 diabetes
+is used for later classification of type 1 diabetes."><meta property="og:description" content="This function evaluates whether an individual has a majority of type 1
 diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
 primary diagnoses (DE10 &amp;amp; DE11) from endocrinology departments. If an individual
 doesn't have any type-specific diabetes diagnoses from endocrinology departments,
-the majority is determined by diagnoses from medical departments."><meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png"></head><body>
+the majority is determined by diagnoses from medical departments.
+It also adds a column indicating whether an individual has at least one
+primary diagnosis related to type 1 diabetes.
+This output is passed to the join_inclusions() function, where the
+dates variable is used for the final step of the inclusion process.
+The variables for whether the majority of diagnoses are for type 1 diabetes
+is used for later classification of type 1 diabetes."><meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -56,6 +68,12 @@ diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
 primary diagnoses (DE10 &amp; DE11) from endocrinology departments. If an individual
 doesn't have any type-specific diabetes diagnoses from endocrinology departments,
 the majority is determined by diagnoses from medical departments.</p>
+<p>It also adds a column indicating whether an individual has at least one
+primary diagnosis related to type 1 diabetes.</p>
+<p>This output is passed to the <code><a href="join_inclusions.html">join_inclusions()</a></code> function, where the
+<code>dates</code> variable is used for the final step of the inclusion process.
+The variables for whether the majority of diagnoses are for type 1 diabetes
+is used for later classification of type 1 diabetes.</p>
     </div>
 
     <div class="section level2">
@@ -79,15 +97,6 @@ majority of primary diagnoses are related to type 1 diabetes.</p></li>
 <li><p><code>has_any_t1d_primary_diagnosis</code>: A logical vector indicating whether
 there is at least one primary diagnosis related to type 1 diabetes.</p></li>
 </ul></div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>It also adds a column indicating whether an individual has at least one
-primary diagnosis related to type 1 diabetes.</p>
-<p>This output is passed to the <code><a href="join_inclusions.html">join_inclusions()</a></code> function, where the
-<code>dates</code> variable is used for the final step of the inclusion process.
-The variables for whether the majority of diagnoses are for type 1 diabetes
-is used for later classification of type 1 diabetes.</p>
-    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>See the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code> for the logic used to filter these

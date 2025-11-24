@@ -18,11 +18,3 @@ create_fake_npu(n)
 ## Value
 
 A character vector.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-create_fake_npu(4)
-} # }
-```

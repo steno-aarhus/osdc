@@ -12,11 +12,13 @@ keep_pregnancy_dates(lpr2, lpr3)
 
 - lpr2:
 
-  Output from `join_lpr2()`.
+  Output from
+  [`prepare_lpr2()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr2.md).
 
 - lpr3:
 
-  Output from `join_lpr3()`.
+  Output from
+  [`prepare_lpr3()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3.md).
 
 ## Value
 

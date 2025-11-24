@@ -17,11 +17,3 @@ create_fake_hovedspeciale_ans(n)
 ## Value
 
 A character vector.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-create_fake_hovedspeciale_ans(1000)
-} # }
-```

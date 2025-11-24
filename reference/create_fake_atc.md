@@ -18,11 +18,3 @@ create_fake_atc(n)
 ## Value
 
 A character vector of ATC codes.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-create_fake_atc(10)
-} # }
-```

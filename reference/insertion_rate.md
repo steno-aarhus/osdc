@@ -18,11 +18,3 @@ insertion_rate(proportion)
 
 A logic vector. TRUE if the random number is less than the proportion,
 otherwise FALSE.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-insertion_rate(0.3)
-} # }
-```

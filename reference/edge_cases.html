@@ -3,11 +3,17 @@
 registers and the data necessary to run the algorithm. The dataset contains
 23 individual cases (pnrs), each designed to test a specific logical branch
 of the diabetes classification algorithm, including inclusion, exclusion,
-censoring, and type classification rules."><meta property="og:description" content="This function generates a list of DuckDB tibbles representing the Danish health
+censoring, and type classification rules.
+The generated data is used in testthat tests to ensure the algorithm
+behaves as expected under a wide range of conditions, but it is also intended
+to be explored by users to better understand how the algorithm logic works."><meta property="og:description" content="This function generates a list of DuckDB tibbles representing the Danish health
 registers and the data necessary to run the algorithm. The dataset contains
 23 individual cases (pnrs), each designed to test a specific logical branch
 of the diabetes classification algorithm, including inclusion, exclusion,
-censoring, and type classification rules."><meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png"></head><body>
+censoring, and type classification rules.
+The generated data is used in testthat tests to ensure the algorithm
+behaves as expected under a wide range of conditions, but it is also intended
+to be explored by users to better understand how the algorithm logic works."><meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -56,6 +62,9 @@ registers and the data necessary to run the algorithm. The dataset contains
 23 individual cases (<code>pnr</code>s), each designed to test a specific logical branch
 of the diabetes classification algorithm, including inclusion, exclusion,
 censoring, and type classification rules.</p>
+<p>The generated data is used in <code>testthat</code> tests to ensure the algorithm
+behaves as expected under a wide range of conditions, but it is also intended
+to be explored by users to better understand how the algorithm logic works.</p>
     </div>
 
     <div class="section level2">
@@ -69,18 +78,176 @@ censoring, and type classification rules.</p>
 different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</code>, <code>lpr_diag</code>,
 <code>kontakter</code>, <code>diagnoser</code>, <code>sysi</code>, <code>sssy</code>, and <code>lab_forsker</code>.</p>
     </div>
-    <div class="section level2">
-    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The generated data is used in <code>testthat</code> tests to ensure the algorithm
-behaves as expected under a wide range of conditions, but it is also intended
-to be explored by users to better understand how the algorithm logic works.</p>
-    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="fu">edge_cases</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">edge_cases</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $bef</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 3 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                                     koen foed_dato</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT                        1 19800101 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 02_t2d_oipT_anyt1dF                        2 19810203 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 03_t2d_oipF_anyt1dF                        1 19750510 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     2 19601115 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F     2 19510101 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T     1 19880404 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T     2 19530606 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 08_t1d_oipF_medT_majt1dT_i180T_itwo3T      1 19920808 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 09_t2d_oipF_medT_majt1dT_i180T_itwo3F      1 19930909 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 10_t2d_oipF_medT_majt1dT_i180F_itwo3T      1 19850707 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $diagnoser</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 4 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    dw_ek_kontakt diagnosekode diagnosetype senere_afkraeftet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> pnr01_dw01    DE101        A            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> pnr02_dw01    DE102        A            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> pnr03_dw01    DE103        A            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> pnr04_dw01    DE104        A            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> pnr04_dw02    DE115        B            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> pnr04_dw02    DE119        B            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> pnr05_dw01    DE101        A            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> pnr06_dw01    DE102        A            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> pnr07_dw01    DE103        A            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> pnr07_dw01    DE109        B            Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $kontakter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 4 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    cpr                                dw_ek_kontakt hovedspeciale_ans dato_start</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT                pnr01_dw01    medicinsk endokr… 20210515  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 02_t2d_oipT_anyt1dF                pnr02_dw01    thoraxkirurgi     20220616  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 03_t2d_oipF_anyt1dF                pnr03_dw01    kardiologi        20200717  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 04_t1d_oipF_endoT_majt1dT_i180T_i… pnr04_dw01    medicinsk endokr… 20230120  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 05_t2d_oipF_endoT_majt1dT_i180T_i… pnr05_dw01    medicinsk endokr… 20230221  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 06_t2d_oipF_endoT_majt1dT_i180F_i… pnr06_dw01    medicinsk endokr… 20230322  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 07_t2d_oipF_endoT_majt1dF_i180T_i… pnr07_dw01    medicinsk endokr… 20220423  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 07_t2d_oipF_endoT_majt1dF_i180T_i… pnr07_dw02    geriatri          20230423  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw01    kardiologi        20230120  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw02    kardiologi        20240120  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lab_forsker</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 4 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    patient_cpr                            samplingdate analysiscode value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT                    20190101     NPU27300        50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 02_t2d_oipT_anyt1dF                    20190102     NPU27300        51</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 03_t2d_oipF_anyt1dF                    20190101     NPU27300        52</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T 20190101     NPU27300        53</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F 20190101     NPU27300        54</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T 20190101     NPU27300        55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 20190101     NPU27300        56</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 08_t1d_oipF_medT_majt1dT_i180T_itwo3T  20190101     NPU27300        57</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 09_t2d_oipF_medT_majt1dT_i180T_itwo3F  20190101     NPU27300        58</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 10_t2d_oipF_medT_majt1dT_i180F_itwo3T  20190101     NPU27300        59</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lmdb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 6 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                                    volume eksd     atc       apk indo   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT                        10 20200110 A10AB01     5 1234567</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 01_t1d_oipT_anyt1dT                        10 20200410 A10AE01     5 1234568</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 02_t2d_oipT_anyt1dF                        10 20110220 A10AB01     5 2345678</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 02_t2d_oipT_anyt1dF                        10 20210520 A10AE01     5 2345679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 03_t2d_oipF_anyt1dF                        10 20180101 A10BA02     3 3456789</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 03_t2d_oipF_anyt1dF                        10 20190301 A10AB01     3 3456780</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     10 19980101 A10BA02     8 4567890</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     10 20220101 A10BA02     2 4567890</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     10 20220301 A10AB01     8 4567891</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F     10 20220101 A10BA02     5 5678901</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr_adm</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 4 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                                    c_spec recnum      d_inddto</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT                    08     pnr01_rec01 20110515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 02_t2d_oipT_anyt1dF                    08     pnr02_rec01 20120616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 03_t2d_oipF_anyt1dF                    34     pnr03_rec01 20100717</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T 08     pnr04_rec01 19920120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T 08     pnr04_rec02 20130120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F 08     pnr05_rec01 20130221</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T 08     pnr06_rec01 20130322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 08     pnr07_rec01 20120423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 02     pnr07_rec02 20130423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 08_t1d_oipF_medT_majt1dT_i180T_itwo3T  01     pnr08_rec01 19920120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr_diag</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 3 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    recnum      c_diag c_diagtype</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> pnr01_rec01 DE111  A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> pnr02_rec01 DE110  A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> pnr03_rec01 DE101  A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> pnr04_rec01 24901  A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> pnr04_rec02 DE105  A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> pnr04_rec02 DE114  B         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> pnr05_rec01 250    A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> pnr06_rec01 DE103  A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> pnr07_rec01 DE115  A         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> pnr07_rec01 DE105  B         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sssy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 4 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                                    barnmak speciale honuge</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T       0 86409    2421  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F       0 54003    1103  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T       0 67148    0714  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T       0 62545    2221  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 08_t1d_oipF_medT_majt1dT_i180T_itwo3T        0 20866    1425  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 09_t2d_oipF_medT_majt1dT_i180T_itwo3F        0 27002    2237  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 10_t2d_oipF_medT_majt1dT_i180F_itwo3T        0 53825    1227  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 11_t2d_oipF_medT_majt1dF_i180T_itwo3T        0 12345    1234  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 12_nodm_gldF_diagF_hba1cF_podF               0 20001    2001  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 13_t2d_gldF_diagF_hba1cF_podT                0 54001    0801  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sysi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 4 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                                    barnmak speciale honuge</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T       0 54002    0453  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T       0 67148    9924  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T       0 62545    9727  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 08_t1d_oipF_medT_majt1dT_i180T_itwo3T        0 20866    9632  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 09_t2d_oipF_medT_majt1dT_i180T_itwo3F        0 27002    0213  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 10_t2d_oipF_medT_majt1dT_i180F_itwo3T        0 53825    9419  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 11_t2d_oipF_medT_majt1dF_i180T_itwo3T        0 12345    1234  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 12_nodm_gldF_diagF_hba1cF_podF               0 10001    1001  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 12_nodm_gldF_diagF_hba1cF_podF               1 54002    1001  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 12_nodm_gldF_diagF_hba1cF_podF               0 10001    1002  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $classified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A duckplyr data frame: 5 variables</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                  stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT  2019-01-01            2019-01-01         TRUE    FALSE  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 02_t2d_oipT_anyt1dF  2012-06-16            2012-06-16         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 03_t2d_oipF_anyt1dF  2018-01-01            2018-01-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 04_t1d_oipF_endoT_m… 2004-12-27            2004-12-27         TRUE    FALSE  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 05_t2d_oipF_endoT_m… 2013-02-21            2013-02-21         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 06_t2d_oipF_endoT_m… 2019-01-01            2019-01-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 07_t2d_oipF_endoT_m… 2012-04-23            2012-04-23         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 08_t1d_oipF_medT_ma… 2014-01-20            2014-01-20         TRUE    FALSE  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 09_t2d_oipF_medT_ma… 2019-01-01            2019-01-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 10_t2d_oipF_medT_ma… 2019-01-01            2019-01-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> 11_t2d_oipF_medT_ma… 2000-04-23            2000-04-23         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> 13_t2d_gldF_diagF_h… 2007-12-31            2007-12-31         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> 14_t2d_gldF_diagF_h… 2013-04-01            2013-04-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span> 15_t2d_gldF_diagT_h… 2023-01-01            2023-01-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> 16_t2d_gldT_diagF_h… 2013-04-01            2013-04-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> 18_t2d_male_pcosF    2023-04-01            2023-04-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> 23_t2d_gldT_1995_19… <span style="color: #BB0000;">NA</span>                    1995-06-16         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

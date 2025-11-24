@@ -7,6 +7,16 @@ If an individual doesn't have any type-specific diabetes diagnoses from
 endocrinology departments, the majority is determined by diagnoses from
 medical departments.
 
+It also adds a column indicating whether an individual has at least one
+primary diagnosis related to type 1 diabetes.
+
+This output is passed to the
+[`join_inclusions()`](https://steno-aarhus.github.io/osdc/reference/join_inclusions.md)
+function, where the `dates` variable is used for the final step of the
+inclusion process. The variables for whether the majority of diagnoses
+are for type 1 diabetes is used for later classification of type 1
+diabetes.
+
 ## Usage
 
 ``` r
@@ -32,18 +42,6 @@ with the following added columns and up to two rows per individual:
 
 - `has_any_t1d_primary_diagnosis`: A logical vector indicating whether
   there is at least one primary diagnosis related to type 1 diabetes.
-
-## Details
-
-It also adds a column indicating whether an individual has at least one
-primary diagnosis related to type 1 diabetes.
-
-This output is passed to the
-[`join_inclusions()`](https://steno-aarhus.github.io/osdc/reference/join_inclusions.md)
-function, where the `dates` variable is used for the final step of the
-inclusion process. The variables for whether the majority of diagnoses
-are for type 1 diabetes is used for later classification of type 1
-diabetes.
 
 ## See also
 

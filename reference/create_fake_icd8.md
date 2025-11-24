@@ -18,11 +18,3 @@ create_fake_icd8(n)
 ## Value
 
 A character vector of ICD-8 diagnoses.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-create_fake_icd8(1)
-} # }
-```

@@ -12,7 +12,7 @@ create_fake_icd10(n)
 ## Source
 
 The stored CSV is downloaded from the Danish Health Data Authority's
-website at [medinfo.dk](https://medinfo.dk/sks/brows.php).
+website at `medinfo.dk`
 
 ## Arguments
 
@@ -23,11 +23,3 @@ website at [medinfo.dk](https://medinfo.dk/sks/brows.php).
 ## Value
 
 A character vector of ICD-10 diagnoses.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-create_fake_icd10(3)
-} # }
-```

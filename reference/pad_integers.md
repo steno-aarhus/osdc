@@ -21,12 +21,3 @@ pad_integers(x, width)
 ## Value
 
 A character vector of integers.
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-pad_integers(x = 1, width = 5)
-pad_integers(x = c(1, 2, 3), width = 10)
-} # }
-```

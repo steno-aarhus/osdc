@@ -82,7 +82,6 @@ this classification function.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 register_data <- simulate_registers(
   c(
     "kontakter",
@@ -108,5 +107,18 @@ classify_diabetes(
   bef = register_data$bef,
   lmdb = register_data$lmdb
 )
-} # }
+#> # A duckplyr data frame: 5 variables
+#>    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
+#>    <chr>        <date>                <date>             <lgl>   <lgl>  
+#>  1 168521426137 2022-03-21            2022-03-21         FALSE   TRUE   
+#>  2 489451932098 2019-10-29            2019-10-29         FALSE   TRUE   
+#>  3 051920001271 2014-07-21            2014-07-21         FALSE   TRUE   
+#>  4 684113124148 2017-05-23            2017-05-23         FALSE   TRUE   
+#>  5 401134956023 2021-12-02            2021-12-02         FALSE   TRUE   
+#>  6 085540938503 2025-06-17            2025-06-17         FALSE   TRUE   
+#>  7 348704179509 2022-08-27            2022-08-27         FALSE   TRUE   
+#>  8 134260948302 2021-12-22            2021-12-22         FALSE   TRUE   
+#>  9 672323670158 2020-12-26            2020-12-26         FALSE   TRUE   
+#> 10 936331023483 2014-07-18            2014-07-18         FALSE   TRUE   
+#> # ℹ more rows
 ```

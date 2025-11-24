@@ -117,7 +117,7 @@ purchases of insulin drugs (including analogues) and hospital primary
 diagnoses of T1D and T2D.
 
 For an individual to be classified as having T1D, the available data
-needs to fulfil the criteria in either of the following branches of
+needs to fulfill the criteria in either of the following branches of
 logic:
 
 1.  Must only have recorded purchases of insulin drugs and never any

@@ -17,12 +17,3 @@ to_yyyymmdd(x)
 ## Value
 
 A vector of dates in the format `yyyymmdd.`
-
-## Examples
-
-``` r
-if (FALSE) { # \dontrun{
-to_yyyymmdd("2020-12-01")
-to_yyyymmdd(c("2020-01-12", "1995-04-19"))
-} # }
-```
