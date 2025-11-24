@@ -14,13 +14,6 @@
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' simulate_registers("lmdb", 10000)[[1]] |>
-#'   keep_gld_purchases() |>
-#'   add_insulin_purchases_cols()
-#' }
 add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
   logic <- c(
     "is_insulin_gld_code",
@@ -79,6 +72,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 
 #' Add columns related to type 1 diabetes diagnoses
 #'
+#' @description
 #' This function evaluates whether an individual has a majority of type 1
 #' diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
 #' primary diagnoses (DE10 & DE11) from endocrinology departments. If an individual
@@ -88,7 +82,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 #' It also adds a column indicating whether an individual has at least one
 #' primary diagnosis related to type 1 diabetes.
 #'
-#' This output is passed to the `join_inclusions()` function, where the
+#' This output is passed to the [join_inclusions()] function, where the
 #' `dates` variable is used for the final step of the inclusion process.
 #' The variables for whether the majority of diagnoses are for type 1 diabetes
 #' is used for later classification of type 1 diabetes.

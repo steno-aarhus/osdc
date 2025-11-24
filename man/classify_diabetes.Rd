@@ -51,7 +51,6 @@ The same object type as the input data, which would be a
 Classify diabetes status using Danish registers.
 }
 \examples{
-\dontrun{
 register_data <- simulate_registers(
   c(
     "kontakter",
@@ -77,7 +76,6 @@ classify_diabetes(
   bef = register_data$bef,
   lmdb = register_data$lmdb
 )
-}
 }
 \seealso{
 See the \link{osdc} vignette for a detailed
