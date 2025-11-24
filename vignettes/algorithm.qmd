@@ -23,17 +23,18 @@ algorithm_df <- tibble(name = names(algorithm()), value = algorithm()) |>
 ## General description
 
 The current implementation of the algorithm is concisely described
-below. A more complete description of the original implementation of
-the classifier is found in Anders Aasted Isaksen's [PhD
+below. A more complete description of the original implementation of the
+classifier is found in Anders Aasted Isaksen's [PhD
 Thesis](https://aastedet.github.io/dissertation/) as well as the
 validation paper.[@Isaksen2023]
 
-In brief, the algorithm first identifies a diabetes population---regardless of diabetes type---
-based on four types of inclusion events. It then classifies individuals within this population
-as having type 1 diabetes (T1D) based on
-patterns in glucose-lowering drug purchases and recorded
-type-specific diabetes diagnoses. Individuals who do not meet the criteria for T1D
-are subsequently classified as having type 2 diabetes (T2D).
+In brief, the algorithm first identifies a diabetes
+population---regardless of diabetes type--- based on four types of
+inclusion events. It then classifies individuals within this population
+as having type 1 diabetes (T1D) based on patterns in glucose-lowering
+drug purchases and recorded type-specific diabetes diagnoses.
+Individuals who do not meet the criteria for T1D are subsequently
+classified as having type 2 diabetes (T2D).
 
 Inclusion events are:
 
@@ -46,37 +47,39 @@ Some inclusion events are ignored if any of the following exclusion
 events apply:
 
 1.  Elevated HbA1c samples are dropped if:
-    -   The sample was taken during pregnancies, as these may be
-        related to gestational diabetes mellitus rather than
-        T1D or T2D.
+    -   The sample was taken during pregnancies, as these may be related
+        to gestational diabetes mellitus rather than T1D or T2D.
 2.  Purchases of glucose-lowering drugs are dropped if:
-    -   The purchased drug is a GLP-1 receptor agonist, as this drug class is used
-        extensively for weight loss among [individuals without
-        diabetes](https://doi.org/10.2147/clep.s456170).
-    -   The purchased drug is dapagliflozin or empagliflozin, two types of SGLT-2 inhibitors recommended in
-        Danish guidelines for treatment of [heart
+    -   The purchased drug is a GLP-1 receptor agonist, as this drug
+        class is used extensively for weight loss among [individuals
+        without diabetes](https://doi.org/10.2147/clep.s456170).
+    -   The purchased drug is dapagliflozin or empagliflozin, two types
+        of SGLT-2 inhibitors recommended in Danish guidelines for
+        treatment of [heart
         failure](https://www.cardio.dk/chf#551-farmakologisk-behandling-af-hfref)
         or [kidney
         failure](https://nephrology.dk/vejledninger/ckd-mbd/kronisk-nyresygdom/sglt2i_ckd_uden_dm/)
         among individuals without diabetes.
     -   The drug purchase is made during pregnancies, as these may be
-        related to gestational diabetes mellitus, rather than
-        T1D or T2D.
-    -   If the purchased drug is metformin and is made by women below age 40, as these may be
-        treatment for polycystic ovary syndrome (PCOS).
-    -   If the purchased drug is metformin with a PCOS-related indication code.
+        related to gestational diabetes mellitus, rather than T1D or
+        T2D.
+    -   If the purchased drug is metformin and is made by women below
+        age 40, as these may be treatment for polycystic ovary syndrome
+        (PCOS).
+    -   If the purchased drug is metformin with a PCOS-related
+        indication code.
 
-The diabetes classification date is defined at the date of the
-second occurrence of any of the inclusion events listed above. For
-example, an individual with two elevated HbA1c tests followed by a
-glucose-lowering drug purchase is included at the latest elevated HbA1c
-test. Had the second HbA1c test not been performed (or had it returned a
-result below the diagnostic threshold), this person would instead have
-been included at the date of the first purchase of glucose-lowering
-drugs. Wherever possible, all available data for each event is used,
-except for the purchases of glucose-lowering drugs, since the patient
-register data on obstetric diagnoses necessary to censor
-glucose-lowering drug purchases is only complete from 1997 onwards.
+The diabetes classification date is defined at the date of the second
+occurrence of any of the inclusion events listed above. For example, an
+individual with two elevated HbA1c tests followed by a glucose-lowering
+drug purchase is included at the latest elevated HbA1c test. Had the
+second HbA1c test not been performed (or had it returned a result below
+the diagnostic threshold), this person would instead have been included
+at the date of the first purchase of glucose-lowering drugs. Wherever
+possible, all available data for each event is used, except for the
+purchases of glucose-lowering drugs, since the patient register data on
+obstetric diagnoses necessary to censor glucose-lowering drug purchases
+is only complete from 1997 onwards.
 
 ## High-level flowchart
 
@@ -133,12 +136,13 @@ Diabetes type is classified as either T1D or T2D based on patterns of
 purchases of insulin drugs (including analogues) and hospital primary
 diagnoses of T1D and T2D.
 
-For an individual to be classified as having T1D, the available data needs to fulfil the criteria in either of the
-following branches of logic:
+For an individual to be classified as having T1D, the available data
+needs to fulfil the criteria in either of the following branches of
+logic:
 
-a.  Must only have recorded purchases of insulin drugs and never any other type of
-    glucose-lowering drugs, and have at least one primary diagnosis of
-    T1D from a medical specialty hospital department.
+a.  Must only have recorded purchases of insulin drugs and never any
+    other type of glucose-lowering drugs, and have at least one primary
+    diagnosis of T1D from a medical specialty hospital department.
 b.  Must have a majority of T1D diagnoses from endocrinology departments
     (or from other medical specialty departments, in the absence of
     contacts to endocrinology departments), and a purchase of insulin
