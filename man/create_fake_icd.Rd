@@ -17,10 +17,4 @@ A character vector of ICD-10 diagnoses.
 \description{
 Create a vector with random ICD-8 or -10 diagnoses
 }
-\examples{
-\dontrun{
-create_fake_icd(10)
-create_fake_icd(5, "1995-04-19")
-}
-}
 \keyword{internal}

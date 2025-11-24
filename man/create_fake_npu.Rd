@@ -16,9 +16,4 @@ A character vector.
 Nomenclature for Properties and Units (NPUs) are codes that identifies
 laboratory results.
 }
-\examples{
-\dontrun{
-create_fake_npu(4)
-}
-}
 \keyword{internal}

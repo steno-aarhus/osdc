@@ -5,11 +5,6 @@
 #' @returns Saves a CSV file with ICD-8 codes. Outputs the path to the saved
 #'   file.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' scrape_icd8_codes()
-#' }
 scrape_icd8_codes <- function() {
   output_path <- fs::path_package("osdc", "resources", "icd8-codes.csv")
   "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
@@ -42,12 +37,6 @@ scrape_icd8_codes <- function() {
 #'
 #' @return A character vector of integers.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' pad_integers(x = 1, width = 5)
-#' pad_integers(x = c(1, 2, 3), width = 10)
-#' }
 pad_integers <- function(x, width) {
   x |>
     stringr::str_trunc(width = width, side = "left", ellipsis = "") |>
@@ -61,12 +50,6 @@ pad_integers <- function(x, width) {
 #'
 #' @return A character vector of ICD-10 diagnoses.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' create_fake_icd(10)
-#' create_fake_icd(5, "1995-04-19")
-#' }
 create_fake_icd <- function(n, date = NULL) {
   if (is.null(date)) {
     date <- sample(c("1993-01-01", "1995-01-01"), 1)
@@ -87,11 +70,6 @@ create_fake_icd <- function(n, date = NULL) {
 #'
 #' @return A character vector of ICD-8 diagnoses.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' create_fake_icd8(1)
-#' }
 create_fake_icd8 <- function(n) {
   fs::path_package("osdc", "resources", "icd8-codes.csv") |>
     readr::read_csv(show_col_types = FALSE) |>
@@ -110,11 +88,6 @@ create_fake_icd8 <- function(n) {
 #'
 #' @source The stored CSV is downloaded from the Danish Health Data Authority's
 #'   website at [medinfo.dk](https://medinfo.dk/sks/brows.php).
-#'
-#' @examples
-#' \dontrun{
-#' create_fake_icd10(3)
-#' }
 create_fake_icd10 <- function(n) {
   # Downloaded from: https://medinfo.dk/sks/brows.php
   fs::path_package("osdc", "resources", "icd10-codes.csv") |>
@@ -135,11 +108,6 @@ create_fake_icd10 <- function(n) {
 #'
 #' @return A character vector of ATC codes.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' create_fake_atc(10)
-#' }
 create_fake_atc <- function(n) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
@@ -156,12 +124,6 @@ create_fake_atc <- function(n) {
 #'
 #' @return A vector of dates.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' create_fake_date(20)
-#' create_fake_date(20, "1995-04-19", "2024-04-19")
-#' }
 create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
   seq(lubridate::as_date(from), lubridate::as_date(to), by = "day") |>
     sample(n, replace = TRUE)
@@ -179,11 +141,6 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #'
 #' @return A character vector of integers.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' create_padded_integer(n = 10, length = 13)
-#' }
 create_padded_integer <- function(n, length) {
   # Creates different sequences of strings for keys of different length.
   # E.g. pnr and recnum aren't duplicates of one another, apart from
@@ -204,11 +161,6 @@ create_padded_integer <- function(n, length) {
 #'
 #' @return A character vector.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' create_fake_npu(4)
-#' }
 create_fake_npu <- function(n) {
   stringr::str_c(
     "NPU",
@@ -222,11 +174,6 @@ create_fake_npu <- function(n) {
 #'
 #' @return A character vector.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' create_fake_hovedspeciale_ans(1000)
-#' }
 create_fake_hovedspeciale_ans <- function(n) {
   # TODO: It isn't great practice
   "https://www.dst.dk/da/Statistik/dokumentation/Times/forebyggelsesregistret/spec" |>
@@ -245,13 +192,6 @@ create_fake_hovedspeciale_ans <- function(n) {
 #'
 #' @return A vector of dates in the format `yyww`.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' to_yyww("2020-12-01")
-#' to_yyww("2001-01-01")
-#' to_yyww(c("2020-01-12", "1995-04-19"))
-#' }
 to_yyww <- function(x) {
   paste0(
     stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2),
@@ -265,12 +205,6 @@ to_yyww <- function(x) {
 #'
 #' @return A vector of dates in the format `yyyymmdd.`
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' to_yyyymmdd("2020-12-01")
-#' to_yyyymmdd(c("2020-01-12", "1995-04-19"))
-#' }
 to_yyyymmdd <- function(x) {
   format(lubridate::as_date(x), format = "%Y%m%d")
 }
@@ -281,7 +215,6 @@ to_yyyymmdd <- function(x) {
 #'
 #' @returns A  [duckplyr::duckdb_tibble()].
 #' @keywords internal
-#'
 fct_to_chr <- function(data) {
   data |>
     dplyr::mutate(
@@ -301,11 +234,6 @@ fct_to_chr <- function(data) {
 #' @return A logic vector. TRUE if the random number is less than the
 #'   proportion, otherwise FALSE.
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' insertion_rate(0.3)
-#' }
 insertion_rate <- function(proportion) {
   stats::runif(1) < proportion
 }

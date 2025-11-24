@@ -21,15 +21,6 @@ dates of diabetes diagnoses to use for inclusion, as well as
 additional information needed to classify diabetes type.
 Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 }
-\examples{
-\dontrun{
-register_data <- simulate_registers(c("lpr_diag", "lpr_adm", "diagnoser", "kontakter"))
-keep_diabetes_diagnoses(
-  lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-  lpr3 = prepare_lpr3(register_data$kontakter, register_data$diagnoser)
-)
-}
-}
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
 patients.

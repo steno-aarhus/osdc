@@ -23,16 +23,9 @@ podiatrist record
 This function uses the \code{sysi} or \code{sssy} registers as input to extract the
 dates of all diabetes-specific podiatrist services. Removes duplicate
 services on the same date.
-}
-\details{
-The output is passed to the \code{join_inclusions()} function for the final
+
+The output is passed to the \code{\link[=join_inclusions]{join_inclusions()}} function for the final
 step of the inclusion process.
-}
-\examples{
-\dontrun{
-register_data <- simulate_registers(c("sysi", "sssy"), 100)
-keep_(register_data$sysi, register_data$sssy)
-}
 }
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these

@@ -25,12 +25,11 @@ diabetes-specific hospital diagnoses (DE10) among all type-specific diabetes
 primary diagnoses (DE10 & DE11) from endocrinology departments. If an individual
 doesn't have any type-specific diabetes diagnoses from endocrinology departments,
 the majority is determined by diagnoses from medical departments.
-}
-\details{
+
 It also adds a column indicating whether an individual has at least one
 primary diagnosis related to type 1 diabetes.
 
-This output is passed to the \code{join_inclusions()} function, where the
+This output is passed to the \code{\link[=join_inclusions]{join_inclusions()}} function, where the
 \code{dates} variable is used for the final step of the inclusion process.
 The variables for whether the majority of diagnoses are for type 1 diabetes
 is used for later classification of type 1 diabetes.
