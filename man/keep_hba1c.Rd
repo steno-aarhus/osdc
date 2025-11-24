@@ -28,9 +28,4 @@ The output is passed to the \code{drop_pregnancies()} function for
 filtering of elevated results due to potential gestational diabetes (see
 below).
 }
-\examples{
-\dontrun{
-simulate_registers("lab_forsker", 100)[[1]] |> keep_hba1c()
-}
-}
 \keyword{internal}

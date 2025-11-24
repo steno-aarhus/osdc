@@ -14,13 +14,6 @@
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-#'
-#' @examples
-#' \dontrun{
-#' simulate_registers("lmdb", 10000)[[1]] |>
-#'   keep_gld_purchases() |>
-#'   add_insulin_purchases_cols()
-#' }
 add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
   logic <- c(
     "is_insulin_gld_code",
