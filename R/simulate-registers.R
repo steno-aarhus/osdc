@@ -87,7 +87,7 @@ create_fake_icd8 <- function(n) {
 #' @keywords internal
 #'
 #' @source The stored CSV is downloaded from the Danish Health Data Authority's
-#'   website at [medinfo.dk](https://medinfo.dk/sks/brows.php).
+#'   website at `medinfo.dk`
 create_fake_icd10 <- function(n) {
   # Downloaded from: https://medinfo.dk/sks/brows.php
   fs::path_package("osdc", "resources", "icd10-codes.csv") |>

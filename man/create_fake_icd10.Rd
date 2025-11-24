@@ -5,7 +5,7 @@
 \title{Create a vector of random ICD-10 diagnoses}
 \source{
 The stored CSV is downloaded from the Danish Health Data Authority's
-website at \href{https://medinfo.dk/sks/brows.php}{medinfo.dk}.
+website at \code{medinfo.dk}
 }
 \usage{
 create_fake_icd10(n)
