@@ -32,6 +32,7 @@ RSCD
 SDS's
 SSSY
 SYSI
+SGLT
 Saxenda
 YYWW
 YYYY
@@ -65,10 +66,11 @@ puml
 reproducibility
 semaglutid
 simstudy
+stringr
 th
 tibble
 tibbles
 tidyverse
 traceback
 yyww
-️
+Perf️
