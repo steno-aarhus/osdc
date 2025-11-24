@@ -21,34 +21,43 @@ these validations over the different versions.
 
 1.  Purchases of GLP1-RA, dapagliflozin or empagliflozin are no longer
     used for inclusion nor type-classification.
-    - Due to increasing use in treatment of non-diabetes.
+    -   Due to increasing use in treatment of non-diabetes.
 2.  For T1D classification, the window of 180 days to make a purchase of
     an insulin is now evaluated from the date of the first purchase of a
     glucose-lowering drug, rather than the date of inclusion.
-    - To simplify computations and increase robustness to noise and atypical cases. 
+    -   To simplify computations and increase robustness to noise and
+        atypical cases.
 3.  Purchases of insulin in the previous year is no longer required for
     T1D classification.
-    - Because we found that the vast majority of individuals classified as T2D due to this criteria, reported that they had T1D in the data from Health in Central Denmark.
+    -   Because we found that the vast majority of individuals
+        classified as T2D due to this criteria, reported that they had
+        T1D in the data from Health in Central Denmark.
 4.  The logic defining pregnancy index dates has been simplified to only
     use diagnoses of pregnancy endings (no longer uses data on maternal
     care visits).
-    - For the sake of simplicity, as we found no impact on classification accuracy in the Health in Central Denmark data.
+    -   For the sake of simplicity, as we found no impact on
+        classification accuracy in the Health in Central Denmark data.
 5.  HbA1c samples taken on the same date are de-duplicated.
-    - To better align with [recommended diagnostic practice](https://apps.who.int/iris/handle/10665/70523) (in the original implementation, only samples taken at the exact same time were de-duplicated)
+    -   To better align with [recommended diagnostic
+        practice](https://apps.who.int/iris/handle/10665/70523) (in the
+        original implementation, only samples taken at the exact same
+        time were de-duplicated)
 
 ## Validity
 
-The validity of the OSDC algorithm is tested against self-reported diabetes type in the Health in
-Central Denmark survey. The results are reported as overall PPV (positive predictive
-value) and sensitivity for each version of the algorithm and within
-subsets of the diabetes population reporting onset of diabetes before or
-after age 40, respectively, similar to tables 1 & 2 of the original
-validation paper [@Isaksen2023].
+The validity of the OSDC algorithm is tested against self-reported
+diabetes type in the Health in Central Denmark survey. The results are
+reported as overall PPV (positive predictive value) and sensitivity for
+each version of the algorithm and within subsets of the diabetes
+population reporting onset of diabetes before or after age 40,
+respectively, similar to tables 1 & 2 of the original validation paper
+[@Isaksen2023].
 
 ### Validity in 2019
 
-This uses the same data as [the original validation paper](https://doi.org/10.2147/CLEP.S407019) and provides a direct comparison to
-the original implementation.
+This uses the same data as [the original validation
+paper](https://doi.org/10.2147/CLEP.S407019) and provides a direct
+comparison to the original implementation.
 
 #### Stratified by diabetes type and age at onset
 
@@ -98,4 +107,3 @@ becomes available.
     majority of diabetes-specific diagnoses in type classification (e.g.
     only evaluate majority among the last five type-specific diabetes
     diagnoses).
-
