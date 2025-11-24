@@ -11,10 +11,13 @@
 #'      \item{english_description}{The translated English description of the variable.}
 #'      \item{data_type}{The data type, e.g. "character" of the variable. Could have multiple options (e.g. "Date" or "character").}
 #'   }
+#'
 #' @source Many of the details within the [registers()] metadata come
 #'   from the full official list of registers from Statistics Denmark (DST):
 #'   <https://www.dst.dk/extranet/forskningvariabellister/Oversigt%20over%20registre.html>
 #' @export
+#' @examples
+#' registers()
 registers <- function() {
   list(
     bef = list(

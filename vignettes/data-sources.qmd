@@ -169,4 +169,5 @@ The above data is available through Statistics Denmark and the Danish
 Health Data Authority. Researchers must be affiliated with an approved
 research institute in Denmark and fees apply. Information on how to gain
 access to data can be found at
-<https://www.dst.dk/en/TilSalg/Forskningsservice>.
+`www.dst.dk/en/TilSalg/data-til-forskning` (URL often changes, so we
+can't link directly).

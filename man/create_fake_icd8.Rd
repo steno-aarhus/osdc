@@ -15,9 +15,4 @@ A character vector of ICD-8 diagnoses.
 \description{
 ICD-8 is the 8th revision of the International Classification of Diseases.
 }
-\examples{
-\dontrun{
-create_fake_icd8(1)
-}
-}
 \keyword{internal}

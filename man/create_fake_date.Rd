@@ -19,10 +19,4 @@ A vector of dates.
 \description{
 Create fake dates
 }
-\examples{
-\dontrun{
-create_fake_date(20)
-create_fake_date(20, "1995-04-19", "2024-04-19")
-}
-}
 \keyword{internal}
