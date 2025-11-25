@@ -202,7 +202,6 @@ https://www.ncbi.nlm.nih.gov/pmc/PMC4274151/](https://www.ncbi.nlm.nih.gov/pubme
 12\.
 
 Danish Health Data Authority. Dokumentation af Laboratoriedatabasens
-Forskertabel – Version 1.3 \[English: Documentation on Register of
-Laboratory Results for Research - version 1.3\] \[Internet\]. 2018.
-Available from:
-<https://sundhedsdatastyrelsen.dk/-/media/sds/filer/registre-og-services/nationale-sundhedsregistre/doedsaarsager-og-biologisk-materiale/laboratoriedatabasen/dokumentation-af-labdatabasens-forskertabel.pdf>
+Forskertabel \[English: Documentation on Register of Laboratory Results
+for Research\] \[Internet\]. 2018. Available from:
+<https://sundhedsdatastyrelsen.dk/data-og-registre/nationale-sundhedsregistre/laboratoriedatabasen>

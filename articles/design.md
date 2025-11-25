@@ -183,9 +183,48 @@ column `stable_inclusion_date` is populated with the same date as
 
 The individual in the second row, `4` is classified as having type 2
 diabetes `T2D` with an inclusion date of `1995-19-04`. Since 1995 is
-within a time-period of insufficient data coverage,
-`stable_inclusion_date` is `NULL`. However, `raw_inclusion_date` still
-contains the inclusion date of this individual.
+within a time-period of insufficient data coverage, the validity of this
+inclusion date is uncertain and `stable_inclusion_date` is `NULL`.
+However, `raw_inclusion_date` still contains the inclusion date of this
+individual.
+
+In the context of generating a diabetes population with valid inclusion
+dates (e.g. true incident cases), three aspects of the register records
+were considered when determining which periods of time had sufficient
+data available:
+
+- **Sufficient data on inclusion events:** While HbA1c test results are
+  the diagnostic standard, these records are the newest addition to the
+  register data ecosystem and have limited historical coverage
+  nationwide. According to supplementary analyses by Isaksen et
+  al.\[@Isaksen2023sup\], this data has complete nationwide coverage
+  from Q4 2015 onward ([direct link to supplementary file
+  S9](https://doi.org/10.1371/journal.pgph.0001277.s009)). However, as
+  the vast majority of diabetes patients are treated with
+  glucose-lowering drugs at some point, we made the pragmatic assessment
+  that prescription drug purchase data are sufficient to identify
+  incident cases. These are available from 1995 onward.
+- **Sufficient data on exclusion events:** In order to correctly
+  identify pregnancies and discard inclusion events that may occur due
+  to gestational diabetes rather than T1D or T2D, register information
+  on pregnancy occurrences is necessary. In the patient register, this
+  information is available from 1994 onward, but coverage is
+  insufficient until 1997, according to supplementary analyses by
+  Isaksen\[@isaksen2023thesis\] ([direct link to
+  analysis](https://aastedet.github.io/dissertation/5-discussion-methods.html#fig-births)).
+- **Sufficient wash-out period:** In order to “wash out” prevalent cases
+  from true incident cases, a period of time with valid data is
+  necessary to capture prevalent cases, before new inclusions can be
+  considered true incident cases and the incidence stabilizes. We
+  considered a full year to be enough.
+
+Given the above requirements of complete nationwide data on inclusion
+and exclusion events, as well as a sufficient wash-out period to
+establish valid incident cases, the algorithm was designed to restrict
+valid inclusion dates to periods where all criteria are met.
+Consequently, only inclusion dates occurring from 1998 onward are
+considered true incident cases and assigned a `stable_inclusion_date`
+value.
 
 ------------------------------------------------------------------------
 
