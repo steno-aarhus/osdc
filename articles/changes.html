@@ -77,24 +77,42 @@
     <p>In this vignette, you’ll find a description of the changes that have been made to the OSDC algorithm since its <a href="https://doi.org/10.2147/CLEP.S407019" class="external-link">original validation</a>. The osdc package uses the latest changes to the algorithm. Potential changes to the algorithm, rather than the specific implementation and code details, that we might in the future will also be described in this vignette. We will also provide validation metrics here whenever we make a change, and track these validations over the different versions.</p>
 <section class="level2"><h2 id="specific-changes-since-the-original-validation-version-from-the-paper">Specific changes since the original validation (version from the paper)<a class="anchor" aria-label="anchor" href="#specific-changes-since-the-original-validation-version-from-the-paper"></a>
 </h2>
-<section class="level3"><h3 id="version-1-1">Version 1.1<a class="anchor" aria-label="anchor" href="#version-1-1"></a>
+<section class="level3"><h3 id="version-1-0">Version 1.0<a class="anchor" aria-label="anchor" href="#version-1-0"></a>
 </h3>
 <ol type="1">
-<li>We don’t use purchases of semaglutid, dapagliflozin or empagliflozin, neither for inclusion events nor classification of diabetes type (due to increasing use in treatment of non-diabetes).</li>
-<li>We no longer use diabetes type reclassification based on insulin purchases in the previous year.</li>
-<li>The logic defining pregnancy index dates has been simplified to only use diagnoses of pregnancy endings (no longer uses data on maternal care visits).</li>
-<li>De-duplicates subsequent HbA1c samples taken on the same date (originally, if a sampling time was available in the lab data, only samples taken at the same time were de-duplicated)</li>
-</ol></section><section class="level3"><h3 id="version-1-2">Version 1.2<a class="anchor" aria-label="anchor" href="#version-1-2"></a>
-</h3>
-<ol type="1">
-<li>No longer uses any GLP1-RAs for inclusion or type-specification.</li>
-<li>For diabetes type-classification, the window of 180 days when a T1D case must make a purchase of an insulin is now evaluated from the date of the first purchase of a glucose-lowering drug, rather than from the inclusion date.</li>
+<li>Purchases of GLP1-RA, dapagliflozin or empagliflozin are no longer used for inclusion nor type-classification.
+<ul>
+<li>Due to increasing use in treatment of non-diabetes.</li>
+</ul>
+</li>
+<li>For T1D classification, the window of 180 days to make a purchase of an insulin is now evaluated from the date of the first purchase of a glucose-lowering drug, rather than the date of inclusion.
+<ul>
+<li>To simplify computations and increase robustness to noise and atypical cases.</li>
+</ul>
+</li>
+<li>Purchases of insulin in the previous year is no longer required for T1D classification.
+<ul>
+<li>Because we found that the vast majority of individuals classified as T2D due to this criteria, reported that they had T1D in the data from Health in Central Denmark.</li>
+</ul>
+</li>
+<li>The logic defining pregnancy index dates has been simplified to only use diagnoses of pregnancy endings (no longer uses data on maternal care visits).
+<ul>
+<li>For the sake of simplicity, as we found no impact on classification accuracy in the Health in Central Denmark data.</li>
+</ul>
+</li>
+<li>HbA1c samples taken on the same date are de-duplicated.
+<ul>
+<li>To better align with <a href="https://apps.who.int/iris/handle/10665/70523" class="external-link">recommended diagnostic practice</a> (in the original implementation, only samples taken at the exact same time were de-duplicated)</li>
+</ul>
+</li>
 </ol></section></section><section class="level2"><h2 id="validity">Validity<a class="anchor" aria-label="anchor" href="#validity"></a>
 </h2>
-<p>Algorithm validity across versions. Reports <code>PPV</code> (<em>positive predictive value</em>) and <code>sensitivity</code> for typical cases and cases with atypical age at onset of T1D (after age 40) and T2D (before age 40), respectively.</p>
-<section class="level3"><h3 id="on-pre-2019-data-as-in-the-paper">On pre-2019 data (as in the paper)<a class="anchor" aria-label="anchor" href="#on-pre-2019-data-as-in-the-paper"></a>
+<p>The validity of the OSDC algorithm is tested against self-reported diabetes type in the Health in Central Denmark survey. The results are reported as overall PPV (positive predictive value) and sensitivity for each version of the algorithm and within subsets of the diabetes population reporting onset of diabetes before or after age 40, respectively, similar to tables 1 &amp; 2 of the original validation paper <span class="citation" data-cites="Isaksen2023">[@Isaksen2023]</span>.</p>
+<section class="level3"><h3 id="validity-in-2019">Validity in 2019<a class="anchor" aria-label="anchor" href="#validity-in-2019"></a>
 </h3>
-<p><strong>Overall and age at onset-stratified (paper table 1 &amp; 2):</strong></p>
+<p>This uses the same data as <a href="https://doi.org/10.2147/CLEP.S407019" class="external-link">the original validation paper</a> and provides a direct comparison to the original implementation.</p>
+<section class="level4"><h4 id="stratified-by-diabetes-type-and-age-at-onset">Stratified by diabetes type and age at onset<a class="anchor" aria-label="anchor" href="#stratified-by-diabetes-type-and-age-at-onset"></a>
+</h4>
 <table class="table caption-top">
 <thead><tr class="header">
 <th>Version</th>
@@ -138,32 +156,33 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1.2</td>
+<td>1.0</td>
 <td>T1D</td>
 <td>0.944</td>
 <td>0.783</td>
 </tr>
 <tr class="even">
-<td>1.2</td>
+<td>1.0</td>
 <td>T1D &gt;40 yrs</td>
 <td>0.708</td>
 <td>0.378</td>
 </tr>
 <tr class="odd">
-<td>1.2</td>
+<td>1.0</td>
 <td>T2D</td>
 <td>0.879</td>
 <td>0.944</td>
 </tr>
 <tr class="even">
-<td>1.2</td>
+<td>1.0</td>
 <td>T2D &lt;40 yrs</td>
 <td>0.480</td>
 <td>0.863</td>
 </tr>
 </tbody>
-</table>
-<p><strong>Bootstrapped metrics (paper S3):</strong></p>
+</table></section><section class="level4"><h4 id="bootstrapped-metrics">Bootstrapped metrics<a class="anchor" aria-label="anchor" href="#bootstrapped-metrics"></a>
+</h4>
+<p>Corresponds to supplementary table S3 of the validation paper.</p>
 <table class="table caption-top">
 <thead><tr class="header">
 <th>Version</th>
@@ -203,7 +222,7 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>1.2</td>
+<td>1.0</td>
 <td>T1D</td>
 <td>0.788</td>
 <td>0.999</td>
@@ -211,7 +230,7 @@
 <td>0.997</td>
 </tr>
 <tr class="even">
-<td>1.2</td>
+<td>1.0</td>
 <td>T2D</td>
 <td>0.940</td>
 <td>0.990</td>
@@ -219,7 +238,10 @@
 <td>0.995</td>
 </tr>
 </tbody>
-</table></section></section><section class="level2"><h2 id="potential-future-changes">Potential future changes<a class="anchor" aria-label="anchor" href="#potential-future-changes"></a>
+</table></section></section><section class="level3"><h3 id="validity-in-2025">Validity in 2025<a class="anchor" aria-label="anchor" href="#validity-in-2025"></a>
+</h3>
+<p>This section will contain metrics from validation performed in subsequent survey waves of Health in Central Denmark, as this data becomes available.</p>
+</section></section><section class="level2"><h2 id="potential-future-changes">Potential future changes<a class="anchor" aria-label="anchor" href="#potential-future-changes"></a>
 </h2>
 <ol type="1">
 <li>Add support for using medical birth register to define pregnancies to censor gestational diabetes (GDM). This will allow for the censoring of glucose-lowering drug (GLD) purchases all the way back to 1995 (rather than 1997 onward, as the obstetric codes are limited to), and enable the extension of the window of valid dates of diagnosis to 1996 onward.</li>

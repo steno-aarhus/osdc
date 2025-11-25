@@ -11,37 +11,49 @@ these validations over the different versions.
 
 ## Specific changes since the original validation (version from the paper)
 
-### Version 1.1
+### Version 1.0
 
-1.  We don’t use purchases of semaglutid, dapagliflozin or
-    empagliflozin, neither for inclusion events nor classification of
-    diabetes type (due to increasing use in treatment of non-diabetes).
-2.  We no longer use diabetes type reclassification based on insulin
-    purchases in the previous year.
-3.  The logic defining pregnancy index dates has been simplified to only
+1.  Purchases of GLP1-RA, dapagliflozin or empagliflozin are no longer
+    used for inclusion nor type-classification.
+    - Due to increasing use in treatment of non-diabetes.
+2.  For T1D classification, the window of 180 days to make a purchase of
+    an insulin is now evaluated from the date of the first purchase of a
+    glucose-lowering drug, rather than the date of inclusion.
+    - To simplify computations and increase robustness to noise and
+      atypical cases.
+3.  Purchases of insulin in the previous year is no longer required for
+    T1D classification.
+    - Because we found that the vast majority of individuals classified
+      as T2D due to this criteria, reported that they had T1D in the
+      data from Health in Central Denmark.
+4.  The logic defining pregnancy index dates has been simplified to only
     use diagnoses of pregnancy endings (no longer uses data on maternal
     care visits).
-4.  De-duplicates subsequent HbA1c samples taken on the same date
-    (originally, if a sampling time was available in the lab data, only
-    samples taken at the same time were de-duplicated)
-
-### Version 1.2
-
-1.  No longer uses any GLP1-RAs for inclusion or type-specification.
-2.  For diabetes type-classification, the window of 180 days when a T1D
-    case must make a purchase of an insulin is now evaluated from the
-    date of the first purchase of a glucose-lowering drug, rather than
-    from the inclusion date.
+    - For the sake of simplicity, as we found no impact on
+      classification accuracy in the Health in Central Denmark data.
+5.  HbA1c samples taken on the same date are de-duplicated.
+    - To better align with [recommended diagnostic
+      practice](https://apps.who.int/iris/handle/10665/70523) (in the
+      original implementation, only samples taken at the exact same time
+      were de-duplicated)
 
 ## Validity
 
-Algorithm validity across versions. Reports `PPV` (*positive predictive
-value*) and `sensitivity` for typical cases and cases with atypical age
-at onset of T1D (after age 40) and T2D (before age 40), respectively.
+The validity of the OSDC algorithm is tested against self-reported
+diabetes type in the Health in Central Denmark survey. The results are
+reported as overall PPV (positive predictive value) and sensitivity for
+each version of the algorithm and within subsets of the diabetes
+population reporting onset of diabetes before or after age 40,
+respectively, similar to tables 1 & 2 of the original validation paper
+\[@Isaksen2023\].
 
-### On pre-2019 data (as in the paper)
+### Validity in 2019
 
-**Overall and age at onset-stratified (paper table 1 & 2):**
+This uses the same data as [the original validation
+paper](https://doi.org/10.2147/CLEP.S407019) and provides a direct
+comparison to the original implementation.
+
+#### Stratified by diabetes type and age at onset
 
 | Version | Diabetes type | PPV   | Sensitivity |
 |---------|---------------|-------|-------------|
@@ -52,12 +64,14 @@ at onset of T1D (after age 40) and T2D (before age 40), respectively.
 
 | Version | Diabetes type | PPV   | Sensitivity |
 |---------|---------------|-------|-------------|
-| 1.2     | T1D           | 0.944 | 0.783       |
-| 1.2     | T1D \>40 yrs  | 0.708 | 0.378       |
-| 1.2     | T2D           | 0.879 | 0.944       |
-| 1.2     | T2D \<40 yrs  | 0.480 | 0.863       |
+| 1.0     | T1D           | 0.944 | 0.783       |
+| 1.0     | T1D \>40 yrs  | 0.708 | 0.378       |
+| 1.0     | T2D           | 0.879 | 0.944       |
+| 1.0     | T2D \<40 yrs  | 0.480 | 0.863       |
 
-**Bootstrapped metrics (paper S3):**
+#### Bootstrapped metrics
+
+Corresponds to supplementary table S3 of the validation paper.
 
 | Version | Diabetes type | Sensitivity | Specificity | PPV   | NPV   |
 |---------|---------------|-------------|-------------|-------|-------|
@@ -66,8 +80,14 @@ at onset of T1D (after age 40) and T2D (before age 40), respectively.
 
 | Version | Diabetes type | Sensitivity | Specificity | PPV   | NPV   |
 |---------|---------------|-------------|-------------|-------|-------|
-| 1.2     | T1D           | 0.788       | 0.999       | 0.947 | 0.997 |
-| 1.2     | T2D           | 0.940       | 0.990       | 0.881 | 0.995 |
+| 1.0     | T1D           | 0.788       | 0.999       | 0.947 | 0.997 |
+| 1.0     | T2D           | 0.940       | 0.990       | 0.881 | 0.995 |
+
+### Validity in 2025
+
+This section will contain metrics from validation performed in
+subsequent survey waves of Health in Central Denmark, as this data
+becomes available.
 
 ## Potential future changes
 
