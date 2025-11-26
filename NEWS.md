@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.14 (2025-11-26)
+
+### Perf
+
+- :zap: use `union_all()` for database version of `bind_rows()` (#439)
+
 ## 0.9.13 (2025-11-21)
 
 ### Refactor
