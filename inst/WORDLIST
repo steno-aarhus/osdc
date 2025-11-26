@@ -7,8 +7,6 @@ Commitizen
 DCCT
 De
 DuckDB
-duckdb
-duckplyr
 GDM
 GLD
 GLP
@@ -19,7 +17,6 @@ Isaksen's
 LMDB
 LPR
 Lifecycle
-Metformin
 NPU
 NPUs
 NPV
@@ -27,13 +24,13 @@ ORCID
 PCOS
 PNR
 PPV
+Perf
 RAs
 RSCD
 SDS's
+SGLT
 SSSY
 SYSI
-SGLT
-Saxenda
 YYWW
 YYYY
 atc
@@ -41,9 +38,9 @@ dapagliflozin
 de
 deduplicated
 dk
-dplyr
+duckdb
+duckplyr
 empagliflozin
-endocrinological
 formatters
 forsker
 honuge
@@ -63,7 +60,6 @@ polycystic
 pre
 pseudonymised
 puml
-reproducibility
 semaglutid
 simstudy
 stringr
@@ -73,4 +69,3 @@ tibbles
 tidyverse
 traceback
 yyww
-Perf️
