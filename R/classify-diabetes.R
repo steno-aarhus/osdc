@@ -192,7 +192,10 @@ as_stingy_duckdb <- function(data, call = rlang::caller_env()) {
 
   # Prevent conversion to R object.
   data |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy")
+    duckplyr::as_duckdb_tibble(prudence = "stingy") |>
+    # Convert to dbplyr connection with duckdb to use
+    # dbplyr functions (since duckplyr is still in development).
+    duckplyr::as_tbl()
 }
 
 #' After filtering, classify those with type 1 diabetes.
