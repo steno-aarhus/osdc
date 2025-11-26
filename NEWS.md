@@ -11,7 +11,7 @@ standard.
 
 ### Refactor
 
-- ♻️ replace stringr functions with base alternatives in algorithm  (#419)
+- ♻ replace stringr functions with base alternatives in algorithm  (#419)
 
 ## 0.9.12 (2025-11-21)
 
@@ -29,7 +29,7 @@ standard.
 
 ### Refactor
 
-- ♻️ add logical inclusion variables to classification logic (#404)
+- ♻ add logical inclusion variables to classification logic (#404)
 
 ## 0.9.9 (2025-11-20)
 
@@ -76,7 +76,7 @@ standard.
 
 ### Refactor
 
-- ♻️ add logical helper variables for inclusion events (#400)
+- ♻ add logical helper variables for inclusion events (#400)
 
 ## 0.9.2 (2025-11-17)
 
@@ -124,7 +124,7 @@ standard.
 
 ### Refactor
 
-- ♻️ add separate `keep_two_earliest_events()` function (#369)
+- ♻ add separate `keep_two_earliest_events()` function (#369)
 
 ## 0.8.3 (2025-10-02)
 
@@ -206,7 +206,7 @@ standard.
 
 ### Refactor
 
-- ♻️ move `add_insulin_purchases_cols()` down to after exclusions (#338)
+- ♻ move `add_insulin_purchases_cols()` down to after exclusions (#338)
 
 ## 0.4.0 (2025-09-16)
 
@@ -331,10 +331,10 @@ standard.
 
 - :recycle: add (non-)insulin drug indicator variables (#298)
 - :recycle: rename `verify_required_variables()` to `check_required_variables()` (#306)
-- ♻️ move column name lowercasing to `classify_diabetes()` (#295)
+- ♻ move column name lowercasing to `classify_diabetes()` (#295)
 - :recycle: `criteria` -> `logic` (#294)
 - :recycle: move lpr2 primary diagnosis logic to algorithm (#289)
-- ♻️ update `join_lpr3()` to be `prepare_lpr3()` (#273)
+- ♻ update `join_lpr3()` to be `prepare_lpr3()` (#273)
 - :recycle: make `yyww_to_yyyymmdd()` internal (#283)
 - :recycle: update `prepare_lpr2()` col names to be `_dept` (#282)
 - :recycle: align variable names in algorithm (#277)
