@@ -1,6 +1,9 @@
 # Classify diabetes status using Danish registers.
 
-Classify diabetes status using Danish registers.
+This function requires that each source of register data is represented
+as a single DuckDB object in R (e.g. a connection to Parquet files).
+Each DuckDB object must contain a single table covering all years of
+that data source, or at least the years you have and are interested in.
 
 ## Usage
 
@@ -23,48 +26,51 @@ classify_diabetes(
 
 - kontakter:
 
-  The contacts register for lpr3
+  The contacts information table from the LPR3 patient register
 
 - diagnoser:
 
-  The diagnoses register for lpr3
+  The diagnoses information table from the LPR3 patient register
 
 - lpr_diag:
 
-  The diagnoses register for lpr2
+  The diagnoses information table from the LPR2 patient register
 
 - lpr_adm:
 
-  The admissions register for lpr2
+  The administrative information table from the LPR2 patient register
 
 - sysi:
 
-  The SYSI register
+  The SYSI table from the health service register
 
 - sssy:
 
-  The SSSY register
+  The SSSY table from the health service register
 
 - lab_forsker:
 
-  The lab forsker register
+  The register for laboratory results for research
 
 - bef:
 
-  The BEF register
+  The BEF table from the civil register
 
 - lmdb:
 
-  The LMDB register
+  The LMDB table from the prescription register
 
 - stable_inclusion_start_date:
 
-  Cutoff date after which inclusion events are considered reliable
-  (e.g., after changes in drug labeling or data entry practices).
-  Defaults to "1998-01-01" which is one year after obstetric codes are
-  reliable in the GLD data (since we use LPR data to drop rows related
-  to gestational diabetes). This limits the included cohort to
-  individuals with inclusion dates after this cutoff date.
+  Cutoff date after which inclusion events are considered true incident
+  diabetes cases. Defaults to "1998-01-01", which is one year after the
+  data on pregnancy events from the Patient Register are considered
+  valid for dropping gestational diabetes-related purchases of
+  glucose-lowering drugs. This default assumes that the user is using
+  LPR and LMDB data from at least Jan 1 1997 onward. If the user only
+  has access to LPR and LMDB data from a later date, this parameter
+  should be set to one year after the beginning of the user's data
+  coverage.
 
 ## Value
 
@@ -110,15 +116,15 @@ classify_diabetes(
 #> # A duckplyr data frame: 5 variables
 #>    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>    <chr>        <date>                <date>             <lgl>   <lgl>  
-#>  1 167514072293 2024-10-30            2024-10-30         FALSE   TRUE   
-#>  2 347047212945 2022-12-18            2022-12-18         FALSE   TRUE   
-#>  3 214175003479 2002-07-22            2002-07-22         FALSE   TRUE   
-#>  4 348704179509 2022-08-27            2022-08-27         FALSE   TRUE   
-#>  5 922628672371 2024-09-02            2024-09-02         FALSE   TRUE   
-#>  6 257941632160 2009-11-20            2009-11-20         FALSE   TRUE   
-#>  7 880286441430 2016-06-21            2016-06-21         FALSE   TRUE   
-#>  8 744088965857 2019-08-09            2019-08-09         FALSE   TRUE   
-#>  9 486214469378 2024-09-29            2024-09-29         FALSE   TRUE   
-#> 10 717312275098 2016-10-24            2016-10-24         FALSE   TRUE   
+#>  1 734096773097 2021-06-03            2021-06-03         FALSE   TRUE   
+#>  2 461545659514 2018-12-03            2018-12-03         FALSE   TRUE   
+#>  3 724751539892 2020-01-21            2020-01-21         FALSE   TRUE   
+#>  4 278805655411 2021-09-02            2021-09-02         FALSE   TRUE   
+#>  5 443484078922 2014-01-17            2014-01-17         FALSE   TRUE   
+#>  6 035748926726 2017-07-22            2017-07-22         FALSE   TRUE   
+#>  7 980089718120 2023-05-29            2023-05-29         FALSE   TRUE   
+#>  8 694379686251 2019-01-24            2019-01-24         FALSE   TRUE   
+#>  9 300913020651 2022-03-29            2022-03-29         FALSE   TRUE   
+#> 10 732779718856 2022-12-05            2022-12-05         FALSE   TRUE   
 #> # ℹ more rows
 ```

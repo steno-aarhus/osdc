@@ -14,12 +14,10 @@ events to remove inclusion events in the preceding months that may be
 related to gestational diabetes (e.g. elevated HbA1c tests or purchases
 of glucose-lowering drugs during pregnancy).
 
-After these drop functions have been applied, the output serves as
-inputs to:
-
-1.  The censored HbA1c and GLD data are passed to the
-    [`join_inclusions()`](https://steno-aarhus.github.io/osdc/reference/join_inclusions.md)
-    function for the final step of the inclusion process.
+After these drop functions have been applied, the output serves as input
+to the
+[`add_insulin_purchases_cols()`](https://steno-aarhus.github.io/osdc/reference/add_insulin_purchases_cols.md)
+function.
 
 ## Usage
 

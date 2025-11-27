@@ -1,8 +1,8 @@
 # Keep two earliest events per PNR
 
 Since the classification date is based on the second instance of an
-inclusion criteria, we only need to keep the earliest two events per PNR
-per inclusion "stream".
+inclusion criteria, we need to keep the earliest two events per PNR per
+inclusion "stream".
 
 This function is applied to each "stream", `diabetes_diagnoses`,
 `podiatrist_services`, and `gld_hba1c_after_drop_steps`, in the
