@@ -39,7 +39,11 @@ events apply:
       failure](https://www.cardio.dk/chf#551-farmakologisk-behandling-af-hfref)
       or [kidney
       failure](https://nephrology.dk/vejledninger/ckd-mbd/kronisk-nyresygdom/sglt2i_ckd_uden_dm/)
-      among individuals without diabetes.
+      among individuals without diabetes. This pertains only to
+      purchases of drugs containing only this class of glucose-lowering
+      drug. Purchases of combination drugs containing GLP-1 receptor
+      agonists or SGLT-2 inhibitors in combination with other
+      glucose-lowering drugs are not dropped.
     - The drug purchase is made during pregnancies, as these may be
       related to gestational diabetes mellitus, rather than T1D or T2D.
     - If the purchased drug is metformin and is made by women below age
