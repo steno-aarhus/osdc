@@ -1,5 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.quarto$
+^.*_files$
 ^LICENSE\.md$
 ^data-raw$
 ^\.github$
@@ -13,10 +15,11 @@
 ^_targets\.R$
 ^justfile$
 ^vignettes/articles$
-^vignettes/.quarto$
+^vignettes/\.quarto$
 ^doc$
 ^Meta$
 ^air.toml$
-^vignettes/*_files$
+^vignettes/.*_files$
 ^.cz.toml$
 ^CITATION.cff$
+^cran-comments\.md$
