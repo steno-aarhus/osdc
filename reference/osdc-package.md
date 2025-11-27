@@ -1,9 +1,11 @@
 # osdc: Open Source Diabetes Classifier for Danish Registers
 
-This classifier first identifies a population of individuals with any
-type of diabetes mellitus and then splits this population into T1D and
-T2D by identifying individuals with T1D and classifying the remainder of
-the diabetes population as T2D.
+The algorithm first identifies a population of individuals from Danish
+register data with any type of diabetes mellitus as individuals with two
+or more inclusion events. Then, it splits this population into
+individuals with either type 1 diabetes or type 2 diabetes by
+identifying individuals with type 1 diabetes and classifying the
+remainder of the diabetes population as having type 2 diabetes.
 
 ## See also
 
