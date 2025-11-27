@@ -23,9 +23,9 @@ functions.
 This function takes the combined outputs from
 \code{\link[=keep_pregnancy_dates]{keep_pregnancy_dates()}}, \code{\link[=keep_hba1c]{keep_hba1c()}}, and
 \code{\link[=drop_pcos]{drop_pcos()}} and uses diagnoses from LPR2 or LPR3 to
-drop both elevated HbA1c tests and GLD purchases during pregnancy, as
+drop all elevated HbA1c tests and GLD purchases during pregnancy, as
 these may be due to gestational diabetes, rather than type 1 or type 2
-diabetes. The aim is to identify pregnancies based on diagnosis codes
+diabetes. Pregnancies are defined based on diagnosis codes
 specific to pregnancy-ending events (e.g. live births or miscarriages),
 and then use the dates of these events to remove inclusion events in the
 preceding months that may be related to gestational diabetes (e.g.
@@ -34,12 +34,7 @@ pregnancy).
 }
 \details{
 After these drop functions have been applied, the output serves as
-inputs to:
-\enumerate{
-\item The censored HbA1c and GLD data are passed to the
-\code{\link[=join_inclusions]{join_inclusions()}} function for the final step of the inclusion
-process.
-}
+input to the \code{\link[=add_insulin_purchases_cols]{add_insulin_purchases_cols()}} function.
 }
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
