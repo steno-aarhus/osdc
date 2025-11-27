@@ -32,12 +32,7 @@ to gestational diabetes (e.g. elevated HbA1c tests or purchases of
 glucose-lowering drugs during pregnancy).
 
 After these drop functions have been applied, the output serves as
-inputs to:
-\enumerate{
-\item The censored HbA1c and GLD data are passed to the
-\code{\link[=join_inclusions]{join_inclusions()}} function for the final step of the inclusion
-process.
-}
+input to the \code{\link[=add_insulin_purchases_cols]{add_insulin_purchases_cols()}} function.
 }
 \seealso{
 See the \code{vignette("algorithm")} for the logic used to filter these
