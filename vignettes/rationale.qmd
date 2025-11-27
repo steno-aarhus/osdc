@@ -30,13 +30,14 @@ concise version of those documents. We cover the:
 Many individual-level data (e.g. civil registration, public healthcare
 contacts, and drug prescriptions) are automatically collected on all
 residents in Denmark and stored in nationwide Danish registers by
-[Statistics Denmark](https://www.dst.dk/da/) and the [Danish Health Data
-Authority](https://sundhedsdatastyrelsen.dk/da). These agencies are
-legally allowed to give access to the register data for research
-purposes, which provides (authorized) researchers a set of common,
-extensive data sources to use for studies. Any researcher associated
-with an approved Danish research institute (mainly Danish universities)
-can apply for access, but fees and conditions apply.
+Statistics Denmark (`www.dst.dk`, URL often hits redirect limits, so we
+can't link directly) and the [Danish Health Data
+Authority](https://sundhedsdatastyrelsen.dk). These agencies are legally
+allowed to give access to the register data for research purposes, which
+provides (authorized) researchers a set of common, extensive data
+sources to use for studies. Any researcher associated with an approved
+Danish research institute (mainly Danish universities) can apply for
+access, but fees and conditions apply.
 
 Register data is generally accessed and processed by approved
 researchers on remote servers operated by Statistics Denmark and the
