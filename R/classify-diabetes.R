@@ -16,12 +16,12 @@
 #' @param bef The BEF table from the civil register
 #' @param lmdb The LMDB table from the prescription register
 #' @param stable_inclusion_start_date Cutoff date after which inclusion events
-#' are considered true incident diabetes cases. Defaults to "1998-01-01", 
-#' which is one year after the data on pregnancy events from the Patient Register 
+#' are considered true incident diabetes cases. Defaults to "1998-01-01",
+#' which is one year after the data on pregnancy events from the Patient Register
 #' are considered valid for dropping gestational diabetes-related purchases of
-#' glucose-lowering drugs. This default assumes that the user is using LPR and 
-#' LMDB data from at least Jan 1 1997 onward. If the user only has access to LPR 
-#' and LMDB data from a later date, this parameter should be set to one year 
+#' glucose-lowering drugs. This default assumes that the user is using LPR and
+#' LMDB data from at least Jan 1 1997 onward. If the user only has access to LPR
+#' and LMDB data from a later date, this parameter should be set to one year
 #' after the beginning of the user's data coverage.
 #'
 #' @returns The same object type as the input data, which would be a
