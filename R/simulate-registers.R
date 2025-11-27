@@ -1,33 +1,3 @@
-# Get ICD-8 codes -----------------------------------------------------------
-
-#' Scrape SDS's website for their ICD-8 codes and saves to a file.
-#'
-#' @returns Saves a CSV file with ICD-8 codes. Outputs the path to the saved
-#'   file.
-#' @keywords internal
-scrape_icd8_codes <- function() {
-  output_path <- fs::path_package("osdc", "resources", "icd8-codes.csv")
-  "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
-    readr::read_lines() |>
-    stringr::str_trim() |>
-    dplyr::as_tibble() |>
-    tidyr::separate_wider_delim(
-      .data$value,
-      delim = stringr::regex("   +"),
-      names = c("icd8", "description", "unknown"),
-      too_many = "merge"
-    ) |>
-    dplyr::mutate(dplyr::across(tidyselect::everything(), stringr::str_trim)) |>
-    dplyr::mutate(
-      description = stringr::str_remove(.data$description, "\\d+"),
-      icd8 = stringr::str_remove(.data$icd8, "dia")
-    ) |>
-    dplyr::select(.data$icd8) |>
-    readr::write_csv(output_path)
-
-  output_path
-}
-
 # Simulation functions -----------------------------------------------------
 
 #' Zero pad an integer to a specific length
@@ -71,10 +41,7 @@ create_fake_icd <- function(n, date = NULL) {
 #' @return A character vector of ICD-8 diagnoses.
 #' @keywords internal
 create_fake_icd8 <- function(n) {
-  fs::path_package("osdc", "resources", "icd8-codes.csv") |>
-    readr::read_csv(show_col_types = FALSE) |>
-    dplyr::pull(.data$icd8) |>
-    sample(size = n, replace = TRUE)
+  sample(icd8, size = n, replace = TRUE)
 }
 
 #' Create a vector of random ICD-10 diagnoses
@@ -90,13 +57,7 @@ create_fake_icd8 <- function(n) {
 #'   website at `medinfo.dk`
 create_fake_icd10 <- function(n) {
   # Downloaded from: https://medinfo.dk/sks/brows.php
-  fs::path_package("osdc", "resources", "icd10-codes.csv") |>
-    readr::read_delim(
-      col_types = "cc",
-      delim = ";"
-    ) |>
-    dplyr::pull(.data$icd10) |>
-    sample(size = n, replace = TRUE)
+  sample(icd10, size = n, replace = TRUE)
 }
 
 #' Create a vector with random ATC codes
@@ -364,14 +325,6 @@ create_simulated_data <- function(data, n) {
 #' simulate_registers("bef")
 #' simulate_registers("diagnoser")
 simulate_registers <- function(registers, n = 1000) {
-  simulation_definitions <- fs::path_package(
-    "osdc",
-    "resources",
-    "simulation-definitions.csv"
-  ) |>
-    readr::read_csv(show_col_types = FALSE) |>
-    dplyr::select("register_abbrev", "variable_name", "generator")
-
   available_registers <- unique(simulation_definitions$register_abbrev)
   # All registers given have to be available.
   if (!all(registers %in% available_registers)) {

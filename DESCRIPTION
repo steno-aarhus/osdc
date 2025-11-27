@@ -31,15 +31,12 @@ Imports:
     dplyr,
     duckplyr,
     fabricatr,
-    fs,
     lifecycle,
     lubridate,
     purrr,
-    readr,
     rlang,
     rvest,
     stats,
-    tidyr,
     tidyselect
 Suggests:
     glue,
@@ -49,6 +46,7 @@ Suggests:
     spelling,
     stringr,
     testthat (>= 3.0.0),
+    tidyr,
     tibble
 VignetteBuilder: 
     quarto
