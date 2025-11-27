@@ -38,7 +38,7 @@ join_inclusions <- function(
     dplyr::full_join(podiatrist_services, by = c("pnr", "date")) |>
     dplyr::full_join(gld_hba1c_after_drop_steps, by = c("pnr", "date")) |>
     # Propagate computed "has_" values to all rows per PNR
-    # pnr's with only NA values are converted to FASLE (individuals with either no GLD purchases or no type-specific diabetes diagnoses).
+    # pnr's with only NA values are converted to FALSE (individuals with either no GLD purchases or no type-specific diabetes diagnoses).
     dplyr::mutate(
       dplyr::across(
         dplyr::starts_with("has_"),

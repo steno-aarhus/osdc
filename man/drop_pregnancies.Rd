@@ -2,7 +2,7 @@
 % Please edit documentation in R/drop.R
 \name{drop_pregnancies}
 \alias{drop_pregnancies}
-\title{Drop pregnancy events that could be gestational diabetes.}
+\title{Drop pregnancy events that could be gestational diabetes}
 \usage{
 drop_pregnancies(dropped_pcos, pregnancy_dates, included_hba1c)
 }
@@ -22,17 +22,15 @@ functions.
 \description{
 This function takes the combined outputs from
 \code{\link[=keep_pregnancy_dates]{keep_pregnancy_dates()}}, \code{\link[=keep_hba1c]{keep_hba1c()}}, and
-\code{\link[=drop_pcos]{drop_pcos()}} and uses diagnoses from LPR2 or LPR3 to
-drop all elevated HbA1c tests and GLD purchases during pregnancy, as
-these may be due to gestational diabetes, rather than type 1 or type 2
-diabetes. Pregnancies are defined based on diagnosis codes
-specific to pregnancy-ending events (e.g. live births or miscarriages),
-and then use the dates of these events to remove inclusion events in the
-preceding months that may be related to gestational diabetes (e.g.
-elevated HbA1c tests or purchases of glucose-lowering drugs during
-pregnancy).
-}
-\details{
+\code{\link[=drop_pcos]{drop_pcos()}} and uses diagnoses from LPR2 or LPR3 to drop both
+elevated HbA1c tests and GLD purchases during pregnancy, as these may be due
+to gestational diabetes, rather than type 1 or type 2 diabetes. The aim is to
+identify pregnancies based on diagnosis codes specific to pregnancy-ending
+events (e.g. live births or miscarriages), and then use the dates of these
+events to remove inclusion events in the preceding months that may be related
+to gestational diabetes (e.g. elevated HbA1c tests or purchases of
+glucose-lowering drugs during pregnancy).
+
 After these drop functions have been applied, the output serves as
 input to the \code{\link[=add_insulin_purchases_cols]{add_insulin_purchases_cols()}} function.
 }

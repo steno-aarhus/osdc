@@ -17,10 +17,4 @@ A character vector of integers.
 \description{
 Zero pad an integer to a specific length
 }
-\examples{
-\dontrun{
-pad_integers(x = 1, width = 5)
-pad_integers(x = c(1, 2, 3), width = 10)
-}
-}
 \keyword{internal}

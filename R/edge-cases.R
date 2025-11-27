@@ -1,5 +1,6 @@
 #' Create a synthetic dataset of edge case inputs
 #'
+#' @description
 #' This function generates a list of DuckDB tibbles representing the Danish health
 #' registers and the data necessary to run the algorithm. The dataset contains
 #' 23 individual cases (`pnr`s), each designed to test a specific logical branch
@@ -16,9 +17,7 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #' edge_cases()
-#' }
 edge_cases <- function() {
   bef <- tibble::tribble(
     ~pnr, ~koen, ~foed_dato,

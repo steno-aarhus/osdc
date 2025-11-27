@@ -1,7 +1,7 @@
 #' Prepare and join the two LPR2 registers to extract diabetes and pregnancy diagnoses.
 #'
-#' The output is used as inputs to `keep_diabetes_diagnoses()` and to
-#' `keep_pregnancy_dates()`.
+#' The output is used as inputs to [keep_diabetes_diagnoses()] and to
+#' [keep_pregnancy_dates()].
 #'
 #' @param lpr_diag The LPR2 register containing diabetes diagnoses.
 #' @param lpr_adm The LPR2 register containing hospital admissions.

@@ -27,3 +27,6 @@ variables item is a data frame with 4 columns:
 \description{
 Register variables (with descriptions) required for the osdc algorithm.
 }
+\examples{
+registers()
+}

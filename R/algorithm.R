@@ -202,7 +202,6 @@ algorithm <- function() {
 #'
 #' @return A character string.
 #' @keywords internal
-#'
 get_algorithm_logic <- function(logic_name, algorithm = NULL) {
   checkmate::assert_character(logic_name)
   if (!is.null(algorithm)) {
@@ -226,7 +225,6 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
 #'
 #' @return An R expression.
 #' @keywords internal
-#'
 logic_as_expression <- function(logic) {
   logic |>
     rlang::set_names() |>

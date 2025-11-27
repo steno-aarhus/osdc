@@ -18,13 +18,13 @@ classify_diabetes(
 )
 }
 \arguments{
-\item{kontakter}{The contacts information table from the lpr3 patient register}
+\item{kontakter}{The contacts information table from the LPR3 patient register}
 
-\item{diagnoser}{The diagnoses information table from the lpr3 patient register}
+\item{diagnoser}{The diagnoses information table from the LPR3 patient register}
 
-\item{lpr_diag}{The diagnoses information table from the lpr2 patient register}
+\item{lpr_diag}{The diagnoses information table from the LPR2 patient register}
 
-\item{lpr_adm}{The administrative information table from the lpr2 patient register}
+\item{lpr_adm}{The administrative information table from the LPR2 patient register}
 
 \item{sysi}{The SYSI table from the health service register}
 
@@ -37,24 +37,26 @@ classify_diabetes(
 \item{lmdb}{The LMDB table from the prescription register}
 
 \item{stable_inclusion_start_date}{Cutoff date after which inclusion events
-are considered true incident diabetes cases. Defaults to "1998-01-01", as
-we presume the user is using data on pregnancy events from the the Patient Register
-and on purchases of glucose-lowering drugs from the Prescription Register
-from Jan 1 1997 onward (or earlier).}
+are considered true incident diabetes cases. Defaults to "1998-01-01",
+which is one year after the data on pregnancy events from the Patient Register
+are considered valid for dropping gestational diabetes-related purchases of
+glucose-lowering drugs. This default assumes that the user is using LPR and
+LMDB data from at least Jan 1 1997 onward. If the user only has access to LPR
+and LMDB data from a later date, this parameter should be set to one year
+after the beginning of the user's data coverage.}
 }
 \value{
 The same object type as the input data, which would be a
 \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}} type object.
 }
 \description{
-This function requires that each source of raw data is represented
+This function requires that each source of register data is represented
 as a single DuckDB object in R (e.g. a connection to Parquet files).
 Each DuckDB object must contain a single table covering all years of
 that data source, or at least the years you have and are interested
 in.
 }
 \examples{
-\dontrun{
 register_data <- simulate_registers(
   c(
     "kontakter",
@@ -80,7 +82,6 @@ classify_diabetes(
   bef = register_data$bef,
   lmdb = register_data$lmdb
 )
-}
 }
 \seealso{
 See the \link{osdc} vignette for a detailed
