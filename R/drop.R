@@ -91,7 +91,7 @@ drop_pregnancies <- function(
     # inside another for the same pnr.
     # Only keep rows that don't fall within any pregnancy interval.
     dplyr::filter(
-      !any(.data$is_within_pregnancy_interval),
+      !any(.data$is_within_pregnancy_interval, na.rm = TRUE),
       .by = c("pnr", "date")
     ) |>
     # Drop columns that were only used here.
