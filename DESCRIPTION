@@ -37,7 +37,8 @@ Imports:
     rlang,
     rvest,
     stats,
-    tidyselect
+    tidyselect,
+    utils
 Suggests:
     glue,
     knitr,
