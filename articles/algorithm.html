@@ -12,7 +12,6 @@
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="algorithm_files/libs/quarto-html/popper.min.js"></script><script src="algorithm_files/libs/quarto-html/tippy.umd.min.js"></script><link href="algorithm_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="algorithm_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<script src="algorithm_files/libs/quarto-diagram/mermaid.min.js"></script><script src="algorithm_files/libs/quarto-diagram/mermaid-init.js"></script><link href="algorithm_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Algorithm">
 <meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
@@ -106,59 +105,9 @@
 <p>The diabetes classification date is defined at the date of the second occurrence of any of the inclusion events listed above. For example, an individual with two elevated HbA1c tests followed by a glucose-lowering drug purchase is included at the latest elevated HbA1c test. Had the second HbA1c test not been performed (or had it returned a result below the diagnostic threshold), this person would instead have been included at the date of the first purchase of glucose-lowering drugs. Wherever possible, all available data for each event is used, except for the purchases of glucose-lowering drugs, since the patient register data on obstetric diagnoses necessary to censor glucose-lowering drug purchases is only complete from 1997 onwards.</p>
 </section><section class="level2"><h2 id="high-level-flowchart">High-level flowchart<a class="anchor" aria-label="anchor" href="#high-level-flowchart"></a>
 </h2>
-<div class="cell" data-eval="true" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p>
-<figure class=""><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TD
-  subgraph background_population["Background population"]
-    lpr_diag[("lpr_diag")]
-    lpr_adm[("lpr_adm")]
-    kontakter[("kontakter")]
-    diagnoser[("diagnoser")]
-    sysi[("sysi")]
-    sssy[("sssy")]
-    lmdb[("lmdb")]
-    lab_forsker[("lab_forsker")]
-    bef[("bef")]
-  end
-
-    background_population --&gt; diabetes_diagnoses["Include:&lt;br&gt;Hospital diagnoses of diabetes"]:::include
-    background_population --&gt; hba1c["Include:&lt;br&gt;HbA1c measurements of ≥48 mmol/mol"]:::include
-
-    hba1c --&gt; drop_pregnancies_hba1c["Exclude:&lt;br&gt;HbA1c measurements during pregnancies"]:::exclude
-
-    background_population --&gt; gld["Include:&lt;br&gt;Purchase(s) of glucose-lowering drugs used exclusively for treatment of diabetes"]:::include
-    gld --&gt; drop_pcos["Exclude:&lt;br&gt;Metformin purchases by women younger than 40 or with a PCOS-related indication code"]:::exclude
-    drop_pcos --&gt; drop_pregnancies_gld["Exclude:&lt;br&gt;GLD purchases during pregnancies"]:::exclude
-
-    background_population --&gt; podiatrist_services["Include:&lt;br&gt;Diabetes-specific podiatrist services"]:::include
-
-    %% Join in classify
-    drop_pregnancies_hba1c --&gt; classify_t1d["Classification of type 1 diabetes"]
-    drop_pregnancies_gld --&gt; classify_t1d
-    diabetes_diagnoses --&gt; classify_t1d
-    podiatrist_services --&gt; classify_t1d
-
-    classify_t1d --&gt; classify_t2d["Not type 1 diabetes is classified as type 2 diabetes"]
-
-    background_population ~~~ diabetes_diagnoses
-    background_population ~~~ podiatrist_services
-    background_population ~~~ hba1c
-
-  %% Styling
-  classDef default fill:#EEEEEE, color:#000000, stroke:#000000
-  classDef include fill:lightblue
-  classDef exclude fill:orange
-  style background_population fill:#FFFFFF, color:#000000
-</pre>
-</div>
-<p></p>
-<figcaption> Flow of inclusions and exclusions used for classifying diabetes status using the osdc package. Light blue and orange boxes represent inclusions and exclusions, respectively.</figcaption></figure><p></p>
-</div>
-</div>
+<div class="quarto-figure quarto-figure-center">
+<figure><p><img src="images/overview-flow.svg"></p>
+<figcaption>Flow of inclusions and exclusions used for classifying diabetes status using the osdc package. Light blue and orange boxes represent inclusions and exclusions, respectively.</figcaption></figure>
 </div>
 <section class="level3"><h3 id="classifying-type-1-diabetes">Classifying type 1 diabetes<a class="anchor" aria-label="anchor" href="#classifying-type-1-diabetes"></a>
 </h3>
