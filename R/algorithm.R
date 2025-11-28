@@ -68,13 +68,13 @@ algorithm <- function() {
     lpr2_is_endocrinology_dept = list(
       register = "lpr_adm",
       title = "LPR2 endocrinology department",
-      logic = "c_spec == 8",
+      logic = "c_spec == 8L",
       comments = "`TRUE` when the department where the recorded diagnosis was endocrinology."
     ),
     lpr2_is_medical_dept = list(
       register = "lpr_adm",
       title = "LPR2 other medical department",
-      logic = "c_spec %in% c(1:7, 9:30)",
+      logic = "c_spec %in% c(1L:7L, 9L:30L)",
       comments = "`TRUE` when the diagnosis was recorded at a medical department other than endocrinology."
     ),
     lpr2_is_pregnancy_code = list(
@@ -141,7 +141,7 @@ algorithm <- function() {
     is_within_pregnancy_interval = list(
       register = NA,
       title = "Events that are within a potential pregnancy interval",
-      logic = "has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40)) AND date <= (pregnancy_event_date + weeks(12))",
+      logic = "has_pregnancy_event AND date >= (pregnancy_event_date - weeks(40L)) AND date <= (pregnancy_event_date + weeks(12L))",
       comments = "The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date (birth or miscarriage)."
     ),
     is_podiatrist_services = list(
@@ -189,7 +189,7 @@ algorithm <- function() {
     has_insulin_purchases_within_180_days = list(
       register = NA,
       title = "Whether any insulin was purchased within 180 days of the first purchase of GLD",
-      logic = "any(is_insulin_gld_code & date <= (first_gld_date + days(180)))",
+      logic = "any(is_insulin_gld_code & date <= (first_gld_date + days(180L)))",
       comments = "This is used to classify type 1 diabetes. It determines if any insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes."
     )
   )
