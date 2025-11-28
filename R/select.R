@@ -34,9 +34,9 @@ select_required_variables <- function(
 #' @keywords internal
 column_names_to_lower <- function(data) {
   # Needs to be a named vector for renaming.
-  lower_column_names <- names(data) |>
+  lower_column_names <- colnames(data) |>
     # This sets the names "attribute" of the vector.
-    rlang::set_names(tolower(names(data)))
+    rlang::set_names(tolower(colnames(data)))
   data |>
     # Inject the lowercase names into rename.
     dplyr::rename(!!!lower_column_names)
