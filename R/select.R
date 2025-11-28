@@ -62,9 +62,13 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
     dplyr::select("name", "expected_data_type")
 
   # Get actual variables and their data types.
+  data_for_types <- data |>
+    utils::head() |>
+    dplyr::collect()
+
   actual <- tibble::tibble(
-    name = colnames(data),
-    actual_data_type = purrr::map_chr(data, class)
+    name = colnames(data_for_types),
+    actual_data_type = purrr::map_chr(data_for_types, class)
   )
 
   # Get mismatched data types.
