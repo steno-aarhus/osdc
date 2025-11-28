@@ -1,0 +1,65 @@
+flowchart TB
+  subgraph data_sources["Data sources"]
+    direction TB
+    lpr_diag[("lpr_diag")]
+    lpr_adm[("lpr_adm")]
+    kontakter[("kontakter")]
+    diagnoser[("diagnoser")]
+    sysi[("sysi")]
+    sssy[("sssy")]
+    lmdb[("lmdb")]
+    lab_forsker[("lab_forsker")]
+    bef[("bef")]
+  end
+
+  subgraph classify_diabetes["classify_diabetes()"]
+    direction TB
+    lpr_diag --> prepare_lpr2["prepare_lpr2()"]
+    lpr_adm --> prepare_lpr2
+
+    kontakter --> prepare_lpr3["prepare_lpr3()"]
+    diagnoser --> prepare_lpr3
+
+    prepare_lpr2 --> keep_pregnancy_dates["keep_pregnancy_dates()"]
+    prepare_lpr3 --> keep_pregnancy_dates
+
+    %% Keep
+    sysi --> keep_podiatrist_services["keep_podiatrist_services()"]:::keep
+    sssy --> keep_podiatrist_services
+
+    prepare_lpr2 --> keep_diabetes_diagnoses["keep_diabetes_diagnoses()"]:::keep
+    prepare_lpr3 --> keep_diabetes_diagnoses
+    keep_diabetes_diagnoses --> add_t1d_diagnoses_cols["add_t1d_diagnoses_cols()"]
+
+    lmdb --> keep_gld_purchases["keep_gld_purchases()"]:::keep
+
+    lab_forsker --> keep_hba1c["keep_hba1c()"]:::keep
+
+    %% Drop
+    keep_gld_purchases --> drop_pcos["drop_pcos()"]:::drop
+    bef --> drop_pcos
+
+    drop_pcos --> drop_pregnancies["drop_pregnancies()"]:::drop
+    keep_pregnancy_dates --> drop_pregnancies
+    keep_hba1c --> drop_pregnancies
+    drop_pregnancies --> add_insulin_purchases_cols["add_insulin_purchases_cols()"]
+
+    %% Join and classify
+    add_t1d_diagnoses_cols --> keep_two_earliest_events["keep_two_earliest_events()"]
+    keep_podiatrist_services --> keep_two_earliest_events
+    add_insulin_purchases_cols --> keep_two_earliest_events
+
+    keep_two_earliest_events --> join_inclusions["join_inclusions()"]
+    join_inclusions --> create_inclusion_dates["create_inclusion_dates()"]
+    create_inclusion_dates --> classify_t1d["classify_t1d()"]
+
+    keep_pregnancy_dates ~~~ drop_pcos
+
+  end
+
+  %% Styling
+  classDef default fill:#EEEEEE, color:#000000, stroke:#000000
+  classDef keep fill:lightblue
+  classDef drop fill:orange
+  style classify_diabetes fill:#FFFFFF, color:#000000
+  style data_sources fill:#FFFFFF, color:#000000, stroke-width:0px
