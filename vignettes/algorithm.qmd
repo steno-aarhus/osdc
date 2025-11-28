@@ -83,52 +83,9 @@ is only complete from 1997 onwards.
 
 ## High-level flowchart
 
-```{mermaid}
-%%| eval: true
-%%| fig-cap: "Flow of inclusions and exclusions used for classifying diabetes status using the osdc package. Light blue and orange boxes represent inclusions and exclusions, respectively."
-
-flowchart TD
-  subgraph background_population["Background population"]
-    lpr_diag[("lpr_diag")]
-    lpr_adm[("lpr_adm")]
-    kontakter[("kontakter")]
-    diagnoser[("diagnoser")]
-    sysi[("sysi")]
-    sssy[("sssy")]
-    lmdb[("lmdb")]
-    lab_forsker[("lab_forsker")]
-    bef[("bef")]
-  end
-
-    background_population --> diabetes_diagnoses["Include:<br>Hospital diagnoses of diabetes"]:::include
-    background_population --> hba1c["Include:<br>HbA1c measurements of ≥48 mmol/mol"]:::include
-
-    hba1c --> drop_pregnancies_hba1c["Exclude:<br>HbA1c measurements during pregnancies"]:::exclude
-
-    background_population --> gld["Include:<br>Purchase(s) of glucose-lowering drugs used exclusively for treatment of diabetes"]:::include
-    gld --> drop_pcos["Exclude:<br>Metformin purchases by women younger than 40 or with a PCOS-related indication code"]:::exclude
-    drop_pcos --> drop_pregnancies_gld["Exclude:<br>GLD purchases during pregnancies"]:::exclude
-    
-    background_population --> podiatrist_services["Include:<br>Diabetes-specific podiatrist services"]:::include
-
-    %% Join in classify
-    drop_pregnancies_hba1c --> classify_t1d["Classification of type 1 diabetes"]
-    drop_pregnancies_gld --> classify_t1d
-    diabetes_diagnoses --> classify_t1d
-    podiatrist_services --> classify_t1d
-
-    classify_t1d --> classify_t2d["Not type 1 diabetes is classified as type 2 diabetes"]
-
-    background_population ~~~ diabetes_diagnoses
-    background_population ~~~ podiatrist_services
-    background_population ~~~ hba1c
-
-  %% Styling
-  classDef default fill:#EEEEEE, color:#000000, stroke:#000000
-  classDef include fill:lightblue
-  classDef exclude fill:orange
-  style background_population fill:#FFFFFF, color:#000000
-```
+![Flow of inclusions and exclusions used for classifying diabetes status
+using the osdc package. Light blue and orange boxes represent inclusions
+and exclusions, respectively.](images/overview-flow.svg)
 
 ### Classifying type 1 diabetes
 

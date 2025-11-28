@@ -72,3 +72,11 @@ install-package:
 # Clean up generated HTML and R files from vignettes
 cleanup-vignettes:
   rm vignettes/*.R vignettes/*.html vignettes/articles/*.R vignettes/articles/*.html
+
+# Need to install the mermaid-cli package first:
+# npm install -g @mermaid-js/mermaid-cli
+
+# Convert Mermaid diagrams into SVG files
+convert-mmd-to-svg:
+  mmdc -i vignettes/images/overview-flow.mmd -o vignettes/images/overview-flow.svg
+  mmdc -i vignettes/images/function-flow.mmd -o vignettes/images/function-flow.svg
