@@ -28,6 +28,7 @@ Imports:
     checkmate,
     cli,
     codeCollection,
+    dbplyr,
     dplyr,
     duckplyr,
     fabricatr,
@@ -37,7 +38,8 @@ Imports:
     rlang,
     rvest,
     stats,
-    tidyselect
+    tidyselect,
+    utils
 Suggests:
     glue,
     knitr,

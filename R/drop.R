@@ -24,8 +24,10 @@ drop_pcos <- function(gld_purchases, bef) {
   gld_purchases |>
     dplyr::inner_join(bef, by = dplyr::join_by("pnr")) |>
     dplyr::mutate(
-      date = as_date(.data$date),
-      foed_dato = as_date(.data$foed_dato)
+      date = !!as_sql_datetime("date"),
+      date = as.Date(.data$date),
+      foed_dato = !!as_sql_datetime("foed_dato"),
+      foed_dato = as.Date(.data$foed_dato)
     ) |>
     # Use !! to inject the expression into filter
     dplyr::filter(!!logic) |>
@@ -70,17 +72,6 @@ drop_pregnancies <- function(
 ) {
   criteria <- logic_as_expression("is_within_pregnancy_interval")[[1]]
 
-  # TODO: This should be done at an earlier stage.
-  # Ensure both date columns are of type Date.
-  dropped_pcos <- dropped_pcos |>
-    dplyr::mutate(
-      date = as_date(.data$date)
-    )
-  included_hba1c <- included_hba1c |>
-    dplyr::mutate(
-      date = as_date(.data$date)
-    )
-
   dropped_pcos |>
     # Full join to keep rows from both dropped_pcos and included_hba1c.
     dplyr::full_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
@@ -100,7 +91,7 @@ drop_pregnancies <- function(
     # inside another for the same pnr.
     # Only keep rows that don't fall within any pregnancy interval.
     dplyr::filter(
-      !any(.data$is_within_pregnancy_interval),
+      !any(.data$is_within_pregnancy_interval, na.rm = TRUE),
       .by = c("pnr", "date")
     ) |>
     # Drop columns that were only used here.

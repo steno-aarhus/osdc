@@ -107,7 +107,8 @@ keep_hba1c <- function(lab_forsker) {
     # Keep only the columns we need.
     dplyr::mutate(
       pnr = .data$patient_cpr,
-      date = .data$samplingdate,
+      date = !!as_sql_datetime("samplingdate"),
+      date = as.Date(.data$date),
       .keep = "none"
     ) |>
     # Remove any duplicates
@@ -141,7 +142,7 @@ keep_hba1c <- function(lab_forsker) {
 keep_podiatrist_services <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
 
-  sysi |>
+  podiatrist_services <- sysi |>
     dplyr::full_join(
       sssy,
       by = dplyr::join_by("pnr", "barnmak", "speciale", "honuge")
@@ -155,14 +156,25 @@ keep_podiatrist_services <- function(sysi, sssy) {
     dplyr::filter(!!logic) |>
     # Remove duplicates
     dplyr::distinct() |>
-    # Keep only the two columns we need and transform `honuge` to YYYY-MM-DD.
-    dplyr::mutate(
-      pnr = .data$pnr,
-      date = yyww_to_yyyymmdd(.data$honuge),
-      .keep = "none"
+    # Keep only the two columns we need.
+    dplyr::select(
+      pnr = "pnr",
+      date = "honuge"
     ) |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
     dplyr::mutate(from_podiatrist_service = TRUE)
+
+  podiatrist_services |>
+    # Transform `honuge` to YYYY-MM-DD.
+    # Unfortunately, the conversion from YYWW to an actual date is quite tricky
+    # to do well in SQL without a lot of revising and refactoring the code.
+    # So instead, we'll just pull into R, convert, and then bring back
+    # to DuckDB.
+    # TODO: Fix to use DuckDB SQL only.
+    dplyr::collect() |>
+    dplyr::mutate(date = yyww_to_yyyymmdd(.data$date)) |>
+    duckplyr::as_duckdb_tibble(prudence = "stingy") |>
+    duckplyr::as_tbl()
 }
 
 #' Convert date format YYWW to YYYY-MM-DD

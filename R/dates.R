@@ -1,12 +1,14 @@
-#' Simple `as.Date()` wrapper.
+#' Translate to SQL for datetime conversion to eventually date
 #'
-#' DuckDB doesn't support using [lubridate::as_date()], so this is
-#' a simple wrapper around [as.Date()] with the correct formats.
+#' DuckDB doesn't support using [lubridate::as_date()], so this
+#' uses [dbplyr::sql()] to directly use DuckDB's `strptime` to
+#' convert strings to datetimes. Afterwards, it can be converted
+#' to dates.
 #'
-#' @param x A character (or date) column.
+#' @param x A character (or date) column, in quotes.
 #'
-#' @returns A Date column.
+#' @returns A Datetime column.
 #' @keywords internal
-as_date <- function(x) {
-  as.Date(x, tryFormats = c("%Y%m%d", "%Y-%m-%d"))
+as_sql_datetime <- function(x) {
+  dbplyr::sql(glue::glue("strptime({x}, ['%Y%m%d', '%Y-%m-%d'])"))
 }
