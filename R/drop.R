@@ -70,17 +70,6 @@ drop_pregnancies <- function(
 ) {
   criteria <- logic_as_expression("is_within_pregnancy_interval")[[1]]
 
-  # TODO: This should be done at an earlier stage.
-  # Ensure both date columns are of type Date.
-  dropped_pcos <- dropped_pcos |>
-    dplyr::mutate(
-      date = as_date(.data$date)
-    )
-  included_hba1c <- included_hba1c |>
-    dplyr::mutate(
-      date = as_date(.data$date)
-    )
-
   dropped_pcos |>
     # Full join to keep rows from both dropped_pcos and included_hba1c.
     dplyr::full_join(included_hba1c, by = dplyr::join_by("pnr", "date")) |>
