@@ -1,20 +1,28 @@
 #' Classify diabetes status using Danish registers.
 #'
-#' @param kontakter The contacts register for lpr3
-#' @param diagnoser The diagnoses register for lpr3
-#' @param lpr_diag The diagnoses register for lpr2
-#' @param lpr_adm The admissions register for lpr2
-#' @param sysi The SYSI register
-#' @param sssy The SSSY register
-#' @param lab_forsker The lab forsker register
-#' @param bef The BEF register
-#' @param lmdb The LMDB register
+#' This function requires that each source of register data is represented
+#' as a single DuckDB object in R (e.g. a connection to Parquet files).
+#' Each DuckDB object must contain a single table covering all years of
+#' that data source, or at least the years you have and are interested
+#' in.
+#'
+#' @param kontakter The contacts information table from the LPR3 patient register
+#' @param diagnoser The diagnoses information table from the LPR3 patient register
+#' @param lpr_diag The diagnoses information table from the LPR2 patient register
+#' @param lpr_adm The administrative information table from the LPR2 patient register
+#' @param sysi The SYSI table from the health service register
+#' @param sssy The SSSY table from the health service register
+#' @param lab_forsker The register for laboratory results for research
+#' @param bef The BEF table from the civil register
+#' @param lmdb The LMDB table from the prescription register
 #' @param stable_inclusion_start_date Cutoff date after which inclusion events
-#'    are considered reliable (e.g., after changes in drug labeling or data
-#'    entry practices). Defaults to "1998-01-01" which is one year after
-#'    obstetric codes are reliable in the GLD data (since we use LPR data to
-#'    drop rows related to gestational diabetes). This limits the included
-#'    cohort to individuals with inclusion dates after this cutoff date.
+#' are considered true incident diabetes cases. Defaults to "1998-01-01",
+#' which is one year after the data on pregnancy events from the Patient Register
+#' are considered valid for dropping gestational diabetes-related purchases of
+#' glucose-lowering drugs. This default assumes that the user is using LPR and
+#' LMDB data from at least Jan 1 1997 onward. If the user only has access to LPR
+#' and LMDB data from a later date, this parameter should be set to one year
+#' after the beginning of the user's data coverage.
 #'
 #' @returns The same object type as the input data, which would be a
 #'    [duckplyr::duckdb_tibble()] type object.

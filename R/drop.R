@@ -51,11 +51,7 @@ drop_pcos <- function(gld_purchases, bef) {
 #' glucose-lowering drugs during pregnancy).
 #'
 #' After these drop functions have been applied, the output serves as
-#' inputs to:
-#'
-#' 1.  The censored HbA1c and GLD data are passed to the
-#'     [join_inclusions()] function for the final step of the inclusion
-#'     process.
+#' input to the [add_insulin_purchases_cols()] function.
 #'
 #' @param dropped_pcos Output from [drop_pcos()].
 #' @param pregnancy_dates Output from [keep_pregnancy_dates()].
