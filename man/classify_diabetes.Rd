@@ -18,37 +18,43 @@ classify_diabetes(
 )
 }
 \arguments{
-\item{kontakter}{The contacts register for lpr3}
+\item{kontakter}{The contacts information table from the LPR3 patient register}
 
-\item{diagnoser}{The diagnoses register for lpr3}
+\item{diagnoser}{The diagnoses information table from the LPR3 patient register}
 
-\item{lpr_diag}{The diagnoses register for lpr2}
+\item{lpr_diag}{The diagnoses information table from the LPR2 patient register}
 
-\item{lpr_adm}{The admissions register for lpr2}
+\item{lpr_adm}{The administrative information table from the LPR2 patient register}
 
-\item{sysi}{The SYSI register}
+\item{sysi}{The SYSI table from the health service register}
 
-\item{sssy}{The SSSY register}
+\item{sssy}{The SSSY table from the health service register}
 
-\item{lab_forsker}{The lab forsker register}
+\item{lab_forsker}{The register for laboratory results for research}
 
-\item{bef}{The BEF register}
+\item{bef}{The BEF table from the civil register}
 
-\item{lmdb}{The LMDB register}
+\item{lmdb}{The LMDB table from the prescription register}
 
 \item{stable_inclusion_start_date}{Cutoff date after which inclusion events
-are considered reliable (e.g., after changes in drug labeling or data
-entry practices). Defaults to "1998-01-01" which is one year after
-obstetric codes are reliable in the GLD data (since we use LPR data to
-drop rows related to gestational diabetes). This limits the included
-cohort to individuals with inclusion dates after this cutoff date.}
+are considered true incident diabetes cases. Defaults to "1998-01-01",
+which is one year after the data on pregnancy events from the Patient Register
+are considered valid for dropping gestational diabetes-related purchases of
+glucose-lowering drugs. This default assumes that the user is using LPR and
+LMDB data from at least Jan 1 1997 onward. If the user only has access to LPR
+and LMDB data from a later date, this parameter should be set to one year
+after the beginning of the user's data coverage.}
 }
 \value{
 The same object type as the input data, which would be a
 \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}} type object.
 }
 \description{
-Classify diabetes status using Danish registers.
+This function requires that each source of register data is represented
+as a single DuckDB object in R (e.g. a connection to Parquet files).
+Each DuckDB object must contain a single table covering all years of
+that data source, or at least the years you have and are interested
+in.
 }
 \examples{
 register_data <- simulate_registers(
