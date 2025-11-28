@@ -107,7 +107,8 @@ keep_hba1c <- function(lab_forsker) {
     # Keep only the columns we need.
     dplyr::mutate(
       pnr = .data$patient_cpr,
-      date = .data$samplingdate,
+      date = !!as_sql_datetime("samplingdate"),
+      date = as.Date(.data$date),
       .keep = "none"
     ) |>
     # Remove any duplicates

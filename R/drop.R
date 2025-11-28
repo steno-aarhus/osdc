@@ -24,8 +24,10 @@ drop_pcos <- function(gld_purchases, bef) {
   gld_purchases |>
     dplyr::inner_join(bef, by = dplyr::join_by("pnr")) |>
     dplyr::mutate(
-      date = as_date(.data$date),
-      foed_dato = as_date(.data$foed_dato)
+      date = !!as_sql_datetime("date"),
+      date = as.Date(.data$date),
+      foed_dato = !!as_sql_datetime("foed_dato"),
+      foed_dato = as.Date(.data$foed_dato)
     ) |>
     # Use !! to inject the expression into filter
     dplyr::filter(!!logic) |>
