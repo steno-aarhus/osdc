@@ -158,8 +158,8 @@ keep_podiatrist_services <- function(sysi, sssy) {
     dplyr::distinct() |>
     # Keep only the two columns we need.
     dplyr::select(
-      pnr = .data$pnr,
-      date = .data$honuge
+      pnr = "pnr",
+      date = "honuge"
     ) |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
     dplyr::mutate(from_podiatrist_service = TRUE)
