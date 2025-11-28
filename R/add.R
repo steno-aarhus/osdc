@@ -30,8 +30,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
     # number of packages purchased
     dplyr::mutate(
       contained_doses = .data$volume * .data$apk,
-      is_insulin_gld_code = !!logic$is_insulin_gld_code,
-      date = as_date(date)
+      is_insulin_gld_code = !!logic$is_insulin_gld_code
     ) |>
     dplyr::select(
       "pnr",
