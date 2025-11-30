@@ -8,6 +8,5 @@
 
 library(testthat)
 library(osdc)
-library(dplyr)
 
 test_check("osdc")

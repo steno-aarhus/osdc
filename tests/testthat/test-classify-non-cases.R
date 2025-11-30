@@ -23,5 +23,4 @@ test_that("expected non-cases are not classified", {
     unique()
 
   expect_identical(expected_pnrs, character(0))
-  rm(actual)
 })

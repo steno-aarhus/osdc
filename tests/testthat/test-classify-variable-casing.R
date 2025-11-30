@@ -23,5 +23,4 @@ test_that("casing of input variables doesn't matter", {
     as.integer()
 
   expect_gte(nrow(actual), 0)
-  rm(actual)
 })
