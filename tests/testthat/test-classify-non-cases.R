@@ -1,5 +1,7 @@
 test_that("expected non-cases are not classified", {
-  nc <- non_cases()
+  nc <- non_cases() |>
+    purrr::map(duckplyr::as_duckdb_tibble) |>
+    purrr::map(duckplyr::as_tbl)
 
   actual <- classify_diabetes(
     kontakter = nc$kontakter,

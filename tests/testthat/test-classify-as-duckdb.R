@@ -1,7 +1,6 @@
 test_that("data must be a DuckDB object", {
   as_df <- names(registers()) |>
-    simulate_registers(n = 1000) |>
-    purrr::map(dplyr::collect)
+    simulate_registers(n = 100)
 
   expect_error(classify_diabetes(
     kontakter = as_df$kontakter,

@@ -1,7 +1,7 @@
 #' Create a synthetic dataset of edge case inputs
 #'
 #' @description
-#' This function generates a list of DuckDB tibbles representing the Danish health
+#' This function generates a list of tibbles representing the Danish health
 #' registers and the data necessary to run the algorithm. The dataset contains
 #' 23 individual cases (`pnr`s), each designed to test a specific logical branch
 #' of the diabetes classification algorithm, including inclusion, exclusion,
@@ -11,7 +11,7 @@
 #' behaves as expected under a wide range of conditions, but it is also intended
 #' to be explored by users to better understand how the algorithm logic works.
 #'
-#' @return A named list of 9  [duckplyr::duckdb_tibble()] objects, each representing a
+#' @return A named list of 9  [tibble::tibble()] objects, each representing a
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
 #'   `kontakter`, `diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 #' @export
@@ -350,6 +350,5 @@ edge_cases <- function() {
       out <- rlang::set_names(out, name)
     }) |>
     purrr::flatten() |>
-    purrr::map(duckplyr::as_duckdb_tibble) |>
-    append(list(classified = duckplyr::as_duckdb_tibble(classified)))
+    append(list(classified = classified))
 }

@@ -1,5 +1,7 @@
 test_that("expected cases are classified correctly", {
-  edge_case_data <- edge_cases()
+  edge_case_data <- edge_cases() |>
+    purrr::map(duckplyr::as_duckdb_tibble) |>
+    purrr::map(duckplyr::as_tbl)
 
   actual <- classify_diabetes(
     kontakter = edge_case_data$kontakter,

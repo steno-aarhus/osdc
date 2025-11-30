@@ -31,20 +31,14 @@
 #'   description of the internal implementation of this classification function.
 #'
 #' @examples
-#' register_data <- simulate_registers(
-#'   c(
-#'     "kontakter",
-#'     "diagnoser",
-#'     "lpr_diag",
-#'     "lpr_adm",
-#'     "sysi",
-#'     "sssy",
-#'     "lab_forsker",
-#'     "bef",
-#'     "lmdb"
-#'   ),
-#'   n = 10000
-#' )
+#' # Can't run this multiple times, will cause an error as the table
+#' # has already been created in the DuckDB connection.
+#' register_data <- registers() |>
+#'   names() |>
+#'   simulate_registers() |>
+#'   purrr::map(duckplyr::as_duckdb_tibble) |>
+#'   purrr::map(duckplyr::as_tbl)
+#'
 #' classify_diabetes(
 #'   kontakter = register_data$kontakter,
 #'   diagnoser = register_data$diagnoser,
@@ -69,26 +63,35 @@ classify_diabetes <- function(
   stable_inclusion_start_date = "1998-01-01"
 ) {
   # Input checks -----
-  kontakter <- as_stingy_duckdb(kontakter)
-  diagnoser <- as_stingy_duckdb(diagnoser)
-  lpr_diag <- as_stingy_duckdb(lpr_diag)
-  lpr_adm <- as_stingy_duckdb(lpr_adm)
-  sysi <- as_stingy_duckdb(sysi)
-  sssy <- as_stingy_duckdb(sssy)
-  lab_forsker <- as_stingy_duckdb(lab_forsker)
-  bef <- as_stingy_duckdb(bef)
-  lmdb <- as_stingy_duckdb(lmdb)
+
+  # Convert to dbplyr connection with duckdb to use dbplyr functions
+  # (since duckplyr is still in development).
+  # Also need to convert here rather than as a function, because of the
+  # way duckplyr works. It creates a temporary DuckDB DB in the background
+  # based on the name of the object passed to it.
+  registers <- list(
+    kontakter = kontakter,
+    diagnoser = diagnoser,
+    lpr_diag = lpr_diag,
+    lpr_adm = lpr_adm,
+    sysi = sysi,
+    sssy = sssy,
+    lab_forsker = lab_forsker,
+    bef = bef,
+    lmdb = lmdb
+  ) |>
+    purrr::map(verify_duckdb)
 
   # Verification step -----
-  kontakter <- select_required_variables(kontakter, "kontakter")
-  diagnoser <- select_required_variables(diagnoser, "diagnoser")
-  lpr_diag <- select_required_variables(lpr_diag, "lpr_diag")
-  lpr_adm <- select_required_variables(lpr_adm, "lpr_adm")
-  sysi <- select_required_variables(sysi, "sysi")
-  sssy <- select_required_variables(sssy, "sssy")
-  lab_forsker <- select_required_variables(lab_forsker, "lab_forsker")
-  bef <- select_required_variables(bef, "bef")
-  lmdb <- select_required_variables(lmdb, "lmdb")
+  kontakter <- select_required_variables(registers$kontakter, "kontakter")
+  diagnoser <- select_required_variables(registers$diagnoser, "diagnoser")
+  lpr_diag <- select_required_variables(registers$lpr_diag, "lpr_diag")
+  lpr_adm <- select_required_variables(registers$lpr_adm, "lpr_adm")
+  sysi <- select_required_variables(registers$sysi, "sysi")
+  sssy <- select_required_variables(registers$sssy, "sssy")
+  lab_forsker <- select_required_variables(registers$lab_forsker, "lab_forsker")
+  bef <- select_required_variables(registers$bef, "bef")
+  lmdb <- select_required_variables(registers$lmdb, "lmdb")
 
   # Initially processing -----
   lpr2 <- prepare_lpr2(
@@ -178,32 +181,25 @@ classify_diabetes <- function(
     )
 }
 
-as_stingy_duckdb <- function(data, call = rlang::caller_env()) {
+verify_duckdb <- function(data, call = rlang::caller_env()) {
   check <- checkmate::test_multi_class(
     data,
     classes = c(
       "tbl_duckdb_connection",
-      "duckplyr_df",
-      "duckplyr_tbl",
       "duckdb_connection"
     )
   )
   if (!check) {
     cli::cli_abort(
       message = c(
-        "The data needs to be a DuckDB object because we heavily process the data and need the power.",
+        "The data needs to be a {.cls tbl_duckdb_connection} object because we heavily process the data and need the power.",
         "i" = "The data has the class{?es}: {.code {class(data)}}"
       ),
       call = call
     )
   }
 
-  # Prevent conversion to R object.
-  data |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy") |>
-    # Convert to dbplyr connection with duckdb to use
-    # dbplyr functions (since duckplyr is still in development).
-    duckplyr::as_tbl()
+  data
 }
 
 #' After filtering, classify those with type 1 diabetes.
