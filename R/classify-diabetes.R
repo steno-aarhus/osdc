@@ -191,7 +191,7 @@ as_stingy_duckdb <- function(data, call = rlang::caller_env()) {
   if (!check) {
     cli::cli_abort(
       message = c(
-        "The data needs to be a DuckDB object because we heavily process the data.",
+        "The data needs to be a DuckDB object because we heavily process the data and need the power.",
         "i" = "The data has the class{?es}: {.code {class(data)}}"
       ),
       call = call
