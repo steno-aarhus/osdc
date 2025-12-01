@@ -2,7 +2,7 @@ test_that("expected non-cases are not classified", {
   skip_on_cran()
   skip_if(
     # Environment set in GitHub workflow.
-    Sys.getenv("DEVEL_R") == "true",
+    Sys.getenv("DEVELOP_R") == "true",
     message = "Skipping this test on devel R, there's an issue with it."
   )
   nc <- non_cases() |>
