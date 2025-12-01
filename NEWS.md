@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.16 (2025-12-01)
+
+### Perf
+
+- :zap: classification requires DuckDB/SQL (#410)
+
 ## 0.9.15 (2025-11-27)
 
 ### Refactor
