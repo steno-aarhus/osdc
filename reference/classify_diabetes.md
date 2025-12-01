@@ -88,20 +88,14 @@ this classification function.
 ## Examples
 
 ``` r
-register_data <- simulate_registers(
-  c(
-    "kontakter",
-    "diagnoser",
-    "lpr_diag",
-    "lpr_adm",
-    "sysi",
-    "sssy",
-    "lab_forsker",
-    "bef",
-    "lmdb"
-  ),
-  n = 10000
-)
+# Can't run this multiple times, will cause an error as the table
+# has already been created in the DuckDB connection.
+register_data <- registers() |>
+  names() |>
+  simulate_registers() |>
+  purrr::map(duckplyr::as_duckdb_tibble) |>
+  purrr::map(duckplyr::as_tbl)
+
 classify_diabetes(
   kontakter = register_data$kontakter,
   diagnoser = register_data$diagnoser,
@@ -113,18 +107,18 @@ classify_diabetes(
   bef = register_data$bef,
   lmdb = register_data$lmdb
 )
-#> # A duckplyr data frame: 5 variables
+#> # Source:   SQL [?? x 5]
+#> # Database: DuckDB 1.4.2 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpldLfwm/duckplyr/duckplyr18d56e378c43.duckdb]
 #>    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>    <chr>        <date>                <date>             <lgl>   <lgl>  
-#>  1 489451932098 2019-10-29            2019-10-29         FALSE   TRUE   
-#>  2 214175003479 2002-07-22            2002-07-22         FALSE   TRUE   
-#>  3 519614472995 2017-10-02            2017-10-02         FALSE   TRUE   
-#>  4 786291733149 2015-12-22            2015-12-22         FALSE   TRUE   
-#>  5 913887012520 2025-03-24            2025-03-24         FALSE   TRUE   
-#>  6 486214469378 2024-09-29            2024-09-29         FALSE   TRUE   
-#>  7 266202604180 2022-06-14            2022-06-14         FALSE   TRUE   
-#>  8 324242194760 2021-08-22            2021-08-22         FALSE   TRUE   
-#>  9 835830947366 2013-02-19            2013-02-19         FALSE   TRUE   
-#> 10 576628620010 2023-01-25            2023-01-25         FALSE   TRUE   
-#> # ℹ more rows
+#>  1 758297512588 2017-09-29            2017-09-29         FALSE   TRUE   
+#>  2 409442575549 2014-06-02            2014-06-02         FALSE   TRUE   
+#>  3 298944792608 2008-11-10            2008-11-10         FALSE   TRUE   
+#>  4 498989088479 2017-11-27            2017-11-27         FALSE   TRUE   
+#>  5 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
+#>  6 706974528463 2023-03-06            2023-03-06         FALSE   TRUE   
+#>  7 709733979611 2019-06-13            2019-06-13         FALSE   TRUE   
+#>  8 964792481999 2017-12-28            2017-12-28         FALSE   TRUE   
+#>  9 240771768588 2024-01-29            2024-01-29         FALSE   TRUE   
+#> 10 367352579896 2015-03-24            2015-03-24         FALSE   TRUE   
 ```

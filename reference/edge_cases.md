@@ -1,11 +1,10 @@
 # Create a synthetic dataset of edge case inputs
 
-This function generates a list of DuckDB tibbles representing the Danish
-health registers and the data necessary to run the algorithm. The
-dataset contains 23 individual cases (`pnr`s), each designed to test a
-specific logical branch of the diabetes classification algorithm,
-including inclusion, exclusion, censoring, and type classification
-rules.
+This function generates a list of tibbles representing the Danish health
+registers and the data necessary to run the algorithm. The dataset
+contains 23 individual cases (`pnr`s), each designed to test a specific
+logical branch of the diabetes classification algorithm, including
+inclusion, exclusion, censoring, and type classification rules.
 
 The generated data is used in `testthat` tests to ensure the algorithm
 behaves as expected under a wide range of conditions, but it is also
@@ -21,7 +20,7 @@ edge_cases()
 ## Value
 
 A named list of 9
-[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html)
+[`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
 objects, each representing a different health register: `bef`, `lmdb`,
 `lpr_adm`, `lpr_diag`, `kontakter`, `diagnoser`, `sysi`, `sssy`, and
 `lab_forsker`.
@@ -31,7 +30,7 @@ objects, each representing a different health register: `bef`, `lmdb`,
 ``` r
 edge_cases()
 #> $bef
-#> # A duckplyr data frame: 3 variables
+#> # A tibble: 10,023 × 3
 #>    pnr                                     koen foed_dato
 #>    <chr>                                  <int> <chr>    
 #>  1 01_t1d_oipT_anyt1dT                        1 19800101 
@@ -44,10 +43,10 @@ edge_cases()
 #>  8 08_t1d_oipF_medT_majt1dT_i180T_itwo3T      1 19920808 
 #>  9 09_t2d_oipF_medT_majt1dT_i180T_itwo3F      1 19930909 
 #> 10 10_t2d_oipF_medT_majt1dT_i180F_itwo3T      1 19850707 
-#> # ℹ more rows
+#> # ℹ 10,013 more rows
 #> 
 #> $diagnoser
-#> # A duckplyr data frame: 4 variables
+#> # A tibble: 10,029 × 4
 #>    dw_ek_kontakt diagnosekode diagnosetype senere_afkraeftet
 #>    <chr>         <chr>        <chr>        <chr>            
 #>  1 pnr01_dw01    DE101        A            Nej              
@@ -60,10 +59,10 @@ edge_cases()
 #>  8 pnr06_dw01    DE102        A            Nej              
 #>  9 pnr07_dw01    DE103        A            Nej              
 #> 10 pnr07_dw01    DE109        B            Nej              
-#> # ℹ more rows
+#> # ℹ 10,019 more rows
 #> 
 #> $kontakter
-#> # A duckplyr data frame: 4 variables
+#> # A tibble: 10,020 × 4
 #>    cpr                                dw_ek_kontakt hovedspeciale_ans dato_start
 #>    <chr>                              <chr>         <chr>             <chr>     
 #>  1 01_t1d_oipT_anyt1dT                pnr01_dw01    medicinsk endokr… 20210515  
@@ -76,10 +75,10 @@ edge_cases()
 #>  8 07_t2d_oipF_endoT_majt1dF_i180T_i… pnr07_dw02    geriatri          20230423  
 #>  9 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw01    kardiologi        20230120  
 #> 10 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw02    kardiologi        20240120  
-#> # ℹ more rows
+#> # ℹ 10,010 more rows
 #> 
 #> $lab_forsker
-#> # A duckplyr data frame: 4 variables
+#> # A tibble: 10,024 × 4
 #>    patient_cpr                            samplingdate analysiscode value
 #>    <chr>                                  <chr>        <chr>        <dbl>
 #>  1 01_t1d_oipT_anyt1dT                    20190101     NPU27300        50
@@ -92,10 +91,10 @@ edge_cases()
 #>  8 08_t1d_oipF_medT_majt1dT_i180T_itwo3T  20190101     NPU27300        57
 #>  9 09_t2d_oipF_medT_majt1dT_i180T_itwo3F  20190101     NPU27300        58
 #> 10 10_t2d_oipF_medT_majt1dT_i180F_itwo3T  20190101     NPU27300        59
-#> # ℹ more rows
+#> # ℹ 10,014 more rows
 #> 
 #> $lmdb
-#> # A duckplyr data frame: 6 variables
+#> # A tibble: 10,055 × 6
 #>    pnr                                    volume eksd     atc       apk indo   
 #>    <chr>                                   <dbl> <chr>    <chr>   <dbl> <chr>  
 #>  1 01_t1d_oipT_anyt1dT                        10 20200110 A10AB01     5 1234567
@@ -108,10 +107,10 @@ edge_cases()
 #>  8 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     10 20220101 A10BA02     2 4567890
 #>  9 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     10 20220301 A10AB01     8 4567891
 #> 10 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F     10 20220101 A10BA02     5 5678901
-#> # ℹ more rows
+#> # ℹ 10,045 more rows
 #> 
 #> $lpr_adm
-#> # A duckplyr data frame: 4 variables
+#> # A tibble: 10,021 × 4
 #>    pnr                                    c_spec recnum      d_inddto
 #>    <chr>                                  <chr>  <chr>       <chr>   
 #>  1 01_t1d_oipT_anyt1dT                    08     pnr01_rec01 20110515
@@ -124,10 +123,10 @@ edge_cases()
 #>  8 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 08     pnr07_rec01 20120423
 #>  9 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 02     pnr07_rec02 20130423
 #> 10 08_t1d_oipF_medT_majt1dT_i180T_itwo3T  01     pnr08_rec01 19920120
-#> # ℹ more rows
+#> # ℹ 10,011 more rows
 #> 
 #> $lpr_diag
-#> # A duckplyr data frame: 3 variables
+#> # A tibble: 10,029 × 3
 #>    recnum      c_diag c_diagtype
 #>    <chr>       <chr>  <chr>     
 #>  1 pnr01_rec01 DE111  A         
@@ -140,10 +139,10 @@ edge_cases()
 #>  8 pnr06_rec01 DE103  A         
 #>  9 pnr07_rec01 DE115  A         
 #> 10 pnr07_rec01 DE105  B         
-#> # ℹ more rows
+#> # ℹ 10,019 more rows
 #> 
 #> $sssy
-#> # A duckplyr data frame: 4 variables
+#> # A tibble: 10,018 × 4
 #>    pnr                                    barnmak speciale honuge
 #>    <chr>                                    <int> <chr>    <chr> 
 #>  1 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T       0 86409    2421  
@@ -156,10 +155,10 @@ edge_cases()
 #>  8 11_t2d_oipF_medT_majt1dF_i180T_itwo3T        0 12345    1234  
 #>  9 12_nodm_gldF_diagF_hba1cF_podF               0 20001    2001  
 #> 10 13_t2d_gldF_diagF_hba1cF_podT                0 54001    0801  
-#> # ℹ more rows
+#> # ℹ 10,008 more rows
 #> 
 #> $sysi
-#> # A duckplyr data frame: 4 variables
+#> # A tibble: 10,020 × 4
 #>    pnr                                    barnmak speciale honuge
 #>    <chr>                                    <int> <chr>    <chr> 
 #>  1 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T       0 54002    0453  
@@ -172,10 +171,10 @@ edge_cases()
 #>  8 12_nodm_gldF_diagF_hba1cF_podF               0 10001    1001  
 #>  9 12_nodm_gldF_diagF_hba1cF_podF               1 54002    1001  
 #> 10 12_nodm_gldF_diagF_hba1cF_podF               0 10001    1002  
-#> # ℹ more rows
+#> # ℹ 10,010 more rows
 #> 
 #> $classified
-#> # A duckplyr data frame: 5 variables
+#> # A tibble: 17 × 5
 #>    pnr                  stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>    <chr>                <date>                <date>             <lgl>   <lgl>  
 #>  1 01_t1d_oipT_anyt1dT  2019-01-01            2019-01-01         TRUE    FALSE  

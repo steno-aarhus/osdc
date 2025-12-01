@@ -190,8 +190,8 @@
 <colgroup>
 <col style="width: 15%">
 <col style="width: 17%">
-<col style="width: 14%">
-<col style="width: 52%">
+<col style="width: 16%">
+<col style="width: 50%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
@@ -203,14 +203,14 @@
 <tr class="odd">
 <td style="text-align: left;">lpr2_is_endocrinology_dept</td>
 <td style="text-align: left;">LPR2 endocrinology department</td>
-<td style="text-align: left;">c_spec == 8</td>
+<td style="text-align: left;">c_spec == 8L</td>
 <td style="text-align: left;">
 <code>TRUE</code> when the department where the recorded diagnosis was endocrinology.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">lpr2_is_medical_dept</td>
 <td style="text-align: left;">LPR2 other medical department</td>
-<td style="text-align: left;">c_spec %in% c(1:7, 9:30)</td>
+<td style="text-align: left;">c_spec %in% c(1L:7L, 9L:30L)</td>
 <td style="text-align: left;">
 <code>TRUE</code> when the diagnosis was recorded at a medical department other than endocrinology.</td>
 </tr>
@@ -398,7 +398,7 @@
 <tr class="odd">
 <td style="text-align: left;">is_within_pregnancy_interval</td>
 <td style="text-align: left;">Events that are within a potential pregnancy interval</td>
-<td style="text-align: left;">has_pregnancy_event AND date &gt;= (pregnancy_event_date - weeks(40)) AND date &lt;= (pregnancy_event_date + weeks(12))</td>
+<td style="text-align: left;">has_pregnancy_event AND date &gt;= (pregnancy_event_date - weeks(40L)) AND date &lt;= (pregnancy_event_date + weeks(12L))</td>
 <td style="text-align: left;">The potential pregnancy interval is defined as 40 weeks before and 12 weeks after the pregnancy event date (birth or miscarriage).</td>
 </tr>
 <tr class="even">
@@ -410,7 +410,7 @@
 <tr class="odd">
 <td style="text-align: left;">is_not_metformin_for_pcos</td>
 <td style="text-align: left;">Metformin purchases that aren’t potentially for the treatment of PCOS</td>
-<td style="text-align: left;">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND ((date - foed_dato) &lt; years(40) OR indication_code %in% c(‘0000092’, ‘0000276’, ‘0000781’)))</td>
+<td style="text-align: left;">NOT (koen == 2 AND atc =~ ‘^A10BA02$’ AND (date &lt; (foed_dato + years(40)) OR indication_code %in% c(‘0000092’, ‘0000276’, ‘0000781’)))</td>
 <td style="text-align: left;">Woman is defined as 2 in <code>koen</code>.</td>
 </tr>
 <tr class="even">
@@ -446,7 +446,7 @@
 <tr class="odd">
 <td style="text-align: left;">has_insulin_purchases_within_180_days</td>
 <td style="text-align: left;">Whether any insulin was purchased within 180 days of the first purchase of GLD</td>
-<td style="text-align: left;">any(is_insulin_gld_code &amp; date &lt;= (first_gld_date + days(180)))</td>
+<td style="text-align: left;">any(is_insulin_gld_code &amp; date &lt;= (first_gld_date + days(180L)), na.rm = TRUE)</td>
 <td style="text-align: left;">This is used to classify type 1 diabetes. It determines if any insulin was bought shortly after first buying any type of GLD, which suggests type 1 diabetes.</td>
 </tr>
 </tbody>
