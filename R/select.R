@@ -34,9 +34,9 @@ select_required_variables <- function(
 #' @keywords internal
 column_names_to_lower <- function(data) {
   # Needs to be a named vector for renaming.
-  lower_column_names <- names(data) |>
+  lower_column_names <- colnames(data) |>
     # This sets the names "attribute" of the vector.
-    rlang::set_names(tolower(names(data)))
+    rlang::set_names(tolower(colnames(data)))
   data |>
     # Inject the lowercase names into rename.
     dplyr::rename(!!!lower_column_names)
@@ -62,9 +62,13 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
     dplyr::select("name", "expected_data_type")
 
   # Get actual variables and their data types.
+  data_for_types <- data |>
+    utils::head() |>
+    dplyr::collect()
+
   actual <- tibble::tibble(
-    name = colnames(data),
-    actual_data_type = purrr::map_chr(data, class)
+    name = colnames(data_for_types),
+    actual_data_type = purrr::map_chr(data_for_types, class)
   )
 
   # Get mismatched data types.
