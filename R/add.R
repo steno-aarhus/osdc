@@ -30,8 +30,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
     # number of packages purchased
     dplyr::mutate(
       contained_doses = .data$volume * .data$apk,
-      is_insulin_gld_code = !!logic$is_insulin_gld_code,
-      date = as_date(date)
+      is_insulin_gld_code = !!logic$is_insulin_gld_code
     ) |>
     dplyr::select(
       "pnr",
@@ -39,10 +38,15 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
       "contained_doses",
       "is_insulin_gld_code"
     ) |>
-    dplyr::summarise(
+    dplyr::mutate(
+      # Needs to be done before hand, can't use the same variable in
+      # `summarise()` when using SQL.
       # Get first date of a GLD purchase and if a purchase of insulin occurs
       # within 180 days of the first purchase.
       first_gld_date = min(date, na.rm = TRUE),
+      .by = "pnr"
+    ) |>
+    dplyr::summarise(
       has_insulin_purchases_within_180_days = !!logic$has_insulin_purchases_within_180_days,
       # Sum up total doses of insulin and of all GLD.
       n_insulin_doses = sum(

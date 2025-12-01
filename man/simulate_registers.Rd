@@ -12,7 +12,7 @@ simulate_registers(registers, n = 1000)
 \item{n}{The number of rows to simulate for the resulting register.}
 }
 \value{
-A list with simulated register data (as DuckDB objects).
+A list with simulated register data, as a \code{\link[tibble:tibble]{tibble::tibble()}}.
 }
 \description{
 Simulate a fake data frame of one or more Danish registers

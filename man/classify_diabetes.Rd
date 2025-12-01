@@ -57,20 +57,14 @@ that data source, or at least the years you have and are interested
 in.
 }
 \examples{
-register_data <- simulate_registers(
-  c(
-    "kontakter",
-    "diagnoser",
-    "lpr_diag",
-    "lpr_adm",
-    "sysi",
-    "sssy",
-    "lab_forsker",
-    "bef",
-    "lmdb"
-  ),
-  n = 10000
-)
+# Can't run this multiple times, will cause an error as the table
+# has already been created in the DuckDB connection.
+register_data <- registers() |>
+  names() |>
+  simulate_registers() |>
+  purrr::map(duckplyr::as_duckdb_tibble) |>
+  purrr::map(duckplyr::as_tbl)
+
 classify_diabetes(
   kontakter = register_data$kontakter,
   diagnoser = register_data$diagnoser,

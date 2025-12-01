@@ -48,6 +48,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
+      # For tests to use to not run.
+      DEVELOP_R: ${{ matrix.config.r == 'devel' }}
 
     steps:
       - uses: actions/checkout@v4

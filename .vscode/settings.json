@@ -25,11 +25,10 @@
   "r.session.data.rowLimit": 1000,
   "r.plot.useHttpgd": true,
   "[quarto]": {
-    "editor.defaultFormatter": "REditorSupport.r",
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
   },
   "[r]": {
-    "editor.defaultFormatter": "REditorSupport.r",
+    "editor.defaultFormatter": "Posit.air-vscode",
     "editor.formatOnSave": true
   },
 }

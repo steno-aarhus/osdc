@@ -47,7 +47,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     dplyr::mutate(
       # Algorithm needs c_spec to be an integer to work correctly.
       c_spec = as.integer(.data$c_spec),
-      date = as_date(.data$d_inddto),
+      date = !!as_sql_datetime("d_inddto"),
+      date = as.Date(.data$date),
       is_primary_diagnosis = !!logic$lpr2_is_primary_diagnosis,
       is_diabetes_code = !!logic$lpr2_is_diabetes_code,
       is_t1d_code = !!logic$lpr2_is_t1d_code,
@@ -103,7 +104,8 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
     dplyr::mutate(
       # Algorithm needs "hovedspeciale_ans" values to be lowercase
       hovedspeciale_ans = tolower(.data$hovedspeciale_ans),
-      date = as_date(.data$dato_start),
+      date = !!as_sql_datetime("dato_start"),
+      date = as.Date(.data$date),
       is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
       is_t1d_code = !!logic$lpr3_is_t1d_code,
       is_t2d_code = !!logic$lpr3_is_t2d_code,
