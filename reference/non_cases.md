@@ -64,18 +64,18 @@ non_cases()
 #> 
 #> $kontakter
 #> # A duckplyr data frame: 4 variables
-#>    cpr          dw_ek_kontakt      hovedspeciale_ans          dato_start
-#>    <chr>        <chr>              <chr>                      <chr>     
-#>  1 nc_pcos_1    1                  medicinsk endokrinologi    20210101  
-#>  2 nc_pcos_2    1                  medicinsk endokrinologi    20190101  
-#>  3 nc_pcos_3    1                  medicinsk endokrinologi    20190101  
-#>  4 nc_preg_3    1                  abc                        20200101  
-#>  5 nc_preg_4    1                  abc                        20200101  
-#>  6 nc_preg_3    2                  abc                        20200101  
-#>  7 nc_preg_4    3                  abc                        20200101  
-#>  8 164409653234 942848630572354208 Almen medicin              20150812  
-#>  9 952443913885 069594786879610784 Børne- og ungdomspsykiatri 20150710  
-#> 10 679714832266 103668538248089087 Neurologi                  20221028  
+#>    cpr          dw_ek_kontakt      hovedspeciale_ans       dato_start
+#>    <chr>        <chr>              <chr>                   <chr>     
+#>  1 nc_pcos_1    1                  medicinsk endokrinologi 20210101  
+#>  2 nc_pcos_2    1                  medicinsk endokrinologi 20190101  
+#>  3 nc_pcos_3    1                  medicinsk endokrinologi 20190101  
+#>  4 nc_preg_3    1                  abc                     20200101  
+#>  5 nc_preg_4    1                  abc                     20200101  
+#>  6 nc_preg_3    2                  abc                     20200101  
+#>  7 nc_preg_4    3                  abc                     20200101  
+#>  8 164409653234 942848630572354208 Diagnostisk radiologi   20150812  
+#>  9 952443913885 069594786879610784 Urologi                 20150710  
+#> 10 679714832266 103668538248089087 Psykiatri               20221028  
 #> # ℹ more rows
 #> 
 #> $lab_forsker
@@ -105,9 +105,9 @@ non_cases()
 #>  5 nc_preg_2     10    20180101 A10      5    0000000
 #>  6 nc_preg_3     10    20200101 A10      5    0000000
 #>  7 nc_preg_4     10    20200101 A10      5    0000000
-#>  8 164409653234   9.24 20240410 N02BA05  2.21 9477070
-#>  9 952443913885   3.93 20180228 R06AX17  5.05 2229609
-#> 10 679714832266   3.14 20120310 D07AC08  5.39 6934228
+#>  8 164409653234   9.24 20240410 N05BC01  7.46 9477070
+#>  9 952443913885   3.93 20180228 N02BA05  4.92 2229609
+#> 10 679714832266   3.14 20120310 R06AX17  2.21 6934228
 #> # ℹ more rows
 #> 
 #> $lpr_adm
@@ -134,12 +134,12 @@ non_cases()
 #>  2 2                  DO00   A         
 #>  3 3                  DZ33   A         
 #>  4 942848630572354208 E9511  A         
-#>  5 069594786879610784 08459  A         
+#>  5 069594786879610784 08459  B         
 #>  6 103668538248089087 31502  B         
-#>  7 568625840943904921 59401  B         
-#>  8 849133686529524253 31154  B         
+#>  7 568625840943904921 59401  A         
+#>  8 849133686529524253 31154  A         
 #>  9 371073944504254886 Y9001  A         
-#> 10 844730233259097607 63000  A         
+#> 10 844730233259097607 63000  B         
 #> # ℹ more rows
 #> 
 #> $sssy
