@@ -23,13 +23,13 @@ for this package and algorithm, see `vignette("data-sources")`.
 
 ## Usage
 
-First, let's load the package, as well as duckplyr since we require
+First, let's load the package, as well as
+[duckplyr](https://duckplyr.tidyverse.org/index.html) since we require
 the data to be in the [DuckDB](https://duckdb.org/) format. See the
 `vignette("design")` for some reasons why.
 
 ```{r setup}
 #| message: false
-library(duckplyr)
 library(osdc)
 ```
 
@@ -38,5 +38,91 @@ different registers that are needed in order to classify the diabetes
 status of an individual. This can be found in the list:
 
 ```{r}
-registers()
+# Only showing first 2
+registers() |> 
+  head(2)
+```
+
+We can see the list of registers we need with:
+
+```{r}
+registers() |> 
+  names()
+```
+
+Let's create a fake dataset to show how to use the classification. We
+have a helper function `simulate_registers()` that takes a vector of
+register names and outputs a list of registers with simulated data.
+Because of the way that DuckDB connections work, we have to either load
+the data directly from a file as a DuckDB table, or convert a tibble
+into a DuckDB table. So we'll do that right after simulating the data.
+
+```{r}
+register_data <- registers() |> 
+  names() |> 
+  simulate_registers() |> 
+  purrr::map(duckplyr::as_duckdb_tibble) |> 
+  # Convert to a DuckDB connection, as duckplyr is still
+  # in early development, while the DBI-DuckDB connection
+  # is more stable.
+  purrr::map(duckplyr::as_tbl) 
+
+# Show only the first two items.
+register_data |> 
+  head(2)
+```
+
+Now we can run the `classify_diabetes()` on the simulated data. Because
+we use DuckDB, in order to "materialize" the data into R, you need to
+use `dplyr::collect()`.
+
+```{r}
+classified_diabetes <- classify_diabetes(
+  kontakter = register_data$kontakter,
+  diagnoser = register_data$diagnoser,
+  lpr_diag = register_data$lpr_diag,
+  lpr_adm = register_data$lpr_adm,
+  sysi = register_data$sysi,
+  sssy = register_data$sssy,
+  lab_forsker = register_data$lab_forsker,
+  bef = register_data$bef,
+  lmdb = register_data$lmdb
+) |> 
+  dplyr::collect()
+
+classified_diabetes
+```
+
+Just by pure chance, there are `r nrow(classified_diabetes)` simulated
+individuals that get classified into diabetes status. This is mainly
+because we've created the simulated data to over-represent the values in
+the variables included in the algorithm that will lead to classifying
+into diabetes status.
+
+In a real scenario, the register data is probably too big to read into
+memory before being converted into a `duckdb_tibble`. Therefore, we
+recommend that users first convert the individual register files into
+`.parquet` format on disk, with each register source contained in
+separate folders (e.g. all files from `kontakter` in one folder,
+`diagnoser` in another, `lpr_diag` in a third folder etc.). With the
+`arrow` package, each register data source can then be read in as a
+single `duckdb_tibble` by pointing the following code snippet to each of
+the Parquet folders. E.g. to load in `diagnoser`:
+
+```{r}
+  diagnoser <- diagnoser_parquet_folder |>
+    arrow::open_dataset(unify_schemas = TRUE) |>
+    arrow::to_duckdb()
+```
+
+And that's all there is to this package! You can now save this dataset
+as a Parquet file for you or your collaborators on your DST project to
+use these classifications.
+
+``` r
+classified_diabetes |>
+  duckplyr::as_duckdb_tibble() |>
+  duckplyr::compute_parquet(
+    "classified_diabetes.parquet"
+  )
 ```
