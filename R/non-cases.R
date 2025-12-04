@@ -121,7 +121,7 @@ non_cases <- function() {
 
   # Combine all tibbles into a named list -----
 
-  nc <- list(
+  list(
     bef = bef,
     lmdb = lmdb,
     lpr_adm = lpr_adm,
@@ -132,21 +132,6 @@ non_cases <- function() {
     sssy = sssy,
     lab_forsker = lab_forsker
   )
-
-  # Make the data bigger with simulated data to resolve issues of size
-  sim_data <- registers() |>
-    names() |>
-    simulate_registers(n = 10000)
-
-  sim_data |>
-    names() |>
-    purrr::map(\(name) {
-      out <- list(
-        dplyr::bind_rows(nc[[name]], sim_data[[name]])
-      )
-      out <- rlang::set_names(out, name)
-    }) |>
-    purrr::flatten()
 }
 
 #' Description of the different non-cases included in `non_cases()`
