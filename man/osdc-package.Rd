@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-The algorithm first identifies a population of individuals from Danish register data with any type of diabetes mellitus as individuals with two or more inclusion events. Then, it splits this population into individuals with either type 1 diabetes or type 2 diabetes by identifying individuals with type 1 diabetes and classifying the remainder of the diabetes population as having type 2 diabetes.
+The algorithm first identifies a population of individuals from Danish register data with any type of diabetes as individuals with two or more inclusion events. Then, it splits this population into individuals with either type 1 diabetes or type 2 diabetes by identifying individuals with type 1 diabetes and classifying the remainder of the diabetes population as having type 2 diabetes.
 }
 \seealso{
 Useful links:
