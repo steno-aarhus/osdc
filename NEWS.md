@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.17 (2025-12-04)
+
+### Fix
+
+- :bug: split out case data from sim, joining them as one in tests (#456)
+
 ## 0.9.16 (2025-12-01)
 
 ### Perf
