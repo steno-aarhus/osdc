@@ -23,11 +23,15 @@ transparent in the *osdc* repository.
 
 ## Installation
 
-You can install the development version of osdc from
-[GitHub](https://github.com/) with:
+You can install osdc from CRAN with:
 
 ``` r
-# install.packages("pak")
+install.packages("pak")
+```
+
+Or the development version from GitHub with:
+
+``` r
 pak::pak("steno-aarhus/osdc")
 ```
 

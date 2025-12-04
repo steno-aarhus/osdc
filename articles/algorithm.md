@@ -35,9 +35,8 @@ events apply:
       diabetes](https://doi.org/10.2147/clep.s456170).
     - The purchased drug is dapagliflozin or empagliflozin, two types of
       SGLT-2 inhibitors recommended in Danish guidelines for treatment
-      of [heart
-      failure](https://www.cardio.dk/chf#551-farmakologisk-behandling-af-hfref)
-      or [kidney
+      of heart failure (Section 5.5.1 of Dansk Cardiologisk Selskab) or
+      [kidney
       failure](https://nephrology.dk/vejledninger/ckd-mbd/kronisk-nyresygdom/sglt2i_ckd_uden_dm/)
       among individuals without diabetes. This pertains only to
       purchases of drugs containing only this class of glucose-lowering

@@ -170,11 +170,10 @@ Diabetologica. 2021;58(3):267–78.
 
 8\.
 
-Hallgren Elfgren I-M, Grodzinsky E, Törnvall E. The swedish national
+Hallgren Elfgren I-M, Grodzinsky E, Törnvall E. [The swedish national
 diabetes register in clinical practice and evaluation in primary health
-care. Primary Health Care Research &amp; Development \[Internet\].
-2016;17(6):549–58. Available from:
-<https://www.cambridge.org/core/article/swedish-national-diabetes-register-in-clinical-practice-and-evaluation-in-primary-health-care/F3A9B74FED1E7B36147FF63382939B9A>
+care](https://doi.org/10.1017/S1463423616000098). Primary Health Care
+Research &amp; Development. 2016;17(6):549–58.
 
 9\.
 
@@ -195,9 +194,7 @@ from:
 
 Green A, Sortsø C, Jensen PB, Emneus M. Validation of the danish
 national diabetes register. Clinical epidemiology \[Internet\].
-2014;7:5–15. Available from:
-[https://www.ncbi.nlm.nih.gov/pubmed/25565889
-https://www.ncbi.nlm.nih.gov/pmc/PMC4274151/](https://www.ncbi.nlm.nih.gov/pubmed/25565889%0Ahttps://www.ncbi.nlm.nih.gov/pmc/PMC4274151/)
+2014;7:5–15. Available from: <https://pubmed.ncbi.nlm.nih.gov/25565889/>
 
 12\.
 
