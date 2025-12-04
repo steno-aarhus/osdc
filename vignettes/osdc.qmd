@@ -109,10 +109,10 @@ separate folders (e.g. all files from `kontakter` in one folder,
 single `duckdb_tibble` by pointing the following code snippet to each of
 the Parquet folders. E.g. to load in `diagnoser`:
 
-```{r}
-  diagnoser <- diagnoser_parquet_folder |>
-    arrow::open_dataset(unify_schemas = TRUE) |>
-    arrow::to_duckdb()
+``` r
+diagnoser <- diagnoser_parquet_folder |>
+  arrow::open_dataset(unify_schemas = TRUE) |>
+  arrow::to_duckdb()
 ```
 
 And that's all there is to this package! You can now save this dataset
