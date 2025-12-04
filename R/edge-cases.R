@@ -322,9 +322,9 @@ edge_cases <- function() {
       raw_inclusion_date = lubridate::as_date(.data$raw_inclusion_date)
     )
 
-  # Combine all tibbles into a named list -------------------------------------------------------------------------
+  # Combine all tibbles into a named list -------------------------------------
 
-  cases <- list(
+  list(
     bef = bef,
     lmdb = lmdb,
     lpr_adm = lpr_adm,
@@ -333,22 +333,7 @@ edge_cases <- function() {
     diagnoser = diagnoser,
     sysi = sysi,
     sssy = sssy,
-    lab_forsker = lab_forsker
+    lab_forsker = lab_forsker,
+    classified = classified
   )
-
-  # Make the data bigger with simulated data to resolve issues of size.
-  sim_data <- registers() |>
-    names() |>
-    simulate_registers(n = 10000)
-
-  sim_data |>
-    names() |>
-    purrr::map(\(name) {
-      out <- list(
-        dplyr::bind_rows(cases[[name]], sim_data[[name]])
-      )
-      out <- rlang::set_names(out, name)
-    }) |>
-    purrr::flatten() |>
-    append(list(classified = classified))
 }
