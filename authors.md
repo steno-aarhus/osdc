@@ -21,13 +21,13 @@ Source:
 [`DESCRIPTION`](https://github.com/steno-aarhus/osdc/blob/main/DESCRIPTION)
 
 Brødbæk SK, Isaksen AA, Johnston LW (2025). *osdc: Open Source Diabetes
-Classifier for Danish Registers*. R package version 0.9.16,
+Classifier for Danish Registers*. R package version 0.9.17,
 <https://github.com/steno-aarhus/osdc>.
 
     @Manual{,
       title = {osdc: Open Source Diabetes Classifier for Danish Registers},
       author = {Signe Kirk Brødbæk and Anders Aasted Isaksen and Luke William Johnston},
       year = {2025},
-      note = {R package version 0.9.16},
+      note = {R package version 0.9.17},
       url = {https://github.com/steno-aarhus/osdc},
     }
