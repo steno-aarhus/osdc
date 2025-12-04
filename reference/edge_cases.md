@@ -30,7 +30,7 @@ objects, each representing a different health register: `bef`, `lmdb`,
 ``` r
 edge_cases()
 #> $bef
-#> # A tibble: 10,023 × 3
+#> # A tibble: 23 × 3
 #>    pnr                                     koen foed_dato
 #>    <chr>                                  <int> <chr>    
 #>  1 01_t1d_oipT_anyt1dT                        1 19800101 
@@ -43,58 +43,10 @@ edge_cases()
 #>  8 08_t1d_oipF_medT_majt1dT_i180T_itwo3T      1 19920808 
 #>  9 09_t2d_oipF_medT_majt1dT_i180T_itwo3F      1 19930909 
 #> 10 10_t2d_oipF_medT_majt1dT_i180F_itwo3T      1 19850707 
-#> # ℹ 10,013 more rows
-#> 
-#> $diagnoser
-#> # A tibble: 10,029 × 4
-#>    dw_ek_kontakt diagnosekode diagnosetype senere_afkraeftet
-#>    <chr>         <chr>        <chr>        <chr>            
-#>  1 pnr01_dw01    DE101        A            Nej              
-#>  2 pnr02_dw01    DE102        A            Nej              
-#>  3 pnr03_dw01    DE103        A            Nej              
-#>  4 pnr04_dw01    DE104        A            Nej              
-#>  5 pnr04_dw02    DE115        B            Nej              
-#>  6 pnr04_dw02    DE119        B            Nej              
-#>  7 pnr05_dw01    DE101        A            Nej              
-#>  8 pnr06_dw01    DE102        A            Nej              
-#>  9 pnr07_dw01    DE103        A            Nej              
-#> 10 pnr07_dw01    DE109        B            Nej              
-#> # ℹ 10,019 more rows
-#> 
-#> $kontakter
-#> # A tibble: 10,020 × 4
-#>    cpr                                dw_ek_kontakt hovedspeciale_ans dato_start
-#>    <chr>                              <chr>         <chr>             <chr>     
-#>  1 01_t1d_oipT_anyt1dT                pnr01_dw01    medicinsk endokr… 20210515  
-#>  2 02_t2d_oipT_anyt1dF                pnr02_dw01    thoraxkirurgi     20220616  
-#>  3 03_t2d_oipF_anyt1dF                pnr03_dw01    kardiologi        20200717  
-#>  4 04_t1d_oipF_endoT_majt1dT_i180T_i… pnr04_dw01    medicinsk endokr… 20230120  
-#>  5 05_t2d_oipF_endoT_majt1dT_i180T_i… pnr05_dw01    medicinsk endokr… 20230221  
-#>  6 06_t2d_oipF_endoT_majt1dT_i180F_i… pnr06_dw01    medicinsk endokr… 20230322  
-#>  7 07_t2d_oipF_endoT_majt1dF_i180T_i… pnr07_dw01    medicinsk endokr… 20220423  
-#>  8 07_t2d_oipF_endoT_majt1dF_i180T_i… pnr07_dw02    geriatri          20230423  
-#>  9 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw01    kardiologi        20230120  
-#> 10 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw02    kardiologi        20240120  
-#> # ℹ 10,010 more rows
-#> 
-#> $lab_forsker
-#> # A tibble: 10,024 × 4
-#>    patient_cpr                            samplingdate analysiscode value
-#>    <chr>                                  <chr>        <chr>        <dbl>
-#>  1 01_t1d_oipT_anyt1dT                    20190101     NPU27300        50
-#>  2 02_t2d_oipT_anyt1dF                    20190102     NPU27300        51
-#>  3 03_t2d_oipF_anyt1dF                    20190101     NPU27300        52
-#>  4 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T 20190101     NPU27300        53
-#>  5 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F 20190101     NPU27300        54
-#>  6 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T 20190101     NPU27300        55
-#>  7 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 20190101     NPU27300        56
-#>  8 08_t1d_oipF_medT_majt1dT_i180T_itwo3T  20190101     NPU27300        57
-#>  9 09_t2d_oipF_medT_majt1dT_i180T_itwo3F  20190101     NPU27300        58
-#> 10 10_t2d_oipF_medT_majt1dT_i180F_itwo3T  20190101     NPU27300        59
-#> # ℹ 10,014 more rows
+#> # ℹ 13 more rows
 #> 
 #> $lmdb
-#> # A tibble: 10,055 × 6
+#> # A tibble: 55 × 6
 #>    pnr                                    volume eksd     atc       apk indo   
 #>    <chr>                                   <dbl> <chr>    <chr>   <dbl> <chr>  
 #>  1 01_t1d_oipT_anyt1dT                        10 20200110 A10AB01     5 1234567
@@ -107,10 +59,10 @@ edge_cases()
 #>  8 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     10 20220101 A10BA02     2 4567890
 #>  9 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T     10 20220301 A10AB01     8 4567891
 #> 10 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F     10 20220101 A10BA02     5 5678901
-#> # ℹ 10,045 more rows
+#> # ℹ 45 more rows
 #> 
 #> $lpr_adm
-#> # A tibble: 10,021 × 4
+#> # A tibble: 21 × 4
 #>    pnr                                    c_spec recnum      d_inddto
 #>    <chr>                                  <chr>  <chr>       <chr>   
 #>  1 01_t1d_oipT_anyt1dT                    08     pnr01_rec01 20110515
@@ -123,10 +75,10 @@ edge_cases()
 #>  8 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 08     pnr07_rec01 20120423
 #>  9 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 02     pnr07_rec02 20130423
 #> 10 08_t1d_oipF_medT_majt1dT_i180T_itwo3T  01     pnr08_rec01 19920120
-#> # ℹ 10,011 more rows
+#> # ℹ 11 more rows
 #> 
 #> $lpr_diag
-#> # A tibble: 10,029 × 3
+#> # A tibble: 29 × 3
 #>    recnum      c_diag c_diagtype
 #>    <chr>       <chr>  <chr>     
 #>  1 pnr01_rec01 DE111  A         
@@ -139,26 +91,51 @@ edge_cases()
 #>  8 pnr06_rec01 DE103  A         
 #>  9 pnr07_rec01 DE115  A         
 #> 10 pnr07_rec01 DE105  B         
-#> # ℹ 10,019 more rows
+#> # ℹ 19 more rows
 #> 
-#> $sssy
-#> # A tibble: 10,018 × 4
-#>    pnr                                    barnmak speciale honuge
-#>    <chr>                                    <int> <chr>    <chr> 
-#>  1 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T       0 86409    2421  
-#>  2 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F       0 54003    1103  
-#>  3 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T       0 67148    0714  
-#>  4 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T       0 62545    2221  
-#>  5 08_t1d_oipF_medT_majt1dT_i180T_itwo3T        0 20866    1425  
-#>  6 09_t2d_oipF_medT_majt1dT_i180T_itwo3F        0 27002    2237  
-#>  7 10_t2d_oipF_medT_majt1dT_i180F_itwo3T        0 53825    1227  
-#>  8 11_t2d_oipF_medT_majt1dF_i180T_itwo3T        0 12345    1234  
-#>  9 12_nodm_gldF_diagF_hba1cF_podF               0 20001    2001  
-#> 10 13_t2d_gldF_diagF_hba1cF_podT                0 54001    0801  
-#> # ℹ 10,008 more rows
+#> $kontakter
+#> # A tibble: 20 × 4
+#>    cpr                                dw_ek_kontakt hovedspeciale_ans dato_start
+#>    <chr>                              <chr>         <chr>             <chr>     
+#>  1 01_t1d_oipT_anyt1dT                pnr01_dw01    medicinsk endokr… 20210515  
+#>  2 02_t2d_oipT_anyt1dF                pnr02_dw01    thoraxkirurgi     20220616  
+#>  3 03_t2d_oipF_anyt1dF                pnr03_dw01    kardiologi        20200717  
+#>  4 04_t1d_oipF_endoT_majt1dT_i180T_i… pnr04_dw01    medicinsk endokr… 20230120  
+#>  5 05_t2d_oipF_endoT_majt1dT_i180T_i… pnr05_dw01    medicinsk endokr… 20230221  
+#>  6 06_t2d_oipF_endoT_majt1dT_i180F_i… pnr06_dw01    medicinsk endokr… 20230322  
+#>  7 07_t2d_oipF_endoT_majt1dF_i180T_i… pnr07_dw01    medicinsk endokr… 20220423  
+#>  8 07_t2d_oipF_endoT_majt1dF_i180T_i… pnr07_dw02    geriatri          20230423  
+#>  9 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw01    kardiologi        20230120  
+#> 10 08_t1d_oipF_medT_majt1dT_i180T_it… pnr08_dw02    kardiologi        20240120  
+#> 11 09_t2d_oipF_medT_majt1dT_i180T_it… pnr09_dw01    kardiologi        20240221  
+#> 12 10_t2d_oipF_medT_majt1dT_i180F_it… pnr10_dw01    kardiologi        20240322  
+#> 13 11_t2d_oipF_medT_majt1dF_i180T_it… pnr11_dw01    kardiologi        20230423  
+#> 14 11_t2d_oipF_medT_majt1dF_i180T_it… pnr11_dw02    medicinsk endokr… 20240423  
+#> 15 11_t2d_oipF_medT_majt1dF_i180T_it… pnr11_dw03    thoraxkirurgi     20240616  
+#> 16 12_nodm_gldF_diagF_hba1cF_podF     pnr12_dw01    kardiologi        20210423  
+#> 17 14_t2d_gldF_diagF_hba1cT_podF      pnr14_dw01    gynaekologi og o… 20240101  
+#> 18 15_t2d_gldF_diagT_hba1cF_podF      pnr15_dw01    urologi           20230101  
+#> 19 16_t2d_gldT_diagF_hba1cF_podF      pnr16_dw01    gynaekologi og o… 20240101  
+#> 20 21_nodm_female_pregnancyT          pnr21_dw01    gynaekologi og o… 20240101  
+#> 
+#> $diagnoser
+#> # A tibble: 29 × 4
+#>    dw_ek_kontakt diagnosekode diagnosetype senere_afkraeftet
+#>    <chr>         <chr>        <chr>        <chr>            
+#>  1 pnr01_dw01    DE101        A            Nej              
+#>  2 pnr02_dw01    DE102        A            Nej              
+#>  3 pnr03_dw01    DE103        A            Nej              
+#>  4 pnr04_dw01    DE104        A            Nej              
+#>  5 pnr04_dw02    DE115        B            Nej              
+#>  6 pnr04_dw02    DE119        B            Nej              
+#>  7 pnr05_dw01    DE101        A            Nej              
+#>  8 pnr06_dw01    DE102        A            Nej              
+#>  9 pnr07_dw01    DE103        A            Nej              
+#> 10 pnr07_dw01    DE109        B            Nej              
+#> # ℹ 19 more rows
 #> 
 #> $sysi
-#> # A tibble: 10,020 × 4
+#> # A tibble: 20 × 4
 #>    pnr                                    barnmak speciale honuge
 #>    <chr>                                    <int> <chr>    <chr> 
 #>  1 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T       0 54002    0453  
@@ -171,7 +148,55 @@ edge_cases()
 #>  8 12_nodm_gldF_diagF_hba1cF_podF               0 10001    1001  
 #>  9 12_nodm_gldF_diagF_hba1cF_podF               1 54002    1001  
 #> 10 12_nodm_gldF_diagF_hba1cF_podF               0 10001    1002  
-#> # ℹ 10,010 more rows
+#> 11 12_nodm_gldF_diagF_hba1cF_podF               1 54002    1002  
+#> 12 13_t2d_gldF_diagF_hba1cF_podT                0 54002    0452  
+#> 13 14_t2d_gldF_diagF_hba1cT_podF                0 10003    1003  
+#> 14 15_t2d_gldF_diagT_hba1cF_podF                0 10004    1004  
+#> 15 16_t2d_gldT_diagF_hba1cF_podF                0 10005    1005  
+#> 16 17_nodm_glp1a_dapa_empa                      0 10006    1006  
+#> 17 18_t2d_male_pcosF                            0 10007    1007  
+#> 18 19_nodm_female_u40_pcosT                     0 10008    1008  
+#> 19 20_nodm_female_o40_pcosT                     0 10009    1009  
+#> 20 21_nodm_female_pregnancyT                    0 10010    1010  
+#> 
+#> $sssy
+#> # A tibble: 18 × 4
+#>    pnr                                    barnmak speciale honuge
+#>    <chr>                                    <int> <chr>    <chr> 
+#>  1 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T       0 86409    2421  
+#>  2 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F       0 54003    1103  
+#>  3 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T       0 67148    0714  
+#>  4 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T       0 62545    2221  
+#>  5 08_t1d_oipF_medT_majt1dT_i180T_itwo3T        0 20866    1425  
+#>  6 09_t2d_oipF_medT_majt1dT_i180T_itwo3F        0 27002    2237  
+#>  7 10_t2d_oipF_medT_majt1dT_i180F_itwo3T        0 53825    1227  
+#>  8 11_t2d_oipF_medT_majt1dF_i180T_itwo3T        0 12345    1234  
+#>  9 12_nodm_gldF_diagF_hba1cF_podF               0 20001    2001  
+#> 10 13_t2d_gldF_diagF_hba1cF_podT                0 54001    0801  
+#> 11 14_t2d_gldF_diagF_hba1cT_podF                0 20002    2004  
+#> 12 15_t2d_gldF_diagT_hba1cF_podF                0 20003    2005  
+#> 13 16_t2d_gldT_diagF_hba1cF_podF                0 20004    2006  
+#> 14 17_nodm_glp1a_dapa_empa                      0 20005    2007  
+#> 15 18_t2d_male_pcosF                            0 20006    2008  
+#> 16 19_nodm_female_u40_pcosT                     0 20007    2009  
+#> 17 20_nodm_female_o40_pcosT                     0 20008    2010  
+#> 18 21_nodm_female_pregnancyT                    0 20009    2011  
+#> 
+#> $lab_forsker
+#> # A tibble: 24 × 4
+#>    patient_cpr                            samplingdate analysiscode value
+#>    <chr>                                  <chr>        <chr>        <dbl>
+#>  1 01_t1d_oipT_anyt1dT                    20190101     NPU27300        50
+#>  2 02_t2d_oipT_anyt1dF                    20190102     NPU27300        51
+#>  3 03_t2d_oipF_anyt1dF                    20190101     NPU27300        52
+#>  4 04_t1d_oipF_endoT_majt1dT_i180T_itwo3T 20190101     NPU27300        53
+#>  5 05_t2d_oipF_endoT_majt1dT_i180T_itwo3F 20190101     NPU27300        54
+#>  6 06_t2d_oipF_endoT_majt1dT_i180F_itwo3T 20190101     NPU27300        55
+#>  7 07_t2d_oipF_endoT_majt1dF_i180T_itwo3T 20190101     NPU27300        56
+#>  8 08_t1d_oipF_medT_majt1dT_i180T_itwo3T  20190101     NPU27300        57
+#>  9 09_t2d_oipF_medT_majt1dT_i180T_itwo3F  20190101     NPU27300        58
+#> 10 10_t2d_oipF_medT_majt1dT_i180F_itwo3T  20190101     NPU27300        59
+#> # ℹ 14 more rows
 #> 
 #> $classified
 #> # A tibble: 17 × 5
