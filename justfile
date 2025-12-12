@@ -80,3 +80,8 @@ cleanup-vignettes:
 convert-mmd-to-svg:
   mmdc -i vignettes/images/overview-flow.mmd -o vignettes/images/overview-flow.svg
   mmdc -i vignettes/images/function-flow.mmd -o vignettes/images/function-flow.svg
+
+# Preview website locally
+preview-website:
+  #!/usr/bin/env Rscript
+  pkgdown::preview_site()
