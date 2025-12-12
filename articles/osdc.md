@@ -112,10 +112,10 @@ register_data |>
   head(2)
 #> $bef
 #> # Source:   table<as_tbl_duckplyr_Ms0qNyXTJO> [?? x 3]
-#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/Rtmpc2wwbB/duckplyr/duckplyr1e4e5cf37bf5.duckdb]
+#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpTGBtsr/duckplyr/duckplyr1dde79c48e61.duckdb]
 #>     koen pnr          foed_dato
 #>    <int> <chr>        <chr>    
-#>  1     2 108684730664 19320112 
+#>  1     1 108684730664 19320112 
 #>  2     1 982144017357 20070716 
 #>  3     1 672580814975 19800805 
 #>  4     1 439008110445 20090628 
@@ -129,7 +129,7 @@ register_data |>
 #> 
 #> $diagnoser
 #> # Source:   table<as_tbl_duckplyr_VDkIxarsMS> [?? x 4]
-#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/Rtmpc2wwbB/duckplyr/duckplyr1e4e5cf37bf5.duckdb]
+#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpTGBtsr/duckplyr/duckplyr1dde79c48e61.duckdb]
 #>    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet
 #>    <chr>              <chr>        <chr>        <chr>            
 #>  1 920166254345774467 DX7621       B            Nej              
@@ -169,15 +169,15 @@ classified_diabetes
 #> # A tibble: 9 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 409442575549 2014-06-02            2014-06-02         FALSE   TRUE   
-#> 2 222716976101 2013-09-18            2013-09-18         FALSE   TRUE   
-#> 3 298944792608 2008-11-10            2008-11-10         FALSE   TRUE   
-#> 4 498989088479 2017-11-27            2017-11-27         FALSE   TRUE   
-#> 5 387790081572 2017-12-28            2017-12-28         FALSE   TRUE   
-#> 6 706974528463 2023-03-06            2023-03-06         FALSE   TRUE   
-#> 7 891077641572 2019-12-05            2019-12-05         FALSE   TRUE   
-#> 8 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
-#> 9 240771768588 2024-01-29            2024-01-29         FALSE   TRUE
+#> 1 891077641572 2019-12-05            2019-12-05         FALSE   TRUE   
+#> 2 387790081572 2017-12-28            2017-12-28         FALSE   TRUE   
+#> 3 706974528463 2023-03-06            2023-03-06         FALSE   TRUE   
+#> 4 240771768588 2024-01-29            2024-01-29         FALSE   TRUE   
+#> 5 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
+#> 6 409442575549 2014-06-02            2014-06-02         FALSE   TRUE   
+#> 7 222716976101 2013-09-18            2013-09-18         FALSE   TRUE   
+#> 8 298944792608 2008-11-10            2008-11-10         FALSE   TRUE   
+#> 9 498989088479 2017-11-27            2017-11-27         FALSE   TRUE
 ```
 
 Just by pure chance, there are 9 simulated individuals that get
