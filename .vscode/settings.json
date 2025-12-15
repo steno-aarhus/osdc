@@ -31,4 +31,7 @@
     "editor.defaultFormatter": "Posit.air-vscode",
     "editor.formatOnSave": true
   },
+  "editor.rulers": [
+    80
+  ]
 }
