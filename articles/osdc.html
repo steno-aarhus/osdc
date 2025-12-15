@@ -158,24 +158,24 @@
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $bef</span></span>
 <span><span class="co">#&gt; # Source:   table&lt;as_tbl_duckplyr_Ms0qNyXTJO&gt; [?? x 3]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpTGBtsr/duckplyr/duckplyr1dde79c48e61.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpDMLZlf/duckplyr/duckplyr1dea38f7db24.duckdb]</span></span>
 <span><span class="co">#&gt;     koen pnr          foed_dato</span></span>
 <span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;    </span></span>
 <span><span class="co">#&gt;  1     1 108684730664 19320112 </span></span>
-<span><span class="co">#&gt;  2     1 982144017357 20070716 </span></span>
-<span><span class="co">#&gt;  3     1 672580814975 19800805 </span></span>
+<span><span class="co">#&gt;  2     2 982144017357 20070716 </span></span>
+<span><span class="co">#&gt;  3     2 672580814975 19800805 </span></span>
 <span><span class="co">#&gt;  4     1 439008110445 20090628 </span></span>
 <span><span class="co">#&gt;  5     2 489714666740 20170225 </span></span>
-<span><span class="co">#&gt;  6     1 155331797020 19730330 </span></span>
-<span><span class="co">#&gt;  7     2 777951655096 19341022 </span></span>
+<span><span class="co">#&gt;  6     2 155331797020 19730330 </span></span>
+<span><span class="co">#&gt;  7     1 777951655096 19341022 </span></span>
 <span><span class="co">#&gt;  8     1 167007504860 20010318 </span></span>
-<span><span class="co">#&gt;  9     1 132473802596 19530901 </span></span>
+<span><span class="co">#&gt;  9     2 132473802596 19530901 </span></span>
 <span><span class="co">#&gt; 10     1 876820784981 19310817 </span></span>
 <span><span class="co">#&gt; # ℹ more rows</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $diagnoser</span></span>
 <span><span class="co">#&gt; # Source:   table&lt;as_tbl_duckplyr_VDkIxarsMS&gt; [?? x 4]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpTGBtsr/duckplyr/duckplyr1dde79c48e61.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpDMLZlf/duckplyr/duckplyr1dea38f7db24.duckdb]</span></span>
 <span><span class="co">#&gt;    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;            </span></span>
 <span><span class="co">#&gt;  1 920166254345774467 DX7621       B            Nej              </span></span>
@@ -207,20 +207,19 @@
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
-<span><span class="co">#&gt; # A tibble: 9 × 5</span></span>
+<span><span class="co">#&gt; # A tibble: 8 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 891077641572 2019-12-05            2019-12-05         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 387790081572 2017-12-28            2017-12-28         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 706974528463 2023-03-06            2023-03-06         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 240771768588 2024-01-29            2024-01-29         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 409442575549 2014-06-02            2014-06-02         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 222716976101 2013-09-18            2013-09-18         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 8 298944792608 2008-11-10            2008-11-10         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 9 498989088479 2017-11-27            2017-11-27         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 968533061868 2015-10-17            2015-10-17         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 409442575549 2014-06-02            2014-06-02         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 644250034935 2016-03-25            2016-03-25         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 706974528463 2023-03-06            2023-03-06         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 298944792608 2008-11-10            2008-11-10         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 498989088479 2017-11-27            2017-11-27         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 8 240771768588 2024-01-29            2024-01-29         FALSE   TRUE</span></span></code></pre></div>
 </div>
-<p>Just by pure chance, there are 9 simulated individuals that get classified into diabetes status. This is mainly because we’ve created the simulated data to over-represent the values in the variables included in the algorithm that will lead to classifying into diabetes status.</p>
+<p>Just by pure chance, there are 8 simulated individuals that get classified into diabetes status. This is mainly because we’ve created the simulated data to over-represent the values in the variables included in the algorithm that will lead to classifying into diabetes status.</p>
 <p>In a real scenario, the register data is probably too big to read into memory before being converted into a <code>duckdb_tibble</code>. Therefore, we recommend that users first convert the individual register files into <code>.parquet</code> format on disk, with each register source contained in separate folders (e.g. all files from <code>kontakter</code> in one folder, <code>diagnoser</code> in another, <code>lpr_diag</code> in a third folder etc.). With the <code>arrow</code> package, each register data source can then be read in as a single <code>duckdb_tibble</code> by pointing the following code snippet to each of the Parquet folders. E.g. to load in <code>diagnoser</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnoser</span> <span class="op">&lt;-</span> <span class="va">diagnoser_parquet_folder</span> <span class="op">|&gt;</span></span>

@@ -112,24 +112,24 @@ register_data |>
   head(2)
 #> $bef
 #> # Source:   table<as_tbl_duckplyr_Ms0qNyXTJO> [?? x 3]
-#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpTGBtsr/duckplyr/duckplyr1dde79c48e61.duckdb]
+#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpDMLZlf/duckplyr/duckplyr1dea38f7db24.duckdb]
 #>     koen pnr          foed_dato
 #>    <int> <chr>        <chr>    
 #>  1     1 108684730664 19320112 
-#>  2     1 982144017357 20070716 
-#>  3     1 672580814975 19800805 
+#>  2     2 982144017357 20070716 
+#>  3     2 672580814975 19800805 
 #>  4     1 439008110445 20090628 
 #>  5     2 489714666740 20170225 
-#>  6     1 155331797020 19730330 
-#>  7     2 777951655096 19341022 
+#>  6     2 155331797020 19730330 
+#>  7     1 777951655096 19341022 
 #>  8     1 167007504860 20010318 
-#>  9     1 132473802596 19530901 
+#>  9     2 132473802596 19530901 
 #> 10     1 876820784981 19310817 
 #> # ℹ more rows
 #> 
 #> $diagnoser
 #> # Source:   table<as_tbl_duckplyr_VDkIxarsMS> [?? x 4]
-#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpTGBtsr/duckplyr/duckplyr1dde79c48e61.duckdb]
+#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpDMLZlf/duckplyr/duckplyr1dea38f7db24.duckdb]
 #>    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet
 #>    <chr>              <chr>        <chr>        <chr>            
 #>  1 920166254345774467 DX7621       B            Nej              
@@ -166,21 +166,20 @@ classified_diabetes <- classify_diabetes(
   dplyr::collect()
 
 classified_diabetes
-#> # A tibble: 9 × 5
+#> # A tibble: 8 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 891077641572 2019-12-05            2019-12-05         FALSE   TRUE   
-#> 2 387790081572 2017-12-28            2017-12-28         FALSE   TRUE   
-#> 3 706974528463 2023-03-06            2023-03-06         FALSE   TRUE   
-#> 4 240771768588 2024-01-29            2024-01-29         FALSE   TRUE   
-#> 5 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
-#> 6 409442575549 2014-06-02            2014-06-02         FALSE   TRUE   
-#> 7 222716976101 2013-09-18            2013-09-18         FALSE   TRUE   
-#> 8 298944792608 2008-11-10            2008-11-10         FALSE   TRUE   
-#> 9 498989088479 2017-11-27            2017-11-27         FALSE   TRUE
+#> 1 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
+#> 2 968533061868 2015-10-17            2015-10-17         FALSE   TRUE   
+#> 3 409442575549 2014-06-02            2014-06-02         FALSE   TRUE   
+#> 4 644250034935 2016-03-25            2016-03-25         FALSE   TRUE   
+#> 5 706974528463 2023-03-06            2023-03-06         FALSE   TRUE   
+#> 6 298944792608 2008-11-10            2008-11-10         FALSE   TRUE   
+#> 7 498989088479 2017-11-27            2017-11-27         FALSE   TRUE   
+#> 8 240771768588 2024-01-29            2024-01-29         FALSE   TRUE
 ```
 
-Just by pure chance, there are 9 simulated individuals that get
+Just by pure chance, there are 8 simulated individuals that get
 classified into diabetes status. This is mainly because we’ve created
 the simulated data to over-represent the values in the variables
 included in the algorithm that will lead to classifying into diabetes
