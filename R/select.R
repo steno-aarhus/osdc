@@ -101,3 +101,46 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
   }
   data
 }
+#' Adapt LPR_A data to LPR3 schema
+#'
+#' Converts variable names and types from the "LPR_A" format (`lpr_a_kontakt`,
+#' `lpr_a_diagnose`) to match the LPR3 schema expected by [prepare_lpr3()].
+#'
+#' E.g. `kont_starttidspunkt` is renamed to `dato_start` and converted to a
+#' date type, whereas `diag_kode` is simply renamed to `diagnosekode`.
+#'
+#' @param lpr_a_kontakt A duckplyr tibble containing contact data in
+#' LPR A format (typically data from 2022 onward).
+#' @param lpr_a_diagnose A duckplyr tibble containing diagnosis data in
+#' LPR A format.
+#'
+#' @return A list containing two tables, `kontakter` and `diagnoser`,
+#' with column names and types adapted to match the LPR3 format.
+#' @keywords internal
+adapt_lpr_a_to_lpr3 <- function(lpr_a_kontakt, lpr_a_diagnose) {
+  # Administrative information:
+  kontakter_adapted_from_lpr_a <- lpr_a_kontakt |>
+    dplyr::mutate(
+      # Cast LPR A's <dttm> timestamp to <chr> so prepare_lpr3 receives a string
+      dato_start = as.character(.data$kont_starttidspunkt)
+    ) |>
+    dplyr::select(
+      # Rename to match LPR3 schema
+      "cpr" = "pnr",
+      "dw_ek_kontakt",
+      "dato_start",
+      "hovedspeciale_ans" = "kont_ans_hovedspec"
+    )
+
+  # Diagnoses information:
+  diagnoser_adapted_from_lpr_a <- lpr_a_diagnose |>
+    dplyr::select(
+      # Rename to match LPR3 schema
+      "dw_ek_kontakt",
+      "diagnosekode" = "diag_kode",
+      "diagnosetype" = "diag_kode_type",
+      "senere_afkraeftet"
+    )
+
+  return(list(kontakter = kontakter_adapted, diagnoser = diagnoser_adapted))
+}
