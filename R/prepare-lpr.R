@@ -74,13 +74,22 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #'
 #' @inherit prepare_lpr2 description
 #' @param diagnoser The LPR3 register containing diabetes diagnoses.
-#' @param kontakter The LPR3 register containing hospital contacts/admissions.
+#' @param kontakter The LPR3 register containing hospital administrative data.
+#' @param lpr_a_diagnose Optional. The LPR_A register containing diagnoses.
+#' Necessary if using LPR_A data (roughly from 2023 onward).
+#' @param lpr_a_kontakt Optional. The LPR_A register containing hospital
+#' administrative data. Necessary if using LPR_A data (roughly from 2023 onward).
 #'
 #' @inherit prepare_lpr2 return
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-prepare_lpr3 <- function(kontakter, diagnoser) {
+prepare_lpr3 <- prepare_lpr3 <- function(
+  kontakter,
+  diagnoser,
+  lpr_a_kontakt = NULL,
+  lpr_a_diagnose = NULL
+) {
   logic <- c(
     "lpr3_is_needed_code",
     "lpr3_is_pregnancy_code",
@@ -92,6 +101,19 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
     "lpr3_is_primary_diagnosis"
   ) |>
     logic_as_expression()
+
+  # Consider LPR_A data only if it is specified in the input:
+  if (!is.null(lpr_a_kontakt) && !is.null(lpr_a_diagnose)) {
+    adapted <- adapt_lpr_a_to_lpr3(lpr_a_kontakt, lpr_a_diagnose)
+
+    # Add LPR_A admin data
+    kontakter <- kontakter |>
+      dplyr::union_all(adapted$kontakter)
+
+    # Add LPR_A diagnoses
+    diagnoser <- diagnoser |>
+      dplyr::union_all(adapted$diagnoser)
+  }
 
   diagnoser |>
     # Only keep relevant diagnoses
@@ -115,7 +137,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
       is_medical_dept = !!logic$lpr3_is_medical_dept,
     ) |>
     dplyr::select(
-      # Rename pnr to cpr for consistency with o
+      # Rename cpr to pnr for consistency with the old lpr2-formatted data
       "pnr" = "cpr",
       "date",
       "is_primary_diagnosis",
