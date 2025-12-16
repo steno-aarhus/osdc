@@ -126,20 +126,20 @@ adapt_lpr_a_to_lpr3 <- function(lpr_a_kontakt, lpr_a_diagnose) {
     ) |>
     dplyr::select(
       # Rename to match LPR3 schema
-      cpr = .data$pnr,
-      dw_ek_kontakt,
-      dato_start,
-      hovedspeciale_ans = .data$kont_ans_hovedspec
+      "cpr" = "pnr",
+      "dw_ek_kontakt",
+      "dato_start",
+      "hovedspeciale_ans" = "kont_ans_hovedspec"
     )
 
   # Diagnoses information:
   diagnoser_adapted_from_lpr_a <- lpr_a_diagnose |>
     dplyr::select(
       # Rename to match LPR3 schema
-      dw_ek_kontakt,
-      diagnosekode = .data$diag_kode,
-      diagnosetype = .data$diag_kode_type,
-      senere_afkraeftet
+      "dw_ek_kontakt",
+      "diagnosekode" = "diag_kode",
+      "diagnosetype" = "diag_kode_type",
+      "senere_afkraeftet"
     )
 
   return(list(kontakter = kontakter_adapted, diagnoser = diagnoser_adapted))
