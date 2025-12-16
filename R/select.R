@@ -121,8 +121,8 @@ adapt_lpr_a_to_lpr3 <- function(lpr_a_kontakt, lpr_a_diagnose) {
   # Administrative information:
   kontakter_adapted_from_lpr_a <- lpr_a_kontakt |>
     dplyr::mutate(
-      # Convert LPR A timestamp to date type
-      dato_start = as.Date(.data$kont_starttidspunkt)
+      # Cast LPR A's <dttm> timestamp to <chr> so prepare_lpr3 receives a string
+      dato_start = as.character(.data$kont_starttidspunkt)
     ) |>
     dplyr::select(
       # Rename to match LPR3 schema

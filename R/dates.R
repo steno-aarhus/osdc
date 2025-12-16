@@ -10,5 +10,5 @@
 #' @returns A Datetime column.
 #' @keywords internal
 as_sql_datetime <- function(x) {
-  dbplyr::sql(glue::glue("strptime({x}, ['%Y%m%d', '%Y-%m-%d'])"))
+  dbplyr::sql(glue::glue("strptime({x}, ['%Y%m%d', '%Y-%m-%d', '%Y-%m-%d %H:%M:%S'])"))
 }
