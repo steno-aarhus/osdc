@@ -5,6 +5,8 @@
 #'
 #' @param lpr_diag The LPR2 register containing diabetes diagnoses.
 #' @param lpr_adm The LPR2 register containing hospital admissions.
+#' @param lpr_a_diagnose The LPR A register containing diabetes diagnoses.
+#' @param lpr_a_kontakt A LPR A register containing hospital admissions.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with the following columns:

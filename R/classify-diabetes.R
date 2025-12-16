@@ -6,6 +6,10 @@
 #' that data source, or at least the years you have and are interested
 #' in.
 #'
+#' @param lpr_a_diagnose The diagnoses information table from the LPR A patient register.
+#' Optional, but necessary if using LPR_A data (roughly from 2023 onward).
+#' @param lpr_a_kontakt The contacts information table from the LPR A patient register
+#' Optional, but necessary if using LPR_A data (roughly from 2023 onward).
 #' @param kontakter The contacts information table from the LPR3 patient register
 #' @param diagnoser The diagnoses information table from the LPR3 patient register
 #' @param lpr_diag The diagnoses information table from the LPR2 patient register
@@ -40,6 +44,8 @@
 #'   purrr::map(duckplyr::as_tbl)
 #'
 #' classify_diabetes(
+#'   lpr_a_kontakt = NULL,
+#'   lpr_a_diagnose = NULL
 #'   kontakter = register_data$kontakter,
 #'   diagnoser = register_data$diagnoser,
 #'   lpr_diag = register_data$lpr_diag,
@@ -51,6 +57,8 @@
 #'   lmdb = register_data$lmdb
 #' )
 classify_diabetes <- function(
+  lpr_a_kontakt = NULL,
+  lpr_a_diagnose = NULL,
   kontakter,
   diagnoser,
   lpr_diag,
