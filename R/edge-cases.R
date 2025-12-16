@@ -43,7 +43,8 @@ edge_cases <- function() {
     "20_nodm_female_o40_pcosT", 2, "19750101",
     "21_nodm_female_pregnancyT", 2, "19950101",
     "22_nodm_female_blank", 2, "19960101",
-    "23_t2d_gldT_1995_1999", 1, "19500101"
+    "23_t2d_gldT_1995_1999", 1, "19500101",
+    "24_t2d_lpr_a_only", 1, "19800101"
   ) |>
     dplyr::mutate(koen = as.integer(.data$koen))
 
@@ -221,6 +222,19 @@ edge_cases <- function() {
     "pnr21_dw01", "DO806", "A", "Nej"
   )
 
+  lpr_a_kontakt <- tibble::tribble(
+    ~pnr, ~dw_ek_kontakt, ~kont_ans_hovedspec, ~kont_starttidspunkt,
+    "24_t2d_lpr_a_only", "pnr24_dw01", "thoraxkirurgi", "2023-01-01 10:00:00",
+    "24_t2d_lpr_a_only", "pnr24_dw02", "kardiologi", "2024-01-01 10:00:00"
+  ) |>
+    dplyr::mutate(kont_starttidspunkt = as.POSIXct(.data$kont_starttidspunkt))
+
+  lpr_a_diagnose <- tibble::tribble(
+    ~dw_ek_kontakt, ~diag_kode, ~diag_kode_type, ~senere_afkraeftet,
+    "pnr24_dw01", "DE111", "A", "Nej",
+    "pnr24_dw02", "DE119", "A", "Nej"
+  )
+
   sysi <- tibble::tribble(
     ~pnr, ~barnmak, ~speciale, ~honuge,
     "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", 0, "54002", "0453",
@@ -315,7 +329,8 @@ edge_cases <- function() {
     "15_t2d_gldF_diagT_hba1cF_podF", "2023-01-01", "2023-01-01", FALSE, TRUE,
     "16_t2d_gldT_diagF_hba1cF_podF", "2013-04-01", "2013-04-01", FALSE, TRUE,
     "18_t2d_male_pcosF", "2023-04-01", "2023-04-01", FALSE, TRUE,
-    "23_t2d_gldT_1995_1999", NA, "1995-06-16", FALSE, TRUE
+    "23_t2d_gldT_1995_1999", NA, "1995-06-16", FALSE, TRUE,
+    "24_t2d_lpr_a_only", "2024-01-01", "2024-01-01", FALSE, TRUE
   ) |>
     dplyr::mutate(
       stable_inclusion_date = lubridate::as_date(.data$stable_inclusion_date),
@@ -331,6 +346,8 @@ edge_cases <- function() {
     lpr_diag = lpr_diag,
     kontakter = kontakter,
     diagnoser = diagnoser,
+    lpr_a_kontakt = lpr_a_kontakt,
+    lpr_a_diagnose = lpr_a_diagnose,
     sysi = sysi,
     sssy = sssy,
     lab_forsker = lab_forsker,
