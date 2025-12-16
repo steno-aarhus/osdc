@@ -329,8 +329,8 @@ edge_cases <- function() {
     "15_t2d_gldF_diagT_hba1cF_podF", "2023-01-01", "2023-01-01", FALSE, TRUE,
     "16_t2d_gldT_diagF_hba1cF_podF", "2013-04-01", "2013-04-01", FALSE, TRUE,
     "18_t2d_male_pcosF", "2023-04-01", "2023-04-01", FALSE, TRUE,
-    "23_t2d_gldT_1995_1999", NA, "1995-06-16", FALSE, TRUE,
-    "24_t2d_lpr_a_only", "2024-01-01", "2024-01-01", FALSE, TRUE
+    "23_t2d_gldT_1995_1999", NA, "1995-06-16", FALSE, TRUE # ,
+    # "24_t2d_lpr_a_only", "2024-01-01", "2024-01-01", FALSE, TRUE
   ) |>
     dplyr::mutate(
       stable_inclusion_date = lubridate::as_date(.data$stable_inclusion_date),

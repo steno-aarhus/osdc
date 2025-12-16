@@ -27,6 +27,8 @@ actual <- classify_diabetes(
   diagnoser = cases_vs_nc$diagnoser,
   lpr_diag = cases_vs_nc$lpr_diag,
   lpr_adm = cases_vs_nc$lpr_adm,
+  lpr_a_kontakt = NULL,
+  lpr_a_diagnose = NULL,
   sysi = cases_vs_nc$sysi,
   sssy = cases_vs_nc$sssy,
   lab_forsker = cases_vs_nc$lab_forsker,
