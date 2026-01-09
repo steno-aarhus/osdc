@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.18 (2026-01-09)
+
+### Fix
+
+- :bug: don't download from URL inside a function (#470)
+
 ## 0.9.17 (2025-12-04)
 
 ### Fix
