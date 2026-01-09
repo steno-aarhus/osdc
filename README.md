@@ -5,6 +5,9 @@
 [![R-CMD-check](https://github.com/steno-aarhus/osdc/actions/workflows/build.yaml/badge.svg)](https://github.com/steno-aarhus/osdc/actions/workflows/build.yaml)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/osdc)](https://CRAN.R-project.org/package=osdc)
+[![GitHub
+Release](https://img.shields.io/github/v/release/steno-aarhus/osdc.svg)](https://github.com/steno-aarhus/osdc/releases/latest)
 
 <!-- badges: end -->
 
