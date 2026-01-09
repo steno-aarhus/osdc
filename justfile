@@ -2,7 +2,16 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: clean install-deps document spell-check style test build-website check install-package
+run-all: clean install-deps document check-spelling check-url-cran check-url-lychee lint style test build-website check-local-cran install-package
+
+# List all TODO items in the repository
+list-todos:
+  grep -R -n \
+    --exclude-dir=.quarto \
+    --exclude-dir=docs \
+    --exclude=justfile \
+    --exclude=*.csl \
+    "TODO" *
 
 # Clean up auto-generated files
 clean:
@@ -36,14 +45,19 @@ test:
   devtools::test()
 
 # Check the spelling
-spell-check:
+check-spelling:
   #!/usr/bin/env Rscript
   devtools::spell_check()
 
 # Check URLs based on CRAN requirements
-url-check:
+check-url-cran:
   #!/usr/bin/env Rscript
   urlchecker::url_check()
+
+# Install https://github.com/lycheeverse/lychee#installation
+# Check URLs using lychee tool
+check-url-lychee:
+  lychee .
 
 # Style all R code in the package
 style:
@@ -60,7 +74,7 @@ build-website:
   pkgdown::build_site()
 
 # Run local CRAN checks
-check:
+check-local-cran:
   #!/usr/bin/env Rscript
   devtools::check(error_on = "note")
 
