@@ -26,7 +26,7 @@ transparent in the *osdc* repository.
 You can install osdc from CRAN with:
 
 ``` r
-install.packages("pak")
+install.packages("osdc")
 ```
 
 Or the development version from GitHub with:
@@ -41,6 +41,14 @@ more data or running the full test suite, use:
 ``` r
 pak::pak("steno-aarhus/osdc", dependencies = "all")
 ```
+
+**Note**: We use an automated release system with
+[Commitizen](https://commitizen-tools.github.io/commitizen/) and GitHub
+Actions. This means that the latest version listed on GitHub will be
+different from the latest version listed on CRAN. When we eventually
+upload the latest version on GitHub to CRAN, then they will be
+synchronized again, but this happens less frequently compared to changes
+to the GitHub repository.
 
 ## Development
 

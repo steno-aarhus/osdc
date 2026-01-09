@@ -79,13 +79,14 @@
 </h2>
 <p>You can install osdc from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"osdc"</span><span class="op">)</span></span></code></pre></div>
 <p>Or the development version from GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steno-aarhus/osdc"</span><span class="op">)</span></span></code></pre></div>
 <p>To install all dependencies <strong>for development only</strong>, like simulating more data or running the full test suite, use:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"steno-aarhus/osdc"</span>, dependencies <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Note</strong>: We use an automated release system with <a href="https://commitizen-tools.github.io/commitizen/" class="external-link">Commitizen</a> and GitHub Actions. This means that the latest version listed on GitHub will be different from the latest version listed on CRAN. When we eventually upload the latest version on GitHub to CRAN, then they will be synchronized again, but this happens less frequently compared to changes to the GitHub repository.</p>
 </div>
 <div class="section level2">
 <h2 id="development">Development<a class="anchor" aria-label="anchor" href="#development"></a>
