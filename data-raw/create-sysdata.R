@@ -1,4 +1,5 @@
 library(tidyverse)
+library(rvest)
 
 # Get ICD-8 codes -----------------------------------------------------------
 
@@ -49,12 +50,21 @@ simulation_definitions <- here::here("data-raw/simulation-definitions.csv") |>
   read_csv(show_col_types = FALSE) |>
   select("register_abbrev", "variable_name", "generator")
 
+# Scrap hovedspeciale departments -----------------------------------------
+
+hovedspeciale_departments <- "https://www.dst.dk/da/Statistik/dokumentation/Times/forebyggelsesregistret/spec" |>
+  read_html() |>
+  html_element(css = "table") |>
+  html_table() |>
+  pull(Tekst)
+
 # Save internal data ------------------------------------------------------
 
 usethis::use_data(
   icd8,
   icd10,
   simulation_definitions,
+  hovedspeciale_departments,
   internal = TRUE,
   overwrite = TRUE
 )

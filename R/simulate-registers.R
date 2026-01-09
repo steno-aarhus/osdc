@@ -136,13 +136,7 @@ create_fake_npu <- function(n) {
 #' @return A character vector.
 #' @keywords internal
 create_fake_hovedspeciale_ans <- function(n) {
-  # TODO: It isn't great practice
-  "https://www.dst.dk/da/Statistik/dokumentation/Times/forebyggelsesregistret/spec" |>
-    rvest::read_html() |>
-    rvest::html_element(css = "table") |>
-    rvest::html_table() |>
-    dplyr::pull(.data$Tekst) |>
-    sample(n, replace = TRUE)
+  sample(hovedspeciale_departments, n, replace = TRUE)
 }
 
 # Transformations/fixes ----------------------------------------------------
