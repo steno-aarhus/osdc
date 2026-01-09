@@ -54,9 +54,9 @@ check-url-cran:
   #!/usr/bin/env Rscript
   urlchecker::url_check()
 
+# Install https://github.com/lycheeverse/lychee#installation
 # Check URLs using lychee tool
 check-url-lychee:
-  # Install https://github.com/lycheeverse/lychee#installation
   lychee .
 
 # Style all R code in the package
