@@ -32,10 +32,10 @@ these validations over the different versions.
     - For the sake of simplicity, as we found no impact on
       classification accuracy in the Health in Central Denmark data.
 5.  HbA1c samples taken on the same date are de-duplicated.
-    - To better align with [recommended diagnostic
-      practice](https://apps.who.int/iris/handle/10665/70523) (in the
-      original implementation, only samples taken at the exact same time
-      were de-duplicated)
+    - To better align with recommended diagnostic practice ([World
+      Health Organization 2011](#ref-WHO2011)). In the original
+      implementation, only samples taken at the exact same time were
+      de-duplicated.
 
 ## Validity
 
@@ -45,7 +45,7 @@ reported as overall PPV (positive predictive value) and sensitivity for
 each version of the algorithm and within subsets of the diabetes
 population reporting onset of diabetes before or after age 40,
 respectively, similar to tables 1 & 2 of the original validation paper
-\[@Isaksen2023\].
+([Isaksen, Sandbæk, and Bjerg 2023](#ref-Isaksen2023)).
 
 ### Validity in 2019
 
@@ -101,3 +101,14 @@ becomes available.
     majority of diabetes-specific diagnoses in type classification (e.g.
     only evaluate majority among the last five type-specific diabetes
     diagnoses).
+
+## References
+
+Isaksen, Anders Aasted, Annelli Sandbæk, and Lasse Bjerg. 2023.
+“Validation of Register-Based Diabetes Classifiers in Danish Data.”
+*Clinical Epidemiology* Volume 15 (May): 569–81.
+<https://doi.org/10.2147/clep.s407019>.
+
+World Health Organization. 2011. “Use of Glycated Haemoglobin (HbA1c) in
+Diagnosis of Diabetes Mellitus: Abbreviated Report of a WHO
+Consultation.”

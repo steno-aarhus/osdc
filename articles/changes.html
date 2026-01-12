@@ -102,12 +102,12 @@
 </li>
 <li>HbA1c samples taken on the same date are de-duplicated.
 <ul>
-<li>To better align with <a href="https://apps.who.int/iris/handle/10665/70523" class="external-link">recommended diagnostic practice</a> (in the original implementation, only samples taken at the exact same time were de-duplicated)</li>
+<li>To better align with recommended diagnostic practice <span class="citation" data-cites="WHO2011">(<a href="#ref-WHO2011" role="doc-biblioref">World Health Organization 2011</a>)</span>. In the original implementation, only samples taken at the exact same time were de-duplicated.</li>
 </ul>
 </li>
 </ol></section></section><section class="level2"><h2 id="validity">Validity<a class="anchor" aria-label="anchor" href="#validity"></a>
 </h2>
-<p>The validity of the OSDC algorithm is tested against self-reported diabetes type in the Health in Central Denmark survey. The results are reported as overall PPV (positive predictive value) and sensitivity for each version of the algorithm and within subsets of the diabetes population reporting onset of diabetes before or after age 40, respectively, similar to tables 1 &amp; 2 of the original validation paper <span class="citation" data-cites="Isaksen2023">[@Isaksen2023]</span>.</p>
+<p>The validity of the OSDC algorithm is tested against self-reported diabetes type in the Health in Central Denmark survey. The results are reported as overall PPV (positive predictive value) and sensitivity for each version of the algorithm and within subsets of the diabetes population reporting onset of diabetes before or after age 40, respectively, similar to tables 1 &amp; 2 of the original validation paper <span class="citation" data-cites="Isaksen2023">(<a href="#ref-Isaksen2023" role="doc-biblioref">Isaksen, Sandbæk, and Bjerg 2023</a>)</span>.</p>
 <section class="level3"><h3 id="validity-in-2019">Validity in 2019<a class="anchor" aria-label="anchor" href="#validity-in-2019"></a>
 </h3>
 <p>This uses the same data as <a href="https://doi.org/10.2147/CLEP.S407019" class="external-link">the original validation paper</a> and provides a direct comparison to the original implementation.</p>
@@ -246,7 +246,17 @@
 <ol type="1">
 <li>Add support for using medical birth register to define pregnancies to censor gestational diabetes (GDM). This will allow for the censoring of glucose-lowering drug (GLD) purchases all the way back to 1995 (rather than 1997 onward, as the obstetric codes are limited to), and enable the extension of the window of valid dates of diagnosis to 1996 onward.</li>
 <li>Limit the historic scope of primary diagnoses used to evaluate majority of diabetes-specific diagnoses in type classification (e.g. only evaluate majority among the last five type-specific diabetes diagnoses).</li>
-</ol></section><script id="quarto-html-after-body" type="application/javascript">
+</ol></section><section class="level2 unnumbered"><h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Isaksen2023" class="csl-entry" role="listitem">
+Isaksen, Anders Aasted, Annelli Sandbæk, and Lasse Bjerg. 2023. <span>“Validation of Register-Based Diabetes Classifiers in Danish Data.”</span> <em>Clinical Epidemiology</em> Volume 15 (May): 569–81. <a href="https://doi.org/10.2147/clep.s407019" class="external-link">https://doi.org/10.2147/clep.s407019</a>.
+</div>
+<div id="ref-WHO2011" class="csl-entry" role="listitem">
+World Health Organization. 2011. <span>“Use of Glycated Haemoglobin (<span>HbA1c</span>) in Diagnosis of Diabetes Mellitus: Abbreviated Report of a <span>WHO</span> Consultation.”</span>
+</div>
+</div>
+</section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
