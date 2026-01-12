@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.19 (2026-01-12)
+
+### Fix
+
+- :bug: URL in docs gave CRAN check error, change to citation (#474)
+
 ## 0.9.18 (2026-01-09)
 
 ### Fix
