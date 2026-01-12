@@ -1,8 +1,13 @@
+## Fix: Don't download from URL
+
+We intended to remove the download from URL and instead create it as
+a `sysdata.rda` file in the package before initially submitting to CRAN.
+But we missed that TODO item. We have now fixed this so that CRAN checks
+can pass without internet access. 
+
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
-
--   This is a new release.
+0 errors | 0 warnings | 0 note
 
 ## Testing
 
