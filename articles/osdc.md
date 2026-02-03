@@ -1,5 +1,14 @@
 # Getting started
 
+## What does this package do?
+
+The osdc (**O**pen **S**ource **D**iabetes **C**lassifier) package
+classifies individuals as having type 1 diabetes (T1D) or type 2
+diabetes (T2D) based on Danish register data. You provide the register
+data, and the package returns a table of individuals identified as
+having diabetes, along with their diabetes type (T1D or T2D) and the
+date of the classification.
+
 This package serves two overarching purposes:
 
 1.  To provide an open-source, code-based algorithm to classify type 1
@@ -9,201 +18,204 @@ This package serves two overarching purposes:
     registers, and on the need for an official process for updating or
     contributing to existing data sources.
 
-To read up on the overall design of this package as well as on the
-algorithm, check out the
-[`vignette("design")`](https://steno-aarhus.github.io/osdc/articles/design.md).
-For more explanation on the motivations, rationale, and needs for this
-algorithm and package, check out the
+For a detailed description of the algorithm, see
+[`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md).
+For the motivations and rationale behind this package, see
 [`vignette("rationale")`](https://steno-aarhus.github.io/osdc/articles/rationale.md).
-To see the specific data needed for this package and algorithm, see
+For a full list of required register variables, see
 [`vignette("data-sources")`](https://steno-aarhus.github.io/osdc/articles/data-sources.md).
 
-## Usage
+## Step-by-step usage
 
-First, let’s load the package, as well as
-[duckplyr](https://duckplyr.tidyverse.org/index.html) since we require
-the data to be in the [DuckDB](https://duckdb.org/) format. See the
-[`vignette("design")`](https://steno-aarhus.github.io/osdc/articles/design.md)
-for some reasons why.
+This section walks through the full workflow: loading the package,
+preparing data, running the classification, as well as understanding and
+saving the output. We use simulated data here, but the same or similar
+steps apply to real register data. For more information on using osdc on
+real register data, see
+[Section 3](#sec-working-with-real-register-data).
+
+### Step 1: (Install and) Load the package
+
+First, you need to install and load the package:
 
 ``` r
+# install.packages("osdc")
 library(osdc)
 ```
 
-The core of this package depends on the list of variables within
-different registers that are needed in order to classify the diabetes
-status of an individual. This can be found in the list:
+### Step 2: Check which registers are needed
 
-``` r
-# Only showing first 2
-registers() |> 
-  head(2)
-#> $bef
-#> $bef$name
-#> [1] "CPR-registerets befolkningstabel"
-#> 
-#> $bef$start_year
-#> [1] 1968
-#> 
-#> $bef$end_year
-#> [1] NA
-#> 
-#> $bef$variables
-#> # A tibble: 3 × 4
-#>   name      danish_description         english_description             data_type
-#>   <chr>     <chr>                      <chr>                           <list>   
-#> 1 pnr       Pseudonymiseret cpr-nummer Pseudonymised social security … <chr [1]>
-#> 2 koen      Koen                       Gender/sex                      <chr [1]>
-#> 3 foed_dato Foedselsdato               Date of birth                   <chr [2]>
-#> 
-#> 
-#> $lmdb
-#> $lmdb$name
-#> [1] "Laegemiddelstatistikregisteret"
-#> 
-#> $lmdb$start_year
-#> [1] 1995
-#> 
-#> $lmdb$end_year
-#> [1] NA
-#> 
-#> $lmdb$variables
-#> # A tibble: 6 × 4
-#>   name   danish_description                 english_description        data_type
-#>   <chr>  <chr>                              <chr>                      <list>   
-#> 1 pnr    Pseudonymiseret cpr-nummer         Pseudonymised social secu… <chr [1]>
-#> 2 eksd   Ekspeditionsdato                   Date of purchase           <chr [2]>
-#> 3 atc    ATC-kode (fuldt specificeret)      ATC code (fully specified) <chr [1]>
-#> 4 volume Antal standarddoser (DDD) i pakken Number of daily standard … <chr [1]>
-#> 5 apk    Antal pakker koebt                 Number of packages purcha… <chr [1]>
-#> 6 indo   Indikationskode for recept         Indication code            <chr [1]>
-```
+The algorithm requires data from nine Danish registers. The names of
+these registers can be seen below:
 
-We can see the list of registers we need with:
+| Register abbreviation | Register name                                       |
+|:----------------------|:----------------------------------------------------|
+| bef                   | CPR-registerets befolkningstabel                    |
+| lmdb                  | Laegemiddelstatistikregisteret                      |
+| lpr_adm               | Landspatientregisterets administrationstabel (LPR2) |
+| lpr_diag              | Landspatientregisterets diagnosetabel (LPR2)        |
+| kontakter             | Landspatientregisterets kontakttabel (LPR3)         |
+| diagnoser             | Landspatientregisterets diagnosetabel (LPR3)        |
+| sysi                  | Sygesikringsregisteret                              |
+| sssy                  | Sygesikringsregisteret                              |
+| lab_forsker           | Laboratoriedatabasens forskertabel                  |
 
-``` r
-registers() |> 
-  names()
-#> [1] "bef"         "lmdb"        "lpr_adm"     "lpr_diag"    "kontakter"  
-#> [6] "diagnoser"   "sysi"        "sssy"        "lab_forsker"
-```
+For a table showing the specific variables needed from each register,
+see
+[`vignette("data-sources")`](https://steno-aarhus.github.io/osdc/articles/data-sources.md).
 
-Let’s create a fake dataset to show how to use the classification. We
-have a helper function
+> **Important**
+>
+> To use the osdc algorithm, you need to have all the variables
+> described in
+> [`vignette("data-sources")`](https://steno-aarhus.github.io/osdc/articles/data-sources.md),
+> so please ensure that you have the required variables before
+> continuing.
+
+### Step 3: Prepare the data
+
+The package requires data to be in [DuckDB](https://duckdb.org/) format,
+which is a high-performance database format that can handle the large
+volumes of data without loading everything into memory at once. See
+[`vignette("design")`](https://steno-aarhus.github.io/osdc/articles/design.md)
+for more on why we use DuckDB.
+
+For this example, we generate simulated register data using
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md)
-that takes a vector of register names and outputs a list of registers
-with simulated data. Because of the way that DuckDB connections work, we
-have to either load the data directly from a file as a DuckDB table, or
-convert a tibble into a DuckDB table. So we’ll do that right after
-simulating the data.
+and then convert it to DuckDB format:
 
 ``` r
-register_data <- registers() |> 
-  names() |> 
-  simulate_registers() |> 
-  purrr::map(duckplyr::as_duckdb_tibble) |> 
+register_data <- registers() |>
+  names() |>
+  simulate_registers() |>
+  purrr::map(duckplyr::as_duckdb_tibble) |>
   # Convert to a DuckDB connection, as duckplyr is still
   # in early development, while the DBI-DuckDB connection
   # is more stable.
-  purrr::map(duckplyr::as_tbl) 
-
-# Show only the first two items.
-register_data |> 
-  head(2)
-#> $bef
-#> # Source:   table<as_tbl_duckplyr_Ms0qNyXTJO> [?? x 3]
-#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpHTnBZB/duckplyr/duckplyr20535b004370.duckdb]
-#>     koen pnr          foed_dato
-#>    <int> <chr>        <chr>    
-#>  1     2 108684730664 19320112 
-#>  2     2 982144017357 20070716 
-#>  3     2 672580814975 19800805 
-#>  4     2 439008110445 20090628 
-#>  5     1 489714666740 20170225 
-#>  6     2 155331797020 19730330 
-#>  7     1 777951655096 19341022 
-#>  8     1 167007504860 20010318 
-#>  9     1 132473802596 19530901 
-#> 10     1 876820784981 19310817 
-#> # ℹ more rows
-#> 
-#> $diagnoser
-#> # Source:   table<as_tbl_duckplyr_VDkIxarsMS> [?? x 4]
-#> # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpHTnBZB/duckplyr/duckplyr20535b004370.duckdb]
-#>    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet
-#>    <chr>              <chr>        <chr>        <chr>            
-#>  1 920166254345774467 DX7621       B            Nej              
-#>  2 075972782062569784 DZ832        B            Ja               
-#>  3 176536283003603061 DQ796        A            Nej              
-#>  4 581624294965046227 DN764E       A            Nej              
-#>  5 814210282344580857 DB260        B            Nej              
-#>  6 393885735973313484 DM13         B            Nej              
-#>  7 836179506546686729 DZ52         B            Ja               
-#>  8 814175436846538799 DQ666D       B            Nej              
-#>  9 508133593881487375 DK660C       A            Nej              
-#> 10 325077063891132755 DT559B       B            Nej              
-#> # ℹ more rows
+  purrr::map(duckplyr::as_tbl)
 ```
 
-Now we can run the
+The result is a named list where each element is one register as a
+DuckDB table. The
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
-on the simulated data. Because we use DuckDB, in order to “materialize”
-the data into R, you need to use
-[`dplyr::collect()`](https://dplyr.tidyverse.org/reference/compute.html).
+function takes each register as a separate argument, so we extract them
+into individual variables to be explicit about this:
+
+``` r
+bef <- register_data$bef
+diagnoser <- register_data$diagnoser
+lmdb <- register_data$lmdb
+lpr_adm <- register_data$lpr_adm
+lpr_diag <- register_data$lpr_diag
+kontakter <- register_data$kontakter
+sysi <- register_data$sysi
+sssy <- register_data$sssy
+lab_forsker <- register_data$lab_forsker
+```
+
+### Step 4: Run the classification
+
+Now, we’re ready to run the classification algorithm. Pass each register
+to
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md):
 
 ``` r
 classified_diabetes <- classify_diabetes(
-  kontakter = register_data$kontakter,
-  diagnoser = register_data$diagnoser,
-  lpr_diag = register_data$lpr_diag,
-  lpr_adm = register_data$lpr_adm,
-  sysi = register_data$sysi,
-  sssy = register_data$sssy,
-  lab_forsker = register_data$lab_forsker,
-  bef = register_data$bef,
-  lmdb = register_data$lmdb
-) |> 
+  kontakter = kontakter,
+  diagnoser = diagnoser,
+  lpr_diag = lpr_diag,
+  lpr_adm = lpr_adm,
+  sysi = sysi,
+  sssy = sssy,
+  lab_forsker = lab_forsker,
+  bef = bef,
+  lmdb = lmdb
+)
+
+classified_diabetes
+#> # Source:   SQL [?? x 5]
+#> # Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpMxqqsZ/duckplyr/duckplyr20be5ab81c47.duckdb]
+#>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
+#>   <chr>        <date>                <date>             <lgl>   <lgl>  
+#> 1 172471789896 2024-10-14            2024-10-14         FALSE   TRUE   
+#> 2 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
+#> 3 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   
+#> 4 462498196709 2017-12-12            2017-12-12         FALSE   TRUE   
+#> 5 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   
+#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 7 570257830221 2023-06-22            2023-06-22         FALSE   TRUE   
+#> 8 706974528463 2021-11-15            2021-11-15         FALSE   TRUE   
+#> 9 240771768588 2013-11-25            2013-11-25         FALSE   TRUE
+```
+
+As seen above, this returns a DuckDB table with the individuals
+classified as having either T1D or T2D along with the date of the
+classification. Each the columns in the output is explained in
+[Section 2.5.1](#sec-understanding-the-output) below.
+
+### Step 5 (optional): Collect the results into R
+
+Because the data is stored in DuckDB, the result above is a *lazy*
+reference to a database query, i.e., the data has not been loaded into
+R’s memory. To bring the results into R as a regular data frame, use
+[`dplyr::collect()`](https://dplyr.tidyverse.org/reference/compute.html):
+
+``` r
+classified_diabetes <- classified_diabetes |>
   dplyr::collect()
 
 classified_diabetes
-#> # A tibble: 8 × 5
+#> # A tibble: 9 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
-#> 2 509234825308 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 3 763443077148 2016-07-03            2016-07-03         FALSE   TRUE   
-#> 4 240771768588 2013-01-21            2013-01-21         FALSE   TRUE   
-#> 5 706974528463 2021-11-22            2021-11-22         FALSE   TRUE   
-#> 6 409442575549 2025-05-05            2025-05-05         FALSE   TRUE   
-#> 7 298944792608 2014-09-05            2014-09-05         FALSE   TRUE   
-#> 8 498989088479 2020-11-26            2020-11-26         FALSE   TRUE
+#> 1 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   
+#> 2 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 3 172471789896 2024-10-14            2024-10-14         FALSE   TRUE   
+#> 4 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
+#> 5 570257830221 2023-06-22            2023-06-22         FALSE   TRUE   
+#> 6 706974528463 2021-11-15            2021-11-15         FALSE   TRUE   
+#> 7 462498196709 2017-12-12            2017-12-12         FALSE   TRUE   
+#> 8 240771768588 2013-11-25            2013-11-25         FALSE   TRUE   
+#> 9 409442575549 2010-05-24            2010-05-24         FALSE   TRUE
 ```
 
-Just by pure chance, there are 8 simulated individuals that get
-classified into diabetes status. This is mainly because we’ve created
-the simulated data to over-represent the values in the variables
-included in the algorithm that will lead to classifying into diabetes
-status.
+Now, we can see that with the simulated data, 9 individuals are
+classified as having diabetes.
 
-In a real scenario, the register data is probably too big to read into
-memory before being converted into a `duckdb_tibble`. Therefore, we
-recommend that users first convert the individual register files into
-`.parquet` format on disk, with each register source contained in
-separate folders (e.g. all files from `kontakter` in one folder,
-`diagnoser` in another, `lpr_diag` in a third folder etc.). With the
-`arrow` package, each register data source can then be read in as a
-single `duckdb_tibble` by pointing the following code snippet to each of
-the Parquet folders. E.g. to load in `diagnoser`:
+#### Understanding the output
 
-``` r
-diagnoser <- diagnoser_parquet_folder |>
-  arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb()
-```
+The output is a table with one row per classified individual and five
+columns:
 
-And that’s all there is to this package! You can now save this dataset
-as a Parquet file for you or your collaborators on your DST project to
-use these classifications.
+| Column                  | Description                                                                                                                                                                                                                                   |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `pnr`                   | The pseudonymised personal identification number.                                                                                                                                                                                             |
+| `stable_inclusion_date` | The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the `stable_inclusion_start_date` parameter (from 1998 onward by default). `NA` for earlier dates. |
+| `raw_inclusion_date`    | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`.                                                                                                                          |
+| `has_t1d`               | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise.                                                                                                                                                                                   |
+| `has_t2d`               | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise.                                                                                                                                                                                   |
+
+> **About `stable_inclusion_date` vs `raw_inclusion_date`**
+>
+> The `raw_inclusion_date` is simply the date of the second qualifying
+> event. However, for events before 1998, the register data may not have
+> sufficient coverage to reliably distinguish new (incident) cases from
+> existing (prevalent) ones. The `stable_inclusion_date` column is set
+> to `NA` for these earlier dates to flag this uncertainty.
+>
+> The
+> [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
+> function includes a `stable_inclusion_start_date` parameter that is
+> `01-01-1988` by default. This means that you can change the date for
+> when the classification is considered stable
+
+For more information about the output, see the Interface section under
+[`vignette("design")`](https://steno-aarhus.github.io/osdc/articles/design.md).
+
+### Step 6: Saving the results
+
+Once you have the classification results, you can save them as a Parquet
+file for yourself or your collaborators on your DST project:
 
 ``` r
 classified_diabetes |>
@@ -212,3 +224,43 @@ classified_diabetes |>
     "classified_diabetes.parquet"
   )
 ```
+
+## Working with real register data
+
+In a real scenario, the register data is too large to read into memory
+all at once. We recommend converting your register files into
+[Parquet](https://parquet.apache.org/) format on disk, with each
+register in its own folder (e.g., all `kontakter` files in one folder,
+all `diagnoser` files in another, etc.).
+
+You can then load each register directly from its Parquet folder as a
+DuckDB table, without reading everything into memory:
+
+``` r
+diagnoser <- "path/to/diagnoser_parquet_folder" |>
+  arrow::open_dataset(unify_schemas = TRUE) |>
+  arrow::to_duckdb()
+```
+
+> **Tip**
+>
+> If your register data is in SAS format (`.sas7bdat`), you can use the
+> [fastreg](https://dp-next.github.io/fastreg/) package (once its been
+> submitted to CRAN, expected March 2026) to convert them to Parquet
+> format.
+
+If your data is already in R (e.g., as a data frame) and fits in memory,
+you can convert it to a DuckDB table with:
+
+``` r
+diagnoser <- diagnoser |>
+  arrow::to_duckdb()
+```
+
+## Getting help
+
+If you encounter a bug or have a question about how to use osdc, please
+open an issue on the [GitHub
+repository](https://github.com/steno-aarhus/osdc/issues). When reporting
+a bug, include a minimal example that reproduces the problem along to
+help us understand and investigate the problem.

@@ -74,164 +74,247 @@
 
 
 
-    <p>This package serves two overarching purposes:</p>
+    <section class="level2"><h2 id="what-does-this-package-do">What does this package do?<a class="anchor" aria-label="anchor" href="#what-does-this-package-do"></a>
+</h2>
+<p>The osdc (<strong>O</strong>pen <strong>S</strong>ource <strong>D</strong>iabetes <strong>C</strong>lassifier) package classifies individuals as having type 1 diabetes (T1D) or type 2 diabetes (T2D) based on Danish register data. You provide the register data, and the package returns a table of individuals identified as having diabetes, along with their diabetes type (T1D or T2D) and the date of the classification.</p>
+<p>This package serves two overarching purposes:</p>
 <ol type="1">
 <li>To provide an open-source, code-based algorithm to classify type 1 and type 2 diabetes using Danish registers as data sources.</li>
 <li>To inspire discussions within the Danish register-based research space on the openness and ease of use on the existing tooling and registers, and on the need for an official process for updating or contributing to existing data sources.</li>
 </ol>
-<p>To read up on the overall design of this package as well as on the algorithm, check out the <code><a href="../articles/design.html">vignette("design")</a></code>. For more explanation on the motivations, rationale, and needs for this algorithm and package, check out the <code><a href="../articles/rationale.html">vignette("rationale")</a></code>. To see the specific data needed for this package and algorithm, see <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>.</p>
-<section class="level2"><h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+<p>For a detailed description of the algorithm, see <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>. For the motivations and rationale behind this package, see <code><a href="../articles/rationale.html">vignette("rationale")</a></code>. For a full list of required register variables, see <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>.</p>
+</section><section class="level2"><h2 id="step-by-step-usage">Step-by-step usage<a class="anchor" aria-label="anchor" href="#step-by-step-usage"></a>
 </h2>
-<p>First, let’s load the package, as well as <a href="https://duckplyr.tidyverse.org/index.html" class="external-link">duckplyr</a> since we require the data to be in the <a href="https://duckdb.org/" class="external-link">DuckDB</a> format. See the <code><a href="../articles/design.html">vignette("design")</a></code> for some reasons why.</p>
+<p>This section walks through the full workflow: loading the package, preparing data, running the classification, as well as understanding and saving the output. We use simulated data here, but the same or similar steps apply to real register data. For more information on using osdc on real register data, see <a href="#sec-working-with-real-register-data" class="quarto-xref">Section 3</a>.</p>
+<section class="level3"><h3 id="step-1-install-and-load-the-package">Step 1: (Install and) Load the package<a class="anchor" aria-label="anchor" href="#step-1-install-and-load-the-package"></a>
+</h3>
+<p>First, you need to install and load the package:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/steno-aarhus/osdc" class="external-link">osdc</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("osdc")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/steno-aarhus/osdc" class="external-link">osdc</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>The core of this package depends on the list of variables within different registers that are needed in order to classify the diabetes status of an individual. This can be found in the list:</p>
+</section><section class="level3"><h3 id="step-2-check-which-registers-are-needed">Step 2: Check which registers are needed<a class="anchor" aria-label="anchor" href="#step-2-check-which-registers-are-needed"></a>
+</h3>
+<p>The algorithm requires data from nine Danish registers. The names of these registers can be seen below:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 70%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Register abbreviation</th>
+<th style="text-align: left;">Register name</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">bef</td>
+<td style="text-align: left;">CPR-registerets befolkningstabel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lmdb</td>
+<td style="text-align: left;">Laegemiddelstatistikregisteret</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lpr_adm</td>
+<td style="text-align: left;">Landspatientregisterets administrationstabel (LPR2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lpr_diag</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kontakter</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">diagnoser</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sysi</td>
+<td style="text-align: left;">Sygesikringsregisteret</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sssy</td>
+<td style="text-align: left;">Sygesikringsregisteret</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lab_forsker</td>
+<td style="text-align: left;">Laboratoriedatabasens forskertabel</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>For a table showing the specific variables needed from each register, see <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>.</p>
+<div>
+<blockquote>
+<p><strong>Important</strong></p>
+<p>To use the osdc algorithm, you need to have all the variables described in <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>, so please ensure that you have the required variables before continuing.</p>
+</blockquote>
+</div>
+</section><section class="level3"><h3 id="step-3-prepare-the-data">Step 3: Prepare the data<a class="anchor" aria-label="anchor" href="#step-3-prepare-the-data"></a>
+</h3>
+<p>The package requires data to be in <a href="https://duckdb.org/" class="external-link">DuckDB</a> format, which is a high-performance database format that can handle the large volumes of data without loading everything into memory at once. See <code><a href="../articles/design.html">vignette("design")</a></code> for more on why we use DuckDB.</p>
+<p>For this example, we generate simulated register data using <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code> and then convert it to DuckDB format:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Only showing first 2</span></span>
-<span><span class="fu"><a href="../reference/registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $bef</span></span>
-<span><span class="co">#&gt; $bef$name</span></span>
-<span><span class="co">#&gt; [1] "CPR-registerets befolkningstabel"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bef$start_year</span></span>
-<span><span class="co">#&gt; [1] 1968</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bef$end_year</span></span>
-<span><span class="co">#&gt; [1] NA</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bef$variables</span></span>
-<span><span class="co">#&gt; # A tibble: 3 × 4</span></span>
-<span><span class="co">#&gt;   name      danish_description         english_description             data_type</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;                      &lt;chr&gt;                           &lt;list&gt;   </span></span>
-<span><span class="co">#&gt; 1 pnr       Pseudonymiseret cpr-nummer Pseudonymised social security … &lt;chr [1]&gt;</span></span>
-<span><span class="co">#&gt; 2 koen      Koen                       Gender/sex                      &lt;chr [1]&gt;</span></span>
-<span><span class="co">#&gt; 3 foed_dato Foedselsdato               Date of birth                   &lt;chr [2]&gt;</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $lmdb</span></span>
-<span><span class="co">#&gt; $lmdb$name</span></span>
-<span><span class="co">#&gt; [1] "Laegemiddelstatistikregisteret"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $lmdb$start_year</span></span>
-<span><span class="co">#&gt; [1] 1995</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $lmdb$end_year</span></span>
-<span><span class="co">#&gt; [1] NA</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $lmdb$variables</span></span>
-<span><span class="co">#&gt; # A tibble: 6 × 4</span></span>
-<span><span class="co">#&gt;   name   danish_description                 english_description        data_type</span></span>
-<span><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;                              &lt;chr&gt;                      &lt;list&gt;   </span></span>
-<span><span class="co">#&gt; 1 pnr    Pseudonymiseret cpr-nummer         Pseudonymised social secu… &lt;chr [1]&gt;</span></span>
-<span><span class="co">#&gt; 2 eksd   Ekspeditionsdato                   Date of purchase           &lt;chr [2]&gt;</span></span>
-<span><span class="co">#&gt; 3 atc    ATC-kode (fuldt specificeret)      ATC code (fully specified) &lt;chr [1]&gt;</span></span>
-<span><span class="co">#&gt; 4 volume Antal standarddoser (DDD) i pakken Number of daily standard … &lt;chr [1]&gt;</span></span>
-<span><span class="co">#&gt; 5 apk    Antal pakker koebt                 Number of packages purcha… &lt;chr [1]&gt;</span></span>
-<span><span class="co">#&gt; 6 indo   Indikationskode for recept         Indication code            &lt;chr [1]&gt;</span></span></code></pre></div>
-</div>
-<p>We can see the list of registers we need with:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "bef"         "lmdb"        "lpr_adm"     "lpr_diag"    "kontakter"  </span></span>
-<span><span class="co">#&gt; [6] "diagnoser"   "sysi"        "sssy"        "lab_forsker"</span></span></code></pre></div>
-</div>
-<p>Let’s create a fake dataset to show how to use the classification. We have a helper function <code><a href="../reference/simulate_registers.html">simulate_registers()</a></code> that takes a vector of register names and outputs a list of registers with simulated data. Because of the way that DuckDB connections work, we have to either load the data directly from a file as a DuckDB table, or convert a tibble into a DuckDB table. So we’ll do that right after simulating the data.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">register_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="../reference/simulate_registers.html">simulate_registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">register_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/simulate_registers.html">simulate_registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># Convert to a DuckDB connection, as duckplyr is still</span></span>
 <span>  <span class="co"># in early development, while the DBI-DuckDB connection</span></span>
 <span>  <span class="co"># is more stable.</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span> </span>
-<span></span>
-<span><span class="co"># Show only the first two items.</span></span>
-<span><span class="va">register_data</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $bef</span></span>
-<span><span class="co">#&gt; # Source:   table&lt;as_tbl_duckplyr_Ms0qNyXTJO&gt; [?? x 3]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpHTnBZB/duckplyr/duckplyr20535b004370.duckdb]</span></span>
-<span><span class="co">#&gt;     koen pnr          foed_dato</span></span>
-<span><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;    </span></span>
-<span><span class="co">#&gt;  1     2 108684730664 19320112 </span></span>
-<span><span class="co">#&gt;  2     2 982144017357 20070716 </span></span>
-<span><span class="co">#&gt;  3     2 672580814975 19800805 </span></span>
-<span><span class="co">#&gt;  4     2 439008110445 20090628 </span></span>
-<span><span class="co">#&gt;  5     1 489714666740 20170225 </span></span>
-<span><span class="co">#&gt;  6     2 155331797020 19730330 </span></span>
-<span><span class="co">#&gt;  7     1 777951655096 19341022 </span></span>
-<span><span class="co">#&gt;  8     1 167007504860 20010318 </span></span>
-<span><span class="co">#&gt;  9     1 132473802596 19530901 </span></span>
-<span><span class="co">#&gt; 10     1 876820784981 19310817 </span></span>
-<span><span class="co">#&gt; # ℹ more rows</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $diagnoser</span></span>
-<span><span class="co">#&gt; # Source:   table&lt;as_tbl_duckplyr_VDkIxarsMS&gt; [?? x 4]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.4.3 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpHTnBZB/duckplyr/duckplyr20535b004370.duckdb]</span></span>
-<span><span class="co">#&gt;    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt;              &lt;chr&gt;        &lt;chr&gt;        &lt;chr&gt;            </span></span>
-<span><span class="co">#&gt;  1 920166254345774467 DX7621       B            Nej              </span></span>
-<span><span class="co">#&gt;  2 075972782062569784 DZ832        B            Ja               </span></span>
-<span><span class="co">#&gt;  3 176536283003603061 DQ796        A            Nej              </span></span>
-<span><span class="co">#&gt;  4 581624294965046227 DN764E       A            Nej              </span></span>
-<span><span class="co">#&gt;  5 814210282344580857 DB260        B            Nej              </span></span>
-<span><span class="co">#&gt;  6 393885735973313484 DM13         B            Nej              </span></span>
-<span><span class="co">#&gt;  7 836179506546686729 DZ52         B            Ja               </span></span>
-<span><span class="co">#&gt;  8 814175436846538799 DQ666D       B            Nej              </span></span>
-<span><span class="co">#&gt;  9 508133593881487375 DK660C       A            Nej              </span></span>
-<span><span class="co">#&gt; 10 325077063891132755 DT559B       B            Nej              </span></span>
-<span><span class="co">#&gt; # ℹ more rows</span></span></code></pre></div>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>Now we can run the <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> on the simulated data. Because we use DuckDB, in order to “materialize” the data into R, you need to use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code>.</p>
+<p>The result is a named list where each element is one register as a DuckDB table. The <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function takes each register as a separate argument, so we extract them into individual variables to be explicit about this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bef</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">bef</span></span>
+<span><span class="va">diagnoser</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">diagnoser</span></span>
+<span><span class="va">lmdb</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span></span>
+<span><span class="va">lpr_adm</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span></span>
+<span><span class="va">lpr_diag</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span></span>
+<span><span class="va">kontakter</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">kontakter</span></span>
+<span><span class="va">sysi</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sysi</span></span>
+<span><span class="va">sssy</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sssy</span></span>
+<span><span class="va">lab_forsker</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lab_forsker</span></span></code></pre></div>
+</div>
+</section><section class="level3"><h3 id="step-4-run-the-classification">Step 4: Run the classification<a class="anchor" aria-label="anchor" href="#step-4-run-the-classification"></a>
+</h3>
+<p>Now, we’re ready to run the classification algorithm. Pass each register to <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_diabetes.html">classify_diabetes</a></span><span class="op">(</span></span>
+<span>  kontakter <span class="op">=</span> <span class="va">kontakter</span>,</span>
+<span>  diagnoser <span class="op">=</span> <span class="va">diagnoser</span>,</span>
+<span>  lpr_diag <span class="op">=</span> <span class="va">lpr_diag</span>,</span>
+<span>  lpr_adm <span class="op">=</span> <span class="va">lpr_adm</span>,</span>
+<span>  sysi <span class="op">=</span> <span class="va">sysi</span>,</span>
+<span>  sssy <span class="op">=</span> <span class="va">sssy</span>,</span>
+<span>  lab_forsker <span class="op">=</span> <span class="va">lab_forsker</span>,</span>
+<span>  bef <span class="op">=</span> <span class="va">bef</span>,</span>
+<span>  lmdb <span class="op">=</span> <span class="va">lmdb</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">classified_diabetes</span></span>
+<span><span class="co">#&gt; # Source:   SQL [?? x 5]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpMxqqsZ/duckplyr/duckplyr20be5ab81c47.duckdb]</span></span>
+<span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
+<span><span class="co">#&gt; 1 172471789896 2024-10-14            2024-10-14         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 462498196709 2017-12-12            2017-12-12         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 570257830221 2023-06-22            2023-06-22         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 8 706974528463 2021-11-15            2021-11-15         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 9 240771768588 2013-11-25            2013-11-25         FALSE   TRUE</span></span></code></pre></div>
+</div>
+<p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
+</section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
+</h3>
+<p>Because the data is stored in DuckDB, the result above is a <em>lazy</em> reference to a database query, i.e., the data has not been loaded into R’s memory. To bring the results into R as a regular data frame, use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_diabetes.html">classify_diabetes</a></span><span class="op">(</span></span>
-<span>  kontakter <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">kontakter</span>,</span>
-<span>  diagnoser <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">diagnoser</span>,</span>
-<span>  lpr_diag <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span>,</span>
-<span>  lpr_adm <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>,</span>
-<span>  sysi <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sysi</span>,</span>
-<span>  sssy <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sssy</span>,</span>
-<span>  lab_forsker <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lab_forsker</span>,</span>
-<span>  bef <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">bef</span>,</span>
-<span>  lmdb <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span></span>
-<span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">&lt;-</span> <span class="va">classified_diabetes</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
-<span><span class="co">#&gt; # A tibble: 8 × 5</span></span>
+<span><span class="co">#&gt; # A tibble: 9 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 509234825308 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 763443077148 2016-07-03            2016-07-03         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 240771768588 2013-01-21            2013-01-21         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 706974528463 2021-11-22            2021-11-22         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 409442575549 2025-05-05            2025-05-05         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 298944792608 2014-09-05            2014-09-05         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 8 498989088479 2020-11-26            2020-11-26         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 172471789896 2024-10-14            2024-10-14         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 570257830221 2023-06-22            2023-06-22         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 706974528463 2021-11-15            2021-11-15         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 462498196709 2017-12-12            2017-12-12         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 8 240771768588 2013-11-25            2013-11-25         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 9 409442575549 2010-05-24            2010-05-24         FALSE   TRUE</span></span></code></pre></div>
 </div>
-<p>Just by pure chance, there are 8 simulated individuals that get classified into diabetes status. This is mainly because we’ve created the simulated data to over-represent the values in the variables included in the algorithm that will lead to classifying into diabetes status.</p>
-<p>In a real scenario, the register data is probably too big to read into memory before being converted into a <code>duckdb_tibble</code>. Therefore, we recommend that users first convert the individual register files into <code>.parquet</code> format on disk, with each register source contained in separate folders (e.g. all files from <code>kontakter</code> in one folder, <code>diagnoser</code> in another, <code>lpr_diag</code> in a third folder etc.). With the <code>arrow</code> package, each register data source can then be read in as a single <code>duckdb_tibble</code> by pointing the following code snippet to each of the Parquet folders. E.g. to load in <code>diagnoser</code>:</p>
+<p>Now, we can see that with the simulated data, 9 individuals are classified as having diabetes.</p>
+<section class="level4"><h4 id="sec-understanding-the-output">Understanding the output<a class="anchor" aria-label="anchor" href="#sec-understanding-the-output"></a>
+</h4>
+<p>The output is a table with one row per classified individual and five columns:</p>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>pnr</code></td>
+<td>The pseudonymised personal identification number.</td>
+</tr>
+<tr class="even">
+<td><code>stable_inclusion_date</code></td>
+<td>The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the <code>stable_inclusion_start_date</code> parameter (from 1998 onward by default). <code>NA</code> for earlier dates.</td>
+</tr>
+<tr class="odd">
+<td><code>raw_inclusion_date</code></td>
+<td>The date of the second inclusion event without setting <code>NA</code> for date earlier than the <code>stable_inclusion_start_date</code>.</td>
+</tr>
+<tr class="even">
+<td><code>has_t1d</code></td>
+<td>
+<code>TRUE</code> if classified as type 1 diabetes, <code>FALSE</code> otherwise.</td>
+</tr>
+<tr class="odd">
+<td><code>has_t2d</code></td>
+<td>
+<code>TRUE</code> if classified as type 2 diabetes, <code>FALSE</code> otherwise.</td>
+</tr>
+</tbody>
+</table>
+<div>
+<blockquote>
+<p><strong>About <code>stable_inclusion_date</code> vs <code>raw_inclusion_date</code></strong></p>
+<p>The <code>raw_inclusion_date</code> is simply the date of the second qualifying event. However, for events before 1998, the register data may not have sufficient coverage to reliably distinguish new (incident) cases from existing (prevalent) ones. The <code>stable_inclusion_date</code> column is set to <code>NA</code> for these earlier dates to flag this uncertainty.</p>
+<p>The <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function includes a <code>stable_inclusion_start_date</code> parameter that is <code>01-01-1988</code> by default. This means that you can change the date for when the classification is considered stable</p>
+</blockquote>
+</div>
+<p>For more information about the output, see the Interface section under <code><a href="../articles/design.html">vignette("design")</a></code>.</p>
+</section></section><section class="level3"><h3 id="step-6-saving-the-results">Step 6: Saving the results<a class="anchor" aria-label="anchor" href="#step-6-saving-the-results"></a>
+</h3>
+<p>Once you have the classification results, you can save them as a Parquet file for yourself or your collaborators on your DST project:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">diagnoser</span> <span class="op">&lt;-</span> <span class="va">diagnoser_parquet_folder</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/open_dataset.html" class="external-link">open_dataset</a></span><span class="op">(</span>unify_schemas <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>And that’s all there is to this package! You can now save this dataset as a Parquet file for you or your collaborators on your DST project to use these classifications.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_parquet.html" class="external-link">compute_parquet</a></span><span class="op">(</span></span>
 <span>    <span class="st">"classified_diabetes.parquet"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
+</section></section><section class="level2"><h2 id="sec-working-with-real-register-data">Working with real register data<a class="anchor" aria-label="anchor" href="#sec-working-with-real-register-data"></a>
+</h2>
+<p>In a real scenario, the register data is too large to read into memory all at once. We recommend converting your register files into <a href="https://parquet.apache.org/" class="external-link">Parquet</a> format on disk, with each register in its own folder (e.g., all <code>kontakter</code> files in one folder, all <code>diagnoser</code> files in another, etc.).</p>
+<p>You can then load each register directly from its Parquet folder as a DuckDB table, without reading everything into memory:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diagnoser</span> <span class="op">&lt;-</span> <span class="st">"path/to/diagnoser_parquet_folder"</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/open_dataset.html" class="external-link">open_dataset</a></span><span class="op">(</span>unify_schemas <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div>
+<blockquote>
+<p><strong>Tip</strong></p>
+<p>If your register data is in SAS format (<code>.sas7bdat</code>), you can use the <a href="https://dp-next.github.io/fastreg/" class="external-link">fastreg</a> package (once its been submitted to CRAN, expected March 2026) to convert them to Parquet format.</p>
+</blockquote>
+</div>
+<p>If your data is already in R (e.g., as a data frame) and fits in memory, you can convert it to a DuckDB table with:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diagnoser</span> <span class="op">&lt;-</span> <span class="va">diagnoser</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</section><section class="level2"><h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<p>If you encounter a bug or have a question about how to use osdc, please open an issue on the <a href="https://github.com/steno-aarhus/osdc/issues" class="external-link">GitHub repository</a>. When reporting a bug, include a minimal example that reproduces the problem along to help us understand and investigate the problem.</p>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
@@ -315,7 +398,8 @@
       }
     }
   });
-  </script></main>
+  </script></main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
