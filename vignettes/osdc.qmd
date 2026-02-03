@@ -8,12 +8,12 @@ vignette: >
 
 ## What does this package do?
 
-The osdc (Open Source Diabetes Classifier) package
-classifies individuals as having type 1 diabetes (T1D) or type 2
-diabetes (T2D) based on Danish register data. You provide the register
-data, and the package returns a data table of individuals identified as
-having diabetes, along with their diabetes type (T1D or T2D) and the
-date of the classification.
+The osdc (Open Source Diabetes Classifier) package classifies
+individuals as having type 1 diabetes (T1D) or type 2 diabetes (T2D)
+based on Danish register data. You provide the register data, and the
+package returns a data table of individuals identified as having
+diabetes, along with their diabetes type (T1D or T2D) and the date of
+the classification.
 
 This package serves two overarching purposes:
 
