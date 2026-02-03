@@ -125,8 +125,7 @@ This should mimic the structure of the raw data as it appears within the
 virtual machines of Statistics Denmark. The package does not support
 inputs in their raw `.sas7bdat` format, and these must be converted to
 `.parquet` files first, which can then be loaded in as DuckDB objects.
-The [`registers2parquet`
-package](https://dp-next.github.io/registers2parquet/) provides
+The [`fastreg` package](https://dp-next.github.io/fastreg/) provides
 functions to conveniently handle this.
 
 In this document, we present the variable names in lower case, but case
