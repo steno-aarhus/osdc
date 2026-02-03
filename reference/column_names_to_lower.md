@@ -12,7 +12,7 @@ column_names_to_lower(data)
 
 - data:
 
-  A data frame type object.
+  An data frame type object.
 
 ## Value
 
