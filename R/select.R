@@ -28,7 +28,7 @@ select_required_variables <- function(
 
 #' Convert column names to lower case
 #'
-#' @param data An data frame type object.
+#' @param data A data frame type object.
 #'
 #' @return The same object type given.
 #' @keywords internal
