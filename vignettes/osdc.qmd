@@ -8,12 +8,12 @@ vignette: >
 
 ## What does this package do?
 
-The osdc (**O**pen **S**ource **D**iabetes **C**lassifier) package
-classifies individuals as having type 1 diabetes (T1D) or type 2
-diabetes (T2D) based on Danish register data. You provide the register
-data, and the package returns a table of individuals identified as
-having diabetes, along with their diabetes type (T1D or T2D) and the
-date of the classification.
+The osdc (Open Source Diabetes Classifier) package classifies
+individuals as having type 1 diabetes (T1D) or type 2 diabetes (T2D)
+based on Danish register data. You provide the register data, and the
+package returns a data table of individuals identified as having
+diabetes, along with their diabetes type (T1D or T2D) and the date of
+the classification.
 
 This package serves two overarching purposes:
 
@@ -37,7 +37,7 @@ saving the output. We use simulated data here, but the same or similar
 steps apply to real register data. For more information on using osdc on
 real register data, see @sec-working-with-real-register-data.
 
-### Step 1: (Install and) Load the package
+### Step 1: Install and load the package
 
 First, you need to install and load the package:
 
@@ -49,13 +49,13 @@ library(osdc)
 
 ### Step 2: Check which registers are needed
 
-The algorithm requires data from nine Danish registers. The names of
+The algorithm requires data from multiple Danish registers. The names of
 these registers can be seen below:
 
 ```{r}
 #| echo: false
 registers() |> 
-  purrr::map_chr(\(register) register$name) |> 
+  purrr::map_chr("name") |> 
   knitr::kable(col.names = c("Register abbreviation", "Register name"))
 ```
 
@@ -129,7 +129,7 @@ classified_diabetes
 
 As seen above, this returns a DuckDB table with the individuals
 classified as having either T1D or T2D along with the date of the
-classification. Each the columns in the output is explained in
+classification. Each of the columns in the output is explained in
 @sec-understanding-the-output below.
 
 ### Step 5 (optional): Collect the results into R
