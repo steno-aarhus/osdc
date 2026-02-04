@@ -7,7 +7,7 @@
 column_names_to_lower(data)
 }
 \arguments{
-\item{data}{An data frame type object.}
+\item{data}{A data frame type object.}
 }
 \value{
 The same object type given.
