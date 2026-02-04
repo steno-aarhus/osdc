@@ -75,7 +75,7 @@ classify_diabetes(
 ## Value
 
 The same object type as the input data, which would be a
-[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html)
+[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html)
 type object.
 
 ## See also
@@ -108,16 +108,16 @@ classify_diabetes(
   lmdb = register_data$lmdb
 )
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpuvQmMR/duckplyr/duckplyr1c3c5088bdf7.duckdb]
+#> # Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpP2cjx7/duckplyr/duckplyr1c021d5450a2.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 462498196709 2017-12-12            2017-12-12         FALSE   TRUE   
-#> 2 240771768588 2013-11-25            2013-11-25         FALSE   TRUE   
-#> 3 172471789896 2024-10-14            2024-10-14         FALSE   TRUE   
-#> 4 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
-#> 5 570257830221 2023-06-22            2023-06-22         FALSE   TRUE   
-#> 6 706974528463 2021-11-15            2021-11-15         FALSE   TRUE   
-#> 7 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   
+#> 1 146605139851 2020-12-25            2020-12-25         FALSE   TRUE   
+#> 2 240771768588 2016-11-28            2016-11-28         FALSE   TRUE   
+#> 3 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   
+#> 4 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   
+#> 5 108839343181 2011-12-05            2011-12-05         FALSE   TRUE   
+#> 6 706974528463 2016-08-01            2016-08-01         FALSE   TRUE   
+#> 7 745611946809 2018-10-29            2018-10-29         FALSE   TRUE   
 #> 8 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   
 #> 9 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
 ```

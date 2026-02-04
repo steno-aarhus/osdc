@@ -47,7 +47,7 @@ join_inclusions(
 ## Value
 
 The same type as the input data, as a
-[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html),
+[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html),
 with the joined columns from the output of
 [`keep_diabetes_diagnoses()`](https://steno-aarhus.github.io/osdc/reference/keep_diabetes_diagnoses.md),
 [`keep_podiatrist_services()`](https://steno-aarhus.github.io/osdc/reference/keep_podiatrist_services.md),

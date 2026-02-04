@@ -21,7 +21,7 @@ keep_hba1c(lab_forsker)
 ## Value
 
 An object of the same input type, as a
-[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html),
+[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html),
 with three columns:
 
 - `pnr`: Personal identification variable.

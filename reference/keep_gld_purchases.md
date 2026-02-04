@@ -23,7 +23,7 @@ keep_gld_purchases(lmdb)
 ## Value
 
 The same type as the input data, as a
-[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html).
+[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html).
 Only rows with glucose lowering drug purchases are kept, plus some
 columns are renamed.
 

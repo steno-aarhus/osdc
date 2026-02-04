@@ -37,7 +37,7 @@ create_inclusion_dates(inclusions, stable_inclusion_start_date = "1998-01-01")
 ## Value
 
 The same type as the input data, as a
-[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html),
+[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html),
 with the `pnr` and `date` columns along with the columns from the input
 that's needed to classify T1D. It also creates two new columns:
 
