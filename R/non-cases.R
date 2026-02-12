@@ -62,6 +62,31 @@ non_cases <- function() {
   )
 
   # LPR3 is from 2019 onwards
+
+  # LPR_A (superseded LPR_F):
+  lpr_a_kontakt <- tibble::tribble(
+    ~pnr, ~dw_ek_kontakt, ~kont_ans_hovedspec, ~kont_starttidspunkt,
+    "nc_pcos_1", "1", "medicinsk endokrinologi", "20210101",
+    "nc_pcos_2", "1", "medicinsk endokrinologi", "20190101",
+    "nc_pcos_3", "1", "medicinsk endokrinologi", "20190101",
+    "nc_preg_3", "1", "abc", "20200101",
+    "nc_preg_4", "1", "abc", "20200101",
+    "nc_preg_3", "2", "abc", "20200101",
+    "nc_preg_4", "3", "abc", "20200101",
+  ) |> dplyr::mutate(
+    kont_starttidspunkt = as.POSIXct(kont_starttidspunkt, format = "%Y%m%d", tz = "UTC")
+  )
+
+  lpr_a_diagnose <- tibble::tribble(
+    ~dw_ek_kontakt, ~diag_kode, ~diag_type, ~senere_afkraeftet,
+    # diagnosis noise (not diabetes)
+    "1", "DI10", "A", "Nej",
+    # Pregnancy
+    "2", "DO00", "A", "Nej",
+    "3", "DZ33", "A", "Nej",
+  )
+
+  # LPR_F: deprecated, but same as LPR_A:
   kontakter <- tibble::tribble(
     ~cpr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "nc_pcos_1", "1", "medicinsk endokrinologi", "20210101",
@@ -124,6 +149,8 @@ non_cases <- function() {
   list(
     bef = bef,
     lmdb = lmdb,
+    lpr_a_kontakt = lpr_a_kontakt,
+    lpr_a_diagnose = lpr_a_diagnose,
     lpr_adm = lpr_adm,
     lpr_diag = lpr_diag,
     kontakter = kontakter,

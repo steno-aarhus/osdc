@@ -164,6 +164,70 @@ edge_cases <- function() {
     "pnr21_rec01", "DZ371", "A"
   )
 
+  lpr_a_kontakt <- tibble::tribble(
+    ~pnr, ~dw_ek_kontakt, ~kont_ans_hovedspec, ~kont_starttidspunkt,
+    "01_t1d_oipT_anyt1dT", "pnr01_dw01", "medicinsk endokrinologi", "20210515",
+    "02_t2d_oipT_anyt1dF", "pnr02_dw01", "thoraxkirurgi", "20220616",
+    "03_t2d_oipF_anyt1dF", "pnr03_dw01", "kardiologi", "20200717",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "pnr04_dw01", "medicinsk endokrinologi", "20230120",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "pnr05_dw01", "medicinsk endokrinologi", "20230221",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "pnr06_dw01", "medicinsk endokrinologi", "20230322",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw01", "medicinsk endokrinologi", "20220423",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw02", "geriatri", "20230423",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T", "pnr08_dw01", "kardiologi", "20230120",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T", "pnr08_dw02", "kardiologi", "20240120",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F", "pnr09_dw01", "kardiologi", "20240221",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T", "pnr10_dw01", "kardiologi", "20240322",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T", "pnr11_dw01", "kardiologi", "20230423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T", "pnr11_dw02", "medicinsk endokrinologi", "20240423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T", "pnr11_dw03", "thoraxkirurgi", "20240616",
+    "12_nodm_gldF_diagF_hba1cF_podF", "pnr12_dw01", "kardiologi", "20210423",
+    "14_t2d_gldF_diagF_hba1cT_podF", "pnr14_dw01", "gynaekologi og obstetrik", "20240101",
+    "15_t2d_gldF_diagT_hba1cF_podF", "pnr15_dw01", "urologi", "20230101",
+    "16_t2d_gldT_diagF_hba1cF_podF", "pnr16_dw01", "gynaekologi og obstetrik", "20240101",
+    "21_nodm_female_pregnancyT", "pnr21_dw01", "gynaekologi og obstetrik", "20240101"
+  ) |> dplyr::mutate(
+    kont_starttidspunkt = as.POSIXct(kont_starttidspunkt, format = "%Y%m%d", tz = "UTC")
+  )
+
+  lpr_a_diagnose <- tibble::tribble(
+    ~dw_ek_kontakt, ~diag_kode, ~diag_type, ~senere_afkraeftet,
+    "pnr01_dw01", "DE101", "A", "Nej",
+    "pnr02_dw01", "DE102", "A", "Nej",
+    "pnr03_dw01", "DE103", "A", "Nej",
+    "pnr04_dw01", "DE104", "A", "Nej",
+    "pnr04_dw02", "DE115", "B", "Nej",
+    "pnr04_dw02", "DE119", "B", "Nej",
+    "pnr05_dw01", "DE101", "A", "Nej",
+    "pnr06_dw01", "DE102", "A", "Nej",
+    "pnr07_dw01", "DE103", "A", "Nej",
+    "pnr07_dw01", "DE109", "B", "Nej",
+    "pnr07_dw02", "DE104", "A", "Nej",
+    "pnr07_dw02", "DE108", "B", "Nej",
+    "pnr08_dw01", "DE114", "A", "Nej",
+    "pnr08_dw02", "DE105", "A", "Nej",
+    "pnr08_dw02", "DE119", "B", "Nej",
+    "pnr09_dw01", "DE10", "A", "Nej",
+    "pnr10_dw01", "DE101", "A", "Nej",
+    "pnr11_dw01", "DE112", "A", "Nej",
+    "pnr11_dw01", "DE102", "B", "Nej",
+    "pnr11_dw02", "DE109", "B", "Nej",
+    "pnr11_dw02", "DI739", "B", "Nej",
+    "pnr11_dw03", "DE102", "A", "Nej",
+    "pnr12_dw01", "DI25", "A", "Nej",
+    "pnr12_dw01", "DE110", "A", "Ja",
+    "pnr14_dw01", "DO041", "A", "Nej",
+    "pnr15_dw01", "DI25", "A", "Nej",
+    "pnr15_dw01", "DE110", "B", "Nej",
+    "pnr16_dw01", "DO822", "A", "Nej",
+    "pnr21_dw01", "DO806", "A", "Nej"
+  )
+
+
+  # LPR_F: deprecated
+  # kontakter & diagnoser tables
+  # Same content/observations as lpr_a_kontakt & lpr_a_diagnose, just different format.
+
   kontakter <- tibble::tribble(
     ~cpr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "01_t1d_oipT_anyt1dT", "pnr01_dw01", "medicinsk endokrinologi", "20210515",
