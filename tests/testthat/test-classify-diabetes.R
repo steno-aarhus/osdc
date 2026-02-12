@@ -5,11 +5,27 @@ cases <- edge_cases()
 nc <- non_cases()
 
 join_registers <- function(name) {
-  dplyr::bind_rows(
+  combined_df <- dplyr::bind_rows(
     cases[[name]],
     sim_data[[name]],
     nc[[name]]
   )
+
+  # Bind_rows reverses the order of attributes, which upsets DuckDB
+  # Solution/work-around: Reconstruct POSIXct columns from scratch and
+  # enforce canonical attribute order
+  combined_df |>
+    dplyr::mutate(across(where(lubridate::is.POSIXct), \(x) {
+      # Strip to raw seconds (numeric)
+      raw_vals <- as.numeric(x)
+
+      # Rebuild strictly as UTC POSIXct
+      # This forces 'class' to be set first, then 'tzone'
+      structure(raw_vals,
+        class = c("POSIXct", "POSIXt"),
+        tzone = "UTC"
+      )
+    }))
 }
 
 cases_vs_nc <- sim_data |>
