@@ -4,8 +4,6 @@
 #' and then check that the data types are as expected.
 #'
 #' @param data The register to select columns from.
-#' @param call The environment where the function is called, so that the error
-#'   traceback gives a more meaningful location.
 #' @inheritParams get_required_variables
 #'
 #' @return Outputs the register with only the required variables, and
