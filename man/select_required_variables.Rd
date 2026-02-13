@@ -4,16 +4,13 @@
 \alias{select_required_variables}
 \title{Select the required variables from the register}
 \usage{
-select_required_variables(data, register, call = rlang::caller_env())
+select_required_variables(data, register)
 }
 \arguments{
 \item{data}{The register to select columns from.}
 
 \item{register}{The abbreviation of the register name. See list of
 abbreviations in \code{\link[=get_register_abbrev]{get_register_abbrev()}}.}
-
-\item{call}{The environment where the function is called, so that the error
-traceback gives a more meaningful location.}
 }
 \value{
 Outputs the register with only the required variables, and
