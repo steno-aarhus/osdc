@@ -6,8 +6,10 @@
 #' that data source, or at least the years you have and are interested
 #' in.
 #'
-#' @param kontakter The contacts information table from the LPR3 patient register
-#' @param diagnoser The diagnoses information table from the LPR3 patient register
+#' @param kontakter The contacts information table from the deprecated LPR_F-formatted LPR3 patient register
+#' @param diagnoser The diagnoses information table from the deprecated LPR_F-formatted LPR3 patient register
+#' @param lpr_a_kontakt The contacts information table from the LPR_A-formatted LPR3 patient register
+#' @param lpr_a_diagnose The diagnoses information table from the LPR_A-formatted LPR3 patient register
 #' @param lpr_diag The diagnoses information table from the LPR2 patient register
 #' @param lpr_adm The administrative information table from the LPR2 patient register
 #' @param sysi The SYSI table from the health service register
@@ -40,8 +42,10 @@
 #'   purrr::map(duckplyr::as_tbl)
 #'
 #' classify_diabetes(
-#'   kontakter = register_data$kontakter,
-#'   diagnoser = register_data$diagnoser,
+#'   kontakter = NULL,
+#'   diagnoser = NULL,
+#'   lpr_a_kontakt = register_data$lpr_a_kontakt,
+#'   lpr_a_diagnose = register_data$lpr_a_diagnose,
 #'   lpr_diag = register_data$lpr_diag,
 #'   lpr_adm = register_data$lpr_adm,
 #'   sysi = register_data$sysi,
@@ -51,8 +55,10 @@
 #'   lmdb = register_data$lmdb
 #' )
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
+  kontakter = NULL,
+  diagnoser = NULL,
+  lpr_a_kontakt,
+  lpr_a_diagnose,
   lpr_diag,
   lpr_adm,
   sysi,
@@ -72,6 +78,8 @@ classify_diabetes <- function(
   registers <- list(
     kontakter = kontakter,
     diagnoser = diagnoser,
+    lpr_a_kontakt = lpr_a_kontakt,
+    lpr_a_diagnose = lpr_a_diagnose,
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm,
     sysi = sysi,
@@ -80,29 +88,45 @@ classify_diabetes <- function(
     bef = bef,
     lmdb = lmdb
   ) |>
+    purrr::discard(is.null) |>
     purrr::map(verify_duckdb)
 
   # Verification step -----
-  kontakter <- select_required_variables(registers$kontakter, "kontakter")
-  diagnoser <- select_required_variables(registers$diagnoser, "diagnoser")
-  lpr_diag <- select_required_variables(registers$lpr_diag, "lpr_diag")
-  lpr_adm <- select_required_variables(registers$lpr_adm, "lpr_adm")
-  sysi <- select_required_variables(registers$sysi, "sysi")
-  sssy <- select_required_variables(registers$sssy, "sssy")
-  lab_forsker <- select_required_variables(registers$lab_forsker, "lab_forsker")
-  bef <- select_required_variables(registers$bef, "bef")
-  lmdb <- select_required_variables(registers$lmdb, "lmdb")
+  registers <- registers |>
+    purrr::imap(\(table, name) select_required_variables(table, name))
 
   # Initially processing -----
+
+  # LPR2: mandatory
+  # (due to need for data on pregnancies to censor GLDs purchased due to GDM)
   lpr2 <- prepare_lpr2(
-    lpr_diag = lpr_diag,
-    lpr_adm = lpr_adm
+    lpr_diag = registers$lpr_diag,
+    lpr_adm = registers$lpr_adm
   )
 
-  lpr3 <- prepare_lpr3(
-    kontakter = kontakter,
-    diagnoser = diagnoser
-  )
+  # LPR3: LPR_F or LPR_A can be missing
+  lpr3_parts <- list()
+
+  # Check if LPR_F inputs exist in the verified registers list
+  if (all(c("kontakter", "diagnoser") %in% names(registers))) {
+    lpr3_parts$f <- prepare_lpr_f(
+      kontakter = registers$kontakter,
+      diagnoser = registers$diagnoser
+    )
+  }
+
+  # Check if LPR_F inputs exist in the verified registers list
+  if (all(c("lpr_a_kontakt", "lpr_a_diagnose") %in% names(registers))) {
+    lpr3_parts$a <- prepare_lpr_a(
+      lpr_a_kontakt = registers$lpr_a_kontakt,
+      lpr_a_diagnose = registers$lpr_a_diagnose
+    )
+  }
+
+  # Bind whatever LPR3 data is present
+  # Handles only LPR_F, only LPR_A, neither, or both.
+  # In the latter case, the user must ensure no overlap between LPR_F and LPR_A inputs
+  lpr3 <- dplyr::bind_rows(lpr3_parts)
 
   pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
@@ -128,21 +152,21 @@ classify_diabetes <- function(
     )
 
   podiatrist_services <- keep_podiatrist_services(
-    sysi = sysi,
-    sssy = sssy
+    sysi = registers$sysi,
+    sssy = registers$sssy
   )
 
   gld_purchases <- keep_gld_purchases(
-    lmdb = lmdb
+    lmdb = registers$lmdb
   )
 
   hba1c_over_threshold <- keep_hba1c(
-    lab_forsker = lab_forsker
+    lab_forsker = registers$lab_forsker
   )
 
   # Drop steps -----
   gld_hba1c_after_drop_steps <- gld_purchases |>
-    drop_pcos(bef = bef) |>
+    drop_pcos(bef = registers$bef) |>
     drop_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
