@@ -105,11 +105,10 @@ classify_diabetes <- function(
   )
 
   # LPR3: LPR_F or LPR_A can be missing
-  lpr3_parts <- list()
 
   # Check if LPR_F inputs exist in the verified registers list
   if (all(c("kontakter", "diagnoser") %in% names(registers))) {
-    lpr3_parts$f <- prepare_lpr_f(
+    lpr3_f <- prepare_lpr_f(
       kontakter = registers$kontakter,
       diagnoser = registers$diagnoser
     )
@@ -117,7 +116,7 @@ classify_diabetes <- function(
 
   # Check if LPR_F inputs exist in the verified registers list
   if (all(c("lpr_a_kontakt", "lpr_a_diagnose") %in% names(registers))) {
-    lpr3_parts$a <- prepare_lpr_a(
+    lpr3_a <- prepare_lpr_a(
       lpr_a_kontakt = registers$lpr_a_kontakt,
       lpr_a_diagnose = registers$lpr_a_diagnose
     )
@@ -126,7 +125,11 @@ classify_diabetes <- function(
   # Bind whatever LPR3 data is present
   # Handles only LPR_F, only LPR_A, neither, or both.
   # In the latter case, the user must ensure no overlap between LPR_F and LPR_A inputs
-  lpr3 <- dplyr::bind_rows(lpr3_parts)
+  lpr3 <- mget(c("lpr3_a", "lpr3_f"), ifnotfound = list(NULL)) |>
+    # 1. Remove NULLs so the list only contains valid tables
+    purrr::compact() |>
+    # 2. Use reduce to apply union_all if more than one element exists
+    purrr::reduce(dplyr::union_all)
 
   pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
