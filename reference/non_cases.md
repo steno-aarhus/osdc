@@ -32,39 +32,39 @@ logic works and to be shown in the documentation.
 non_cases()
 #> $bef
 #> # A tibble: 7 × 3
-#>   pnr        koen foed_dato
-#>   <chr>     <int> <chr>    
-#> 1 nc_pcos_1     2 19800101 
-#> 2 nc_pcos_2     2 19800101 
-#> 3 nc_pcos_3     2 19800101 
-#> 4 nc_preg_1     2 19800101 
-#> 5 nc_preg_2     2 19800101 
-#> 6 nc_preg_3     2 19800101 
-#> 7 nc_preg_4     2 19800101 
+#>   pnr        koen foed_dato 
+#>   <chr>     <int> <date>    
+#> 1 nc_pcos_1     2 1980-01-01
+#> 2 nc_pcos_2     2 1980-01-01
+#> 3 nc_pcos_3     2 1980-01-01
+#> 4 nc_preg_1     2 1980-01-01
+#> 5 nc_preg_2     2 1980-01-01
+#> 6 nc_preg_3     2 1980-01-01
+#> 7 nc_preg_4     2 1980-01-01
 #> 
 #> $lmdb
 #> # A tibble: 7 × 6
-#>   pnr       volume eksd     atc       apk indo   
-#>   <chr>      <dbl> <chr>    <chr>   <dbl> <chr>  
-#> 1 nc_pcos_1     10 20210101 A10BA02     5 0000276
-#> 2 nc_pcos_2     10 20190101 A10BA02     5 0000276
-#> 3 nc_pcos_3     10 20190101 A10BA02     5 0000276
-#> 4 nc_preg_1     10 20180101 A10         5 0000000
-#> 5 nc_preg_2     10 20180101 A10         5 0000000
-#> 6 nc_preg_3     10 20200101 A10         5 0000000
-#> 7 nc_preg_4     10 20200101 A10         5 0000000
+#>   pnr       volume eksd       atc       apk indo   
+#>   <chr>      <dbl> <date>     <chr>   <dbl> <chr>  
+#> 1 nc_pcos_1     10 2021-01-01 A10BA02     5 0000276
+#> 2 nc_pcos_2     10 2019-01-01 A10BA02     5 0000276
+#> 3 nc_pcos_3     10 2019-01-01 A10BA02     5 0000276
+#> 4 nc_preg_1     10 2018-01-01 A10         5 0000000
+#> 5 nc_preg_2     10 2018-01-01 A10         5 0000000
+#> 6 nc_preg_3     10 2020-01-01 A10         5 0000000
+#> 7 nc_preg_4     10 2020-01-01 A10         5 0000000
 #> 
 #> $lpr_adm
 #> # A tibble: 7 × 4
-#>   pnr       c_spec recnum d_inddto
-#>   <chr>     <chr>  <chr>  <chr>   
-#> 1 nc_pcos_1 08     1      20180101
-#> 2 nc_pcos_2 08     1      20170101
-#> 3 nc_pcos_3 08     1      20170101
-#> 4 nc_preg_1 08     1      20180101
-#> 5 nc_preg_2 08     1      20180101
-#> 6 nc_preg_1 08     2      20180101
-#> 7 nc_preg_2 08     3      20180101
+#>   pnr       c_spec recnum d_inddto  
+#>   <chr>     <chr>  <chr>  <date>    
+#> 1 nc_pcos_1 08     1      2018-01-01
+#> 2 nc_pcos_2 08     1      2017-01-01
+#> 3 nc_pcos_3 08     1      2017-01-01
+#> 4 nc_preg_1 08     1      2018-01-01
+#> 5 nc_preg_2 08     1      2018-01-01
+#> 6 nc_preg_1 08     2      2018-01-01
+#> 7 nc_preg_2 08     3      2018-01-01
 #> 
 #> $lpr_diag
 #> # A tibble: 3 × 3
@@ -77,14 +77,14 @@ non_cases()
 #> $kontakter
 #> # A tibble: 7 × 4
 #>   cpr       dw_ek_kontakt hovedspeciale_ans       dato_start
-#>   <chr>     <chr>         <chr>                   <chr>     
-#> 1 nc_pcos_1 1             medicinsk endokrinologi 20210101  
-#> 2 nc_pcos_2 1             medicinsk endokrinologi 20190101  
-#> 3 nc_pcos_3 1             medicinsk endokrinologi 20190101  
-#> 4 nc_preg_3 1             abc                     20200101  
-#> 5 nc_preg_4 1             abc                     20200101  
-#> 6 nc_preg_3 2             abc                     20200101  
-#> 7 nc_preg_4 3             abc                     20200101  
+#>   <chr>     <chr>         <chr>                   <date>    
+#> 1 nc_pcos_1 1             medicinsk endokrinologi 2021-01-01
+#> 2 nc_pcos_2 1             medicinsk endokrinologi 2019-01-01
+#> 3 nc_pcos_3 1             medicinsk endokrinologi 2019-01-01
+#> 4 nc_preg_3 1             abc                     2020-01-01
+#> 5 nc_preg_4 1             abc                     2020-01-01
+#> 6 nc_preg_3 2             abc                     2020-01-01
+#> 7 nc_preg_4 3             abc                     2020-01-01
 #> 
 #> $diagnoser
 #> # A tibble: 3 × 4
@@ -121,13 +121,13 @@ non_cases()
 #> $lab_forsker
 #> # A tibble: 7 × 4
 #>   patient_cpr samplingdate analysiscode value
-#>   <chr>       <chr>        <chr>        <dbl>
-#> 1 nc_pcos_1   20210101     NPU27300      48  
-#> 2 nc_pcos_2   20190101     NPU03835       6.5
-#> 3 nc_pcos_3   20190101     NPU03835       6.5
-#> 4 nc_preg_1   20170301     NPU27300      48  
-#> 5 nc_preg_2   20180301     NPU03835       6.5
-#> 6 nc_preg_3   20190301     NPU03835       6.5
-#> 7 nc_preg_4   20200301     NPU27300      48  
+#>   <chr>       <date>       <chr>        <dbl>
+#> 1 nc_pcos_1   2021-01-01   NPU27300      48  
+#> 2 nc_pcos_2   2019-01-01   NPU03835       6.5
+#> 3 nc_pcos_3   2019-01-01   NPU03835       6.5
+#> 4 nc_preg_1   2017-03-01   NPU27300      48  
+#> 5 nc_preg_2   2018-03-01   NPU03835       6.5
+#> 6 nc_preg_3   2019-03-01   NPU03835       6.5
+#> 7 nc_preg_4   2020-03-01   NPU27300      48  
 #> 
 ```

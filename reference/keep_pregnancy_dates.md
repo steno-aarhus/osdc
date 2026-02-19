@@ -23,7 +23,7 @@ keep_pregnancy_dates(lpr2, lpr3)
 ## Value
 
 The same type as the input data, as a
-[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html).
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html).
 
 ## See also
 

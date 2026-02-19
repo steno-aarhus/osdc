@@ -165,11 +165,11 @@
 <code class="sourceCode R"><span><span class="va">register_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/simulate_registers.html">simulate_registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="co"># Convert to a DuckDB connection, as duckplyr is still</span></span>
 <span>  <span class="co"># in early development, while the DBI-DuckDB connection</span></span>
 <span>  <span class="co"># is more stable.</span></span>
-<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/duckplyr/man/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>The result is a named list where each element is one register as a DuckDB table. The <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function takes each register as a separate argument, so we extract them into individual variables to be explicit about this:</p>
 <div class="cell">
@@ -203,18 +203,18 @@
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
 <span><span class="co">#&gt; # Source:   SQL [?? x 5]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.4.4 [unknown@Linux 6.11.0-1018-azure:R 4.5.2//tmp/RtmpLVHwWQ/duckplyr/duckplyr208e129a9a08.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.4.4 [unknown@Linux 6.14.0-1017-azure:R 4.5.2//tmp/Rtmpi4jSIt/duckplyr/duckplyr1e1e158ee1b2.duckdb]</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 108839343181 2011-12-05            2011-12-05         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 745611946809 2018-10-29            2018-10-29         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 706974528463 2016-08-01            2016-08-01         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 146605139851 2020-12-25            2020-12-25         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 8 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 9 240771768588 2016-11-28            2016-11-28         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 240771768588 2016-11-28            2016-11-28         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 706974528463 2016-08-01            2016-08-01         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 108839343181 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 8 745611946809 2018-10-29            2018-10-29         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 9 146605139851 2020-11-07            2020-11-07         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each of the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
 </section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
@@ -229,15 +229,15 @@
 <span><span class="co">#&gt; # A tibble: 9 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 706974528463 2016-08-01            2016-08-01         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 108839343181 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 745611946809 2018-10-29            2018-10-29         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 3 240771768588 2016-11-28            2016-11-28         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 745611946809 2018-10-29            2018-10-29         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 108839343181 2011-12-05            2011-12-05         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 8 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 9 146605139851 2020-12-25            2020-12-25         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 4 409442575549 2010-05-24            2010-05-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 298944792608 2007-11-26            2007-11-26         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 732715981647 2020-08-24            2020-08-24         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 8 706974528463 2016-08-01            2016-08-01         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 9 146605139851 2020-11-07            2020-11-07         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>Now, we can see that with the simulated data, 9 individuals are classified as having diabetes.</p>
 <section class="level4"><h4 id="sec-understanding-the-output">Understanding the output<a class="anchor" aria-label="anchor" href="#sec-understanding-the-output"></a>
@@ -290,8 +290,8 @@
 <p>Once you have the classification results, you can save them as a Parquet file for yourself or your collaborators on your DST project:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/duckplyr/man/compute_parquet.html" class="external-link">compute_parquet</a></span><span class="op">(</span></span>
+<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_parquet.html" class="external-link">compute_parquet</a></span><span class="op">(</span></span>
 <span>    <span class="st">"classified_diabetes.parquet"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
 </section></section><section class="level2"><h2 id="sec-working-with-real-register-data">Working with real register data<a class="anchor" aria-label="anchor" href="#sec-working-with-real-register-data"></a>

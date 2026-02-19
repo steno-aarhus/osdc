@@ -17,5 +17,5 @@ classify_t1d(data)
 ## Value
 
 The same object type as the input data, which would be a
-[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html)
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html)
 type object.

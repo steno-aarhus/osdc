@@ -24,7 +24,7 @@ prepare_lpr3(kontakter, diagnoser)
 ## Value
 
 The same type as the input data, as a
-[`duckplyr::duckdb_tibble()`](https://rdrr.io/pkg/duckplyr/man/duckdb_tibble.html),
+[`duckplyr::duckdb_tibble()`](https://duckplyr.tidyverse.org/reference/duckdb_tibble.html),
 with the following columns:
 
 - `pnr`: The personal identification variable.
