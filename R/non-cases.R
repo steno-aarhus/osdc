@@ -78,9 +78,14 @@ non_cases <- function() {
     "nc_preg_4", "1", "abc", "20200101",
     "nc_preg_3", "2", "abc", "20200101",
     "nc_preg_4", "3", "abc", "20200101",
-  ) |> dplyr::mutate(
-    kont_starttidspunkt = as.POSIXct(kont_starttidspunkt, format = "%Y%m%d", tz = "UTC")
-  )
+  ) |>
+    dplyr::mutate(
+      kont_starttidspunkt = as.POSIXct(
+        kont_starttidspunkt,
+        format = "%Y%m%d",
+        tz = "UTC"
+      )
+    )
 
   lpr_a_diagnose <- tibble::tribble(
     ~dw_ek_kontakt, ~diag_kode, ~diag_type, ~senere_afkraeftet,

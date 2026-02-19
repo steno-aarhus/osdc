@@ -21,10 +21,7 @@ join_registers <- function(name) {
 
       # Rebuild strictly as UTC POSIXct
       # This forces 'class' to be set first, then 'tzone'
-      structure(raw_vals,
-        class = c("POSIXct", "POSIXt"),
-        tzone = "UTC"
-      )
+      structure(raw_vals, class = c("POSIXct", "POSIXt"), tzone = "UTC")
     }))
 }
 
@@ -72,8 +69,10 @@ actual_only_lpr_f <- classify_diabetes(
 
 # Test with a mix of LPR3 data from LPR A and F
 
-lpr_f_part <- cases_vs_nc$kontakter |> dplyr::filter(dplyr::row_number() %in% 1:10)
-lpr_a_part <- cases_vs_nc$lpr_a_kontakt |> dplyr::filter(!dplyr::row_number() %in% 1:10)
+lpr_f_part <- cases_vs_nc$kontakter |>
+  dplyr::filter(dplyr::row_number() %in% 1:10)
+lpr_a_part <- cases_vs_nc$lpr_a_kontakt |>
+  dplyr::filter(!dplyr::row_number() %in% 1:10)
 
 actual_mix_lpr3 <- classify_diabetes(
   diagnoser = cases_vs_nc$diagnoser,

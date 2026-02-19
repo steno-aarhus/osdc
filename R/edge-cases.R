@@ -195,9 +195,14 @@ edge_cases <- function() {
     "15_t2d_gldF_diagT_hba1cF_podF", "pnr15_dw01", "urologi", "20230101",
     "16_t2d_gldT_diagF_hba1cF_podF", "pnr16_dw01", "gynaekologi og obstetrik", "20240101",
     "21_nodm_female_pregnancyT", "pnr21_dw01", "gynaekologi og obstetrik", "20240101"
-  ) |> dplyr::mutate(
-    kont_starttidspunkt = as.POSIXct(kont_starttidspunkt, format = "%Y%m%d", tz = "UTC")
-  )
+  ) |>
+    dplyr::mutate(
+      kont_starttidspunkt = as.POSIXct(
+        kont_starttidspunkt,
+        format = "%Y%m%d",
+        tz = "UTC"
+      )
+    )
 
   lpr_a_diagnose <- tibble::tribble(
     ~dw_ek_kontakt, ~diag_kode, ~diag_type, ~senere_afkraeftet,
@@ -231,7 +236,6 @@ edge_cases <- function() {
     "pnr16_dw01", "DO822", "A", "Nej",
     "pnr21_dw01", "DO806", "A", "Nej"
   )
-
 
   # LPR_F: deprecated
   # kontakter & diagnoser tables
