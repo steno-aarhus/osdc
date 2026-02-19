@@ -9,7 +9,7 @@ non_cases()
 \value{
 A named list of 9  \code{\link[tibble:tibble]{tibble::tibble()}} objects, each representing a
 different health register: \code{bef}, \code{lmdb}, \code{lpr_adm}, \code{lpr_diag},
-\code{kontakter}, \code{diagnoser}, \code{sysi}, \code{sssy}, and \code{lab_forsker}.
+\code{kontakter}, \code{diagnoser}, \code{lpr_a_kontakt}, \code{lpr_a_diagnose}, \code{sysi}, \code{sssy}, and \code{lab_forsker}.
 }
 \description{
 This function generates a list of tibbles representing the Danish health
