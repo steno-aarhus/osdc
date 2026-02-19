@@ -410,6 +410,8 @@ edge_cases <- function() {
     lpr_diag = lpr_diag,
     kontakter = kontakter,
     diagnoser = diagnoser,
+    lpr_a_kontakt = lpr_a_kontakt,
+    lpr_a_diagnose = lpr_a_diagnose,
     sysi = sysi,
     sssy = sssy,
     lab_forsker = lab_forsker,
