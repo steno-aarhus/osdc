@@ -156,7 +156,7 @@ The output is a table with one row per classified individual and five
 columns:
 
 | Column | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | `pnr` | The pseudonymised personal identification number. |
 | `stable_inclusion_date` | The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the `stable_inclusion_start_date` parameter (from 1998 onward by default). `NA` for earlier dates. |
 | `raw_inclusion_date` | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`. |
@@ -202,13 +202,36 @@ all at once. We recommend converting your register files into
 register in its own folder (e.g., all `kontakter` files in one folder,
 all `diagnoser` files in another, etc.).
 
-You can then load each register directly from its Parquet folder as a
-DuckDB table, without reading everything into memory:
+The pre-installed R packages on Statistics Denmark's servers can be
+quite old. This heavily limits the extent of `dplyr` operations
+supported in `duckplyr` and `arrow` (for example, at the time of
+writing, `library(duckplyr)` loads version 0.4 of the `duckplyr` package
+from 2024, whereas the latest version on CRAN is 1.1 from 2026).
+
+Fortunately, you can install the latest package from CRAN on DST's
+virtual machine like normal: `install_packages("packagename")`. The only
+downside is that you have to re-install your packages frequently: Every
+week, when the servers are reset, and when logging in after having
+logged out and terminated the previous DST session (in this case, you
+may end up on a different R machine than the one you were using in the
+previous session).
+
+After making sure that you have the newest version of `osdc` (which
+should install the updated dependencies) You can then load each register
+directly from its Parquet folder and convert it to a DuckDB table,
+without reading everything into memory. Despite the conversion from
+Parquet/Arrow to DuckDB being very efficient, it's still a good idea to
+perform some rough filtering of the data on the Arrow side before
+converting to DuckDB, if you are working with nationwide raw data (most
+of `dplyr`'s filtering operations are supported in Arrow, so you don't
+have to change syntax):
 
 ``` r
 diagnoser <- "path/to/diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb()
+  # Insert dplyr filtering steps here, as appropriate, e.g.:
+  # dplyr::select(...) |> dplyr::filter(...) |> 
+  arrow::to_duckdb() |> dplyr::compute()
 ```
 
 ::: callout-tip
@@ -218,12 +241,13 @@ submitted to CRAN, expected March 2026) to convert them to Parquet
 format.
 :::
 
-If your data is already in R (e.g., as a data frame) and fits in memory,
-you can convert it to a DuckDB table with:
+If your data is already in R (e.g., as a data.frame object like
+`diagnoser`) and fits in memory, you can convert it to a DuckDB table
+with:
 
 ``` r
 diagnoser <- diagnoser |>
-  arrow::to_duckdb()
+  arrow::to_duckdb() |> dplyr::compute()
 ```
 
 ## Getting help
@@ -233,3 +257,4 @@ open an issue on the [GitHub
 repository](https://github.com/steno-aarhus/osdc/issues). When reporting
 a bug, include a minimal example that reproduces the problem along to
 help us understand and investigate the problem.
+
