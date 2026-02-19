@@ -154,15 +154,6 @@ to_yyww <- function(x) {
   )
 }
 
-#' Transform date(s) to the format `yyyymmdd`
-#'
-#' @param x A date or a vector of dates.
-#'
-#' @return A vector of dates in the format `yyyymmdd.`
-#' @keywords internal
-to_yyyymmdd <- function(x) {
-  format(lubridate::as_date(x), format = "%Y%m%d")
-}
 
 #' Convert all factor variables to character variables.
 #'

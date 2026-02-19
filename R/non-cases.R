@@ -27,7 +27,10 @@ non_cases <- function() {
     "nc_preg_3", 2, "19800101",
     "nc_preg_4", 2, "19800101",
   ) |>
-    dplyr::mutate(koen = as.integer(.data$koen))
+    dplyr::mutate(
+      koen = as.integer(.data$koen),
+      foed_dato = lubridate::as_date(.data$foed_dato)
+    )
 
   lmdb <- tibble::tribble(
     ~pnr, ~volume, ~eksd, ~atc, ~apk, ~indo,
@@ -38,7 +41,8 @@ non_cases <- function() {
     "nc_preg_2", 10, "20180101", "A10", 5, "0000000",
     "nc_preg_3", 10, "20200101", "A10", 5, "0000000",
     "nc_preg_4", 10, "20200101", "A10", 5, "0000000",
-  )
+  ) |>
+    dplyr::mutate(eksd = lubridate::as_date(.data$eksd))
 
   # LPR2 is before 2019
   lpr_adm <- tibble::tribble(
@@ -50,7 +54,8 @@ non_cases <- function() {
     "nc_preg_2", "08", "1", "20180101",
     "nc_preg_1", "08", "2", "20180101",
     "nc_preg_2", "08", "3", "20180101",
-  )
+  ) |>
+    dplyr::mutate(d_inddto = lubridate::as_date(.data$d_inddto))
 
   lpr_diag <- tibble::tribble(
     ~recnum, ~c_diag, ~c_diagtype,
@@ -71,7 +76,8 @@ non_cases <- function() {
     "nc_preg_4", "1", "abc", "20200101",
     "nc_preg_3", "2", "abc", "20200101",
     "nc_preg_4", "3", "abc", "20200101",
-  )
+  ) |>
+    dplyr::mutate(dato_start = lubridate::as_date(.data$dato_start))
 
   diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
@@ -117,7 +123,8 @@ non_cases <- function() {
     "nc_preg_2", "20180301", "NPU03835", 6.5,
     "nc_preg_3", "20190301", "NPU03835", 6.5,
     "nc_preg_4", "20200301", "NPU27300", 48,
-  )
+  ) |>
+    dplyr::mutate(samplingdate = lubridate::as_date(.data$samplingdate))
 
   # Combine all tibbles into a named list -----
 

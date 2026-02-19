@@ -45,7 +45,10 @@ edge_cases <- function() {
     "22_nodm_female_blank", 2, "19960101",
     "23_t2d_gldT_1995_1999", 1, "19500101"
   ) |>
-    dplyr::mutate(koen = as.integer(.data$koen))
+    dplyr::mutate(
+      koen = as.integer(.data$koen),
+      foed_dato = lubridate::as_date(.data$foed_dato)
+    )
 
   lmdb <- tibble::tribble(
     ~pnr, ~volume, ~eksd, ~atc, ~apk, ~indo,
@@ -104,7 +107,10 @@ edge_cases <- function() {
     "23_t2d_gldT_1995_1999", 10, "19970616", "A10BA02", 2, "2300003",
     "23_t2d_gldT_1995_1999", 10, "19980615", "A10BA02", 3, "2300003",
     "23_t2d_gldT_1995_1999", 10, "19980616", "A10BA02", 4, "2300003",
-  )
+  ) |>
+    dplyr::mutate(
+      eksd = lubridate::as_date(.data$eksd)
+    )
 
   lpr_adm <- tibble::tribble(
     ~pnr, ~c_spec, ~recnum, ~d_inddto,
@@ -129,7 +135,10 @@ edge_cases <- function() {
     "15_t2d_gldF_diagT_hba1cF_podF", "08", "pnr15_rec01", "20100101",
     "16_t2d_gldT_diagF_hba1cF_podF", "38", "pnr16_rec01", "19990101",
     "21_nodm_female_pregnancyT", "38", "pnr21_rec01", "19990101",
-  )
+  ) |>
+    dplyr::mutate(
+      d_inddto = lubridate::as_date(.data$d_inddto)
+    )
 
   lpr_diag <- tibble::tribble(
     ~recnum, ~c_diag, ~c_diagtype,
@@ -186,7 +195,10 @@ edge_cases <- function() {
     "15_t2d_gldF_diagT_hba1cF_podF", "pnr15_dw01", "urologi", "20230101",
     "16_t2d_gldT_diagF_hba1cF_podF", "pnr16_dw01", "gynaekologi og obstetrik", "20240101",
     "21_nodm_female_pregnancyT", "pnr21_dw01", "gynaekologi og obstetrik", "20240101"
-  )
+  ) |>
+    dplyr::mutate(
+      dato_start = lubridate::as_date(.data$dato_start)
+    )
 
   diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
@@ -295,7 +307,10 @@ edge_cases <- function() {
     "21_nodm_female_pregnancyT", "19990201", "NPU27300", 55,
     "21_nodm_female_pregnancyT", "20230801", "NPU27300", 55,
     "21_nodm_female_pregnancyT", "20240201", "NPU27300", 55
-  )
+  ) |>
+    dplyr::mutate(
+      samplingdate = lubridate::as_date(.data$samplingdate)
+    )
 
   classified <- tibble::tribble(
     ~pnr, ~stable_inclusion_date, ~raw_inclusion_date, ~has_t1d, ~has_t2d,
