@@ -5,8 +5,10 @@
 \title{Classify diabetes status using Danish registers.}
 \usage{
 classify_diabetes(
-  kontakter,
-  diagnoser,
+  kontakter = NULL,
+  diagnoser = NULL,
+  lpr_a_kontakt,
+  lpr_a_diagnose,
   lpr_diag,
   lpr_adm,
   sysi,
@@ -18,9 +20,13 @@ classify_diabetes(
 )
 }
 \arguments{
-\item{kontakter}{The contacts information table from the LPR3 patient register}
+\item{kontakter}{The contacts information table from the deprecated LPR_F-formatted LPR3 patient register}
 
-\item{diagnoser}{The diagnoses information table from the LPR3 patient register}
+\item{diagnoser}{The diagnoses information table from the deprecated LPR_F-formatted LPR3 patient register}
+
+\item{lpr_a_kontakt}{The contacts information table from the LPR_A-formatted LPR3 patient register}
+
+\item{lpr_a_diagnose}{The diagnoses information table from the LPR_A-formatted LPR3 patient register}
 
 \item{lpr_diag}{The diagnoses information table from the LPR2 patient register}
 
@@ -66,8 +72,10 @@ register_data <- registers() |>
   purrr::map(duckplyr::as_tbl)
 
 classify_diabetes(
-  kontakter = register_data$kontakter,
-  diagnoser = register_data$diagnoser,
+  kontakter = NULL,
+  diagnoser = NULL,
+  lpr_a_kontakt = register_data$lpr_a_kontakt,
+  lpr_a_diagnose = register_data$lpr_a_diagnose,
   lpr_diag = register_data$lpr_diag,
   lpr_adm = register_data$lpr_adm,
   sysi = register_data$sysi,
