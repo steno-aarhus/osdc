@@ -72,8 +72,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #' Prepare and join the two LPR A registers to extract diabetes and pregnancy diagnoses.
 #'
 #' @inherit prepare_lpr2 description
-#' @param diagnoser The LPR A register containing diabetes diagnoses.
-#' @param kontakter The LPR A register containing hospital contacts/administrative data.
+#' @param lpr_a_diagnose The LPR A register containing diabetes diagnoses.
+#' @param lpr_a_kontakt The LPR A register containing hospital contacts/administrative data.
 #'
 #' @inherit prepare_lpr2 return
 #'
@@ -157,8 +157,8 @@ prepare_lpr_f <- function(kontakter, diagnoser) {
   diagnoser |>
     # Rename LPR F columns to match LPR A naming and logic expectations
     dplyr::rename(
-      diag_kode = diagnosekode,
-      diag_type = diagnosetype
+      diag_kode = tidyselect::any_of("diagnosekode"),
+      diag_type = tidyselect::any_of("diagnosetype")
     ) |>
     # Only keep relevant diagnoses
     dplyr::filter(!!logic$lpr3_is_needed_code) |>

@@ -1,7 +1,7 @@
 #' Simple function to get only the pregnancy event dates.
 #'
 #' @param lpr2 Output from [prepare_lpr2()].
-#' @param lpr3 Output from [prepare_lpr3()].
+#' @param lpr3 Output from [prepare_lpr_a()] and/or [prepare_lpr_f()].
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #' @keywords internal
@@ -28,7 +28,7 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 #'
 #' @param lpr2 The output from [prepare_lpr2()].
-#' @param lpr3 The output from [prepare_lpr3()].
+#' @param lpr3 Output from [prepare_lpr_a()] and/or [prepare_lpr_f()].
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.

@@ -7,9 +7,9 @@
 prepare_lpr_a(lpr_a_kontakt, lpr_a_diagnose)
 }
 \arguments{
-\item{diagnoser}{The LPR A register containing diabetes diagnoses.}
+\item{lpr_a_kontakt}{The LPR A register containing hospital contacts/administrative data.}
 
-\item{kontakter}{The LPR A register containing hospital contacts/administrative data.}
+\item{lpr_a_diagnose}{The LPR A register containing diabetes diagnoses.}
 }
 \value{
 The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},

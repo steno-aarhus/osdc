@@ -9,7 +9,7 @@ keep_pregnancy_dates(lpr2, lpr3)
 \arguments{
 \item{lpr2}{Output from \code{\link[=prepare_lpr2]{prepare_lpr2()}}.}
 
-\item{lpr3}{Output from \code{\link[=prepare_lpr3]{prepare_lpr3()}}.}
+\item{lpr3}{Output from \code{\link[=prepare_lpr_a]{prepare_lpr_a()}} and/or \code{\link[=prepare_lpr_f]{prepare_lpr_f()}}.}
 }
 \value{
 The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}}.

@@ -13,7 +13,7 @@
 #'
 #' @return A named list of 9  [tibble::tibble()] objects, each representing a
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
-#'   `kontakter`, `diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
+#'   `kontakter`, `diagnoser`, `lpr_a_kontakt`, `lpr_a_diagnose`, `sysi`, `sssy`, and `lab_forsker`.
 #' @export
 #'
 #' @examples
@@ -198,7 +198,7 @@ edge_cases <- function() {
   ) |>
     dplyr::mutate(
       kont_starttidspunkt = as.POSIXct(
-        kont_starttidspunkt,
+        .data$kont_starttidspunkt,
         format = "%Y%m%d",
         tz = "UTC"
       )
