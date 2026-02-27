@@ -88,48 +88,30 @@ classify_diabetes <- function(
     bef = bef,
     lmdb = lmdb
   ) |>
-    purrr::discard(is.null) |>
     purrr::map(verify_duckdb)
 
   # Verification step -----
-  registers <- registers |>
-    purrr::imap(\(table, name) select_required_variables(table, name))
+  kontakter <- select_required_variables(registers$kontakter, "kontakter")
+  diagnoser <- select_required_variables(registers$diagnoser, "diagnoser")
+  lpr_diag <- select_required_variables(registers$lpr_diag, "lpr_diag")
+  lpr_adm <- select_required_variables(registers$lpr_adm, "lpr_adm")
+  sysi <- select_required_variables(registers$sysi, "sysi")
+  sssy <- select_required_variables(registers$sssy, "sssy")
+  lab_forsker <- select_required_variables(registers$lab_forsker, "lab_forsker")
+  bef <- select_required_variables(registers$bef, "bef")
+  lmdb <- select_required_variables(registers$lmdb, "lmdb")
 
   # Initially processing -----
 
-  # LPR2: mandatory
-  # (due to need for data on pregnancies to censor GLDs purchased due to GDM)
   lpr2 <- prepare_lpr2(
-    lpr_diag = registers$lpr_diag,
-    lpr_adm = registers$lpr_adm
+    lpr_diag = lpr_diag,
+    lpr_adm = lpr_adm
   )
 
-  # LPR3: LPR_F or LPR_A can be missing
-
-  # Check if LPR_F inputs exist in the verified registers list
-  if (all(c("kontakter", "diagnoser") %in% names(registers))) {
-    lpr3_f <- prepare_lpr_f(
-      kontakter = registers$kontakter,
-      diagnoser = registers$diagnoser
-    )
-  }
-
-  # Check if LPR_F inputs exist in the verified registers list
-  if (all(c("lpr_a_kontakt", "lpr_a_diagnose") %in% names(registers))) {
-    lpr3_a <- prepare_lpr_a(
-      lpr_a_kontakt = registers$lpr_a_kontakt,
-      lpr_a_diagnose = registers$lpr_a_diagnose
-    )
-  }
-
-  # Bind whatever LPR3 data is present
-  # Handles only LPR_F, only LPR_A, neither, or both.
-  # In the latter case, the user must ensure no overlap between LPR_F and LPR_A inputs
-  lpr3 <- mget(c("lpr3_a", "lpr3_f"), ifnotfound = list(NULL)) |>
-    # 1. Remove NULLs so the list only contains valid tables
-    purrr::compact() |>
-    # 2. Use reduce to apply union_all if more than one element exists
-    purrr::reduce(dplyr::union_all)
+  lpr3 <- prepare_lpr3(
+    kontakter = kontakter,
+    diagnoser = diagnoser
+  )
 
   pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
@@ -155,21 +137,21 @@ classify_diabetes <- function(
     )
 
   podiatrist_services <- keep_podiatrist_services(
-    sysi = registers$sysi,
-    sssy = registers$sssy
+    sysi = sysi,
+    sssy = sssy
   )
 
   gld_purchases <- keep_gld_purchases(
-    lmdb = registers$lmdb
+    lmdb = lmdb
   )
 
   hba1c_over_threshold <- keep_hba1c(
-    lab_forsker = registers$lab_forsker
+    lab_forsker = lab_forsker
   )
 
   # Drop steps -----
   gld_hba1c_after_drop_steps <- gld_purchases |>
-    drop_pcos(bef = registers$bef) |>
+    drop_pcos(bef = bef) |>
     drop_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
