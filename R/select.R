@@ -68,7 +68,7 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
 
   actual <- tibble::tibble(
     name = colnames(data_for_types),
-    actual_data_type = purrr::map_chr(data_for_types, class)
+    actual_data_type = purrr::map_chr(data_for_types, ~ class(.x)[1])
   )
 
   # Get mismatched data types.

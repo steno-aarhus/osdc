@@ -88,29 +88,23 @@ classify_diabetes <- function(
     bef = bef,
     lmdb = lmdb
   ) |>
+    purrr::discard(is.null) |>
     purrr::map(verify_duckdb)
 
   # Verification step -----
-  kontakter <- select_required_variables(registers$kontakter, "kontakter")
-  diagnoser <- select_required_variables(registers$diagnoser, "diagnoser")
-  lpr_diag <- select_required_variables(registers$lpr_diag, "lpr_diag")
-  lpr_adm <- select_required_variables(registers$lpr_adm, "lpr_adm")
-  sysi <- select_required_variables(registers$sysi, "sysi")
-  sssy <- select_required_variables(registers$sssy, "sssy")
-  lab_forsker <- select_required_variables(registers$lab_forsker, "lab_forsker")
-  bef <- select_required_variables(registers$bef, "bef")
-  lmdb <- select_required_variables(registers$lmdb, "lmdb")
+  registers <- registers |>
+    purrr::imap(\(table, name) select_required_variables(table, name))
 
   # Initially processing -----
 
   lpr2 <- prepare_lpr2(
-    lpr_diag = lpr_diag,
-    lpr_adm = lpr_adm
+    lpr_diag = registers$lpr_diag,
+    lpr_adm = registers$lpr_adm
   )
 
   lpr3 <- prepare_lpr3(
-    kontakter = kontakter,
-    diagnoser = diagnoser
+    kontakter = registers$kontakter,
+    diagnoser = registers$diagnoser
   )
 
   pregnancy_dates <- keep_pregnancy_dates(
@@ -137,21 +131,21 @@ classify_diabetes <- function(
     )
 
   podiatrist_services <- keep_podiatrist_services(
-    sysi = sysi,
-    sssy = sssy
+    sysi = registers$sysi,
+    sssy = registers$sssy
   )
 
   gld_purchases <- keep_gld_purchases(
-    lmdb = lmdb
+    lmdb = registers$lmdb
   )
 
   hba1c_over_threshold <- keep_hba1c(
-    lab_forsker = lab_forsker
+    lab_forsker = registers$lab_forsker
   )
 
   # Drop steps -----
   gld_hba1c_after_drop_steps <- gld_purchases |>
-    drop_pcos(bef = bef) |>
+    drop_pcos(bef = registers$bef) |>
     drop_pregnancies(
       pregnancy_dates = pregnancy_dates,
       included_hba1c = hba1c_over_threshold
