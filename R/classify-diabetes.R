@@ -6,8 +6,10 @@
 #' that data source, or at least the years you have and are interested
 #' in.
 #'
-#' @param kontakter The contacts information table from the LPR3 patient register
-#' @param diagnoser The diagnoses information table from the LPR3 patient register
+#' @param kontakter The contacts information table from the deprecated LPR_F-formatted LPR3 patient register
+#' @param diagnoser The diagnoses information table from the deprecated LPR_F-formatted LPR3 patient register
+#' @param lpr_a_kontakt The contacts information table from the LPR_A-formatted LPR3 patient register
+#' @param lpr_a_diagnose The diagnoses information table from the LPR_A-formatted LPR3 patient register
 #' @param lpr_diag The diagnoses information table from the LPR2 patient register
 #' @param lpr_adm The administrative information table from the LPR2 patient register
 #' @param sysi The SYSI table from the health service register
@@ -40,8 +42,10 @@
 #'   purrr::map(duckplyr::as_tbl)
 #'
 #' classify_diabetes(
-#'   kontakter = register_data$kontakter,
-#'   diagnoser = register_data$diagnoser,
+#'   kontakter = NULL,
+#'   diagnoser = NULL,
+#'   lpr_a_kontakt = register_data$lpr_a_kontakt,
+#'   lpr_a_diagnose = register_data$lpr_a_diagnose,
 #'   lpr_diag = register_data$lpr_diag,
 #'   lpr_adm = register_data$lpr_adm,
 #'   sysi = register_data$sysi,
@@ -51,8 +55,10 @@
 #'   lmdb = register_data$lmdb
 #' )
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
+  kontakter = NULL,
+  diagnoser = NULL,
+  lpr_a_kontakt,
+  lpr_a_diagnose,
   lpr_diag,
   lpr_adm,
   sysi,
@@ -72,6 +78,8 @@ classify_diabetes <- function(
   registers <- list(
     kontakter = kontakter,
     diagnoser = diagnoser,
+    lpr_a_kontakt = lpr_a_kontakt,
+    lpr_a_diagnose = lpr_a_diagnose,
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm,
     sysi = sysi,
