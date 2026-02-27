@@ -1,7 +1,7 @@
 Type: Package
 Package: osdc
 Title: Open Source Diabetes Classifier for Danish Registers
-Version: 0.9.20
+Version: 0.9.21
 Authors@R: c(
     person(c("Signe", "Kirk"), "Brødbæk", , "signekb@clin.au.dk", role = "aut",
            comment = c(ORCID = "0009-0000-2208-7088")),
@@ -28,15 +28,15 @@ Imports:
     checkmate,
     cli,
     codeCollection,
-    dplyr,
-    duckplyr,
+    dplyr (>= 1.2.0),
+    duckplyr (>= 1.1.3),
     fabricatr,
     lifecycle,
-    lubridate,
-    purrr,
-    rlang,
+    lubridate (>= 1.9.5),
+    purrr (>= 1.2.1),
+    rlang (>= 1.1.7),
     stats,
-    tidyselect,
+    tidyselect (>= 1.2.1),
     utils
 Suggests:
     glue,
@@ -48,7 +48,8 @@ Suggests:
     testthat (>= 3.0.0),
     tidyr,
     tibble,
-    dbplyr
+    dbplyr (>= 2.5.1),
+    arrow (>= 22.0.0.1)
 VignetteBuilder: 
     quarto
 Config/testthat/edition: 3
