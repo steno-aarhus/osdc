@@ -68,8 +68,35 @@ registers <- function() {
         "c_diagtype", "Diagnosetype", "Diagnosis type", "character",
       )
     ),
+    lpr_a_kontakt = list(
+      name = "Landspatientregisterets kontakttabel (LPR3_A)",
+      start_year = 2019,
+      end_year = NA,
+      variables = tibble::tribble(
+        ~name, ~danish_description, ~english_description, ~data_type,
+        # LPR3 equivalent to PNR in LPR2
+        "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
+        # LPR3 equivalent to RECNUM in LPR2
+        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
+        # LPR3 equivalent to D_INDDTO in LPR2
+        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt)", "Date of admission or initial contact", c("POSIXct", "POSIXt"),
+        "kont_ans_hovedspec", "Afdelings speciale", "Specialty of department", "character"
+      )
+    ),
+    lpr_a_diagnose = list(
+      name = "Landspatientregisterets diagnosetabel (LPR3_A)",
+      start_year = 2019,
+      end_year = NA,
+      variables = tibble::tribble(
+        ~name, ~danish_description, ~english_description, ~data_type,
+        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
+        "diag_kode", "Diagnosekode", "Diagnosis code", "character",
+        "diag_type", "Diagnosetype", "Diagnosis type", "character",
+        "senere_afkraeftet", "Blev diagnosen senere afkraeftet?", "Was the diagnosis retracted later?", "character"
+      )
+    ),
     kontakter = list(
-      name = "Landspatientregisterets kontakttabel (LPR3)",
+      name = "Landspatientregisterets kontakttabel (LPR3_F)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(
@@ -84,7 +111,7 @@ registers <- function() {
       )
     ),
     diagnoser = list(
-      name = "Landspatientregisterets diagnosetabel (LPR3)",
+      name = "Landspatientregisterets diagnosetabel (LPR3_F)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(

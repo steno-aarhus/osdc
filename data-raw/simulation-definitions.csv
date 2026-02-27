@@ -15,6 +15,14 @@ lpr_adm,d_inddto,date,YYYY-MM-DD,create_fake_date(N),,
 lpr_diag,c_diagtype,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))",,
 lpr_diag,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",,
 lpr_diag,c_diag,string,icd8 or icd10,create_fake_icd(N),`^249|^250|^DE1[0-4]` are diabetes codes,
+lpr_a_kontakt,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,lpr3 equivalent to pnr
+lpr_a_kontakt,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",,lpr3 equivalent to recnum
+lpr_a_kontakt,kont_starttidspunkt,date,datetime YYYY-MM-DD HH:MM:SS,"as.POSIXct(create_fake_date(N), tz = ""UTC"")",,lpr3 equivalent to inddto
+lpr_a_kontakt,kont_ans_hovedspec,string,natural language,create_fake_hovedspeciale_ans(N),Is the LPR3 equivalent to c_spec but with different format,need to copy lpr2-lpr3 conversion table from dst
+lpr_a_diagnose,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",,lpr3 equivalent to recnum
+lpr_a_diagnose,diag_kode,string,icd10,create_fake_icd10(N),`^DE1[0-4]` are diabetes codes,
+lpr_a_diagnose,diag_type,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))","A is a primary diagnosis, B is a secondary diagnosis",
+lpr_a_diagnose,senere_afkraeftet,string,Binary natural language,"fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c('Ja', 'Nej'))",,
 kontakter,cpr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,lpr3 equivalent to pnr
 kontakter,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",,lpr3 equivalent to recnum
 kontakter,dato_start,date,YYYY-MM-DD,create_fake_date(N),,lpr3 equivalent to inddto
