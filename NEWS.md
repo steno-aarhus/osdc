@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.23 (2026-02-27)
+
+### Refactor
+
+- :wrench: move `classify_diabetes()` inputs into a list (#492)
+
 ## 0.9.22 (2026-02-27)
 
 ### Fix
