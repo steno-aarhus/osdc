@@ -7,8 +7,10 @@ test_that("casing of input variables doesn't matter", {
     purrr::map(duckplyr::as_tbl)
 
   actual <- classify_diabetes(
-    kontakter = registers$kontakter,
-    diagnoser = registers$diagnoser,
+    kontakter = NULL,
+    diagnoser = NULL,
+    lpr_a_kontakt = registers$lpr_a_kontakt,
+    lpr_a_diagnose = registers$lpr_a_diagnose,
     lpr_diag = registers$lpr_diag,
     lpr_adm = registers$lpr_adm,
     sysi = registers$sysi,
