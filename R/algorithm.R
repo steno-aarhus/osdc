@@ -92,50 +92,50 @@ algorithm <- function() {
     lpr3_is_endocrinology_dept = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
-      logic = "hovedspeciale_ans  == 'medicinsk endokrinologi'",
+      logic = "kont_ans_hovedspec  == 'medicinsk endokrinologi'",
       comments = "`TRUE` when the department is endocrinology."
     ),
     lpr3_is_medical_dept = list(
       register = "kontakter",
       title = "LPR3 medical department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
-      logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin')",
+      logic = "kont_ans_hovedspec %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin')",
       comments = "`TRUE` when the department is other medical departments (than endocrinology)."
     ),
     lpr3_is_needed_code = list(
       register = "diagnoser",
       title = "LPR3 codes used throughout the algorithm",
-      logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
-      comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
+      logic = "diag_kode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diag_type == 'A' OR diag_type == 'B') AND (senere_afkraeftet == 'Nej')",
+      comments = "`A` `diag_kode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
     ),
     lpr3_is_primary_diagnosis = list(
       register = "diagnoser",
       title = "LPR3 primary diagnosis",
-      logic = "diagnosetype == 'A'",
+      logic = "diag_type == 'A'",
       comments = ""
     ),
     lpr3_is_t1d_code = list(
       register = "diagnoser",
       title = "LPR3 diagnoses codes for T1D",
-      logic = "diagnosekode =~ '^(DE10)'",
+      logic = "diag_kode =~ '^(DE10)'",
       comments = ""
     ),
     lpr3_is_t2d_code = list(
       register = "diagnoser",
       title = "LPR3 diagnoses codes for T2D",
-      logic = "diagnosekode =~ '^(DE11)'",
+      logic = "diag_kode =~ '^(DE11)'",
       comments = ""
     ),
     lpr3_is_diabetes_code = list(
       register = "diagnoser",
       title = "LPR3 diagnoses codes for diabetes",
-      logic = "diagnosekode =~ '^DE1[0-4]'",
+      logic = "diag_kode =~ '^DE1[0-4]'",
       comments = "This is a general diabetes code, not specific to T1D or T2D."
     ),
     lpr3_is_pregnancy_code = list(
       register = "diagnoser",
       title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
-      logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
+      logic = "diag_kode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
     ),
     is_within_pregnancy_interval = list(

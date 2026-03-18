@@ -69,17 +69,79 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     )
 }
 
-#' Prepare and join the two LPR3 registers to extract diabetes and pregnancy diagnoses.
+#' Prepare and join the two LPR A registers to extract diabetes and pregnancy diagnoses.
 #'
 #' @inherit prepare_lpr2 description
-#' @param diagnoser The LPR3 register containing diabetes diagnoses.
-#' @param kontakter The LPR3 register containing hospital contacts/admissions.
+#' @param lpr_a_diagnose The LPR A register containing diabetes diagnoses.
+#' @param lpr_a_kontakt The LPR A register containing hospital contacts/administrative data.
 #'
 #' @inherit prepare_lpr2 return
 #'
 #' @keywords internal
 #' @inherit algorithm seealso
-prepare_lpr3 <- function(kontakter, diagnoser) {
+prepare_lpr_a <- function(lpr_a_kontakt, lpr_a_diagnose) {
+  logic <- c(
+    "lpr3_is_needed_code",
+    "lpr3_is_pregnancy_code",
+    "lpr3_is_t1d_code",
+    "lpr3_is_t2d_code",
+    "lpr3_is_diabetes_code",
+    "lpr3_is_endocrinology_dept",
+    "lpr3_is_medical_dept",
+    "lpr3_is_primary_diagnosis"
+  ) |>
+    logic_as_expression()
+
+  lpr_a_diagnose |>
+    # Only keep relevant diagnoses
+    dplyr::filter(!!logic$lpr3_is_needed_code) |>
+    dplyr::inner_join(
+      lpr_a_kontakt,
+      by = dplyr::join_by("dw_ek_kontakt")
+    ) |>
+    dplyr::mutate(
+      # Algorithm needs "kont_ans_hovedspec" values to be lowercase
+      kont_ans_hovedspec = tolower(.data$kont_ans_hovedspec),
+      # Convert datetime (POSIXct) to Date to match standard output
+      date = as.Date(.data$kont_starttidspunkt),
+      is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
+      is_t1d_code = !!logic$lpr3_is_t1d_code,
+      is_t2d_code = !!logic$lpr3_is_t2d_code,
+      is_diabetes_code = !!logic$lpr3_is_diabetes_code,
+      is_pregnancy_code = !!logic$lpr3_is_pregnancy_code,
+      is_endocrinology_dept = !!logic$lpr3_is_endocrinology_dept,
+      is_medical_dept = !!logic$lpr3_is_medical_dept,
+    ) |>
+    dplyr::select(
+      # 'pnr' is already named 'pnr' in LPR A (unlike 'cpr' in LPR_F)
+      "pnr",
+      "date",
+      "is_primary_diagnosis",
+      "is_diabetes_code",
+      "is_t1d_code",
+      "is_t2d_code",
+      "is_endocrinology_dept",
+      "is_medical_dept",
+      "is_pregnancy_code",
+    )
+}
+
+
+#' Prepare and join the two LPR_F registers to extract diabetes and pregnancy diagnoses.
+#'
+#' Note that LPR_F is deprecated by the Health Data Authority, and should only
+#' be used in projects where LPR_A does not contain all the LPR 3 data.
+#' So this function should only be used in these cases, and care should be taken
+#' to avoid duplicating rows where the coverage of LPR_A and LPR_F overlap.
+#' @inherit prepare_lpr2 description
+#' @param diagnoser The LPR_F register containing diabetes diagnoses.
+#' @param kontakter The LPR_F register containing hospital contacts/administrative data.
+#'
+#' @inherit prepare_lpr2 return
+#'
+#' @keywords internal
+#' @inherit algorithm seealso
+prepare_lpr_f <- function(kontakter, diagnoser) {
   logic <- c(
     "lpr3_is_needed_code",
     "lpr3_is_pregnancy_code",
@@ -93,6 +155,11 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
     logic_as_expression()
 
   diagnoser |>
+    # Rename LPR F columns to match LPR A naming and logic expectations
+    dplyr::rename(
+      diag_kode = tidyselect::any_of("diagnosekode"),
+      diag_type = tidyselect::any_of("diagnosetype")
+    ) |>
     # Only keep relevant diagnoses
     dplyr::filter(!!logic$lpr3_is_needed_code) |>
     # Inner join to only keep contacts that are in both diagnoser and kontakter
@@ -101,8 +168,8 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
       by = dplyr::join_by("dw_ek_kontakt")
     ) |>
     dplyr::mutate(
-      # Algorithm needs "hovedspeciale_ans" values to be lowercase
-      hovedspeciale_ans = tolower(.data$hovedspeciale_ans),
+      # Algorithm needs "kont_ans_hovedspec" values to be lowercase
+      kont_ans_hovedspec = tolower(.data$hovedspeciale_ans),
       date = .data$dato_start,
       is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
       is_t1d_code = !!logic$lpr3_is_t1d_code,

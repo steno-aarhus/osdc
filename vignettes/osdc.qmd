@@ -97,10 +97,12 @@ explicit about this:
 ```{r}
 bef <- register_data$bef
 diagnoser <- register_data$diagnoser
+kontakter <- register_data$kontakter
+lpr_a_diagnose <- register_data$lpr_a_diagnose
+lpr_a_kontakt <- register_data$lpr_a_kontakt
 lmdb <- register_data$lmdb
 lpr_adm <- register_data$lpr_adm
 lpr_diag <- register_data$lpr_diag
-kontakter <- register_data$kontakter
 sysi <- register_data$sysi
 sssy <- register_data$sssy
 lab_forsker <- register_data$lab_forsker
@@ -109,12 +111,18 @@ lab_forsker <- register_data$lab_forsker
 ### Step 4: Run the classification
 
 Now, we're ready to run the classification algorithm. Pass each register
-to `classify_diabetes()`:
+to `classify_diabetes()`. To show all potential input registers in this
+example, we use LPR3 data from both the deprecated LPR_F format
+(`kontakter` and `diagnoser`), as well as the current LPR_A format
+(`lpr_a_kontakt` and `lpr_a_diagnose`), but you can choose to use only
+one or the other of these formats by setting the inputs to `NULL`:
 
 ```{r}
 classified_diabetes <- classify_diabetes(
   kontakter = kontakter,
   diagnoser = diagnoser,
+  lpr_a_diagnose = lpr_a_diagnose,
+  lpr_a_kontakt = lpr_a_kontakt,
   lpr_diag = lpr_diag,
   lpr_adm = lpr_adm,
   sysi = sysi,
@@ -156,7 +164,7 @@ The output is a table with one row per classified individual and five
 columns:
 
 | Column | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | `pnr` | The pseudonymised personal identification number. |
 | `stable_inclusion_date` | The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the `stable_inclusion_start_date` parameter (from 1998 onward by default). `NA` for earlier dates. |
 | `raw_inclusion_date` | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`. |

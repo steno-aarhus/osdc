@@ -6,8 +6,10 @@
 #' that data source, or at least the years you have and are interested
 #' in.
 #'
-#' @param kontakter The contacts information table from the LPR3 patient register
-#' @param diagnoser The diagnoses information table from the LPR3 patient register
+#' @param kontakter The contacts information table from the deprecated LPR_F-formatted LPR3 patient register
+#' @param diagnoser The diagnoses information table from the deprecated LPR_F-formatted LPR3 patient register
+#' @param lpr_a_kontakt The contacts information table from the LPR_A-formatted LPR3 patient register
+#' @param lpr_a_diagnose The diagnoses information table from the LPR_A-formatted LPR3 patient register
 #' @param lpr_diag The diagnoses information table from the LPR2 patient register
 #' @param lpr_adm The administrative information table from the LPR2 patient register
 #' @param sysi The SYSI table from the health service register
@@ -40,8 +42,10 @@
 #'   purrr::map(duckplyr::as_tbl)
 #'
 #' classify_diabetes(
-#'   kontakter = register_data$kontakter,
-#'   diagnoser = register_data$diagnoser,
+#'   kontakter = NULL,
+#'   diagnoser = NULL,
+#'   lpr_a_kontakt = register_data$lpr_a_kontakt,
+#'   lpr_a_diagnose = register_data$lpr_a_diagnose,
 #'   lpr_diag = register_data$lpr_diag,
 #'   lpr_adm = register_data$lpr_adm,
 #'   sysi = register_data$sysi,
@@ -51,8 +55,10 @@
 #'   lmdb = register_data$lmdb
 #' )
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
+  kontakter = NULL,
+  diagnoser = NULL,
+  lpr_a_kontakt,
+  lpr_a_diagnose,
   lpr_diag,
   lpr_adm,
   sysi,
@@ -72,6 +78,8 @@ classify_diabetes <- function(
   registers <- list(
     kontakter = kontakter,
     diagnoser = diagnoser,
+    lpr_a_kontakt = lpr_a_kontakt,
+    lpr_a_diagnose = lpr_a_diagnose,
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm,
     sysi = sysi,
@@ -94,10 +102,32 @@ classify_diabetes <- function(
     lpr_adm = registers$lpr_adm
   )
 
-  lpr3 <- prepare_lpr3(
-    kontakter = registers$kontakter,
-    diagnoser = registers$diagnoser
-  )
+  # LPR3: Handle that LPR_F or LPR_A can be missing depending on the project
+
+  # Check if LPR_F inputs exist in the verified registers list
+  if (all(c("kontakter", "diagnoser") %in% names(registers))) {
+    lpr3_f <- prepare_lpr_f(
+      kontakter = registers$kontakter,
+      diagnoser = registers$diagnoser
+    )
+  }
+
+  # Check if LPR_F inputs exist in the verified registers list
+  if (all(c("lpr_a_kontakt", "lpr_a_diagnose") %in% names(registers))) {
+    lpr3_a <- prepare_lpr_a(
+      lpr_a_kontakt = registers$lpr_a_kontakt,
+      lpr_a_diagnose = registers$lpr_a_diagnose
+    )
+  }
+
+  # Bind whatever LPR3 data is present
+  # Handles only LPR_F, only LPR_A, neither, or both.
+  # In the latter case, the user must ensure no overlap between LPR_F and LPR_A inputs
+  lpr3 <- mget(c("lpr3_a", "lpr3_f"), ifnotfound = list(NULL)) |>
+    # Remove NULL elements:
+    purrr::compact() |>
+    # Row-bind all available LPR sources:
+    purrr::reduce(dplyr::union_all)
 
   pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
