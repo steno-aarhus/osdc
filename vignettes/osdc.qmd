@@ -156,7 +156,7 @@ The output is a table with one row per classified individual and five
 columns:
 
 | Column | Description |
-|------------------------------------|------------------------------------|
+|----|----|
 | `pnr` | The pseudonymised personal identification number. |
 | `stable_inclusion_date` | The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the `stable_inclusion_start_date` parameter (from 1998 onward by default). `NA` for earlier dates. |
 | `raw_inclusion_date` | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`. |
@@ -196,19 +196,44 @@ classified_diabetes |>
 
 ## Working with real register data {#sec-working-with-real-register-data}
 
-In a real scenario, the register data is too large to read into memory
-all at once. We recommend converting your register files into
+In a real-world scenario, the register data is too large to read into
+memory all at once. We recommend converting your register files into
 [Parquet](https://parquet.apache.org/) format on disk, with each
 register in its own folder (e.g., all `kontakter` files in one folder,
 all `diagnoser` files in another, etc.).
 
-You can then load each register directly from its Parquet folder as a
-DuckDB table, without reading everything into memory:
+If you're working on Statistics Denmark's (DST) server, be aware that
+the pre-installed R packages on those servers can be quite old (for
+example, at the time of writing, `library(duckplyr)` loads version 0.4
+of the `duckplyr` package from 2024, whereas the latest version on CRAN
+is \>1.1 from 2026). These old versions don't support the `dplyr`
+operations necessary for `osdc` to work.
+
+Installing `osdc` with `install.packages("osdc")` should force the
+necessary updates of package dependencies. Otherwise, the latest version
+of any given package can be installed from DST's local CRAN mirror by
+using `install.packages()`. The downside is that you have to repeat the
+package installations frequently (whenever you log on to a new virtual
+machine, or after the servers weekly reset).
+
+After making sure that you have the newest version of `osdc` (which
+should install the updated dependencies) you can then load each register
+directly from its Parquet folder and convert it to a DuckDB table,
+without reading everything into memory. If you're working with very
+large data sets, it's good practice to filter this data a bit on the
+Arrow side before converting to DuckDB to reduce computation and memory
+use. This is convenient, as most of `dplyr`'s filtering and selection
+operations are supported by the `arrow` package. If you need to rename
+variables or convert their types to match the inputs expected by `osdc`,
+this is also an opportunity to do so.:
 
 ``` r
 diagnoser <- "path/to/diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb()
+  arrow::to_duckdb() |>
+  # Insert dplyr filtering steps here, as appropriate, e.g.:
+  # dplyr::select(...) |> dplyr::filter(...) |> 
+  arrow::to_duckdb() |> dplyr::compute()
 ```
 
 ::: callout-tip
@@ -223,7 +248,8 @@ you can convert it to a DuckDB table with:
 
 ``` r
 diagnoser <- diagnoser |>
-  arrow::to_duckdb()
+  arrow::to_duckdb() |>
+  dplyr::compute()
 ```
 
 ## Getting help
@@ -233,3 +259,4 @@ open an issue on the [GitHub
 repository](https://github.com/steno-aarhus/osdc/issues). When reporting
 a bug, include a minimal example that reproduces the problem along to
 help us understand and investigate the problem.
+
