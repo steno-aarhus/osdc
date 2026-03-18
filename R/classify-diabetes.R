@@ -102,10 +102,32 @@ classify_diabetes <- function(
     lpr_adm = registers$lpr_adm
   )
 
-  lpr3 <- prepare_lpr3(
-    kontakter = registers$kontakter,
-    diagnoser = registers$diagnoser
-  )
+  # LPR3: Handle that LPR_F or LPR_A can be missing depending on the project
+
+  # Check if LPR_F inputs exist in the verified registers list
+  if (all(c("kontakter", "diagnoser") %in% names(registers))) {
+    lpr3_f <- prepare_lpr_f(
+      kontakter = registers$kontakter,
+      diagnoser = registers$diagnoser
+    )
+  }
+
+  # Check if LPR_F inputs exist in the verified registers list
+  if (all(c("lpr_a_kontakt", "lpr_a_diagnose") %in% names(registers))) {
+    lpr3_a <- prepare_lpr_a(
+      lpr_a_kontakt = registers$lpr_a_kontakt,
+      lpr_a_diagnose = registers$lpr_a_diagnose
+    )
+  }
+
+  # Bind whatever LPR3 data is present
+  # Handles only LPR_F, only LPR_A, neither, or both.
+  # In the latter case, the user must ensure no overlap between LPR_F and LPR_A inputs
+  lpr3 <- mget(c("lpr3_a", "lpr3_f"), ifnotfound = list(NULL)) |>
+    # Remove NULL elements:
+    purrr::compact() |>
+    # Row-bind all available LPR sources:
+    purrr::reduce(dplyr::union_all)
 
   pregnancy_dates <- keep_pregnancy_dates(
     lpr2 = lpr2,
