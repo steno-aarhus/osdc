@@ -189,7 +189,11 @@ yyww_to_yyyymmdd <- function(data) {
       ww = as.integer(substr(.data$yyww_padded, 3, 4))
     ) |>
     dplyr::mutate(
-      full_year = dplyr::if_else(.data$yy >= 90, 1900L + .data$yy, 2000L + .data$yy)
+      full_year = dplyr::if_else(
+        .data$yy >= 90,
+        1900L + .data$yy,
+        2000L + .data$yy
+      )
     ) |>
     # Calculate the first day of the ISO year, which is when the first week
     # has most of the week days in it (4th of January, or the first Thursday).
@@ -202,16 +206,30 @@ yyww_to_yyyymmdd <- function(data) {
       days_from_monday = dbplyr::sql("(DAYOFWEEK(jan4) + 6) % 7")
     ) |>
     dplyr::mutate(
-      week1_monday = dbplyr::sql("jan4 - (days_from_monday || ' days')::INTERVAL")
+      week1_monday = dbplyr::sql(
+        "jan4 - (days_from_monday || ' days')::INTERVAL"
+      )
     ) |>
     # Calculate the date of the Monday of the ww-week
     # "ww - 1": how many weeks interval after week 1 we need to add to week 1
     # "|| ' weeks'": converts "ww - 1 weeks" to a string which SQL casts to date
     dplyr::mutate(
-      date = dbplyr::sql("CAST(week1_monday + ((ww - 1) || ' weeks')::INTERVAL AS DATE)")
+      date = dbplyr::sql(
+        "CAST(week1_monday + ((ww - 1) || ' weeks')::INTERVAL AS DATE)"
+      )
     ) |>
     # Drop intermediate calculation columns.
-    dplyr::select(-c("yyww_padded", "yy", "ww", "full_year", "jan4", "days_from_monday", "week1_monday"))
+    dplyr::select(
+      -c(
+        "yyww_padded",
+        "yy",
+        "ww",
+        "full_year",
+        "jan4",
+        "days_from_monday",
+        "week1_monday"
+      )
+    )
 }
 
 #' Keep two earliest events per PNR
