@@ -4,13 +4,13 @@
 \alias{yyww_to_yyyymmdd}
 \title{Convert date format YYWW to YYYY-MM-DD}
 \usage{
-yyww_to_yyyymmdd(yyww)
+yyww_to_yyyymmdd(data)
 }
 \arguments{
-\item{yyww}{Character(s) of the format YYWW.}
+\item{data}{A DuckDB-backed data frame with a \code{date} column formatted as YYWW values.}
 }
 \value{
-Date(s) in the format YYYY-MM-DD.
+a data frame containing a \code{date} column in the format YYYY-MM-DD.
 }
 \description{
 Since the exact date isn't given in the input, this function will set the
