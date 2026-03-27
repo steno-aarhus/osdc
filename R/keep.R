@@ -157,23 +157,13 @@ keep_podiatrist_services <- function(sysi, sssy) {
     dplyr::distinct() |>
     # Keep only the two columns we need.
     dplyr::select(
-      pnr = "pnr",
+      "pnr",
       date = "honuge"
     ) |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
-    dplyr::mutate(from_podiatrist_service = TRUE)
-
-  podiatrist_services |>
-    # Transform `honuge` to YYYY-MM-DD.
-    # Unfortunately, the conversion from YYWW to an actual date is quite tricky
-    # to do well in SQL without a lot of revising and refactoring the code.
-    # So instead, we'll just pull into R, convert, and then bring back
-    # to DuckDB.
-    # TODO: Fix to use DuckDB SQL only.
-    dplyr::collect() |>
-    dplyr::mutate(date = yyww_to_yyyymmdd(.data$date)) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy") |>
-    duckplyr::as_tbl()
+    dplyr::mutate(from_podiatrist_service = TRUE) |>
+    # Transform date from yyww to YYYY-MM-DD:
+    yyww_to_yyyymmdd()
 }
 
 #' Convert date format YYWW to YYYY-MM-DD
@@ -183,34 +173,63 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #' has been removed. This can e.g., happen if the input was "0107" and has been
 #' converted to a numeric 107.
 #'
-#' @param yyww Character(s) of the format YYWW.
+#' @param data A DuckDB-backed data frame with a `date` column formatted as YYWW values.
 #'
-#' @returns Date(s) in the format YYYY-MM-DD.
+#' @returns a data frame containing a `date` column in the format YYYY-MM-DD.
 #' @keywords internal
-yyww_to_yyyymmdd <- function(yyww) {
-  if (is.numeric(yyww)) {
-    # Ensure input is zero-padded to length 4.
-    yyww <- sprintf("%04d", yyww)
-  }
-
-  # Extract year and week.
-  year <- stringr::str_sub(yyww, 1, 2)
-  week <- stringr::str_sub(yyww, 3, 4)
-
-  # Calculate the first day of the ISO year, which is when the first week
-  # has most of the week days in it (4th of January, or the first Thursday).
-  # See: https://en.wikipedia.org/wiki/ISO_week_date
-  year_start <- as.Date(paste0(year, "-01-04"), tryFormats = "%y-%m-%d")
-  first_weekday <- lubridate::wday(year_start, week_start = 1)
-
-  # Create the date, using the start of year, but setting the week from the
-  # `yyww` argument. This forces the date to move to the correct week.
-  date <- year_start
-  lubridate::week(date) <- as.numeric(week)
-
-  # Adjust the date to be Monday in that week. Need to add 1 since there is
-  # no zero weekday (week starts on 1, the Monday).
-  date - first_weekday + 1
+yyww_to_yyyymmdd <- function(data) {
+  data |>
+    # Ensure input from the honuge/date variable is zero-padded to length 4.
+    dplyr::mutate(
+      yyww_padded = dbplyr::sql("LPAD(CAST(date AS VARCHAR), 4, '0')")
+    ) |>
+    # Extract year and week.
+    dplyr::mutate(
+      yy = as.integer(substr(.data$yyww_padded, 1, 2)),
+      ww = as.integer(substr(.data$yyww_padded, 3, 4))
+    ) |>
+    dplyr::mutate(
+      full_year = dplyr::if_else(
+        .data$yy >= 90,
+        1900L + .data$yy,
+        2000L + .data$yy
+      )
+    ) |>
+    # Calculate the first day of the ISO year, which is when the first week
+    # has most of the week days in it (4th of January, or the first Thursday).
+    # See: https://en.wikipedia.org/wiki/ISO_week_date
+    dplyr::mutate(
+      jan4 = dbplyr::sql("MAKE_DATE(full_year, 1, 4)")
+    ) |>
+    # Calculate the weekday of jan4 and the date of Monday of ISO-week 1.
+    dplyr::mutate(
+      days_from_monday = dbplyr::sql("(DAYOFWEEK(jan4) + 6) % 7")
+    ) |>
+    dplyr::mutate(
+      week1_monday = dbplyr::sql(
+        "jan4 - (days_from_monday || ' days')::INTERVAL"
+      )
+    ) |>
+    # Calculate the date of the Monday of the ww-week
+    # "ww - 1": how many weeks interval after week 1 we need to add to week 1
+    # "|| ' weeks'": converts "ww - 1 weeks" to a string which SQL casts to date
+    dplyr::mutate(
+      date = dbplyr::sql(
+        "CAST(week1_monday + ((ww - 1) || ' weeks')::INTERVAL AS DATE)"
+      )
+    ) |>
+    # Drop intermediate calculation columns.
+    dplyr::select(
+      -c(
+        "yyww_padded",
+        "yy",
+        "ww",
+        "full_year",
+        "jan4",
+        "days_from_monday",
+        "week1_monday"
+      )
+    )
 }
 
 #' Keep two earliest events per PNR
