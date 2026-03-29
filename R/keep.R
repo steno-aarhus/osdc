@@ -106,7 +106,7 @@ keep_hba1c <- function(lab_forsker) {
     dplyr::filter(!!logic) |>
     # Keep only the columns we need.
     dplyr::mutate(
-      pnr = .data$patient_cpr,
+      pnr = .data$pnr,
       date = .data$samplingdate,
       .keep = "none"
     ) |>
