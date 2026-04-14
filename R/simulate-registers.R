@@ -13,6 +13,7 @@ pad_integers <- function(x, width) {
     stringr::str_pad(width = width, side = "left", pad = "0")
 }
 
+# jarl-ignore-start unused_function: used inside `data-raw/simulation-definitions.R` but not in the package itself
 #' Create a vector with random ICD-8 or -10 diagnoses
 #'
 #' @param n The number of ICD-8 or -10 diagnoses to generate.
@@ -31,6 +32,7 @@ create_fake_icd <- function(n, date = NULL) {
     create_fake_icd8(n)
   }
 }
+# jarl-ignore-end unused_function
 
 #' Create a vector of random ICD-8 diagnoses
 #'
@@ -60,6 +62,7 @@ create_fake_icd10 <- function(n) {
   sample(icd10, size = n, replace = TRUE)
 }
 
+# jarl-ignore-start unused_function: used inside `data-raw/simulation-definitions.R` but not in the package itself
 #' Create a vector with random ATC codes
 #'
 #' Anatomical Therapeutic Chemical (ATC) codes are unique medicine codes
@@ -76,7 +79,9 @@ create_fake_atc <- function(n) {
     dplyr::pull(.data$Koodi) |>
     sample(n, replace = TRUE)
 }
+# jarl-ignore-end unused_function
 
+# jarl-ignore-start unused_function: used inside `data-raw/simulation-definitions.R` but not in the package itself
 #' Create fake dates
 #'
 #' @param n The number of dates to generate.
@@ -89,6 +94,7 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
   seq(lubridate::as_date(from), lubridate::as_date(to), by = "day") |>
     sample(n, replace = TRUE)
 }
+# jarl-ignore-end unused_function
 
 #' Create a vector of reproducible, random zero-padded integers.
 #'
@@ -113,6 +119,7 @@ create_padded_integer <- function(n, length) {
     pad_integers(width = length)
 }
 
+# jarl-ignore-start unused_function: used inside `data-raw/simulation-definitions.R` but not in the package itself
 #' Create a vector of random NPU codes
 #'
 #' Nomenclature for Properties and Units (NPUs) are codes that identifies
@@ -128,7 +135,9 @@ create_fake_npu <- function(n) {
     create_padded_integer(n, 5)
   )
 }
+# jarl-ignore-end unused_function
 
+# jarl-ignore-start unused_function: used inside `data-raw/simulation-definitions.R` but not in the package itself
 #' Create a vector of random department specialties
 #'
 #' @param n The number of department specialties to create.
@@ -138,9 +147,11 @@ create_fake_npu <- function(n) {
 create_fake_hovedspeciale_ans <- function(n) {
   sample(hovedspeciale_departments, n, replace = TRUE)
 }
+# jarl-ignore-end unused_function
 
 # Transformations/fixes ----------------------------------------------------
 
+# jarl-ignore-start unused_function: used inside `data-raw/simulation-definitions.R` but not in the package itself
 #' Transform date(s) to the format `yyww`
 #'
 #' @param x A date or a vector of dates.
@@ -153,7 +164,7 @@ to_yyww <- function(x) {
     pad_integers(lubridate::isoweek(lubridate::as_date(x)), 2)
   )
 }
-
+# jarl-ignore-end unused_function
 
 #' Convert all factor variables to character variables.
 #'
