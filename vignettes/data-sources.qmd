@@ -4,7 +4,7 @@ vignette: >
   %\VignetteIndexEntry{Data sources}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
-execute: 
+execute:
   echo: false
   output: "asis"
 ---
