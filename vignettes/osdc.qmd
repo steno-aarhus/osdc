@@ -203,7 +203,7 @@ register in its own folder (e.g., all `lpr_adm` files in one folder, all
 `lpr_diag` files in another, etc.).
 
 If you're working on Statistics Denmark's (DST) server, be aware that
-the pre-installed R packages on those servers can be quite old (for
+the pre-installed R packages can be quite old (for
 example, at the time of writing, `library(duckplyr)` loads version 0.4
 of the duckplyr package from 2024, whereas the latest version on CRAN is
 \>1.1 from 2026). These old versions don't support the dplyr operations
@@ -212,7 +212,7 @@ necessary for osdc to work.
 Installing osdc with `install.packages("osdc")` should force the
 necessary updates of package dependencies. Otherwise, the latest version
 of any given package can be installed from DST's local CRAN mirror by
-using `install.packages()`. The downside is that you have to repeat the
+using `install.packages()`. The downside of this approach is that you have to repeat the
 package installations frequently (whenever you log on to a new virtual
 machine, or after the servers weekly reset).
 
@@ -247,7 +247,8 @@ diagnoser <- "path/to/diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
   arrow::to_duckdb() |>
   # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
-  # dplyr::select(...) |> dplyr::filter(...) |> 
+  # dplyr::select(...) |> 
+  # dplyr::filter(...) |> 
   arrow::to_duckdb(con = ddb_con) |> 
   dplyr::compute()
 ```
