@@ -92,14 +92,14 @@ algorithm <- function() {
     lpr3_is_endocrinology_dept = list(
       register = "kontakter",
       title = "LPR3 endocrinology department",
-      logic = "hovedspeciale_ans  == 'medicinsk endokrinologi'",
+      logic = "hovedspeciale_ans %in% c('medicinsk endokrinologi', 'endokrinologi')",
       comments = "`TRUE` when the department is endocrinology."
     ),
     lpr3_is_medical_dept = list(
       register = "kontakter",
       title = "LPR3 medical department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
-      logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'dermato-venerologi', 'neurologi', 'onkologi', 'fysiurgi', 'tropemedicin')",
+      logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'akutmedicin', 'dermato-venerologi', 'neurologi', 'klinisk onkologi', 'onkologi', 'oftalmologi', 'fysiurgi', 'tropemedicin')",
       comments = "`TRUE` when the department is other medical departments (than endocrinology)."
     ),
     lpr3_is_needed_code = list(
