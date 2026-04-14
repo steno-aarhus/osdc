@@ -77,7 +77,7 @@ registers <- function() {
         "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2.", "character",
         "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2.", "Record id number. Equivalent to recnum in LPR2.", "character",
         "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2. ", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("POSIXct", "POSIXt"),
-        "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge", "Specialty of department. Similar to c_specin LPR2, but values are strings", "character"
+        "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge.", "Specialty of department. Similar to c_spec in LPR2, but values are strings.", "character"
       )
     ),
     lpr_a_diagnose = list(
@@ -87,8 +87,8 @@ registers <- function() {
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
         "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
-        "diag_kode", "Diagnosekode. Svarer til c_diag i LPR2", "Diagnosis code. Equivalent to c_diag in LPR2", "character",
-        "diag_type", "Diagnosetype. Svarer til c_diagtype i LPR2", "Diagnosis type. Equivalent to c_diagtype in LPR2", "character",
+        "diag_kode", "Diagnosekode. Svarer til c_diag i LPR2.", "Diagnosis code. Equivalent to c_diag in LPR2.", "character",
+        "diag_type", "Diagnosetype. Svarer til c_diagtype i LPR2.", "Diagnosis type. Equivalent to c_diagtype in LPR2.", "character",
         "senere_afkraeftet", "Blev diagnosen senere afkraeftet?", "Was the diagnosis retracted later?", "character"
       )
     ),
