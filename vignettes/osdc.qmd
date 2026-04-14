@@ -205,27 +205,27 @@ all `diagnoser` files in another, etc.).
 If you're working on Statistics Denmark's (DST) server, be aware that
 the pre-installed R packages on those servers can be quite old (for
 example, at the time of writing, `library(duckplyr)` loads version 0.4
-of the `duckplyr` package from 2024, whereas the latest version on CRAN
-is \>1.1 from 2026). These old versions don't support the `dplyr`
-operations necessary for `osdc` to work.
+of the duckplyr package from 2024, whereas the latest version on CRAN
+is \>1.1 from 2026). These old versions don't support the dplyr
+operations necessary for osdc to work.
 
-Installing `osdc` with `install.packages("osdc")` should force the
+Installing osdc with `install.packages("osdc")` should force the
 necessary updates of package dependencies. Otherwise, the latest version
 of any given package can be installed from DST's local CRAN mirror by
 using `install.packages()`. The downside is that you have to repeat the
 package installations frequently (whenever you log on to a new virtual
 machine, or after the servers weekly reset).
 
-After making sure that you have the newest version of `osdc` (which
+After making sure that you have the newest version of osdc (which
 should install the updated dependencies) you can then load each register
 directly from its Parquet folder and convert it to a DuckDB table,
 without reading everything into memory. If you're working with very
 large data sets, it's good practice to filter this data a bit on the
 Arrow side before converting to DuckDB to reduce computation and memory
-use. This is convenient, as most of `dplyr`'s filtering and selection
-operations are supported by the `arrow` package. If you need to rename
+use. This is convenient, as most of dplyr's filtering and selection
+operations are supported by the arrow package. If you need to rename
 variables or convert their types to match the inputs expected by `osdc`,
-this is also an opportunity to do so.:
+this is also an opportunity to do so:
 
 ``` r
 diagnoser <- "path/to/diagnoser_parquet_folder" |>
@@ -233,7 +233,8 @@ diagnoser <- "path/to/diagnoser_parquet_folder" |>
   arrow::to_duckdb() |>
   # Insert dplyr filtering steps here, as appropriate, e.g.:
   # dplyr::select(...) |> dplyr::filter(...) |> 
-  arrow::to_duckdb() |> dplyr::compute()
+  arrow::to_duckdb() |> 
+  dplyr::compute()
 ```
 
 ::: callout-tip
