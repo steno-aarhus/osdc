@@ -74,13 +74,10 @@ registers <- function() {
       end_year = NA,
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
-        # LPR3 equivalent to PNR in LPR2
-        "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
-        # LPR3 equivalent to RECNUM in LPR2
-        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
-        # LPR3 equivalent to D_INDDTO in LPR2
-        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt)", "Date of admission or initial contact", c("POSIXct", "POSIXt"),
-        "kont_ans_hovedspec", "Afdelings speciale", "Specialty of department", "character"
+        "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2.", "character",
+        "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2.", "Record id number. Equivalent to recnum in LPR2.", "character",
+        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2. ", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("POSIXct", "POSIXt"),
+        "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge", "Specialty of department. Similar to c_specin LPR2, but values are strings", "character"
       )
     ),
     lpr_a_diagnose = list(
