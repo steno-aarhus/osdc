@@ -20,8 +20,7 @@ clean: _cleanup-vignettes
 
 # Clean up generated HTML and R files from vignettes
 @_cleanup-vignettes:
-  rm vignettes/*.R vignettes/*.html vignettes/articles/*.R vignettes/articles/*.html
-
+  rm -f vignettes/*.R vignettes/*.html vignettes/articles/*.R vignettes/articles/*.html
 
 # Install package dependencies
 install-deps:
