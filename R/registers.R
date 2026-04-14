@@ -87,8 +87,8 @@ registers <- function() {
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
         "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
-        "diag_kode", "Diagnosekode", "Diagnosis code", "character",
-        "diag_type", "Diagnosetype", "Diagnosis type", "character",
+        "diag_kode", "Diagnosekode. Svarer til c_diag i LPR2", "Diagnosis code. Equivalent to c_diag in LPR2", "character",
+        "diag_type", "Diagnosetype. Svarer til c_diagtype i LPR2", "Diagnosis type. Equivalent to c_diagtype in LPR2", "character",
         "senere_afkraeftet", "Blev diagnosen senere afkraeftet?", "Was the diagnosis retracted later?", "character"
       )
     ),
