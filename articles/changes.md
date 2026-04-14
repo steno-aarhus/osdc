@@ -45,7 +45,7 @@ reported as overall PPV (positive predictive value) and sensitivity for
 each version of the algorithm and within subsets of the diabetes
 population reporting onset of diabetes before or after age 40,
 respectively, similar to tables 1 & 2 of the original validation paper
-([Isaksen, Sandbæk, and Bjerg 2023](#ref-Isaksen2023)).
+([Isaksen et al. 2023](#ref-Isaksen2023)).
 
 ### Validity in 2019
 
@@ -109,6 +109,6 @@ Isaksen, Anders Aasted, Annelli Sandbæk, and Lasse Bjerg. 2023.
 *Clinical Epidemiology* Volume 15 (May): 569–81.
 <https://doi.org/10.2147/clep.s407019>.
 
-World Health Organization. 2011. “Use of Glycated Haemoglobin (HbA1c) in
+World Health Organization. 2011. *Use of Glycated Haemoglobin (HbA1c) in
 Diagnosis of Diabetes Mellitus: Abbreviated Report of a WHO
-Consultation.”
+Consultation.*
