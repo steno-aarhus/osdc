@@ -50,7 +50,7 @@ diabetes for their research needs ([3](#ref-Dima2017)).
 
 In Denmark, the National Diabetes Register, established in 2006, was the
 first resource readily available to researchers to use for identifying
-diabetes cases through register data ([4](#ref-Carstensen2011)) .
+diabetes cases through register data ([4](#ref-Carstensen2011)).
 However, it was discontinued in 2012.
 
 The next resource is the [Register of Selected Chronic

@@ -102,7 +102,7 @@ rules.
   - One input register database at a time.
 - `drop_` functions can take a register as the first argument or take
   the output from a `keep_` function.
-- All functions take a DuckDB type object as input (e.g. `duckplyr_df`).
+- All functions take a DuckDB type object as input (e.g. `duckplyr_df`).
 - The first argument will always take a data frame type object.
 - The second argument could be an output data frame object from another
   function.
