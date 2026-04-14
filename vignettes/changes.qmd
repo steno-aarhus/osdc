@@ -8,40 +8,40 @@ vignette: >
 ---
 
 In this vignette, you'll find a description of the changes that have
-been made to the OSDC algorithm since its [original
-validation](https://doi.org/10.2147/CLEP.S407019). The osdc package uses
-the latest changes to the algorithm. Potential changes to the algorithm,
-rather than the specific implementation and code details, that we might
-in the future will also be described in this vignette. We will also
-provide validation metrics here whenever we make a change, and track
-these validations over the different versions.
+been made to the OSDC algorithm since its
+[original validation](https://doi.org/10.2147/CLEP.S407019). The osdc
+package uses the latest changes to the algorithm. Potential changes to
+the algorithm, rather than the specific implementation and code details,
+that we might in the future will also be described in this vignette. We
+will also provide validation metrics here whenever we make a change, and
+track these validations over the different versions.
 
 ## Specific changes since the original validation (version from the paper)
 
 ### Version 1.0
 
-1.  Purchases of GLP1-RA, dapagliflozin or empagliflozin are no longer
-    used for inclusion nor type-classification.
-    -   Due to increasing use in treatment of non-diabetes.
-2.  For T1D classification, the window of 180 days to make a purchase of
-    an insulin is now evaluated from the date of the first purchase of a
-    glucose-lowering drug, rather than the date of inclusion.
-    -   To simplify computations and increase robustness to noise and
-        atypical cases.
-3.  Purchases of insulin in the previous year is no longer required for
-    T1D classification.
-    -   Because we found that the vast majority of individuals
-        classified as T2D due to this criteria, reported that they had
-        T1D in the data from Health in Central Denmark.
-4.  The logic defining pregnancy index dates has been simplified to only
-    use diagnoses of pregnancy endings (no longer uses data on maternal
-    care visits).
-    -   For the sake of simplicity, as we found no impact on
-        classification accuracy in the Health in Central Denmark data.
-5.  HbA1c samples taken on the same date are de-duplicated.
-    -   To better align with recommended diagnostic practice [@WHO2011].
-        In the original implementation, only samples taken at the exact
-        same time were de-duplicated.
+1. Purchases of GLP1-RA, dapagliflozin or empagliflozin are no longer
+   used for inclusion nor type-classification.
+   - Due to increasing use in treatment of non-diabetes.
+2. For T1D classification, the window of 180 days to make a purchase of
+   an insulin is now evaluated from the date of the first purchase of a
+   glucose-lowering drug, rather than the date of inclusion.
+   - To simplify computations and increase robustness to noise and
+     atypical cases.
+3. Purchases of insulin in the previous year is no longer required for
+   T1D classification.
+   - Because we found that the vast majority of individuals classified
+     as T2D due to this criteria, reported that they had T1D in the data
+     from Health in Central Denmark.
+4. The logic defining pregnancy index dates has been simplified to only
+   use diagnoses of pregnancy endings (no longer uses data on maternal
+   care visits).
+   - For the sake of simplicity, as we found no impact on classification
+     accuracy in the Health in Central Denmark data.
+5. HbA1c samples taken on the same date are de-duplicated.
+   - To better align with recommended diagnostic practice [@WHO2011]. In
+     the original implementation, only samples taken at the exact same
+     time were de-duplicated.
 
 ## Validity
 
@@ -55,9 +55,9 @@ respectively, similar to tables 1 & 2 of the original validation paper
 
 ### Validity in 2019
 
-This uses the same data as [the original validation
-paper](https://doi.org/10.2147/CLEP.S407019) and provides a direct
-comparison to the original implementation.
+This uses the same data as
+[the original validation paper](https://doi.org/10.2147/CLEP.S407019)
+and provides a direct comparison to the original implementation.
 
 #### Stratified by diabetes type and age at onset
 
@@ -97,15 +97,15 @@ becomes available.
 
 ## Potential future changes
 
-1.  Add support for using medical birth register to define pregnancies
-    to censor gestational diabetes (GDM). This will allow for the
-    censoring of glucose-lowering drug (GLD) purchases all the way back
-    to 1995 (rather than 1997 onward, as the obstetric codes are limited
-    to), and enable the extension of the window of valid dates of
-    diagnosis to 1996 onward.
-2.  Limit the historic scope of primary diagnoses used to evaluate
-    majority of diabetes-specific diagnoses in type classification (e.g.
-    only evaluate majority among the last five type-specific diabetes
-    diagnoses).
+1. Add support for using medical birth register to define pregnancies to
+   censor gestational diabetes (GDM). This will allow for the censoring
+   of glucose-lowering drug (GLD) purchases all the way back to 1995
+   (rather than 1997 onward, as the obstetric codes are limited to), and
+   enable the extension of the window of valid dates of diagnosis to
+   1996 onward.
+2. Limit the historic scope of primary diagnoses used to evaluate
+   majority of diabetes-specific diagnoses in type classification (e.g.
+   only evaluate majority among the last five type-specific diabetes
+   diagnoses).
 
 ## References

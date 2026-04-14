@@ -6,7 +6,7 @@ vignette: >
   %\VignetteIndexEntry{Algorithm}
   %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
-execute: 
+execute:
   echo: false
 ---
 
@@ -24,8 +24,8 @@ algorithm_df <- tibble(name = names(algorithm()), value = algorithm()) |>
 
 The current implementation of the algorithm is concisely described
 below. A more complete description of the original implementation of the
-classifier is found in Anders Aasted Isaksen's [PhD
-Thesis](https://aastedet.github.io/dissertation/) as well as the
+classifier is found in Anders Aasted Isaksen's
+[PhD Thesis](https://aastedet.github.io/dissertation/) as well as the
 validation paper.[@Isaksen2023]
 
 In brief, the algorithm first identifies a diabetes
@@ -38,40 +38,36 @@ classified as having type 2 diabetes (T2D).
 
 Inclusion events are:
 
-1.  HbA1c measurements of ≥48 mmol/mol.
-2.  Hospital diagnoses of diabetes.
-3.  Diabetes-specific services received at podiatrist.
-4.  Purchase of glucose-lowering drugs.
+1. HbA1c measurements of ≥48 mmol/mol.
+2. Hospital diagnoses of diabetes.
+3. Diabetes-specific services received at podiatrist.
+4. Purchase of glucose-lowering drugs.
 
 Some inclusion events are ignored if any of the following exclusion
 events apply:
 
-1.  Elevated HbA1c samples are dropped if:
-    -   The sample was taken during pregnancies, as these may be related
-        to gestational diabetes mellitus rather than T1D or T2D.
-2.  Purchases of glucose-lowering drugs are dropped if:
-    -   The purchased drug is a GLP-1 receptor agonist, as this drug
-        class is used extensively for weight loss among [individuals
-        without diabetes](https://doi.org/10.2147/clep.s456170).
-    -   The purchased drug is dapagliflozin or empagliflozin, two types
-        of SGLT-2 inhibitors recommended in Danish guidelines for
-        treatment of heart
-        failure (Section 5.5.1 of Dansk Cardiologisk Selskab)
-        or [kidney
-        failure](https://nephrology.dk/vejledninger/ckd-mbd/kronisk-nyresygdom/sglt2i_ckd_uden_dm/)
-        among individuals without diabetes. This pertains only to
-        purchases of drugs containing only this class of
-        glucose-lowering drug. Purchases of combination drugs containing
-        GLP-1 receptor agonists or SGLT-2 inhibitors in combination with
-        other glucose-lowering drugs are not dropped.
-    -   The drug purchase is made during pregnancies, as these may be
-        related to gestational diabetes mellitus, rather than T1D or
-        T2D.
-    -   If the purchased drug is metformin and is made by women below
-        age 40, as these may be treatment for polycystic ovary syndrome
-        (PCOS).
-    -   If the purchased drug is metformin with a PCOS-related
-        indication code.
+1. Elevated HbA1c samples are dropped if:
+   - The sample was taken during pregnancies, as these may be related to
+     gestational diabetes mellitus rather than T1D or T2D.
+2. Purchases of glucose-lowering drugs are dropped if:
+   - The purchased drug is a GLP-1 receptor agonist, as this drug class
+     is used extensively for weight loss among
+     [individuals without diabetes](https://doi.org/10.2147/clep.s456170).
+   - The purchased drug is dapagliflozin or empagliflozin, two types of
+     SGLT-2 inhibitors recommended in Danish guidelines for treatment of
+     heart failure (Section 5.5.1 of Dansk Cardiologisk Selskab) or
+     [kidney failure](https://nephrology.dk/vejledninger/ckd-mbd/kronisk-nyresygdom/sglt2i_ckd_uden_dm/)
+     among individuals without diabetes. This pertains only to purchases
+     of drugs containing only this class of glucose-lowering drug.
+     Purchases of combination drugs containing GLP-1 receptor agonists
+     or SGLT-2 inhibitors in combination with other glucose-lowering
+     drugs are not dropped.
+   - The drug purchase is made during pregnancies, as these may be
+     related to gestational diabetes mellitus, rather than T1D or T2D.
+   - If the purchased drug is metformin and is made by women below age
+     40, as these may be treatment for polycystic ovary syndrome (PCOS).
+   - If the purchased drug is metformin with a PCOS-related indication
+     code.
 
 The diabetes classification date is defined at the date of the second
 occurrence of any of the inclusion events listed above. For example, an
@@ -87,9 +83,7 @@ is only complete from 1997 onwards.
 
 ## High-level flowchart
 
-![Flow of inclusions and exclusions used for classifying diabetes status
-using the osdc package. Light blue and orange boxes represent inclusions
-and exclusions, respectively.](images/overview-flow.svg)
+![Flow of inclusions and exclusions used for classifying diabetes status using the osdc package. Light blue and orange boxes represent inclusions and exclusions, respectively.](images/overview-flow.svg)
 
 ### Classifying type 1 diabetes
 
@@ -101,15 +95,15 @@ For an individual to be classified as having T1D, the available data
 needs to fulfill the criteria in either of the following branches of
 logic:
 
-a.  Must only have recorded purchases of insulin drugs and never any
-    other type of glucose-lowering drugs, and have at least one primary
-    diagnosis of T1D from a medical specialty hospital department.
-b.  Must have a majority of T1D diagnoses from endocrinology departments
-    (or from other medical specialty departments, in the absence of
-    contacts to endocrinology departments), and a purchase of insulin
-    within 180 days of their initial glucose-lowering drug purchase,
-    with insulin contributing at least two thirds of all defined daily
-    doses of glucose-lowering drugs purchased.
+1. Must only have recorded purchases of insulin drugs and never any
+   other type of glucose-lowering drugs, and have at least one primary
+   diagnosis of T1D from a medical specialty hospital department.
+2. Must have a majority of T1D diagnoses from endocrinology departments
+   (or from other medical specialty departments, in the absence of
+   contacts to endocrinology departments), and a purchase of insulin
+   within 180 days of their initial glucose-lowering drug purchase, with
+   insulin contributing at least two thirds of all defined daily doses
+   of glucose-lowering drugs purchased.
 
 ### Classifying type 2 diabetes
 
@@ -126,63 +120,63 @@ end showing the logic that is applied across registers.
 ### `lpr_diag`
 
 ```{r}
-algorithm_df |> 
-  dplyr::filter(register=="lpr_diag") |>
-  dplyr::select(-register) |> 
+algorithm_df |>
+  dplyr::filter(register == "lpr_diag") |>
+  dplyr::select(-register) |>
   knitr::kable()
 ```
 
 ### `lpr_adm`
 
 ```{r}
-algorithm_df |> 
-  dplyr::filter(register=="lpr_adm") |>
-  dplyr::select(-register) |> 
+algorithm_df |>
+  dplyr::filter(register == "lpr_adm") |>
+  dplyr::select(-register) |>
   knitr::kable()
 ```
 
 ### `diagnoser`
 
 ```{r}
-algorithm_df |> 
-  dplyr::filter(register=="diagnoser") |>
-  dplyr::select(-register) |> 
+algorithm_df |>
+  dplyr::filter(register == "diagnoser") |>
+  dplyr::select(-register) |>
   knitr::kable()
 ```
 
 ### `kontakter`
 
 ```{r}
-algorithm_df |> 
-  dplyr::filter(register=="kontakter") |>
-  dplyr::select(-register) |> 
+algorithm_df |>
+  dplyr::filter(register == "kontakter") |>
+  dplyr::select(-register) |>
   knitr::kable()
 ```
 
 ### `lab_forsker`
 
 ```{r}
-algorithm_df |> 
-  dplyr::filter(register=="lab_forsker") |>
-  dplyr::select(-register) |> 
+algorithm_df |>
+  dplyr::filter(register == "lab_forsker") |>
+  dplyr::select(-register) |>
   knitr::kable()
 ```
 
 ### `lmdb`
 
 ```{r}
-algorithm_df |> 
-  dplyr::filter(register=="lmdb") |>
-  dplyr::select(-register) |> 
+algorithm_df |>
+  dplyr::filter(register == "lmdb") |>
+  dplyr::select(-register) |>
   knitr::kable()
 ```
 
 ### Across register logic
 
 ```{r}
-algorithm_df |> 
+algorithm_df |>
   dplyr::filter(is.na(register)) |>
-  dplyr::select(-register) |> 
+  dplyr::select(-register) |>
   knitr::kable()
 ```
 
