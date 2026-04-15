@@ -13,6 +13,15 @@ list-todos:
     --exclude=*.csl \
     "TODO" *
 
+# Install the pre-commit hooks
+install-precommit:
+    # Install pre-commit hooks
+    uvx pre-commit install
+    # Run pre-commit hooks on all files
+    uvx pre-commit run --all-files
+    # Update versions of pre-commit hooks
+    uvx pre-commit autoupdate
+
 # Clean up auto-generated files
 clean: _cleanup-vignettes
   #!/usr/bin/env Rscript
