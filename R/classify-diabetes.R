@@ -176,6 +176,15 @@ classify_diabetes <- function(
     )
 }
 
+#' Check that data is a DuckDB connection
+#'
+#' @param data Data to be checked. A `tbl_duckdb_connection` or
+#' `duckdb_connection` object.
+#' @param call The environment of the calling function, used to make error
+#'   messages point to the user-facing function rather than this internal check.
+#'
+#' @returns The data, if it is a DuckDB connection. Errors if not.
+#' @keywords internal
 check_duckdb <- function(data, call = rlang::caller_env()) {
   check <- checkmate::test_multi_class(
     data,
