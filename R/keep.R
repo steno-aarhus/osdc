@@ -1,10 +1,11 @@
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from [prepare_lpr2()].
-#' @param lpr3 Output from [prepare_lpr3()].
+#' @param lpr2 Output from the internal `prepare_lpr2()`.
+#' @param lpr3 Output from the internal `prepare_lpr3()`.
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
-#' @keywords internal
+#'
+#' @noRd
 #' @inherit algorithm seealso
 keep_pregnancy_dates <- function(lpr2, lpr3) {
   lpr2 |>
@@ -27,13 +28,13 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' additional information needed to classify diabetes type.
 #' Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 #'
-#' @param lpr2 The output from [prepare_lpr2()].
-#' @param lpr3 The output from [prepare_lpr3()].
+#' @param lpr2 The output from the internal `prepare_lpr2()`.
+#' @param lpr3 The output from the internal `prepare_lpr3()`.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
@@ -49,16 +50,16 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
 #' This function doesn't keep glucose-lowering drugs that may be used for other
 #' conditions than diabetes like GLP-RAs or dapagliflozin/empagliflozin drugs.
 #' Since the diagnosis code data on pregnancies (see below) is insufficient to
-#' perform censoring prior to 1997, [keep_gld_purchases()] only extracts
-#' dates from 1997 onward by default (if Medical Birth Register data is
-#' available to use for censoring, the extraction window can be extended).
+#' perform censoring prior to 1997, This function only extracts dates from 1997
+#' onward by default (if Medical Birth Register data is available to use for
+#' censoring, the extraction window can be extended).
 #'
 #' @param lmdb The `lmdb` register.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'   Only rows with glucose lowering drug purchases are kept, plus some columns are renamed.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_gld_purchases <- function(lmdb) {
   logic <- c(
@@ -85,10 +86,6 @@ keep_gld_purchases <- function(lmdb) {
 #' same day within each individual are deduplicated, to account for the same
 #' test result often being reported twice (one for IFCC, one for DCCT units).
 #'
-#' The output is passed to the [drop_pregnancies()] function for
-#' filtering of elevated results due to potential gestational diabetes (see
-#' below).
-#'
 #' @param lab_forsker The `lab_forsker` register.
 #'
 #' @return An object of the same input type, as a [duckplyr::duckdb_tibble()],
@@ -97,7 +94,7 @@ keep_gld_purchases <- function(lmdb) {
 #'   - `pnr`: Personal identification variable.
 #'   - `dates`: The dates of all elevated HbA1c test results.
 #'
-#' @keywords internal
+#' @noRd
 keep_hba1c <- function(lab_forsker) {
   logic <- logic_as_expression("is_hba1c_over_threshold")[[1]]
 
@@ -106,7 +103,7 @@ keep_hba1c <- function(lab_forsker) {
     dplyr::filter(!!logic) |>
     # Keep only the columns we need.
     dplyr::mutate(
-      pnr = .data$patient_cpr,
+      pnr = .data$pnr,
       date = .data$samplingdate,
       .keep = "none"
     ) |>
@@ -124,9 +121,6 @@ keep_hba1c <- function(lab_forsker) {
 #' dates of all diabetes-specific podiatrist services. Removes duplicate
 #' services on the same date.
 #'
-#' The output is passed to the [join_inclusions()] function for the final
-#' step of the inclusion process.
-#'
 #' @param sysi The SYSI register.
 #' @param sssy The SSSY register.
 #'
@@ -136,7 +130,7 @@ keep_hba1c <- function(lab_forsker) {
 #'   -  `date`: The dates of the first and second diabetes-specific
 #'      podiatrist record
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_podiatrist_services <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
@@ -186,7 +180,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #' @param yyww Character(s) of the format YYWW.
 #'
 #' @returns Date(s) in the format YYYY-MM-DD.
-#' @keywords internal
+#' @noRd
 yyww_to_yyyymmdd <- function(yyww) {
   if (is.numeric(yyww)) {
     # Ensure input is zero-padded to length 4.
@@ -228,7 +222,7 @@ yyww_to_yyyymmdd <- function(yyww) {
 #' @param data Data including at least a date and pnr column.
 #'
 #' @returns The same type as the input data.
-#' @keywords internal
+#' @noRd
 keep_two_earliest_events <- function(data) {
   data |>
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr")

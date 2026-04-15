@@ -81,7 +81,7 @@ classify_diabetes <- function(
     lmdb = lmdb
   ) |>
     purrr::discard(is.null) |>
-    purrr::map(verify_duckdb)
+    purrr::map(check_duckdb)
 
   # Verification step -----
   registers <- registers |>
@@ -176,7 +176,16 @@ classify_diabetes <- function(
     )
 }
 
-verify_duckdb <- function(data, call = rlang::caller_env()) {
+#' Check that data is a DuckDB connection
+#'
+#' @param data Data to be checked. A `tbl_duckdb_connection` or
+#' `duckdb_connection` object.
+#' @param call The environment of the calling function, used to make error
+#'   messages point to the user-facing function rather than this internal check.
+#'
+#' @returns The data, if it is a DuckDB connection. Errors if not.
+#' @noRd
+check_duckdb <- function(data, call = rlang::caller_env()) {
   check <- checkmate::test_multi_class(
     data,
     classes = c(
@@ -203,7 +212,7 @@ verify_duckdb <- function(data, call = rlang::caller_env()) {
 #'
 #' @return The same object type as the input data, which would be a
 #'    [duckplyr::duckdb_tibble()] type object.
-#' @keywords internal
+#' @noRd
 classify_t1d <- function(data) {
   logic <- c(
     "has_t1d"

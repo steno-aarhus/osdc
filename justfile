@@ -2,7 +2,7 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: clean install-deps document check-spelling check-url-cran check-url-lychee lint style test build-website check-local-cran install-package
+run-all: clean install-deps document check-spelling check-urls format-r format-md lint test build-website check-local-cran install-package
 
 # List all TODO items in the repository
 list-todos:
@@ -14,10 +14,13 @@ list-todos:
     "TODO" *
 
 # Clean up auto-generated files
-clean:
+clean: _cleanup-vignettes
   #!/usr/bin/env Rscript
-  devtools::clean_vignettes()
   pkgdown::clean_site()
+
+# Clean up generated HTML and R files from vignettes
+@_cleanup-vignettes:
+  rm -f vignettes/*.R vignettes/*.html vignettes/articles/*.R vignettes/articles/*.html
 
 # Install package dependencies
 install-deps:
@@ -34,34 +37,49 @@ document:
   #!/usr/bin/env Rscript
   devtools::document()
 
-# Update wordlist
-update-wordlist:
-  #!/usr/bin/env Rscript
-  spelling::update_wordlist()
-
 # Run the package tests
 test:
   #!/usr/bin/env Rscript
   devtools::test()
+
+# Update wordlist
+update-wordlist:
+  #!/usr/bin/env Rscript
+  spelling::update_wordlist()
 
 # Check the spelling
 check-spelling:
   #!/usr/bin/env Rscript
   devtools::spell_check()
 
+# Check for any broken URLs
+check-urls: _check-url-cran _check-url-lychee
+
 # Check URLs based on CRAN requirements
-check-url-cran:
+@_check-url-cran:
   #!/usr/bin/env Rscript
   urlchecker::url_check()
 
 # Install https://github.com/lycheeverse/lychee#installation
 # Check URLs using lychee tool
-check-url-lychee:
-  lychee .
+@_check-url-lychee:
+  lychee . --verbose
 
-# Style all R code in the package
-style:
-  air format .
+# Format all R code
+format-r: _format-r-styler _format-r-air
+
+# Air is better, but doesn't style Qmd files
+@_format-r-air:
+  uvx --from air-formatter air format .
+
+# Styler formats Quarto files
+@_format-r-styler:
+  #!/usr/bin/env Rscript
+  styler::style_dir()
+
+# Format Markdown files
+format-md:
+  uvx rumdl fmt --silent
 
 # From https://jarl.etiennebacher.com/#installation
 # Lint R code for any potential issues
@@ -82,18 +100,6 @@ check-local-cran:
 install-package:
   #!/usr/bin/env Rscript
   devtools::install()
-
-# Clean up generated HTML and R files from vignettes
-cleanup-vignettes:
-  rm vignettes/*.R vignettes/*.html vignettes/articles/*.R vignettes/articles/*.html
-
-# Need to install the mermaid-cli package first:
-# npm install -g @mermaid-js/mermaid-cli
-
-# Convert Mermaid diagrams into SVG files
-convert-mmd-to-svg:
-  mmdc -i vignettes/images/overview-flow.mmd -o vignettes/images/overview-flow.svg
-  mmdc -i vignettes/images/function-flow.mmd -o vignettes/images/function-flow.svg
 
 # Preview website locally
 preview-website:
