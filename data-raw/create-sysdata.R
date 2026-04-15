@@ -7,7 +7,7 @@ library(rvest)
 #'
 #' @returns Saves a CSV file with ICD-8 codes. Outputs the path to the saved
 #'   file.
-#' @keywords internal
+#' @noRd
 scrape_icd8_codes <- function() {
   output_path <- here::here("data-raw", "icd8-codes.csv")
   "https://sundhedsdatastyrelsen.dk/-/media/sds/filer/rammer-og-retningslinjer/klassifikationer/sks-download/lukkede-klassifikationer/icd-8-klassifikation.txt?la=da" |>
