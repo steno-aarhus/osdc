@@ -13,7 +13,7 @@
 #'
 #' @return A named list of 9  [tibble::tibble()] objects, each representing a
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
-#'   `kontakter`, `diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
+#'   `lpr3f_kontakter`, `lpr3f_diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 #' @export
 #'
 #' @examples
@@ -173,7 +173,7 @@ edge_cases <- function() {
     "pnr21_rec01", "DZ371", "A"
   )
 
-  kontakter <- tibble::tribble(
+  lpr3f_kontakter <- tibble::tribble(
     ~pnr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "01_t1d_oipT_anyt1dT", "pnr01_dw01", "medicinsk endokrinologi", "20210515",
     "02_t2d_oipT_anyt1dF", "pnr02_dw01", "thoraxkirurgi", "20220616",
@@ -200,7 +200,7 @@ edge_cases <- function() {
       dato_start = lubridate::as_date(.data$dato_start)
     )
 
-  diagnoser <- tibble::tribble(
+  lpr3f_diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
     "pnr01_dw01", "DE101", "A", "Nej",
     "pnr02_dw01", "DE102", "A", "Nej",
@@ -344,8 +344,8 @@ edge_cases <- function() {
     lmdb = lmdb,
     lpr_adm = lpr_adm,
     lpr_diag = lpr_diag,
-    kontakter = kontakter,
-    diagnoser = diagnoser,
+    lpr3f_kontakter = lpr3f_kontakter,
+    lpr3f_diagnoser = lpr3f_diagnoser,
     sysi = sysi,
     sssy = sssy,
     lab_forsker = lab_forsker,

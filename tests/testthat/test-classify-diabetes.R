@@ -23,8 +23,8 @@ cases_vs_nc <- sim_data |>
   purrr::map(duckplyr::as_tbl)
 
 actual <- classify_diabetes(
-  kontakter = cases_vs_nc$kontakter,
-  diagnoser = cases_vs_nc$diagnoser,
+  kontakter = cases_vs_nc$lpr3f_kontakter,
+  diagnoser = cases_vs_nc$lpr3f_diagnoser,
   lpr_diag = cases_vs_nc$lpr_diag,
   lpr_adm = cases_vs_nc$lpr_adm,
   sysi = cases_vs_nc$sysi,

@@ -98,7 +98,7 @@ lint:
 # Build the pkgdown website
 build-website:
   #!/usr/bin/env Rscript
-  pkgdown::build_site()
+  pkgdown::build_site(quiet = FALSE)
 
 # Run local CRAN checks
 check-local-cran:
