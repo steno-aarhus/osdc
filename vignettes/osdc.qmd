@@ -90,17 +90,27 @@ register_data <- registers() |>
 ```
 
 The result is a named list where each element is one register as a
-DuckDB table. The `classify_diabetes()` function takes each register as
-a separate argument, so we extract them into individual variables to be
-explicit about this:
+DuckDB table. The LPR data spans multiple versions (LPR2 and LPR3) that
+need to be prepared and joined into a single table before being used as
+input for `classify_diabetes()`. The osdc package provides helper
+functions for this:
+
+```{r}
+lpr <- join_lpr(
+  lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+  lpr3f = prepare_lpr3f(
+    register_data$lpr3f_kontakter,
+    register_data$lpr3f_diagnoser
+  )
+)
+```
+
+The remaining registers are extracted from the `register_data` list, so
+they are ready to be passed as arguments to `classify_diabetes()`:
 
 ```{r}
 bef <- register_data$bef
-diagnoser <- register_data$lpr3f_diagnoser
 lmdb <- register_data$lmdb
-lpr_adm <- register_data$lpr_adm
-lpr_diag <- register_data$lpr_diag
-kontakter <- register_data$lpr3f_kontakter
 sysi <- register_data$sysi
 sssy <- register_data$sssy
 lab_forsker <- register_data$lab_forsker
@@ -113,10 +123,7 @@ to `classify_diabetes()`:
 
 ```{r}
 classified_diabetes <- classify_diabetes(
-  kontakter = kontakter,
-  diagnoser = diagnoser,
-  lpr_diag = lpr_diag,
-  lpr_adm = lpr_adm,
+  lpr = lpr,
   sysi = sysi,
   sssy = sssy,
   lab_forsker = lab_forsker,
