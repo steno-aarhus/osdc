@@ -1,0 +1,24 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+ci:
+  autofix_commit_msg: "chore(pre-commit): :pencil2: automatic fixes"
+  autoupdate_commit_msg: "ci(pre-commit): :construction_worker: update pre-commit CI version"
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+        args: [--assume-in-merge]
+
+  - repo: https://github.com/rvben/rumdl-pre-commit
+    rev: v0.1.72
+    hooks:
+      - id: rumdl-fmt # Auto-format

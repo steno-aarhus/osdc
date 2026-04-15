@@ -94,9 +94,9 @@ classify_diabetes <- function(
     lpr_adm = registers$lpr_adm
   )
 
-  lpr3 <- prepare_lpr3(
-    kontakter = registers$lpr3f_kontakter,
-    diagnoser = registers$lpr3f_diagnoser
+  lpr3 <- prepare_lpr3f(
+    lpr3f_kontakter = registers$lpr3f_kontakter,
+    lpr3f_diagnoser = registers$lpr3f_diagnoser
   )
 
   pregnancy_dates <- keep_pregnancy_dates(
