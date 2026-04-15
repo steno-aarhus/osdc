@@ -103,11 +103,11 @@ into individual variables to be explicit about this:
 
 ``` r
 bef <- register_data$bef
-diagnoser <- register_data$lpr3f_diagnoser
+lpr3f_diagnoser <- register_data$lpr3f_diagnoser
 lmdb <- register_data$lmdb
 lpr_adm <- register_data$lpr_adm
 lpr_diag <- register_data$lpr_diag
-kontakter <- register_data$lpr3f_kontakter
+lpr3f_kontakter <- register_data$lpr3f_kontakter
 sysi <- register_data$sysi
 sssy <- register_data$sssy
 lab_forsker <- register_data$lab_forsker
@@ -121,8 +121,8 @@ to
 
 ``` r
 classified_diabetes <- classify_diabetes(
-  kontakter = kontakter,
-  diagnoser = diagnoser,
+  kontakter = lpr3f_kontakter,
+  diagnoser = lpr3f_diagnoser,
   lpr_diag = lpr_diag,
   lpr_adm = lpr_adm,
   sysi = sysi,
@@ -134,15 +134,15 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmppKuFbm/duckplyr/duckplyr20f465c76b45.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpjYBpIj/duckplyr/duckplyr1ce92902ff6c.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
 #> 1 051503321034 2018-10-12            2018-10-12         FALSE   TRUE   
 #> 2 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 4 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 5 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 3 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 4 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 6 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
 #> 7 247657494893 2012-05-18            2012-05-18         FALSE   TRUE   
 #> 8 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
 #> 9 476707759976 2021-01-12            2021-01-12         FALSE   TRUE
@@ -168,15 +168,15 @@ classified_diabetes
 #> # A tibble: 9 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 051503321034 2018-10-12            2018-10-12         FALSE   TRUE   
-#> 2 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 3 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 4 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 5 247657494893 2012-05-18            2012-05-18         FALSE   TRUE   
-#> 6 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 7 476707759976 2021-01-12            2021-01-12         FALSE   TRUE   
-#> 8 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 9 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 247657494893 2012-05-18            2012-05-18         FALSE   TRUE   
+#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 4 051503321034 2018-10-12            2018-10-12         FALSE   TRUE   
+#> 5 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 7 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 8 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 9 476707759976 2021-01-12            2021-01-12         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 9 individuals are
@@ -187,13 +187,13 @@ classified as having diabetes.
 The output is a table with one row per classified individual and five
 columns:
 
-| Column                  | Description                                                                                                                                                                                                                                   |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `pnr`                   | The pseudonymised personal identification number.                                                                                                                                                                                             |
-| `stable_inclusion_date` | The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the `stable_inclusion_start_date` parameter (from 1998 onward by default). `NA` for earlier dates. |
-| `raw_inclusion_date`    | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`.                                                                                                                          |
-| `has_t1d`               | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise.                                                                                                                                                                                   |
-| `has_t2d`               | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise.                                                                                                                                                                                   |
+| Column                  | Description                                                                                                                   |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `pnr`                   | The pseudonymised personal identification number.                                                                             |
+| `stable_inclusion_date` | The date of the second inclusion event, if on or after `stable_inclusion_start_date` (default: 1998). `NA` for earlier dates. |
+| `raw_inclusion_date`    | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`.          |
+| `has_t1d`               | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise.                                                                   |
+| `has_t2d`               | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise.                                                                   |
 
 > **About `stable_inclusion_date` vs `raw_inclusion_date`**
 >
@@ -227,34 +227,89 @@ classified_diabetes |>
 
 ## Working with real register data
 
-In a real scenario, the register data is too large to read into memory
-all at once. We recommend converting your register files into
+In a real-world scenario, the register data is too large to read into
+memory all at once. We recommend converting your register files into
 [Parquet](https://parquet.apache.org/) format on disk, with each
-register in its own folder (e.g., all `kontakter` files in one folder,
-all `diagnoser` files in another, etc.).
+register in its own folder (e.g., all `lmdb` files in one folder, all
+`lab_forsker` files in another, etc.).
 
-You can then load each register directly from its Parquet folder as a
-DuckDB table, without reading everything into memory:
+> **Tip**
+>
+> To convert SAS (`.sas7bdat`) files to Parquet, you can use the
+> [`fastreg`](https://dp-next.github.io/fastreg/) package.
+
+If you’re working on Statistics Denmark’s (DST) server, be aware that
+the pre-installed R packages can be quite old (for example, at the time
+of writing, [`library(duckplyr)`](https://duckplyr.tidyverse.org) loads
+version 0.4 of the duckplyr package from 2024, whereas the latest
+version on CRAN is \>1.1 from 2026). These old versions don’t support
+the dplyr operations necessary for osdc to work.
+
+Installing osdc with `install.packages("osdc")` should force the
+necessary updates of package dependencies. Otherwise, the latest version
+of any given package can be installed from DST’s local CRAN mirror by
+using
+[`install.packages()`](https://rdrr.io/r/utils/install.packages.html).
+The downside of this approach is that you have to repeat the package
+installations frequently (whenever you log on to a new virtual machine,
+or after the servers weekly reset).
+
+After making sure that you have the newest version of osdc installed
+(which should install/update any necessary dependencies), you can load
+each register directly from its Parquet folder and convert it to DuckDB,
+as shown below.
+
+Currently, the conversion to DuckDB requires that the user specifies
+some connection parameters first:
+
+- the maximum amount of memory to be allocated for DuckDB data, e.g.
+  128GB which is stable and should be more than enough to hold the
+  inputs to osdc in DuckDB
+- where to temporarily store any DuckDB data that exceeds this
+  threshold.
+
+``` r
+ddb_driver <- duckdb::duckdb(config = list(
+  memory = "128GB",
+  temp_dir = "path/to/temp/dir"
+))
+
+ddb_con <- DBI::dbConnect(ddb_driver)
+```
+
+If you’re working with very large data sets, it’s good practice to
+filter the data on the Arrow side before converting to DuckDB to reduce
+computation and memory use. Conveniently, most of dplyr’s filtering and
+selection operations are supported by the arrow package. If you need to
+rename variables or convert their types to match the inputs expected by
+osdc, you can do that too:
 
 ``` r
 diagnoser <- "path/to/diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb()
+  arrow::to_duckdb() |>
+  # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
+  # dplyr::select(...) |>
+  # dplyr::filter(...) |>
+  arrow::to_duckdb(con = ddb_con) |>
+  dplyr::compute()
 ```
 
-> **Tip**
->
-> If your register data is in SAS format (`.sas7bdat`), you can use the
-> [fastreg](https://dp-next.github.io/fastreg/) package (once its been
-> submitted to CRAN, expected March 2026) to convert them to Parquet
-> format.
+Once you’re done using DuckDB, you should close the driver and
+connection like so:
 
-If your data is already in R (e.g., as a data frame) and fits in memory,
-you can convert it to a DuckDB table with:
+``` r
+duckdb::duckdb_shutdown(ddb_driver)
+DBI::dbDisconnect(ddb_con)
+```
+
+If your data is already in R (e.g., as a data frame), you can convert it
+to a DuckDB table with:
 
 ``` r
 diagnoser <- diagnoser |>
-  arrow::to_duckdb()
+  arrow::to_duckdb() |>
+  dplyr::compute()
 ```
 
 ## Getting help
