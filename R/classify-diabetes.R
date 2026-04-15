@@ -184,7 +184,7 @@ classify_diabetes <- function(
 #'   messages point to the user-facing function rather than this internal check.
 #'
 #' @returns The data, if it is a DuckDB connection. Errors if not.
-#' @keywords internal
+#' @noRd
 check_duckdb <- function(data, call = rlang::caller_env()) {
   check <- checkmate::test_multi_class(
     data,
