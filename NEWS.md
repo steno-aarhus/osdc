@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.25 (2026-04-15)
+
+### Fix
+
+- 🐛 expected ID variable name is always `pnr` (#499)
+
 ## 0.9.24 (2026-04-14)
 
 ### Fix
