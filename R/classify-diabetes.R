@@ -203,7 +203,7 @@ verify_duckdb <- function(data, call = rlang::caller_env()) {
 #'
 #' @return The same object type as the input data, which would be a
 #'    [duckplyr::duckdb_tibble()] type object.
-#' @keywords internal
+#' @noRd
 classify_t1d <- function(data) {
   logic <- c(
     "has_t1d"

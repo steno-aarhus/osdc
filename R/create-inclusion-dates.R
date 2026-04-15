@@ -29,7 +29,7 @@
 #'   - `stable_inclusion_date`: Same as raw inclusion date, but set to `NA` if
 #'        the raw inclusion date is before the stable inclusion start date.
 #'
-#' @keywords internal
+#' @noRd
 create_inclusion_dates <- function(
   inclusions,
   stable_inclusion_start_date = "1998-01-01"

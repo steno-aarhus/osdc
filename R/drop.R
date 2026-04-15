@@ -15,7 +15,7 @@
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'    It also has the same columns as [osdc::keep_gld_purchases()], except for a
 #'    logical helper variable `no_pcos` that is used in later functions.
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 drop_pcos <- function(gld_purchases, bef) {
   logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
@@ -57,7 +57,7 @@ drop_pcos <- function(gld_purchases, bef) {
 #'    Has the same output data as the input [drop_pcos()], except
 #'    for a helper logical variable `no_pregnancy` that is used in later
 #'    functions.
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 drop_pregnancies <- function(
   dropped_pcos,

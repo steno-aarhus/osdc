@@ -24,7 +24,7 @@
 #'   with the joined columns from the output of [keep_diabetes_diagnoses()],
 #'   [keep_podiatrist_services()], [drop_pcos()], and
 #'   [drop_pregnancies()]. There will be 1-8 rows per `pnr`.
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 join_inclusions <- function(
   diabetes_diagnoses,

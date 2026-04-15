@@ -12,7 +12,7 @@
 #'   -   `has_insulin_purchases_within_180_days`: A logical variable used in
 #'       classifying type 1 diabetes. See [algorithm()] for more details.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
   logic <- c(
@@ -101,7 +101,7 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 #'  -   `has_any_t1d_primary_diagnosis`: A logical vector indicating whether
 #'      there is at least one primary diagnosis related to type 1 diabetes.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 add_t1d_diagnoses_cols <- function(data) {
   logic <- c(

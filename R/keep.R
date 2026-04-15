@@ -4,7 +4,8 @@
 #' @param lpr3 Output from [prepare_lpr3()].
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
-#' @keywords internal
+#'
+#' @noRd
 #' @inherit algorithm seealso
 keep_pregnancy_dates <- function(lpr2, lpr3) {
   lpr2 |>
@@ -33,7 +34,7 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
@@ -58,7 +59,7 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'   Only rows with glucose lowering drug purchases are kept, plus some columns are renamed.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_gld_purchases <- function(lmdb) {
   logic <- c(
@@ -97,7 +98,7 @@ keep_gld_purchases <- function(lmdb) {
 #'   - `pnr`: Personal identification variable.
 #'   - `dates`: The dates of all elevated HbA1c test results.
 #'
-#' @keywords internal
+#' @noRd
 keep_hba1c <- function(lab_forsker) {
   logic <- logic_as_expression("is_hba1c_over_threshold")[[1]]
 
@@ -136,7 +137,7 @@ keep_hba1c <- function(lab_forsker) {
 #'   -  `date`: The dates of the first and second diabetes-specific
 #'      podiatrist record
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_podiatrist_services <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
@@ -186,7 +187,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #' @param yyww Character(s) of the format YYWW.
 #'
 #' @returns Date(s) in the format YYYY-MM-DD.
-#' @keywords internal
+#' @noRd
 yyww_to_yyyymmdd <- function(yyww) {
   if (is.numeric(yyww)) {
     # Ensure input is zero-padded to length 4.
@@ -228,7 +229,7 @@ yyww_to_yyyymmdd <- function(yyww) {
 #' @param data Data including at least a date and pnr column.
 #'
 #' @returns The same type as the input data.
-#' @keywords internal
+#' @noRd
 keep_two_earliest_events <- function(data) {
   data |>
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr")

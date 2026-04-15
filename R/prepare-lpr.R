@@ -23,7 +23,7 @@
 #'  -   `is_medical_dept`: Whether the diagnosis was made by a
 #'      non-endocrinology medical department.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 prepare_lpr2 <- function(lpr_adm, lpr_diag) {
   logic <- c(
@@ -77,7 +77,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #'
 #' @inherit prepare_lpr2 return
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 prepare_lpr3 <- function(kontakter, diagnoser) {
   logic <- c(
