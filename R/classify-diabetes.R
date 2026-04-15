@@ -40,8 +40,8 @@
 #'   purrr::map(duckplyr::as_tbl)
 #'
 #' classify_diabetes(
-#'   kontakter = register_data$kontakter,
-#'   diagnoser = register_data$diagnoser,
+#'   kontakter = register_data$lpr3f_kontakter,
+#'   diagnoser = register_data$lpr3f_diagnoser,
 #'   lpr_diag = register_data$lpr_diag,
 #'   lpr_adm = register_data$lpr_adm,
 #'   sysi = register_data$sysi,
@@ -70,8 +70,8 @@ classify_diabetes <- function(
   # way duckplyr works. It creates a temporary DuckDB DB in the background
   # based on the name of the object passed to it.
   registers <- list(
-    kontakter = kontakter,
-    diagnoser = diagnoser,
+    lpr3f_kontakter = kontakter,
+    lpr3f_diagnoser = diagnoser,
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm,
     sysi = sysi,
@@ -95,8 +95,8 @@ classify_diabetes <- function(
   )
 
   lpr3 <- prepare_lpr3(
-    kontakter = registers$kontakter,
-    diagnoser = registers$diagnoser
+    kontakter = registers$lpr3f_kontakter,
+    diagnoser = registers$lpr3f_diagnoser
   )
 
   pregnancy_dates <- keep_pregnancy_dates(

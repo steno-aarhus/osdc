@@ -67,7 +67,7 @@ non_cases <- function() {
   )
 
   # LPR3 is from 2019 onwards
-  kontakter <- tibble::tribble(
+  lpr3f_kontakter <- tibble::tribble(
     ~pnr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "nc_pcos_1", "1", "medicinsk endokrinologi", "20210101",
     "nc_pcos_2", "1", "medicinsk endokrinologi", "20190101",
@@ -79,7 +79,7 @@ non_cases <- function() {
   ) |>
     dplyr::mutate(dato_start = lubridate::as_date(.data$dato_start))
 
-  diagnoser <- tibble::tribble(
+  lpr3f_diagnoser <- tibble::tribble(
     ~dw_ek_kontakt, ~diagnosekode, ~diagnosetype, ~senere_afkraeftet,
     # diagnosis noise (not diabetes)
     "1", "DI10", "A", "Nej",
@@ -133,8 +133,8 @@ non_cases <- function() {
     lmdb = lmdb,
     lpr_adm = lpr_adm,
     lpr_diag = lpr_diag,
-    kontakter = kontakter,
-    diagnoser = diagnoser,
+    lpr3f_kontakter = lpr3f_kontakter,
+    lpr3f_diagnoser = lpr3f_diagnoser,
     sysi = sysi,
     sssy = sssy,
     lab_forsker = lab_forsker
