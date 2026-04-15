@@ -158,7 +158,7 @@ columns:
 | Column | Description |
 |----|----|
 | `pnr` | The pseudonymised personal identification number. |
-| `stable_inclusion_date` | The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the `stable_inclusion_start_date` parameter (from 1998 onward by default). `NA` for earlier dates. |
+| `stable_inclusion_date` | The date of the second inclusion event, if on or after `stable_inclusion_start_date` (default: 1998). `NA` for earlier dates. |
 | `raw_inclusion_date` | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`. |
 | `has_t1d` | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise. |
 | `has_t2d` | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise. |
