@@ -162,7 +162,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
     ) |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
     # Transform date from yyww to YYYY-MM-DD.
-    yyww_to_yyyymmdd()  |>
+    yyww_to_yyyymmdd() |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
     dplyr::mutate(from_podiatrist_service = TRUE)
 }
@@ -182,31 +182,28 @@ yyww_to_yyyymmdd <- function(data) {
   data |>
     # Ensure input from the honuge/date variable is zero-padded to length 4.
     dplyr::mutate(
-      yyww_padded = dbplyr::sql("LPAD(CAST(date AS VARCHAR), 4, '0')")
-    ) |>
-    # Extract year and week.
-    dplyr::mutate(
+      yyww_padded = dbplyr::sql("LPAD(CAST(date AS VARCHAR), 4, '0')"),
+      # Extract year and week.
+      # The way the year values are set up in the registers isn't Y2K-safe,
+      # and by 2090 the values will overflow, and the data will be invalid.
+      # There is nothing we can do about it, but DST will have to deal with it
+      # at some point before 2090.
       yy = as.integer(substr(.data$yyww_padded, 1, 2)),
       ww = as.integer(substr(.data$yyww_padded, 3, 4)),
       full_year = dplyr::if_else(
         # Anything greater than YY 90 will be from the 1900s.
         .data$yy >= 90,
-        # Place the year in the 1900s.
+        # Place these in the 1990s.
         1900L + .data$yy,
-        # Place the year in the 2000s.
+        # Place any values below 90 in the 2000s.
         2000L + .data$yy
       ),
       # Calculate the first day of the ISO year, which is when the first week
       # has most of the week days in it (4th of January, or the first Thursday).
       # See https://en.wikipedia.org/wiki/ISO_week_date.
-    dplyr::mutate(
-      jan4 = dbplyr::sql("MAKE_DATE(full_year, 1, 4)")
-    ) |>
-    # Calculate the weekday of jan4 and the date of Monday of ISO-week 1.
-    dplyr::mutate(
-      days_from_monday = dbplyr::sql("(DAYOFWEEK(jan4) + 6) % 7")
-    ) |>
-    dplyr::mutate(
+      jan4 = dbplyr::sql("MAKE_DATE(full_year, 1, 4)"),
+      # Calculate the weekday of jan4 and the date of Monday of ISO-week 1.
+      days_from_monday = dbplyr::sql("(DAYOFWEEK(jan4) + 6) % 7"),
       week1_monday = dbplyr::sql(
         "jan4 - (days_from_monday || ' days')::INTERVAL"
       )
