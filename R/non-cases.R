@@ -68,7 +68,7 @@ non_cases <- function() {
 
   # LPR3 is from 2019 onwards
   kontakter <- tibble::tribble(
-    ~cpr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
+    ~pnr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "nc_pcos_1", "1", "medicinsk endokrinologi", "20210101",
     "nc_pcos_2", "1", "medicinsk endokrinologi", "20190101",
     "nc_pcos_3", "1", "medicinsk endokrinologi", "20190101",
@@ -115,7 +115,7 @@ non_cases <- function() {
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   lab_forsker <- tibble::tribble(
-    ~patient_cpr, ~samplingdate, ~analysiscode, ~value,
+    ~pnr, ~samplingdate, ~analysiscode, ~value,
     "nc_pcos_1", "20210101", "NPU27300", 48,
     "nc_pcos_2", "20190101", "NPU03835", 6.5,
     "nc_pcos_3", "20190101", "NPU03835", 6.5,

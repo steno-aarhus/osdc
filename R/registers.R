@@ -75,7 +75,7 @@ registers <- function() {
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
         # LPR3 equivalent to PNR in LPR2
-        "cpr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
+        "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         # LPR3 equivalent to RECNUM in LPR2
         "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
         # LPR3 equivalent to D_INDDTO in LPR2
@@ -129,7 +129,7 @@ registers <- function() {
       end_year = NA,
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
-        "patient_cpr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
+        "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         "samplingdate", "Dato for proevetagning", "Date of sampling", c("Date", "character"),
         "analysiscode", "Analysens NPU-kode", "NPU code of analysis", "character",
         "value", "Numerisk resultat af analyse", "Numerical result of analysis", "numeric"

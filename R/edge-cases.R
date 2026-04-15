@@ -174,7 +174,7 @@ edge_cases <- function() {
   )
 
   kontakter <- tibble::tribble(
-    ~cpr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
+    ~pnr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
     "01_t1d_oipT_anyt1dT", "pnr01_dw01", "medicinsk endokrinologi", "20210515",
     "02_t2d_oipT_anyt1dF", "pnr02_dw01", "thoraxkirurgi", "20220616",
     "03_t2d_oipF_anyt1dF", "pnr03_dw01", "kardiologi", "20200717",
@@ -282,7 +282,7 @@ edge_cases <- function() {
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
   lab_forsker <- tibble::tribble(
-    ~patient_cpr, ~samplingdate, ~analysiscode, ~value,
+    ~pnr, ~samplingdate, ~analysiscode, ~value,
     "01_t1d_oipT_anyt1dT", "20190101", "NPU27300", 50,
     "02_t2d_oipT_anyt1dF", "20190102", "NPU27300", 51,
     "03_t2d_oipF_anyt1dF", "20190101", "NPU27300", 52,
