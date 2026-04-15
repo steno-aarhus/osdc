@@ -7,8 +7,8 @@
 check_duckdb(data, call = rlang::caller_env())
 }
 \arguments{
-\item{data}{Data to be checked. A \code{\link{tbl_duckdb_connection}} or
-\code{\link{duckdb_connection}} object.}
+\item{data}{Data to be checked. A \code{tbl_duckdb_connection} or
+\code{duckdb_connection} object.}
 
 \item{call}{The environment of the calling function, used to make error
 messages point to the user-facing function rather than this internal check.}
