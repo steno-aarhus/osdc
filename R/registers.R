@@ -68,8 +68,8 @@ registers <- function() {
         "c_diagtype", "Diagnosetype", "Diagnosis type", "character",
       )
     ),
-    lpr_a_kontakt = list(
-      name = "Landspatientregisterets kontakttabel (LPR3_A)",
+    lpr3a_kontakt = list(
+      name = "Landspatientregisterets kontakttabel (LPR3A)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(
@@ -80,8 +80,8 @@ registers <- function() {
         "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge.", "Specialty of department. Similar to c_spec in LPR2, but values are strings.", "character"
       )
     ),
-    lpr_a_diagnose = list(
-      name = "Landspatientregisterets diagnosetabel (LPR3_A)",
+    lpr3a_diagnose = list(
+      name = "Landspatientregisterets diagnosetabel (LPR3A)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(
@@ -93,7 +93,7 @@ registers <- function() {
       )
     ),
     kontakter = list(
-      name = "Landspatientregisterets kontakttabel (LPR3_F)",
+      name = "Landspatientregisterets kontakttabel (LPR3F)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(
@@ -108,7 +108,7 @@ registers <- function() {
       )
     ),
     diagnoser = list(
-      name = "Landspatientregisterets diagnosetabel (LPR3_F)",
+      name = "Landspatientregisterets diagnosetabel (LPR3F)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(
