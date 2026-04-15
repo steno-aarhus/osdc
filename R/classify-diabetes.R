@@ -81,7 +81,7 @@ classify_diabetes <- function(
     lmdb = lmdb
   ) |>
     purrr::discard(is.null) |>
-    purrr::map(verify_duckdb)
+    purrr::map(check_duckdb)
 
   # Verification step -----
   registers <- registers |>
@@ -176,7 +176,7 @@ classify_diabetes <- function(
     )
 }
 
-verify_duckdb <- function(data, call = rlang::caller_env()) {
+check_duckdb <- function(data, call = rlang::caller_env()) {
   check <- checkmate::test_multi_class(
     data,
     classes = c(
