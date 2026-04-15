@@ -76,7 +76,7 @@ to be explored by users to better understand how the algorithm logic works.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A named list of 9  <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> objects, each representing a
 different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</code>, <code>lpr_diag</code>,
-<code>kontakter</code>, <code>diagnoser</code>, <code>sysi</code>, <code>sssy</code>, and <code>lab_forsker</code>.</p>
+<code>lpr3f_kontakter</code>, <code>lpr3f_diagnoser</code>, <code>sysi</code>, <code>sssy</code>, and <code>lab_forsker</code>.</p>
     </div>
 
     <div class="section level2">
@@ -146,7 +146,7 @@ different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> pnr07_rec01 DE105  B         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 19 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $kontakter</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_kontakter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                                dw_ek_kontakt hovedspeciale_ans dato_start</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
@@ -171,7 +171,7 @@ different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">19</span> 16_t2d_gldT_diagF_hba1cF_podF      pnr16_dw01    gynaekologi og o… 2024-01-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">20</span> 21_nodm_female_pregnancyT          pnr21_dw01    gynaekologi og o… 2024-01-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $diagnoser</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_diagnoser</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 29 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    dw_ek_kontakt diagnosekode diagnosetype senere_afkraeftet</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span>

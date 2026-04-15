@@ -122,17 +122,17 @@ registers()
 #> 3 c_diagtype Diagnosetype       Diagnosis type      character
 #> 
 #> 
-#> $kontakter
-#> $kontakter$name
+#> $lpr3f_kontakter
+#> $lpr3f_kontakter$name
 #> [1] "Landspatientregisterets kontakttabel (LPR3)"
 #> 
-#> $kontakter$start_year
+#> $lpr3f_kontakter$start_year
 #> [1] 2019
 #> 
-#> $kontakter$end_year
+#> $lpr3f_kontakter$end_year
 #> [1] NA
 #> 
-#> $kontakter$variables
+#> $lpr3f_kontakter$variables
 #> # A tibble: 4 × 4
 #>   name              danish_description             english_description data_type
 #>   <chr>             <chr>                          <chr>               <list>   
@@ -142,17 +142,17 @@ registers()
 #> 4 hovedspeciale_ans Afdelings speciale             Specialty of depar… <chr [1]>
 #> 
 #> 
-#> $diagnoser
-#> $diagnoser$name
+#> $lpr3f_diagnoser
+#> $lpr3f_diagnoser$name
 #> [1] "Landspatientregisterets diagnosetabel (LPR3)"
 #> 
-#> $diagnoser$start_year
+#> $lpr3f_diagnoser$start_year
 #> [1] 2019
 #> 
-#> $diagnoser$end_year
+#> $lpr3f_diagnoser$end_year
 #> [1] NA
 #> 
-#> $diagnoser$variables
+#> $lpr3f_diagnoser$variables
 #> # A tibble: 4 × 4
 #>   name              danish_description             english_description data_type
 #>   <chr>             <chr>                          <chr>               <chr>    

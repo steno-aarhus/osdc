@@ -224,57 +224,13 @@
 <div class="cell">
 <div class="cell-output-display">
 <table class="table caption-top">
-<colgroup>
-<col style="width: 7%">
-<col style="width: 16%">
-<col style="width: 45%">
-<col style="width: 30%">
-</colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
 <th style="text-align: left;">title</th>
 <th style="text-align: left;">logic</th>
 <th style="text-align: left;">comments</th>
 </tr></thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">lpr3_is_needed_code</td>
-<td style="text-align: left;">LPR3 codes used throughout the algorithm</td>
-<td style="text-align: left;">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])’ AND (diagnosetype == ‘A’ OR diagnosetype == ‘B’) AND (senere_afkraeftet == ‘Nej’)</td>
-<td style="text-align: left;">
-<code>A</code> <code>diagnosekode</code> means primary diagnosis and <code>senere_afkraeftet</code> means diagnosis was later retracted.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">lpr3_is_primary_diagnosis</td>
-<td style="text-align: left;">LPR3 primary diagnosis</td>
-<td style="text-align: left;">diagnosetype == ‘A’</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">lpr3_is_t1d_code</td>
-<td style="text-align: left;">LPR3 diagnoses codes for T1D</td>
-<td style="text-align: left;">diagnosekode =~ ‘^(DE10)’</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">lpr3_is_t2d_code</td>
-<td style="text-align: left;">LPR3 diagnoses codes for T2D</td>
-<td style="text-align: left;">diagnosekode =~ ‘^(DE11)’</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">lpr3_is_diabetes_code</td>
-<td style="text-align: left;">LPR3 diagnoses codes for diabetes</td>
-<td style="text-align: left;">diagnosekode =~ ‘^DE1[0-4]’</td>
-<td style="text-align: left;">This is a general diabetes code, not specific to T1D or T2D.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">lpr3_is_pregnancy_code</td>
-<td style="text-align: left;">ICD-10 diagnoses codes for pregnancy-related outcomes</td>
-<td style="text-align: left;">diagnosekode =~ ‘^(DO0[0-6]|DO8[0-4]|DZ3[37])’</td>
-<td style="text-align: left;">These are recorded pregnancy endings like live births and miscarriages.</td>
-</tr>
-</tbody>
+<tbody></tbody>
 </table>
 </div>
 </div>
@@ -284,34 +240,13 @@
 <div class="cell">
 <div class="cell-output-display">
 <table class="table caption-top">
-<colgroup>
-<col style="width: 4%">
-<col style="width: 5%">
-<col style="width: 76%">
-<col style="width: 13%">
-</colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
 <th style="text-align: left;">title</th>
 <th style="text-align: left;">logic</th>
 <th style="text-align: left;">comments</th>
 </tr></thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">lpr3_is_endocrinology_dept</td>
-<td style="text-align: left;">LPR3 endocrinology department</td>
-<td style="text-align: left;">hovedspeciale_ans %in% c(‘medicinsk endokrinologi’, ‘endokrinologi’)</td>
-<td style="text-align: left;">
-<code>TRUE</code> when the department is endocrinology.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">lpr3_is_medical_dept</td>
-<td style="text-align: left;">LPR3 medical department</td>
-<td style="text-align: left;">hovedspeciale_ans %in% c(‘blandet medicin og kirurgi’, ‘intern medicin’, ‘geriatri’, ‘hepatologi’, ‘hæmatologi’, ‘infektionsmedicin’, ‘kardiologi’, ‘medicinsk allergologi’, ‘medicinsk gastroenterologi’, ‘medicinsk lungesygdomme’, ‘lungesygdomme’, ‘nefrologi’, ‘reumatologi’, ‘palliativ medicin’, ‘akut medicin’, ‘akutmedicin’, ‘dermato-venerologi’, ‘neurologi’, ‘klinisk onkologi’, ‘onkologi’, ‘oftalmologi’, ‘fysiurgi’, ‘tropemedicin’)</td>
-<td style="text-align: left;">
-<code>TRUE</code> when the department is other medical departments (than endocrinology).</td>
-</tr>
-</tbody>
+<tbody></tbody>
 </table>
 </div>
 </div>

@@ -22,8 +22,8 @@ edge_cases()
 A named list of 9
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
 objects, each representing a different health register: `bef`, `lmdb`,
-`lpr_adm`, `lpr_diag`, `kontakter`, `diagnoser`, `sysi`, `sssy`, and
-`lab_forsker`.
+`lpr_adm`, `lpr_diag`, `lpr3f_kontakter`, `lpr3f_diagnoser`, `sysi`,
+`sssy`, and `lab_forsker`.
 
 ## Examples
 
@@ -93,7 +93,7 @@ edge_cases()
 #> 10 pnr07_rec01 DE105  B         
 #> # ℹ 19 more rows
 #> 
-#> $kontakter
+#> $lpr3f_kontakter
 #> # A tibble: 20 × 4
 #>    pnr                                dw_ek_kontakt hovedspeciale_ans dato_start
 #>    <chr>                              <chr>         <chr>             <date>    
@@ -118,7 +118,7 @@ edge_cases()
 #> 19 16_t2d_gldT_diagF_hba1cF_podF      pnr16_dw01    gynaekologi og o… 2024-01-01
 #> 20 21_nodm_female_pregnancyT          pnr21_dw01    gynaekologi og o… 2024-01-01
 #> 
-#> $diagnoser
+#> $lpr3f_diagnoser
 #> # A tibble: 29 × 4
 #>    dw_ek_kontakt diagnosekode diagnosetype senere_afkraeftet
 #>    <chr>         <chr>        <chr>        <chr>            

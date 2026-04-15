@@ -76,21 +76,4 @@ simulate_registers("bef")
 #> 10     1 876820784981 1931-08-17
 #> # ℹ 990 more rows
 #> 
-simulate_registers("diagnoser")
-#> $diagnoser
-#> # A tibble: 1,000 × 4
-#>    dw_ek_kontakt      diagnosekode diagnosetype senere_afkraeftet
-#>    <chr>              <chr>        <chr>        <chr>            
-#>  1 920166254345774467 DX7621       B            Nej              
-#>  2 075972782062569784 DZ832        B            Ja               
-#>  3 176536283003603061 DQ796        A            Nej              
-#>  4 581624294965046227 DN764E       A            Nej              
-#>  5 814210282344580857 DB260        B            Nej              
-#>  6 393885735973313484 DM13         B            Nej              
-#>  7 836179506546686729 DZ52         B            Ja               
-#>  8 814175436846538799 DQ666D       B            Nej              
-#>  9 508133593881487375 DK660C       A            Nej              
-#> 10 325077063891132755 DT559B       B            Nej              
-#> # ℹ 990 more rows
-#> 
 ```

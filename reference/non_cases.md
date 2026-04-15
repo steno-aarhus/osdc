@@ -74,7 +74,7 @@ non_cases()
 #> 2 2      DO00   A         
 #> 3 3      DZ33   A         
 #> 
-#> $kontakter
+#> $lpr3f_kontakter
 #> # A tibble: 7 × 4
 #>   pnr       dw_ek_kontakt hovedspeciale_ans       dato_start
 #>   <chr>     <chr>         <chr>                   <date>    
@@ -86,7 +86,7 @@ non_cases()
 #> 6 nc_preg_3 2             abc                     2020-01-01
 #> 7 nc_preg_4 3             abc                     2020-01-01
 #> 
-#> $diagnoser
+#> $lpr3f_diagnoser
 #> # A tibble: 3 × 4
 #>   dw_ek_kontakt diagnosekode diagnosetype senere_afkraeftet
 #>   <chr>         <chr>        <chr>        <chr>            

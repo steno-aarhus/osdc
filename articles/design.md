@@ -142,9 +142,9 @@ arguments are as follows:
   administrationstabel (LPR2)’ in Danish.
 - `lpr_diag`: The register called ‘Landspatientregisterets diagnosetabel
   (LPR2)’ in Danish.
-- `kontakter`: The register called ‘Landspatientregisterets kontakttabel
-  (LPR3)’ in Danish.
-- `diagnoser`: The register called ‘Landspatientregisterets
+- `lpr3f_kontakter`: The register called ‘Landspatientregisterets
+  kontakttabel (LPR3)’ in Danish.
+- `lpr3f_diagnoser`: The register called ‘Landspatientregisterets
   diagnosetabel (LPR3)’ in Danish.
 - `sysi`: The register called ‘Sygesikringsregisteret’ in Danish.
 - `sssy`: The register called ‘Sygesikringsregisteret’ in Danish.

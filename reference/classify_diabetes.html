@@ -147,8 +147,8 @@ description of the internal implementation of this classification function.</p><
 <span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">classify_diabetes</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  kontakter <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">kontakter</span>,</span></span>
-<span class="r-in"><span>  diagnoser <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">diagnoser</span>,</span></span>
+<span class="r-in"><span>  kontakter <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_kontakter</span>,</span></span>
+<span class="r-in"><span>  diagnoser <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span>,</span></span>
 <span class="r-in"><span>  lpr_diag <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span>,</span></span>
 <span class="r-in"><span>  lpr_adm <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>,</span></span>
 <span class="r-in"><span>  sysi <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sysi</span>,</span></span>
@@ -158,15 +158,15 @@ description of the internal implementation of this classification function.</p><
 <span class="r-in"><span>  lmdb <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Source:   SQL [?? x 5]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpEaicMY/duckplyr/duckplyr1a8a887a563.duckdb]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpxvFeIY/duckplyr/duckplyr1a8c355adcf5.duckdb]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 247657494893 2012-05-18            2012-05-18         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 051503321034 2018-10-12            2018-10-12         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 051503321034 2018-10-12            2018-10-12         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 247657494893 2012-05-18            2012-05-18         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 476707759976 2021-01-12            2021-01-12         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span>
