@@ -54,8 +54,8 @@ these registers can be seen below:
 
 ```{r}
 #| echo: false
-registers() |> 
-  purrr::map_chr("name") |> 
+registers() |>
+  purrr::map_chr("name") |>
   knitr::kable(col.names = c("Register abbreviation", "Register name"))
 ```
 
@@ -256,9 +256,9 @@ diagnoser <- "path/to/diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
   arrow::to_duckdb() |>
   # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
-  # dplyr::select(...) |> 
-  # dplyr::filter(...) |> 
-  arrow::to_duckdb(con = ddb_con) |> 
+  # dplyr::select(...) |>
+  # dplyr::filter(...) |>
+  arrow::to_duckdb(con = ddb_con) |>
   dplyr::compute()
 ```
 
