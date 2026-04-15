@@ -124,3 +124,36 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
       "is_pregnancy_code",
     )
 }
+
+#' Join the prepared LPR registers.
+#'
+#' @param lpr2 The prepared LPR2 register. See [prepare_lpr2()].
+#' @param lpr3f The prepared LPR3F register. See [prepare_lpr3f()].
+#'
+#' @inherit prepare_lpr2 return
+#' @export
+#'
+#' @examples
+#' register_data <- simulate_registers(c(
+#'   "lpr_adm",
+#'   "lpr_diag",
+#'   "lpr3f_kontakter",
+#'   "lpr3f_diagnoser"
+#' ))
+#'
+#' join_lpr(
+#'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+#'   lpr3f = prepare_lpr3f(
+#'     register_data$lpr3f_kontakter,
+#'     register_data$lpr3f_diagnoser
+#'   )
+#' )
+join_lpr <- function(
+  lpr2,
+  lpr3f # ,
+  # lpr3a
+) {
+  lpr2 |>
+    dplyr::union_all(lpr3f) # |>
+  # dplyr::union_all(lpr3a)
+}
