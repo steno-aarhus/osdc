@@ -332,7 +332,6 @@ create_simulated_data <- function(data, n) {
 #' @examples
 #' simulate_registers(c("bef", "sysi"))
 #' simulate_registers("bef")
-#' simulate_registers("diagnoser")
 simulate_registers <- function(registers, n = 1000) {
   available_registers <- unique(simulation_definitions$register_abbrev)
   # All registers given have to be available.

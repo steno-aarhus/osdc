@@ -66,8 +66,8 @@ register_data <- registers() |>
   purrr::map(duckplyr::as_tbl)
 
 classify_diabetes(
-  kontakter = register_data$kontakter,
-  diagnoser = register_data$diagnoser,
+  kontakter = register_data$lpr3f_kontakter,
+  diagnoser = register_data$lpr3f_diagnoser,
   lpr_diag = register_data$lpr_diag,
   lpr_adm = register_data$lpr_adm,
   sysi = register_data$sysi,

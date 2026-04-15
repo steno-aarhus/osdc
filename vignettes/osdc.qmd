@@ -96,11 +96,11 @@ explicit about this:
 
 ```{r}
 bef <- register_data$bef
-diagnoser <- register_data$diagnoser
+diagnoser <- register_data$lpr3f_diagnoser
 lmdb <- register_data$lmdb
 lpr_adm <- register_data$lpr_adm
 lpr_diag <- register_data$lpr_diag
-kontakter <- register_data$kontakter
+kontakter <- register_data$lpr3f_kontakter
 sysi <- register_data$sysi
 sssy <- register_data$sssy
 lab_forsker <- register_data$lab_forsker
