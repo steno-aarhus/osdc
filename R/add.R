@@ -86,12 +86,10 @@ add_insulin_purchases_cols <- function(gld_hba1c_after_drop_steps) {
 #' It also adds a column indicating whether an individual has at least one
 #' primary diagnosis related to type 1 diabetes.
 #'
-#' This output is passed to the [join_inclusions()] function, where the
-#' `dates` variable is used for the final step of the inclusion process.
 #' The variables for whether the majority of diagnoses are for type 1 diabetes
 #' is used for later classification of type 1 diabetes.
 #'
-#' @param data Data from [keep_diabetes_diagnoses()] function.
+#' @param data Data from the internal keep_diabetes_diagnoses() function.
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with the following added columns and up to two rows per individual:

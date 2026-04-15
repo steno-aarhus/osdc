@@ -8,8 +8,7 @@ get_register_abbrev <- function() {
 
 #' Get a list of required variables from a specific register.
 #'
-#' @param register The abbreviation of the register name. See list of
-#'   abbreviations in [get_register_abbrev()].
+#' @param register The abbreviation of the register name.
 #'
 #' @return A character vector of variable names.
 #' @noRd

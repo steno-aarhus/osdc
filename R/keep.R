@@ -1,7 +1,7 @@
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from [prepare_lpr2()].
-#' @param lpr3 Output from [prepare_lpr3()].
+#' @param lpr2 Output from the internal `prepare_lpr2()`.
+#' @param lpr3 Output from the internal `prepare_lpr3()`.
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'
@@ -28,8 +28,8 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' additional information needed to classify diabetes type.
 #' Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 #'
-#' @param lpr2 The output from [prepare_lpr2()].
-#' @param lpr3 The output from [prepare_lpr3()].
+#' @param lpr2 The output from the internal `prepare_lpr2()`.
+#' @param lpr3 The output from the internal `prepare_lpr3()`.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.
@@ -50,9 +50,9 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
 #' This function doesn't keep glucose-lowering drugs that may be used for other
 #' conditions than diabetes like GLP-RAs or dapagliflozin/empagliflozin drugs.
 #' Since the diagnosis code data on pregnancies (see below) is insufficient to
-#' perform censoring prior to 1997, [keep_gld_purchases()] only extracts
-#' dates from 1997 onward by default (if Medical Birth Register data is
-#' available to use for censoring, the extraction window can be extended).
+#' perform censoring prior to 1997, This function only extracts dates from 1997
+#' onward by default (if Medical Birth Register data is available to use for
+#' censoring, the extraction window can be extended).
 #'
 #' @param lmdb The `lmdb` register.
 #'
@@ -85,10 +85,6 @@ keep_gld_purchases <- function(lmdb) {
 #' while NPU03835 is HbA1c in old units (DCCT). Multiple elevated results on the
 #' same day within each individual are deduplicated, to account for the same
 #' test result often being reported twice (one for IFCC, one for DCCT units).
-#'
-#' The output is passed to the [drop_pregnancies()] function for
-#' filtering of elevated results due to potential gestational diabetes (see
-#' below).
 #'
 #' @param lab_forsker The `lab_forsker` register.
 #'
@@ -124,9 +120,6 @@ keep_hba1c <- function(lab_forsker) {
 #' This function uses the `sysi` or `sssy` registers as input to extract the
 #' dates of all diabetes-specific podiatrist services. Removes duplicate
 #' services on the same date.
-#'
-#' The output is passed to the [join_inclusions()] function for the final
-#' step of the inclusion process.
 #'
 #' @param sysi The SYSI register.
 #' @param sssy The SSSY register.
