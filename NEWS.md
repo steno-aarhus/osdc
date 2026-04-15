@@ -23,7 +23,7 @@ standard.
 
 ### Refactor
 
-- 🚚 prefix `kontakter` and `diagnoser` with `lpr3f_`  (#523)
+- 🚚 prefix `kontakter` and `diagnoser` with `lpr3f_` (#523)
 
 ## 0.9.28 (2026-04-15)
 
