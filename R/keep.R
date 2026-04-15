@@ -121,9 +121,6 @@ keep_hba1c <- function(lab_forsker) {
 #' dates of all diabetes-specific podiatrist services. Removes duplicate
 #' services on the same date.
 #'
-#' The output is passed to the [join_inclusions()] function for the final
-#' step of the inclusion process.
-#'
 #' @param sysi The SYSI register.
 #' @param sssy The SSSY register.
 #'
@@ -133,7 +130,7 @@ keep_hba1c <- function(lab_forsker) {
 #'   -  `date`: The dates of the first and second diabetes-specific
 #'      podiatrist record
 #'
-#' @keywords @noRd
+#' @noRd
 #' @inherit algorithm seealso
 keep_podiatrist_services <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
@@ -174,7 +171,7 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #' @param data A DuckDB-backed data frame with a `date` column formatted as YYWW values.
 #'
 #' @returns a data frame containing a `date` column in the format YYYY-MM-DD.
-#' @keywords @noRd
+#' @noRd
 yyww_to_yyyymmdd <- function(data) {
   data |>
     # Ensure input from the honuge/date variable is zero-padded to length 4.
