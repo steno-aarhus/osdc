@@ -108,25 +108,25 @@ rules.
 
 ### Input
 
-- We *do not* assume that the register data comes directly from the
-  original source (SAS) files. In fact, many functions assume that a
-  certain level of pre-processing and cleaning has been already done to
-  the data. These assumptions will be checked, so if the data does not
-  meet these assumptions, the user will be informed.
-- Related to the above, we also assume the data has already been loaded
-  from the original source files and joined into a single data frame for
-  any given register. Denmark Statistics stores their register data by year,
-  but we require that all years for a register are joined into one.
+- We assume the register data is *not* taken directly from the
+  original SAS files, but has undergone prior
+  pre-processing and cleaning.
+  These assumptions are checked, and
+  the user is informed if they are not met.
+- We also assume that
+  the original source files have been loaded and joined into a single data frame
+  per register. Although Denmark Statistics stores data by year,
+  all years for a register must be merged into one dataset.
 - As few arguments as is possible, with as few core required arguments
   as possible (ideally one or two).
 - `keep_` functions take a register as the first argument.
   - One input register database at a time.
 - `drop_` functions can take a register as the first argument or take
   the output from a `keep_` function.
-- Function arguments take a single DuckDB type object as input (e.g.
-  `duckplyr_df`). This also means that the register datasets must be
-  loaded from the multiple source files and joined into one data frame
-  for any given argument that requires that register.
+- Function arguments take a single DuckDB type object as register input (e.g.
+  `duckplyr_df`), consistent with the assumption that each register is 
+  provided as a single, unified data frame.
+  
 - The first argument will always take a data frame type object.
 - The second argument could be an output data frame object from another
   function.
