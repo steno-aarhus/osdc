@@ -76,7 +76,7 @@ create_fake_atc <- function(n) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
     dplyr::filter(stringr::str_length(.data$Koodi) == 7) |>
-    dplyr::pull(.data$Koodi) |>
+    dplyr::pull("Koodi") |>
     sample(n, replace = TRUE)
 }
 # jarl-ignore-end unused_function
