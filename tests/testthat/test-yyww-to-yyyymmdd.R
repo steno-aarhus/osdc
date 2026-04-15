@@ -11,7 +11,7 @@ test_that("date correctly converts to real dates for end and start of year", {
   actual <- input |>
     yyww_to_yyyymmdd() |>
     dplyr::collect() |>
-    dplyr::pull(.data$date)
+    dplyr::pull("date")
 
   expect_equal(expected, actual)
 })
