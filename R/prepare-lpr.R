@@ -66,17 +66,17 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
     )
 }
 
-#' Prepare and join the two LPR3 registers to extract diabetes and pregnancy diagnoses.
+#' Prepare and join the two LPR3F registers to extract diabetes and pregnancy diagnoses.
 #'
 #' @inherit prepare_lpr2 description
-#' @param diagnoser The LPR3 register containing diabetes diagnoses.
-#' @param kontakter The LPR3 register containing hospital contacts/admissions.
+#' @param lpr3f_diagnoser The LPR3F register containing diabetes diagnoses.
+#' @param lpr3f_kontakter The LPR3F register containing hospital contacts/admissions.
 #'
 #' @inherit prepare_lpr2 return
 #'
 #' @noRd
 #' @inherit algorithm seealso
-prepare_lpr3 <- function(kontakter, diagnoser) {
+prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
   logic <- c(
     "lpr3_is_needed_code",
     "lpr3_is_pregnancy_code",
@@ -89,12 +89,12 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
   ) |>
     logic_as_expression()
 
-  diagnoser |>
+  lpr3f_diagnoser |>
     # Only keep relevant diagnoses
     dplyr::filter(!!logic$lpr3_is_needed_code) |>
     # Inner join to only keep contacts that are in both diagnoser and kontakter
     dplyr::inner_join(
-      kontakter,
+      lpr3f_kontakter,
       by = dplyr::join_by("dw_ek_kontakt")
     ) |>
     dplyr::mutate(
