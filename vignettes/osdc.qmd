@@ -17,12 +17,12 @@ the classification.
 
 This package serves two overarching purposes:
 
-1.  To provide an open-source, code-based algorithm to classify type 1
-    and type 2 diabetes using Danish registers as data sources.
-2.  To inspire discussions within the Danish register-based research
-    space on the openness and ease of use on the existing tooling and
-    registers, and on the need for an official process for updating or
-    contributing to existing data sources.
+1. To provide an open-source, code-based algorithm to classify type 1
+   and type 2 diabetes using Danish registers as data sources.
+2. To inspire discussions within the Danish register-based research
+   space on the openness and ease of use on the existing tooling and
+   registers, and on the need for an official process for updating or
+   contributing to existing data sources.
 
 For a detailed description of the algorithm, see
 `vignette("algorithm")`. For the motivations and rationale behind this
@@ -155,13 +155,13 @@ diabetes.
 The output is a table with one row per classified individual and five
 columns:
 
-| Column | Description |
-|----|----|
-| `pnr` | The pseudonymised personal identification number. |
+| Column                  | Description                                                                                                                   |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| `pnr`                   | The pseudonymised personal identification number.                                                                             |
 | `stable_inclusion_date` | The date of the second inclusion event, if on or after `stable_inclusion_start_date` (default: 1998). `NA` for earlier dates. |
-| `raw_inclusion_date` | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`. |
-| `has_t1d` | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise. |
-| `has_t2d` | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise. |
+| `raw_inclusion_date`    | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`.          |
+| `has_t1d`               | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise.                                                                   |
+| `has_t2d`               | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise.                                                                   |
 
 ::: callout-note
 #### About `stable_inclusion_date` vs `raw_inclusion_date`
@@ -229,11 +229,11 @@ as shown below.
 Currently, the conversion to DuckDB requires that the user specifies
 some connection parameters first:
 
--   the maximum amount of memory to be allocated for DuckDB data, e.g.
-    128GB which is stable and should be more than enough to hold the
-    inputs to osdc in DuckDB
--   where to temporarily store any DuckDB data that exceeds this
-    threshold.
+- the maximum amount of memory to be allocated for DuckDB data, e.g.
+  128GB which is stable and should be more than enough to hold the
+  inputs to osdc in DuckDB
+- where to temporarily store any DuckDB data that exceeds this
+  threshold.
 
 ``` r
 ddb_driver <- duckdb::duckdb(config = list(
@@ -281,8 +281,7 @@ diagnoser <- diagnoser |>
 ## Getting help
 
 If you encounter a bug or have a question about how to use osdc, please
-open an issue on the [GitHub
-repository](https://github.com/steno-aarhus/osdc/issues). When reporting
-a bug, include a minimal example that reproduces the problem along to
-help us understand and investigate the problem.
-
+open an issue on the
+[GitHub repository](https://github.com/steno-aarhus/osdc/issues). When
+reporting a bug, include a minimal example that reproduces the problem
+along to help us understand and investigate the problem.
