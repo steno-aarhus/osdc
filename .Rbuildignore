@@ -24,3 +24,4 @@
 ^CITATION.cff$
 ^cran-comments\.md$
 ^\.rumdl\.toml$
+^\.rumdl_cache$
