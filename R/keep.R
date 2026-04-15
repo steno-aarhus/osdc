@@ -27,8 +27,8 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' additional information needed to classify diabetes type.
 #' Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 #'
-#' @param lpr2 The output from [prepare_lpr2()].
-#' @param lpr3 The output from [prepare_lpr3()].
+#' @param lpr2 The output from the internal `prepare_lpr2()`.
+#' @param lpr3 The output from the internal `prepare_lpr3()`.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.
@@ -210,9 +210,12 @@ yyww_to_yyyymmdd <- function(data) {
     # Calculate the date of the Monday of the ISO week (`ww`)
     # Starting from `week1_monday` (the Monday of ISO week 1),
     # add (`ww-1`) weeks to reach the target week:
-    # - `ww-1`: Number of weeks to offset from ISO week 1
-    # - || ' weeks': Concatenates the offset with the text "weeks" to form a SQL interval string (e.g., "3 weeks")
-    # - ::INTERVAL: Casts the string to an INTERVAL type.
+    # - `ww-1`: Number of weeks to offset from ISO week 1
+
+    # - || ' weeks': Concatenates the offset with the text "weeks" to form a SQL interval string (e.g., "3 weeks")
+
+    # - ::INTERVAL: Casts the string to an INTERVAL type.
+
     # The result is added to `week1_monday` and cast to DATE.
     dplyr::mutate(
       date = dbplyr::sql(
