@@ -208,9 +208,13 @@ yyww_to_yyyymmdd <- function(data) {
         "jan4 - (days_from_monday || ' days')::INTERVAL"
       )
     ) |>
-    # Calculate the date of the Monday of the ww-week
-    # "ww - 1": how many weeks interval after week 1 we need to add to week 1
-    # "|| ' weeks'": converts "ww - 1 weeks" to a string which SQL casts to date
+    # Calculate the date of the Monday of the ISO week (`ww`)
+    # Starting from `week1_monday` (the Monday of ISO week 1),
+    # add (`ww-1`) weeks to reach the target week:
+    # - `ww-1`: Number of weeks to offset from ISO week 1
+    # || ' weeks': Concatenates the offset with the text "weeks" to form a SQL interval string (e.g., "3 weeks")
+    #   - ::INTERVAL: Casts the string to an INTERVAL type.
+    # The result is added to `week1_monday` and cast to DATE.
     dplyr::mutate(
       date = dbplyr::sql(
         "CAST(week1_monday + ((ww - 1) || ' weeks')::INTERVAL AS DATE)"
