@@ -2,8 +2,8 @@
 #'
 #' @returns Outputs a list of registers and variables required by osdc. Each
 #'   list item contains the official Danish name of the register, the start
-#'   year, the end year, and the variables with their descriptions. The
-#'   variables item is a data frame with 4 columns:
+#'   year, the end year, and the variables with their descriptions. Each
+#'   register item is a list with 4 items:
 #'
 #'   \describe{
 #'      \item{name}{The official name of the variable found in the register.}
