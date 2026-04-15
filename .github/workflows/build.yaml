@@ -3,10 +3,10 @@ name: Build
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   pull_request:
-    branches: 
+    branches:
       - main
   push:
-    branches: 
+    branches:
       - main
   release:
     types: [published]
@@ -23,7 +23,7 @@ jobs:
 
       - name: Install
         uses: posit-dev/setup-air@v1
-  
+
       - name: Check
         run: air format . --check
 

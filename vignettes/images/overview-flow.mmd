@@ -20,7 +20,7 @@ flowchart TB
     background_population --> gld["Include:<br>Purchase(s) of glucose-lowering drugs used exclusively for treatment of diabetes"]:::include
     gld --> drop_pcos["Exclude:<br>Metformin purchases by women younger than 40 or with a PCOS-related indication code"]:::exclude
     drop_pcos --> drop_pregnancies_gld["Exclude:<br>GLD purchases during pregnancies"]:::exclude
-    
+
     background_population --> podiatrist_services["Include:<br>Diabetes-specific podiatrist services"]:::include
 
     %% Join in classify
