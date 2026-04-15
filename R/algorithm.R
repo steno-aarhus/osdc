@@ -201,7 +201,7 @@ algorithm <- function() {
 #' @param algorithm The list of algorithmic logic, one list for each.
 #'
 #' @return A character string.
-#' @keywords internal
+#' @noRd
 get_algorithm_logic <- function(logic_name, algorithm = NULL) {
   checkmate::assert_character(logic_name)
   if (!is.null(algorithm)) {
@@ -224,7 +224,7 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
 #' @param logic The name of the logic to use.
 #'
 #' @return An R expression.
-#' @keywords internal
+#' @noRd
 logic_as_expression <- function(logic) {
   logic |>
     rlang::set_names() |>

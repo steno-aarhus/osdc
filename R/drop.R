@@ -1,21 +1,20 @@
 #' Drop rows with metformin purchases for the treatment of PCOS
 #'
-#' Takes the output from [keep_gld_purchases()] and `bef` (information on
+#' Takes the output from kept gld purchases and `bef` (information on
 #' sex and date of birth) to drop rows with metformin purchases that are
 #' potentially for the treatment of polycystic ovary syndrome. This function
 #' only performs a filtering operation so it outputs the same structure and
-#' variables as the input from [keep_gld_purchases()], except the
+#' variables as the input from kept gld purchases, except the
 #' addition of a logical helper variable `no_pcos` that is used in later
-#' functions. After these rows have been dropped, the output is used by
-#' [drop_pregnancies()].
+#' functions.
 #'
-#' @param gld_purchases The output from [keep_gld_purchases()].
+#' @param gld_purchases The output from the internal `keep_gld_purchases()`
 #' @param bef The `bef` register.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'    It also has the same columns as [osdc::keep_gld_purchases()], except for a
 #'    logical helper variable `no_pcos` that is used in later functions.
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 drop_pcos <- function(gld_purchases, bef) {
   logic <- logic_as_expression("is_not_metformin_for_pcos")[[1]]
@@ -35,9 +34,9 @@ drop_pcos <- function(gld_purchases, bef) {
 #' Drop pregnancy events that could be gestational diabetes
 #'
 #' @description
-#' This function takes the combined outputs from
-#' [keep_pregnancy_dates()], [keep_hba1c()], and
-#' [drop_pcos()] and uses diagnoses from LPR2 or LPR3 to drop both
+#' This function takes the combined outputs from the internal functions
+#' `keep_pregnancy_dates()`, `keep_hba1c()`, and
+#' `drop_pcos()` and uses diagnoses from LPR2 or LPR3 to drop both
 #' elevated HbA1c tests and GLD purchases during pregnancy, as these may be due
 #' to gestational diabetes, rather than type 1 or type 2 diabetes. The aim is to
 #' identify pregnancies based on diagnosis codes specific to pregnancy-ending
@@ -46,18 +45,15 @@ drop_pcos <- function(gld_purchases, bef) {
 #' to gestational diabetes (e.g. elevated HbA1c tests or purchases of
 #' glucose-lowering drugs during pregnancy).
 #'
-#' After these drop functions have been applied, the output serves as
-#' input to the [add_insulin_purchases_cols()] function.
-#'
-#' @param dropped_pcos Output from [drop_pcos()].
-#' @param pregnancy_dates Output from [keep_pregnancy_dates()].
-#' @param included_hba1c Output from [keep_hba1c()].
+#' @param dropped_pcos Output from the internal `drop_pcos()`.
+#' @param pregnancy_dates Output from the internal `keep_pregnancy_dates()`.
+#' @param included_hba1c Output from the internal `keep_hba1c()`.
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
-#'    Has the same output data as the input [drop_pcos()], except
+#'    Has the same output data as the input from `drop_pcos()`, except
 #'    for a helper logical variable `no_pregnancy` that is used in later
 #'    functions.
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 drop_pregnancies <- function(
   dropped_pcos,

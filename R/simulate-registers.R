@@ -6,7 +6,8 @@
 #' @param width An integer describing the final width of the zero-padded integer.
 #'
 #' @return A character vector of integers.
-#' @keywords internal
+#'
+#' @noRd
 pad_integers <- function(x, width) {
   x |>
     stringr::str_trunc(width = width, side = "left", ellipsis = "") |>
@@ -20,7 +21,8 @@ pad_integers <- function(x, width) {
 #' @param date A date determining whether the diagnoses should be ICD-8 or ICD-10. If null, a random date will be sampled to determine which ICD revision the diagnosis should be from. In the Danish registers, ICD-10 is used after 1994.
 #'
 #' @return A character vector of ICD-10 diagnoses.
-#' @keywords internal
+#'
+#' @noRd
 create_fake_icd <- function(n, date = NULL) {
   if (is.null(date)) {
     date <- sample(c("1993-01-01", "1995-01-01"), 1)
@@ -41,7 +43,8 @@ create_fake_icd <- function(n, date = NULL) {
 #' @param n The number of ICD-8 diagnoses to generate.
 #'
 #' @return A character vector of ICD-8 diagnoses.
-#' @keywords internal
+#'
+#' @noRd
 create_fake_icd8 <- function(n) {
   sample(icd8, size = n, replace = TRUE)
 }
@@ -53,8 +56,8 @@ create_fake_icd8 <- function(n) {
 #' @param n An integer determining how many diagnoses to create.
 #'
 #' @return A character vector of ICD-10 diagnoses.
-#' @keywords internal
 #'
+#' @noRd
 #' @source The stored CSV is downloaded from the Danish Health Data Authority's
 #'   website at `medinfo.dk`
 create_fake_icd10 <- function(n) {
@@ -71,7 +74,7 @@ create_fake_icd10 <- function(n) {
 #' @param n The number of random ATC codes to generate.
 #'
 #' @return A character vector of ATC codes.
-#' @keywords internal
+#' @noRd
 create_fake_atc <- function(n) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
@@ -89,7 +92,8 @@ create_fake_atc <- function(n) {
 #' @param to A date determining the last date in the interval to sample from.
 #'
 #' @return A vector of dates.
-#' @keywords internal
+#'
+#' @noRd
 create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
   seq(lubridate::as_date(from), lubridate::as_date(to), by = "day") |>
     sample(n, replace = TRUE)
@@ -107,7 +111,8 @@ create_fake_date <- function(n, from = "1977-01-01", to = lubridate::today()) {
 #' @param length The length of the padded integer strings.
 #'
 #' @return A character vector of integers.
-#' @keywords internal
+#'
+#' @noRd
 create_padded_integer <- function(n, length) {
   # Creates different sequences of strings for keys of different length.
   # E.g. pnr and recnum aren't duplicates of one another, apart from
@@ -128,7 +133,8 @@ create_padded_integer <- function(n, length) {
 #' @param n The number of NPUs to create.
 #'
 #' @return A character vector.
-#' @keywords internal
+#'
+#' @noRd
 create_fake_npu <- function(n) {
   stringr::str_c(
     "NPU",
@@ -143,7 +149,8 @@ create_fake_npu <- function(n) {
 #' @param n The number of department specialties to create.
 #'
 #' @return A character vector.
-#' @keywords internal
+#'
+#' @noRd
 create_fake_hovedspeciale_ans <- function(n) {
   sample(hovedspeciale_departments, n, replace = TRUE)
 }
@@ -157,7 +164,8 @@ create_fake_hovedspeciale_ans <- function(n) {
 #' @param x A date or a vector of dates.
 #'
 #' @return A vector of dates in the format `yyww`.
-#' @keywords internal
+#'
+#' @noRd
 to_yyww <- function(x) {
   paste0(
     stringr::str_sub(lubridate::isoyear(lubridate::as_date(x)), -2),
@@ -171,7 +179,7 @@ to_yyww <- function(x) {
 #' @param data A tibble or data frame.
 #'
 #' @returns A  [duckplyr::duckdb_tibble()].
-#' @keywords internal
+#' @noRd
 fct_to_chr <- function(data) {
   data |>
     dplyr::mutate(
@@ -190,7 +198,8 @@ fct_to_chr <- function(data) {
 #'
 #' @return A logic vector. TRUE if the random number is less than the
 #'   proportion, otherwise FALSE.
-#' @keywords internal
+#'
+#' @noRd
 insertion_rate <- function(proportion) {
   stats::runif(1) < proportion
 }
@@ -202,7 +211,8 @@ insertion_rate <- function(proportion) {
 #'
 #' @return A tibble with a proportion of resampled ATC codes for columns named
 #'   'atc'
-#' @keywords internal
+#'
+#' @noRd
 insert_specific_atc <- function(data, proportion = 0.3) {
   glucose_lowering_drugs <- c(
     metformin = "A10AB02",
@@ -237,7 +247,8 @@ insert_specific_atc <- function(data, proportion = 0.3) {
 #'
 #' @return A tibble. If all column names in the tibble is either `atc`, a
 #'   proportion of observations is re-sampled as metformin.
-#' @keywords internal
+#'
+#' @noRd
 insert_false_metformin <- function(data, proportion = 0.05) {
   if (all(c("atc", "indo") %in% colnames(data))) {
     data |>
@@ -262,7 +273,8 @@ insert_false_metformin <- function(data, proportion = 0.05) {
 #'
 #' @return A tibble. If a column is named `analysiscode`, a proportion of the
 #'   values are replaced by codes for HbA1c.
-#' @keywords internal
+#'
+#' @noRd
 insert_analysiscode <- function(data, proportion = 0.3) {
   # NPU27300: New units for HbA1c
   # NPU03835: Old units for HbA1c
@@ -289,7 +301,8 @@ insert_analysiscode <- function(data, proportion = 0.3) {
 #' @param n Number of observations to simulate.
 #'
 #' @return A tibble with simulated data.
-#' @keywords internal
+#'
+#' @noRd
 create_simulated_data <- function(data, n) {
   # N needs to be capitalized for fabricatr, and but to be consistent
   # with other functions and their use of `n`, I kept it lowercase for
