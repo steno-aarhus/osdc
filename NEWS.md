@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.30 (2026-04-15)
+
+### Fix
+
+- 🐛 fully use SQL in `yyww_to_yyyymmdd()` (#525)
+
 ## 0.9.29 (2026-04-15)
 
 ### Refactor
