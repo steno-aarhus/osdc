@@ -42,7 +42,8 @@ jobs:
           - {os: macos-latest,   r: 'release'}
           - {os: windows-latest, r: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          # TODO: Uncomment again before new release to CRAN.
+          # - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'oldrel-1'}
 
     env:
