@@ -113,8 +113,7 @@ prepare_lpr3 <- function(kontakter, diagnoser) {
       is_medical_dept = !!logic$lpr3_is_medical_dept,
     ) |>
     dplyr::select(
-      # Rename pnr to cpr for consistency with o
-      "pnr" = "cpr",
+      "pnr",
       "date",
       "is_primary_diagnosis",
       "is_diabetes_code",

@@ -37,7 +37,7 @@ test_that("when non-required cols appear in the data", {
 test_that("passes when cols have the expected data types (register with multiple expected data types)", {
   # `lab_forsker` has a column (`samplingdate`) that has multiple expected data types.
   kontakter <- tibble::tibble(
-    patient_cpr = c("1", "2"),
+    pnr = c("1", "2"),
     samplingdate = c("2020-01-01", "2020-01-02"),
     analysiscode = c("A", "B"),
     value = c(1, 2)
@@ -62,14 +62,14 @@ test_that("passes when cols have the expected data types (register with only one
 
 test_that("fails when cols are unexpected data types", {
   data <- tibble::tibble(
-    cpr = c(1, 2),
+    pnr = c(1, 2),
   )
   expect_error(select_required_variables(data, "kontakter"))
 })
 
 test_that("fails with unknown or incorrect register", {
   unknown_register <- tibble::tibble(
-    cpr = c("1", "2")
+    pnr = c("1", "2")
   )
   expect_error(select_required_variables(unknown_register, "unknown_register"))
 })
