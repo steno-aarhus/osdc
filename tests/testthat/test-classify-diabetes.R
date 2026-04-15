@@ -22,11 +22,13 @@ cases_vs_nc <- sim_data |>
   purrr::map(duckplyr::as_duckdb_tibble) |>
   purrr::map(duckplyr::as_tbl)
 
+lpr <- join_lpr(
+  prepare_lpr2(cases_vs_nc$lpr_adm, cases_vs_nc$lpr_diag),
+  prepare_lpr3f(cases_vs_nc$lpr3f_kontakter, cases_vs_nc$lpr3f_diagnoser)
+)
+
 actual <- classify_diabetes(
-  kontakter = cases_vs_nc$lpr3f_kontakter,
-  diagnoser = cases_vs_nc$lpr3f_diagnoser,
-  lpr_diag = cases_vs_nc$lpr_diag,
-  lpr_adm = cases_vs_nc$lpr_adm,
+  lpr = lpr,
   sysi = cases_vs_nc$sysi,
   sssy = cases_vs_nc$sssy,
   lab_forsker = cases_vs_nc$lab_forsker,

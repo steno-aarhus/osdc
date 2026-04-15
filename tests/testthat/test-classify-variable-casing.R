@@ -6,11 +6,13 @@ test_that("casing of input variables doesn't matter", {
     purrr::map(duckplyr::as_duckdb_tibble) |>
     purrr::map(duckplyr::as_tbl)
 
+  lpr <- join_lpr(
+    prepare_lpr2(registers$lpr_adm, registers$lpr_diag),
+    prepare_lpr3f(registers$lpr3f_kontakter, registers$lpr3f_diagnoser)
+  )
+
   actual <- classify_diabetes(
-    kontakter = registers$lpr3f_kontakter,
-    diagnoser = registers$lpr3f_diagnoser,
-    lpr_diag = registers$lpr_diag,
-    lpr_adm = registers$lpr_adm,
+    lpr = lpr,
     sysi = registers$sysi,
     sssy = registers$sssy,
     lab_forsker = registers$lab_forsker,
