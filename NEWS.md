@@ -7,6 +7,18 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.27 (2026-04-15)
+
+### Fix
+
+- 🐛 `.data$` in tidyselect is being deprecated (#515)
+
+## 0.9.26 (2026-04-15)
+
+### Refactor
+
+- :pencil2: rename to `check_duckdb()` and make it internal (#513)
+
 ## 0.9.25 (2026-04-15)
 
 ### Fix

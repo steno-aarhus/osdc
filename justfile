@@ -74,7 +74,7 @@ format-r: _format-r-styler _format-r-air
 
 # Styler formats Quarto files
 @_format-r-styler:
-  #!/usr/bin/Rscript
+  #!/usr/bin/env Rscript
   styler::style_dir()
 
 # Format Markdown files

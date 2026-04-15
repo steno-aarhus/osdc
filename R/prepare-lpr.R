@@ -1,8 +1,5 @@
 #' Prepare and join the two LPR2 registers to extract diabetes and pregnancy diagnoses.
 #'
-#' The output is used as inputs to [keep_diabetes_diagnoses()] and to
-#' [keep_pregnancy_dates()].
-#'
 #' @param lpr_diag The LPR2 register containing diabetes diagnoses.
 #' @param lpr_adm The LPR2 register containing hospital admissions.
 #'
@@ -23,7 +20,7 @@
 #'  -   `is_medical_dept`: Whether the diagnosis was made by a
 #'      non-endocrinology medical department.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 prepare_lpr2 <- function(lpr_adm, lpr_diag) {
   logic <- c(
@@ -77,7 +74,7 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #'
 #' @inherit prepare_lpr2 return
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 prepare_lpr3 <- function(kontakter, diagnoser) {
   logic <- c(

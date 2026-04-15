@@ -10,7 +10,7 @@
 #'
 #' @return Outputs the register with only the required variables, and
 #'   with column names in lower case.
-#' @keywords internal
+#' @noRd
 select_required_variables <- function(
   data,
   register,
@@ -31,7 +31,7 @@ select_required_variables <- function(
 #' @param data A data frame type object.
 #'
 #' @return The same object type given.
-#' @keywords internal
+#' @noRd
 column_names_to_lower <- function(data) {
   # Needs to be a named vector for renaming.
   lower_column_names <- colnames(data) |>
@@ -47,7 +47,7 @@ column_names_to_lower <- function(data) {
 #' @inheritParams get_register_abbrev
 #'
 #' @inherit select_required_variables return
-#' @keywords internal
+#' @noRd
 check_data_types <- function(data, register, call = rlang::caller_env()) {
   checkmate::assert_choice(register, get_register_abbrev())
 
