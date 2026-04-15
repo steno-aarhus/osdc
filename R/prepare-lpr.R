@@ -20,7 +20,7 @@
 #'  -   `is_medical_dept`: Whether the diagnosis was made by a
 #'      non-endocrinology medical department.
 #'
-#' @noRd
+#' @export
 #' @inherit algorithm seealso
 prepare_lpr2 <- function(lpr_adm, lpr_diag) {
   logic <- c(
@@ -35,14 +35,17 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
   ) |>
     logic_as_expression()
 
-  lpr_diag |>
+  # Select required variables and check required data types.
+  select_required_variables(lpr_diag, "lpr_diag") |>
+    # Only keep relevant diagnoses.
     dplyr::filter(!!logic$lpr2_is_needed_code) |>
+    # Inner join to only keep contacts that are in both registers.
     dplyr::inner_join(
-      lpr_adm,
+      select_required_variables(lpr_adm, "lpr_adm"),
       by = dplyr::join_by("recnum")
     ) |>
     dplyr::mutate(
-      # Algorithm needs c_spec to be an integer to work correctly.
+      # Algorithm needs c_spec to be an integer.
       c_spec = as.integer(.data$c_spec),
       date = .data$d_inddto,
       is_primary_diagnosis = !!logic$lpr2_is_primary_diagnosis,
@@ -68,13 +71,12 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 
 #' Prepare and join the two LPR3F registers to extract diabetes and pregnancy diagnoses.
 #'
-#' @inherit prepare_lpr2 description
 #' @param lpr3f_diagnoser The LPR3F register containing diabetes diagnoses.
 #' @param lpr3f_kontakter The LPR3F register containing hospital contacts/admissions.
 #'
 #' @inherit prepare_lpr2 return
 #'
-#' @noRd
+#' @export
 #' @inherit algorithm seealso
 prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
   logic <- c(
@@ -89,16 +91,17 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
   ) |>
     logic_as_expression()
 
-  lpr3f_diagnoser |>
-    # Only keep relevant diagnoses
+  # Select required variables and check required data types.
+  select_required_variables(lpr3f_diagnoser, "lpr3f_diagnoser") |>
+    # Only keep relevant diagnoses.
     dplyr::filter(!!logic$lpr3_is_needed_code) |>
-    # Inner join to only keep contacts that are in both diagnoser and kontakter
+    # Inner join to only keep contacts that are in both registers.
     dplyr::inner_join(
-      lpr3f_kontakter,
+      select_required_variables(lpr3f_kontakter, "lpr3f_kontakter"),
       by = dplyr::join_by("dw_ek_kontakt")
     ) |>
     dplyr::mutate(
-      # Algorithm needs "hovedspeciale_ans" values to be lowercase
+      # Algorithm needs "hovedspeciale_ans" values to be lowercase.
       hovedspeciale_ans = tolower(.data$hovedspeciale_ans),
       date = .data$dato_start,
       is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
