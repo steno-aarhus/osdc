@@ -136,7 +136,7 @@ registers()
 #> # A tibble: 4 × 4
 #>   name              danish_description             english_description data_type
 #>   <chr>             <chr>                          <chr>               <list>   
-#> 1 cpr               Pseudonymiseret cpr-nummer     Pseudonymised soci… <chr [1]>
+#> 1 pnr               Pseudonymiseret cpr-nummer     Pseudonymised soci… <chr [1]>
 #> 2 dw_ek_kontakt     Kontakt id-nummer              Record id number    <chr [1]>
 #> 3 dato_start        Indlaeggelsesdato (start paa … Date of admission … <chr [2]>
 #> 4 hovedspeciale_ans Afdelings speciale             Specialty of depar… <chr [1]>
@@ -216,7 +216,7 @@ registers()
 #> # A tibble: 4 × 4
 #>   name         danish_description           english_description        data_type
 #>   <chr>        <chr>                        <chr>                      <list>   
-#> 1 patient_cpr  Pseudonymiseret cpr-nummer   Pseudonymised social secu… <chr [1]>
+#> 1 pnr          Pseudonymiseret cpr-nummer   Pseudonymised social secu… <chr [1]>
 #> 2 samplingdate Dato for proevetagning       Date of sampling           <chr [2]>
 #> 3 analysiscode Analysens NPU-kode           NPU code of analysis       <chr [1]>
 #> 4 value        Numerisk resultat af analyse Numerical result of analy… <chr [1]>

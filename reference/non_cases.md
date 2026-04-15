@@ -76,7 +76,7 @@ non_cases()
 #> 
 #> $kontakter
 #> # A tibble: 7 × 4
-#>   cpr       dw_ek_kontakt hovedspeciale_ans       dato_start
+#>   pnr       dw_ek_kontakt hovedspeciale_ans       dato_start
 #>   <chr>     <chr>         <chr>                   <date>    
 #> 1 nc_pcos_1 1             medicinsk endokrinologi 2021-01-01
 #> 2 nc_pcos_2 1             medicinsk endokrinologi 2019-01-01
@@ -120,14 +120,14 @@ non_cases()
 #> 
 #> $lab_forsker
 #> # A tibble: 7 × 4
-#>   patient_cpr samplingdate analysiscode value
-#>   <chr>       <date>       <chr>        <dbl>
-#> 1 nc_pcos_1   2021-01-01   NPU27300      48  
-#> 2 nc_pcos_2   2019-01-01   NPU03835       6.5
-#> 3 nc_pcos_3   2019-01-01   NPU03835       6.5
-#> 4 nc_preg_1   2017-03-01   NPU27300      48  
-#> 5 nc_preg_2   2018-03-01   NPU03835       6.5
-#> 6 nc_preg_3   2019-03-01   NPU03835       6.5
-#> 7 nc_preg_4   2020-03-01   NPU27300      48  
+#>   pnr       samplingdate analysiscode value
+#>   <chr>     <date>       <chr>        <dbl>
+#> 1 nc_pcos_1 2021-01-01   NPU27300      48  
+#> 2 nc_pcos_2 2019-01-01   NPU03835       6.5
+#> 3 nc_pcos_3 2019-01-01   NPU03835       6.5
+#> 4 nc_preg_1 2017-03-01   NPU27300      48  
+#> 5 nc_preg_2 2018-03-01   NPU03835       6.5
+#> 6 nc_preg_3 2019-03-01   NPU03835       6.5
+#> 7 nc_preg_4 2020-03-01   NPU27300      48  
 #> 
 ```

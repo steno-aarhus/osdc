@@ -95,7 +95,7 @@ edge_cases()
 #> 
 #> $kontakter
 #> # A tibble: 20 × 4
-#>    cpr                                dw_ek_kontakt hovedspeciale_ans dato_start
+#>    pnr                                dw_ek_kontakt hovedspeciale_ans dato_start
 #>    <chr>                              <chr>         <chr>             <date>    
 #>  1 01_t1d_oipT_anyt1dT                pnr01_dw01    medicinsk endokr… 2021-05-15
 #>  2 02_t2d_oipT_anyt1dF                pnr02_dw01    thoraxkirurgi     2022-06-16
@@ -184,7 +184,7 @@ edge_cases()
 #> 
 #> $lab_forsker
 #> # A tibble: 24 × 4
-#>    patient_cpr                            samplingdate analysiscode value
+#>    pnr                                    samplingdate analysiscode value
 #>    <chr>                                  <date>       <chr>        <dbl>
 #>  1 01_t1d_oipT_anyt1dT                    2019-01-01   NPU27300        50
 #>  2 02_t2d_oipT_anyt1dF                    2019-01-02   NPU27300        51

@@ -49,7 +49,7 @@ registers in order for the package to classify diabetes status:
 | Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`)       | recnum            |
 | Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`)       | c_diag            |
 | Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`)       | c_diagtype        |
-| Landspatientregisterets kontakttabel (LPR3) (`kontakter`)       | cpr               |
+| Landspatientregisterets kontakttabel (LPR3) (`kontakter`)       | pnr               |
 | Landspatientregisterets kontakttabel (LPR3) (`kontakter`)       | dw_ek_kontakt     |
 | Landspatientregisterets kontakttabel (LPR3) (`kontakter`)       | dato_start        |
 | Landspatientregisterets kontakttabel (LPR3) (`kontakter`)       | hovedspeciale_ans |
@@ -65,7 +65,7 @@ registers in order for the package to classify diabetes status:
 | Sygesikringsregisteret (`sssy`)                                 | barnmak           |
 | Sygesikringsregisteret (`sssy`)                                 | speciale          |
 | Sygesikringsregisteret (`sssy`)                                 | honuge            |
-| Laboratoriedatabasens forskertabel (`lab_forsker`)              | patient_cpr       |
+| Laboratoriedatabasens forskertabel (`lab_forsker`)              | pnr               |
 | Laboratoriedatabasens forskertabel (`lab_forsker`)              | samplingdate      |
 | Laboratoriedatabasens forskertabel (`lab_forsker`)              | analysiscode      |
 | Laboratoriedatabasens forskertabel (`lab_forsker`)              | value             |
@@ -161,7 +161,7 @@ want to see what the data *should* look like, see
 
 | name              | english_description                  |
 |:------------------|:-------------------------------------|
-| cpr               | Pseudonymised social security number |
+| pnr               | Pseudonymised social security number |
 | dw_ek_kontakt     | Record id number                     |
 | dato_start        | Date of admission or initial contact |
 | hovedspeciale_ans | Specialty of department              |
@@ -213,7 +213,7 @@ to see what the data *should* look like, see
 
 | name         | english_description                  |
 |:-------------|:-------------------------------------|
-| patient_cpr  | Pseudonymised social security number |
+| pnr          | Pseudonymised social security number |
 | samplingdate | Date of sampling                     |
 | analysiscode | Npu code of analysis                 |
 | value        | Numerical result of analysis         |
