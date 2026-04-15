@@ -108,16 +108,16 @@ classify_diabetes(
   lmdb = register_data$lmdb
 )
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpgmJ2wG/duckplyr/duckplyr1ae3b8d2867.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpRLzQDZ/duckplyr/duckplyr1c931b8ca65b.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 4 051503321034 2018-10-12            2018-10-12         FALSE   TRUE   
-#> 5 476707759976 2021-01-12            2021-01-12         FALSE   TRUE   
-#> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
-#> 8 247657494893 2012-05-18            2012-05-18         FALSE   TRUE   
-#> 9 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 1 051503321034 2018-10-12            2018-10-12         FALSE   TRUE   
+#> 2 247657494893 2012-05-18            2012-05-18         FALSE   TRUE   
+#> 3 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 4 476707759976 2021-01-12            2021-01-12         FALSE   TRUE   
+#> 5 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 7 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 8 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 9 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
 ```
