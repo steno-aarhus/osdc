@@ -23,18 +23,18 @@ eventual classification of type 1 and type 2 diabetes.
 For more details and descriptions about the individual steps within the
 algorithm, see the documentation on the internal functions:
 
-- [`prepare_lpr2()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr2.md)
-- [`prepare_lpr3()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3.md)
-- [`keep_pregnancy_dates()`](https://steno-aarhus.github.io/osdc/reference/keep_pregnancy_dates.md)
-- [`keep_diabetes_diagnoses()`](https://steno-aarhus.github.io/osdc/reference/keep_diabetes_diagnoses.md)
-- [`add_t1d_diagnoses_cols()`](https://steno-aarhus.github.io/osdc/reference/add_t1d_diagnoses_cols.md)
-- [`keep_podiatrist_services()`](https://steno-aarhus.github.io/osdc/reference/keep_podiatrist_services.md)
-- [`keep_hba1c()`](https://steno-aarhus.github.io/osdc/reference/keep_hba1c.md)
-- [`keep_gld_purchases()`](https://steno-aarhus.github.io/osdc/reference/keep_gld_purchases.md)
-- [`drop_pcos()`](https://steno-aarhus.github.io/osdc/reference/drop_pcos.md)
-- [`drop_pregnancies()`](https://steno-aarhus.github.io/osdc/reference/drop_pregnancies.md)
-- [`add_insulin_purchases_cols()`](https://steno-aarhus.github.io/osdc/reference/add_insulin_purchases_cols.md)
-- [`keep_two_earliest_events()`](https://steno-aarhus.github.io/osdc/reference/keep_two_earliest_events.md)
-- [`join_inclusions()`](https://steno-aarhus.github.io/osdc/reference/join_inclusions.md)
-- [`create_inclusion_dates()`](https://steno-aarhus.github.io/osdc/reference/create_inclusion_dates.md)
-- [`classify_t1d()`](https://steno-aarhus.github.io/osdc/reference/classify_t1d.md)
+- `prepare_lpr2()`
+- `prepare_lpr3()`
+- `keep_pregnancy_dates()`
+- `keep_diabetes_diagnoses()`
+- `add_t1d_diagnoses_cols()`
+- `keep_podiatrist_services()`
+- `keep_hba1c()`
+- `keep_gld_purchases()`
+- `drop_pcos()`
+- `drop_pregnancies()`
+- `add_insulin_purchases_cols()`
+- `keep_two_earliest_events()`
+- `join_inclusions()`
+- `create_inclusion_dates()`
+- `classify_t1d()`
