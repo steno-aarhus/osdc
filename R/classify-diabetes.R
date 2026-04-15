@@ -6,10 +6,7 @@
 #' that data source, or at least the years you have and are interested
 #' in.
 #'
-#' @param kontakter The contacts information table from the LPR3 patient register
-#' @param diagnoser The diagnoses information table from the LPR3 patient register
-#' @param lpr_diag The diagnoses information table from the LPR2 patient register
-#' @param lpr_adm The administrative information table from the LPR2 patient register
+#' @param lpr The unified LPR register, see [join_lpr()]
 #' @param sysi The SYSI table from the health service register
 #' @param sssy The SSSY table from the health service register
 #' @param lab_forsker The register for laboratory results for research
@@ -39,11 +36,16 @@
 #'   purrr::map(duckplyr::as_duckdb_tibble) |>
 #'   purrr::map(duckplyr::as_tbl)
 #'
+#' lpr <- join_lpr(
+#'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+#'   lpr3f = prepare_lpr3f(
+#'     register_data$lpr3f_kontakter,
+#'     register_data$lpr3f_diagnoser
+#'   )
+#' )
+#'
 #' classify_diabetes(
-#'   kontakter = register_data$lpr3f_kontakter,
-#'   diagnoser = register_data$lpr3f_diagnoser,
-#'   lpr_diag = register_data$lpr_diag,
-#'   lpr_adm = register_data$lpr_adm,
+#'   lpr = lpr,
 #'   sysi = register_data$sysi,
 #'   sssy = register_data$sssy,
 #'   lab_forsker = register_data$lab_forsker,
@@ -51,10 +53,7 @@
 #'   lmdb = register_data$lmdb
 #' )
 classify_diabetes <- function(
-  kontakter,
-  diagnoser,
-  lpr_diag,
-  lpr_adm,
+  lpr,
   sysi,
   sssy,
   lab_forsker,
@@ -70,10 +69,7 @@ classify_diabetes <- function(
   # way duckplyr works. It creates a temporary DuckDB DB in the background
   # based on the name of the object passed to it.
   registers <- list(
-    lpr3f_kontakter = kontakter,
-    lpr3f_diagnoser = diagnoser,
-    lpr_diag = lpr_diag,
-    lpr_adm = lpr_adm,
+    lpr = lpr,
     sysi = sysi,
     sssy = sssy,
     lab_forsker = lab_forsker,
@@ -89,26 +85,10 @@ classify_diabetes <- function(
 
   # Initially processing -----
 
-  lpr2 <- prepare_lpr2(
-    lpr_diag = registers$lpr_diag,
-    lpr_adm = registers$lpr_adm
-  )
-
-  lpr3 <- prepare_lpr3f(
-    lpr3f_kontakter = registers$lpr3f_kontakter,
-    lpr3f_diagnoser = registers$lpr3f_diagnoser
-  )
-
-  pregnancy_dates <- keep_pregnancy_dates(
-    lpr2 = lpr2,
-    lpr3 = lpr3
-  )
+  pregnancy_dates <- keep_pregnancy_dates(lpr = lpr)
 
   # Keep steps -----
-  diabetes_diagnoses <- keep_diabetes_diagnoses(
-    lpr2 = lpr2,
-    lpr3 = lpr3
-  ) |>
+  diabetes_diagnoses <- keep_diabetes_diagnoses(lpr = lpr) |>
     add_t1d_diagnoses_cols() |>
     dplyr::select(
       -c(
