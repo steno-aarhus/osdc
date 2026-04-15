@@ -161,9 +161,10 @@ keep_podiatrist_services <- function(sysi, sssy) {
       date = "honuge"
     ) |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
-    dplyr::mutate(from_podiatrist_service = TRUE) |>
-    # Transform date from yyww to YYYY-MM-DD:
-    yyww_to_yyyymmdd()
+    # Transform date from yyww to YYYY-MM-DD.
+    yyww_to_yyyymmdd()  |>
+    # Add logical helper variable to indicate diabetes-related podiatrist service.
+    dplyr::mutate(from_podiatrist_service = TRUE)
 }
 
 #' Convert date format YYWW to YYYY-MM-DD
@@ -186,18 +187,18 @@ yyww_to_yyyymmdd <- function(data) {
     # Extract year and week.
     dplyr::mutate(
       yy = as.integer(substr(.data$yyww_padded, 1, 2)),
-      ww = as.integer(substr(.data$yyww_padded, 3, 4))
-    ) |>
-    dplyr::mutate(
+      ww = as.integer(substr(.data$yyww_padded, 3, 4)),
       full_year = dplyr::if_else(
+        # Anything greater than YY 90 will be from the 1900s.
         .data$yy >= 90,
+        # Place the year in the 1900s.
         1900L + .data$yy,
+        # Place the year in the 2000s.
         2000L + .data$yy
-      )
-    ) |>
-    # Calculate the first day of the ISO year, which is when the first week
-    # has most of the week days in it (4th of January, or the first Thursday).
-    # See: https://en.wikipedia.org/wiki/ISO_week_date
+      ),
+      # Calculate the first day of the ISO year, which is when the first week
+      # has most of the week days in it (4th of January, or the first Thursday).
+      # See https://en.wikipedia.org/wiki/ISO_week_date.
     dplyr::mutate(
       jan4 = dbplyr::sql("MAKE_DATE(full_year, 1, 4)")
     ) |>
