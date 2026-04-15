@@ -133,7 +133,7 @@ registers and a few helper pre-processing functions.
 ### `classify_diabetes()`
 
 This function classifies those with diabetes (type 1 or 2) based on the
-Danish registers described in the `vignette("design")` and
+Danish registers described in this vignette and
 `vignette("data-sources")`. All data sources needed by osdc are used as
 input for this function. The specific details of the classification
 algorithm are described in the `vignette("algorithm")`.
@@ -150,7 +150,7 @@ registers() |>
   cat(sep = "\n")
 ```
 
-The output is a DuckDB object which includes four columns:
+The output is a DuckDB object with four columns:
 
 - **pnr**: The pseudonymised social security number of individuals in
   the diabetes population (one row per individual).
