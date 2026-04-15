@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.9.31 (2026-04-15)
+
+### Refactor
+
+- :truck: rename `prepare_lpr3` function and params to `lpr3f` (#530)
+
 ## 0.9.30 (2026-04-15)
 
 ### Fix
