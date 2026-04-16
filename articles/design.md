@@ -137,7 +137,7 @@ created a new LPR (LPR3A) that resolves some issues with the previous
 LPR registers. Each version of LPR contains different tables and
 variables, though osdc only needs specific variables from two tables.
 
-We originally required each original LPRs register as separate arguments
+We originally required each original LPR register as separate arguments
 in
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md),
 but this became an issue after the new LPR3A was created. So, we
