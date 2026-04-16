@@ -157,7 +157,7 @@ without changing the interface of `classify_diabetes()`.
 To help with this pre-processing, we designed several helper functions
 that follow the pattern `prepare_lpr*()`, e.g. for LPR2 it is
 `prepare_lpr2()`. This way, if DST update the LPR again, we can
-add another `prepare_lpr*()` function to prepare the new LPR format for 
+add another `prepare_lpr*()` function to prepare the new LPR format for
 classification.
 
 Each `prepare_lpr*()` outputs a DuckDB object with the following
