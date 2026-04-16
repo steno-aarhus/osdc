@@ -2,7 +2,7 @@
     just --list --unsorted
 
 # Run all recipes
-run-all: clean install-deps document check-spelling check-urls format-r format-md lint test build-website check-local-cran install-package
+run-all: clean install-deps install-package document check-spelling check-urls format-r format-md lint test build-website check-local-cran install-package
 
 # List all TODO items in the repository
 list-todos:
