@@ -154,6 +154,14 @@ that follow the pattern `prepare_lpr*()`, e.g. for LPR2 it is
 another `prepare_lpr*()` function to prepare the new LPR format for
 classification.
 
+Unfortunately, the data covered by different revisions of the
+same registers are not cleanly separated. E.g. data from the year
+2005 overlaps between `sysi` (years 1990 through 2005) and `sssy`
+(2005 onward), and data from 2017 and 2018 are contained in both
+`lpr2` (1977 through 2018) and `lpr3a` (2017 onward). **This means
+that the user must be careful to pre-process these data to avoid
+duplicated rows!**
+
 Each `prepare_lpr*()` outputs a DuckDB object with the following
 variables: `pnr`, `date`, `is_primary_diagnosis`, `is_diabetes_code`,
 `is_t1d_code`, `is_t2d_code`, `is_endocrinology_dept`,
