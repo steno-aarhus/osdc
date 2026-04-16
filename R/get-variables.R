@@ -3,7 +3,7 @@
 #' @return A character string.
 #' @noRd
 get_register_abbrev <- function() {
-  names(registers())
+  c(registers(), joined_registers()) |> names()
 }
 
 #' Get a list of required variables from a specific register.
@@ -18,6 +18,6 @@ get_required_variables <- function(register) {
   }
   checkmate::assert_choice(register, get_register_abbrev())
   register <- rlang::arg_match(register, get_register_abbrev())
-  registers()[[register]]$variables |>
+  c(registers(), joined_registers())[[register]]$variables |>
     dplyr::pull("name")
 }

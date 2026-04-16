@@ -52,7 +52,7 @@ check_data_types <- function(data, register, call = rlang::caller_env()) {
   checkmate::assert_choice(register, get_register_abbrev())
 
   # Get register variables and their expected data type(s).
-  expected <- registers()[[register]]$variables |>
+  expected <- c(registers(), joined_registers())[[register]]$variables |>
     # If data_type is a list, collapse it into a single string.
     dplyr::mutate(
       expected_data_type = purrr::map_chr(.data$data_type, \(x) {

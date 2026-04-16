@@ -29,6 +29,7 @@ reference:
 - title: Documentation and examples
   desc:  Functions used in the documentation and examples.
 - contents:
+  - contains("lpr")
   - registers
   - simulate_registers
   - edge_cases

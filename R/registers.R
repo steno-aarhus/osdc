@@ -2,8 +2,8 @@
 #'
 #' @returns Outputs a list of registers and variables required by osdc. Each
 #'   list item contains the official Danish name of the register, the start
-#'   year, the end year, and the variables with their descriptions. The
-#'   variables item is a data frame with 4 columns:
+#'   year, the end year, and the variables with their descriptions. Each
+#'   register item is a list with 4 items:
 #'
 #'   \describe{
 #'      \item{name}{The official name of the variable found in the register.}
@@ -157,6 +157,44 @@ registers <- function() {
         "samplingdate", "Dato for proevetagning", "Date of sampling", c("Date", "character"),
         "analysiscode", "Analysens NPU-kode", "NPU code of analysis", "character",
         "value", "Numerisk resultat af analyse", "Numerical result of analysis", "numeric"
+      )
+    )
+  )
+}
+
+#' Joined register variables required by [classify_diabetes()].
+#'
+#' @returns Outputs a list of registers and variables required by
+#'   [classify_diabetes()]. Each list item contains the  Danish name of the
+#'   register, the start year, the end year, and the variables with their
+#'   descriptions. Each register item is a list with 4 items:
+#'
+#'   \describe{
+#'      \item{name}{The name of the variable found in the register.}
+#'      \item{danish_description}{The Danish description of the variable.}
+#'      \item{english_description}{The translated English description of the variable.}
+#'      \item{data_type}{The data type, e.g. "character" of the variable. Could have multiple options (e.g. "Date" or "character").}
+#'   }
+#'
+#' @noRd
+joined_registers <- function() {
+  list(
+    lpr = list(
+      name = "Landspatientregisteret",
+      start_year = 1977,
+      end_year = NA,
+      # TODO: Add which variables all variables come from (LPR2, LPR3F, LPR3A).
+      variables = tibble::tribble(
+        ~name, ~danish_description, ~english_description, ~data_type,
+        "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
+        "date", "Dato for kontakt. Fra d_inddto i LPR2 (lpr_adm) og fra dato_start i LPR3F (lpr3f_kontakter).", "Contact date. From d_inddto in LPR2 (lpr_adm) and dato_start in LPR3F (lpr3f_kontakter).", "Date",
+        "is_primary_diagnosis", "Er diagnosen en primaer diagnose?", "Is the diagnosis a primary diagnosis?", "logical",
+        "is_diabetes_code", "Tilhoerer diagnosekoden diabetesdiagnoser?", "Does the diagnosis code belong to diabetes diagnoses?", "logical",
+        "is_t1d_code", "Tilhoerer diagnosekoden type 1 diabetes?", "Does the diagnosis code belong to type 1 diabetes?", "logical",
+        "is_t2d_code", "Tilhoerer diagnosekoden type 2 diabetes?", "Does the diagnosis code belong to type 2 diabetes?", "logical",
+        "is_endocrinology_dept", "Tilhoerer kontakten en endokrinologisk afdeling?", "Does the concect belong to a endocrinology department?", "logical",
+        "is_medical_dept", "Tilhoerer kontakten en medicinsk afdeling (ikke endokrinologi)?", "Does the diagnosis code belong to a medical department (other than endocrinology)?", "logical",
+        "is_pregnancy_code", "Tilhoerer diagnosekoden graviditet?", "Does the diagnosis code belong to pregnancy?", "logical"
       )
     )
   )
