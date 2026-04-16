@@ -116,44 +116,42 @@ rules.
 
 The osdc package contains one main function that classifies individuals
 into those with either type 1 or type 2 diabetes using the Danish
-registers:
-[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md).
+registers and a few helper pre-processing functions.
+
+### `classify_diabetes()`
+
 This function classifies those with diabetes (type 1 or 2) based on the
-Danish registers described in the
-[`vignette("design")`](https://steno-aarhus.github.io/osdc/articles/design.md)
-and
+Danish registers described in this vignette and
 [`vignette("data-sources")`](https://steno-aarhus.github.io/osdc/articles/data-sources.md).
 All data sources needed by osdc are used as input for this function. The
 specific details of the classification algorithm are described in the
 [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md).
-
-### Input
 
 There is one argument in
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
 for each required register. The names and descriptions of these
 arguments are as follows:
 
-- `bef`: The register called ‘CPR-registerets befolkningstabel’ in
-  Danish.
-- `lmdb`: The register called ‘Laegemiddelstatistikregisteret’ in
-  Danish.
-- `lpr_adm`: The register called ‘Landspatientregisterets
-  administrationstabel (LPR2)’ in Danish.
-- `lpr_diag`: The register called ‘Landspatientregisterets diagnosetabel
-  (LPR2)’ in Danish.
-- `lpr3f_kontakter`: The register called ‘Landspatientregisterets
-  kontakttabel (LPR3)’ in Danish.
-- `lpr3f_diagnoser`: The register called ‘Landspatientregisterets
-  diagnosetabel (LPR3)’ in Danish.
-- `sysi`: The register called ‘Sygesikringsregisteret’ in Danish.
-- `sssy`: The register called ‘Sygesikringsregisteret’ in Danish.
-- `lab_forsker`: The register called ‘Laboratoriedatabasens
-  forskertabel’ in Danish.
+- `bef`: The register or set of registers called ‘CPR-registerets
+  befolkningstabel’ in Danish.
+- `lmdb`: The register or set of registers called
+  ‘Laegemiddelstatistikregisteret’ in Danish.
+- `lpr_adm`: The register or set of registers called
+  ‘Landspatientregisterets administrationstabel (LPR2)’ in Danish.
+- `lpr_diag`: The register or set of registers called
+  ‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.
+- `lpr3f_kontakter`: The register or set of registers called
+  ‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.
+- `lpr3f_diagnoser`: The register or set of registers called
+  ‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.
+- `sysi`: The register or set of registers called
+  ‘Sygesikringsregisteret’ in Danish.
+- `sssy`: The register or set of registers called
+  ‘Sygesikringsregisteret’ in Danish.
+- `lab_forsker`: The register or set of registers called
+  ‘Laboratoriedatabasens forskertabel’ in Danish.
 
-### Output
-
-The output is a `data.frame` type object which includes four columns:
+The output is a DuckDB object with four columns:
 
 - **pnr**: The pseudonymised social security number of individuals in
   the diabetes population (one row per individual).
@@ -163,7 +161,10 @@ The output is a `data.frame` type object which includes four columns:
 - **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
   the second inclusion event as described in the
   [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)).
-- **diabetes_type**: The classified diabetes type.
+- **has_t1d**: A logical column indicating whether the individual has
+  type 1 diabetes.
+- **has_t2d**: A logical column indicating whether the individual has
+  type 2 diabetes.
 
 For an example, see below.
 

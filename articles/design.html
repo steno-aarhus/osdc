@@ -143,32 +143,33 @@
 <li>All functions output the same type of object as the input object (a <code>duckplyr_df</code> type object).</li>
 </ul></section></section><section class="level2"><h2 id="interface">Interface<a class="anchor" aria-label="anchor" href="#interface"></a>
 </h2>
-<p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers: <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in the <code><a href="../articles/design.html">vignette("design")</a></code> and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources needed by osdc are used as input for this function. The specific details of the classification algorithm are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
-<section class="level3"><h3 id="input-1">Input<a class="anchor" aria-label="anchor" href="#input-1"></a>
+<p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers and a few helper pre-processing functions.</p>
+<section class="level3"><h3 id="classify_diabetes">
+<code>classify_diabetes()</code><a class="anchor" aria-label="anchor" href="#classify_diabetes"></a>
 </h3>
+<p>This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in this vignette and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources needed by osdc are used as input for this function. The specific details of the classification algorithm are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
 <p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each required register. The names and descriptions of these arguments are as follows:</p>
 <ul>
 <li>
-<code>bef</code>: The register called ‘CPR-registerets befolkningstabel’ in Danish.</li>
+<code>bef</code>: The register or set of registers called ‘CPR-registerets befolkningstabel’ in Danish.</li>
 <li>
-<code>lmdb</code>: The register called ‘Laegemiddelstatistikregisteret’ in Danish.</li>
+<code>lmdb</code>: The register or set of registers called ‘Laegemiddelstatistikregisteret’ in Danish.</li>
 <li>
-<code>lpr_adm</code>: The register called ‘Landspatientregisterets administrationstabel (LPR2)’ in Danish.</li>
+<code>lpr_adm</code>: The register or set of registers called ‘Landspatientregisterets administrationstabel (LPR2)’ in Danish.</li>
 <li>
-<code>lpr_diag</code>: The register called ‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.</li>
+<code>lpr_diag</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.</li>
 <li>
-<code>lpr3f_kontakter</code>: The register called ‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.</li>
+<code>lpr3f_kontakter</code>: The register or set of registers called ‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.</li>
 <li>
-<code>lpr3f_diagnoser</code>: The register called ‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.</li>
+<code>lpr3f_diagnoser</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.</li>
 <li>
-<code>sysi</code>: The register called ‘Sygesikringsregisteret’ in Danish.</li>
+<code>sysi</code>: The register or set of registers called ‘Sygesikringsregisteret’ in Danish.</li>
 <li>
-<code>sssy</code>: The register called ‘Sygesikringsregisteret’ in Danish.</li>
+<code>sssy</code>: The register or set of registers called ‘Sygesikringsregisteret’ in Danish.</li>
 <li>
-<code>lab_forsker</code>: The register called ‘Laboratoriedatabasens forskertabel’ in Danish.</li>
-</ul></section><section class="level3"><h3 id="output-1">Output<a class="anchor" aria-label="anchor" href="#output-1"></a>
-</h3>
-<p>The output is a <code>data.frame</code> type object which includes four columns:</p>
+<code>lab_forsker</code>: The register or set of registers called ‘Laboratoriedatabasens forskertabel’ in Danish.</li>
+</ul>
+<p>The output is a DuckDB object with four columns:</p>
 <ul>
 <li>
 <strong>pnr</strong>: The pseudonymised social security number of individuals in the diabetes population (one row per individual).</li>
@@ -177,7 +178,9 @@
 <li>
 <strong>raw_inclusion_date</strong>: The <em>raw</em> inclusion date (i.e., the date of the second inclusion event as described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>).</li>
 <li>
-<strong>diabetes_type</strong>: The classified diabetes type.</li>
+<strong>has_t1d</strong>: A logical column indicating whether the individual has type 1 diabetes.</li>
+<li>
+<strong>has_t2d</strong>: A logical column indicating whether the individual has type 2 diabetes.</li>
 </ul>
 <p>For an example, see below.</p>
 <table class="table caption-top">
