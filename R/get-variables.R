@@ -19,5 +19,5 @@ get_required_variables <- function(register) {
   checkmate::assert_choice(register, get_register_abbrev())
   register <- rlang::arg_match(register, get_register_abbrev())
   registers()[[register]]$variables |>
-    dplyr::pull(.data$name)
+    dplyr::pull("name")
 }

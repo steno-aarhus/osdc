@@ -57,7 +57,10 @@ test_that("passes when cols have the expected data types (register with only one
     diagnosetype = c("A", "B"),
     senere_afkraeftet = c("Ja", "Nej")
   )
-  expect_identical(select_required_variables(diagnoser, "diagnoser"), diagnoser)
+  expect_identical(
+    select_required_variables(diagnoser, "lpr3f_diagnoser"),
+    diagnoser
+  )
 })
 
 test_that("fails when cols are unexpected data types", {

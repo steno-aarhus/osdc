@@ -13,6 +13,15 @@ list-todos:
     --exclude=*.csl \
     "TODO" *
 
+# Install the pre-commit hooks
+install-precommit:
+    # Install pre-commit hooks
+    uvx pre-commit install
+    # Run pre-commit hooks on all files
+    uvx pre-commit run --all-files
+    # Update versions of pre-commit hooks
+    uvx pre-commit autoupdate
+
 # Clean up auto-generated files
 clean: _cleanup-vignettes
   #!/usr/bin/env Rscript
@@ -89,7 +98,7 @@ lint:
 # Build the pkgdown website
 build-website:
   #!/usr/bin/env Rscript
-  pkgdown::build_site()
+  pkgdown::build_site(quiet = FALSE)
 
 # Run local CRAN checks
 check-local-cran:
