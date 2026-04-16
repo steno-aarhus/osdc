@@ -114,7 +114,7 @@ rules.
   These assumptions are checked, and
   the user is informed if they are not met.
 - We also assume that
-  the original source files have been loaded and joined into a single data frame
+  the original source files have been loaded and joined into a single dataset object
   per register. Although Denmark Statistics stores data by year,
   all years for a register must be merged into one dataset.
 - As few arguments as is possible, with as few core required arguments
