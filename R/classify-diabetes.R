@@ -41,8 +41,9 @@
 #'   prepare_lpr3f(
 #'     register_data$lpr3f_kontakter,
 #'     register_data$lpr3f_diagnoser
-#'   ) |>
-#'     join_lpr()
+#'   )
+#' ) |>
+#'   join_lpr()
 #'
 #' classify_diabetes(
 #'   lpr = lpr,
