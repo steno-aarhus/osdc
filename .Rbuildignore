@@ -24,3 +24,5 @@
 ^CITATION.cff$
 ^cran-comments\.md$
 ^\.rumdl\.toml$
+^\.rumdl_cache$
+^\.pre-commit-config\.yaml$

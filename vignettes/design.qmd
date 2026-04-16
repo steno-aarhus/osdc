@@ -108,25 +108,22 @@ rules.
 
 ### Input
 
-- We assume the register data is *not* taken directly from the
-  original SAS files, but has undergone prior
-  pre-processing and cleaning.
-  These assumptions are checked, and
-  the user is informed if they are not met.
-- We also assume that
-  the original source files have been loaded and joined into a single dataset object
-  per register. Although Denmark Statistics stores data by year,
-  all years for a register must be merged into one dataset.
+- We assume the register data is *not* taken directly from the original
+  SAS files, but has undergone prior pre-processing and cleaning. These
+  assumptions are checked, and the user is informed if they are not met.
+- We also assume that the original source files have been loaded and
+  joined into a single dataset object per register. Although Denmark
+  Statistics stores data by year, all years for a register must be
+  merged into one dataset.
 - As few arguments as is possible, with as few core required arguments
   as possible (ideally one or two).
 - `keep_` functions take a register as the first argument.
   - One input register database at a time.
 - `drop_` functions can take a register as the first argument or take
   the output from a `keep_` function.
-- Function arguments take a single DuckDB type object as register input (e.g.
-  `duckplyr_df`), consistent with the assumption that each register is
-  provided as a single, unified data frame.
-
+- Function arguments take a single DuckDB type object as register input
+  (e.g. `duckplyr_df`), consistent with the assumption that each
+  register is provided as a single, unified data frame.
 - The first argument will always take a data frame type object.
 - The second argument could be an output data frame object from another
   function.
@@ -140,14 +137,15 @@ rules.
 
 The osdc package contains one main function that classifies individuals
 into those with either type 1 or type 2 diabetes using the Danish
-registers: `classify_diabetes()`. This function classifies those with
-diabetes (type 1 or 2) based on the Danish registers described in the
-`vignette("design")` and `vignette("data-sources")`. All data sources
-needed by osdc are used as input for this function. The specific details
-of the classification algorithm are described in the
-`vignette("algorithm")`.
+registers and a few helper pre-processing functions.
 
-### Input
+### `classify_diabetes()`
+
+This function classifies those with diabetes (type 1 or 2) based on the
+Danish registers described in this vignette and
+`vignette("data-sources")`. All data sources needed by osdc are used as
+input for this function. The specific details of the classification
+algorithm are described in the `vignette("algorithm")`.
 
 There is one argument in `classify_diabetes()` for each required
 register. The names and descriptions of these arguments are as follows:
@@ -156,14 +154,12 @@ register. The names and descriptions of these arguments are as follows:
 #| output: asis
 #| echo: false
 registers() |>
-  purrr::imap_chr(~ glue::glue("- `{.y}`: The register called '{.x$name}' in Danish.")) |>
+  purrr::imap_chr(~ glue::glue("- `{.y}`: The register or set of registers called '{.x$name}' in Danish.")) |>
   unname() |>
   cat(sep = "\n")
 ```
 
-### Output
-
-The output is a `data.frame` type object which includes four columns:
+The output is a DuckDB object with four columns:
 
 - **pnr**: The pseudonymised social security number of individuals in
   the diabetes population (one row per individual).
@@ -173,7 +169,10 @@ The output is a `data.frame` type object which includes four columns:
 - **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
   the second inclusion event as described in the
   `vignette("algorithm")`).
-- **diabetes_type**: The classified diabetes type.
+- **has_t1d**: A logical column indicating whether the individual has
+  type 1 diabetes.
+- **has_t2d**: A logical column indicating whether the individual has
+  type 2 diabetes.
 
 [^1]: For more information on the "raw" versus "stable" inclusion date,
     see `vignette("algorithm")`.

@@ -68,7 +68,7 @@ registers <- function() {
         "c_diagtype", "Diagnosetype", "Diagnosis type", "character",
       )
     ),
-    kontakter = list(
+    lpr3f_kontakter = list(
       name = "Landspatientregisterets kontakttabel (LPR3)",
       start_year = 2019,
       end_year = NA,
@@ -83,7 +83,7 @@ registers <- function() {
         "hovedspeciale_ans", "Afdelings speciale", "Specialty of department", "character"
       )
     ),
-    diagnoser = list(
+    lpr3f_diagnoser = list(
       name = "Landspatientregisterets diagnosetabel (LPR3)",
       start_year = 2019,
       end_year = NA,

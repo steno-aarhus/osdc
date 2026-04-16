@@ -79,7 +79,7 @@ create_fake_atc <- function(n) {
   codeCollection::ATCKoodit |>
     tibble::as_tibble() |>
     dplyr::filter(stringr::str_length(.data$Koodi) == 7) |>
-    dplyr::pull(.data$Koodi) |>
+    dplyr::pull("Koodi") |>
     sample(n, replace = TRUE)
 }
 # jarl-ignore-end unused_function
@@ -332,7 +332,6 @@ create_simulated_data <- function(data, n) {
 #' @examples
 #' simulate_registers(c("bef", "sysi"))
 #' simulate_registers("bef")
-#' simulate_registers("diagnoser")
 simulate_registers <- function(registers, n = 1000) {
   available_registers <- unique(simulation_definitions$register_abbrev)
   # All registers given have to be available.
