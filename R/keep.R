@@ -1,15 +1,13 @@
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from the internal `prepare_lpr2()`.
-#' @param lpr3 Output from the internal `prepare_lpr3()`.
+#' @inheritParams classify_diabetes
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'
 #' @noRd
 #' @inherit algorithm seealso
-keep_pregnancy_dates <- function(lpr2, lpr3) {
-  lpr2 |>
-    dplyr::union_all(lpr3) |>
+keep_pregnancy_dates <- function(lpr) {
+  lpr |>
     dplyr::filter(.data$is_pregnancy_code) |>
     dplyr::select(
       "pnr",
@@ -28,18 +26,16 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' additional information needed to classify diabetes type.
 #' Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 #'
-#' @param lpr2 The output from the internal `prepare_lpr2()`.
-#' @param lpr3 The output from the internal `prepare_lpr3()`.
+#' @inheritParams classify_diabetes
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.
 #'
 #' @noRd
 #' @inherit algorithm seealso
-keep_diabetes_diagnoses <- function(lpr2, lpr3) {
+keep_diabetes_diagnoses <- function(lpr) {
   # Combine and process the two inputs
-  lpr2 |>
-    dplyr::union_all(lpr3) |>
+  lpr |>
     dplyr::filter(.data$is_diabetes_code) |>
     # Add logical helper variable to indicate a diabetes diagnosis.
     dplyr::mutate(from_diabetes_diagnosis = TRUE)
