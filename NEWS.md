@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.10.0 (2026-04-16)
+
+### Feat
+
+- :sparkles: LPR3A definitions and expected structure (#494)
+
 ## 0.9.31 (2026-04-15)
 
 ### Refactor
