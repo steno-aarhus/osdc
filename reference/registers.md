@@ -122,49 +122,9 @@ registers()
 #> 3 c_diagtype Diagnosetype       Diagnosis type      character
 #> 
 #> 
-#> $lpr3a_kontakt
-#> $lpr3a_kontakt$name
-#> [1] "Landspatientregisterets kontakttabel (LPR3A)"
-#> 
-#> $lpr3a_kontakt$start_year
-#> [1] 2019
-#> 
-#> $lpr3a_kontakt$end_year
-#> [1] NA
-#> 
-#> $lpr3a_kontakt$variables
-#> # A tibble: 4 × 4
-#>   name                danish_description           english_description data_type
-#>   <chr>               <chr>                        <chr>               <list>   
-#> 1 pnr                 "Pseudonymiseret cpr-nummer… Pseudonymised soci… <chr [1]>
-#> 2 dw_ek_kontakt       "Kontakt id-nummer. Svarer … Record id number. … <chr [1]>
-#> 3 kont_starttidspunkt "Indlaeggelsesdato (start p… Date of admission … <chr [2]>
-#> 4 kont_ans_hovedspec  "Afdelings speciale. Ligner… Specialty of depar… <chr [1]>
-#> 
-#> 
-#> $lpr3a_diagnose
-#> $lpr3a_diagnose$name
-#> [1] "Landspatientregisterets diagnosetabel (LPR3A)"
-#> 
-#> $lpr3a_diagnose$start_year
-#> [1] 2019
-#> 
-#> $lpr3a_diagnose$end_year
-#> [1] NA
-#> 
-#> $lpr3a_diagnose$variables
-#> # A tibble: 4 × 4
-#>   name              danish_description             english_description data_type
-#>   <chr>             <chr>                          <chr>               <chr>    
-#> 1 dw_ek_kontakt     Kontakt id-nummer              Record id number    character
-#> 2 diag_kode         Diagnosekode. Svarer til c_di… Diagnosis code. Eq… character
-#> 3 diag_type         Diagnosetype. Svarer til c_di… Diagnosis type. Eq… character
-#> 4 senere_afkraeftet Blev diagnosen senere afkraef… Was the diagnosis … character
-#> 
-#> 
 #> $lpr3f_kontakter
 #> $lpr3f_kontakter$name
-#> [1] "Landspatientregisterets kontakttabel (LPR3F)"
+#> [1] "Landspatientregisterets kontakttabel (LPR3)"
 #> 
 #> $lpr3f_kontakter$start_year
 #> [1] 2019
@@ -184,7 +144,7 @@ registers()
 #> 
 #> $lpr3f_diagnoser
 #> $lpr3f_diagnoser$name
-#> [1] "Landspatientregisterets diagnosetabel (LPR3F)"
+#> [1] "Landspatientregisterets diagnosetabel (LPR3)"
 #> 
 #> $lpr3f_diagnoser$start_year
 #> [1] 2019
