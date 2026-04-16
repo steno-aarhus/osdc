@@ -12,6 +12,7 @@
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="design_files/libs/quarto-html/popper.min.js"></script><script src="design_files/libs/quarto-html/tippy.umd.min.js"></script><link href="design_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="design_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<script src="design_files/libs/quarto-diagram/mermaid.min.js"></script><script src="design_files/libs/quarto-diagram/mermaid-init.js"></script><link href="design_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 <!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Design">
 <meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo.png">
 </head>
@@ -23,7 +24,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -146,11 +147,53 @@
 </ul></section></section><section class="level2"><h2 id="interface">Interface<a class="anchor" aria-label="anchor" href="#interface"></a>
 </h2>
 <p>The osdc package contains one main function that classifies individuals into those with either type 1 or type 2 diabetes using the Danish registers and a few helper pre-processing functions.</p>
-<section class="level3"><h3 id="classify_diabetes">
+<section class="level3"><h3 id="prepare_lpr">
+<code>prepare_lpr*()</code><a class="anchor" aria-label="anchor" href="#prepare_lpr"></a>
+</h3>
+<p>In order to classify diabetes status, we need the patient registers with diagnosis information (known collectively as Landspatientregisteret, LPR). There isn’t just one LPR but several different LPRs that have evolved over time. Statistics Denmark (DST) in fact relatively recently created a new LPR (LPR3A) that resolves some issues with the previous LPR registers. Each version of LPR contains different tables and variables, though osdc only needs specific variables from two tables.</p>
+<p>We originally required each original LPRs register as separate arguments in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>, but this became an issue after the new LPR3A was created. So, we re-designed <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> to take only one <code>lpr</code> argument and instead require the different LPRs be pre-processed and joined before entering <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This way, we can add new pre-processing functions for any future changes to LPR without changing the interface of <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>.</p>
+<p>To help with this pre-processing, we designed several helper functions that follow the pattern <code>prepare_lpr*()</code>, e.g. for LPR2 it is <code><a href="../reference/prepare_lpr2.html">prepare_lpr2()</a></code>. This way, if DST update the LPR again, we can add another <code>prepare_lpr*()</code> function to prepare the new LPR format for classification.</p>
+<p>Unfortunately, the data covered by different revisions of the same registers are not cleanly separated. E.g. data from the year 2005 overlaps between <code>sysi</code> (years 1990 through 2005) and <code>sssy</code> (2005 onward), and data from 2017 and 2018 are contained in both <code>lpr2</code> (1977 through 2018) and <code>lpr3a</code> (2017 onward). <strong>This means that the user must be careful to pre-process these data to avoid duplicated rows!</strong></p>
+<p>Each <code>prepare_lpr*()</code> outputs a DuckDB object with the following variables: <code>pnr</code>, <code>date</code>, <code>is_primary_diagnosis</code>, <code>is_diabetes_code</code>, <code>is_t1d_code</code>, <code>is_t2d_code</code>, <code>is_endocrinology_dept</code>, <code>is_medical_dept</code>, and <code>is_pregnancy_code</code>. And a final <code><a href="../reference/join_lpr.html">join_lpr()</a></code> helper function combines the outputs of each <code>prepare_lpr*()</code> into a single data object. See the help docs for <code>prepare_lpr()</code> for more details on these variables. See the diagram below for the general flow of data sources and the different functions that prepare them for the <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div id="fig-prepare-lpr-flow" class="quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-fig"><div aria-describedby="fig-prepare-lpr-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div>
+<pre class="mermaid mermaid-js" data-label="fig-prepare-lpr-flow">flowchart TB
+  subgraph data_sources["Data sources"]
+    lpr2_diag[("lpr2_diag")]
+    lpr2_adm[("lpr2_adm")]
+    lpr3a_kontakt[("lpr3a_kontakt")]
+    lpr3a_diagnose[("lpr3a_diagnose")]
+    lpr3f_kontakter[("lpr3f_kontakter")]
+    lpr3f_diagnoser[("lpr3f_diagnoser")]
+  end
+
+  lpr2_diag &amp; lpr2_adm --&gt; prepare_lpr2["prepare_lpr2()"]
+  lpr3f_kontakter &amp; lpr3f_diagnoser --&gt; prepare_lpr3f["prepare_lpr3f()"]
+  lpr3a_kontakt &amp; lpr3a_diagnose --&gt; prepare_lpr3a["prepare_lpr3a()"]
+
+  prepare_lpr2 &amp; prepare_lpr3f &amp; prepare_lpr3a --&gt; join_lpr["join_lpr()"]
+  join_lpr --&gt; lpr[(lpr)]
+
+  %% Styling
+  classDef default fill:#EEEEEE, color:#000000, stroke:#000000
+  style data_sources fill:#FFFFFF, color:#000000, stroke-width:0px
+</pre>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-prepare-lpr-flow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure 1: Flow diagram showing the different data sources needed for the <code>prepare_lpr*()</code> functions and how they are processed and joined together before entering into <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>.
+</figcaption></figure>
+</div>
+</div>
+</div>
+</section><section class="level3"><h3 id="classify_diabetes">
 <code>classify_diabetes()</code><a class="anchor" aria-label="anchor" href="#classify_diabetes"></a>
 </h3>
 <p>This function classifies those with diabetes (type 1 or 2) based on the Danish registers described in this vignette and <code><a href="../articles/data-sources.html">vignette("data-sources")</a></code>. All data sources needed by osdc are used as input for this function. The specific details of the classification algorithm are described in the <code><a href="../articles/algorithm.html">vignette("algorithm")</a></code>.</p>
-<p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each required register. The names and descriptions of these arguments are as follows:</p>
+<p>There is one argument in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> for each required data source. The names and descriptions of these arguments are as follows:</p>
 <ul>
 <li>
 <code>bef</code>: The register or set of registers called ‘CPR-registerets befolkningstabel’ in Danish.</li>
@@ -161,9 +204,13 @@
 <li>
 <code>lpr_diag</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.</li>
 <li>
-<code>lpr3f_kontakter</code>: The register or set of registers called ‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.</li>
+<code>lpr3a_kontakt</code>: The register or set of registers called ‘Landspatientregisterets kontakttabel (LPR3A)’ in Danish.</li>
 <li>
-<code>lpr3f_diagnoser</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.</li>
+<code>lpr3a_diagnose</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR3A)’ in Danish.</li>
+<li>
+<code>lpr3f_kontakter</code>: The register or set of registers called ‘Landspatientregisterets kontakttabel (LPR3F)’ in Danish.</li>
+<li>
+<code>lpr3f_diagnoser</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR3F)’ in Danish.</li>
 <li>
 <code>sysi</code>: The register or set of registers called ‘Sygesikringsregisteret’ in Danish.</li>
 <li>

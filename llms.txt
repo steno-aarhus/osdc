@@ -98,6 +98,17 @@ Main functions for classifying diabetes.
 
 Functions used in the documentation and examples.
 
+- [`join_lpr()`](https://steno-aarhus.github.io/osdc/reference/join_lpr.md)
+  : Join the prepared LPR registers.
+
+- [`prepare_lpr2()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr2.md)
+  : Prepare and join the two LPR2 registers to extract diabetes and
+  pregnancy diagnoses.
+
+- [`prepare_lpr3f()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3f.md)
+  : Prepare and join the two LPR3F registers to extract diabetes and
+  pregnancy diagnoses.
+
 - [`registers()`](https://steno-aarhus.github.io/osdc/reference/registers.md)
   : Register variables (with descriptions) required for the osdc
   algorithm.

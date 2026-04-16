@@ -15,7 +15,7 @@ in."><meta property="og:image" content="https://steno-aarhus.github.io/osdc/logo
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,10 +61,7 @@ in.</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">classify_diabetes</span><span class="op">(</span></span>
-<span>  <span class="va">kontakter</span>,</span>
-<span>  <span class="va">diagnoser</span>,</span>
-<span>  <span class="va">lpr_diag</span>,</span>
-<span>  <span class="va">lpr_adm</span>,</span>
+<span>  <span class="va">lpr</span>,</span>
 <span>  <span class="va">sysi</span>,</span>
 <span>  <span class="va">sssy</span>,</span>
 <span>  <span class="va">lab_forsker</span>,</span>
@@ -78,20 +75,8 @@ in.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-kontakter">kontakter<a class="anchor" aria-label="anchor" href="#arg-kontakter"></a></dt>
-<dd><p>The contacts information table from the LPR3 patient register</p></dd>
-
-
-<dt id="arg-diagnoser">diagnoser<a class="anchor" aria-label="anchor" href="#arg-diagnoser"></a></dt>
-<dd><p>The diagnoses information table from the LPR3 patient register</p></dd>
-
-
-<dt id="arg-lpr-diag">lpr_diag<a class="anchor" aria-label="anchor" href="#arg-lpr-diag"></a></dt>
-<dd><p>The diagnoses information table from the LPR2 patient register</p></dd>
-
-
-<dt id="arg-lpr-adm">lpr_adm<a class="anchor" aria-label="anchor" href="#arg-lpr-adm"></a></dt>
-<dd><p>The administrative information table from the LPR2 patient register</p></dd>
+<dl><dt id="arg-lpr">lpr<a class="anchor" aria-label="anchor" href="#arg-lpr"></a></dt>
+<dd><p>The unified LPR register, see <code><a href="join_lpr.html">join_lpr()</a></code></p></dd>
 
 
 <dt id="arg-sysi">sysi<a class="anchor" aria-label="anchor" href="#arg-sysi"></a></dt>
@@ -146,11 +131,17 @@ description of the internal implementation of this classification function.</p><
 <span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">lpr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>, <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="prepare_lpr3f.html">prepare_lpr3f</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_kontakter</span>,</span></span>
+<span class="r-in"><span>    <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="join_lpr.html">join_lpr</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">classify_diabetes</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  kontakter <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_kontakter</span>,</span></span>
-<span class="r-in"><span>  diagnoser <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span>,</span></span>
-<span class="r-in"><span>  lpr_diag <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span>,</span></span>
-<span class="r-in"><span>  lpr_adm <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>,</span></span>
+<span class="r-in"><span>  lpr <span class="op">=</span> <span class="va">lpr</span>,</span></span>
 <span class="r-in"><span>  sysi <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sysi</span>,</span></span>
 <span class="r-in"><span>  sssy <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sssy</span>,</span></span>
 <span class="r-in"><span>  lab_forsker <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lab_forsker</span>,</span></span>
@@ -158,16 +149,16 @@ description of the internal implementation of this classification function.</p><
 <span class="r-in"><span>  lmdb <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Source:   SQL [?? x 5]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpjKJIrH/duckplyr/duckplyr1a26b93bae7.duckdb]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpRDeta5/duckplyr/duckplyr1a952a1ed8d4.duckdb]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

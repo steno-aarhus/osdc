@@ -1,23 +1,23 @@
-# Prepare and join the two LPR2 registers to extract diabetes and pregnancy diagnoses.
+# Prepare and join the two LPR3F registers to extract diabetes and pregnancy diagnoses.
 
-Prepare and join the two LPR2 registers to extract diabetes and
+Prepare and join the two LPR3F registers to extract diabetes and
 pregnancy diagnoses.
 
 ## Usage
 
 ``` r
-prepare_lpr2(lpr_adm, lpr_diag)
+prepare_lpr3f(lpr3f_kontakter, lpr3f_diagnoser)
 ```
 
 ## Arguments
 
-- lpr_adm:
+- lpr3f_kontakter:
 
-  The LPR2 register containing hospital admissions.
+  The LPR3F register containing hospital contacts/admissions.
 
-- lpr_diag:
+- lpr3f_diagnoser:
 
-  The LPR2 register containing diabetes diagnoses.
+  The LPR3F register containing diabetes diagnoses.
 
 ## Value
 

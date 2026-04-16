@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,12 +126,20 @@
 <td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR2)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">lpr3a_kontakt</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3A)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lpr3a_diagnose</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3A)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">lpr3f_kontakter</td>
-<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3)</td>
+<td style="text-align: left;">Landspatientregisterets kontakttabel (LPR3F)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">lpr3f_diagnoser</td>
-<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3)</td>
+<td style="text-align: left;">Landspatientregisterets diagnosetabel (LPR3F)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">sysi</td>
@@ -171,15 +179,23 @@
 <span>  <span class="co"># is more stable.</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></code></pre></div>
 </div>
-<p>The result is a named list where each element is one register as a DuckDB table. The <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function takes each register as a separate argument, so we extract them into individual variables to be explicit about this:</p>
+<p>The result is a named list where each element is one register as a DuckDB table. The LPR data spans multiple versions (LPR2 and LPR3) that need to be prepared and joined into a single table before being used as input for <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. osdc provides helper functions for this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lpr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>, <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/prepare_lpr3f.html">prepare_lpr3f</a></span><span class="op">(</span></span>
+<span>    <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_kontakter</span>,</span>
+<span>    <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/join_lpr.html">join_lpr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>The remaining registers are extracted from the <code>register_data</code> list, so they are ready to be passed as arguments to <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">bef</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">bef</span></span>
-<span><span class="va">lpr3f_diagnoser</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span></span>
 <span><span class="va">lmdb</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span></span>
-<span><span class="va">lpr_adm</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span></span>
-<span><span class="va">lpr_diag</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span></span>
-<span><span class="va">lpr3f_kontakter</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_kontakter</span></span>
 <span><span class="va">sysi</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sysi</span></span>
 <span><span class="va">sssy</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sssy</span></span>
 <span><span class="va">lab_forsker</span> <span class="op">&lt;-</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lab_forsker</span></span></code></pre></div>
@@ -188,12 +204,9 @@
 </h3>
 <p>Now, we’re ready to run the classification algorithm. Pass each register to <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_diabetes.html">classify_diabetes</a></span><span class="op">(</span></span>
-<span>  kontakter <span class="op">=</span> <span class="va">lpr3f_kontakter</span>,</span>
-<span>  diagnoser <span class="op">=</span> <span class="va">lpr3f_diagnoser</span>,</span>
-<span>  lpr_diag <span class="op">=</span> <span class="va">lpr_diag</span>,</span>
-<span>  lpr_adm <span class="op">=</span> <span class="va">lpr_adm</span>,</span>
+<span>  lpr <span class="op">=</span> <span class="va">lpr</span>,</span>
 <span>  sysi <span class="op">=</span> <span class="va">sysi</span>,</span>
 <span>  sssy <span class="op">=</span> <span class="va">sssy</span>,</span>
 <span>  lab_forsker <span class="op">=</span> <span class="va">lab_forsker</span>,</span>
@@ -203,23 +216,23 @@
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
 <span><span class="co">#&gt; # Source:   SQL [?? x 5]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpwFpWiZ/duckplyr/duckplyr1cd314823784.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpHxkXN7/duckplyr/duckplyr1d635e363617.duckdb]</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 706974528463 2016-11-07            2016-11-07         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each of the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
 </section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
 </h3>
 <p>Because the data is stored in DuckDB, the result above is a <em>lazy</em> reference to a database query, i.e., the data has not been loaded into R’s memory. To bring the results into R as a regular data frame, use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">&lt;-</span> <span class="va">classified_diabetes</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
@@ -227,12 +240,12 @@
 <span><span class="co">#&gt; # A tibble: 7 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 2 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 7 409442575549 2020-05-04            2020-05-04         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>Now, we can see that with the simulated data, 7 individuals are classified as having diabetes.</p>
@@ -284,7 +297,7 @@
 </section></section><section class="level3"><h3 id="step-6-saving-the-results">Step 6: Saving the results<a class="anchor" aria-label="anchor" href="#step-6-saving-the-results"></a>
 </h3>
 <p>Once you have the classification results, you can save them as a Parquet file for yourself or your collaborators on your DST project:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">classified_diabetes</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_parquet.html" class="external-link">compute_parquet</a></span><span class="op">(</span></span>
@@ -307,7 +320,7 @@
 <li>the maximum amount of memory to be allocated for DuckDB data, e.g. 128GB which is stable and should be more than enough to hold the inputs to osdc in DuckDB</li>
 <li>where to temporarily store any DuckDB data that exceeds this threshold.</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ddb_driver</span> <span class="op">&lt;-</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span>config <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  memory <span class="op">=</span> <span class="st">"128GB"</span>,</span>
 <span>  temp_dir <span class="op">=</span> <span class="st">"path/to/temp/dir"</span></span>
@@ -315,7 +328,7 @@
 <span></span>
 <span><span class="va">ddb_con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="va">ddb_driver</span><span class="op">)</span></span></code></pre></div>
 <p>If you’re working with very large data sets, it’s good practice to filter the data on the Arrow side before converting to DuckDB to reduce computation and memory use. Conveniently, most of dplyr’s filtering and selection operations are supported by the arrow package. If you need to rename variables or convert their types to match the inputs expected by osdc, you can do that too:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnoser</span> <span class="op">&lt;-</span> <span class="st">"path/to/diagnoser_parquet_folder"</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/open_dataset.html" class="external-link">open_dataset</a></span><span class="op">(</span>unify_schemas <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -325,11 +338,11 @@
 <span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span>con <span class="op">=</span> <span class="va">ddb_con</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">compute</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Once you’re done using DuckDB, you should close the driver and connection like so:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html" class="external-link">duckdb_shutdown</a></span><span class="op">(</span><span class="va">ddb_driver</span><span class="op">)</span></span>
 <span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html" class="external-link">dbDisconnect</a></span><span class="op">(</span><span class="va">ddb_con</span><span class="op">)</span></span></code></pre></div>
 <p>If your data is already in R (e.g., as a data frame), you can convert it to a DuckDB table with:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">diagnoser</span> <span class="op">&lt;-</span> <span class="va">diagnoser</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">compute</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>

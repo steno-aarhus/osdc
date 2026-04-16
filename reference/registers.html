@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,8 +61,8 @@ from the full official list of registers from Statistics Denmark (DST):
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Outputs a list of registers and variables required by osdc. Each
 list item contains the official Danish name of the register, the start
-year, the end year, and the variables with their descriptions. The
-variables item is a data frame with 4 columns:</p>
+year, the end year, and the variables with their descriptions. Each
+register item is a list with 4 items:</p>
 <dl><dt>name</dt>
 <dd><p>The official name of the variable found in the register.</p></dd>
 
@@ -161,9 +161,49 @@ variables item is a data frame with 4 columns:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> c_diagtype Diagnosetype       Diagnosis type      character</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_kontakt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_kontakt$name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Landspatientregisterets kontakttabel (LPR3A)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_kontakt$start_year</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_kontakt$end_year</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_kontakt$variables</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name                danish_description           english_description data_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> pnr                 <span style="color: #949494;">"</span>Pseudonymiseret cpr-nummer… Pseudonymised soci… <span style="color: #949494;">&lt;chr [1]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> dw_ek_kontakt       <span style="color: #949494;">"</span>Kontakt id-nummer. Svarer … Record id number. … <span style="color: #949494;">&lt;chr [1]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> kont_starttidspunkt <span style="color: #949494;">"</span>Indlaeggelsesdato (start p… Date of admission … <span style="color: #949494;">&lt;chr [2]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> kont_ans_hovedspec  <span style="color: #949494;">"</span>Afdelings speciale. Ligner… Specialty of depar… <span style="color: #949494;">&lt;chr [1]&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_diagnose</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_diagnose$name</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Landspatientregisterets diagnosetabel (LPR3A)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_diagnose$start_year</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_diagnose$end_year</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_diagnose$variables</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   name              danish_description             english_description data_type</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> dw_ek_kontakt     Kontakt id-nummer              Record id number    character</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> diag_kode         Diagnosekode. Svarer til c_di… Diagnosis code. Eq… character</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> diag_type         Diagnosetype. Svarer til c_di… Diagnosis type. Eq… character</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> senere_afkraeftet Blev diagnosen senere afkraef… Was the diagnosis … character</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_kontakter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_kontakter$name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Landspatientregisterets kontakttabel (LPR3)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Landspatientregisterets kontakttabel (LPR3F)"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_kontakter$start_year</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2019</span>
@@ -183,7 +223,7 @@ variables item is a data frame with 4 columns:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_diagnoser</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_diagnoser$name</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Landspatientregisterets diagnosetabel (LPR3)"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Landspatientregisterets diagnosetabel (LPR3F)"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_diagnoser$start_year</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2019</span>

@@ -23,7 +23,7 @@ eventual classification of type 1 and type 2 diabetes.
 For more details and descriptions about the individual steps within the
 algorithm, see the documentation on the internal functions:
 
-- `prepare_lpr2()`
+- [`prepare_lpr2()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr2.md)
 - `prepare_lpr3()`
 - `keep_pregnancy_dates()`
 - `keep_diabetes_diagnoses()`

@@ -127,6 +127,83 @@ The osdc package contains one main function that classifies individuals
 into those with either type 1 or type 2 diabetes using the Danish
 registers and a few helper pre-processing functions.
 
+### `prepare_lpr*()`
+
+In order to classify diabetes status, we need the patient registers with
+diagnosis information (known collectively as Landspatientregisteret,
+LPR). There isn’t just one LPR but several different LPRs that have
+evolved over time. Statistics Denmark (DST) in fact relatively recently
+created a new LPR (LPR3A) that resolves some issues with the previous
+LPR registers. Each version of LPR contains different tables and
+variables, though osdc only needs specific variables from two tables.
+
+We originally required each original LPRs register as separate arguments
+in
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md),
+but this became an issue after the new LPR3A was created. So, we
+re-designed
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
+to take only one `lpr` argument and instead require the different LPRs
+be pre-processed and joined before entering
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md).
+This way, we can add new pre-processing functions for any future changes
+to LPR without changing the interface of
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md).
+
+To help with this pre-processing, we designed several helper functions
+that follow the pattern `prepare_lpr*()`, e.g. for LPR2 it is
+[`prepare_lpr2()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr2.md).
+This way, if DST update the LPR again, we can add another
+`prepare_lpr*()` function to prepare the new LPR format for
+classification.
+
+Unfortunately, the data covered by different revisions of the same
+registers are not cleanly separated. E.g. data from the year 2005
+overlaps between `sysi` (years 1990 through 2005) and `sssy` (2005
+onward), and data from 2017 and 2018 are contained in both `lpr2` (1977
+through 2018) and `lpr3a` (2017 onward). **This means that the user must
+be careful to pre-process these data to avoid duplicated rows!**
+
+Each `prepare_lpr*()` outputs a DuckDB object with the following
+variables: `pnr`, `date`, `is_primary_diagnosis`, `is_diabetes_code`,
+`is_t1d_code`, `is_t2d_code`, `is_endocrinology_dept`,
+`is_medical_dept`, and `is_pregnancy_code`. And a final
+[`join_lpr()`](https://steno-aarhus.github.io/osdc/reference/join_lpr.md)
+helper function combines the outputs of each `prepare_lpr*()` into a
+single data object. See the help docs for `prepare_lpr()` for more
+details on these variables. See the diagram below for the general flow
+of data sources and the different functions that prepare them for the
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
+function.
+
+``` mermaid
+flowchart TB
+  subgraph data_sources["Data sources"]
+    lpr2_diag[("lpr2_diag")]
+    lpr2_adm[("lpr2_adm")]
+    lpr3a_kontakt[("lpr3a_kontakt")]
+    lpr3a_diagnose[("lpr3a_diagnose")]
+    lpr3f_kontakter[("lpr3f_kontakter")]
+    lpr3f_diagnoser[("lpr3f_diagnoser")]
+  end
+
+  lpr2_diag & lpr2_adm --> prepare_lpr2["prepare_lpr2()"]
+  lpr3f_kontakter & lpr3f_diagnoser --> prepare_lpr3f["prepare_lpr3f()"]
+  lpr3a_kontakt & lpr3a_diagnose --> prepare_lpr3a["prepare_lpr3a()"]
+
+  prepare_lpr2 & prepare_lpr3f & prepare_lpr3a --> join_lpr["join_lpr()"]
+  join_lpr --> lpr[(lpr)]
+
+  %% Styling
+  classDef default fill:#EEEEEE, color:#000000, stroke:#000000
+  style data_sources fill:#FFFFFF, color:#000000, stroke-width:0px
+```
+
+Figure 1: Flow diagram showing the different data sources needed for the
+`prepare_lpr*()` functions and how they are processed and joined
+together before entering into
+[`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md).
+
 ### `classify_diabetes()`
 
 This function classifies those with diabetes (type 1 or 2) based on the
@@ -138,7 +215,7 @@ specific details of the classification algorithm are described in the
 
 There is one argument in
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
-for each required register. The names and descriptions of these
+for each required data source. The names and descriptions of these
 arguments are as follows:
 
 - `bef`: The register or set of registers called ‘CPR-registerets
@@ -149,10 +226,14 @@ arguments are as follows:
   ‘Landspatientregisterets administrationstabel (LPR2)’ in Danish.
 - `lpr_diag`: The register or set of registers called
   ‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.
+- `lpr3a_kontakt`: The register or set of registers called
+  ‘Landspatientregisterets kontakttabel (LPR3A)’ in Danish.
+- `lpr3a_diagnose`: The register or set of registers called
+  ‘Landspatientregisterets diagnosetabel (LPR3A)’ in Danish.
 - `lpr3f_kontakter`: The register or set of registers called
-  ‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.
+  ‘Landspatientregisterets kontakttabel (LPR3F)’ in Danish.
 - `lpr3f_diagnoser`: The register or set of registers called
-  ‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.
+  ‘Landspatientregisterets diagnosetabel (LPR3F)’ in Danish.
 - `sysi`: The register or set of registers called
   ‘Sygesikringsregisteret’ in Danish.
 - `sssy`: The register or set of registers called
