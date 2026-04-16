@@ -25,7 +25,7 @@ scrape_icd8_codes <- function() {
       description = stringr::str_remove(.data$description, "\\d+"),
       icd8 = stringr::str_remove(.data$icd8, "dia")
     ) |>
-    dplyr::select(.data$icd8) |>
+    dplyr::select("icd8") |>
     readr::write_csv(output_path)
 
   output_path
@@ -42,7 +42,7 @@ icd10 <- here::here("data-raw/icd10-codes.csv") |>
     col_types = "cc",
     delim = ";"
   ) |>
-  pull(.data$icd10)
+  pull("icd10")
 
 # Simulation definitions --------------------------------------------------
 
@@ -56,7 +56,7 @@ hovedspeciale_departments <- "https://www.dst.dk/da/Statistik/dokumentation/Time
   read_html() |>
   html_element(css = "table") |>
   html_table() |>
-  pull(Tekst)
+  pull("Tekst")
 
 # Save internal data ------------------------------------------------------
 
