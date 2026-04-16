@@ -163,7 +163,7 @@ joined_registers <- function() {
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
-        "date", "Dato for kontakt. Fra d_inddto i LPR2 (lpr_adm) og fra dato_start i LPR3F (lpr3f_kontakter).", "Contact date. From d_inddto in LPR2 (lpr_adm) and dato_start in LPR3F (lpr3f_kontakter).", c("Date", "character"),
+        "date", "Dato for kontakt. Fra d_inddto i LPR2 (lpr_adm) og fra dato_start i LPR3F (lpr3f_kontakter).", "Contact date. From d_inddto in LPR2 (lpr_adm) and dato_start in LPR3F (lpr3f_kontakter).", "Date",
         "is_primary_diagnosis", "Er diagnosen en primaer diagnose?", "Is the diagnosis a primary diagnosis?", "logical",
         "is_diabetes_code", "Tilhoerer diagnosekoden diabetesdiagnoser?", "Does the diagnosis code belong to diabetes diagnoses?", "logical",
         "is_t1d_code", "Tilhoerer diagnosekoden type 1 diabetes?", "Does the diagnosis code belong to type 1 diabetes?", "logical",

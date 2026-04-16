@@ -36,13 +36,13 @@
 #'   purrr::map(duckplyr::as_duckdb_tibble) |>
 #'   purrr::map(duckplyr::as_tbl)
 #'
-#' lpr <- join_lpr(
-#'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-#'   lpr3f = prepare_lpr3f(
+#' lpr <- list(
+#'   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+#'   prepare_lpr3f(
 #'     register_data$lpr3f_kontakter,
 #'     register_data$lpr3f_diagnoser
-#'   )
-#' )
+#'   ) |>
+#'     join_lpr()
 #'
 #' classify_diabetes(
 #'   lpr = lpr,

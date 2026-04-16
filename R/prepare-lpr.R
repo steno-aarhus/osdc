@@ -127,8 +127,7 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
 
 #' Join the prepared LPR registers.
 #'
-#' @param lpr2 The prepared LPR2 register. See [prepare_lpr2()].
-#' @param lpr3f The prepared LPR3F register. See [prepare_lpr3f()].
+#' @param lpr_list A list of the prepared LPR registers, from e.g. [prepare_lpr2()].
 #'
 #' @inherit prepare_lpr2 return
 #' @export
@@ -141,19 +140,17 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
 #'   "lpr3f_diagnoser"
 #' ))
 #'
-#' join_lpr(
-#'   lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-#'   lpr3f = prepare_lpr3f(
+#' join_lpr(list(
+#'   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+#'   prepare_lpr3f(
 #'     register_data$lpr3f_kontakter,
 #'     register_data$lpr3f_diagnoser
 #'   )
-#' )
+#' ))
 join_lpr <- function(
-  lpr2,
-  lpr3f # ,
-  # lpr3a
+	lpr_list
 ) {
-  lpr2 |>
-    dplyr::union_all(lpr3f) # |>
-  # dplyr::union_all(lpr3a)
+  checkmate::assert_list(lpr_list)
+  lpr_list |>
+    purrr::reduce(dplyr::union_all)
 }
