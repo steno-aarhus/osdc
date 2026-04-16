@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.10.1 (2026-04-16)
+
+### Refactor
+
+- ♻️ expose `prepare_lpr*()`; make `classify_diabetes()` expect `lpr` (#532)
+
 ## 0.10.0 (2026-04-16)
 
 ### Feat
