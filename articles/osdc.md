@@ -136,16 +136,16 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpLKPunK/duckplyr/duckplyr1d382306b25.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpalO8DX/duckplyr/duckplyr1d1115f93d8f.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
 #> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 4 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 5 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
+#> 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 3 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 4 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 5 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 6 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 7 240771768588 2016-04-04            2016-04-04         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -168,11 +168,11 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 1 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 2 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
 #> 4 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 5 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
 #> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
 #> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
 ```
