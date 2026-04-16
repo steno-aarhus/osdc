@@ -11,7 +11,8 @@ standard.
 
 ### Refactor
 
-- ♻️ expose `prepare_lpr*()`; make `classify_diabetes()` expect `lpr` (#532)
+- ♻️ expose `prepare_lpr*()`; make `classify_diabetes()` expect `lpr`
+  (#532)
 
 ## 0.10.0 (2026-04-16)
 
