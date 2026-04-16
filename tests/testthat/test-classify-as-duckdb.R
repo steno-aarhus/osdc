@@ -3,8 +3,8 @@ test_that("data must be a DuckDB object", {
     simulate_registers(n = 100)
 
   expect_error(classify_diabetes(
-    kontakter = as_df$kontakter,
-    diagnoser = as_df$diagnoser,
+    kontakter = as_df$lpr3f_kontakter,
+    diagnoser = as_df$lpr3f_diagnoser,
     lpr_diag = as_df$lpr_diag,
     lpr_adm = as_df$lpr_adm,
     sysi = as_df$sysi,

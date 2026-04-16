@@ -90,50 +90,50 @@ algorithm <- function() {
       comments = ""
     ),
     lpr3_is_endocrinology_dept = list(
-      register = "kontakter",
+      register = "lpr3f_kontakter",
       title = "LPR3 endocrinology department",
       logic = "hovedspeciale_ans %in% c('medicinsk endokrinologi', 'endokrinologi')",
       comments = "`TRUE` when the department is endocrinology."
     ),
     lpr3_is_medical_dept = list(
-      register = "kontakter",
+      register = "lpr3f_kontakter",
       title = "LPR3 medical department",
       # TODO: We will need to make sure the Unicode character gets selected properly in real data.
       logic = "hovedspeciale_ans %in% c('blandet medicin og kirurgi', 'intern medicin', 'geriatri', 'hepatologi', 'h\u00e6matologi', 'infektionsmedicin', 'kardiologi', 'medicinsk allergologi', 'medicinsk gastroenterologi', 'medicinsk lungesygdomme', 'lungesygdomme', 'nefrologi', 'reumatologi', 'palliativ medicin', 'akut medicin', 'akutmedicin', 'dermato-venerologi', 'neurologi', 'klinisk onkologi', 'onkologi', 'oftalmologi', 'fysiurgi', 'tropemedicin')",
       comments = "`TRUE` when the department is other medical departments (than endocrinology)."
     ),
     lpr3_is_needed_code = list(
-      register = "diagnoser",
+      register = "lpr3f_diagnoser",
       title = "LPR3 codes used throughout the algorithm",
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37]|DE1[0-4])' AND (diagnosetype == 'A' OR diagnosetype == 'B') AND (senere_afkraeftet == 'Nej')",
       comments = "`A` `diagnosekode` means primary diagnosis and `senere_afkraeftet` means diagnosis was later retracted."
     ),
     lpr3_is_primary_diagnosis = list(
-      register = "diagnoser",
+      register = "lpr3f_diagnoser",
       title = "LPR3 primary diagnosis",
       logic = "diagnosetype == 'A'",
       comments = ""
     ),
     lpr3_is_t1d_code = list(
-      register = "diagnoser",
+      register = "lpr3f_diagnoser",
       title = "LPR3 diagnoses codes for T1D",
       logic = "diagnosekode =~ '^(DE10)'",
       comments = ""
     ),
     lpr3_is_t2d_code = list(
-      register = "diagnoser",
+      register = "lpr3f_diagnoser",
       title = "LPR3 diagnoses codes for T2D",
       logic = "diagnosekode =~ '^(DE11)'",
       comments = ""
     ),
     lpr3_is_diabetes_code = list(
-      register = "diagnoser",
+      register = "lpr3f_diagnoser",
       title = "LPR3 diagnoses codes for diabetes",
       logic = "diagnosekode =~ '^DE1[0-4]'",
       comments = "This is a general diabetes code, not specific to T1D or T2D."
     ),
     lpr3_is_pregnancy_code = list(
-      register = "diagnoser",
+      register = "lpr3f_diagnoser",
       title = "ICD-10 diagnoses codes for pregnancy-related outcomes",
       logic = "diagnosekode =~ '^(DO0[0-6]|DO8[0-4]|DZ3[37])'",
       comments = "These are recorded pregnancy endings like live births and miscarriages."
@@ -201,7 +201,7 @@ algorithm <- function() {
 #' @param algorithm The list of algorithmic logic, one list for each.
 #'
 #' @return A character string.
-#' @keywords internal
+#' @noRd
 get_algorithm_logic <- function(logic_name, algorithm = NULL) {
   checkmate::assert_character(logic_name)
   if (!is.null(algorithm)) {
@@ -224,7 +224,7 @@ get_algorithm_logic <- function(logic_name, algorithm = NULL) {
 #' @param logic The name of the logic to use.
 #'
 #' @return An R expression.
-#' @keywords internal
+#' @noRd
 logic_as_expression <- function(logic) {
   logic |>
     rlang::set_names() |>

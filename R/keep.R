@@ -1,10 +1,11 @@
 #' Simple function to get only the pregnancy event dates.
 #'
-#' @param lpr2 Output from [prepare_lpr2()].
-#' @param lpr3 Output from [prepare_lpr3()].
+#' @param lpr2 Output from the internal `prepare_lpr2()`.
+#' @param lpr3 Output from the internal `prepare_lpr3()`.
 #'
 #' @returns The same type as the input data, as a [duckplyr::duckdb_tibble()].
-#' @keywords internal
+#'
+#' @noRd
 #' @inherit algorithm seealso
 keep_pregnancy_dates <- function(lpr2, lpr3) {
   lpr2 |>
@@ -27,13 +28,13 @@ keep_pregnancy_dates <- function(lpr2, lpr3) {
 #' additional information needed to classify diabetes type.
 #' Diabetes diagnoses from both ICD-8 and ICD-10 are included.
 #'
-#' @param lpr2 The output from [prepare_lpr2()].
-#' @param lpr3 The output from [prepare_lpr3()].
+#' @param lpr2 The output from the internal `prepare_lpr2()`.
+#' @param lpr3 The output from the internal `prepare_lpr3()`.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()],
 #'  with less rows after filtering.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_diabetes_diagnoses <- function(lpr2, lpr3) {
   # Combine and process the two inputs
@@ -49,16 +50,16 @@ keep_diabetes_diagnoses <- function(lpr2, lpr3) {
 #' This function doesn't keep glucose-lowering drugs that may be used for other
 #' conditions than diabetes like GLP-RAs or dapagliflozin/empagliflozin drugs.
 #' Since the diagnosis code data on pregnancies (see below) is insufficient to
-#' perform censoring prior to 1997, [keep_gld_purchases()] only extracts
-#' dates from 1997 onward by default (if Medical Birth Register data is
-#' available to use for censoring, the extraction window can be extended).
+#' perform censoring prior to 1997, This function only extracts dates from 1997
+#' onward by default (if Medical Birth Register data is available to use for
+#' censoring, the extraction window can be extended).
 #'
 #' @param lmdb The `lmdb` register.
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'   Only rows with glucose lowering drug purchases are kept, plus some columns are renamed.
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_gld_purchases <- function(lmdb) {
   logic <- c(
@@ -85,10 +86,6 @@ keep_gld_purchases <- function(lmdb) {
 #' same day within each individual are deduplicated, to account for the same
 #' test result often being reported twice (one for IFCC, one for DCCT units).
 #'
-#' The output is passed to the [drop_pregnancies()] function for
-#' filtering of elevated results due to potential gestational diabetes (see
-#' below).
-#'
 #' @param lab_forsker The `lab_forsker` register.
 #'
 #' @return An object of the same input type, as a [duckplyr::duckdb_tibble()],
@@ -97,7 +94,7 @@ keep_gld_purchases <- function(lmdb) {
 #'   - `pnr`: Personal identification variable.
 #'   - `dates`: The dates of all elevated HbA1c test results.
 #'
-#' @keywords internal
+#' @noRd
 keep_hba1c <- function(lab_forsker) {
   logic <- logic_as_expression("is_hba1c_over_threshold")[[1]]
 
@@ -106,7 +103,7 @@ keep_hba1c <- function(lab_forsker) {
     dplyr::filter(!!logic) |>
     # Keep only the columns we need.
     dplyr::mutate(
-      pnr = .data$patient_cpr,
+      pnr = .data$pnr,
       date = .data$samplingdate,
       .keep = "none"
     ) |>
@@ -124,9 +121,6 @@ keep_hba1c <- function(lab_forsker) {
 #' dates of all diabetes-specific podiatrist services. Removes duplicate
 #' services on the same date.
 #'
-#' The output is passed to the [join_inclusions()] function for the final
-#' step of the inclusion process.
-#'
 #' @param sysi The SYSI register.
 #' @param sssy The SSSY register.
 #'
@@ -136,7 +130,7 @@ keep_hba1c <- function(lab_forsker) {
 #'   -  `date`: The dates of the first and second diabetes-specific
 #'      podiatrist record
 #'
-#' @keywords internal
+#' @noRd
 #' @inherit algorithm seealso
 keep_podiatrist_services <- function(sysi, sssy) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
@@ -157,23 +151,14 @@ keep_podiatrist_services <- function(sysi, sssy) {
     dplyr::distinct() |>
     # Keep only the two columns we need.
     dplyr::select(
-      pnr = "pnr",
+      "pnr",
       date = "honuge"
     ) |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
+    # Transform date from yyww to YYYY-MM-DD.
+    yyww_to_yyyymmdd() |>
+    # Add logical helper variable to indicate diabetes-related podiatrist service.
     dplyr::mutate(from_podiatrist_service = TRUE)
-
-  podiatrist_services |>
-    # Transform `honuge` to YYYY-MM-DD.
-    # Unfortunately, the conversion from YYWW to an actual date is quite tricky
-    # to do well in SQL without a lot of revising and refactoring the code.
-    # So instead, we'll just pull into R, convert, and then bring back
-    # to DuckDB.
-    # TODO: Fix to use DuckDB SQL only.
-    dplyr::collect() |>
-    dplyr::mutate(date = yyww_to_yyyymmdd(.data$date)) |>
-    duckplyr::as_duckdb_tibble(prudence = "stingy") |>
-    duckplyr::as_tbl()
 }
 
 #' Convert date format YYWW to YYYY-MM-DD
@@ -183,34 +168,67 @@ keep_podiatrist_services <- function(sysi, sssy) {
 #' has been removed. This can e.g., happen if the input was "0107" and has been
 #' converted to a numeric 107.
 #'
-#' @param yyww Character(s) of the format YYWW.
+#' @param data A DuckDB-backed data frame with a `date` column formatted as YYWW values.
 #'
-#' @returns Date(s) in the format YYYY-MM-DD.
-#' @keywords internal
-yyww_to_yyyymmdd <- function(yyww) {
-  if (is.numeric(yyww)) {
-    # Ensure input is zero-padded to length 4.
-    yyww <- sprintf("%04d", yyww)
-  }
+#' @returns a data frame containing a `date` column in the format YYYY-MM-DD.
+#' @noRd
+yyww_to_yyyymmdd <- function(data) {
+  data |>
+    # Ensure input from the honuge/date variable is zero-padded to length 4.
+    dplyr::mutate(
+      yyww_padded = dbplyr::sql("LPAD(CAST(date AS VARCHAR), 4, '0')"),
+      # Extract year and week.
+      # The way the year values are set up in the registers isn't Y2K-safe,
+      # and by 2090 the values will overflow, and the data will be invalid.
+      # There is nothing we can do about it, but DST will have to deal with it
+      # at some point before 2090.
+      yy = as.integer(substr(.data$yyww_padded, 1, 2)),
+      ww = as.integer(substr(.data$yyww_padded, 3, 4)),
+      full_year = dplyr::if_else(
+        # Anything greater than YY 90 will be from the 1900s.
+        .data$yy >= 90,
+        # Place these in the 1990s.
+        1900L + .data$yy,
+        # Place any values below 90 in the 2000s.
+        2000L + .data$yy
+      ),
+      # Calculate the first day of the ISO year, which is when the first week
+      # has most of the week days in it (4th of January, or the first Thursday).
+      # See https://en.wikipedia.org/wiki/ISO_week_date.
+      jan4 = dbplyr::sql("MAKE_DATE(full_year, 1, 4)"),
+      # Calculate the weekday of jan4 and the date of Monday of ISO-week 1.
+      days_from_monday = dbplyr::sql("(DAYOFWEEK(jan4) + 6) % 7"),
+      week1_monday = dbplyr::sql(
+        "jan4 - (days_from_monday || ' days')::INTERVAL"
+      )
+    ) |>
+    # Calculate the date of the Monday of the ISO week (`ww`)
+    # Starting from `week1_monday` (the Monday of ISO week 1),
+    # add (`ww-1`) weeks to reach the target week:
+    # - `ww-1`: Number of weeks to offset from ISO week 1
 
-  # Extract year and week.
-  year <- stringr::str_sub(yyww, 1, 2)
-  week <- stringr::str_sub(yyww, 3, 4)
+    # - || ' weeks': Concatenates the offset with the text "weeks" to form a SQL interval string (e.g., "3 weeks")
 
-  # Calculate the first day of the ISO year, which is when the first week
-  # has most of the week days in it (4th of January, or the first Thursday).
-  # See: https://en.wikipedia.org/wiki/ISO_week_date
-  year_start <- as.Date(paste0(year, "-01-04"), tryFormats = "%y-%m-%d")
-  first_weekday <- lubridate::wday(year_start, week_start = 1)
+    # - ::INTERVAL: Casts the string to an INTERVAL type.
 
-  # Create the date, using the start of year, but setting the week from the
-  # `yyww` argument. This forces the date to move to the correct week.
-  date <- year_start
-  lubridate::week(date) <- as.numeric(week)
-
-  # Adjust the date to be Monday in that week. Need to add 1 since there is
-  # no zero weekday (week starts on 1, the Monday).
-  date - first_weekday + 1
+    # The result is added to `week1_monday` and cast to DATE.
+    dplyr::mutate(
+      date = dbplyr::sql(
+        "CAST(week1_monday + ((ww - 1) || ' weeks')::INTERVAL AS DATE)"
+      )
+    ) |>
+    # Drop intermediate calculation columns.
+    dplyr::select(
+      -c(
+        "yyww_padded",
+        "yy",
+        "ww",
+        "full_year",
+        "jan4",
+        "days_from_monday",
+        "week1_monday"
+      )
+    )
 }
 
 #' Keep two earliest events per PNR
@@ -228,7 +246,7 @@ yyww_to_yyyymmdd <- function(yyww) {
 #' @param data Data including at least a date and pnr column.
 #'
 #' @returns The same type as the input data.
-#' @keywords internal
+#' @noRd
 keep_two_earliest_events <- function(data) {
   data |>
     dplyr::filter(dplyr::row_number(.data$date) %in% 1:2, .by = "pnr")

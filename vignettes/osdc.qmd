@@ -17,12 +17,12 @@ the classification.
 
 This package serves two overarching purposes:
 
-1.  To provide an open-source, code-based algorithm to classify type 1
-    and type 2 diabetes using Danish registers as data sources.
-2.  To inspire discussions within the Danish register-based research
-    space on the openness and ease of use on the existing tooling and
-    registers, and on the need for an official process for updating or
-    contributing to existing data sources.
+1. To provide an open-source, code-based algorithm to classify type 1
+   and type 2 diabetes using Danish registers as data sources.
+2. To inspire discussions within the Danish register-based research
+   space on the openness and ease of use on the existing tooling and
+   registers, and on the need for an official process for updating or
+   contributing to existing data sources.
 
 For a detailed description of the algorithm, see
 `vignette("algorithm")`. For the motivations and rationale behind this
@@ -54,8 +54,8 @@ these registers can be seen below:
 
 ```{r}
 #| echo: false
-registers() |> 
-  purrr::map_chr("name") |> 
+registers() |>
+  purrr::map_chr("name") |>
   knitr::kable(col.names = c("Register abbreviation", "Register name"))
 ```
 
@@ -96,11 +96,11 @@ explicit about this:
 
 ```{r}
 bef <- register_data$bef
-diagnoser <- register_data$diagnoser
+diagnoser <- register_data$lpr3f_diagnoser
 lmdb <- register_data$lmdb
 lpr_adm <- register_data$lpr_adm
 lpr_diag <- register_data$lpr_diag
-kontakter <- register_data$kontakter
+kontakter <- register_data$lpr3f_kontakter
 sysi <- register_data$sysi
 sssy <- register_data$sssy
 lab_forsker <- register_data$lab_forsker
@@ -155,13 +155,13 @@ diabetes.
 The output is a table with one row per classified individual and five
 columns:
 
-| Column | Description |
-|------------------------------------|------------------------------------|
-| `pnr` | The pseudonymised personal identification number. |
+| Column                  | Description                                                                                                                                                                                                                                   |
+|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `pnr`                   | The pseudonymised personal identification number.                                                                                                                                                                                             |
 | `stable_inclusion_date` | The inclusion date, which is the date of the second inclusion event, but only if it falls within a period of reliable data coverage set by the `stable_inclusion_start_date` parameter (from 1998 onward by default). `NA` for earlier dates. |
-| `raw_inclusion_date` | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`. |
-| `has_t1d` | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise. |
-| `has_t2d` | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise. |
+| `raw_inclusion_date`    | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`.                                                                                                                          |
+| `has_t1d`               | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise.                                                                                                                                                                                   |
+| `has_t2d`               | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise.                                                                                                                                                                                   |
 
 ::: callout-note
 #### About `stable_inclusion_date` vs `raw_inclusion_date`
@@ -229,7 +229,7 @@ diagnoser <- diagnoser |>
 ## Getting help
 
 If you encounter a bug or have a question about how to use osdc, please
-open an issue on the [GitHub
-repository](https://github.com/steno-aarhus/osdc/issues). When reporting
-a bug, include a minimal example that reproduces the problem along to
-help us understand and investigate the problem.
+open an issue on the
+[GitHub repository](https://github.com/steno-aarhus/osdc/issues). When
+reporting a bug, include a minimal example that reproduces the problem
+along to help us understand and investigate the problem.

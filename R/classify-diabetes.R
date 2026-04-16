@@ -40,8 +40,8 @@
 #'   purrr::map(duckplyr::as_tbl)
 #'
 #' classify_diabetes(
-#'   kontakter = register_data$kontakter,
-#'   diagnoser = register_data$diagnoser,
+#'   kontakter = register_data$lpr3f_kontakter,
+#'   diagnoser = register_data$lpr3f_diagnoser,
 #'   lpr_diag = register_data$lpr_diag,
 #'   lpr_adm = register_data$lpr_adm,
 #'   sysi = register_data$sysi,
@@ -70,8 +70,8 @@ classify_diabetes <- function(
   # way duckplyr works. It creates a temporary DuckDB DB in the background
   # based on the name of the object passed to it.
   registers <- list(
-    kontakter = kontakter,
-    diagnoser = diagnoser,
+    lpr3f_kontakter = kontakter,
+    lpr3f_diagnoser = diagnoser,
     lpr_diag = lpr_diag,
     lpr_adm = lpr_adm,
     sysi = sysi,
@@ -81,7 +81,7 @@ classify_diabetes <- function(
     lmdb = lmdb
   ) |>
     purrr::discard(is.null) |>
-    purrr::map(verify_duckdb)
+    purrr::map(check_duckdb)
 
   # Verification step -----
   registers <- registers |>
@@ -94,9 +94,9 @@ classify_diabetes <- function(
     lpr_adm = registers$lpr_adm
   )
 
-  lpr3 <- prepare_lpr3(
-    kontakter = registers$kontakter,
-    diagnoser = registers$diagnoser
+  lpr3 <- prepare_lpr3f(
+    lpr3f_kontakter = registers$lpr3f_kontakter,
+    lpr3f_diagnoser = registers$lpr3f_diagnoser
   )
 
   pregnancy_dates <- keep_pregnancy_dates(
@@ -160,13 +160,15 @@ classify_diabetes <- function(
     )
   )
 
-  inclusions |>
+  classified <- inclusions |>
     create_inclusion_dates(stable_inclusion_start_date) |>
     classify_t1d() |>
     # If has_t1d is NA, t2d will also be NA
     dplyr::mutate(has_t2d = !.data$has_t1d) |>
     # Drop those who don't have either type of diabetes
-    dplyr::filter(!(is.na(.data$has_t1d) & is.na(.data$has_t2d))) |>
+    dplyr::filter(!(is.na(.data$has_t1d) & is.na(.data$has_t2d)))
+
+  classified |>
     dplyr::select(
       "pnr",
       "stable_inclusion_date",
@@ -176,7 +178,16 @@ classify_diabetes <- function(
     )
 }
 
-verify_duckdb <- function(data, call = rlang::caller_env()) {
+#' Check that data is a DuckDB connection
+#'
+#' @param data Data to be checked. A `tbl_duckdb_connection` or
+#' `duckdb_connection` object.
+#' @param call The environment of the calling function, used to make error
+#'   messages point to the user-facing function rather than this internal check.
+#'
+#' @returns The data, if it is a DuckDB connection. Errors if not.
+#' @noRd
+check_duckdb <- function(data, call = rlang::caller_env()) {
   check <- checkmate::test_multi_class(
     data,
     classes = c(
@@ -203,7 +214,7 @@ verify_duckdb <- function(data, call = rlang::caller_env()) {
 #'
 #' @return The same object type as the input data, which would be a
 #'    [duckplyr::duckdb_tibble()] type object.
-#' @keywords internal
+#' @noRd
 classify_t1d <- function(data) {
   logic <- c(
     "has_t1d"

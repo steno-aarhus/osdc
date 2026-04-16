@@ -68,8 +68,32 @@ registers <- function() {
         "c_diagtype", "Diagnosetype", "Diagnosis type", "character",
       )
     ),
-    lpr_a_kontakt = list(
-      name = "Landspatientregisterets kontakttabel (LPR3_A)",
+    lpr3a_kontakt = list(
+      name = "Landspatientregisterets kontakttabel (LPR3A)",
+      start_year = 2019,
+      end_year = NA,
+      variables = tibble::tribble(
+        ~name, ~danish_description, ~english_description, ~data_type,
+        "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2.", "character",
+        "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2.", "Record id number. Equivalent to recnum in LPR2.", "character",
+        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2. ", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("POSIXct", "POSIXt"),
+        "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge.", "Specialty of department. Similar to c_spec in LPR2, but values are strings.", "character"
+      )
+    ),
+    lpr3a_diagnose = list(
+      name = "Landspatientregisterets diagnosetabel (LPR3A)",
+      start_year = 2019,
+      end_year = NA,
+      variables = tibble::tribble(
+        ~name, ~danish_description, ~english_description, ~data_type,
+        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
+        "diag_kode", "Diagnosekode. Svarer til c_diag i LPR2.", "Diagnosis code. Equivalent to c_diag in LPR2.", "character",
+        "diag_type", "Diagnosetype. Svarer til c_diagtype i LPR2.", "Diagnosis type. Equivalent to c_diagtype in LPR2.", "character",
+        "senere_afkraeftet", "Blev diagnosen senere afkraeftet?", "Was the diagnosis retracted later?", "character"
+      )
+    ),
+    lpr3f_kontakter = list(
+      name = "Landspatientregisterets kontakttabel (LPR3F)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(
@@ -79,39 +103,12 @@ registers <- function() {
         # LPR3 equivalent to RECNUM in LPR2
         "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
         # LPR3 equivalent to D_INDDTO in LPR2
-        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt)", "Date of admission or initial contact", c("POSIXct", "POSIXt"),
-        "kont_ans_hovedspec", "Afdelings speciale", "Specialty of department", "character"
-      )
-    ),
-    lpr_a_diagnose = list(
-      name = "Landspatientregisterets diagnosetabel (LPR3_A)",
-      start_year = 2019,
-      end_year = NA,
-      variables = tibble::tribble(
-        ~name, ~danish_description, ~english_description, ~data_type,
-        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
-        "diag_kode", "Diagnosekode", "Diagnosis code", "character",
-        "diag_type", "Diagnosetype", "Diagnosis type", "character",
-        "senere_afkraeftet", "Blev diagnosen senere afkraeftet?", "Was the diagnosis retracted later?", "character"
-      )
-    ),
-    kontakter = list(
-      name = "Landspatientregisterets kontakttabel (LPR3_F)",
-      start_year = 2019,
-      end_year = NA,
-      variables = tibble::tribble(
-        ~name, ~danish_description, ~english_description, ~data_type,
-        # LPR3 equivalent to PNR in LPR2
-        "cpr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
-        # LPR3 equivalent to RECNUM in LPR2
-        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
-        # LPR3 equivalent to D_INDDTO in LPR2
         "dato_start", "Indlaeggelsesdato (start paa kontakt)", "Date of admission or initial contact", c("Date", "character"),
         "hovedspeciale_ans", "Afdelings speciale", "Specialty of department", "character"
       )
     ),
-    diagnoser = list(
-      name = "Landspatientregisterets diagnosetabel (LPR3_F)",
+    lpr3f_diagnoser = list(
+      name = "Landspatientregisterets diagnosetabel (LPR3F)",
       start_year = 2019,
       end_year = NA,
       variables = tibble::tribble(
@@ -156,7 +153,7 @@ registers <- function() {
       end_year = NA,
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
-        "patient_cpr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
+        "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         "samplingdate", "Dato for proevetagning", "Date of sampling", c("Date", "character"),
         "analysiscode", "Analysens NPU-kode", "NPU code of analysis", "character",
         "value", "Numerisk resultat af analyse", "Numerical result of analysis", "numeric"

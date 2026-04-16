@@ -1,11 +1,53 @@
 # Changelog
 
 We use [Commitizen](https://commitizen-tools.github.io/commitizen/) to
-automatically increase the versions, release the package on GitHub (with 
+automatically increase the versions, release the package on GitHub (with
 a tag), and auto-generate this NEWS file. The items listed below are
 generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
+
+## 0.9.31 (2026-04-15)
+
+### Refactor
+
+- :truck: rename `prepare_lpr3` function and params to `lpr3f` (#530)
+
+## 0.9.30 (2026-04-15)
+
+### Fix
+
+- 🐛 fully use SQL in `yyww_to_yyyymmdd()` (#525)
+
+## 0.9.29 (2026-04-15)
+
+### Refactor
+
+- 🚚 prefix `kontakter` and `diagnoser` with `lpr3f_`  (#523)
+
+## 0.9.28 (2026-04-15)
+
+### Refactor
+
+- ♻️ split final `select()` for easier debugging (#521)
+
+## 0.9.27 (2026-04-15)
+
+### Fix
+
+- 🐛 `.data$` in tidyselect is being deprecated (#515)
+
+## 0.9.26 (2026-04-15)
+
+### Refactor
+
+- :pencil2: rename to `check_duckdb()` and make it internal (#513)
+
+## 0.9.25 (2026-04-15)
+
+### Fix
+
+- 🐛 expected ID variable name is always `pnr` (#499)
 
 ## 0.9.24 (2026-04-14)
 
@@ -23,13 +65,15 @@ standard.
 
 ### Fix
 
-- :bug: support type checking of variables with multiple classes in R (#493)
+- :bug: support type checking of variables with multiple classes in R
+  (#493)
 
 ## 0.9.21 (2026-02-19)
 
 ### Refactor
 
-- :wrench: set lower version limit of duckplyr/arrow (plus others) (#491)
+- :wrench: set lower version limit of duckplyr/arrow (plus others)
+  (#491)
 
 ## 0.9.20 (2026-02-19)
 
@@ -53,7 +97,8 @@ standard.
 
 ### Fix
 
-- :bug: split out case data from sim, joining them as one in tests (#456)
+- :bug: split out case data from sim, joining them as one in tests
+  (#456)
 
 ## 0.9.16 (2025-12-01)
 
@@ -77,7 +122,7 @@ standard.
 
 ### Refactor
 
-- ♻ replace stringr functions with base alternatives in algorithm  (#419)
+- ♻ replace stringr functions with base alternatives in algorithm (#419)
 
 ## 0.9.12 (2025-11-21)
 
@@ -89,7 +134,8 @@ standard.
 
 ### Refactor
 
-- :truck: use `from_*()` prefix for logical inclusion helper variables (#415)
+- :truck: use `from_*()` prefix for logical inclusion helper variables
+  (#415)
 
 ## 0.9.10 (2025-11-20)
 
@@ -101,7 +147,8 @@ standard.
 
 ### Perf
 
-- :zap: duckplyr doesn't support `lubridate::as_date()`, use `as.Date()` (#408)
+- :zap: duckplyr doesn't support `lubridate::as_date()`, use `as.Date()`
+  (#408)
 
 ## 0.9.8 (2025-11-20)
 
@@ -113,7 +160,7 @@ standard.
 
 ### Fix
 
-- :bug: Non-cases test filter  (#412)
+- :bug: Non-cases test filter (#412)
 
 ## 0.9.6 (2025-11-19)
 
@@ -125,13 +172,15 @@ standard.
 
 ### Fix
 
-- 🐛 changes to `drop_pregnancies()` to support the new refactored logic (#405)
+- 🐛 changes to `drop_pregnancies()` to support the new refactored logic
+  (#405)
 
 ## 0.9.4 (2025-11-19)
 
 ### Fix
 
-- :bug: don't use `collect()` or `compute()` inside code, only outside (#403)
+- :bug: don't use `collect()` or `compute()` inside code, only outside
+  (#403)
 - :bug: convert NAs to FALSE and drop any if TRUE for pregnancy (#398)
 
 ## 0.9.3 (2025-11-19)
@@ -154,7 +203,8 @@ standard.
 
 ### Refactor
 
-- :recycle: enhance (non-)case data with sim data and convert to duckdb tibble (#396)
+- :recycle: enhance (non-)case data with sim data and convert to duckdb
+  tibble (#396)
 
 ## 0.9.0 (2025-11-14)
 
@@ -220,7 +270,7 @@ standard.
 
 ### Refactor
 
-- :truck: `drop_potential_pcos()` -> `drop_pcos()`  (#359)
+- :truck: `drop_potential_pcos()` -> `drop_pcos()` (#359)
 
 ## 0.7.0 (2025-09-19)
 
@@ -230,7 +280,8 @@ standard.
 
 ### Refactor
 
-- :truck: rename `inclusion_` and `exclusion_` to `keep_` and `drop_` (#356)
+- :truck: rename `inclusion_` and `exclusion_` to `keep_` and `drop_`
+  (#356)
 
 ## 0.6.3 (2025-09-18)
 
@@ -248,7 +299,8 @@ standard.
 
 ### Refactor
 
-- :recycle: "parse, don't verify", select correct columns at start (#345)
+- :recycle: "parse, don't verify", select correct columns at start
+  (#345)
 
 ## 0.6.0 (2025-09-18)
 
@@ -321,7 +373,7 @@ standard.
 - :sparkles: add `exclude_potential_pcos()` (#214)
 - :sparkles: add `simulate_registers()` (#208)
 - :sparkles: skeleton of the core diabetes classification (#142)
-- ✨  add `include_podiatrist_services()` with tests (#182)
+- ✨ add `include_podiatrist_services()` with tests (#182)
 - ✨ add simulated register data to `targets` pipeline (#167)
 - ✨ update algorithm logic to include regex in parentheses (#159)
 - :sparkles: add `include_gld_purchases()` (#138)
@@ -349,7 +401,8 @@ standard.
 - :bug: refer to correct workflow in R-CMD-check badge (#299)
 - **algorithm**: :bug: `barnmak` logic in `podiatrist_services` (#278)
 - :bug: fixes notes about factors and reading CSV file (#248)
-- :bug: rename pregnancy event variable in algorithm by removing `lpr2_` (#236)
+- :bug: rename pregnancy event variable in algorithm by removing `lpr2_`
+  (#236)
 - 🩹 don't filter to two first observations in `include_hba1c()` (#202)
 - :bug: this function needs to be exported so Arrow can find it (#193)
 - :bug: this function needs to be exported so Arrow can find it
@@ -358,7 +411,8 @@ standard.
 - :bug: misc fixes to successfully run `r-cmd-check` (#168)
 - 🐛 change honuge format to yyww (#165)
 - :bug: verify function actually throws error (#128)
-- the logic criteria wasn't being correctly loaded, need to convert to expression
+- the logic criteria wasn't being correctly loaded, need to convert to
+  expression
 - :art: remove duplicate arrow from function flow puml
 - remove return since it's not needed
 - add "indo" to condition since it's used in the function
@@ -369,7 +423,8 @@ standard.
 - add missing header in output example table
 - minor text edit to make sentence clearer
 - specify that we use the primary diagnosis for classification
-- update classify diabetes type flow chart based on feedback from @Aastedet
+- update classify diabetes type flow chart based on feedback from
+  @Aastedet
 - describe classifying steps as "filters" with "criteria"
 - add oxford comma to header
 - :fire: remove old figure experiments
@@ -382,7 +437,8 @@ standard.
 - add "_status" to the name of the "classify_diabetes" function
 - minor text edits and change "classification date" to "inclusion date"
 - typo
-- remove all mentions of "before index date" since these filters are based on all data
+- remove all mentions of "before index date" since these filters are
+  based on all data
 - edits from code suggestions
 - move set.seed up
 - change pnr to only include 001-100 independent of `num_samples`
@@ -396,7 +452,8 @@ standard.
 ### Refactor
 
 - :recycle: add (non-)insulin drug indicator variables (#298)
-- :recycle: rename `verify_required_variables()` to `check_required_variables()` (#306)
+- :recycle: rename `verify_required_variables()` to
+  `check_required_variables()` (#306)
 - ♻ move column name lowercasing to `classify_diabetes()` (#295)
 - :recycle: `criteria` -> `logic` (#294)
 - :recycle: move lpr2 primary diagnosis logic to algorithm (#289)
@@ -416,7 +473,8 @@ standard.
 - take a dataframe rather than a string name of the register
 - these functions should only output data
 - :recycle: convert the `data-raw/` scripts into functions
-- kontakter should come first so `cpr` is first column, plus use inner join
+- kontakter should come first so `cpr` is first column, plus use inner
+  join
 - keep only earliest two dates, might not work with some databases
 - move ICD8 processing into own section and store only relevant info
 - completely refactor simulation code since simstudy was not working
