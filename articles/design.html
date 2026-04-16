@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.31</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -125,6 +125,8 @@
 </ul></section><section class="level3"><h3 id="input">Input<a class="anchor" aria-label="anchor" href="#input"></a>
 </h3>
 <ul>
+<li>We assume the register data is <em>not</em> taken directly from the original SAS files, but has undergone prior pre-processing and cleaning. These assumptions are checked, and the user is informed if they are not met.</li>
+<li>We also assume that the original source files have been loaded and joined into a single dataset object per register. Although Denmark Statistics stores data by year, all years for a register must be merged into one dataset.</li>
 <li>As few arguments as is possible, with as few core required arguments as possible (ideally one or two).</li>
 <li>
 <code>keep_</code> functions take a register as the first argument.
@@ -134,7 +136,7 @@
 </li>
 <li>
 <code>drop_</code> functions can take a register as the first argument or take the output from a <code>keep_</code> function.</li>
-<li>All functions take a DuckDB type object as input (e.g. <code>duckplyr_df</code>).</li>
+<li>Function arguments take a single DuckDB type object as register input (e.g. <code>duckplyr_df</code>), consistent with the assumption that each register is provided as a single, unified data frame.</li>
 <li>The first argument will always take a data frame type object.</li>
 <li>The second argument could be an output data frame object from another function.</li>
 </ul></section><section class="level3"><h3 id="output">Output<a class="anchor" aria-label="anchor" href="#output"></a>
@@ -159,9 +161,13 @@
 <li>
 <code>lpr_diag</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR2)’ in Danish.</li>
 <li>
-<code>lpr3f_kontakter</code>: The register or set of registers called ‘Landspatientregisterets kontakttabel (LPR3)’ in Danish.</li>
+<code>lpr3a_kontakt</code>: The register or set of registers called ‘Landspatientregisterets kontakttabel (LPR3A)’ in Danish.</li>
 <li>
-<code>lpr3f_diagnoser</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR3)’ in Danish.</li>
+<code>lpr3a_diagnose</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR3A)’ in Danish.</li>
+<li>
+<code>lpr3f_kontakter</code>: The register or set of registers called ‘Landspatientregisterets kontakttabel (LPR3F)’ in Danish.</li>
+<li>
+<code>lpr3f_diagnoser</code>: The register or set of registers called ‘Landspatientregisterets diagnosetabel (LPR3F)’ in Danish.</li>
 <li>
 <code>sysi</code>: The register or set of registers called ‘Sygesikringsregisteret’ in Danish.</li>
 <li>

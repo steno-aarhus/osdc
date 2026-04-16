@@ -54,8 +54,10 @@ these registers can be seen below:
 | lmdb                  | Laegemiddelstatistikregisteret                      |
 | lpr_adm               | Landspatientregisterets administrationstabel (LPR2) |
 | lpr_diag              | Landspatientregisterets diagnosetabel (LPR2)        |
-| lpr3f_kontakter       | Landspatientregisterets kontakttabel (LPR3)         |
-| lpr3f_diagnoser       | Landspatientregisterets diagnosetabel (LPR3)        |
+| lpr3a_kontakt         | Landspatientregisterets kontakttabel (LPR3A)        |
+| lpr3a_diagnose        | Landspatientregisterets diagnosetabel (LPR3A)       |
+| lpr3f_kontakter       | Landspatientregisterets kontakttabel (LPR3F)        |
+| lpr3f_diagnoser       | Landspatientregisterets diagnosetabel (LPR3F)       |
 | sysi                  | Sygesikringsregisteret                              |
 | sssy                  | Sygesikringsregisteret                              |
 | lab_forsker           | Laboratoriedatabasens forskertabel                  |
@@ -134,16 +136,16 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/Rtmpnt8U3I/duckplyr/duckplyr1d3b458fb76c.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpLKPunK/duckplyr/duckplyr1d382306b25.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 2 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 4 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 5 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
-#> 7 720437203185 2018-08-30            2018-08-30         FALSE   TRUE
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 4 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 5 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -166,11 +168,11 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 2 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 3 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 5 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 4 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
 #> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
 #> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
 ```
