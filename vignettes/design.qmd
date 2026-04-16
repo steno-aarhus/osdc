@@ -137,36 +137,37 @@ of the classification algorithm are described in the
 
 ### `prepare_lpr*()`
 
-In order to classify diabetes status, we need the patient
-registers with diagnosis information (known collectively as Landspatientregisteret, LPR).
-There isn't just one LPR but several different LPRs
-that have evolved over time. Statistics Denmark (DST)
-in fact relatively recently created a new LPR (LPR3A) that resolves some
-issues with the previous LPR registers. Each version of LPR
-contains different tables and variables,
-though osdc only needs specific variables from two tables.
+In order to classify diabetes status, we need the patient registers with
+diagnosis information (known collectively as Landspatientregisteret,
+LPR). There isn't just one LPR but several different LPRs that have
+evolved over time. Statistics Denmark (DST) in fact relatively recently
+created a new LPR (LPR3A) that resolves some issues with the previous
+LPR registers. Each version of LPR contains different tables and
+variables, though osdc only needs specific variables from two tables.
 
 We originally required each original LPRs register as separate arguments
 in `classify_diabetes()`, but this became an issue after the new LPR3A
 was created. So, we re-designed `classify_diabetes()` to take only one
 `lpr` argument and instead require the different LPRs be pre-processed
-and joined before entering `classify_diabetes()`. This way,
-we can add new pre-processing functions for any future changes to LPR
-without changing the interface of `classify_diabetes()`.
+and joined before entering `classify_diabetes()`. This way, we can add
+new pre-processing functions for any future changes to LPR without
+changing the interface of `classify_diabetes()`.
 
 To help with this pre-processing, we designed several helper functions
 that follow the pattern `prepare_lpr*()`, e.g. for LPR2 it is
-`prepare_lpr2()`. This way, if DST update the LPR again, we can
-add another `prepare_lpr*()` function to prepare the new LPR format for
+`prepare_lpr2()`. This way, if DST update the LPR again, we can add
+another `prepare_lpr*()` function to prepare the new LPR format for
 classification.
 
 Each `prepare_lpr*()` outputs a DuckDB object with the following
 variables: `pnr`, `date`, `is_primary_diagnosis`, `is_diabetes_code`,
 `is_t1d_code`, `is_t2d_code`, `is_endocrinology_dept`,
-`is_medical_dept`, and `is_pregnancy_code`. See the help docs for
-`prepare_lpr()` for more details on these variables. See the diagram
-below for the general flow of data sources and the different functions
-that prepare them for the `classify_diabetes()` function.
+`is_medical_dept`, and `is_pregnancy_code`. And a final `join_lpr()`
+helper function combines the outputs of each `prepare_lpr*()` into a
+single data object. See the help docs for `prepare_lpr()` for more
+details on these variables. See the diagram below for the general flow
+of data sources and the different functions that prepare them for the
+`classify_diabetes()` function.
 
 ```{mermaid}
 %%| label: fig-prepare-lpr-flow
