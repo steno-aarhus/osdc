@@ -147,9 +147,7 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
 #'     register_data$lpr3f_diagnoser
 #'   )
 #' ))
-join_lpr <- function(
-	lpr_list
-) {
+join_lpr <- function(lpr_list) {
   checkmate::assert_list(lpr_list)
   lpr_list |>
     purrr::reduce(dplyr::union_all)
