@@ -4,12 +4,10 @@
 \alias{join_lpr}
 \title{Join the prepared LPR registers.}
 \usage{
-join_lpr(lpr2, lpr3f)
+join_lpr(lpr_list)
 }
 \arguments{
-\item{lpr2}{The prepared LPR2 register. See \code{\link[=prepare_lpr2]{prepare_lpr2()}}.}
-
-\item{lpr3f}{The prepared LPR3F register. See \code{\link[=prepare_lpr3f]{prepare_lpr3f()}}.}
+\item{lpr_list}{A list of the prepared LPR registers, from e.g. \code{\link[=prepare_lpr2]{prepare_lpr2()}}.}
 }
 \value{
 The same type as the input data, as a \code{\link[duckplyr:duckdb_tibble]{duckplyr::duckdb_tibble()}},
@@ -41,11 +39,11 @@ register_data <- simulate_registers(c(
   "lpr3f_diagnoser"
 ))
 
-join_lpr(
-  lpr2 = prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-  lpr3f = prepare_lpr3f(
+join_lpr(list(
+  prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+  prepare_lpr3f(
     register_data$lpr3f_kontakter,
     register_data$lpr3f_diagnoser
   )
-)
+))
 }
