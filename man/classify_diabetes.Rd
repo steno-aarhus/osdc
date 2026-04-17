@@ -6,8 +6,7 @@
 \usage{
 classify_diabetes(
   lpr,
-  sysi,
-  sssy,
+  hsr,
   lab_forsker,
   bef,
   lmdb,
@@ -17,9 +16,8 @@ classify_diabetes(
 \arguments{
 \item{lpr}{The unified LPR register, see \code{\link[=join_registers]{join_registers()}}}
 
-\item{sysi}{The SYSI table from the health service register}
-
-\item{sssy}{The SSSY table from the health service register}
+\item{hsr}{The unified health services registers (SYSI and SSSY), see
+\code{\link[=join_registers]{join_registers()}}}
 
 \item{lab_forsker}{The register for laboratory results for research}
 
@@ -50,28 +48,29 @@ in.
 \examples{
 # Can't run this multiple times, will cause an error as the table
 # has already been created in the DuckDB connection.
-register_data <- registers() |>
+registers <- registers() |>
   names() |>
   simulate_registers() |>
   purrr::map(duckplyr::as_duckdb_tibble) |>
   purrr::map(duckplyr::as_tbl)
 
 lpr <- list(
-  prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+  prepare_lpr2(registers$lpr_adm, registers$lpr_diag),
   prepare_lpr3f(
-    register_data$lpr3f_kontakter,
-    register_data$lpr3f_diagnoser
+    registers$lpr3f_kontakter,
+    registers$lpr3f_diagnoser
   )
 ) |>
   join_registers()
 
+hsr <- list(registers$sssy, registers$sysi) |> join_registers()
+
 classify_diabetes(
   lpr = lpr,
-  sysi = register_data$sysi,
-  sssy = register_data$sssy,
-  lab_forsker = register_data$lab_forsker,
-  bef = register_data$bef,
-  lmdb = register_data$lmdb
+  hsr = hsr,
+  lab_forsker = registers$lab_forsker,
+  bef = registers$bef,
+  lmdb = registers$lmdb
 )
 }
 \seealso{

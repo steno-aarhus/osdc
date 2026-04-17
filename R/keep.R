@@ -117,8 +117,8 @@ keep_hba1c <- function(lab_forsker) {
 #' dates of all diabetes-specific podiatrist services. Removes duplicate
 #' services on the same date.
 #'
-#' @param sysi The SYSI register.
-#' @param sssy The SSSY register.
+#' @param hsr The unified health services registers (SYSI and SSSY), see
+#'  [join_registers()].
 #'
 #' @return The same type as the input data, as a [duckplyr::duckdb_tibble()].
 #'
@@ -128,14 +128,10 @@ keep_hba1c <- function(lab_forsker) {
 #'
 #' @noRd
 #' @inherit algorithm seealso
-keep_podiatrist_services <- function(sysi, sssy) {
+keep_podiatrist_services <- function(hsr) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
 
-  podiatrist_services <- sysi |>
-    dplyr::full_join(
-      sssy,
-      by = dplyr::join_by("pnr", "barnmak", "speciale", "honuge")
-    ) |>
+  hsr |>
     # Both of these need to be converted to correct format.
     dplyr::mutate(
       speciale = as.character(.data$speciale),
