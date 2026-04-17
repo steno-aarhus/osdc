@@ -85,8 +85,8 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
   ) |>
     # Rename columns to match LPR3F to reuse logic.
     dplyr::rename(
-      diag_kode = diagnosekode,
-      diag_type = diagnosetype
+      diag_kode = "diagnosekode",
+      diag_type = "diagnosetype"
     )
 
   lpr3f_kontakter <- select_required_variables(
@@ -94,8 +94,8 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
     "lpr3f_kontakter"
   ) |>
     dplyr::rename(
-      kont_starttidspunkt = dato_start,
-      kont_ans_hovedspec = hovedspeciale_ans
+      kont_starttidspunkt = "dato_start",
+      kont_ans_hovedspec = "hovedspeciale_ans"
     )
 
   prepare_lpr3a(
