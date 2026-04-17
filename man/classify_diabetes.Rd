@@ -15,7 +15,7 @@ classify_diabetes(
 )
 }
 \arguments{
-\item{lpr}{The unified LPR register, see \code{\link[=join_lpr]{join_lpr()}}}
+\item{lpr}{The unified LPR register, see \code{\link[=join_registers]{join_registers()}}}
 
 \item{sysi}{The SYSI table from the health service register}
 
@@ -63,7 +63,7 @@ lpr <- list(
     register_data$lpr3f_diagnoser
   )
 ) |>
-  join_lpr()
+  join_registers()
 
 classify_diabetes(
   lpr = lpr,

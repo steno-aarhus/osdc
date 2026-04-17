@@ -103,7 +103,7 @@ lpr <- list(
     register_data$lpr3f_diagnoser
   )
 ) |>
-  join_lpr()
+  join_registers()
 ```
 
 The remaining registers are extracted from the `register_data` list, so

@@ -3,7 +3,7 @@
 export(algorithm)
 export(classify_diabetes)
 export(edge_cases)
-export(join_lpr)
+export(join_registers)
 export(non_cases)
 export(non_cases_metadata)
 export(prepare_lpr2)

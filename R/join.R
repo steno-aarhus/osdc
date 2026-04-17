@@ -1,3 +1,33 @@
+#' Join prepared registers
+#'
+#' @param register_list A list of the prepared registers, from e.g.
+#'  [prepare_lpr2()].
+#'
+#' @returns A single object with all rows from each register in `register_list`.
+#'
+#' @export
+#'
+#' @examples
+#' register_data <- simulate_registers(c(
+#'   "lpr_adm",
+#'   "lpr_diag",
+#'   "lpr3f_kontakter",
+#'   "lpr3f_diagnoser"
+#' ))
+#'
+#' join_registers(list(
+#'   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+#'   prepare_lpr3f(
+#'     register_data$lpr3f_kontakter,
+#'     register_data$lpr3f_diagnoser
+#'   )
+#' ))
+join_registers <- function(register_list) {
+  checkmate::assert_list(register_list)
+  register_list |>
+    purrr::reduce(dplyr::union)
+}
+
 #' Join kept inclusion events.
 #'
 #' @description
