@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.10.4 (2026-04-17)
+
+### Refactor
+
+- ♻️ move `hsr` (`sssy`, `sysi`) join out of `classify_diabetes()` (#540)
+
 ## 0.10.3 (2026-04-17)
 
 ### Refactor
