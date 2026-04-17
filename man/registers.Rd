@@ -21,7 +21,7 @@ register item is a list with 4 items:
 \item{name}{The official name of the variable found in the register.}
 \item{danish_description}{The official Danish description of the variable.}
 \item{english_description}{The translated English description of the variable.}
-\item{data_type}{The data type, e.g. "character" of the variable. Could have multiple options (e.g. "Date" or "character").}
+\item{data_type}{The data type, e.g. "character" of the variable.}
 }
 }
 \description{

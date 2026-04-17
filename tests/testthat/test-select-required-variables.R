@@ -1,6 +1,10 @@
 library(tibble)
 
-bef_complete <- tibble::tibble(pnr = "1", koen = 1L, foed_dato = "1")
+bef_complete <- tibble::tibble(
+  pnr = "1",
+  koen = 1L,
+  foed_dato = as.Date("1990-01-01")
+)
 
 test_that("the correct abbreviation for the register is used", {
   # When incorrect register abbreviation is given
@@ -23,7 +27,7 @@ test_that("when non-required cols appear in the data", {
   bef_complete_extra <- tibble(
     pnr = "1",
     koen = 1L,
-    foed_dato = "1",
+    foed_dato = as.Date("1990-01-01"),
     something = 1
   )
 
@@ -38,7 +42,7 @@ test_that("passes when cols have the expected data types (register with multiple
   # `lab_forsker` has a column (`samplingdate`) that has multiple expected data types.
   kontakter <- tibble::tibble(
     pnr = c("1", "2"),
-    samplingdate = c("2020-01-01", "2020-01-02"),
+    samplingdate = as.Date(c("2020-01-01", "2020-01-02")),
     analysiscode = c("A", "B"),
     value = c(1, 2)
   )
@@ -81,7 +85,7 @@ test_that("column names are converted to lower case", {
   bef_mixed_case <- tibble::tibble(
     PnR = "1",
     KoEn = 1L,
-    FoEd_DaTo = "1"
+    FoEd_DaTo = as.Date("1990-01-01")
   )
 
   expect_identical(
@@ -93,7 +97,7 @@ test_that("column names are converted to lower case", {
   bef_as_duckdb <- tibble::tibble(
     PnR = "1",
     KoEn = 1L,
-    FoEd_DaTo = "1"
+    FoEd_DaTo = as.Date("1990-01-01")
   ) |>
     duckplyr::as_duckdb_tibble(prudence = "stingy")
 
