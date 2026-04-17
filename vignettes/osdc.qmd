@@ -98,10 +98,8 @@ registers (SSSY, and SYSI). osdc provides helper functions for this:
 ```{r}
 lpr <- list(
   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-  prepare_lpr3f(
-    register_data$lpr3f_kontakter,
-    register_data$lpr3f_diagnoser
-  )
+  prepare_lpr3f(register_data$lpr3f_kontakter, register_data$lpr3f_diagnoser),
+  prepare_lpr3a(register_data$lpr3a_kontakt, register_data$lpr3a_diagnose)
 ) |>
   join_registers()
 
