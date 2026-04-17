@@ -152,5 +152,5 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
 join_registers <- function(register_list) {
   checkmate::assert_list(register_list)
   register_list |>
-    purrr::reduce(dplyr::union_all)
+    purrr::reduce(dplyr::union)
 }
