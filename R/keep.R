@@ -132,11 +132,6 @@ keep_podiatrist_services <- function(hsr) {
   logic <- logic_as_expression("is_podiatrist_services")[[1]]
 
   hsr |>
-    # Both of these need to be converted to correct format.
-    dplyr::mutate(
-      speciale = as.character(.data$speciale),
-      barnmak = as.integer(.data$barnmak)
-    ) |>
     # Filter based algorithm logic.
     dplyr::filter(!!logic) |>
     # Remove duplicates
@@ -146,7 +141,6 @@ keep_podiatrist_services <- function(hsr) {
       "pnr",
       date = "honuge"
     ) |>
-    # Add logical helper variable to indicate diabetes-related podiatrist service.
     # Transform date from yyww to YYYY-MM-DD.
     yyww_to_yyyymmdd() |>
     # Add logical helper variable to indicate diabetes-related podiatrist service.
