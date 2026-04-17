@@ -195,12 +195,12 @@ If you want to see what the data *should* look like, see
 
 ### `lpr3f_kontakter`: Landspatientregisterets kontakttabel (LPR3F)
 
-| name              | english_description                  |
-|:------------------|:-------------------------------------|
-| pnr               | Pseudonymised social security number |
-| dw_ek_kontakt     | Record id number                     |
-| dato_start        | Date of admission or initial contact |
-| hovedspeciale_ans | Specialty of department              |
+| name              | english_description                                                   |
+|:------------------|:----------------------------------------------------------------------|
+| pnr               | Pseudonymised social security number. Equivalent to pnr in lpr2.      |
+| dw_ek_kontakt     | Record id number. Equivalent to recnum in lpr2.                       |
+| dato_start        | Date of admission or initial contact. Equivalent to d_inddto in lpr2. |
+| hovedspeciale_ans | Specialty of department                                               |
 
 Variables and their descriptions within the `lpr3f_kontakter` register.
 If you want to see what the data *should* look like, see
@@ -221,12 +221,12 @@ If you want to see what the data *should* look like, see
 
 ### `sysi`: Sygesikringsregisteret
 
-| name     | english_description                              |
-|:---------|:-------------------------------------------------|
-| pnr      | Pseudonymised social security number             |
-| barnmak  | Was the service provided to the patient’s child? |
-| speciale | Billing code of the service (fully specified)    |
-| honuge   | Year and week of service                         |
+| name     | english_description                                 |
+|:---------|:----------------------------------------------------|
+| pnr      | Pseudonymised social security number                |
+| barnmak  | Was the service provided to the patient’s child?    |
+| speciale | Billing code of the service (fully specified)       |
+| honuge   | Year and week of service (non-standard date format) |
 
 Variables and their descriptions within the `sysi` register. If you want
 to see what the data *should* look like, see
@@ -234,12 +234,12 @@ to see what the data *should* look like, see
 
 ### `sssy`: Sygesikringsregisteret
 
-| name     | english_description                              |
-|:---------|:-------------------------------------------------|
-| pnr      | Pseudonymised social security number             |
-| barnmak  | Was the service provided to the patient’s child? |
-| speciale | Billing code of the service (fully specified)    |
-| honuge   | Year and week of service                         |
+| name     | english_description                                 |
+|:---------|:----------------------------------------------------|
+| pnr      | Pseudonymised social security number                |
+| barnmak  | Was the service provided to the patient’s child?    |
+| speciale | Billing code of the service (fully specified)       |
+| honuge   | Year and week of service (non-standard date format) |
 
 Variables and their descriptions within the `sssy` register. If you want
 to see what the data *should* look like, see

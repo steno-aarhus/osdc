@@ -136,10 +136,10 @@ registers()
 #> # A tibble: 4 × 4
 #>   name                danish_description           english_description data_type
 #>   <chr>               <chr>                        <chr>               <list>   
-#> 1 pnr                 "Pseudonymiseret cpr-nummer… Pseudonymised soci… <chr [1]>
-#> 2 dw_ek_kontakt       "Kontakt id-nummer. Svarer … Record id number. … <chr [1]>
-#> 3 kont_starttidspunkt "Indlaeggelsesdato (start p… Date of admission … <chr [2]>
-#> 4 kont_ans_hovedspec  "Afdelings speciale. Ligner… Specialty of depar… <chr [1]>
+#> 1 pnr                 Pseudonymiseret cpr-nummer.… Pseudonymised soci… <chr [1]>
+#> 2 dw_ek_kontakt       Kontakt id-nummer. Svarer t… Record id number. … <chr [1]>
+#> 3 kont_starttidspunkt Indlaeggelsesdato (start pa… Date of admission … <chr [2]>
+#> 4 kont_ans_hovedspec  Afdelings speciale. Ligner … Specialty of depar… <chr [1]>
 #> 
 #> 
 #> $lpr3a_diagnose
@@ -176,8 +176,8 @@ registers()
 #> # A tibble: 4 × 4
 #>   name              danish_description             english_description data_type
 #>   <chr>             <chr>                          <chr>               <list>   
-#> 1 pnr               Pseudonymiseret cpr-nummer     Pseudonymised soci… <chr [1]>
-#> 2 dw_ek_kontakt     Kontakt id-nummer              Record id number    <chr [1]>
+#> 1 pnr               Pseudonymiseret cpr-nummer. S… Pseudonymised soci… <chr [1]>
+#> 2 dw_ek_kontakt     Kontakt id-nummer. Svarer til… Record id number. … <chr [1]>
 #> 3 dato_start        Indlaeggelsesdato (start paa … Date of admission … <chr [2]>
 #> 4 hovedspeciale_ans Afdelings speciale             Specialty of depar… <chr [1]>
 #> 
@@ -214,12 +214,12 @@ registers()
 #> 
 #> $sysi$variables
 #> # A tibble: 4 × 4
-#>   name     danish_description                    english_description   data_type
-#>   <chr>    <chr>                                 <chr>                 <chr>    
-#> 1 pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… character
-#> 2 barnmak  Blev ydelse ydet til patientens barn? Was the service prov… integer  
-#> 3 speciale Ydelsens honoreringskode              Billing code of the … character
-#> 4 honuge   Aar og uge for ydelse                 Year and week of ser… character
+#>   name     danish_description                      english_description data_type
+#>   <chr>    <chr>                                   <chr>               <chr>    
+#> 1 pnr      Pseudonymiseret cpr-nummer              Pseudonymised soci… character
+#> 2 barnmak  Blev ydelse ydet til patientens barn?   Was the service pr… integer  
+#> 3 speciale Ydelsens honoreringskode                Billing code of th… character
+#> 4 honuge   Aar og uge for ydelse (ikke-standard d… Year and week of s… character
 #> 
 #> 
 #> $sssy
@@ -234,12 +234,12 @@ registers()
 #> 
 #> $sssy$variables
 #> # A tibble: 4 × 4
-#>   name     danish_description                    english_description   data_type
-#>   <chr>    <chr>                                 <chr>                 <chr>    
-#> 1 pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… character
-#> 2 barnmak  Blev ydelse ydet til patientens barn? Was the service prov… integer  
-#> 3 speciale Ydelsens honoreringskode              Billing code of the … character
-#> 4 honuge   Aar og uge for ydelse                 Year and week of ser… character
+#>   name     danish_description                      english_description data_type
+#>   <chr>    <chr>                                   <chr>               <chr>    
+#> 1 pnr      Pseudonymiseret cpr-nummer              Pseudonymised soci… character
+#> 2 barnmak  Blev ydelse ydet til patientens barn?   Was the service pr… integer  
+#> 3 speciale Ydelsens honoreringskode                Billing code of th… character
+#> 4 honuge   Aar og uge for ydelse (ikke-standard d… Year and week of s… character
 #> 
 #> 
 #> $lab_forsker
