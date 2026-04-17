@@ -102,7 +102,8 @@ DuckDB table. The LPR data spans multiple versions (LPR2 and LPR3) that
 need to be prepared and joined into a single table before being used as
 input for
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md).
-osdc provides helper functions for this:
+The same goes for the health service registers (SSSY, and SYSI). osdc
+provides helper functions for this:
 
 ``` r
 lpr <- list(
@@ -113,6 +114,8 @@ lpr <- list(
   )
 ) |>
   join_registers()
+
+hsr <- list(register_data$sssy, register_data$sysi) |> join_registers()
 ```
 
 The remaining registers are extracted from the `register_data` list, so
@@ -122,8 +125,6 @@ they are ready to be passed as arguments to
 ``` r
 bef <- register_data$bef
 lmdb <- register_data$lmdb
-sysi <- register_data$sysi
-sssy <- register_data$sssy
 lab_forsker <- register_data$lab_forsker
 ```
 
@@ -136,8 +137,7 @@ to
 ``` r
 classified_diabetes <- classify_diabetes(
   lpr = lpr,
-  sysi = sysi,
-  sssy = sssy,
+  hsr = hsr,
   lab_forsker = lab_forsker,
   bef = bef,
   lmdb = lmdb
@@ -145,16 +145,16 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpRL1yAy/duckplyr/duckplyr1c6c6f76b231.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpVvRsdU/duckplyr/duckplyr1cf218e3a8b4.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 2 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 3 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
-#> 4 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 3 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 4 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
 #> 5 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 6 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 7 706974528463 2016-11-07            2016-11-07         FALSE   TRUE
+#> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -177,13 +177,13 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 3 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 4 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 5 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 3 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 4 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 5 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 6 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 7 409442575549 2020-05-04            2020-05-04         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 7 individuals are

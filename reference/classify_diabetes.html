@@ -62,8 +62,7 @@ in.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">classify_diabetes</span><span class="op">(</span></span>
 <span>  <span class="va">lpr</span>,</span>
-<span>  <span class="va">sysi</span>,</span>
-<span>  <span class="va">sssy</span>,</span>
+<span>  <span class="va">hsr</span>,</span>
 <span>  <span class="va">lab_forsker</span>,</span>
 <span>  <span class="va">bef</span>,</span>
 <span>  <span class="va">lmdb</span>,</span>
@@ -79,12 +78,9 @@ in.</p>
 <dd><p>The unified LPR register, see <code><a href="join_registers.html">join_registers()</a></code></p></dd>
 
 
-<dt id="arg-sysi">sysi<a class="anchor" aria-label="anchor" href="#arg-sysi"></a></dt>
-<dd><p>The SYSI table from the health service register</p></dd>
-
-
-<dt id="arg-sssy">sssy<a class="anchor" aria-label="anchor" href="#arg-sssy"></a></dt>
-<dd><p>The SSSY table from the health service register</p></dd>
+<dt id="arg-hsr">hsr<a class="anchor" aria-label="anchor" href="#arg-hsr"></a></dt>
+<dd><p>The unified health services registers (SYSI and SSSY), see
+<code><a href="join_registers.html">join_registers()</a></code></p></dd>
 
 
 <dt id="arg-lab-forsker">lab_forsker<a class="anchor" aria-label="anchor" href="#arg-lab-forsker"></a></dt>
@@ -125,38 +121,39 @@ description of the internal implementation of this classification function.</p><
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Can't run this multiple times, will cause an error as the table</span></span></span>
 <span class="r-in"><span><span class="co"># has already been created in the DuckDB connection.</span></span></span>
-<span class="r-in"><span><span class="va">register_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="va">registers</span> <span class="op">&lt;-</span> <span class="fu"><a href="registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="simulate_registers.html">simulate_registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">lpr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>, <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">registers</span><span class="op">$</span><span class="va">lpr_adm</span>, <span class="va">registers</span><span class="op">$</span><span class="va">lpr_diag</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="prepare_lpr3f.html">prepare_lpr3f</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_kontakter</span>,</span></span>
-<span class="r-in"><span>    <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span></span></span>
+<span class="r-in"><span>    <span class="va">registers</span><span class="op">$</span><span class="va">lpr3f_kontakter</span>,</span></span>
+<span class="r-in"><span>    <span class="va">registers</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">hsr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">registers</span><span class="op">$</span><span class="va">sssy</span>, <span class="va">registers</span><span class="op">$</span><span class="va">sysi</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">classify_diabetes</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  lpr <span class="op">=</span> <span class="va">lpr</span>,</span></span>
-<span class="r-in"><span>  sysi <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sysi</span>,</span></span>
-<span class="r-in"><span>  sssy <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">sssy</span>,</span></span>
-<span class="r-in"><span>  lab_forsker <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lab_forsker</span>,</span></span>
-<span class="r-in"><span>  bef <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">bef</span>,</span></span>
-<span class="r-in"><span>  lmdb <span class="op">=</span> <span class="va">register_data</span><span class="op">$</span><span class="va">lmdb</span></span></span>
+<span class="r-in"><span>  hsr <span class="op">=</span> <span class="va">hsr</span>,</span></span>
+<span class="r-in"><span>  lab_forsker <span class="op">=</span> <span class="va">registers</span><span class="op">$</span><span class="va">lab_forsker</span>,</span></span>
+<span class="r-in"><span>  bef <span class="op">=</span> <span class="va">registers</span><span class="op">$</span><span class="va">bef</span>,</span></span>
+<span class="r-in"><span>  lmdb <span class="op">=</span> <span class="va">registers</span><span class="op">$</span><span class="va">lmdb</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Source:   SQL [?? x 5]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/Rtmp8XDFkW/duckplyr/duckplyr19995254f5c5.duckdb]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/Rtmpgtetwx/duckplyr/duckplyr1a2278133d0f.duckdb]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span>
 </code></pre></div>

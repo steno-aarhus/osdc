@@ -71,9 +71,10 @@
 <span class="r-in"><span>  <span class="st">"lpr_adm"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"lpr_diag"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"lpr3f_kontakter"</span>,</span></span>
-<span class="r-in"><span>  <span class="st">"lpr3f_diagnoser"</span></span></span>
+<span class="r-in"><span>  <span class="st">"lpr3f_diagnoser"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"sssy"</span>,</span></span>
+<span class="r-in"><span>  <span class="st">"sysi"</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">join_registers</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>, <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="prepare_lpr3f.html">prepare_lpr3f</a></span><span class="op">(</span></span></span>
@@ -98,6 +99,21 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> 752896932129 2012-02-23 TRUE                 FALSE            FALSE      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: is_t2d_code &lt;lgl&gt;, is_endocrinology_dept &lt;lgl&gt;,</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   is_medical_dept &lt;lgl&gt;, is_pregnancy_code &lt;lgl&gt;</span></span>
+<span class="r-in"><span><span class="fu">join_registers</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">sysi</span>, <span class="va">register_data</span><span class="op">$</span><span class="va">sssy</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2,000 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr          barnmak speciale honuge</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 108684730664       0 10022    9329  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 982144017357       0 88475    0442  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 672580814975       0 83575    9549  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 439008110445       1 86409    9603  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 489714666740       0 42818    9215  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 155331797020       0 67148    9924  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 777951655096       0 62545    9727  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 167007504860       1 20866    9632  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 132473802596       0 27002    0213  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 876820784981       0 53825    9419  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1,990 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

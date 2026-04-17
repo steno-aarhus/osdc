@@ -10,8 +10,7 @@ that data source, or at least the years you have and are interested in.
 ``` r
 classify_diabetes(
   lpr,
-  sysi,
-  sssy,
+  hsr,
   lab_forsker,
   bef,
   lmdb,
@@ -26,13 +25,10 @@ classify_diabetes(
   The unified LPR register, see
   [`join_registers()`](https://steno-aarhus.github.io/osdc/reference/join_registers.md)
 
-- sysi:
+- hsr:
 
-  The SYSI table from the health service register
-
-- sssy:
-
-  The SSSY table from the health service register
+  The unified health services registers (SYSI and SSSY), see
+  [`join_registers()`](https://steno-aarhus.github.io/osdc/reference/join_registers.md)
 
 - lab_forsker:
 
@@ -76,38 +72,39 @@ this classification function.
 ``` r
 # Can't run this multiple times, will cause an error as the table
 # has already been created in the DuckDB connection.
-register_data <- registers() |>
+registers <- registers() |>
   names() |>
   simulate_registers() |>
   purrr::map(duckplyr::as_duckdb_tibble) |>
   purrr::map(duckplyr::as_tbl)
 
 lpr <- list(
-  prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+  prepare_lpr2(registers$lpr_adm, registers$lpr_diag),
   prepare_lpr3f(
-    register_data$lpr3f_kontakter,
-    register_data$lpr3f_diagnoser
+    registers$lpr3f_kontakter,
+    registers$lpr3f_diagnoser
   )
 ) |>
   join_registers()
 
+hsr <- list(registers$sssy, registers$sysi) |> join_registers()
+
 classify_diabetes(
   lpr = lpr,
-  sysi = register_data$sysi,
-  sssy = register_data$sssy,
-  lab_forsker = register_data$lab_forsker,
-  bef = register_data$bef,
-  lmdb = register_data$lmdb
+  hsr = hsr,
+  lab_forsker = registers$lab_forsker,
+  bef = registers$bef,
+  lmdb = registers$lmdb
 )
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/Rtmp8XDFkW/duckplyr/duckplyr19995254f5c5.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/Rtmpgtetwx/duckplyr/duckplyr1a2278133d0f.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
 #> 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 3 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 4 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 5 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 2 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 4 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 5 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
 #> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
 #> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
 ```
