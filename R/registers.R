@@ -181,7 +181,7 @@ joined_registers <- function() {
   list(
     lpr = list(
       name = "Landspatientregisteret",
-      start_year = 1977,
+      start_year = NA,
       end_year = NA,
       # TODO: Add which variables all variables come from (LPR2, LPR3F, LPR3A).
       variables = tibble::tribble(
