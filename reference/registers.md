@@ -134,11 +134,11 @@ registers()
 #> $lpr3a_kontakt$variables
 #> # A tibble: 4 × 4
 #>   name                danish_description           english_description data_type
-#>   <chr>               <chr>                        <chr>               <list>   
-#> 1 pnr                 Pseudonymiseret cpr-nummer.… Pseudonymised soci… <chr [1]>
-#> 2 dw_ek_kontakt       Kontakt id-nummer. Svarer t… Record id number. … <chr [1]>
-#> 3 kont_starttidspunkt Indlaeggelsesdato (start pa… Date of admission … <chr [2]>
-#> 4 kont_ans_hovedspec  Afdelings speciale. Ligner … Specialty of depar… <chr [1]>
+#>   <chr>               <chr>                        <chr>               <chr>    
+#> 1 pnr                 Pseudonymiseret cpr-nummer.… Pseudonymised soci… character
+#> 2 dw_ek_kontakt       Kontakt id-nummer. Svarer t… Record id number. … character
+#> 3 kont_starttidspunkt Indlaeggelsesdato (start pa… Date of admission … Date     
+#> 4 kont_ans_hovedspec  Afdelings speciale. Ligner … Specialty of depar… character
 #> 
 #> 
 #> $lpr3a_diagnose
@@ -155,7 +155,7 @@ registers()
 #> # A tibble: 4 × 4
 #>   name              danish_description             english_description data_type
 #>   <chr>             <chr>                          <chr>               <chr>    
-#> 1 dw_ek_kontakt     Kontakt id-nummer              Record id number    character
+#> 1 dw_ek_kontakt     Kontakt id-nummer. Svarer til… Record id number. … character
 #> 2 diag_kode         Diagnosekode. Svarer til c_di… Diagnosis code. Eq… character
 #> 3 diag_type         Diagnosetype. Svarer til c_di… Diagnosis type. Eq… character
 #> 4 senere_afkraeftet Blev diagnosen senere afkraef… Was the diagnosis … character

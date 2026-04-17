@@ -17,6 +17,10 @@ Functions used in the documentation and examples.
   : Prepare and join the two LPR2 registers to extract diabetes and
   pregnancy diagnoses.
 
+- [`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md)
+  : Prepare and join the two LPR3A registers to extract diabetes and
+  pregnancy diagnoses.
+
 - [`prepare_lpr3f()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3f.md)
   : Prepare and join the two LPR3F registers to extract diabetes and
   pregnancy diagnoses.

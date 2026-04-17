@@ -108,10 +108,8 @@ provides helper functions for this:
 ``` r
 lpr <- list(
   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
-  prepare_lpr3f(
-    register_data$lpr3f_kontakter,
-    register_data$lpr3f_diagnoser
-  )
+  prepare_lpr3f(register_data$lpr3f_kontakter, register_data$lpr3f_diagnoser),
+  prepare_lpr3a(register_data$lpr3a_kontakt, register_data$lpr3a_diagnose)
 ) |>
   join_registers()
 
@@ -145,16 +143,16 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpcWoK4t/duckplyr/duckplyr1c107b620876.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpfZCIVb/duckplyr/duckplyr1cf04e58e870.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 4 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 5 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
+#> 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 2 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 3 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 5 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 6 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 7 409442575549 2020-05-04            2020-05-04         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -177,13 +175,13 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
-#> 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 3 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
-#> 4 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 5 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
-#> 6 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
-#> 7 409442575549 2020-05-04            2020-05-04         FALSE   TRUE
+#> 1 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   
+#> 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
+#> 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   
+#> 4 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   
+#> 5 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
+#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 7 732715981647 2016-12-19            2016-12-19         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 7 individuals are

@@ -169,12 +169,12 @@ want to see what the data *should* look like, see
 
 ### `lpr3a_kontakt`: Landspatientregisterets kontakttabel (LPR3A)
 
-| name                | english_description                                                         |
-|:--------------------|:----------------------------------------------------------------------------|
-| pnr                 | Pseudonymised social security number. Equivalent to pnr in lpr2.            |
-| dw_ek_kontakt       | Record id number. Equivalent to recnum in lpr2.                             |
-| kont_starttidspunkt | Date of admission or initial contact. Equivalent to d_inddto in lpr2.       |
-| kont_ans_hovedspec  | Specialty of department. Similar to c_spec in lpr2, but values are strings. |
+| name                | english_description                                                                                                  |
+|:--------------------|:---------------------------------------------------------------------------------------------------------------------|
+| pnr                 | Pseudonymised social security number. Equivalent to pnr in lpr2 and lpr3f.                                           |
+| dw_ek_kontakt       | Record id number. Equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f.                                           |
+| kont_starttidspunkt | Date of admission or initial contact. Equivalent to d_inddto in lpr2 and dato_start in lpr3f.                        |
+| kont_ans_hovedspec  | Specialty of department. Similar to c_spec in lpr2, but values are strings. Equivalent to hovedspeciale_ans in lpr3f |
 
 Variables and their descriptions within the `lpr3a_kontakt` register. If
 you want to see what the data *should* look like, see
@@ -182,12 +182,12 @@ you want to see what the data *should* look like, see
 
 ### `lpr3a_diagnose`: Landspatientregisterets diagnosetabel (LPR3A)
 
-| name              | english_description                               |
-|:------------------|:--------------------------------------------------|
-| dw_ek_kontakt     | Record id number                                  |
-| diag_kode         | Diagnosis code. Equivalent to c_diag in lpr2.     |
-| diag_type         | Diagnosis type. Equivalent to c_diagtype in lpr2. |
-| senere_afkraeftet | Was the diagnosis retracted later?                |
+| name              | english_description                                                         |
+|:------------------|:----------------------------------------------------------------------------|
+| dw_ek_kontakt     | Record id number. Equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f.  |
+| diag_kode         | Diagnosis code. Equivalent to c_diag in lpr2 and diagnosekode in lpr3f.     |
+| diag_type         | Diagnosis type. Equivalent to c_diagtype in lpr2 and diagnosetype i lpr3f.  |
+| senere_afkraeftet | Was the diagnosis retracted later? Equivalent to senere_afkraeftet in lpr3f |
 
 Variables and their descriptions within the `lpr3a_diagnose` register.
 If you want to see what the data *should* look like, see
