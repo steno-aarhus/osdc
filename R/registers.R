@@ -9,7 +9,7 @@
 #'      \item{name}{The official name of the variable found in the register.}
 #'      \item{danish_description}{The official Danish description of the variable.}
 #'      \item{english_description}{The translated English description of the variable.}
-#'      \item{data_type}{The data type, e.g. "character" of the variable. Could have multiple options (e.g. "Date" or "character").}
+#'      \item{data_type}{The data type, e.g. "character" of the variable.}
 #'   }
 #'
 #' @source Many of the details within the [registers()] metadata come
@@ -28,7 +28,7 @@ registers <- function() {
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         "koen", "Koen", "Gender/sex", "integer",
-        "foed_dato", "Foedselsdato", "Date of birth", c("Date", "character")
+        "foed_dato", "Foedselsdato", "Date of birth", "Date"
       )
     ),
     lmdb = list(
@@ -38,7 +38,7 @@ registers <- function() {
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
-        "eksd", "Ekspeditionsdato", "Date of purchase", c("Date", "character"),
+        "eksd", "Ekspeditionsdato", "Date of purchase", "Date",
         "atc", "ATC-kode (fuldt specificeret)", "ATC code (fully specified)", "character",
         "volume", "Antal standarddoser (DDD) i pakken", "Number of daily standard doses (DDD) in package", "numeric",
         "apk", "Antal pakker koebt", "Number of packages purchased", "numeric",
@@ -53,7 +53,7 @@ registers <- function() {
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         "recnum", "Kontakt id-nummer", "Record id number", "character",
-        "d_inddto", "Indlaeggelsesdato (start paa kontakt)", "Date of admission or initial contact", c("Date", "character"),
+        "d_inddto", "Indlaeggelsesdato (start paa kontakt)", "Date of admission or initial contact", "Date",
         "c_spec", "Afdelings specialekode", "Specialty code of department", "character"
       )
     ),
@@ -100,7 +100,7 @@ registers <- function() {
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2.", "character",
         "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2.", "Record id number. Equivalent to recnum in LPR2.", "character",
-        "dato_start", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2.", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("Date", "character"),
+        "dato_start", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2.", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", "Date",
         "hovedspeciale_ans", "Afdelings speciale", "Specialty of department", "character"
       )
     ),
@@ -147,7 +147,7 @@ registers <- function() {
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
-        "samplingdate", "Dato for proevetagning", "Date of sampling", c("Date", "character"),
+        "samplingdate", "Dato for proevetagning", "Date of sampling", "Date",
         "analysiscode", "Analysens NPU-kode", "NPU code of analysis", "character",
         "value", "Numerisk resultat af analyse", "Numerical result of analysis", "numeric"
       )
