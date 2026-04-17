@@ -24,7 +24,8 @@ cases_vs_nc <- sim_data |>
 
 lpr <- join_registers(list(
   prepare_lpr2(cases_vs_nc$lpr_adm, cases_vs_nc$lpr_diag),
-  prepare_lpr3f(cases_vs_nc$lpr3f_kontakter, cases_vs_nc$lpr3f_diagnoser)
+  prepare_lpr3f(cases_vs_nc$lpr3f_kontakter, cases_vs_nc$lpr3f_diagnoser),
+  prepare_lpr3a(cases_vs_nc$lpr3a_kontakt, cases_vs_nc$lpr3a_diagnose)
 ))
 
 hsr <- join_registers(list(cases_vs_nc$sssy, cases_vs_nc$sysi))
