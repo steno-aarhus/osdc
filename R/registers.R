@@ -74,10 +74,10 @@ registers <- function() {
       end_year = NA,
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
-        "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2.", "character",
-        "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2.", "Record id number. Equivalent to recnum in LPR2.", "character",
-        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2.", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("POSIXct", "POSIXt"),
-        "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge.", "Specialty of department. Similar to c_spec in LPR2, but values are strings.", "character"
+        "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2 and LPR3F.", "character",
+        "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2 og dw_ek_kontakt i LPR3F.", "Record id number. Equivalent to recnum in LPR2 and dw_ek_kontakt in LPR3F.", "character",
+        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2 og dato_start i LPR3F.", "Date of admission or initial contact. Equivalent to d_inddto in LPR2 and dato_start in LPR3F.", c("POSIXct", "POSIXt"),
+        "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge. Svarer til hovedspeciale_ans i LPR3F", "Specialty of department. Similar to c_spec in LPR2, but values are strings. Equivalent to hovedspeciale_ans in LPR3F", "character"
       )
     ),
     lpr3a_diagnose = list(
@@ -86,10 +86,10 @@ registers <- function() {
       end_year = NA,
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
-        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
-        "diag_kode", "Diagnosekode. Svarer til c_diag i LPR2.", "Diagnosis code. Equivalent to c_diag in LPR2.", "character",
-        "diag_type", "Diagnosetype. Svarer til c_diagtype i LPR2.", "Diagnosis type. Equivalent to c_diagtype in LPR2.", "character",
-        "senere_afkraeftet", "Blev diagnosen senere afkraeftet?", "Was the diagnosis retracted later?", "character"
+        "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2 og dw_ek_kontakt i LPR3F.", "Record id number. Equivalent to recnum in LPR2 and dw_ek_kontakt in LPR3F.", "character",
+        "diag_kode", "Diagnosekode. Svarer til c_diag i LPR2 og diagnosekode i LPR3F.", "Diagnosis code. Equivalent to c_diag in LPR2 and diagnosekode in LPR3F.", "character",
+        "diag_type", "Diagnosetype. Svarer til c_diagtype i LPR2 og diagnosetype i LPR3F.", "Diagnosis type. Equivalent to c_diagtype in LPR2 and diagnosetype i LPR3F.", "character",
+        "senere_afkraeftet", "Blev diagnosen senere afkraeftet? Svarer til senere_afkraeftet i LPR3F.", "Was the diagnosis retracted later? Equivalent to senere_afkraeftet in LPR3F", "character"
       )
     ),
     lpr3f_kontakter = list(
