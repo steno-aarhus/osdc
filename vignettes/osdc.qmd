@@ -92,8 +92,8 @@ register_data <- registers() |>
 The result is a named list where each element is one register as a
 DuckDB table. The LPR data spans multiple versions (LPR2 and LPR3) that
 need to be prepared and joined into a single table before being used as
-input for `classify_diabetes()`. osdc provides helper functions for
-this:
+input for `classify_diabetes()`. The same goes for the health service
+registers (SSSY, and SYSI). osdc provides helper functions for this:
 
 ```{r}
 lpr <- list(
@@ -104,6 +104,8 @@ lpr <- list(
   )
 ) |>
   join_registers()
+
+hsr <- list(register_data$sssy, register_data$sysi) |> join_registers()
 ```
 
 The remaining registers are extracted from the `register_data` list, so
@@ -112,8 +114,6 @@ they are ready to be passed as arguments to `classify_diabetes()`:
 ```{r}
 bef <- register_data$bef
 lmdb <- register_data$lmdb
-sysi <- register_data$sysi
-sssy <- register_data$sssy
 lab_forsker <- register_data$lab_forsker
 ```
 
@@ -125,8 +125,7 @@ to `classify_diabetes()`:
 ```{r}
 classified_diabetes <- classify_diabetes(
   lpr = lpr,
-  sysi = sysi,
-  sssy = sssy,
+  hsr = hsr,
   lab_forsker = lab_forsker,
   bef = bef,
   lmdb = lmdb

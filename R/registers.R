@@ -189,6 +189,12 @@ joined_registers <- function() {
         "is_medical_dept", "Tilhoerer kontakten en medicinsk afdeling (ikke endokrinologi)?", "Does the diagnosis code belong to a medical department (other than endocrinology)?", "logical",
         "is_pregnancy_code", "Tilhoerer diagnosekoden graviditet?", "Does the diagnosis code belong to pregnancy?", "logical"
       )
+    ),
+    hsr = list(
+      name = "Health services registers (SYSI and SSSY)",
+      start_year = NA,
+      end_year = NA,
+      variables = registers()$sssy$variables
     )
   )
 }
