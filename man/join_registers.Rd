@@ -21,9 +21,10 @@ register_data <- simulate_registers(c(
   "lpr_adm",
   "lpr_diag",
   "lpr3f_kontakter",
-  "lpr3f_diagnoser"
+  "lpr3f_diagnoser",
+  "sssy",
+  "sysi"
 ))
-
 join_registers(list(
   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
   prepare_lpr3f(
@@ -31,4 +32,5 @@ join_registers(list(
     register_data$lpr3f_diagnoser
   )
 ))
+join_registers(list(register_data$sysi, register_data$sssy))
 }
