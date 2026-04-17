@@ -27,10 +27,11 @@ lpr <- join_registers(list(
   prepare_lpr3f(cases_vs_nc$lpr3f_kontakter, cases_vs_nc$lpr3f_diagnoser)
 ))
 
+hsr <- join_registers(list(cases_vs_nc$sssy, cases_vs_nc$sysi))
+
 actual <- classify_diabetes(
   lpr = lpr,
-  sysi = cases_vs_nc$sysi,
-  sssy = cases_vs_nc$sssy,
+  hsr = hsr,
   lab_forsker = cases_vs_nc$lab_forsker,
   bef = cases_vs_nc$bef,
   lmdb = cases_vs_nc$lmdb
