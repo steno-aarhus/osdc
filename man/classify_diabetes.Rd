@@ -56,10 +56,8 @@ registers <- registers() |>
 
 lpr <- list(
   prepare_lpr2(registers$lpr_adm, registers$lpr_diag),
-  prepare_lpr3f(
-    registers$lpr3f_kontakter,
-    registers$lpr3f_diagnoser
-  )
+  prepare_lpr3f(registers$lpr3f_kontakter, registers$lpr3f_diagnoser),
+  prepare_lpr3a(registers$lpr3a_kontakt, registers$lpr3a_diagnose)
 ) |>
   join_registers()
 
