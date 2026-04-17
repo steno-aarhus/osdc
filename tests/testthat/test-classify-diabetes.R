@@ -4,7 +4,7 @@ sim_data <- registers() |>
 cases <- edge_cases()
 nc <- non_cases()
 
-join_registers <- function(name) {
+join_test_data <- function(name) {
   dplyr::bind_rows(
     cases[[name]],
     sim_data[[name]],
@@ -15,7 +15,7 @@ join_registers <- function(name) {
 cases_vs_nc <- sim_data |>
   names() |>
   purrr::map(\(name) {
-    list(join_registers(name)) |>
+    list(join_test_data(name)) |>
       rlang::set_names(name)
   }) |>
   purrr::flatten() |>
