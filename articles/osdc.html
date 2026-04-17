@@ -189,7 +189,7 @@
 <span>    <span class="va">register_data</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/join_lpr.html">join_lpr</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <p>The remaining registers are extracted from the <code>register_data</code> list, so they are ready to be passed as arguments to <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>:</p>
 <div class="cell">
@@ -216,16 +216,16 @@
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
 <span><span class="co">#&gt; # Source:   SQL [?? x 5]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/Rtmpuny5Tq/duckplyr/duckplyr21b19f5f5f8.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpjTqXrR/duckplyr/duckplyr1d652522f37c.duckdb]</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
 <span><span class="co">#&gt; 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 706974528463 2016-11-07            2016-11-07         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each of the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
 </section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
@@ -240,10 +240,10 @@
 <span><span class="co">#&gt; # A tibble: 7 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 2 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 706974528463 2016-11-07            2016-11-07         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 720437203185 2018-08-30            2018-08-30         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 5 240771768588 2016-04-04            2016-04-04         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 6 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE</span></span></code></pre></div>

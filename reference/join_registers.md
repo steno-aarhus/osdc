@@ -1,0 +1,56 @@
+# Join prepared registers
+
+Join prepared registers
+
+## Usage
+
+``` r
+join_registers(register_list)
+```
+
+## Arguments
+
+- register_list:
+
+  A list of the prepared registers, from e.g.
+  [`prepare_lpr2()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr2.md).
+
+## Value
+
+A single object with all rows from each register in `register_list`.
+
+## Examples
+
+``` r
+register_data <- simulate_registers(c(
+  "lpr_adm",
+  "lpr_diag",
+  "lpr3f_kontakter",
+  "lpr3f_diagnoser"
+))
+
+join_registers(list(
+  prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
+  prepare_lpr3f(
+    register_data$lpr3f_kontakter,
+    register_data$lpr3f_diagnoser
+  )
+))
+#> # A tibble: 12 × 9
+#>    pnr          date       is_primary_diagnosis is_diabetes_code is_t1d_code
+#>    <chr>        <date>     <lgl>                <lgl>            <lgl>      
+#>  1 466460062483 1989-04-21 FALSE                TRUE             TRUE       
+#>  2 976025036207 2019-04-07 FALSE                TRUE             FALSE      
+#>  3 481308509913 1980-08-07 FALSE                TRUE             FALSE      
+#>  4 736038118634 1997-09-22 TRUE                 FALSE            FALSE      
+#>  5 751256871567 2025-09-21 FALSE                FALSE            FALSE      
+#>  6 374324771385 2017-12-21 FALSE                TRUE             FALSE      
+#>  7 600867655198 1983-03-03 FALSE                FALSE            FALSE      
+#>  8 237592816990 2024-09-28 TRUE                 FALSE            FALSE      
+#>  9 254251768597 1995-05-31 FALSE                TRUE             TRUE       
+#> 10 298722067346 1979-12-10 TRUE                 FALSE            FALSE      
+#> 11 863502458498 2007-08-14 FALSE                FALSE            FALSE      
+#> 12 752896932129 2012-02-23 TRUE                 FALSE            FALSE      
+#> # ℹ 4 more variables: is_t2d_code <lgl>, is_endocrinology_dept <lgl>,
+#> #   is_medical_dept <lgl>, is_pregnancy_code <lgl>
+```

@@ -154,7 +154,7 @@
 <p>We originally required each original LPR register as separate arguments in <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>, but this became an issue after the new LPR3A was created. So, we re-designed <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> to take only one <code>lpr</code> argument and instead require the different LPRs be pre-processed and joined before entering <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>. This way, we can add new pre-processing functions for any future changes to LPR without changing the interface of <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code>.</p>
 <p>To help with this pre-processing, we designed several helper functions that follow the pattern <code>prepare_lpr*()</code>, e.g. for LPR2 it is <code><a href="../reference/prepare_lpr2.html">prepare_lpr2()</a></code>. This way, if DST update the LPR again, we can add another <code>prepare_lpr*()</code> function to prepare the new LPR format for classification.</p>
 <p>Unfortunately, the data covered by different revisions of the same registers are not cleanly separated. E.g. data from the year 2005 overlaps between <code>sysi</code> (years 1990 through 2005) and <code>sssy</code> (2005 onward), and data from 2017 and 2018 are contained in both <code>lpr2</code> (1977 through 2018) and <code>lpr3a</code> (2017 onward). <strong>This means that the user must be careful to pre-process these data to avoid duplicated rows!</strong></p>
-<p>Each <code>prepare_lpr*()</code> outputs a DuckDB object with the following variables: <code>pnr</code>, <code>date</code>, <code>is_primary_diagnosis</code>, <code>is_diabetes_code</code>, <code>is_t1d_code</code>, <code>is_t2d_code</code>, <code>is_endocrinology_dept</code>, <code>is_medical_dept</code>, and <code>is_pregnancy_code</code>. And a final <code><a href="../reference/join_lpr.html">join_lpr()</a></code> helper function combines the outputs of each <code>prepare_lpr*()</code> into a single data object. See the help docs for <code>prepare_lpr()</code> for more details on these variables. See the diagram below for the general flow of data sources and the different functions that prepare them for the <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function.</p>
+<p>Each <code>prepare_lpr*()</code> outputs a DuckDB object with the following variables: <code>pnr</code>, <code>date</code>, <code>is_primary_diagnosis</code>, <code>is_diabetes_code</code>, <code>is_t1d_code</code>, <code>is_t2d_code</code>, <code>is_endocrinology_dept</code>, <code>is_medical_dept</code>, and <code>is_pregnancy_code</code>. And a final <code><a href="../reference/join_registers.html">join_registers()</a></code> helper function combines the outputs of each <code>prepare_lpr*()</code> into a single data object. See the help docs for <code>prepare_lpr()</code> for more details on these variables. See the diagram below for the general flow of data sources and the different functions that prepare them for the <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div id="fig-prepare-lpr-flow" class="quarto-float quarto-figure quarto-figure-center">
@@ -174,8 +174,8 @@
   lpr3f_kontakter &amp; lpr3f_diagnoser --&gt; prepare_lpr3f["prepare_lpr3f()"]
   lpr3a_kontakt &amp; lpr3a_diagnose --&gt; prepare_lpr3a["prepare_lpr3a()"]
 
-  prepare_lpr2 &amp; prepare_lpr3f &amp; prepare_lpr3a --&gt; join_lpr["join_lpr()"]
-  join_lpr --&gt; lpr[(lpr)]
+  prepare_lpr2 &amp; prepare_lpr3f &amp; prepare_lpr3a --&gt; join_registers["join_registers()"]
+  join_registers --&gt; lpr[(lpr)]
 
   %% Styling
   classDef default fill:#EEEEEE, color:#000000, stroke:#000000

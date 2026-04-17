@@ -168,7 +168,7 @@ Each `prepare_lpr*()` outputs a DuckDB object with the following
 variables: `pnr`, `date`, `is_primary_diagnosis`, `is_diabetes_code`,
 `is_t1d_code`, `is_t2d_code`, `is_endocrinology_dept`,
 `is_medical_dept`, and `is_pregnancy_code`. And a final
-[`join_lpr()`](https://steno-aarhus.github.io/osdc/reference/join_lpr.md)
+[`join_registers()`](https://steno-aarhus.github.io/osdc/reference/join_registers.md)
 helper function combines the outputs of each `prepare_lpr*()` into a
 single data object. See the help docs for `prepare_lpr()` for more
 details on these variables. See the diagram below for the general flow
@@ -191,8 +191,8 @@ flowchart TB
   lpr3f_kontakter & lpr3f_diagnoser --> prepare_lpr3f["prepare_lpr3f()"]
   lpr3a_kontakt & lpr3a_diagnose --> prepare_lpr3a["prepare_lpr3a()"]
 
-  prepare_lpr2 & prepare_lpr3f & prepare_lpr3a --> join_lpr["join_lpr()"]
-  join_lpr --> lpr[(lpr)]
+  prepare_lpr2 & prepare_lpr3f & prepare_lpr3a --> join_registers["join_registers()"]
+  join_registers --> lpr[(lpr)]
 
   %% Styling
   classDef default fill:#EEEEEE, color:#000000, stroke:#000000
