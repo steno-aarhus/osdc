@@ -79,6 +79,31 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #' @export
 #' @inherit algorithm seealso
 prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
+  lpr3f_diagnoser <- select_required_variables(
+    lpr3f_diagnoser,
+    "lpr3f_diagnoser"
+  ) |>
+    # Rename columns to match LPR3F to reuse logic.
+    dplyr::rename(
+      diag_kode = diagnosekode,
+      diag_type = diagnosetype
+    )
+
+  lpr3f_kontakter <- select_required_variables(
+    lpr3f_kontakter,
+    "lpr3f_kontakter"
+  ) |>
+    dplyr::rename(
+      kont_starttidspunkt = dato_start,
+      kont_ans_hovedspec = hovedspeciale_ans
+    )
+
+  prepare_lpr3a(
+    lpr3a_kontakt = lpr3f_kontakter,
+    lpr3a_diagnose = lpr3f_diagnoser
+  )
+}
+
 #' Prepare and join the two LPR3A registers to extract diabetes and pregnancy diagnoses.
 #'
 #' @param lpr3a_kontakt The LPR3A register containing hospital contacts/admissions.
