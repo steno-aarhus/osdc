@@ -76,7 +76,7 @@ registers <- function() {
         ~name, ~danish_description, ~english_description, ~data_type,
         "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2.", "character",
         "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2.", "Record id number. Equivalent to recnum in LPR2.", "character",
-        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2. ", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("POSIXct", "POSIXt"),
+        "kont_starttidspunkt", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2.", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("POSIXct", "POSIXt"),
         "kont_ans_hovedspec", "Afdelings speciale. Ligner c_spec i LPR2, men indholdet er formatteret som tekststrenge.", "Specialty of department. Similar to c_spec in LPR2, but values are strings.", "character"
       )
     ),
