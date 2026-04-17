@@ -125,11 +125,13 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
     )
 }
 
-#' Join the prepared LPR registers.
+#' Join prepared registers.
 #'
-#' @param lpr_list A list of the prepared LPR registers, from e.g. [prepare_lpr2()].
+#' @param register_list A list of the prepared registers, from e.g.
+#'  [prepare_lpr2()].
 #'
-#' @inherit prepare_lpr2 return
+#' @returns A single object with all rows from each register in `register_list`.
+#'
 #' @export
 #'
 #' @examples
@@ -147,8 +149,8 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
 #'     register_data$lpr3f_diagnoser
 #'   )
 #' ))
-join_lpr <- function(lpr_list) {
-  checkmate::assert_list(lpr_list)
-  lpr_list |>
+join_registers <- function(register_list) {
+  checkmate::assert_list(register_list)
+  register_list |>
     purrr::reduce(dplyr::union_all)
 }

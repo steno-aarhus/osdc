@@ -22,7 +22,7 @@ cases_vs_nc <- sim_data |>
   purrr::map(duckplyr::as_duckdb_tibble) |>
   purrr::map(duckplyr::as_tbl)
 
-lpr <- join_lpr(list(
+lpr <- join_registers(list(
   prepare_lpr2(cases_vs_nc$lpr_adm, cases_vs_nc$lpr_diag),
   prepare_lpr3f(cases_vs_nc$lpr3f_kontakter, cases_vs_nc$lpr3f_diagnoser)
 ))

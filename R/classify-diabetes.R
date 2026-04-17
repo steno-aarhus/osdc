@@ -6,7 +6,7 @@
 #' that data source, or at least the years you have and are interested
 #' in.
 #'
-#' @param lpr The unified LPR register, see [join_lpr()]
+#' @param lpr The unified LPR register, see [join_registers()]
 #' @param sysi The SYSI table from the health service register
 #' @param sssy The SSSY table from the health service register
 #' @param lab_forsker The register for laboratory results for research
@@ -43,7 +43,7 @@
 #'     register_data$lpr3f_diagnoser
 #'   )
 #' ) |>
-#'   join_lpr()
+#'   join_registers()
 #'
 #' classify_diabetes(
 #'   lpr = lpr,
