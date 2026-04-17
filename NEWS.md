@@ -11,7 +11,8 @@ standard.
 
 ### Refactor
 
-- ♻️ move `hsr` (`sssy`, `sysi`) join out of `classify_diabetes()` (#540)
+- ♻️ move `hsr` (`sssy`, `sysi`) join out of `classify_diabetes()`
+  (#540)
 
 ## 0.10.3 (2026-04-17)
 
