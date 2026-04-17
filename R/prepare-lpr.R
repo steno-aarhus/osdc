@@ -71,8 +71,8 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 
 #' Prepare and join the two LPR3F registers to extract diabetes and pregnancy diagnoses.
 #'
-#' @param lpr3f_diagnoser The LPR3F register containing diabetes diagnoses.
 #' @param lpr3f_kontakter The LPR3F register containing hospital contacts/admissions.
+#' @param lpr3f_diagnoser The LPR3F register containing diabetes diagnoses.
 #'
 #' @inherit prepare_lpr2 return
 #'
