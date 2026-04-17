@@ -79,6 +79,16 @@ prepare_lpr2 <- function(lpr_adm, lpr_diag) {
 #' @export
 #' @inherit algorithm seealso
 prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
+#' Prepare and join the two LPR3A registers to extract diabetes and pregnancy diagnoses.
+#'
+#' @param lpr3a_kontakt The LPR3A register containing hospital contacts/admissions.
+#' @param lpr3a_diagnose The LPR3A register containing diabetes diagnoses.
+#'
+#' @inherit prepare_lpr2 return
+#'
+#' @export
+#' @inherit algorithm seealso
+prepare_lpr3a <- function(lpr3a_kontakt, lpr3a_diagnose) {
   logic <- c(
     "lpr3_is_needed_code",
     "lpr3_is_pregnancy_code",
@@ -92,18 +102,18 @@ prepare_lpr3f <- function(lpr3f_kontakter, lpr3f_diagnoser) {
     logic_as_expression()
 
   # Select required variables and check required data types.
-  select_required_variables(lpr3f_diagnoser, "lpr3f_diagnoser") |>
+  select_required_variables(lpr3a_diagnose, "lpr3a_diagnose") |>
     # Only keep relevant diagnoses.
     dplyr::filter(!!logic$lpr3_is_needed_code) |>
     # Inner join to only keep contacts that are in both registers.
     dplyr::inner_join(
-      select_required_variables(lpr3f_kontakter, "lpr3f_kontakter"),
+      select_required_variables(lpr3a_kontakt, "lpr3a_kontakt"),
       by = dplyr::join_by("dw_ek_kontakt")
     ) |>
     dplyr::mutate(
-      # Algorithm needs "hovedspeciale_ans" values to be lowercase.
-      hovedspeciale_ans = tolower(.data$hovedspeciale_ans),
-      date = .data$dato_start,
+      # Algorithm needs "kont_ans_hovedspec" values to be lowercase.
+      hovedspeciale_ans = tolower(.data$kont_ans_hovedspec),
+      date = .data$kont_starttidspunkt,
       is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
       is_t1d_code = !!logic$lpr3_is_t1d_code,
       is_t2d_code = !!logic$lpr3_is_t2d_code,
