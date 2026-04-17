@@ -30,6 +30,7 @@ reference:
   desc:  Functions used in the documentation and examples.
 - contents:
   - contains("lpr")
+  - join_registers
   - registers
   - simulate_registers
   - edge_cases
