@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.10.5 (2026-04-17)
+
+### Refactor
+
+- ♻️ require `Date` not either `c("Date", "character")` (#543)
+
 ## 0.10.4 (2026-04-17)
 
 ### Refactor
