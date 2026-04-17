@@ -35,8 +35,7 @@ item is a list with 4 items:
 
 - data_type:
 
-  The data type, e.g. "character" of the variable. Could have multiple
-  options (e.g. "Date" or "character").
+  The data type, e.g. "character" of the variable.
 
 ## Examples
 
@@ -55,10 +54,10 @@ registers()
 #> $bef$variables
 #> # A tibble: 3 × 4
 #>   name      danish_description         english_description             data_type
-#>   <chr>     <chr>                      <chr>                           <list>   
-#> 1 pnr       Pseudonymiseret cpr-nummer Pseudonymised social security … <chr [1]>
-#> 2 koen      Koen                       Gender/sex                      <chr [1]>
-#> 3 foed_dato Foedselsdato               Date of birth                   <chr [2]>
+#>   <chr>     <chr>                      <chr>                           <chr>    
+#> 1 pnr       Pseudonymiseret cpr-nummer Pseudonymised social security … character
+#> 2 koen      Koen                       Gender/sex                      integer  
+#> 3 foed_dato Foedselsdato               Date of birth                   Date     
 #> 
 #> 
 #> $lmdb
@@ -74,13 +73,13 @@ registers()
 #> $lmdb$variables
 #> # A tibble: 6 × 4
 #>   name   danish_description                 english_description        data_type
-#>   <chr>  <chr>                              <chr>                      <list>   
-#> 1 pnr    Pseudonymiseret cpr-nummer         Pseudonymised social secu… <chr [1]>
-#> 2 eksd   Ekspeditionsdato                   Date of purchase           <chr [2]>
-#> 3 atc    ATC-kode (fuldt specificeret)      ATC code (fully specified) <chr [1]>
-#> 4 volume Antal standarddoser (DDD) i pakken Number of daily standard … <chr [1]>
-#> 5 apk    Antal pakker koebt                 Number of packages purcha… <chr [1]>
-#> 6 indo   Indikationskode for recept         Indication code            <chr [1]>
+#>   <chr>  <chr>                              <chr>                      <chr>    
+#> 1 pnr    Pseudonymiseret cpr-nummer         Pseudonymised social secu… character
+#> 2 eksd   Ekspeditionsdato                   Date of purchase           Date     
+#> 3 atc    ATC-kode (fuldt specificeret)      ATC code (fully specified) character
+#> 4 volume Antal standarddoser (DDD) i pakken Number of daily standard … numeric  
+#> 5 apk    Antal pakker koebt                 Number of packages purcha… numeric  
+#> 6 indo   Indikationskode for recept         Indication code            character
 #> 
 #> 
 #> $lpr_adm
@@ -96,11 +95,11 @@ registers()
 #> $lpr_adm$variables
 #> # A tibble: 4 × 4
 #>   name     danish_description                    english_description   data_type
-#>   <chr>    <chr>                                 <chr>                 <list>   
-#> 1 pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… <chr [1]>
-#> 2 recnum   Kontakt id-nummer                     Record id number      <chr [1]>
-#> 3 d_inddto Indlaeggelsesdato (start paa kontakt) Date of admission or… <chr [2]>
-#> 4 c_spec   Afdelings specialekode                Specialty code of de… <chr [1]>
+#>   <chr>    <chr>                                 <chr>                 <chr>    
+#> 1 pnr      Pseudonymiseret cpr-nummer            Pseudonymised social… character
+#> 2 recnum   Kontakt id-nummer                     Record id number      character
+#> 3 d_inddto Indlaeggelsesdato (start paa kontakt) Date of admission or… Date     
+#> 4 c_spec   Afdelings specialekode                Specialty code of de… character
 #> 
 #> 
 #> $lpr_diag
@@ -175,11 +174,11 @@ registers()
 #> $lpr3f_kontakter$variables
 #> # A tibble: 4 × 4
 #>   name              danish_description             english_description data_type
-#>   <chr>             <chr>                          <chr>               <list>   
-#> 1 pnr               Pseudonymiseret cpr-nummer. S… Pseudonymised soci… <chr [1]>
-#> 2 dw_ek_kontakt     Kontakt id-nummer. Svarer til… Record id number. … <chr [1]>
-#> 3 dato_start        Indlaeggelsesdato (start paa … Date of admission … <chr [2]>
-#> 4 hovedspeciale_ans Afdelings speciale             Specialty of depar… <chr [1]>
+#>   <chr>             <chr>                          <chr>               <chr>    
+#> 1 pnr               Pseudonymiseret cpr-nummer. S… Pseudonymised soci… character
+#> 2 dw_ek_kontakt     Kontakt id-nummer. Svarer til… Record id number. … character
+#> 3 dato_start        Indlaeggelsesdato (start paa … Date of admission … Date     
+#> 4 hovedspeciale_ans Afdelings speciale             Specialty of depar… character
 #> 
 #> 
 #> $lpr3f_diagnoser
@@ -255,11 +254,11 @@ registers()
 #> $lab_forsker$variables
 #> # A tibble: 4 × 4
 #>   name         danish_description           english_description        data_type
-#>   <chr>        <chr>                        <chr>                      <list>   
-#> 1 pnr          Pseudonymiseret cpr-nummer   Pseudonymised social secu… <chr [1]>
-#> 2 samplingdate Dato for proevetagning       Date of sampling           <chr [2]>
-#> 3 analysiscode Analysens NPU-kode           NPU code of analysis       <chr [1]>
-#> 4 value        Numerisk resultat af analyse Numerical result of analy… <chr [1]>
+#>   <chr>        <chr>                        <chr>                      <chr>    
+#> 1 pnr          Pseudonymiseret cpr-nummer   Pseudonymised social secu… character
+#> 2 samplingdate Dato for proevetagning       Date of sampling           Date     
+#> 3 analysiscode Analysens NPU-kode           NPU code of analysis       character
+#> 4 value        Numerisk resultat af analyse Numerical result of analy… numeric  
 #> 
 #> 
 ```
