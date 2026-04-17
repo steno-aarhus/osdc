@@ -98,12 +98,9 @@ registers <- function() {
       end_year = NA,
       variables = tibble::tribble(
         ~name, ~danish_description, ~english_description, ~data_type,
-        # LPR3 equivalent to PNR in LPR2
-        "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
-        # LPR3 equivalent to RECNUM in LPR2
-        "dw_ek_kontakt", "Kontakt id-nummer", "Record id number", "character",
-        # LPR3 equivalent to D_INDDTO in LPR2
-        "dato_start", "Indlaeggelsesdato (start paa kontakt)", "Date of admission or initial contact", c("Date", "character"),
+        "pnr", "Pseudonymiseret cpr-nummer. Svarer til pnr i LPR2.", "Pseudonymised social security number. Equivalent to pnr in LPR2.", "character",
+        "dw_ek_kontakt", "Kontakt id-nummer. Svarer til recnum i LPR2.", "Record id number. Equivalent to recnum in LPR2.", "character",
+        "dato_start", "Indlaeggelsesdato (start paa kontakt). Svarer til d_inddto i LPR2.", "Date of admission or initial contact. Equivalent to d_inddto in LPR2.", c("Date", "character"),
         "hovedspeciale_ans", "Afdelings speciale", "Specialty of department", "character"
       )
     ),
@@ -128,9 +125,7 @@ registers <- function() {
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         "barnmak", "Blev ydelse ydet til patientens barn?", "Was the service provided to the patient's child?", "integer",
         "speciale", "Ydelsens honoreringskode", "Billing code of the service (fully specified)", "character",
-        # Even though this is a "date", it is in a very odd format, so we want to
-        # format it our way, just in case.
-        "honuge", "Aar og uge for ydelse", "Year and week of service", "character"
+        "honuge", "Aar og uge for ydelse (ikke-standard datoformat)", "Year and week of service (non-standard date format)", "character"
       )
     ),
     sssy = list(
@@ -142,9 +137,7 @@ registers <- function() {
         "pnr", "Pseudonymiseret cpr-nummer", "Pseudonymised social security number", "character",
         "barnmak", "Blev ydelse ydet til patientens barn?", "Was the service provided to the patient's child?", "integer",
         "speciale", "Ydelsens honoreringskode", "Billing code of the service (fully specified)", "character",
-        # Even though this is a "date", it is in a very odd format, so we want to
-        # format it our way, just in case.
-        "honuge", "Aar og uge for ydelse", "Year and week of service", "character"
+        "honuge", "Aar og uge for ydelse (ikke-standard datoformat)", "Year and week of service (non-standard date format)", "character"
       )
     ),
     lab_forsker = list(
