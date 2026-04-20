@@ -277,15 +277,23 @@ lpr3f_diagnoser <- lpr3f_diagnoser |>
   dplyr::compute()
 ```
 
-Most inputs will work in the Arrow/DuckDB type equivalent to their
-original type in the raw SAS file, so unless the SAS-to-Arrow conversion
-introduced unexpected types, you should should not need to do much
-type-conversion at this stage. The `kont_starttidspunkt` in `lpr3a` is
-an important exception, however, as it's raw `datetime` format needs to
-be formatted as a `date` before being input to the classification
-pipeline. Fortunately, this can be done in a single call to
-`dplyr::mutate(as.Date(kont_starttidspunkt))` during pre-processing in
-arrow, e.g.:
+::: callout-important
+Important notes on using `lpr3a` data!
+
+A: `lpr3a` contains duplicates of contacts in 2017 & 2018 that are also
+contained in `lpr2`. These rows must be filtered out before being input
+to osdc's `prepare_lpr3a()` function.
+
+B: The `kont_starttidspunkt` variable in `lpr3a` is a `datetime` type,
+and must be converted to a `date` before being input to
+`prepare_lpr3a()`.
+:::
+
+The duplicate rows in `lpr3a_kontakt` can be removed during processing
+by filtering to `indberetningssystem == "LPR3"` Similarly, the
+`kont_starttidspunkt` variable in `lpr3a` can be converted to a `date`
+in a single call to `dplyr::mutate(as.Date(kont_starttidspunkt))` during
+pre-processing in arrow. e.g.:
 
 ``` r
 lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
@@ -293,12 +301,12 @@ lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
   arrow::to_duckdb() |>
   # dplyr::select(...) |>
   dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |>
-  # dplyr::filter(...) |>
+  dplyr::filter(indberetningssystem == "LPR3") |>
   arrow::to_duckdb(con = ddb_con) |>
   dplyr::compute()
 ```
 
-Which can then be used as input:
+This can be used as input to `prepare_lpr3a()`:
 
 ``` r
 lpr <- list(
@@ -308,6 +316,11 @@ lpr <- list(
 ) |>
   join_registers()
 ```
+
+Most inputs will work in the Arrow/DuckDB equivalent of their type in
+the original SAS file. Unless the SAS-to-Arrow conversion introduced
+unexpected types, you should should not need to do any further type
+conversion.
 
 Once you're done using DuckDB, you should close the driver and
 connection like so:
