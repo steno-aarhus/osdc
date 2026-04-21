@@ -79,7 +79,9 @@ non_cases <- function() {
     "nc_preg_3", "2", "abc", "20200101",
     "nc_preg_4", "3", "abc", "20200101",
   ) |>
-    dplyr::mutate(kont_starttidspunkt = lubridate::as_date(.data$kont_starttidspunkt))
+    dplyr::mutate(
+      kont_starttidspunkt = lubridate::as_date(.data$kont_starttidspunkt)
+    )
 
   lpr3a_diagnose <- tibble::tribble(
     ~dw_ek_kontakt, ~diag_kode, ~diag_type, ~senere_afkraeftet,
