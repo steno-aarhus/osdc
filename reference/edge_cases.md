@@ -22,15 +22,15 @@ edge_cases()
 A named list of 9
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
 objects, each representing a different health register: `bef`, `lmdb`,
-`lpr_adm`, `lpr_diag`, `lpr3f_kontakter`, `lpr3f_diagnoser`, `sysi`,
-`sssy`, and `lab_forsker`.
+`lpr_adm`, `lpr_diag`, `lpr3a_kontakt`, `lpr3a_diagnose`,
+`lpr3f_kontakter`, `lpr3f_diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 
 ## Examples
 
 ``` r
 edge_cases()
 #> $bef
-#> # A tibble: 23 × 3
+#> # A tibble: 24 × 3
 #>    pnr                                     koen foed_dato 
 #>    <chr>                                  <int> <date>    
 #>  1 01_t1d_oipT_anyt1dT                        1 1980-01-01
@@ -43,7 +43,7 @@ edge_cases()
 #>  8 08_t1d_oipF_medT_majt1dT_i180T_itwo3T      1 1992-08-08
 #>  9 09_t2d_oipF_medT_majt1dT_i180T_itwo3F      1 1993-09-09
 #> 10 10_t2d_oipF_medT_majt1dT_i180F_itwo3T      1 1985-07-07
-#> # ℹ 13 more rows
+#> # ℹ 14 more rows
 #> 
 #> $lmdb
 #> # A tibble: 55 × 6
@@ -92,6 +92,38 @@ edge_cases()
 #>  9 pnr07_rec01 DE115  A         
 #> 10 pnr07_rec01 DE105  B         
 #> # ℹ 19 more rows
+#> 
+#> $lpr3a_kontakt
+#> # A tibble: 22 × 4
+#>    pnr                      dw_ek_kontakt kont_ans_hovedspec kont_starttidspunkt
+#>    <chr>                    <chr>         <chr>              <date>             
+#>  1 01_t1d_oipT_anyt1dT      pnr01_dw01    medicinsk endokri… 2021-05-15         
+#>  2 02_t2d_oipT_anyt1dF      pnr02_dw01    thoraxkirurgi      2022-06-16         
+#>  3 03_t2d_oipF_anyt1dF      pnr03_dw01    kardiologi         2020-07-17         
+#>  4 04_t1d_oipF_endoT_majt1… pnr04_dw01    medicinsk endokri… 2023-01-20         
+#>  5 05_t2d_oipF_endoT_majt1… pnr05_dw01    medicinsk endokri… 2023-02-21         
+#>  6 06_t2d_oipF_endoT_majt1… pnr06_dw01    medicinsk endokri… 2023-03-22         
+#>  7 07_t2d_oipF_endoT_majt1… pnr07_dw01    medicinsk endokri… 2022-04-23         
+#>  8 07_t2d_oipF_endoT_majt1… pnr07_dw02    geriatri           2023-04-23         
+#>  9 08_t1d_oipF_medT_majt1d… pnr08_dw01    kardiologi         2023-01-20         
+#> 10 08_t1d_oipF_medT_majt1d… pnr08_dw02    kardiologi         2024-01-20         
+#> # ℹ 12 more rows
+#> 
+#> $lpr3a_diagnose
+#> # A tibble: 31 × 4
+#>    dw_ek_kontakt diag_kode diag_type senere_afkraeftet
+#>    <chr>         <chr>     <chr>     <chr>            
+#>  1 pnr01_dw01    DE101     A         Nej              
+#>  2 pnr02_dw01    DE102     A         Nej              
+#>  3 pnr03_dw01    DE103     A         Nej              
+#>  4 pnr04_dw01    DE104     A         Nej              
+#>  5 pnr04_dw02    DE115     B         Nej              
+#>  6 pnr04_dw02    DE119     B         Nej              
+#>  7 pnr05_dw01    DE101     A         Nej              
+#>  8 pnr06_dw01    DE102     A         Nej              
+#>  9 pnr07_dw01    DE103     A         Nej              
+#> 10 pnr07_dw01    DE109     B         Nej              
+#> # ℹ 21 more rows
 #> 
 #> $lpr3f_kontakter
 #> # A tibble: 20 × 4
@@ -199,7 +231,7 @@ edge_cases()
 #> # ℹ 14 more rows
 #> 
 #> $classified
-#> # A tibble: 17 × 5
+#> # A tibble: 18 × 5
 #>    pnr                  stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>    <chr>                <date>                <date>             <lgl>   <lgl>  
 #>  1 01_t1d_oipT_anyt1dT  2019-01-01            2019-01-01         TRUE    FALSE  
@@ -219,5 +251,6 @@ edge_cases()
 #> 15 16_t2d_gldT_diagF_h… 2013-04-01            2013-04-01         FALSE   TRUE   
 #> 16 18_t2d_male_pcosF    2023-04-01            2023-04-01         FALSE   TRUE   
 #> 17 23_t2d_gldT_1995_19… NA                    1995-06-16         FALSE   TRUE   
+#> 18 24_t2d_only_lpr3a    2025-02-01            2025-02-01         FALSE   TRUE   
 #> 
 ```

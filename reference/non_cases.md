@@ -16,8 +16,8 @@ non_cases()
 A named list of 9
 [`tibble::tibble()`](https://tibble.tidyverse.org/reference/tibble.html)
 objects, each representing a different health register: `bef`, `lmdb`,
-`lpr_adm`, `lpr_diag`, `kontakter`, `diagnoser`, `sysi`, `sssy`, and
-`lab_forsker`.
+`lpr_adm`, `lpr_diag`, `lpr3a_kontakt`, `lpr3a_diagnose`,
+`lpr3f_kontakter`, `lpr3f_diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
 
 ## Details
 
@@ -73,6 +73,26 @@ non_cases()
 #> 1 1      149    A         
 #> 2 2      DO00   A         
 #> 3 3      DZ33   A         
+#> 
+#> $lpr3a_kontakt
+#> # A tibble: 7 × 4
+#>   pnr       dw_ek_kontakt kont_ans_hovedspec      kont_starttidspunkt
+#>   <chr>     <chr>         <chr>                   <date>             
+#> 1 nc_pcos_1 1             medicinsk endokrinologi 2021-01-01         
+#> 2 nc_pcos_2 1             medicinsk endokrinologi 2019-01-01         
+#> 3 nc_pcos_3 1             medicinsk endokrinologi 2019-01-01         
+#> 4 nc_preg_3 1             abc                     2020-01-01         
+#> 5 nc_preg_4 1             abc                     2020-01-01         
+#> 6 nc_preg_3 2             abc                     2020-01-01         
+#> 7 nc_preg_4 3             abc                     2020-01-01         
+#> 
+#> $lpr3a_diagnose
+#> # A tibble: 3 × 4
+#>   dw_ek_kontakt diag_kode diag_type senere_afkraeftet
+#>   <chr>         <chr>     <chr>     <chr>            
+#> 1 1             DI10      A         Nej              
+#> 2 2             DO00      A         Nej              
+#> 3 3             DZ33      A         Nej              
 #> 
 #> $lpr3f_kontakter
 #> # A tibble: 7 × 4

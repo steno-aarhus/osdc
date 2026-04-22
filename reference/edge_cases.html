@@ -76,14 +76,15 @@ to be explored by users to better understand how the algorithm logic works.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A named list of 9  <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble::tibble()</a></code> objects, each representing a
 different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</code>, <code>lpr_diag</code>,
-<code>lpr3f_kontakter</code>, <code>lpr3f_diagnoser</code>, <code>sysi</code>, <code>sssy</code>, and <code>lab_forsker</code>.</p>
+<code>lpr3a_kontakt</code>, <code>lpr3a_diagnose</code>, <code>lpr3f_kontakter</code>, <code>lpr3f_diagnoser</code>,
+<code>sysi</code>, <code>sssy</code>, and <code>lab_forsker</code>.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">edge_cases</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bef</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 23 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 24 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                                     koen foed_dato </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT                        1 1980-01-01</span>
@@ -96,7 +97,7 @@ different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 08_t1d_oipF_medT_majt1dT_i180T_itwo3T      1 1992-08-08</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 09_t2d_oipF_medT_majt1dT_i180T_itwo3F      1 1993-09-09</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 10_t2d_oipF_medT_majt1dT_i180F_itwo3T      1 1985-07-07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 13 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lmdb</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 55 × 6</span></span>
@@ -145,6 +146,38 @@ different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> pnr07_rec01 DE115  A         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> pnr07_rec01 DE105  B         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 19 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_kontakt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 22 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                      dw_ek_kontakt kont_ans_hovedspec kont_starttidspunkt</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT      pnr01_dw01    medicinsk endokri… 2021-05-15         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 02_t2d_oipT_anyt1dF      pnr02_dw01    thoraxkirurgi      2022-06-16         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 03_t2d_oipF_anyt1dF      pnr03_dw01    kardiologi         2020-07-17         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 04_t1d_oipF_endoT_majt1… pnr04_dw01    medicinsk endokri… 2023-01-20         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 05_t2d_oipF_endoT_majt1… pnr05_dw01    medicinsk endokri… 2023-02-21         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 06_t2d_oipF_endoT_majt1… pnr06_dw01    medicinsk endokri… 2023-03-22         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 07_t2d_oipF_endoT_majt1… pnr07_dw01    medicinsk endokri… 2022-04-23         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 07_t2d_oipF_endoT_majt1… pnr07_dw02    geriatri           2023-04-23         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 08_t1d_oipF_medT_majt1d… pnr08_dw01    kardiologi         2023-01-20         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 08_t1d_oipF_medT_majt1d… pnr08_dw02    kardiologi         2024-01-20         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 12 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3a_diagnose</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 31 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    dw_ek_kontakt diag_kode diag_type senere_afkraeftet</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> pnr01_dw01    DE101     A         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> pnr02_dw01    DE102     A         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> pnr03_dw01    DE103     A         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> pnr04_dw01    DE104     A         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> pnr04_dw02    DE115     B         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> pnr04_dw02    DE119     B         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> pnr05_dw01    DE101     A         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> pnr06_dw01    DE102     A         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> pnr07_dw01    DE103     A         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> pnr07_dw01    DE109     B         Nej              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 21 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lpr3f_kontakter</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 20 × 4</span></span>
@@ -252,7 +285,7 @@ different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $classified</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 17 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 18 × 5</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    pnr                  stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 01_t1d_oipT_anyt1dT  2019-01-01            2019-01-01         TRUE    FALSE  </span>
@@ -272,6 +305,7 @@ different health register: <code>bef</code>, <code>lmdb</code>, <code>lpr_adm</c
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span> 16_t2d_gldT_diagF_h… 2013-04-01            2013-04-01         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">16</span> 18_t2d_male_pcosF    2023-04-01            2023-04-01         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">17</span> 23_t2d_gldT_1995_19… <span style="color: #BB0000;">NA</span>                    1995-06-16         FALSE   TRUE   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">18</span> 24_t2d_only_lpr3a    2025-02-01            2025-02-01         FALSE   TRUE   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
