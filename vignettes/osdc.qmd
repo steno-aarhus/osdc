@@ -259,7 +259,6 @@ osdc, you can do that too:
 ``` r
 lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb() |>
   # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
   # dplyr::select(...) |>
   # dplyr::mutate(...) |>
@@ -292,13 +291,12 @@ and must be converted to a `date` before being input to
 The duplicate rows in `lpr3a_kontakt` can be removed during processing
 by filtering to `indberetningssystem == "LPR3"` Similarly, the
 `kont_starttidspunkt` variable in `lpr3a` can be converted to a `date`
-in a single call to `dplyr::mutate(as.Date(kont_starttidspunkt))` during
-pre-processing in arrow. e.g.:
+in a single call to `dplyr::mutate()` during
+pre-processing in Arrow. e.g.:
 
 ``` r
 lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb() |>
   # dplyr::select(...) |>
   dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |>
   dplyr::filter(indberetningssystem == "LPR3") |>
