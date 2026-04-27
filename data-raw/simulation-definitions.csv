@@ -1,45 +1,45 @@
-register_abbrev,variable_name,data_type,format,generator,explanation_of_values,comments
-bef,koen,integer,binary,"as.integer(fabricatr::draw_binary(0.5, N = N) + 1)","2 is woman, 1 is man",
-bef,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
-bef,foed_dato,date,YYYY-MM-DD,"create_fake_date(N, from = '1900-01-01')",,
-lmdb,volume,double,standard,"stats::runif(N, 1, 10)",,
-lmdb,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
-lmdb,eksd,date,YYYY-MM-DD,"create_fake_date(N, from = '1995-01-01')",,
-lmdb,atc,string,7 digits,create_fake_atc(N),`^A10` is glucose-lowering medications,
-lmdb,apk,integer,standard,"stats::runif(N, 1, 10)",,
-lmdb,indo,string,blank or 7 digits zero-padded,"create_padded_integer(N, 7)",refer to the KAT classification,"the only used values are '0000092', '0000276', '0000781'"
-lpr_adm,c_spec,string,2 digits zero-padded,"create_padded_integer(N, 2)",,c_blok is derived from c_spec
-lpr_adm,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
-lpr_adm,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",,
-lpr_adm,d_inddto,date,YYYY-MM-DD,create_fake_date(N),,
-lpr_diag,c_diagtype,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))",,
-lpr_diag,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",,
-lpr_diag,c_diag,string,icd8 or icd10,create_fake_icd(N),`^249|^250|^DE1[0-4]` are diabetes codes,
-lpr3a_kontakt,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",equivalent to pnr in lpr2 and lpr3f,
-lpr3a_kontakt,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f,
-lpr3a_kontakt,kont_starttidspunkt,date,datetime YYYY-MM-DD HH:MM:SS,"create_fake_date(N)",equivalent to d_inddto in lpr2 and dato_start in lpr3f,
-lpr3a_kontakt,kont_ans_hovedspec,string,natural language,create_fake_hovedspeciale_ans(N),"similar to c_spec in lpr2 but values are strings, equivalent to hovedspeciale_ans in lpr3f",
-lpr3a_diagnose,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f,
-lpr3a_diagnose,diag_kode,string,icd10,create_fake_icd10(N),"`^DE1[0-4]` are diabetes codes, equivalent to c_diag in lpr2 and diagnosekode in lpr3f",
-lpr3a_diagnose,diag_type,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))","A is a primary diagnosis, B is a secondary diagnosis, equivalent to c_diagtype in lpr2 and diagnosetype i lpr3f",
-lpr3a_diagnose,senere_afkraeftet,string,Binary natural language,"fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c('Ja', 'Nej'))",equivalent to senere_afkraeftet in lpr3f,
-lpr3f_kontakter,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",equivalent to pnr in lpr2,
-lpr3f_kontakter,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2,
-lpr3f_kontakter,dato_start,date,YYYY-MM-DD,create_fake_date(N),equivalent to d_inddto in lpr2,
-lpr3f_kontakter,hovedspeciale_ans,string,natural language,create_fake_hovedspeciale_ans(N),"similar to c_spec in lpr2, but values are strings",
-lpr3f_diagnoser,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2,
-lpr3f_diagnoser,diagnosekode,string,icd10,create_fake_icd10(N),`^DE1[0-4]` are diabetes codes,
-lpr3f_diagnoser,diagnosetype,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))","A is a primary diagnosis, B is a secondary diagnosis",
-lpr3f_diagnoser,senere_afkraeftet,string,Binary natural language,"fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c('Ja', 'Nej'))",,
-sysi,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
-sysi,barnmak,integer,binary,"fabricatr::draw_binary(0.1, N = N)",0 is no,
-sysi,speciale,string,5 digits,"create_padded_integer(N, 5)",`^54` is diabetes-specific podiatrist service,
-sysi,honuge,string,"4 digits: yyww (2 digits year, 2 digits week number)","to_yyww(create_fake_date(N, from = '1990-01-01', to = '2004-12-31'))",,
-sssy,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
-sssy,barnmak,integer,binary,"fabricatr::draw_binary(0.1, N = N)",0 is no,
-sssy,speciale,string,5 digits,"create_padded_integer(N, 5)",`^54` is diabetes-specific podiatrist service,
-sssy,honuge,string,"4 digits: yyww (2 digits year, 2 digits week number)","to_yyww(create_fake_date(N, from = '2005-01-01'))",,
-lab_forsker,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",,
-lab_forsker,samplingdate,date,YYYY-MM-DD,"create_fake_date(N, from = '2011-01-01')",,
-lab_forsker,analysiscode,string,8 digit NPU code,create_fake_npu(N),NPU27300 is HbA1c in modern units (IFCC),NPU03835 is HbA1c in old units
-lab_forsker,value,double,standard,"stats::runif(N, 1, 180)",,
+register_abbrev,variable_name,data_type,format,generator,comments
+bef,koen,integer,binary,"as.integer(fabricatr::draw_binary(0.5, N = N) + 1)","2 is woman, 1 is man"
+bef,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",
+bef,foed_dato,date,YYYY-MM-DD,"create_fake_date(N, from = '1900-01-01')",
+lmdb,volume,double,standard,"stats::runif(N, 1, 10)",
+lmdb,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",
+lmdb,eksd,date,YYYY-MM-DD,"create_fake_date(N, from = '1995-01-01')",
+lmdb,atc,string,7 digits,create_fake_atc(N),`^A10` is glucose-lowering medications
+lmdb,apk,integer,standard,"stats::runif(N, 1, 10)",
+lmdb,indo,string,blank or 7 digits zero-padded,"create_padded_integer(N, 7)","refers to the KAT classification, the only used values are '0000092', '0000276', '0000781'"
+lpr_adm,c_spec,string,2 digits zero-padded,"create_padded_integer(N, 2)",c_blok is derived from c_spec
+lpr_adm,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",
+lpr_adm,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",
+lpr_adm,d_inddto,date,YYYY-MM-DD,create_fake_date(N),
+lpr_diag,c_diagtype,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))",
+lpr_diag,recnum,string,18 digits zero-padded,"create_padded_integer(N, 18)",
+lpr_diag,c_diag,string,icd8 or icd10,create_fake_icd(N),`^249|^250|^DE1[0-4]` are diabetes codes
+lpr3a_kontakt,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",equivalent to pnr in lpr2 and lpr3f
+lpr3a_kontakt,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f
+lpr3a_kontakt,kont_starttidspunkt,date,datetime YYYY-MM-DD HH:MM:SS,"create_fake_date(N)",equivalent to d_inddto in lpr2 and dato_start in lpr3f
+lpr3a_kontakt,kont_ans_hovedspec,string,natural language,create_fake_hovedspeciale_ans(N),"similar to c_spec in lpr2 but values are strings, equivalent to hovedspeciale_ans in lpr3f"
+lpr3a_diagnose,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f
+lpr3a_diagnose,diag_kode,string,icd10,create_fake_icd10(N),"`^DE1[0-4]` are diabetes codes, equivalent to c_diag in lpr2 and diagnosekode in lpr3f"
+lpr3a_diagnose,diag_type,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))","A is a primary diagnosis, B is a secondary diagnosis, equivalent to c_diagtype in lpr2 and diagnosetype i lpr3f"
+lpr3a_diagnose,senere_afkraeftet,string,Binary natural language,"fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c('Ja', 'Nej'))",equivalent to senere_afkraeftet in lpr3f
+lpr3f_kontakter,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",equivalent to pnr in lpr2
+lpr3f_kontakter,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2
+lpr3f_kontakter,dato_start,date,YYYY-MM-DD,create_fake_date(N),equivalent to d_inddto in lpr2
+lpr3f_kontakter,hovedspeciale_ans,string,natural language,create_fake_hovedspeciale_ans(N),"similar to c_spec in lpr2, but values are strings"
+lpr3f_diagnoser,dw_ek_kontakt,string,18 digits zero-padded,"create_padded_integer(N, 18)",equivalent to recnum in lpr2
+lpr3f_diagnoser,diagnosekode,string,icd10,create_fake_icd10(N),`^DE1[0-4]` are diabetes codes
+lpr3f_diagnoser,diagnosetype,string,"1 digit (A, B, H, +)","fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c('A', 'B'))","A is a primary diagnosis, B is a secondary diagnosis"
+lpr3f_diagnoser,senere_afkraeftet,string,Binary natural language,"fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c('Ja', 'Nej'))",
+sysi,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",
+sysi,barnmak,integer,binary,"fabricatr::draw_binary(0.1, N = N)",0 is no
+sysi,speciale,string,5 digits,"create_padded_integer(N, 5)",`^54` is diabetes-specific podiatrist service
+sysi,honuge,string,"4 digits: yyww (2 digits year, 2 digits week number)","to_yyww(create_fake_date(N, from = '1990-01-01', to = '2004-12-31'))",
+sssy,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",
+sssy,barnmak,integer,binary,"fabricatr::draw_binary(0.1, N = N)",0 is no
+sssy,speciale,string,5 digits,"create_padded_integer(N, 5)",`^54` is diabetes-specific podiatrist service
+sssy,honuge,string,"4 digits: yyww (2 digits year, 2 digits week number)","to_yyww(create_fake_date(N, from = '2005-01-01'))",
+lab_forsker,pnr,string,12 digits zero-padded,"create_padded_integer(N, 12)",
+lab_forsker,samplingdate,date,YYYY-MM-DD,"create_fake_date(N, from = '2011-01-01')",
+lab_forsker,analysiscode,string,8 digit NPU code,create_fake_npu(N),"NPU27300 is HbA1c in modern units (IFCC), NPU03835 is HbA1c in old units"
+lab_forsker,value,double,standard,"stats::runif(N, 1, 180)",
