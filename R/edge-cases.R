@@ -13,7 +13,8 @@
 #'
 #' @return A named list of 9  [tibble::tibble()] objects, each representing a
 #'   different health register: `bef`, `lmdb`, `lpr_adm`, `lpr_diag`,
-#'   `lpr3f_kontakter`, `lpr3f_diagnoser`, `sysi`, `sssy`, and `lab_forsker`.
+#'   `lpr3a_kontakt`, `lpr3a_diagnose`, `lpr3f_kontakter`, `lpr3f_diagnoser`,
+#'   `sysi`, `sssy`, and `lab_forsker`.
 #' @export
 #'
 #' @examples
@@ -43,7 +44,8 @@ edge_cases <- function() {
     "20_nodm_female_o40_pcosT", 2, "19750101",
     "21_nodm_female_pregnancyT", 2, "19950101",
     "22_nodm_female_blank", 2, "19960101",
-    "23_t2d_gldT_1995_1999", 1, "19500101"
+    "23_t2d_gldT_1995_1999", 1, "19500101",
+    "24_t2d_only_lpr3a", 1, "19900101"
   ) |>
     dplyr::mutate(
       koen = as.integer(.data$koen),
@@ -106,7 +108,7 @@ edge_cases <- function() {
     "23_t2d_gldT_1995_1999", 10, "19970615", "A10BA02", 1, "2300003",
     "23_t2d_gldT_1995_1999", 10, "19970616", "A10BA02", 2, "2300003",
     "23_t2d_gldT_1995_1999", 10, "19980615", "A10BA02", 3, "2300003",
-    "23_t2d_gldT_1995_1999", 10, "19980616", "A10BA02", 4, "2300003",
+    "23_t2d_gldT_1995_1999", 10, "19980616", "A10BA02", 4, "2300003"
   ) |>
     dplyr::mutate(
       eksd = lubridate::as_date(.data$eksd)
@@ -172,6 +174,74 @@ edge_cases <- function() {
     "pnr16_rec01", "DZ371", "A",
     "pnr21_rec01", "DZ371", "A"
   )
+
+  # LPR_A: Note: kont_starttidspunkt is formatted as a date, not a datetime
+
+  lpr3a_kontakt <- tibble::tribble(
+    ~pnr, ~dw_ek_kontakt, ~kont_ans_hovedspec, ~kont_starttidspunkt,
+    "01_t1d_oipT_anyt1dT", "pnr01_dw01", "medicinsk endokrinologi", "20210515",
+    "02_t2d_oipT_anyt1dF", "pnr02_dw01", "thoraxkirurgi", "20220616",
+    "03_t2d_oipF_anyt1dF", "pnr03_dw01", "kardiologi", "20200717",
+    "04_t1d_oipF_endoT_majt1dT_i180T_itwo3T", "pnr04_dw01", "medicinsk endokrinologi", "20230120",
+    "05_t2d_oipF_endoT_majt1dT_i180T_itwo3F", "pnr05_dw01", "medicinsk endokrinologi", "20230221",
+    "06_t2d_oipF_endoT_majt1dT_i180F_itwo3T", "pnr06_dw01", "medicinsk endokrinologi", "20230322",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw01", "medicinsk endokrinologi", "20220423",
+    "07_t2d_oipF_endoT_majt1dF_i180T_itwo3T", "pnr07_dw02", "geriatri", "20230423",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T", "pnr08_dw01", "kardiologi", "20230120",
+    "08_t1d_oipF_medT_majt1dT_i180T_itwo3T", "pnr08_dw02", "kardiologi", "20240120",
+    "09_t2d_oipF_medT_majt1dT_i180T_itwo3F", "pnr09_dw01", "kardiologi", "20240221",
+    "10_t2d_oipF_medT_majt1dT_i180F_itwo3T", "pnr10_dw01", "kardiologi", "20240322",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T", "pnr11_dw01", "kardiologi", "20230423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T", "pnr11_dw02", "medicinsk endokrinologi", "20240423",
+    "11_t2d_oipF_medT_majt1dF_i180T_itwo3T", "pnr11_dw03", "thoraxkirurgi", "20240616",
+    "12_nodm_gldF_diagF_hba1cF_podF", "pnr12_dw01", "kardiologi", "20210423",
+    "14_t2d_gldF_diagF_hba1cT_podF", "pnr14_dw01", "gynaekologi og obstetrik", "20240101",
+    "15_t2d_gldF_diagT_hba1cF_podF", "pnr15_dw01", "urologi", "20230101",
+    "16_t2d_gldT_diagF_hba1cF_podF", "pnr16_dw01", "gynaekologi og obstetrik", "20240101",
+    "21_nodm_female_pregnancyT", "pnr21_dw01", "gynaekologi og obstetrik", "20240101",
+    "24_t2d_only_lpr3a", "pnr24_dw01", "endokrinologi", "20250101",
+    "24_t2d_only_lpr3a", "pnr24_dw02", "endokrinologi", "20250201"
+  ) |>
+    dplyr::mutate(
+      kont_starttidspunkt = lubridate::as_date(.data$kont_starttidspunkt)
+    )
+
+  lpr3a_diagnose <- tibble::tribble(
+    ~dw_ek_kontakt, ~diag_kode, ~diag_type, ~senere_afkraeftet,
+    "pnr01_dw01", "DE101", "A", "Nej",
+    "pnr02_dw01", "DE102", "A", "Nej",
+    "pnr03_dw01", "DE103", "A", "Nej",
+    "pnr04_dw01", "DE104", "A", "Nej",
+    "pnr04_dw02", "DE115", "B", "Nej",
+    "pnr04_dw02", "DE119", "B", "Nej",
+    "pnr05_dw01", "DE101", "A", "Nej",
+    "pnr06_dw01", "DE102", "A", "Nej",
+    "pnr07_dw01", "DE103", "A", "Nej",
+    "pnr07_dw01", "DE109", "B", "Nej",
+    "pnr07_dw02", "DE104", "A", "Nej",
+    "pnr07_dw02", "DE108", "B", "Nej",
+    "pnr08_dw01", "DE114", "A", "Nej",
+    "pnr08_dw02", "DE105", "A", "Nej",
+    "pnr08_dw02", "DE119", "B", "Nej",
+    "pnr09_dw01", "DE10", "A", "Nej",
+    "pnr10_dw01", "DE101", "A", "Nej",
+    "pnr11_dw01", "DE112", "A", "Nej",
+    "pnr11_dw01", "DE102", "B", "Nej",
+    "pnr11_dw02", "DE109", "B", "Nej",
+    "pnr11_dw02", "DI739", "B", "Nej",
+    "pnr11_dw03", "DE102", "A", "Nej",
+    "pnr12_dw01", "DI25", "A", "Nej",
+    "pnr12_dw01", "DE110", "A", "Ja",
+    "pnr14_dw01", "DO041", "A", "Nej",
+    "pnr15_dw01", "DI25", "A", "Nej",
+    "pnr15_dw01", "DE110", "B", "Nej",
+    "pnr16_dw01", "DO822", "A", "Nej",
+    "pnr21_dw01", "DO806", "A", "Nej",
+    "pnr24_dw01", "DE110", "A", "Nej",
+    "pnr24_dw02", "DE130", "A", "Nej"
+  )
+
+  # LPR_F: Same content/observations as lpr_a_kontakt & lpr_a_diagnose, just different format.
 
   lpr3f_kontakter <- tibble::tribble(
     ~pnr, ~dw_ek_kontakt, ~hovedspeciale_ans, ~dato_start,
@@ -330,7 +400,8 @@ edge_cases <- function() {
     "15_t2d_gldF_diagT_hba1cF_podF", "2023-01-01", "2023-01-01", FALSE, TRUE,
     "16_t2d_gldT_diagF_hba1cF_podF", "2013-04-01", "2013-04-01", FALSE, TRUE,
     "18_t2d_male_pcosF", "2023-04-01", "2023-04-01", FALSE, TRUE,
-    "23_t2d_gldT_1995_1999", NA, "1995-06-16", FALSE, TRUE
+    "23_t2d_gldT_1995_1999", NA, "1995-06-16", FALSE, TRUE,
+    "24_t2d_only_lpr3a", "2025-02-01", "2025-02-01", FALSE, TRUE
   ) |>
     dplyr::mutate(
       stable_inclusion_date = lubridate::as_date(.data$stable_inclusion_date),
@@ -344,6 +415,8 @@ edge_cases <- function() {
     lmdb = lmdb,
     lpr_adm = lpr_adm,
     lpr_diag = lpr_diag,
+    lpr3a_kontakt = lpr3a_kontakt,
+    lpr3a_diagnose = lpr3a_diagnose,
     lpr3f_kontakter = lpr3f_kontakter,
     lpr3f_diagnoser = lpr3f_diagnoser,
     sysi = sysi,
