@@ -257,15 +257,68 @@ rename variables or convert their types to match the inputs expected by
 osdc, you can do that too:
 
 ``` r
-diagnoser <- "path/to/diagnoser_parquet_folder" |>
+lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb() |>
   # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
   # dplyr::select(...) |>
+  # dplyr::mutate(...) |>
   # dplyr::filter(...) |>
   arrow::to_duckdb(con = ddb_con) |>
   dplyr::compute()
 ```
+
+If your data (or parts of it) is already in R (e.g., as a `data.frame`),
+you can convert it to a DuckDB table with:
+
+``` r
+lpr3f_diagnoser <- lpr3f_diagnoser |>
+  arrow::to_duckdb(con = ddb_con) |>
+  dplyr::compute()
+```
+
+::: callout-important
+Important notes on using `lpr3a` data!
+
+A: `lpr3a` contains duplicates of contacts in 2017 & 2018 that are also
+contained in `lpr2`. These rows must be filtered out before being input
+to osdc's `prepare_lpr3a()` function.
+
+B: The `kont_starttidspunkt` variable in `lpr3a` is a `datetime` type,
+and must be converted to a `date` before being input to
+`prepare_lpr3a()`.
+:::
+
+The duplicate rows in `lpr3a_kontakt` can be removed during processing
+by filtering to `indberetningssystem == "LPR3"` Similarly, the
+`kont_starttidspunkt` variable in `lpr3a` can be converted to a `date`
+in a single call to `dplyr::mutate()` during
+pre-processing in Arrow. e.g.:
+
+``` r
+lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
+  arrow::open_dataset(unify_schemas = TRUE) |>
+  # dplyr::select(...) |>
+  dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |>
+  dplyr::filter(indberetningssystem == "LPR3") |>
+  arrow::to_duckdb(con = ddb_con) |>
+  dplyr::compute()
+```
+
+This can be used as input to `prepare_lpr3a()`:
+
+``` r
+lpr <- list(
+  prepare_lpr2(lpr_adm, lpr_diag),
+  prepare_lpr3f(lpr3f_kontakter, lpr3f_diagnoser),
+  prepare_lpr3a(lpr3a_kontakt, lpr3a_diagnose)
+) |>
+  join_registers()
+```
+
+Most inputs will work in the Arrow/DuckDB equivalent of their type in
+the original SAS file. Unless the SAS-to-Arrow conversion introduced
+unexpected types, you should should not need to do any further type
+conversion.
 
 Once you're done using DuckDB, you should close the driver and
 connection like so:
@@ -273,15 +326,6 @@ connection like so:
 ``` r
 duckdb::duckdb_shutdown(ddb_driver)
 DBI::dbDisconnect(ddb_con)
-```
-
-If your data is already in R (e.g., as a data frame), you can convert it
-to a DuckDB table with:
-
-``` r
-diagnoser <- diagnoser |>
-  arrow::to_duckdb() |>
-  dplyr::compute()
 ```
 
 ## Getting help
