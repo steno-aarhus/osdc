@@ -143,18 +143,18 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.5.3//tmp/RtmpV957my/duckplyr/duckplyr1eed26959100.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.6.0//tmp/RtmpiF7OkT/duckplyr/duckplyr1d2c526d4c35.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 506644859723 2023-05-08            2023-05-08         FALSE   TRUE   
-#> 3 673530226814 2021-01-22            2021-01-22         FALSE   TRUE   
-#> 4 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 5 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
-#> 6 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 7 706974528463 2021-09-20            2021-09-20         FALSE   TRUE   
-#> 8 504469234683 2022-03-23            2022-03-23         FALSE   TRUE   
-#> 9 240771768588 2017-07-17            2017-07-17         FALSE   TRUE
+#> 1 506644859723 2023-05-08            2023-05-08         FALSE   TRUE   
+#> 2 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
+#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 4 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
+#> 5 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
+#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 7 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
+#> 8 673530226814 2021-01-22            2021-01-22         FALSE   TRUE   
+#> 9 504469234683 2022-03-23            2022-03-23         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -177,15 +177,15 @@ classified_diabetes
 #> # A tibble: 9 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 673530226814 2021-01-22            2021-01-22         FALSE   TRUE   
-#> 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 1 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
+#> 2 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
 #> 3 504469234683 2022-03-23            2022-03-23         FALSE   TRUE   
-#> 4 706974528463 2021-09-20            2021-09-20         FALSE   TRUE   
+#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
 #> 5 506644859723 2023-05-08            2023-05-08         FALSE   TRUE   
-#> 6 409442575549 2020-05-04            2020-05-04         FALSE   TRUE   
-#> 7 298944792608 2017-02-01            2017-02-01         FALSE   TRUE   
-#> 8 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
-#> 9 240771768588 2017-07-17            2017-07-17         FALSE   TRUE
+#> 6 673530226814 2021-01-22            2021-01-22         FALSE   TRUE   
+#> 7 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
+#> 8 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
+#> 9 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 9 individuals are
