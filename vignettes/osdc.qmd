@@ -291,8 +291,8 @@ and must be converted to a `date` before being input to
 The duplicate rows in `lpr3a_kontakt` can be removed during processing
 by filtering to `indberetningssystem == "LPR3"` Similarly, the
 `kont_starttidspunkt` variable in `lpr3a` can be converted to a `date`
-in a single call to `dplyr::mutate()` during
-pre-processing in Arrow. e.g.:
+in a single call to `dplyr::mutate()` during pre-processing in Arrow.
+e.g.:
 
 ``` r
 lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
