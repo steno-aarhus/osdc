@@ -143,18 +143,18 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.6.0//tmp/RtmpiF7OkT/duckplyr/duckplyr1d2c526d4c35.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.6.0//tmp/RtmpmWTV4r/duckplyr/duckplyr1cf9105e5499.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 506644859723 2023-05-08            2023-05-08         FALSE   TRUE   
-#> 2 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
-#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 4 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
-#> 5 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
-#> 6 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
-#> 7 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
-#> 8 673530226814 2021-01-22            2021-01-22         FALSE   TRUE   
-#> 9 504469234683 2022-03-23            2022-03-23         FALSE   TRUE
+#> 1 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
+#> 2 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
+#> 3 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 4 504469234683 2022-03-23            2022-03-23         FALSE   TRUE   
+#> 5 673530226814 2021-01-22            2021-01-22         FALSE   TRUE   
+#> 6 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
+#> 7 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 8 506644859723 2023-05-08            2023-05-08         FALSE   TRUE   
+#> 9 409442575549 2005-09-26            2005-09-26         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -177,15 +177,15 @@ classified_diabetes
 #> # A tibble: 9 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
-#> 2 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
-#> 3 504469234683 2022-03-23            2022-03-23         FALSE   TRUE   
-#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 5 506644859723 2023-05-08            2023-05-08         FALSE   TRUE   
-#> 6 673530226814 2021-01-22            2021-01-22         FALSE   TRUE   
-#> 7 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
-#> 8 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
-#> 9 498989088479 2014-11-09            2014-11-09         FALSE   TRUE
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 506644859723 2023-05-08            2023-05-08         FALSE   TRUE   
+#> 3 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
+#> 4 504469234683 2022-03-23            2022-03-23         FALSE   TRUE   
+#> 5 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
+#> 6 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
+#> 7 498989088479 2014-11-09            2014-11-09         FALSE   TRUE   
+#> 8 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
+#> 9 673530226814 2021-01-22            2021-01-22         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 9 individuals are
@@ -294,15 +294,72 @@ rename variables or convert their types to match the inputs expected by
 osdc, you can do that too:
 
 ``` r
-diagnoser <- "path/to/diagnoser_parquet_folder" |>
+lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
-  arrow::to_duckdb() |>
   # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
   # dplyr::select(...) |>
+  # dplyr::mutate(...) |>
   # dplyr::filter(...) |>
   arrow::to_duckdb(con = ddb_con) |>
   dplyr::compute()
 ```
+
+If your data (or parts of it) is already in R (e.g., as a `data.frame`),
+you can convert it to a DuckDB table with:
+
+``` r
+lpr3f_diagnoser <- lpr3f_diagnoser |>
+  arrow::to_duckdb(con = ddb_con) |>
+  dplyr::compute()
+```
+
+> **Important**
+>
+> Important notes on using `lpr3a` data!
+>
+> A: `lpr3a` contains duplicates of contacts in 2017 & 2018 that are
+> also contained in `lpr2`. These rows must be filtered out before being
+> input to osdc’s
+> [`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md)
+> function.
+>
+> B: The `kont_starttidspunkt` variable in `lpr3a` is a `datetime` type,
+> and must be converted to a `date` before being input to
+> [`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md).
+
+The duplicate rows in `lpr3a_kontakt` can be removed during processing
+by filtering to `indberetningssystem == "LPR3"` Similarly, the
+`kont_starttidspunkt` variable in `lpr3a` can be converted to a `date`
+in a single call to
+[`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html)
+during pre-processing in Arrow. e.g.:
+
+``` r
+lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
+  arrow::open_dataset(unify_schemas = TRUE) |>
+  # dplyr::select(...) |>
+  dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |>
+  dplyr::filter(indberetningssystem == "LPR3") |>
+  arrow::to_duckdb(con = ddb_con) |>
+  dplyr::compute()
+```
+
+This can be used as input to
+[`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md):
+
+``` r
+lpr <- list(
+  prepare_lpr2(lpr_adm, lpr_diag),
+  prepare_lpr3f(lpr3f_kontakter, lpr3f_diagnoser),
+  prepare_lpr3a(lpr3a_kontakt, lpr3a_diagnose)
+) |>
+  join_registers()
+```
+
+Most inputs will work in the Arrow/DuckDB equivalent of their type in
+the original SAS file. Unless the SAS-to-Arrow conversion introduced
+unexpected types, you should should not need to do any further type
+conversion.
 
 Once you’re done using DuckDB, you should close the driver and
 connection like so:
@@ -310,15 +367,6 @@ connection like so:
 ``` r
 duckdb::duckdb_shutdown(ddb_driver)
 DBI::dbDisconnect(ddb_con)
-```
-
-If your data is already in R (e.g., as a data frame), you can convert it
-to a DuckDB table with:
-
-``` r
-diagnoser <- diagnoser |>
-  arrow::to_duckdb() |>
-  dplyr::compute()
 ```
 
 ## Getting help
