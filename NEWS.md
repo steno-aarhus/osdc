@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.11.1 (2026-04-27)
+
+### Refactor
+
+- 🔥 remove `from_` variables from algorithm (#551)
+
 ## 0.11.0 (2026-04-17)
 
 ### Feat
