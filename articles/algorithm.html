@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">osdc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.11.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -318,10 +318,10 @@
 <div class="cell-output-display">
 <table class="table caption-top">
 <colgroup>
-<col style="width: 5%">
-<col style="width: 11%">
-<col style="width: 41%">
-<col style="width: 42%">
+<col style="width: 6%">
+<col style="width: 13%">
+<col style="width: 30%">
+<col style="width: 49%">
 </colgroup>
 <thead><tr class="header">
 <th style="text-align: left;">name</th>
@@ -351,7 +351,7 @@
 <tr class="even">
 <td style="text-align: left;">has_t1d</td>
 <td style="text-align: left;">Classifying type 1 diabetes status</td>
-<td style="text-align: left;">(from_diabetes_diagnosis OR from_podiatrist_service OR from_gld_purchase OR from_hba1c_over_threshold) AND (has_only_insulin_purchases &amp; has_any_t1d_primary_diagnosis) OR (!has_only_insulin_purchases &amp; has_majority_t1d_diagnoses &amp; has_two_thirds_insulin &amp; has_insulin_purchases_within_180_days)</td>
+<td style="text-align: left;">(has_only_insulin_purchases &amp; has_any_t1d_primary_diagnosis) OR (!has_only_insulin_purchases &amp; has_majority_t1d_diagnoses &amp; has_two_thirds_insulin &amp; has_insulin_purchases_within_180_days)</td>
 <td style="text-align: left;">The final classification for type 1 diabetes. Depends on all the previous steps to create these intermediate logical variables.</td>
 </tr>
 <tr class="odd">
