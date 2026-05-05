@@ -39,6 +39,7 @@ real register data, see
 First, you need to install and load the package:
 
 ``` r
+
 # install.packages("osdc")
 library(osdc)
 ```
@@ -87,6 +88,7 @@ For this example, we generate simulated register data using
 and then convert it to DuckDB format:
 
 ``` r
+
 register_data <- registers() |>
   names() |>
   simulate_registers() |>
@@ -106,6 +108,7 @@ The same goes for the health service registers (SSSY, and SYSI). osdc
 provides helper functions for this:
 
 ``` r
+
 lpr <- list(
   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
   prepare_lpr3f(register_data$lpr3f_kontakter, register_data$lpr3f_diagnoser),
@@ -121,6 +124,7 @@ they are ready to be passed as arguments to
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md):
 
 ``` r
+
 bef <- register_data$bef
 lmdb <- register_data$lmdb
 lab_forsker <- register_data$lab_forsker
@@ -133,6 +137,7 @@ to
 [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md):
 
 ``` r
+
 classified_diabetes <- classify_diabetes(
   lpr = lpr,
   hsr = hsr,
@@ -143,18 +148,18 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.6.0//tmp/RtmpFAVLTU/duckplyr/duckplyr1d502d5291f3.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1010-azure:R 4.6.0//tmp/Rtmp9c04iH/duckplyr/duckplyr1d726fa5cb1a.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
-#> 2 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
-#> 3 498989088479 2015-12-15            2015-12-15         FALSE   TRUE   
-#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 5 506644859723 2024-02-20            2024-02-20         FALSE   TRUE   
-#> 6 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
-#> 7 504469234683 2023-10-11            2023-10-11         FALSE   TRUE   
-#> 8 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
-#> 9 673530226814 2026-01-01            2026-01-01         FALSE   TRUE
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
+#> 3 506644859723 2018-06-30            2018-06-30         FALSE   TRUE   
+#> 4 240771768588 2006-01-09            2006-01-09         FALSE   TRUE   
+#> 5 673530226814 2024-12-23            2024-12-23         FALSE   TRUE   
+#> 6 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
+#> 7 498989088479 2020-04-17            2020-04-17         FALSE   TRUE   
+#> 8 504469234683 2017-08-10            2017-08-10         FALSE   TRUE   
+#> 9 409442575549 2005-09-26            2005-09-26         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -170,6 +175,7 @@ R’s memory. To bring the results into R as a regular data frame, use
 [`dplyr::collect()`](https://dplyr.tidyverse.org/reference/compute.html):
 
 ``` r
+
 classified_diabetes <- classified_diabetes |>
   dplyr::collect()
 
@@ -177,15 +183,15 @@ classified_diabetes
 #> # A tibble: 9 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 506644859723 2024-02-20            2024-02-20         FALSE   TRUE   
-#> 2 673530226814 2026-01-01            2026-01-01         FALSE   TRUE   
-#> 3 504469234683 2023-10-11            2023-10-11         FALSE   TRUE   
-#> 4 240771768588 2018-03-19            2018-03-19         FALSE   TRUE   
+#> 1 240771768588 2006-01-09            2006-01-09         FALSE   TRUE   
+#> 2 506644859723 2018-06-30            2018-06-30         FALSE   TRUE   
+#> 3 504469234683 2017-08-10            2017-08-10         FALSE   TRUE   
+#> 4 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
 #> 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 6 706974528463 2011-06-20            2011-06-20         FALSE   TRUE   
-#> 7 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
-#> 8 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
-#> 9 498989088479 2015-12-15            2015-12-15         FALSE   TRUE
+#> 6 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
+#> 7 498989088479 2020-04-17            2020-04-17         FALSE   TRUE   
+#> 8 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
+#> 9 673530226814 2024-12-23            2024-12-23         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 9 individuals are
@@ -196,13 +202,13 @@ classified as having diabetes.
 The output is a table with one row per classified individual and five
 columns:
 
-| Column                  | Description                                                                                                                   |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| `pnr`                   | The pseudonymised personal identification number.                                                                             |
+| Column | Description |
+|----|----|
+| `pnr` | The pseudonymised personal identification number. |
 | `stable_inclusion_date` | The date of the second inclusion event, if on or after `stable_inclusion_start_date` (default: 1998). `NA` for earlier dates. |
-| `raw_inclusion_date`    | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`.          |
-| `has_t1d`               | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise.                                                                   |
-| `has_t2d`               | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise.                                                                   |
+| `raw_inclusion_date` | The date of the second inclusion event without setting `NA` for date earlier than the `stable_inclusion_start_date`. |
+| `has_t1d` | `TRUE` if classified as type 1 diabetes, `FALSE` otherwise. |
+| `has_t2d` | `TRUE` if classified as type 2 diabetes, `FALSE` otherwise. |
 
 > **About `stable_inclusion_date` vs `raw_inclusion_date`**
 >
@@ -227,6 +233,7 @@ Once you have the classification results, you can save them as a Parquet
 file for yourself or your collaborators on your DST project:
 
 ``` r
+
 classified_diabetes |>
   duckplyr::as_duckdb_tibble() |>
   duckplyr::compute_parquet(
@@ -278,6 +285,7 @@ some connection parameters first:
   threshold.
 
 ``` r
+
 ddb_driver <- duckdb::duckdb(config = list(
   memory = "128GB",
   temp_dir = "path/to/temp/dir"
@@ -294,6 +302,7 @@ rename variables or convert their types to match the inputs expected by
 osdc, you can do that too:
 
 ``` r
+
 lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
   # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
@@ -308,6 +317,7 @@ If your data (or parts of it) is already in R (e.g., as a `data.frame`),
 you can convert it to a DuckDB table with:
 
 ``` r
+
 lpr3f_diagnoser <- lpr3f_diagnoser |>
   arrow::to_duckdb(con = ddb_con) |>
   dplyr::compute()
@@ -335,6 +345,7 @@ in a single call to
 during pre-processing in Arrow. e.g.:
 
 ``` r
+
 lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
   arrow::open_dataset(unify_schemas = TRUE) |>
   # dplyr::select(...) |>
@@ -348,6 +359,7 @@ This can be used as input to
 [`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md):
 
 ``` r
+
 lpr <- list(
   prepare_lpr2(lpr_adm, lpr_diag),
   prepare_lpr3f(lpr3f_kontakter, lpr3f_diagnoser),
@@ -365,6 +377,7 @@ Once you’re done using DuckDB, you should close the driver and
 connection like so:
 
 ``` r
+
 duckdb::duckdb_shutdown(ddb_driver)
 DBI::dbDisconnect(ddb_con)
 ```

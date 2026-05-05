@@ -7,21 +7,21 @@ gain access to these data.
 
 The algorithm uses these Danish registers as input data sources:
 
-| Register                                            | Abbreviation      | Years          |
-|:----------------------------------------------------|:------------------|:---------------|
-| CPR-registerets befolkningstabel                    | `bef`             | 1968 - present |
-| Laegemiddelstatistikregisteret                      | `lmdb`            | 1995 - present |
-| Landspatientregisterets administrationstabel (LPR2) | `lpr_adm`         | 1977 - 2018    |
-| Landspatientregisterets diagnosetabel (LPR2)        | `lpr_diag`        | 1977 - 2018    |
-| Landspatientregisterets kontakttabel (LPR3A)        | `lpr3a_kontakt`   | 2019 - present |
-| Landspatientregisterets diagnosetabel (LPR3A)       | `lpr3a_diagnose`  | 2019 - present |
-| Landspatientregisterets kontakttabel (LPR3F)        | `lpr3f_kontakter` | 2019 - present |
-| Landspatientregisterets diagnosetabel (LPR3F)       | `lpr3f_diagnoser` | 2019 - present |
-| Sygesikringsregisteret                              | `sysi`            | 1990 - 2005    |
-| Sygesikringsregisteret                              | `sssy`            | 2006 - present |
-| Laboratoriedatabasens forskertabel                  | `lab_forsker`     | 2011 - present |
+| Register | Abbreviation | Years |
+|:---|:---|:---|
+| CPR-registerets befolkningstabel | `bef` | 1968 - present |
+| Laegemiddelstatistikregisteret | `lmdb` | 1995 - present |
+| Landspatientregisterets administrationstabel (LPR2) | `lpr_adm` | 1977 - 2018 |
+| Landspatientregisterets diagnosetabel (LPR2) | `lpr_diag` | 1977 - 2018 |
+| Landspatientregisterets kontakttabel (LPR3A) | `lpr3a_kontakt` | 2019 - present |
+| Landspatientregisterets diagnosetabel (LPR3A) | `lpr3a_diagnose` | 2019 - present |
+| Landspatientregisterets kontakttabel (LPR3F) | `lpr3f_kontakter` | 2019 - present |
+| Landspatientregisterets diagnosetabel (LPR3F) | `lpr3f_diagnoser` | 2019 - present |
+| Sygesikringsregisteret | `sysi` | 1990 - 2005 |
+| Sygesikringsregisteret | `sssy` | 2006 - present |
+| Laboratoriedatabasens forskertabel | `lab_forsker` | 2011 - present |
 
-Danish registers used in the OSDC algorithm.
+Danish registers used in the OSDC algorithm. {.table .caption-top}
 
 In a future revision, the algorithm can also use the Danish Medical
 Birth Register to extend the period of time of valid inclusions further
@@ -33,52 +33,52 @@ National Patient Register.
 The following is a list of the variables required from specific
 registers in order for the package to classify diabetes status:
 
-| Register                                                          | Variable            |
-|:------------------------------------------------------------------|:--------------------|
-| CPR-registerets befolkningstabel (`bef`)                          | pnr                 |
-| CPR-registerets befolkningstabel (`bef`)                          | koen                |
-| CPR-registerets befolkningstabel (`bef`)                          | foed_dato           |
-| Laegemiddelstatistikregisteret (`lmdb`)                           | pnr                 |
-| Laegemiddelstatistikregisteret (`lmdb`)                           | eksd                |
-| Laegemiddelstatistikregisteret (`lmdb`)                           | atc                 |
-| Laegemiddelstatistikregisteret (`lmdb`)                           | volume              |
-| Laegemiddelstatistikregisteret (`lmdb`)                           | apk                 |
-| Laegemiddelstatistikregisteret (`lmdb`)                           | indo                |
-| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`)   | pnr                 |
-| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`)   | recnum              |
-| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`)   | d_inddto            |
-| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`)   | c_spec              |
-| Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`)         | recnum              |
-| Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`)         | c_diag              |
-| Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`)         | c_diagtype          |
-| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`)    | pnr                 |
-| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`)    | dw_ek_kontakt       |
-| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`)    | kont_starttidspunkt |
-| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`)    | kont_ans_hovedspec  |
-| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`)  | dw_ek_kontakt       |
-| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`)  | diag_kode           |
-| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`)  | diag_type           |
-| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`)  | senere_afkraeftet   |
-| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`)  | pnr                 |
-| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`)  | dw_ek_kontakt       |
-| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`)  | dato_start          |
-| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`)  | hovedspeciale_ans   |
-| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | dw_ek_kontakt       |
-| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | diagnosekode        |
-| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | diagnosetype        |
-| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | senere_afkraeftet   |
-| Sygesikringsregisteret (`sysi`)                                   | pnr                 |
-| Sygesikringsregisteret (`sysi`)                                   | barnmak             |
-| Sygesikringsregisteret (`sysi`)                                   | speciale            |
-| Sygesikringsregisteret (`sysi`)                                   | honuge              |
-| Sygesikringsregisteret (`sssy`)                                   | pnr                 |
-| Sygesikringsregisteret (`sssy`)                                   | barnmak             |
-| Sygesikringsregisteret (`sssy`)                                   | speciale            |
-| Sygesikringsregisteret (`sssy`)                                   | honuge              |
-| Laboratoriedatabasens forskertabel (`lab_forsker`)                | pnr                 |
-| Laboratoriedatabasens forskertabel (`lab_forsker`)                | samplingdate        |
-| Laboratoriedatabasens forskertabel (`lab_forsker`)                | analysiscode        |
-| Laboratoriedatabasens forskertabel (`lab_forsker`)                | value               |
+| Register | Variable |
+|:---|:---|
+| CPR-registerets befolkningstabel (`bef`) | pnr |
+| CPR-registerets befolkningstabel (`bef`) | koen |
+| CPR-registerets befolkningstabel (`bef`) | foed_dato |
+| Laegemiddelstatistikregisteret (`lmdb`) | pnr |
+| Laegemiddelstatistikregisteret (`lmdb`) | eksd |
+| Laegemiddelstatistikregisteret (`lmdb`) | atc |
+| Laegemiddelstatistikregisteret (`lmdb`) | volume |
+| Laegemiddelstatistikregisteret (`lmdb`) | apk |
+| Laegemiddelstatistikregisteret (`lmdb`) | indo |
+| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`) | pnr |
+| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`) | recnum |
+| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`) | d_inddto |
+| Landspatientregisterets administrationstabel (LPR2) (`lpr_adm`) | c_spec |
+| Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`) | recnum |
+| Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`) | c_diag |
+| Landspatientregisterets diagnosetabel (LPR2) (`lpr_diag`) | c_diagtype |
+| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`) | pnr |
+| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`) | dw_ek_kontakt |
+| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`) | kont_starttidspunkt |
+| Landspatientregisterets kontakttabel (LPR3A) (`lpr3a_kontakt`) | kont_ans_hovedspec |
+| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`) | dw_ek_kontakt |
+| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`) | diag_kode |
+| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`) | diag_type |
+| Landspatientregisterets diagnosetabel (LPR3A) (`lpr3a_diagnose`) | senere_afkraeftet |
+| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`) | pnr |
+| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`) | dw_ek_kontakt |
+| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`) | dato_start |
+| Landspatientregisterets kontakttabel (LPR3F) (`lpr3f_kontakter`) | hovedspeciale_ans |
+| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | dw_ek_kontakt |
+| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | diagnosekode |
+| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | diagnosetype |
+| Landspatientregisterets diagnosetabel (LPR3F) (`lpr3f_diagnoser`) | senere_afkraeftet |
+| Sygesikringsregisteret (`sysi`) | pnr |
+| Sygesikringsregisteret (`sysi`) | barnmak |
+| Sygesikringsregisteret (`sysi`) | speciale |
+| Sygesikringsregisteret (`sysi`) | honuge |
+| Sygesikringsregisteret (`sssy`) | pnr |
+| Sygesikringsregisteret (`sssy`) | barnmak |
+| Sygesikringsregisteret (`sssy`) | speciale |
+| Sygesikringsregisteret (`sssy`) | honuge |
+| Laboratoriedatabasens forskertabel (`lab_forsker`) | pnr |
+| Laboratoriedatabasens forskertabel (`lab_forsker`) | samplingdate |
+| Laboratoriedatabasens forskertabel (`lab_forsker`) | analysiscode |
+| Laboratoriedatabasens forskertabel (`lab_forsker`) | value |
 
 ## Expected data structure
 
@@ -126,6 +126,7 @@ the `dw_ek_kontakt` variable (LPR3 data).
 Variables and their descriptions within the `bef` register. If you want
 to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lmdb`: Laegemiddelstatistikregisteret
 
@@ -141,6 +142,7 @@ to see what the data *should* look like, see
 Variables and their descriptions within the `lmdb` register. If you want
 to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lpr_adm`: Landspatientregisterets administrationstabel (LPR2)
 
@@ -154,6 +156,7 @@ to see what the data *should* look like, see
 Variables and their descriptions within the `lpr_adm` register. If you
 want to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lpr_diag`: Landspatientregisterets diagnosetabel (LPR2)
 
@@ -166,45 +169,49 @@ want to see what the data *should* look like, see
 Variables and their descriptions within the `lpr_diag` register. If you
 want to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lpr3a_kontakt`: Landspatientregisterets kontakttabel (LPR3A)
 
-| name                | english_description                                                                                                  |
-|:--------------------|:---------------------------------------------------------------------------------------------------------------------|
-| pnr                 | Pseudonymised social security number. Equivalent to pnr in lpr2 and lpr3f.                                           |
-| dw_ek_kontakt       | Record id number. Equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f.                                           |
-| kont_starttidspunkt | Date of admission or initial contact. Equivalent to d_inddto in lpr2 and dato_start in lpr3f.                        |
-| kont_ans_hovedspec  | Specialty of department. Similar to c_spec in lpr2, but values are strings. Equivalent to hovedspeciale_ans in lpr3f |
+| name | english_description |
+|:---|:---|
+| pnr | Pseudonymised social security number. Equivalent to pnr in lpr2 and lpr3f. |
+| dw_ek_kontakt | Record id number. Equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f. |
+| kont_starttidspunkt | Date of admission or initial contact. Equivalent to d_inddto in lpr2 and dato_start in lpr3f. |
+| kont_ans_hovedspec | Specialty of department. Similar to c_spec in lpr2, but values are strings. Equivalent to hovedspeciale_ans in lpr3f |
 
 Variables and their descriptions within the `lpr3a_kontakt` register. If
 you want to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lpr3a_diagnose`: Landspatientregisterets diagnosetabel (LPR3A)
 
-| name              | english_description                                                         |
-|:------------------|:----------------------------------------------------------------------------|
-| dw_ek_kontakt     | Record id number. Equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f.  |
-| diag_kode         | Diagnosis code. Equivalent to c_diag in lpr2 and diagnosekode in lpr3f.     |
-| diag_type         | Diagnosis type. Equivalent to c_diagtype in lpr2 and diagnosetype i lpr3f.  |
+| name | english_description |
+|:---|:---|
+| dw_ek_kontakt | Record id number. Equivalent to recnum in lpr2 and dw_ek_kontakt in lpr3f. |
+| diag_kode | Diagnosis code. Equivalent to c_diag in lpr2 and diagnosekode in lpr3f. |
+| diag_type | Diagnosis type. Equivalent to c_diagtype in lpr2 and diagnosetype i lpr3f. |
 | senere_afkraeftet | Was the diagnosis retracted later? Equivalent to senere_afkraeftet in lpr3f |
 
 Variables and their descriptions within the `lpr3a_diagnose` register.
 If you want to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lpr3f_kontakter`: Landspatientregisterets kontakttabel (LPR3F)
 
-| name              | english_description                                                   |
-|:------------------|:----------------------------------------------------------------------|
-| pnr               | Pseudonymised social security number. Equivalent to pnr in lpr2.      |
-| dw_ek_kontakt     | Record id number. Equivalent to recnum in lpr2.                       |
-| dato_start        | Date of admission or initial contact. Equivalent to d_inddto in lpr2. |
-| hovedspeciale_ans | Specialty of department                                               |
+| name | english_description |
+|:---|:---|
+| pnr | Pseudonymised social security number. Equivalent to pnr in lpr2. |
+| dw_ek_kontakt | Record id number. Equivalent to recnum in lpr2. |
+| dato_start | Date of admission or initial contact. Equivalent to d_inddto in lpr2. |
+| hovedspeciale_ans | Specialty of department |
 
 Variables and their descriptions within the `lpr3f_kontakter` register.
 If you want to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lpr3f_diagnoser`: Landspatientregisterets diagnosetabel (LPR3F)
 
@@ -218,6 +225,7 @@ If you want to see what the data *should* look like, see
 Variables and their descriptions within the `lpr3f_diagnoser` register.
 If you want to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `sysi`: Sygesikringsregisteret
 
@@ -231,6 +239,7 @@ If you want to see what the data *should* look like, see
 Variables and their descriptions within the `sysi` register. If you want
 to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `sssy`: Sygesikringsregisteret
 
@@ -244,6 +253,7 @@ to see what the data *should* look like, see
 Variables and their descriptions within the `sssy` register. If you want
 to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ### `lab_forsker`: Laboratoriedatabasens forskertabel
 
@@ -257,6 +267,7 @@ to see what the data *should* look like, see
 Variables and their descriptions within the `lab_forsker` register. If
 you want to see what the data *should* look like, see
 [`simulate_registers()`](https://steno-aarhus.github.io/osdc/reference/simulate_registers.md).
+{.table .caption-top}
 
 ## Getting access to data
 

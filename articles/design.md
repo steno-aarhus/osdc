@@ -247,7 +247,7 @@ The output is a DuckDB object with four columns:
   the diabetes population (one row per individual).
 - **stable_inclusion_date**: The *stable* inclusion date (i.e., the raw
   date mutated so only individuals included in the time-period where
-  data coverage is sufficient to make incident cases reliable)[¹](#fn1).
+  data coverage is sufficient to make incident cases reliable)[^1].
 - **raw_inclusion_date**: The *raw* inclusion date (i.e., the date of
   the second inclusion event as described in the
   [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md)).
@@ -263,7 +263,8 @@ For an example, see below.
 | 1   | 2020-01-01            | 2020-01-01         | TRUE    | FALSE   |
 | 4   | NA                    | 1995-04-19         | FALSE   | TRUE    |
 
-Example rows of the `data.frame` output of the osdc package.
+Example rows of the `data.frame` output of the osdc package. {.table
+.caption-top}
 
 The individuals `1` and `4` have been classified as having diabetes
 (either `has_t1d` or `has_t2d`, respectively). `1` is classified as
@@ -317,8 +318,6 @@ Consequently, only inclusion dates occurring from 1998 onward are
 considered true incident cases and assigned a `stable_inclusion_date`
 value.
 
-------------------------------------------------------------------------
-
-1.  For more information on the “raw” versus “stable” inclusion date,
+[^1]: For more information on the “raw” versus “stable” inclusion date,
     see
     [`vignette("algorithm")`](https://steno-aarhus.github.io/osdc/articles/algorithm.md).
