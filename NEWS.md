@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.11.2 (2026-05-22)
+
+### Fix
+
+- ➕ moved duckplyr dependency to Import to fix error (#561)
+
 ## 0.11.1 (2026-04-27)
 
 ### Refactor
