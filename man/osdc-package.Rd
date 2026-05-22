@@ -24,6 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Luke William Johnston \email{lwjohnst@gmail.com} (\href{https://orcid.org/0000-0003-4169-2616}{ORCID})
   \item Signe Kirk Brødbæk \email{signekb@clin.au.dk} (\href{https://orcid.org/0009-0000-2208-7088}{ORCID})
   \item Anders Aasted Isaksen \email{andaas@rm.dk} (\href{https://orcid.org/0000-0001-8457-5466}{ORCID})
 }
