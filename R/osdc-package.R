@@ -17,9 +17,11 @@ NULL
 # For more details, see https://rlang.r-lib.org/reference/dot-data.html#where-does-data-live
 utils::globalVariables(".data")
 
+# jarl-ignore-start unused_function: use duckplyr in examples and vignettes and to avoid CRAN error on some runners.
 # Suppress R CMD check note
 # Namespace in Imports field not imported from: PKG
 #   All declared Imports should be used.
 ignore_unused_imports <- function() {
   duckplyr::as_duckdb_tibble
 }
+# jarl-ignore-end unused_function
