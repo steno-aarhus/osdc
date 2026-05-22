@@ -24,6 +24,9 @@ Useful links:
 
 Authors:
 
+- Luke William Johnston <lwjohnst@gmail.com>
+  ([ORCID](https://orcid.org/0000-0003-4169-2616))
+
 - Signe Kirk Brødbæk <signekb@clin.au.dk>
   ([ORCID](https://orcid.org/0009-0000-2208-7088))
 
