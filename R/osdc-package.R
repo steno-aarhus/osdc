@@ -16,3 +16,10 @@ NULL
 # since CRAN doesn't know that packages like dplyr use NSE.
 # For more details, see https://rlang.r-lib.org/reference/dot-data.html#where-does-data-live
 utils::globalVariables(".data")
+
+# Suppress R CMD check note
+# Namespace in Imports field not imported from: PKG
+#   All declared Imports should be used.
+ignore_unused_imports <- function() {
+  duckplyr::as_duckdb_tibble
+}
