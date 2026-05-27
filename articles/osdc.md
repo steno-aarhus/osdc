@@ -148,14 +148,14 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1013-azure:R 4.6.0//tmp/RtmpVTa2Um/duckplyr/duckplyr1d6528572067.duckdb]
+#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1015-azure:R 4.6.0//tmp/Rtmp3bjizk/duckplyr/duckplyr1ce9121d3a20.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
-#> 2 240771768588 2016-03-14            2016-03-14         FALSE   TRUE   
-#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 4 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   
-#> 5 928113475494 2014-06-15            2014-06-15         FALSE   TRUE   
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   
+#> 3 928113475494 2014-06-15            2014-06-15         FALSE   TRUE   
+#> 4 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
+#> 5 240771768588 2020-09-28            2020-09-28         FALSE   TRUE   
 #> 6 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
 #> 7 498989088479 2022-02-07            2022-02-07         FALSE   TRUE
 ```
@@ -181,13 +181,13 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   
-#> 2 928113475494 2014-06-15            2014-06-15         FALSE   TRUE   
-#> 3 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
-#> 4 498989088479 2022-02-07            2022-02-07         FALSE   TRUE   
-#> 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 6 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
-#> 7 240771768588 2016-03-14            2016-03-14         FALSE   TRUE
+#> 1 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
+#> 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 3 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   
+#> 4 928113475494 2014-06-15            2014-06-15         FALSE   TRUE   
+#> 5 240771768588 2020-09-28            2020-09-28         FALSE   TRUE   
+#> 6 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
+#> 7 498989088479 2022-02-07            2022-02-07         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 7 individuals are
