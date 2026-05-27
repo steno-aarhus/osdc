@@ -38,7 +38,8 @@ install-deps:
     dependencies = c(
       "all"
     ),
-    ask = FALSE
+    ask = FALSE,
+    upgrade = TRUE
   )
 
 # Run document generators
