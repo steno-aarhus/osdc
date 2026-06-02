@@ -213,16 +213,16 @@
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
 <span><span class="co">#&gt; # Source:   SQL [?? x 5]</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1013-azure:R 4.6.0//tmp/Rtmp57ZbL8/duckplyr/duckplyr1ce368d9b41.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1015-azure:R 4.6.0//tmp/RtmpHYITfp/duckplyr/duckplyr1cea61b87e3b.duckdb]</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 240771768588 2020-09-28            2020-09-28         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 268855747490 2022-04-28            2022-04-28         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 4 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 498989088479 2022-02-07            2022-02-07         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 928113475494 2014-06-15            2014-06-15         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 5 498989088479 2013-06-05            2013-06-05         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 240771768588 2020-09-28            2020-09-28         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 706974528463 2009-11-02            2009-11-02         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each of the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
 </section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
@@ -237,13 +237,13 @@
 <span><span class="co">#&gt; # A tibble: 7 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 928113475494 2014-06-15            2014-06-15         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 240771768588 2020-09-28            2020-09-28         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 498989088479 2022-02-07            2022-02-07         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 409442575549 2005-09-26            2005-09-26         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 498989088479 2013-06-05            2013-06-05         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 268855747490 2022-04-28            2022-04-28         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 240771768588 2020-09-28            2020-09-28         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>Now, we can see that with the simulated data, 7 individuals are classified as having diabetes.</p>
 <section class="level4"><h4 id="sec-understanding-the-output">Understanding the output<a class="anchor" aria-label="anchor" href="#sec-understanding-the-output"></a>
