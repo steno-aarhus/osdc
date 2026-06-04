@@ -241,7 +241,7 @@ The output is a DuckDB object with four columns:
   type 2 diabetes.
 
 [^1]: For more information on the "raw" versus "stable" inclusion date,
-    see `vignette("algorithm")`.
+  see `vignette("algorithm")`.
 
 For an example, see below.
 
