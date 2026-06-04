@@ -7,6 +7,12 @@ generated based on our commit messages that follow the
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 standard.
 
+## 0.11.3 (2026-06-04)
+
+### Fix
+
+- ⚡ remove example as it was close to 5 sec for CRAN checks (#566)
+
 ## 0.11.2 (2026-05-22)
 
 ### Fix
