@@ -63,46 +63,5 @@ type object.
 ## See also
 
 See the
-[osdc](https://steno-aarhus.github.io/osdc/reference/osdc-package.md)
-vignette for a detailed description of the internal implementation of
-this classification function.
-
-## Examples
-
-``` r
-# Can't run this multiple times, will cause an error as the table
-# has already been created in the DuckDB connection.
-registers <- registers() |>
-  names() |>
-  simulate_registers() |>
-  purrr::map(duckplyr::as_duckdb_tibble) |>
-  purrr::map(duckplyr::as_tbl)
-
-lpr <- list(
-  prepare_lpr2(registers$lpr_adm, registers$lpr_diag),
-  prepare_lpr3f(registers$lpr3f_kontakter, registers$lpr3f_diagnoser),
-  prepare_lpr3a(registers$lpr3a_kontakt, registers$lpr3a_diagnose)
-) |>
-  join_registers()
-
-hsr <- list(registers$sssy, registers$sysi) |> join_registers()
-
-classify_diabetes(
-  lpr = lpr,
-  hsr = hsr,
-  lab_forsker = registers$lab_forsker,
-  bef = registers$bef,
-  lmdb = registers$lmdb
-)
-#> # Source:   SQL [?? x 5]
-#> # Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1015-azure:R 4.6.0//tmp/RtmpTLfQSR/duckplyr/duckplyr1a0b48a8658a.duckdb]
-#>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
-#>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 240771768588 2020-09-28            2020-09-28         FALSE   TRUE   
-#> 2 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   
-#> 3 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   
-#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 5 268855747490 2022-04-28            2022-04-28         FALSE   TRUE   
-#> 6 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   
-#> 7 498989088479 2013-06-05            2013-06-05         FALSE   TRUE   
-```
+[`vignette("osdc", package = "osdc")`](https://steno-aarhus.github.io/osdc/articles/osdc.md)
+vignette for a more details and on how to use this function.

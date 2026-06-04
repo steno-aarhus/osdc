@@ -113,49 +113,10 @@ after the beginning of the user's data coverage.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p>See the <a href="osdc-package.html">osdc</a> vignette for a detailed
-description of the internal implementation of this classification function.</p></div>
+    <div class="dont-index"><p>See the <code><a href="../articles/osdc.html">vignette("osdc", package = "osdc")</a></code> vignette for a more
+details and on how to use this function.</p></div>
     </div>
 
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Can't run this multiple times, will cause an error as the table</span></span></span>
-<span class="r-in"><span><span class="co"># has already been created in the DuckDB connection.</span></span></span>
-<span class="r-in"><span><span class="va">registers</span> <span class="op">&lt;-</span> <span class="fu"><a href="registers.html">registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="simulate_registers.html">simulate_registers</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">lpr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">registers</span><span class="op">$</span><span class="va">lpr_adm</span>, <span class="va">registers</span><span class="op">$</span><span class="va">lpr_diag</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu"><a href="prepare_lpr3f.html">prepare_lpr3f</a></span><span class="op">(</span><span class="va">registers</span><span class="op">$</span><span class="va">lpr3f_kontakter</span>, <span class="va">registers</span><span class="op">$</span><span class="va">lpr3f_diagnoser</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>  <span class="fu"><a href="prepare_lpr3a.html">prepare_lpr3a</a></span><span class="op">(</span><span class="va">registers</span><span class="op">$</span><span class="va">lpr3a_kontakt</span>, <span class="va">registers</span><span class="op">$</span><span class="va">lpr3a_diagnose</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">hsr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">registers</span><span class="op">$</span><span class="va">sssy</span>, <span class="va">registers</span><span class="op">$</span><span class="va">sysi</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">classify_diabetes</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  lpr <span class="op">=</span> <span class="va">lpr</span>,</span></span>
-<span class="r-in"><span>  hsr <span class="op">=</span> <span class="va">hsr</span>,</span></span>
-<span class="r-in"><span>  lab_forsker <span class="op">=</span> <span class="va">registers</span><span class="op">$</span><span class="va">lab_forsker</span>,</span></span>
-<span class="r-in"><span>  bef <span class="op">=</span> <span class="va">registers</span><span class="op">$</span><span class="va">bef</span>,</span></span>
-<span class="r-in"><span>  lmdb <span class="op">=</span> <span class="va">registers</span><span class="op">$</span><span class="va">lmdb</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Source:   SQL [?? x 5]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># Database: DuckDB 1.5.2 [unknown@Linux 6.17.0-1015-azure:R 4.6.0//tmp/RtmpTLfQSR/duckplyr/duckplyr1a0b48a8658a.duckdb]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 240771768588 2020-09-28            2020-09-28         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 706974528463 2009-11-02            2009-11-02         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 409442575549 2005-09-26            2005-09-26         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 268855747490 2022-04-28            2022-04-28         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 298944792608 2005-09-12            2005-09-12         FALSE   TRUE   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> 498989088479 2013-06-05            2013-06-05         FALSE   TRUE   </span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
