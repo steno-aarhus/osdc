@@ -240,7 +240,7 @@ lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
   # Optionally, insert dplyr functions for variable renaming/type-casting, selection or row filtering here, e.g.:
   # dplyr::select(...) |>
   # dplyr::mutate(...) |>
-  # dplyr::filter(...) 
+  # dplyr::filter(...)
 ```
 
 If your data (or parts of it) is already in R (e.g., as a `data.frame`),
