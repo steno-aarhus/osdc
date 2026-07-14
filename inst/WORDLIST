@@ -1,4 +1,3 @@
-osdc's
 Aarhus
 BEF
 CMD
@@ -16,6 +15,7 @@ ICD
 Isaksen's
 LMDB
 LPR
+LPRs
 Landspatientregisteret
 Lifecycle
 NPU
@@ -25,17 +25,19 @@ PCOS
 PNR
 PPV
 Perf
+Pre
 RSCD
 SGLT
 SSSY
 SYSI
 Selskab
+adm
 atc
 callout
 dapagliflozin
 de
+diag
 dplyr
-dplyr's
 duckdb
 duckplyr
 empagliflozin
@@ -44,7 +46,10 @@ formatters
 honuge
 indo
 joinable
+kontakt
 kontakter
+laboratorieproevesvar
+lmdb
 lowercasing
 lpr
 mellitus
@@ -52,6 +57,7 @@ metformin
 mmol
 mol
 onwards
+osdc's
 params
 pnr
 polycystic
@@ -59,8 +65,10 @@ pre
 pseudonymised
 puml
 simstudy
+sssy
 stringr
 sysdata
+sysi
 tibble
 tibbles
 tidyselect
