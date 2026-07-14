@@ -97,6 +97,10 @@ register_data <- registers() |>
   # in early development, while the DBI-DuckDB connection
   # is more stable.
   purrr::map(duckplyr::as_tbl)
+#> duckdb is keeping downloaded extensions in a temporary directory:
+#> ℹ /tmp/RtmpDZ8B9G/duckdb/extensions
+#> This is removed when the R session ends, so extensions are re-downloaded each session.
+#> ℹ To keep them, point `options(duckdb.extension_directory =)` or the `DUCKDB_EXTENSION_DIRECTORY` environment variable at a permanent path.
 ```
 
 The result is a named list where each element is one register as a
@@ -148,16 +152,16 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # A query:  ?? x 5
-#> # Database: DuckDB 1.5.4 [unknown@Linux 6.17.0-1018-azure:R 4.6.1//tmp/RtmpTIsHQq/duckplyr/duckplyr1d3f79e8948b.duckdb]
+#> # Database: DuckDB 1.5.4 [unknown@Linux 6.17.0-1018-azure:R 4.6.1//tmp/RtmpDZ8B9G/duckplyr/duckplyr1d243d4681d3.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 531569297322 2023-01-11            2023-01-11         FALSE   TRUE   
-#> 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 3 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
-#> 4 240771768588 2005-07-18            2005-07-18         FALSE   TRUE   
-#> 5 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
-#> 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
-#> 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
+#> 1 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
+#> 2 240771768588 2005-07-18            2005-07-18         FALSE   TRUE   
+#> 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 4 531569297322 2023-01-11            2023-01-11         FALSE   TRUE   
+#> 5 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
+#> 6 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   
+#> 7 706974528463 2010-10-11            2010-10-11         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -181,11 +185,11 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
-#> 2 531569297322 2023-01-11            2023-01-11         FALSE   TRUE   
-#> 3 240771768588 2005-07-18            2005-07-18         FALSE   TRUE   
-#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 5 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
+#> 3 531569297322 2023-01-11            2023-01-11         FALSE   TRUE   
+#> 4 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
+#> 5 240771768588 2005-07-18            2005-07-18         FALSE   TRUE   
 #> 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
 #> 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
 ```
