@@ -323,6 +323,9 @@ A few notes on this example:
   a maximum memory footprint around 130 GB.
 - The data is loaded in as "stingy" duckplyr tibbles to ensure all
   computations stay on the DuckDB engine until `collect()` is called.
+  - `duckplyr::load_parquet_duckdb()` requires an updated version of
+    `duckdb` to work, hence the example starts with a code snippet to
+    verify this.
 - All the input registers cover the entire Danish population and contain
   data until the end of 2024 (with the exception of the laboratory
   results data, which include 2025 and part of 2026). As the project had
@@ -332,14 +335,27 @@ A few notes on this example:
   the input data during the pre-processing steps isn't strictly
   necessary, it may lower the execution time and reduce the memory
   footprint.
-- As a user, the main thing to pay attention to is the renaming/typing of
-  variables to fit osdc's expectations
-  - osdc is not case-sensitive, so you don't need to worry about the casing of variable names)
+- As a user, the main thing to pay attention to is the renaming/typing
+  of variables to fit osdc's expectations.
+  - osdc is not case-sensitive, so you don't need to worry about the
+    casing of variable names).
 
 ::: {.callout-caution collapse="true"}
 ### Click here to show full example
 
 ### Pre-process input data
+
+#### Verify duckdb package version
+
+``` r
+if (packageVersion("duckdb") < "1.5.4") {
+    stop(
+      "For this workflow, duckplyr::load_parquet_duckdb() requires duckdb >= 1.5.4, but ",
+      packageVersion("duckdb"), " is installed. Please update duckdb.",
+      call. = FALSE
+    )
+  }
+```
 
 #### Background population data
 
@@ -388,7 +404,7 @@ sysi_ddb <- duckplyr::read_parquet_duckdb(
     dplyr::filter(grepl("^54", SPECIALE)) # Filters to only the rows needed (diabetes-specific podiatrist services)
 ```
 
-#### Lab data: laboratorieproevesvar_
+#### Lab data: laboratorieproevesvar\_
 
 ``` r
 lab_dir <- "E:/workdata/project-id/parquet-data/laboratorieproevesvar_"
