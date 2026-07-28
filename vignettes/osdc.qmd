@@ -243,11 +243,11 @@ lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
   # dplyr::filter(...)
 ```
 
-If your data (or parts of it) is already in R (e.g., as a `data.frame`),
+If your data (or parts of it) is already in R (e.g., as a hypothetical `data.frame`, named `your_dataset_in_r` in the example below),
 you can convert it to a DuckDB table with:
 
 ``` r
-survey_dataset_in_duckdb <- survey_dataset_in_r |>
+your_dataset_in_duckdb <- your_dataset_in_r |>
   duckplyr::as_duckdb_tibble() |>
   duckplyr::as_tbl())
 ```
@@ -338,7 +338,7 @@ A few notes on this example:
 - As a user, the main thing to pay attention to is the renaming/typing
   of variables to fit osdc's expectations.
   - osdc is not case-sensitive, so you don't need to worry about the
-    casing of variable names).
+    casing of variable names.
 
 ::: {.callout-caution collapse="true"}
 ### Click here to show full example
@@ -404,7 +404,7 @@ sysi_ddb <- duckplyr::read_parquet_duckdb(
     dplyr::filter(grepl("^54", SPECIALE)) # Filters to only the rows needed (diabetes-specific podiatrist services)
 ```
 
-#### Lab data: laboratorieproevesvar\_
+#### Lab data: laboratorieproevesvar
 
 ``` r
 lab_dir <- "E:/workdata/project-id/parquet-data/laboratorieproevesvar_"
