@@ -367,7 +367,6 @@ bef_ddb <- duckplyr::read_parquet_duckdb(
   prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-     duckplyr::as_duckdb_tibble() |>
      duckplyr::as_tbl() |>
      dplyr::mutate(koen = as.integer(KOEN)) |> # Cast to osdc's expected `integer` type (from `double`)
      dplyr::select(PNR, koen, foed_dato = FOED_DAG) # osdc expects the variable name `foed_dato`
@@ -383,7 +382,6 @@ sssy_ddb <- duckplyr::read_parquet_duckdb(
   prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-    duckplyr::as_duckdb_tibble() |>
     duckplyr::as_tbl() |>
     dplyr::mutate(BARNMAK = as.integer(BARNMAK)) |>  # Cast to osdc's expected `integer` type (from `double`)
     dplyr::select(PNR, BARNMAK, HONUGE, SPECIALE) |>
@@ -397,7 +395,6 @@ sysi_ddb <- duckplyr::read_parquet_duckdb(
   prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-    duckplyr::as_duckdb_tibble() |>
     duckplyr::as_tbl() |>
     dplyr::mutate(BARNMAK = as.integer(BARNMAK)) |>  # Cast to osdc's expected `integer` type (from `double`)
     dplyr::select(PNR, BARNMAK, HONUGE, SPECIALE) |>
@@ -414,7 +411,6 @@ lab_ddb <- duckplyr::read_parquet_duckdb(
   prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-    duckplyr::as_duckdb_tibble() |>
     duckplyr::as_tbl() |>
     dplyr::filter(analysiscode %in% c("NPU27300", "NPU03835")) |> # Filter to only HbA1c tests
     dplyr::filter(samplingdate <= as.Date("2024-12-31")) |>  # Remove unusable data
@@ -435,7 +431,6 @@ lpr_adm_ddb <- duckplyr::read_parquet_duckdb(
   prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-    duckplyr::as_duckdb_tibble() |>
     duckplyr::as_tbl() |>
     dplyr::select(PNR, RECNUM, D_INDDTO, C_SPEC)
 
@@ -447,7 +442,6 @@ lpr_diag_ddb <- duckplyr::read_parquet_duckdb(
   prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-    duckplyr::as_duckdb_tibble() |>
     duckplyr::as_tbl() |>
     dplyr::select(RECNUM, C_DIAG, C_DIAGTYPE)
 ```
@@ -462,7 +456,6 @@ lpr_a_kontakt_ddb <- duckplyr::read_parquet_duckdb(
   prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-    duckplyr::as_duckdb_tibble() |>
     duckplyr::as_tbl() |>
     dplyr::filter(lprindberetningssystem == "LPR3") |> # Remove duplicates
     dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |> # Recast to `date` from `datetime` type.
@@ -475,7 +468,6 @@ lpr_a_diagnose_ddb <- duckplyr::read_parquet_duckdb(
   lpr_a_diagnose_dir, prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-     duckplyr::as_duckdb_tibble() |>
      duckplyr::as_tbl() |>
      dplyr::filter(lprindberetningssystem == "LPR3") |> # Remove duplicates
      dplyr::select(dw_ek_kontakt, diag_kode, diag_type = diag_kode_type, senere_afkraeftet) # osdc expects the variable name `diag_type`
@@ -491,7 +483,6 @@ lmdb_ddb <- duckplyr::read_parquet_duckdb(
   lmdb_dir, prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
-    duckplyr::as_duckdb_tibble() |>
     duckplyr::as_tbl() |>
     dplyr::filter(grepl("^A10", atc)) |>  # Filters to only the rows needed (glucose-lowering drugs)
     dplyr::select(pnr, eksd, atc, apk, volume, indo)
