@@ -235,7 +235,6 @@ as shown below (note: `read_parquet_duckdb()` requires at least version
 ``` r
 lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
   duckplyr::read_parquet_duckdb(options = list(union_by_name = TRUE)) |>
-  duckplyr::as_duckdb_tibble() |>
   duckplyr::as_tbl() |>
   # Optionally, insert dplyr functions for variable renaming/type-casting, selection or row filtering here, e.g.:
   # dplyr::select(...) |>
@@ -276,7 +275,6 @@ in a single call to `dplyr::mutate()` during pre-processing. e.g.:
 ``` r
 lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
   duckplyr::read_parquet_duckdb(options = list(union_by_name = TRUE)) |>
-  duckplyr::as_duckdb_tibble() |>
   duckplyr::as_tbl() |>
   dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |>
   dplyr::filter(lprindberetningssystem == "LPR3")
@@ -321,9 +319,7 @@ A few notes on this example:
 
 - On the DST server, the runtime from end to end was around 1h45m, with
   a maximum memory footprint around 130 GB.
-- The data is loaded in as "stingy" duckplyr tibbles to ensure all
-  computations stay on the DuckDB engine until `collect()` is called.
-  - `duckplyr::load_parquet_duckdb()` requires an updated version of
+- `duckplyr::load_parquet_duckdb()` requires an updated version of
     `duckdb` to work, hence the example starts with a code snippet to
     verify this.
 - All the input registers cover the entire Danish population and contain
@@ -364,7 +360,6 @@ bef_dir <- "E:/workdata/project-id/parquet-data/bef"
 
 bef_ddb <- duckplyr::read_parquet_duckdb(
   bef_dir,
-  prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
      duckplyr::as_tbl() |>
@@ -392,7 +387,6 @@ sysi_dir <- "E:/workdata/project-id/parquet-data/sysi"
 
 sysi_ddb <- duckplyr::read_parquet_duckdb(
   sysi_dir,
-  prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
     duckplyr::as_tbl() |>
@@ -408,7 +402,6 @@ lab_dir <- "E:/workdata/project-id/parquet-data/laboratorieproevesvar_"
 
 lab_ddb <- duckplyr::read_parquet_duckdb(
   lab_dir,
-  prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
     duckplyr::as_tbl() |>
@@ -428,7 +421,6 @@ lpr_adm_dir <- "E:/workdata/project-id/parquet-data/lpr_adm"
 
 lpr_adm_ddb <- duckplyr::read_parquet_duckdb(
   lpr_adm_dir,
-  prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
     duckplyr::as_tbl() |>
@@ -439,7 +431,6 @@ lpr_diag_dir <- "E:/workdata/project-id/parquet-data/lpr_diag"
 
 lpr_diag_ddb <- duckplyr::read_parquet_duckdb(
   lpr_diag_dir,
-  prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
     duckplyr::as_tbl() |>
@@ -453,7 +444,6 @@ lpr_a_kontakt_dir <- "E:/workdata/project-id/parquet-data/lpr_a_kontakt"
 
 lpr_a_kontakt_ddb <- duckplyr::read_parquet_duckdb(
   lpr_a_kontakt_dir,
-  prudence = "stingy",
   options = list(union_by_name = TRUE)
   ) |>
     duckplyr::as_tbl() |>
@@ -465,7 +455,7 @@ lpr_a_kontakt_ddb <- duckplyr::read_parquet_duckdb(
 lpr_a_diagnose_dir <- "E:/workdata/project-id/parquet-data/lpr_a_diagnose"
 
 lpr_a_diagnose_ddb <- duckplyr::read_parquet_duckdb(
-  lpr_a_diagnose_dir, prudence = "stingy",
+  lpr_a_diagnose_dir,
   options = list(union_by_name = TRUE)
   ) |>
      duckplyr::as_tbl() |>
@@ -480,7 +470,7 @@ lmdb_dir <- "E:/workdata/project-id/parquet-data/lmdb"
 
 
 lmdb_ddb <- duckplyr::read_parquet_duckdb(
-  lmdb_dir, prudence = "stingy",
+  lmdb_dir,
   options = list(union_by_name = TRUE)
   ) |>
     duckplyr::as_tbl() |>
