@@ -98,7 +98,7 @@ register_data <- registers() |>
   # is more stable.
   purrr::map(duckplyr::as_tbl)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpsT3fff/duckdb
+#> ℹ /tmp/RtmpfxOTrd/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -156,16 +156,16 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # A query:  ?? x 5
-#> # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/RtmpsT3fff/duckplyr/duckplyr1cee494e93e9.duckdb]
+#> # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/RtmpfxOTrd/duckplyr/duckplyr20fb3e69e662.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
 #> 1 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
 #> 2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
-#> 3 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
-#> 4 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   
-#> 5 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
-#> 6 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 7 531569297322 2025-05-26            2025-05-26         FALSE   TRUE
+#> 3 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
+#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 5 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
+#> 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
+#> 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -189,13 +189,13 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
-#> 2 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 3 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
-#> 4 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
-#> 5 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
-#> 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
-#> 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
+#> 3 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
+#> 4 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   
+#> 5 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
+#> 6 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
+#> 7 240771768588 2008-03-31            2008-03-31         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 7 individuals are
