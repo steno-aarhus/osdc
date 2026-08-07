@@ -98,7 +98,7 @@ register_data <- registers() |>
   # is more stable.
   purrr::map(duckplyr::as_tbl)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpfxOTrd/duckdb
+#> ℹ /tmp/RtmpdjtF9v/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -156,16 +156,16 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # A query:  ?? x 5
-#> # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/RtmpfxOTrd/duckplyr/duckplyr20fb3e69e662.duckdb]
+#> # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/RtmpdjtF9v/duckplyr/duckplyr1cc344e590db.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
+#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
 #> 2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
-#> 3 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
-#> 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 5 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
-#> 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
-#> 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
+#> 3 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
+#> 4 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
+#> 5 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   
+#> 6 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
+#> 7 706974528463 2010-10-11            2010-10-11         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -189,13 +189,13 @@ classified_diabetes
 #> # A tibble: 7 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
-#> 3 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
-#> 4 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   
-#> 5 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
-#> 6 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
-#> 7 240771768588 2008-03-31            2008-03-31         FALSE   TRUE
+#> 1 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
+#> 2 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
+#> 3 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
+#> 4 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
+#> 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
+#> 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 7 individuals are
@@ -225,7 +225,7 @@ columns:
 > The
 > [`classify_diabetes()`](https://steno-aarhus.github.io/osdc/reference/classify_diabetes.md)
 > function includes a `stable_inclusion_start_date` parameter that is
-> `01-01-1988` by default. This means that you can change the date for
+> `01-01-1998` by default. This means that you can change the date for
 > when the classification is considered stable
 
 For more information about the output, see the Interface section under
@@ -272,59 +272,33 @@ using
 [`install.packages()`](https://rdrr.io/r/utils/install.packages.html).
 The downside of this approach is that you have to repeat the package
 installations frequently (whenever you log on to a new virtual machine,
-or after the servers weekly reset).
+or after the servers’ weekly reset).
 
 After making sure that you have the newest version of osdc installed
 (which should install/update any necessary dependencies), you can load
 each register directly from its Parquet folder and convert it to DuckDB,
-as shown below.
-
-Currently, the conversion to DuckDB requires that the user specifies
-some connection parameters first:
-
-- the maximum amount of memory to be allocated for DuckDB data, e.g.
-  128GB which is stable and should be more than enough to hold the
-  inputs to osdc in DuckDB
-- where to temporarily store any DuckDB data that exceeds this
-  threshold.
+as shown below (note: `read_parquet_duckdb()` requires at least version
+2.5.4 of the `duckdb` package to work).
 
 ``` r
-
-ddb_driver <- duckdb::duckdb(config = list(
-  memory = "128GB",
-  temp_dir = "path/to/temp/dir"
-))
-
-ddb_con <- DBI::dbConnect(ddb_driver)
-```
-
-If you’re working with very large data sets, it’s good practice to
-filter the data on the Arrow side before converting to DuckDB to reduce
-computation and memory use. Conveniently, most of dplyr’s filtering and
-selection operations are supported by the arrow package. If you need to
-rename variables or convert their types to match the inputs expected by
-osdc, you can do that too:
-
-``` r
-
 lpr3f_diagnoser <- "path/to/lpr3f_diagnoser_parquet_folder" |>
-  arrow::open_dataset(unify_schemas = TRUE) |>
-  # Insert dplyr filtering and variable selection/renaming steps here, e.g.:
+  duckplyr::read_parquet_duckdb(options = list(union_by_name = TRUE)) |>
+  duckplyr::as_tbl() |>
+  # Optionally, insert dplyr functions for variable renaming/type-casting, selection or row filtering here, e.g.:
   # dplyr::select(...) |>
   # dplyr::mutate(...) |>
-  # dplyr::filter(...) |>
-  arrow::to_duckdb(con = ddb_con) |>
-  dplyr::compute()
+  # dplyr::filter(...)
 ```
 
-If your data (or parts of it) is already in R (e.g., as a `data.frame`),
-you can convert it to a DuckDB table with:
+If your data (or parts of it) is already in R (e.g., as a hypothetical
+`data.frame`, named `your_dataset_in_r` in the example below), you can
+convert it to a DuckDB table with:
 
 ``` r
 
-lpr3f_diagnoser <- lpr3f_diagnoser |>
-  arrow::to_duckdb(con = ddb_con) |>
-  dplyr::compute()
+your_dataset_in_duckdb <- your_dataset_in_r |>
+  duckplyr::as_duckdb_tibble() |>
+  duckplyr::as_tbl()
 ```
 
 > **Important**
@@ -340,27 +314,32 @@ lpr3f_diagnoser <- lpr3f_diagnoser |>
 > B: The `kont_starttidspunkt` variable in `lpr3a` is a `datetime` type,
 > and must be converted to a `date` before being input to
 > [`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md).
+>
+> C: In our experience, `lpr3a` always contains all the data previously
+> delivered in the `lpr3_f` format, and you should rarely (if ever) use
+> `lpr3f` in addition to `lpr3a` in practice.
 
 The duplicate rows in `lpr3a_kontakt` can be removed during processing
-by filtering to `indberetningssystem == "LPR3"` Similarly, the
+by filtering to `lprindberetningssystem == "LPR3"` Similarly, the
 `kont_starttidspunkt` variable in `lpr3a` can be converted to a `date`
 in a single call to
 [`dplyr::mutate()`](https://dplyr.tidyverse.org/reference/mutate.html)
-during pre-processing in Arrow. e.g.:
+during pre-processing. e.g.:
 
 ``` r
 
 lpr3a_kontakt <- "path/to/lpr3a_kontakt_parquet_folder" |>
-  arrow::open_dataset(unify_schemas = TRUE) |>
-  # dplyr::select(...) |>
+  duckplyr::read_parquet_duckdb(options = list(union_by_name = TRUE)) |>
+  duckplyr::as_tbl() |>
   dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |>
-  dplyr::filter(indberetningssystem == "LPR3") |>
-  arrow::to_duckdb(con = ddb_con) |>
-  dplyr::compute()
+  dplyr::filter(lprindberetningssystem == "LPR3")
 ```
 
 This can be used as input to
-[`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md):
+[`prepare_lpr3a()`](https://steno-aarhus.github.io/osdc/reference/prepare_lpr3a.md)
+(while this example shows how easy it is to use all three lpr formats
+with osdc, the `lpr3f` format is practically deprecated and should
+rarely be used in practice, as noted above):
 
 ``` r
 
@@ -377,14 +356,228 @@ the original SAS file. Unless the SAS-to-Arrow conversion introduced
 unexpected types, you should should not need to do any further type
 conversion.
 
-Once you’re done using DuckDB, you should close the driver and
-connection like so:
+## Example of end-to-end classification pipeline from Parquet
 
-``` r
+The following shows an example pipeline for running on Statistics
+Denmark’s “Research Machine” server. The example uses the raw,
+unprocessed data as provided by Statistics Denmark and the Danish Health
+Data Authority after conversion to Parquet files. The register file
+names, variable names and types reflect the raw data structure as
+provided to the [DARTER
+Project](https://steno-aarhus.github.io/darter-project/) in Q2 2026, but
+these are likely to change in the future (for example, we experienced
+substantial changes in the LPR A data between a data update in Q4 2025
+and one in Q2 2026). At the time of writing, some of the register
+sources (mainly LPR3) are undocumented, and users should carefully
+review the structure of their raw data and edit the pre-processing steps
+to account for any differences in their data.
 
-duckdb::duckdb_shutdown(ddb_driver)
-DBI::dbDisconnect(ddb_con)
-```
+A few notes on this example:
+
+- On the DST server, the runtime from end to end was around 1h45m, with
+  a maximum memory footprint around 130 GB.
+- `duckplyr::load_parquet_duckdb()` requires an updated version of
+  `duckdb` to work, hence the example starts with a code snippet to
+  verify this.
+- All the input registers cover the entire Danish population and contain
+  data until the end of 2024 (with the exception of the laboratory
+  results data, which include 2025 and part of 2026). As the project had
+  received LPR A data, previous LPR F data was not used (it was presumed
+  redundant).
+- While the row filtering and variable selection performed on some of
+  the input data during the pre-processing steps isn’t strictly
+  necessary, it may lower the execution time and reduce the memory
+  footprint.
+- As a user, the main thing to pay attention to is the renaming/typing
+  of variables to fit osdc’s expectations.
+  - osdc is not case-sensitive, so you don’t need to worry about the
+    casing of variable names.
+
+> **Click here to show full example**
+>
+> ### Pre-process input data
+>
+> #### Verify duckdb package version
+>
+> ``` r
+>
+> if (packageVersion("duckdb") < "1.5.4") {
+>     stop(
+>       "For this workflow, duckplyr::load_parquet_duckdb() requires duckdb >= 1.5.4, but ",
+>       packageVersion("duckdb"), " is installed. Please update duckdb.",
+>       call. = FALSE
+>     )
+>   }
+> ```
+>
+> #### Background population data
+>
+> ``` r
+>
+> bef_dir <- "E:/workdata/project-id/parquet-data/bef"
+>
+> bef_ddb <- duckplyr::read_parquet_duckdb(
+>   bef_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>      duckplyr::as_tbl() |>
+>      dplyr::mutate(koen = as.integer(KOEN)) |> # Cast to osdc's expected `integer` type (from `double`)
+>      dplyr::select(PNR, koen, foed_dato = FOED_DAG) # osdc expects the variable name `foed_dato`
+> ```
+>
+> #### Health Service Register: sssy & sysi
+>
+> ``` r
+>
+> sssy_dir <- "E:/workdata/project-id/parquet-data/sssy"
+>
+> sssy_ddb <- duckplyr::read_parquet_duckdb(
+>   sssy_dir,
+>   prudence = "stingy",
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>     duckplyr::as_tbl() |>
+>     dplyr::mutate(BARNMAK = as.integer(BARNMAK)) |>  # Cast to osdc's expected `integer` type (from `double`)
+>     dplyr::select(PNR, BARNMAK, HONUGE, SPECIALE) |>
+>     dplyr::filter(grepl("^54", SPECIALE)) # Filters to only the rows needed (diabetes-specific podiatrist services)
+>
+>
+> sysi_dir <- "E:/workdata/project-id/parquet-data/sysi"
+>
+> sysi_ddb <- duckplyr::read_parquet_duckdb(
+>   sysi_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>     duckplyr::as_tbl() |>
+>     dplyr::mutate(BARNMAK = as.integer(BARNMAK)) |>  # Cast to osdc's expected `integer` type (from `double`)
+>     dplyr::select(PNR, BARNMAK, HONUGE, SPECIALE) |>
+>     dplyr::filter(grepl("^54", SPECIALE)) # Filters to only the rows needed (diabetes-specific podiatrist services)
+> ```
+>
+> #### Lab data: laboratorieproevesvar
+>
+> ``` r
+>
+> lab_dir <- "E:/workdata/project-id/parquet-data/laboratorieproevesvar_"
+>
+> lab_ddb <- duckplyr::read_parquet_duckdb(
+>   lab_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>     duckplyr::as_tbl() |>
+>     dplyr::filter(analysiscode %in% c("NPU27300", "NPU03835")) |> # Filter to only HbA1c tests
+>     dplyr::filter(samplingdate <= as.Date("2024-12-31")) |>  # Remove unusable data
+>     dplyr::filter(grepl("^[0-9]", samplevalue)) |> # Remove non-numeric values
+>     dplyr::mutate(value = as.numeric(samplevalue)) |> #  Convert to a `double` type (from `string`)
+>     dplyr::select(pnr = cprnummer, value, analysiscode, samplingdate) # osdc expects the variable name `pnr`
+> ```
+>
+> #### Patient Register: lpr_adm, lpr_diag, lpr_a_kontakt, lpr_a_diagnose
+>
+> ##### LPR2
+>
+> ``` r
+>
+> lpr_adm_dir <- "E:/workdata/project-id/parquet-data/lpr_adm"
+>
+> lpr_adm_ddb <- duckplyr::read_parquet_duckdb(
+>   lpr_adm_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>     duckplyr::as_tbl() |>
+>     dplyr::select(PNR, RECNUM, D_INDDTO, C_SPEC)
+>
+>
+> lpr_diag_dir <- "E:/workdata/project-id/parquet-data/lpr_diag"
+>
+> lpr_diag_ddb <- duckplyr::read_parquet_duckdb(
+>   lpr_diag_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>     duckplyr::as_tbl() |>
+>     dplyr::select(RECNUM, C_DIAG, C_DIAGTYPE)
+> ```
+>
+> ##### LPR_A
+>
+> ``` r
+>
+> lpr_a_kontakt_dir <- "E:/workdata/project-id/parquet-data/lpr_a_kontakt"
+>
+> lpr_a_kontakt_ddb <- duckplyr::read_parquet_duckdb(
+>   lpr_a_kontakt_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>     duckplyr::as_tbl() |>
+>     dplyr::filter(lprindberetningssystem == "LPR3") |> # Remove duplicates
+>     dplyr::mutate(kont_starttidspunkt = as.Date(kont_starttidspunkt)) |> # Recast to `date` from `datetime` type.
+>     dplyr::select(pnr, dw_ek_kontakt, kont_starttidspunkt, kont_ans_hovedspec)
+>
+>
+> lpr_a_diagnose_dir <- "E:/workdata/project-id/parquet-data/lpr_a_diagnose"
+>
+> lpr_a_diagnose_ddb <- duckplyr::read_parquet_duckdb(
+>   lpr_a_diagnose_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>      duckplyr::as_tbl() |>
+>      dplyr::filter(lprindberetningssystem == "LPR3") |> # Remove duplicates
+>      dplyr::select(dw_ek_kontakt, diag_kode, diag_type = diag_kode_type, senere_afkraeftet) # osdc expects the variable name `diag_type`
+> ```
+>
+> #### Prescription data: lmdb
+>
+> ``` r
+>
+> lmdb_dir <- "E:/workdata/project-id/parquet-data/lmdb"
+>
+>
+> lmdb_ddb <- duckplyr::read_parquet_duckdb(
+>   lmdb_dir,
+>   options = list(union_by_name = TRUE)
+>   ) |>
+>     duckplyr::as_tbl() |>
+>     dplyr::filter(grepl("^A10", atc)) |>  # Filters to only the rows needed (glucose-lowering drugs)
+>     dplyr::select(pnr, eksd, atc, apk, volume, indo)
+> ```
+>
+> ### Execute osdc and save to disk
+>
+> #### Join registers spread across multiple tables
+>
+> ``` r
+>
+> hsr <- list(sssy_ddb, sysi_ddb) |> join_registers() # Join health service register tables to a single input
+>
+> lpr2 <- prepare_lpr2(lpr_adm = lpr_adm_ddb, lpr_diag = lpr_diag_ddb) # Join lpr2 tables
+> lpr3_a <- prepare_lpr3a(lpr3a_kontakt = lpr_a_kontakt_ddb, lpr3a_diagnose = lpr_a_diagnose_ddb) # Join lpr3_a tables
+> lpr <- list(lpr2, lpr3_a) |> join_registers() # Join all patient register tables to a single input
+> ```
+>
+> #### Run the classification
+>
+> ``` r
+>
+> osdc_population_202412 <- classify_diabetes(
+>   bef = bef_ddb,
+>   lpr = lpr,
+>   hsr = hsr,
+>   lab_forsker = lab_ddb,
+>   lmdb = lmdb_ddb)
+>
+> osdc_population_202412_collected <- osdc_population_202412 |> dplyr::collect() # Execute the pipeline and collect results into R
+>
+> # Post-processing
+>
+> osdc_population_202412_clean <- osdc_population_202412_collected |>
+>   dplyr::filter(grepl("^[0-9]", pnr)) |> # Remove invalid pnr numbers from the population
+>   dplyr::mutate(data_coverage_limit = as.integer(202412)) # add metadata on data coverage
+>
+> # Save to Parquet
+>
+> osdc_population_202412_clean |>
+>   duckplyr::compute_parquet("osdc_population_202412.parquet")
+> ```
 
 ## Getting help
 

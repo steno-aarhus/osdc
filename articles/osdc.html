@@ -179,7 +179,7 @@
 <span>  <span class="co"># is more stable.</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; duckdb keeps downloaded extensions and secrets in a temporary directory:</span></span>
-<span><span class="co">#&gt; ℹ /tmp/RtmpfxOTrd/duckdb</span></span>
+<span><span class="co">#&gt; ℹ /tmp/RtmpdjtF9v/duckdb</span></span>
 <span><span class="co">#&gt; This is removed when the R session ends.</span></span>
 <span><span class="co">#&gt; • Extensions are re-downloaded each session.</span></span>
 <span><span class="co">#&gt; • Secrets are lost.</span></span>
@@ -221,16 +221,16 @@
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
 <span><span class="co">#&gt; # A query:  ?? x 5</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/RtmpfxOTrd/duckplyr/duckplyr20fb3e69e662.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/RtmpdjtF9v/duckplyr/duckplyr1cc344e590db.duckdb]</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 3 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 706974528463 2010-10-11            2010-10-11         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each of the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
 </section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
@@ -245,13 +245,13 @@
 <span><span class="co">#&gt; # A tibble: 7 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 7 240771768588 2008-03-31            2008-03-31         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>Now, we can see that with the simulated data, 7 individuals are classified as having diabetes.</p>
 <section class="level4"><h4 id="sec-understanding-the-output">Understanding the output<a class="anchor" aria-label="anchor" href="#sec-understanding-the-output"></a>
@@ -295,7 +295,7 @@
 <blockquote>
 <p><strong>About <code>stable_inclusion_date</code> vs <code>raw_inclusion_date</code></strong></p>
 <p>The <code>raw_inclusion_date</code> is simply the date of the second qualifying event. However, for events before 1998, the register data may not have sufficient coverage to reliably distinguish new (incident) cases from existing (prevalent) ones. The <code>stable_inclusion_date</code> column is set to <code>NA</code> for these earlier dates to flag this uncertainty.</p>
-<p>The <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function includes a <code>stable_inclusion_start_date</code> parameter that is <code>01-01-1988</code> by default. This means that you can change the date for when the classification is considered stable</p>
+<p>The <code><a href="../reference/classify_diabetes.html">classify_diabetes()</a></code> function includes a <code>stable_inclusion_start_date</code> parameter that is <code>01-01-1998</code> by default. This means that you can change the date for when the classification is considered stable</p>
 </blockquote>
 </div>
 <p>For more information about the output, see the Interface section under <code><a href="../articles/design.html">vignette("design")</a></code>.</p>
@@ -318,54 +318,38 @@
 </blockquote>
 </div>
 <p>If you’re working on Statistics Denmark’s (DST) server, be aware that the pre-installed R packages can be quite old (for example, at the time of writing, <code><a href="https://duckplyr.tidyverse.org" class="external-link">library(duckplyr)</a></code> loads version 0.4 of the duckplyr package from 2024, whereas the latest version on CRAN is &gt;1.1 from 2026). These old versions don’t support the dplyr operations necessary for osdc to work.</p>
-<p>Installing osdc with <code>install.packages("osdc")</code> should force the necessary updates of package dependencies. Otherwise, the latest version of any given package can be installed from DST’s local CRAN mirror by using <code><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages()</a></code>. The downside of this approach is that you have to repeat the package installations frequently (whenever you log on to a new virtual machine, or after the servers weekly reset).</p>
-<p>After making sure that you have the newest version of osdc installed (which should install/update any necessary dependencies), you can load each register directly from its Parquet folder and convert it to DuckDB, as shown below.</p>
-<p>Currently, the conversion to DuckDB requires that the user specifies some connection parameters first:</p>
-<ul>
-<li>the maximum amount of memory to be allocated for DuckDB data, e.g. 128GB which is stable and should be more than enough to hold the inputs to osdc in DuckDB</li>
-<li>where to temporarily store any DuckDB data that exceeds this threshold.</li>
-</ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">ddb_driver</span> <span class="op">&lt;-</span> <span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html" class="external-link">duckdb</a></span><span class="op">(</span>config <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  memory <span class="op">=</span> <span class="st">"128GB"</span>,</span>
-<span>  temp_dir <span class="op">=</span> <span class="st">"path/to/temp/dir"</span></span>
-<span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">ddb_con</span> <span class="op">&lt;-</span> <span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbConnect.html" class="external-link">dbConnect</a></span><span class="op">(</span><span class="va">ddb_driver</span><span class="op">)</span></span></code></pre></div>
-<p>If you’re working with very large data sets, it’s good practice to filter the data on the Arrow side before converting to DuckDB to reduce computation and memory use. Conveniently, most of dplyr’s filtering and selection operations are supported by the arrow package. If you need to rename variables or convert their types to match the inputs expected by osdc, you can do that too:</p>
+<p>Installing osdc with <code>install.packages("osdc")</code> should force the necessary updates of package dependencies. Otherwise, the latest version of any given package can be installed from DST’s local CRAN mirror by using <code><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages()</a></code>. The downside of this approach is that you have to repeat the package installations frequently (whenever you log on to a new virtual machine, or after the servers’ weekly reset).</p>
+<p>After making sure that you have the newest version of osdc installed (which should install/update any necessary dependencies), you can load each register directly from its Parquet folder and convert it to DuckDB, as shown below (note: <code>read_parquet_duckdb()</code> requires at least version 2.5.4 of the <code>duckdb</code> package to work).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lpr3f_diagnoser <span class="ot">&lt;-</span> <span class="st">"path/to/lpr3f_diagnoser_parquet_folder"</span> <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  duckplyr<span class="sc">::</span><span class="fu">read_parquet_duckdb</span>(<span class="at">options =</span> <span class="fu">list</span>(<span class="at">union_by_name =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  duckplyr<span class="sc">::</span><span class="fu">as_tbl</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Optionally, insert dplyr functions for variable renaming/type-casting, selection or row filtering here, e.g.:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dplyr::select(...) |&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dplyr::mutate(...) |&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># dplyr::filter(...)</span></span></code></pre></div>
+<p>If your data (or parts of it) is already in R (e.g., as a hypothetical <code>data.frame</code>, named <code>your_dataset_in_r</code> in the example below), you can convert it to a DuckDB table with:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lpr3f_diagnoser</span> <span class="op">&lt;-</span> <span class="st">"path/to/lpr3f_diagnoser_parquet_folder"</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/open_dataset.html" class="external-link">open_dataset</a></span><span class="op">(</span>unify_schemas <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="co"># Insert dplyr filtering and variable selection/renaming steps here, e.g.:</span></span>
-<span>  <span class="co"># dplyr::select(...) |&gt;</span></span>
-<span>  <span class="co"># dplyr::mutate(...) |&gt;</span></span>
-<span>  <span class="co"># dplyr::filter(...) |&gt;</span></span>
-<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span>con <span class="op">=</span> <span class="va">ddb_con</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">compute</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>If your data (or parts of it) is already in R (e.g., as a <code>data.frame</code>), you can convert it to a DuckDB table with:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lpr3f_diagnoser</span> <span class="op">&lt;-</span> <span class="va">lpr3f_diagnoser</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span>con <span class="op">=</span> <span class="va">ddb_con</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">compute</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">your_dataset_in_duckdb</span> <span class="op">&lt;-</span> <span class="va">your_dataset_in_r</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/duckdb_tibble.html" class="external-link">as_duckdb_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div>
 <blockquote>
 <p><strong>Important</strong></p>
 <p>Important notes on using <code>lpr3a</code> data!</p>
 <p>A: <code>lpr3a</code> contains duplicates of contacts in 2017 &amp; 2018 that are also contained in <code>lpr2</code>. These rows must be filtered out before being input to osdc’s <code><a href="../reference/prepare_lpr3a.html">prepare_lpr3a()</a></code> function.</p>
 <p>B: The <code>kont_starttidspunkt</code> variable in <code>lpr3a</code> is a <code>datetime</code> type, and must be converted to a <code>date</code> before being input to <code><a href="../reference/prepare_lpr3a.html">prepare_lpr3a()</a></code>.</p>
+<p>C: In our experience, <code>lpr3a</code> always contains all the data previously delivered in the <code>lpr3_f</code> format, and you should rarely (if ever) use <code>lpr3f</code> in addition to <code>lpr3a</code> in practice.</p>
 </blockquote>
 </div>
-<p>The duplicate rows in <code>lpr3a_kontakt</code> can be removed during processing by filtering to <code>indberetningssystem == "LPR3"</code> Similarly, the <code>kont_starttidspunkt</code> variable in <code>lpr3a</code> can be converted to a <code>date</code> in a single call to <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> during pre-processing in Arrow. e.g.:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>The duplicate rows in <code>lpr3a_kontakt</code> can be removed during processing by filtering to <code>lprindberetningssystem == "LPR3"</code> Similarly, the <code>kont_starttidspunkt</code> variable in <code>lpr3a</code> can be converted to a <code>date</code> in a single call to <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate()</a></code> during pre-processing. e.g.:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lpr3a_kontakt</span> <span class="op">&lt;-</span> <span class="st">"path/to/lpr3a_kontakt_parquet_folder"</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/open_dataset.html" class="external-link">open_dataset</a></span><span class="op">(</span>unify_schemas <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="co"># dplyr::select(...) |&gt;</span></span>
+<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span>options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>kont_starttidspunkt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">kont_starttidspunkt</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">indberetningssystem</span> <span class="op">==</span> <span class="st">"LPR3"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">arrow</span><span class="fu">::</span><span class="fu"><a href="https://arrow.apache.org/docs/r/reference/to_duckdb.html" class="external-link">to_duckdb</a></span><span class="op">(</span>con <span class="op">=</span> <span class="va">ddb_con</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">compute</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>This can be used as input to <code><a href="../reference/prepare_lpr3a.html">prepare_lpr3a()</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">lprindberetningssystem</span> <span class="op">==</span> <span class="st">"LPR3"</span><span class="op">)</span></span></code></pre></div>
+<p>This can be used as input to <code><a href="../reference/prepare_lpr3a.html">prepare_lpr3a()</a></code> (while this example shows how easy it is to use all three lpr formats with osdc, the <code>lpr3f</code> format is practically deprecated and should rarely be used in practice, as noted above):</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lpr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">lpr_adm</span>, <span class="va">lpr_diag</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="../reference/prepare_lpr3f.html">prepare_lpr3f</a></span><span class="op">(</span><span class="va">lpr3f_kontakter</span>, <span class="va">lpr3f_diagnoser</span><span class="op">)</span>,</span>
@@ -373,10 +357,172 @@
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Most inputs will work in the Arrow/DuckDB equivalent of their type in the original SAS file. Unless the SAS-to-Arrow conversion introduced unexpected types, you should should not need to do any further type conversion.</p>
-<p>Once you’re done using DuckDB, you should close the driver and connection like so:</p>
+</section><section class="level2"><h2 id="example-of-end-to-end-classification-pipeline-from-parquet">Example of end-to-end classification pipeline from Parquet<a class="anchor" aria-label="anchor" href="#example-of-end-to-end-classification-pipeline-from-parquet"></a>
+</h2>
+<p>The following shows an example pipeline for running on Statistics Denmark’s “Research Machine” server. The example uses the raw, unprocessed data as provided by Statistics Denmark and the Danish Health Data Authority after conversion to Parquet files. The register file names, variable names and types reflect the raw data structure as provided to the <a href="https://steno-aarhus.github.io/darter-project/" class="external-link">DARTER Project</a> in Q2 2026, but these are likely to change in the future (for example, we experienced substantial changes in the LPR A data between a data update in Q4 2025 and one in Q2 2026). At the time of writing, some of the register sources (mainly LPR3) are undocumented, and users should carefully review the structure of their raw data and edit the pre-processing steps to account for any differences in their data.</p>
+<p>A few notes on this example:</p>
+<ul>
+<li>On the DST server, the runtime from end to end was around 1h45m, with a maximum memory footprint around 130 GB.</li>
+<li>
+<code>duckplyr::load_parquet_duckdb()</code> requires an updated version of <code>duckdb</code> to work, hence the example starts with a code snippet to verify this.</li>
+<li>All the input registers cover the entire Danish population and contain data until the end of 2024 (with the exception of the laboratory results data, which include 2025 and part of 2026). As the project had received LPR A data, previous LPR F data was not used (it was presumed redundant).</li>
+<li>While the row filtering and variable selection performed on some of the input data during the pre-processing steps isn’t strictly necessary, it may lower the execution time and reduce the memory footprint.</li>
+<li>As a user, the main thing to pay attention to is the renaming/typing of variables to fit osdc’s expectations.
+<ul>
+<li>osdc is not case-sensitive, so you don’t need to worry about the casing of variable names.</li>
+</ul>
+</li>
+</ul>
+<div>
+<blockquote>
+<p><strong>Click here to show full example</strong></p>
+<h3 id="pre-process-input-data">Pre-process input data</h3>
+<h4 id="verify-duckdb-package-version">Verify duckdb package version</h4>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"duckdb"</span><span class="op">)</span> <span class="op">&lt;</span> <span class="st">"1.5.4"</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop</a></span><span class="op">(</span></span>
+<span>      <span class="st">"For this workflow, duckplyr::load_parquet_duckdb() requires duckdb &gt;= 1.5.4, but "</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"duckdb"</span><span class="op">)</span>, <span class="st">" is installed. Please update duckdb."</span>,</span>
+<span>      call. <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span></code></pre></div>
+<h4 id="background-population-data">Background population data</h4>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">duckdb</span><span class="fu">::</span><span class="fu"><a href="https://r.duckdb.org/reference/duckdb.html" class="external-link">duckdb_shutdown</a></span><span class="op">(</span><span class="va">ddb_driver</span><span class="op">)</span></span>
-<span><span class="fu">DBI</span><span class="fu">::</span><span class="fu"><a href="https://dbi.r-dbi.org/reference/dbDisconnect.html" class="external-link">dbDisconnect</a></span><span class="op">(</span><span class="va">ddb_con</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">bef_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/bef"</span></span>
+<span></span>
+<span><span class="va">bef_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">bef_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>     <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>koen <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">KOEN</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Cast to osdc's expected `integer` type (from `double`)</span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PNR</span>, <span class="va">koen</span>, foed_dato <span class="op">=</span> <span class="va">FOED_DAG</span><span class="op">)</span> <span class="co"># osdc expects the variable name `foed_dato`</span></span></code></pre></div>
+<h4 id="health-service-register-sssy-sysi">Health Service Register: sssy &amp; sysi</h4>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sssy_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/sssy"</span></span>
+<span></span>
+<span><span class="va">sssy_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">sssy_dir</span>,</span>
+<span>  prudence <span class="op">=</span> <span class="st">"stingy"</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BARNMAK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">BARNMAK</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># Cast to osdc's expected `integer` type (from `double`)</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PNR</span>, <span class="va">BARNMAK</span>, <span class="va">HONUGE</span>, <span class="va">SPECIALE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^54"</span>, <span class="va">SPECIALE</span><span class="op">)</span><span class="op">)</span> <span class="co"># Filters to only the rows needed (diabetes-specific podiatrist services)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">sysi_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/sysi"</span></span>
+<span></span>
+<span><span class="va">sysi_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">sysi_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>BARNMAK <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">BARNMAK</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># Cast to osdc's expected `integer` type (from `double`)</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PNR</span>, <span class="va">BARNMAK</span>, <span class="va">HONUGE</span>, <span class="va">SPECIALE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^54"</span>, <span class="va">SPECIALE</span><span class="op">)</span><span class="op">)</span> <span class="co"># Filters to only the rows needed (diabetes-specific podiatrist services)</span></span></code></pre></div>
+<h4 id="lab-data-laboratorieproevesvar">Lab data: laboratorieproevesvar</h4>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lab_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/laboratorieproevesvar_"</span></span>
+<span></span>
+<span><span class="va">lab_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">lab_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">analysiscode</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NPU27300"</span>, <span class="st">"NPU03835"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Filter to only HbA1c tests</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">samplingdate</span> <span class="op">&lt;=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2024-12-31"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># Remove unusable data</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^[0-9]"</span>, <span class="va">samplevalue</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Remove non-numeric values</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">samplevalue</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co">#  Convert to a `double` type (from `string`)</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>pnr <span class="op">=</span> <span class="va">cprnummer</span>, <span class="va">value</span>, <span class="va">analysiscode</span>, <span class="va">samplingdate</span><span class="op">)</span> <span class="co"># osdc expects the variable name `pnr`</span></span></code></pre></div>
+<h4 id="patient-register-lpr_adm-lpr_diag-lpr_a_kontakt-lpr_a_diagnose">Patient Register: lpr_adm, lpr_diag, lpr_a_kontakt, lpr_a_diagnose</h4>
+<h5 id="lpr2">LPR2</h5>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lpr_adm_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/lpr_adm"</span></span>
+<span></span>
+<span><span class="va">lpr_adm_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">lpr_adm_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">PNR</span>, <span class="va">RECNUM</span>, <span class="va">D_INDDTO</span>, <span class="va">C_SPEC</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">lpr_diag_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/lpr_diag"</span></span>
+<span></span>
+<span><span class="va">lpr_diag_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">lpr_diag_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">RECNUM</span>, <span class="va">C_DIAG</span>, <span class="va">C_DIAGTYPE</span><span class="op">)</span></span></code></pre></div>
+<h5 id="lpr_a">LPR_A</h5>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lpr_a_kontakt_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/lpr_a_kontakt"</span></span>
+<span></span>
+<span><span class="va">lpr_a_kontakt_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">lpr_a_kontakt_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">lprindberetningssystem</span> <span class="op">==</span> <span class="st">"LPR3"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Remove duplicates</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>kont_starttidspunkt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">kont_starttidspunkt</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Recast to `date` from `datetime` type.</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">pnr</span>, <span class="va">dw_ek_kontakt</span>, <span class="va">kont_starttidspunkt</span>, <span class="va">kont_ans_hovedspec</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">lpr_a_diagnose_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/lpr_a_diagnose"</span></span>
+<span></span>
+<span><span class="va">lpr_a_diagnose_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">lpr_a_diagnose_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>     <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">lprindberetningssystem</span> <span class="op">==</span> <span class="st">"LPR3"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Remove duplicates</span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">dw_ek_kontakt</span>, <span class="va">diag_kode</span>, diag_type <span class="op">=</span> <span class="va">diag_kode_type</span>, <span class="va">senere_afkraeftet</span><span class="op">)</span> <span class="co"># osdc expects the variable name `diag_type`</span></span></code></pre></div>
+<h4 id="prescription-data-lmdb">Prescription data: lmdb</h4>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lmdb_dir</span> <span class="op">&lt;-</span> <span class="st">"E:/workdata/project-id/parquet-data/lmdb"</span></span>
+<span></span>
+<span></span>
+<span><span class="va">lmdb_ddb</span> <span class="op">&lt;-</span> <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/read_parquet_duckdb.html" class="external-link">read_parquet_duckdb</a></span><span class="op">(</span></span>
+<span>  <span class="va">lmdb_dir</span>,</span>
+<span>  options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>union_by_name <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^A10"</span>, <span class="va">atc</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span>  <span class="co"># Filters to only the rows needed (glucose-lowering drugs)</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">pnr</span>, <span class="va">eksd</span>, <span class="va">atc</span>, <span class="va">apk</span>, <span class="va">volume</span>, <span class="va">indo</span><span class="op">)</span></span></code></pre></div>
+<h3 id="execute-osdc-and-save-to-disk">Execute osdc and save to disk</h3>
+<h4 id="join-registers-spread-across-multiple-tables">Join registers spread across multiple tables</h4>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hsr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">sssy_ddb</span>, <span class="va">sysi_ddb</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Join health service register tables to a single input</span></span>
+<span></span>
+<span><span class="va">lpr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span>lpr_adm <span class="op">=</span> <span class="va">lpr_adm_ddb</span>, lpr_diag <span class="op">=</span> <span class="va">lpr_diag_ddb</span><span class="op">)</span> <span class="co"># Join lpr2 tables</span></span>
+<span><span class="va">lpr3_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_lpr3a.html">prepare_lpr3a</a></span><span class="op">(</span>lpr3a_kontakt <span class="op">=</span> <span class="va">lpr_a_kontakt_ddb</span>, lpr3a_diagnose <span class="op">=</span> <span class="va">lpr_a_diagnose_ddb</span><span class="op">)</span> <span class="co"># Join lpr3_a tables</span></span>
+<span><span class="va">lpr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">lpr2</span>, <span class="va">lpr3_a</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/join_registers.html">join_registers</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Join all patient register tables to a single input</span></span></code></pre></div>
+<h4 id="run-the-classification">Run the classification</h4>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">osdc_population_202412</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify_diabetes.html">classify_diabetes</a></span><span class="op">(</span></span>
+<span>  bef <span class="op">=</span> <span class="va">bef_ddb</span>,</span>
+<span>  lpr <span class="op">=</span> <span class="va">lpr</span>,</span>
+<span>  hsr <span class="op">=</span> <span class="va">hsr</span>,</span>
+<span>  lab_forsker <span class="op">=</span> <span class="va">lab_ddb</span>,</span>
+<span>  lmdb <span class="op">=</span> <span class="va">lmdb_ddb</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">osdc_population_202412_collected</span> <span class="op">&lt;-</span> <span class="va">osdc_population_202412</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Execute the pipeline and collect results into R</span></span>
+<span></span>
+<span><span class="co"># Post-processing</span></span>
+<span></span>
+<span><span class="va">osdc_population_202412_clean</span> <span class="op">&lt;-</span> <span class="va">osdc_population_202412_collected</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^[0-9]"</span>, <span class="va">pnr</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="co"># Remove invalid pnr numbers from the population</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>data_coverage_limit <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fl">202412</span><span class="op">)</span><span class="op">)</span> <span class="co"># add metadata on data coverage</span></span>
+<span></span>
+<span><span class="co"># Save to Parquet</span></span>
+<span></span>
+<span><span class="va">osdc_population_202412_clean</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">duckplyr</span><span class="fu">::</span><span class="fu"><a href="https://duckplyr.tidyverse.org/reference/compute_parquet.html" class="external-link">compute_parquet</a></span><span class="op">(</span><span class="st">"osdc_population_202412.parquet"</span><span class="op">)</span></span></code></pre></div>
+</blockquote>
+</div>
 </section><section class="level2"><h2 id="getting-help">Getting help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
 </h2>
 <p>If you encounter a bug or have a question about how to use osdc, please open an issue on the <a href="https://github.com/steno-aarhus/osdc/issues" class="external-link">GitHub repository</a>. When reporting a bug, include a minimal example that reproduces the problem along to help us understand and investigate the problem.</p>
