@@ -248,7 +248,7 @@ you can convert it to a DuckDB table with:
 ``` r
 your_dataset_in_duckdb <- your_dataset_in_r |>
   duckplyr::as_duckdb_tibble() |>
-  duckplyr::as_tbl())
+  duckplyr::as_tbl()
 ```
 
 ::: callout-important
