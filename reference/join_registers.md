@@ -40,18 +40,18 @@ join_registers(list(
 #> # A tibble: 12 × 9
 #>    pnr          date       is_primary_diagnosis is_diabetes_code is_t1d_code
 #>    <chr>        <date>     <lgl>                <lgl>            <lgl>      
-#>  1 466460062483 1999-12-28 FALSE                TRUE             TRUE       
-#>  2 976025036207 1980-12-12 FALSE                TRUE             FALSE      
-#>  3 481308509913 2006-10-16 FALSE                TRUE             FALSE      
-#>  4 736038118634 1997-09-22 TRUE                 FALSE            FALSE      
-#>  5 751256871567 2010-06-24 FALSE                FALSE            FALSE      
-#>  6 374324771385 2007-05-11 FALSE                TRUE             FALSE      
-#>  7 600867655198 2012-05-29 FALSE                FALSE            FALSE      
-#>  8 237592816990 1993-09-26 TRUE                 FALSE            FALSE      
-#>  9 254251768597 2026-01-11 FALSE                TRUE             TRUE       
-#> 10 298722067346 1981-08-05 TRUE                 FALSE            FALSE      
-#> 11 863502458498 1984-02-03 FALSE                FALSE            FALSE      
-#> 12 752896932129 1981-05-13 TRUE                 FALSE            FALSE      
+#>  1 466460062483 1990-12-20 FALSE                TRUE             TRUE       
+#>  2 976025036207 1995-01-07 FALSE                TRUE             FALSE      
+#>  3 481308509913 1986-07-30 FALSE                TRUE             FALSE      
+#>  4 736038118634 2025-07-06 TRUE                 FALSE            FALSE      
+#>  5 751256871567 1977-02-18 FALSE                FALSE            FALSE      
+#>  6 374324771385 1997-11-19 FALSE                TRUE             FALSE      
+#>  7 600867655198 2022-08-17 FALSE                FALSE            FALSE      
+#>  8 237592816990 1983-10-09 TRUE                 FALSE            FALSE      
+#>  9 254251768597 1997-12-24 FALSE                TRUE             TRUE       
+#> 10 298722067346 2003-02-12 TRUE                 FALSE            FALSE      
+#> 11 863502458498 2007-12-03 FALSE                FALSE            FALSE      
+#> 12 752896932129 2014-09-19 TRUE                 FALSE            FALSE      
 #> # ℹ 4 more variables: is_t2d_code <lgl>, is_endocrinology_dept <lgl>,
 #> #   is_medical_dept <lgl>, is_pregnancy_code <lgl>
 join_registers(list(register_data$sysi, register_data$sssy))

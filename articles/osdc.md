@@ -98,7 +98,7 @@ register_data <- registers() |>
   # is more stable.
   purrr::map(duckplyr::as_tbl)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpdjtF9v/duckdb
+#> ℹ /tmp/Rtmp6xB07t/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -156,16 +156,19 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # A query:  ?? x 5
-#> # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/RtmpdjtF9v/duckplyr/duckplyr1cc344e590db.duckdb]
-#>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
-#>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
-#> 3 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
-#> 4 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
-#> 5 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   
-#> 6 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
-#> 7 706974528463 2010-10-11            2010-10-11         FALSE   TRUE
+#> # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/Rtmp6xB07t/duckplyr/duckplyr1dee58c02f64.duckdb]
+#>    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
+#>    <chr>        <date>                <date>             <lgl>   <lgl>  
+#>  1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#>  2 430303209642 2011-06-04            2011-06-04         FALSE   TRUE   
+#>  3 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
+#>  4 993093469622 2024-04-11            2024-04-11         FALSE   TRUE   
+#>  5 831499036594 2021-06-27            2021-06-27         FALSE   TRUE   
+#>  6 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
+#>  7 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
+#>  8 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   
+#>  9 603581358182 2013-09-24            2013-09-24         FALSE   TRUE   
+#> 10 706974528463 2010-10-11            2010-10-11         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -186,19 +189,22 @@ classified_diabetes <- classified_diabetes |>
   dplyr::collect()
 
 classified_diabetes
-#> # A tibble: 7 × 5
-#>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
-#>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
-#> 2 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
-#> 3 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
-#> 4 531569297322 2025-05-26            2025-05-26         FALSE   TRUE   
-#> 5 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 6 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
-#> 7 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
+#> # A tibble: 10 × 5
+#>    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
+#>    <chr>        <date>                <date>             <lgl>   <lgl>  
+#>  1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#>  2 603581358182 2013-09-24            2013-09-24         FALSE   TRUE   
+#>  3 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   
+#>  4 831499036594 2021-06-27            2021-06-27         FALSE   TRUE   
+#>  5 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   
+#>  6 430303209642 2011-06-04            2011-06-04         FALSE   TRUE   
+#>  7 993093469622 2024-04-11            2024-04-11         FALSE   TRUE   
+#>  8 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   
+#>  9 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   
+#> 10 498989088479 2007-04-09            2007-04-09         FALSE   TRUE
 ```
 
-Now, we can see that with the simulated data, 7 individuals are
+Now, we can see that with the simulated data, 10 individuals are
 classified as having diabetes.
 
 #### Understanding the output
