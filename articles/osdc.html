@@ -179,7 +179,7 @@
 <span>  <span class="co"># is more stable.</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; duckdb keeps downloaded extensions and secrets in a temporary directory:</span></span>
-<span><span class="co">#&gt; ℹ /tmp/Rtmp6xB07t/duckdb</span></span>
+<span><span class="co">#&gt; ℹ /tmp/RtmpWT4Vp2/duckdb</span></span>
 <span><span class="co">#&gt; This is removed when the R session ends.</span></span>
 <span><span class="co">#&gt; • Extensions are re-downloaded each session.</span></span>
 <span><span class="co">#&gt; • Secrets are lost.</span></span>
@@ -221,19 +221,20 @@
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
 <span><span class="co">#&gt; # A query:  ?? x 5</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1020-azure:R 4.6.1//tmp/Rtmp6xB07t/duckplyr/duckplyr1dee58c02f64.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 1.5.5 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/RtmpWT4Vp2/duckplyr/duckplyr1c465937d48a.duckdb]</span></span>
 <span><span class="co">#&gt;    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
 <span><span class="co">#&gt;  1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  2 430303209642 2011-06-04            2011-06-04         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  3 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  4 993093469622 2024-04-11            2024-04-11         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  5 831499036594 2021-06-27            2021-06-27         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  6 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  7 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  8 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  9 603581358182 2013-09-24            2013-09-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 10 706974528463 2010-10-11            2010-10-11         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt;  2 238357358504 2015-11-14            2015-11-14         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  3 476020884782 2011-11-19            2011-11-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  4 963036718466 2016-09-25            2016-09-25         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  5 070597786658 2025-04-23            2025-04-23         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  6 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  7 742356346597 2011-06-04            2011-06-04         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  8 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  9 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 10 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 11 498989088479 2007-04-09            2007-04-09         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each of the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
 </section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
@@ -245,21 +246,22 @@
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">collect</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
-<span><span class="co">#&gt; # A tibble: 10 × 5</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 5</span></span>
 <span><span class="co">#&gt;    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt;  1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  2 603581358182 2013-09-24            2013-09-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  3 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  4 831499036594 2021-06-27            2021-06-27         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  5 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  6 430303209642 2011-06-04            2011-06-04         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  7 993093469622 2024-04-11            2024-04-11         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  8 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt;  9 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 10 498989088479 2007-04-09            2007-04-09         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt;  1 706974528463 2010-10-11            2010-10-11         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  2 409442575549 2017-08-21            2017-08-21         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  3 742356346597 2011-06-04            2011-06-04         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  4 963036718466 2016-09-25            2016-09-25         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  5 070597786658 2025-04-23            2025-04-23         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  6 240771768588 2008-03-31            2008-03-31         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  7 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  8 298944792608 2012-04-30            2012-04-30         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt;  9 498989088479 2007-04-09            2007-04-09         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 10 238357358504 2015-11-14            2015-11-14         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 11 476020884782 2011-11-19            2011-11-19         FALSE   TRUE</span></span></code></pre></div>
 </div>
-<p>Now, we can see that with the simulated data, 10 individuals are classified as having diabetes.</p>
+<p>Now, we can see that with the simulated data, 11 individuals are classified as having diabetes.</p>
 <section class="level4"><h4 id="sec-understanding-the-output">Understanding the output<a class="anchor" aria-label="anchor" href="#sec-understanding-the-output"></a>
 </h4>
 <p>The output is a table with one row per classified individual and five columns:</p>
