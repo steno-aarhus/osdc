@@ -145,7 +145,7 @@ prepare_lpr3a <- function(lpr3a_kontakt, lpr3a_diagnose) {
       is_diabetes_code = !!logic$lpr3_is_diabetes_code,
       is_pregnancy_code = !!logic$lpr3_is_pregnancy_code,
       is_endocrinology_dept = !!logic$lpr3_is_endocrinology_dept,
-      is_medical_dept = !!logic$lpr3_is_medical_dept,
+      is_medical_dept = !!logic$lpr3_is_medical_dept
     ) |>
     dplyr::select(
       "pnr",
@@ -156,6 +156,6 @@ prepare_lpr3a <- function(lpr3a_kontakt, lpr3a_diagnose) {
       "is_t2d_code",
       "is_endocrinology_dept",
       "is_medical_dept",
-      "is_pregnancy_code",
+      "is_pregnancy_code"
     )
 }

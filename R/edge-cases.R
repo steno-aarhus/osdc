@@ -136,7 +136,7 @@ edge_cases <- function() {
     "14_t2d_gldF_diagF_hba1cT_podF", "38", "pnr14_rec01", "19990101",
     "15_t2d_gldF_diagT_hba1cF_podF", "08", "pnr15_rec01", "20100101",
     "16_t2d_gldT_diagF_hba1cF_podF", "38", "pnr16_rec01", "19990101",
-    "21_nodm_female_pregnancyT", "38", "pnr21_rec01", "19990101",
+    "21_nodm_female_pregnancyT", "38", "pnr21_rec01", "19990101"
   ) |>
     dplyr::mutate(
       d_inddto = lubridate::as_date(.data$d_inddto)
