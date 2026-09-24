@@ -1,9 +1,10 @@
-## Fix: Don't download from URL
+# Previous CRAN check issue
 
-We intended to remove the download from URL and instead create it as a
-`sysdata.rda` file in the package before initially submitting to CRAN.
-But we missed that TODO item. We have now fixed this so that CRAN checks
-can pass without internet access.
+We initially submitted this and there was an error in the Windows
+builder on CRAN. We could not reproduce it locally, nor on the CI
+servers, nor on the CRAN winbuilder. We think it's because of a recent
+update to duckplyr on Windows that caused this error. duckplyr has
+created a fix for this: <https://github.com/duckdb/duckdb/pull/22844>.
 
 ## R CMD check results
 

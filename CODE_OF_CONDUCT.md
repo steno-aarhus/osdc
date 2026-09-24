@@ -121,7 +121,7 @@ within the community.
 
 This Code of Conduct is adapted from the
 [Contributor Covenant][homepage], version 2.1, available at
-<https://www.contributor-covenant.org/version/2/1/code_of_conduct.html>.
+<https://www.contributor-covenant.org/version/2/1/code_of_conduct/>.
 
 Community Impact Guidelines were inspired by
 [Mozilla's code of conduct enforcement ladder][https://github.com/mozilla/inclusion].

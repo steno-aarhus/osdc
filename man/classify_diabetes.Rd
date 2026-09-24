@@ -45,33 +45,7 @@ Each DuckDB object must contain a single table covering all years of
 that data source, or at least the years you have and are interested
 in.
 }
-\examples{
-# Can't run this multiple times, will cause an error as the table
-# has already been created in the DuckDB connection.
-registers <- registers() |>
-  names() |>
-  simulate_registers() |>
-  purrr::map(duckplyr::as_duckdb_tibble) |>
-  purrr::map(duckplyr::as_tbl)
-
-lpr <- list(
-  prepare_lpr2(registers$lpr_adm, registers$lpr_diag),
-  prepare_lpr3f(registers$lpr3f_kontakter, registers$lpr3f_diagnoser),
-  prepare_lpr3a(registers$lpr3a_kontakt, registers$lpr3a_diagnose)
-) |>
-  join_registers()
-
-hsr <- list(registers$sssy, registers$sysi) |> join_registers()
-
-classify_diabetes(
-  lpr = lpr,
-  hsr = hsr,
-  lab_forsker = registers$lab_forsker,
-  bef = registers$bef,
-  lmdb = registers$lmdb
-)
-}
 \seealso{
-See the \link{osdc} vignette for a detailed
-description of the internal implementation of this classification function.
+See the \code{vignette("osdc", package = "osdc")} vignette for a more
+details and on how to use this function.
 }
