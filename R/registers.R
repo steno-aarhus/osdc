@@ -65,7 +65,7 @@ registers <- function() {
         ~name, ~danish_description, ~english_description, ~data_type,
         "recnum", "Kontakt id-nummer", "Record id number", "character",
         "c_diag", "Diagnosekode", "Diagnosis code", "character",
-        "c_diagtype", "Diagnosetype", "Diagnosis type", "character",
+        "c_diagtype", "Diagnosetype", "Diagnosis type", "character"
       )
     ),
     lpr3a_kontakt = list(

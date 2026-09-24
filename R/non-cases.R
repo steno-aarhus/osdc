@@ -25,7 +25,7 @@ non_cases <- function() {
     "nc_preg_1", 2, "19800101",
     "nc_preg_2", 2, "19800101",
     "nc_preg_3", 2, "19800101",
-    "nc_preg_4", 2, "19800101",
+    "nc_preg_4", 2, "19800101"
   ) |>
     dplyr::mutate(
       koen = as.integer(.data$koen),
@@ -40,7 +40,7 @@ non_cases <- function() {
     "nc_preg_1", 10, "20180101", "A10", 5, "0000000",
     "nc_preg_2", 10, "20180101", "A10", 5, "0000000",
     "nc_preg_3", 10, "20200101", "A10", 5, "0000000",
-    "nc_preg_4", 10, "20200101", "A10", 5, "0000000",
+    "nc_preg_4", 10, "20200101", "A10", 5, "0000000"
   ) |>
     dplyr::mutate(eksd = lubridate::as_date(.data$eksd))
 
@@ -53,7 +53,7 @@ non_cases <- function() {
     "nc_preg_1", "08", "1", "20180101",
     "nc_preg_2", "08", "1", "20180101",
     "nc_preg_1", "08", "2", "20180101",
-    "nc_preg_2", "08", "3", "20180101",
+    "nc_preg_2", "08", "3", "20180101"
   ) |>
     dplyr::mutate(d_inddto = lubridate::as_date(.data$d_inddto))
 
@@ -63,7 +63,7 @@ non_cases <- function() {
     "1", "149", "A",
     # Pregnancy
     "2", "DO00", "A",
-    "3", "DZ33", "A",
+    "3", "DZ33", "A"
   )
 
   # LPR3 is from 2019 onwards
@@ -77,7 +77,7 @@ non_cases <- function() {
     "nc_preg_3", "1", "abc", "20200101",
     "nc_preg_4", "1", "abc", "20200101",
     "nc_preg_3", "2", "abc", "20200101",
-    "nc_preg_4", "3", "abc", "20200101",
+    "nc_preg_4", "3", "abc", "20200101"
   ) |>
     dplyr::mutate(
       kont_starttidspunkt = lubridate::as_date(.data$kont_starttidspunkt)
@@ -89,7 +89,7 @@ non_cases <- function() {
     "1", "DI10", "A", "Nej",
     # Pregnancy
     "2", "DO00", "A", "Nej",
-    "3", "DZ33", "A", "Nej",
+    "3", "DZ33", "A", "Nej"
   )
 
   # LPR_F: deprecated, but same as LPR_A:
@@ -101,7 +101,7 @@ non_cases <- function() {
     "nc_preg_3", "1", "abc", "20200101",
     "nc_preg_4", "1", "abc", "20200101",
     "nc_preg_3", "2", "abc", "20200101",
-    "nc_preg_4", "3", "abc", "20200101",
+    "nc_preg_4", "3", "abc", "20200101"
   ) |>
     dplyr::mutate(dato_start = lubridate::as_date(.data$dato_start))
 
@@ -111,7 +111,7 @@ non_cases <- function() {
     "1", "DI10", "A", "Nej",
     # Pregnancy
     "2", "DO00", "A", "Nej",
-    "3", "DZ33", "A", "Nej",
+    "3", "DZ33", "A", "Nej"
   )
 
   sysi <- tibble::tribble(
@@ -123,7 +123,7 @@ non_cases <- function() {
     "nc_preg_1", 0, "53", "2001",
     "nc_preg_2", 0, "53", "2001",
     "nc_preg_3", 0, "53", "2001",
-    "nc_preg_4", 0, "53", "2001",
+    "nc_preg_4", 0, "53", "2001"
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
@@ -136,7 +136,7 @@ non_cases <- function() {
     "nc_preg_1", 0, "53", "2001",
     "nc_preg_2", 0, "53", "2001",
     "nc_preg_3", 0, "53", "2001",
-    "nc_preg_4", 0, "53", "2001",
+    "nc_preg_4", 0, "53", "2001"
   ) |>
     dplyr::mutate(barnmak = as.integer(.data$barnmak))
 
@@ -148,7 +148,7 @@ non_cases <- function() {
     "nc_preg_1", "20170301", "NPU27300", 48,
     "nc_preg_2", "20180301", "NPU03835", 6.5,
     "nc_preg_3", "20190301", "NPU03835", 6.5,
-    "nc_preg_4", "20200301", "NPU27300", 48,
+    "nc_preg_4", "20200301", "NPU27300", 48
   ) |>
     dplyr::mutate(samplingdate = lubridate::as_date(.data$samplingdate))
 
