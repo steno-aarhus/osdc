@@ -192,9 +192,9 @@ from:
 
 11\.
 
-Green A, Sortsø C, Jensen PB, Emneus M. Validation of the danish
-national diabetes register. Clinical epidemiology \[Internet\].
-2014;7:5–15. Available from: <https://pubmed.ncbi.nlm.nih.gov/25565889/>
+Green A, Sortsø C, Jensen PB, Emneus M. [Validation of the danish
+national diabetes register](https://doi.org/10.2147/CLEP.S72768).
+Clinical epidemiology. 2014;7:5–15.
 
 12\.
 
