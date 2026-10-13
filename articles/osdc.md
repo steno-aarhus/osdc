@@ -98,7 +98,7 @@ register_data <- registers() |>
   # is more stable.
   purrr::map(duckplyr::as_tbl)
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpADirLi/duckdb
+#> ℹ /tmp/RtmpXfm54x/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -156,17 +156,17 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # A query:  ?? x 5
-#> # Database: DuckDB 1.5.6 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/RtmpADirLi/duckplyr/duckplyr1d6a44ace48a.duckdb]
+#> # Database: DuckDB 1.5.6 [unknown@Linux 6.17.0-1022-azure:R 4.6.1//tmp/RtmpXfm54x/duckplyr/duckplyr1cc127a1fdcf.duckdb]
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
 #> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 240771768588 2014-04-21            2014-04-21         FALSE   TRUE   
-#> 3 094540996173 2012-12-18            2012-12-18         FALSE   TRUE   
-#> 4 706974528463 2020-10-05            2020-10-05         FALSE   TRUE   
-#> 5 409442575549 2025-02-24            2025-02-24         FALSE   TRUE   
-#> 6 682323459638 2023-05-21            2023-05-21         FALSE   TRUE   
-#> 7 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
-#> 8 498989088479 2018-08-27            2018-08-27         FALSE   TRUE
+#> 2 240771768588 2011-03-07            2011-03-07         FALSE   TRUE   
+#> 3 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
+#> 4 498989088479 2018-08-27            2018-08-27         FALSE   TRUE   
+#> 5 094540996173 2012-12-18            2012-12-18         FALSE   TRUE   
+#> 6 706974528463 2019-07-01            2019-07-01         FALSE   TRUE   
+#> 7 409442575549 2025-02-24            2025-02-24         FALSE   TRUE   
+#> 8 682323459638 2023-05-21            2023-05-21         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -190,14 +190,14 @@ classified_diabetes
 #> # A tibble: 8 × 5
 #>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
 #>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 094540996173 2012-12-18            2012-12-18         FALSE   TRUE   
-#> 3 240771768588 2014-04-21            2014-04-21         FALSE   TRUE   
-#> 4 706974528463 2020-10-05            2020-10-05         FALSE   TRUE   
-#> 5 409442575549 2025-02-24            2025-02-24         FALSE   TRUE   
-#> 6 682323459638 2023-05-21            2023-05-21         FALSE   TRUE   
-#> 7 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
-#> 8 498989088479 2018-08-27            2018-08-27         FALSE   TRUE
+#> 1 409442575549 2025-02-24            2025-02-24         FALSE   TRUE   
+#> 2 682323459638 2023-05-21            2023-05-21         FALSE   TRUE   
+#> 3 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
+#> 4 498989088479 2018-08-27            2018-08-27         FALSE   TRUE   
+#> 5 094540996173 2012-12-18            2012-12-18         FALSE   TRUE   
+#> 6 240771768588 2011-03-07            2011-03-07         FALSE   TRUE   
+#> 7 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#> 8 706974528463 2019-07-01            2019-07-01         FALSE   TRUE
 ```
 
 Now, we can see that with the simulated data, 8 individuals are
