@@ -75,6 +75,14 @@
 <span class="r-in"><span>  <span class="st">"sssy"</span>,</span></span>
 <span class="r-in"><span>  <span class="st">"sysi"</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`category_labels =` is deprecated in fabricatr 2.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Write:  fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), labels = c("A", "B"))</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Not:    fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c("A", "B"))</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once per session.</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`category_labels =` is deprecated in fabricatr 2.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Write:  fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), labels = c("Ja", "Nej"))</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Not:    fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c("Ja", "Nej"))</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once per session.</span></span>
 <span class="r-in"><span><span class="fu">join_registers</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="prepare_lpr2.html">prepare_lpr2</a></span><span class="op">(</span><span class="va">register_data</span><span class="op">$</span><span class="va">lpr_adm</span>, <span class="va">register_data</span><span class="op">$</span><span class="va">lpr_diag</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  <span class="fu"><a href="prepare_lpr3f.html">prepare_lpr3f</a></span><span class="op">(</span></span></span>
@@ -86,7 +94,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>    pnr          date       is_primary_diagnosis is_diabetes_code is_t1d_code</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 466460062483 1990-07-31 FALSE                TRUE             TRUE       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 976025036207 1991-06-15 TRUE                 TRUE             FALSE      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 976025036207 1991-06-15 FALSE                TRUE             FALSE      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 481308509913 2008-07-30 TRUE                 TRUE             FALSE      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 736038118634 2025-07-06 TRUE                 FALSE            FALSE      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 751256871567 1977-02-18 FALSE                FALSE            FALSE      </span>

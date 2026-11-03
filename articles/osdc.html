@@ -178,8 +178,16 @@
 <span>  <span class="co"># in early development, while the DBI-DuckDB connection</span></span>
 <span>  <span class="co"># is more stable.</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="fu">duckplyr</span><span class="fu">::</span><span class="va"><a href="https://duckplyr.tidyverse.org/reference/as_tbl.html" class="external-link">as_tbl</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `category_labels =` is deprecated in fabricatr 2.0.</span></span>
+<span><span class="co">#&gt; Write:  fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), labels = c("A", "B"))</span></span>
+<span><span class="co">#&gt; Not:    fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c("A", "B"))</span></span>
+<span><span class="co">#&gt; This warning is displayed once per session.</span></span>
+<span><span class="co">#&gt; Warning: `category_labels =` is deprecated in fabricatr 2.0.</span></span>
+<span><span class="co">#&gt; Write:  fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), labels = c("Ja", "Nej"))</span></span>
+<span><span class="co">#&gt; Not:    fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c("Ja", "Nej"))</span></span>
+<span><span class="co">#&gt; This warning is displayed once per session.</span></span>
 <span><span class="co">#&gt; duckdb keeps downloaded extensions and secrets in a temporary directory:</span></span>
-<span><span class="co">#&gt; ℹ /tmp/RtmpobB42F/duckdb</span></span>
+<span><span class="co">#&gt; ℹ /tmp/RtmpnJiBK7/duckdb</span></span>
 <span><span class="co">#&gt; This is removed when the R session ends.</span></span>
 <span><span class="co">#&gt; • Extensions are re-downloaded each session.</span></span>
 <span><span class="co">#&gt; • Secrets are lost.</span></span>
@@ -221,17 +229,17 @@
 <span></span>
 <span><span class="va">classified_diabetes</span></span>
 <span><span class="co">#&gt; # A query:  ?? x 5</span></span>
-<span><span class="co">#&gt; # Database: DuckDB 1.5.6 [unknown@Linux 7.0.0-1017-azure:R 4.6.1//tmp/RtmpobB42F/duckplyr/duckplyr1be07af67e9f.duckdb]</span></span>
+<span><span class="co">#&gt; # Database: DuckDB 2.0.0 [unknown@Linux 7.0.0-1017-azure:R 4.6.2//tmp/RtmpnJiBK7/duckplyr/duckplyr1bff336e6f69.duckdb]</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 409442575549 2025-02-24            2025-02-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 682323459638 2023-05-21            2023-05-21         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 240771768588 2011-03-07            2011-03-07         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 706974528463 2019-07-01            2019-07-01         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 094540996173 2012-12-18            2012-12-18         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 310900818299 2024-09-05            2024-09-05         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 706974528463 2017-02-27            2017-02-27         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 409442575549 2018-12-10            2018-12-10         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 489345030166 2025-03-16            2025-03-16         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 240771768588 2026-05-04            2026-05-04         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 7 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 8 498989088479 2018-08-27            2018-08-27         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 8 498989088479 2019-10-14            2019-10-14         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>As seen above, this returns a DuckDB table with the individuals classified as having either T1D or T2D along with the date of the classification. Each of the columns in the output is explained in <a href="#sec-understanding-the-output" class="quarto-xref">Section 2.5.1</a> below.</p>
 </section><section class="level3"><h3 id="step-5-optional-collect-the-results-into-r">Step 5 (optional): Collect the results into R<a class="anchor" aria-label="anchor" href="#step-5-optional-collect-the-results-into-r"></a>
@@ -246,14 +254,14 @@
 <span><span class="co">#&gt; # A tibble: 8 × 5</span></span>
 <span><span class="co">#&gt;   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d</span></span>
 <span><span class="co">#&gt;   &lt;chr&gt;        &lt;date&gt;                &lt;date&gt;             &lt;lgl&gt;   &lt;lgl&gt;  </span></span>
-<span><span class="co">#&gt; 1 409442575549 2025-02-24            2025-02-24         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 2 682323459638 2023-05-21            2023-05-21         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 4 706974528463 2019-07-01            2019-07-01         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 5 094540996173 2012-12-18            2012-12-18         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 6 240771768588 2011-03-07            2011-03-07         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 2 310900818299 2024-09-05            2024-09-05         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 3 706974528463 2017-02-27            2017-02-27         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 4 409442575549 2018-12-10            2018-12-10         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 5 489345030166 2025-03-16            2025-03-16         FALSE   TRUE   </span></span>
+<span><span class="co">#&gt; 6 240771768588 2026-05-04            2026-05-04         FALSE   TRUE   </span></span>
 <span><span class="co">#&gt; 7 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   </span></span>
-<span><span class="co">#&gt; 8 498989088479 2018-08-27            2018-08-27         FALSE   TRUE</span></span></code></pre></div>
+<span><span class="co">#&gt; 8 498989088479 2019-10-14            2019-10-14         FALSE   TRUE</span></span></code></pre></div>
 </div>
 <p>Now, we can see that with the simulated data, 8 individuals are classified as having diabetes.</p>
 <section class="level4"><h4 id="sec-understanding-the-output">Understanding the output<a class="anchor" aria-label="anchor" href="#sec-understanding-the-output"></a>
@@ -537,7 +545,8 @@
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -546,8 +555,69 @@
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -561,6 +631,7 @@
         interactiveBorder: 10,
         theme: 'light-border',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;

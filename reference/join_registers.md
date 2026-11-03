@@ -30,6 +30,14 @@ register_data <- simulate_registers(c(
   "sssy",
   "sysi"
 ))
+#> Warning: `category_labels =` is deprecated in fabricatr 2.0.
+#> Write:  fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), labels = c("A", "B"))
+#> Not:    fabricatr::draw_categorical(N = N, prob = c(0.3, 0.7), category_labels = c("A", "B"))
+#> This warning is displayed once per session.
+#> Warning: `category_labels =` is deprecated in fabricatr 2.0.
+#> Write:  fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), labels = c("Ja", "Nej"))
+#> Not:    fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c("Ja", "Nej"))
+#> This warning is displayed once per session.
 join_registers(list(
   prepare_lpr2(register_data$lpr_adm, register_data$lpr_diag),
   prepare_lpr3f(
@@ -41,7 +49,7 @@ join_registers(list(
 #>    pnr          date       is_primary_diagnosis is_diabetes_code is_t1d_code
 #>    <chr>        <date>     <lgl>                <lgl>            <lgl>      
 #>  1 466460062483 1990-07-31 FALSE                TRUE             TRUE       
-#>  2 976025036207 1991-06-15 TRUE                 TRUE             FALSE      
+#>  2 976025036207 1991-06-15 FALSE                TRUE             FALSE      
 #>  3 481308509913 2008-07-30 TRUE                 TRUE             FALSE      
 #>  4 736038118634 2025-07-06 TRUE                 FALSE            FALSE      
 #>  5 751256871567 1977-02-18 FALSE                FALSE            FALSE      
