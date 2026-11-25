@@ -137,7 +137,7 @@ prepare_lpr3a <- function(lpr3a_kontakt, lpr3a_diagnose) {
     ) |>
     dplyr::mutate(
       # Algorithm needs "kont_ans_hovedspec" values to be lowercase.
-      hovedspeciale_ans = tolower(.data$kont_ans_hovedspec),
+      kont_ans_hovedspec = tolower(.data$kont_ans_hovedspec),
       date = .data$kont_starttidspunkt,
       is_primary_diagnosis = !!logic$lpr3_is_primary_diagnosis,
       is_t1d_code = !!logic$lpr3_is_t1d_code,
