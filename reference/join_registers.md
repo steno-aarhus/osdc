@@ -49,17 +49,17 @@ join_registers(list(
 #>    pnr          date       is_primary_diagnosis is_diabetes_code is_t1d_code
 #>    <chr>        <date>     <lgl>                <lgl>            <lgl>      
 #>  1 466460062483 1990-07-31 FALSE                TRUE             TRUE       
-#>  2 976025036207 1991-06-15 FALSE                TRUE             FALSE      
-#>  3 481308509913 2008-07-30 TRUE                 TRUE             FALSE      
+#>  2 976025036207 2007-03-06 FALSE                TRUE             FALSE      
+#>  3 481308509913 2018-01-30 FALSE                TRUE             FALSE      
 #>  4 736038118634 2025-07-06 TRUE                 FALSE            FALSE      
 #>  5 751256871567 1977-02-18 FALSE                FALSE            FALSE      
 #>  6 374324771385 2023-08-08 FALSE                TRUE             FALSE      
 #>  7 600867655198 2009-08-31 FALSE                FALSE            FALSE      
 #>  8 237592816990 2002-04-24 TRUE                 FALSE            FALSE      
 #>  9 254251768597 2014-11-20 FALSE                TRUE             TRUE       
-#> 10 298722067346 2001-01-26 TRUE                 FALSE            FALSE      
-#> 11 863502458498 2012-06-30 FALSE                FALSE            FALSE      
-#> 12 752896932129 2021-08-30 TRUE                 FALSE            FALSE      
+#> 10 298722067346 2017-04-02 TRUE                 FALSE            FALSE      
+#> 11 863502458498 1979-02-27 FALSE                FALSE            FALSE      
+#> 12 752896932129 2005-09-23 TRUE                 FALSE            FALSE      
 #> # ℹ 4 more variables: is_t2d_code <lgl>, is_endocrinology_dept <lgl>,
 #> #   is_medical_dept <lgl>, is_pregnancy_code <lgl>
 join_registers(list(register_data$sysi, register_data$sssy))

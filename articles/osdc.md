@@ -106,7 +106,7 @@ register_data <- registers() |>
 #> Not:    fabricatr::draw_categorical(N = N, prob = c(0.2, 0.8), category_labels = c("Ja", "Nej"))
 #> This warning is displayed once per session.
 #> duckdb keeps downloaded extensions and secrets in a temporary directory:
-#> ℹ /tmp/RtmpnJiBK7/duckdb
+#> ℹ /tmp/RtmpcmeVNk/duckdb
 #> This is removed when the R session ends.
 #> • Extensions are re-downloaded each session.
 #> • Secrets are lost.
@@ -164,17 +164,20 @@ classified_diabetes <- classify_diabetes(
 
 classified_diabetes
 #> # A query:  ?? x 5
-#> # Database: DuckDB 2.0.0 [unknown@Linux 7.0.0-1017-azure:R 4.6.2//tmp/RtmpnJiBK7/duckplyr/duckplyr1bff336e6f69.duckdb]
-#>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
-#>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 310900818299 2024-09-05            2024-09-05         FALSE   TRUE   
-#> 3 706974528463 2017-02-27            2017-02-27         FALSE   TRUE   
-#> 4 409442575549 2018-12-10            2018-12-10         FALSE   TRUE   
-#> 5 489345030166 2025-03-16            2025-03-16         FALSE   TRUE   
-#> 6 240771768588 2026-05-04            2026-05-04         FALSE   TRUE   
-#> 7 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
-#> 8 498989088479 2019-10-14            2019-10-14         FALSE   TRUE
+#> # Database: DuckDB 2.0.1 [unknown@Linux 7.0.0-1020-azure:R 4.6.2//tmp/RtmpcmeVNk/duckplyr/duckplyr1c5e620765f6.duckdb]
+#>    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
+#>    <chr>        <date>                <date>             <lgl>   <lgl>  
+#>  1 509234825308 2025-06-16            2025-06-16         FALSE   TRUE   
+#>  2 563939433678 2021-08-30            2021-08-30         FALSE   TRUE   
+#>  3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#>  4 832930643212 2017-04-25            2017-04-25         FALSE   TRUE   
+#>  5 706974528463 2009-09-21            2009-09-21         FALSE   TRUE   
+#>  6 409442575549 2018-12-10            2018-12-10         FALSE   TRUE   
+#>  7 483846773405 2025-12-16            2025-12-16         FALSE   TRUE   
+#>  8 240771768588 2020-07-27            2020-07-27         FALSE   TRUE   
+#>  9 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
+#> 10 498989088479 2019-10-14            2019-10-14         FALSE   TRUE   
+#> 11 577669327765 2014-10-06            2014-10-06         FALSE   TRUE
 ```
 
 As seen above, this returns a DuckDB table with the individuals
@@ -195,20 +198,23 @@ classified_diabetes <- classified_diabetes |>
   dplyr::collect()
 
 classified_diabetes
-#> # A tibble: 8 × 5
-#>   pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
-#>   <chr>        <date>                <date>             <lgl>   <lgl>  
-#> 1 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
-#> 2 310900818299 2024-09-05            2024-09-05         FALSE   TRUE   
-#> 3 706974528463 2017-02-27            2017-02-27         FALSE   TRUE   
-#> 4 409442575549 2018-12-10            2018-12-10         FALSE   TRUE   
-#> 5 489345030166 2025-03-16            2025-03-16         FALSE   TRUE   
-#> 6 240771768588 2026-05-04            2026-05-04         FALSE   TRUE   
-#> 7 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
-#> 8 498989088479 2019-10-14            2019-10-14         FALSE   TRUE
+#> # A tibble: 11 × 5
+#>    pnr          stable_inclusion_date raw_inclusion_date has_t1d has_t2d
+#>    <chr>        <date>                <date>             <lgl>   <lgl>  
+#>  1 509234825308 2025-06-16            2025-06-16         FALSE   TRUE   
+#>  2 563939433678 2021-08-30            2021-08-30         FALSE   TRUE   
+#>  3 732715981647 2016-12-19            2016-12-19         FALSE   TRUE   
+#>  4 832930643212 2017-04-25            2017-04-25         FALSE   TRUE   
+#>  5 706974528463 2009-09-21            2009-09-21         FALSE   TRUE   
+#>  6 409442575549 2018-12-10            2018-12-10         FALSE   TRUE   
+#>  7 483846773405 2025-12-16            2025-12-16         FALSE   TRUE   
+#>  8 240771768588 2020-07-27            2020-07-27         FALSE   TRUE   
+#>  9 298944792608 2007-03-12            2007-03-12         FALSE   TRUE   
+#> 10 498989088479 2019-10-14            2019-10-14         FALSE   TRUE   
+#> 11 577669327765 2014-10-06            2014-10-06         FALSE   TRUE
 ```
 
-Now, we can see that with the simulated data, 8 individuals are
+Now, we can see that with the simulated data, 11 individuals are
 classified as having diabetes.
 
 #### Understanding the output
